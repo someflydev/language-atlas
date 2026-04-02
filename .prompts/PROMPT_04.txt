@@ -9,9 +9,9 @@ TASK:
 3. Create `docs/CONCEPTS.md`: Deep dives into persistent computing constructs.
 
 CONSTRAINTS & REQUIREMENTS:
-- `docs/TIMELINE.md` MUST cover: COBOL vs C (business vs systems); Unix and Bell Labs; Lisp and symbolic computation; Structured programming (Pascal/Ada); OOP explosion; Web explosion; the shift of Perl's role to Python; Ruby and developer happiness; JVM dominance / Big Data; Distributed systems & Cloud emergence; DevOps/IaC; and the modern systems correction (Rust/Go/Zig).
+- `docs/TIMELINE.md` MUST cover the recurring "Software Crisis": COBOL vs C (business vs systems); Unix and Bell Labs; Lisp and symbolic computation; Structured programming (Pascal/Ada as a reaction to complexity); OOP explosion; Web explosion; the shift of Perl's role to Python; Ruby and developer happiness; JVM dominance / Big Data; Distributed systems & Cloud emergence; DevOps/IaC; and the modern systems correction (Rust/Go/Zig).
 - `docs/CONCEPTS.md` MUST explain: Immutability, concurrency models (Erlang actors, CSP in Go, async/await), type systems (static/dynamic, nominal/structural), borrow checking, macros, and code-as-data.
-- Write deeply and philosophically. Avoid generic encyclopedia tones. Explain *why* things happened.
+- Write deeply and philosophically. Avoid generic encyclopedia tones. Explain *why* things happened, framing each era as a philosophical answer to a specific "Crisis" (e.g., complexity, concurrency, or scale).
 - DO NOT embed Mermaid diagrams. Instead, if a visual would help, write a text block describing the diagram that *should* exist (e.g., "Diagram Required: An influence graph showing the flow of CSP from Hoare to Newsqueak to Go").
 - Assume no prior files exist, just write the Markdown files from scratch.
 

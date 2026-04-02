@@ -11,8 +11,8 @@ TASK:
    - `docs/ERA_SUMMARIES/SYSTEMS_RENAISSANCE.md`
 
 CONSTRAINTS & REQUIREMENTS:
-- `docs/CROSSROADS.md` MUST detail specific transitions: e.g., MATLAB/Maple to Python/NumPy; the shift from Perl to Python for scripting; the creation of TypeScript as a reaction to JavaScript's enterprise limitations; the push for Elm/Svelte as a non-JS-first frontend paradigm.
-- Explain the *why*. Was it CPU frequency scaling stopping (Multicore crisis driving Erlang/Go/Rust)? Was it the browser monopoly? Was it developer ergonomics (Ruby)?
+- `docs/CROSSROADS.md` MUST detail specific transitions as reactions to the recurring "Software Crisis": e.g., the 1968 Garmisch conference; the shift from MATLAB/Maple to Python/NumPy; the transition from Perl to Python for scripting; the creation of TypeScript as a reaction to JavaScript's enterprise limitations; and the push for Elm/Svelte as a non-JS-first frontend paradigm.
+- Explain the *why*. Was it the "Multicore Crisis" (CPU frequency scaling stopping, driving Erlang/Go/Rust)? Was it the browser monopoly? Was it developer ergonomics (Ruby)?
 - DO NOT embed Mermaid diagrams. Instead, describe the required visual (e.g., "Diagram Required: Era transition flow showing single-thread web scaling vs multi-core concurrent systems").
 - Maintain a flat, explicit structure.
 
