@@ -18,8 +18,9 @@ TASK:
    - `docs/LANGUAGE_PROFILES/COBOL.md`
 
 CONSTRAINTS & REQUIREMENTS:
-- Each profile MUST contain the following sections: Overview, Historical Context, Mental Model, Key Innovations, Tradeoffs & Criticisms, and Legacy.
+- Each profile MUST contain the following sections: Overview, Historical Context, Mental Model, Key Innovations, Tradeoffs & Criticisms, Legacy, and AI-Assisted Discovery Missions.
 - The "Mental Model" section is the most critical: explain exactly how a programmer must wire their brain to be effective in this language.
+- The "AI-Assisted Discovery Missions" section MUST provide 2-3 specific, high-intent prompts the user can give an LLM to explore the language's unique power or philosophical tradeoffs (e.g., "Show me how Erlang's 'Let it Crash' philosophy handles a failed database connection compared to C++ RAII").
 - Discuss how the language reacted to its predecessors.
 - Do NOT use generic summaries. Be opinionated, technically precise, and historically accurate.
 - DO NOT embed Mermaid diagrams. Describe any necessary diagrams in text.
