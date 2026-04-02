@@ -1,0 +1,74 @@
+Using the full context provided above, generate a complete `.prompts` directory for the `language-atlas` project.
+
+CRITICAL REQUIREMENTS:
+
+1) Generate PROMPT files with STRICT monotonic numbering:
+   PROMPT_01.txt
+   PROMPT_02.txt
+   ...
+   Do NOT skip numbers.
+   Do NOT reuse numbers.
+   Do NOT include suffixes.
+
+2) Each PROMPT must be:
+   - fully standalone
+   - runnable in a fresh coding assistant session
+   - include all necessary context for that step
+   - not depend on any previous prompt
+
+3) Each PROMPT must:
+   - clearly restate its purpose
+   - define exact tasks
+   - define required outputs (files, directories, code, docs)
+   - define constraints (HTMX, Plotly, Python, etc.)
+   - include testing/smoke validation where appropriate
+   - include commit instructions
+
+4) The full set must cover:
+
+   - data model + seed data
+   - timeline + narrative docs
+   - paradigms deep dive
+   - language profiles
+   - crossroads analysis
+   - CLI tool
+   - validation system
+   - modern reactions
+   - paradigm matrix
+   - HTMX + Plotly web UI foundation
+   - filtering + comparison UI
+   - timeline + influence visualization UI
+   - markdown integration into web UI
+   - learning paths system
+   - system hardening + maintainability
+
+5) Include ALL required languages and clusters.
+
+6) Enforce:
+   - rich philosophy fields
+   - mental_model depth
+   - influence relationships
+   - no isolated languages
+
+7) MERMAID RULE:
+   Do NOT include Mermaid diagrams in prompts.
+   Instead, each relevant prompt must:
+   - describe diagrams to be embedded later
+   - explain what they visualize
+   - explain why they improve understanding
+
+8) Keep prompts readable but dense.
+   Avoid fluff.
+   Prioritize clarity + execution.
+
+9) Output format:
+
+For each file:
+
+=== .prompts/PROMPT_XX.txt ===
+<full prompt content>
+
+10) Generate enough prompts to do this correctly.
+   This will likely be 12–18 prompts.
+
+BEGIN.

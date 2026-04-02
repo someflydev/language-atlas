@@ -1,0 +1,23 @@
+You are an expert data visualization engineer. Your task is to integrate Plotly visualizations into the "language-atlas" Web UI.
+
+CONTEXT:
+The "language-atlas" tracks history and influence. We need to visualize the timeline of language creation and the complex web of influences. The project strictly requires using Plotly, generated on the Python backend and served to the frontend.
+
+TASK:
+1. Add `plotly` and `pandas` (if needed for data manipulation) to `requirements.txt`.
+2. Update `app.py` to include endpoints that generate Plotly JSON or HTML fragments.
+3. Create two visualizations:
+   - Timeline: A scatter plot or timeline chart showing language creation years.
+   - Influence Atlas: A network graph (or a proxy like a chord diagram/Sankey diagram using Plotly) showing `influenced_by` and `influenced` relationships among languages.
+4. Integrate these visualisations into the Jinja2 templates.
+
+CONSTRAINTS & REQUIREMENTS:
+- The graphs must be generated in Python using `plotly.graph_objects` or `plotly.express`.
+- You can pass the Plotly graph to the template using `fig.to_html(full_html=False, include_plotlyjs='cdn')` or by passing JSON to a minimal frontend Plotly renderer.
+- The visualizations must read directly from `data/languages.json`.
+- Do NOT use D3.js or other JS charting libraries directly. Stick to the Python Plotly ecosystem.
+
+COMMIT BEHAVIOR:
+- Ensure the data transformations handle empty or missing `influenced` arrays cleanly.
+- Commit the changes to git.
+- Commit message: "feat: add plotly-based timeline and influence visualizations"

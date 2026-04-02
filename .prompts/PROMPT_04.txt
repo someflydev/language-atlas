@@ -1,0 +1,30 @@
+You are an expert developer and technical biographer. Your task is to generate the individual language profile markdown files for the "language-atlas" project.
+
+CONTEXT:
+The "language-atlas" maps the history and philosophy of programming languages. While we have a JSON data layer, we also need human-readable, rich narrative profiles for the most pivotal languages.
+
+TASK:
+1. Create a directory `LANGUAGE_PROFILES/`.
+2. Write deep, philosophical, and technical Markdown profiles for the following 10 keystone languages:
+   - `LANGUAGE_PROFILES/C.md`
+   - `LANGUAGE_PROFILES/Lisp.md`
+   - `LANGUAGE_PROFILES/Java.md`
+   - `LANGUAGE_PROFILES/JavaScript.md`
+   - `LANGUAGE_PROFILES/Python.md`
+   - `LANGUAGE_PROFILES/Rust.md`
+   - `LANGUAGE_PROFILES/Erlang.md`
+   - `LANGUAGE_PROFILES/Haskell.md`
+   - `LANGUAGE_PROFILES/Go.md`
+   - `LANGUAGE_PROFILES/COBOL.md`
+
+CONSTRAINTS & REQUIREMENTS:
+- Each profile MUST contain the following sections: Overview, Historical Context, Mental Model, Key Innovations, Tradeoffs & Criticisms, and Legacy.
+- The "Mental Model" section is the most critical: explain exactly how a programmer must wire their brain to be effective in this language.
+- Discuss how the language reacted to its predecessors.
+- Do NOT use generic summaries. Be opinionated, technically precise, and historically accurate.
+- DO NOT embed Mermaid diagrams. Describe any necessary diagrams in text.
+
+COMMIT BEHAVIOR:
+- Ensure the files are placed in the `LANGUAGE_PROFILES/` directory.
+- Commit changes to git.
+- Commit message: "docs: create deep technical profiles for keystone languages"

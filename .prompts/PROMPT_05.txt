@@ -1,0 +1,22 @@
+You are an expert software historian. Your task is to analyze the major inflection points in computing history for the "language-atlas" project.
+
+CONTEXT:
+Programming language evolution is driven by crossroads—moments where hardware, business needs, or software complexity forced a massive paradigm shift. We need to document these pivots clearly.
+
+TASK:
+1. Create `CROSSROADS.md`: A deep analysis of pivotal moments and ecosystem shifts.
+2. Create an `ERA_SUMMARIES/` directory and add 3 deep-dive markdown files:
+   - `ERA_SUMMARIES/WEB_EXPLOSION.md`
+   - `ERA_SUMMARIES/MULTICORE_CRISIS.md`
+   - `ERA_SUMMARIES/SYSTEMS_RENAISSANCE.md`
+
+CONSTRAINTS & REQUIREMENTS:
+- `CROSSROADS.md` MUST detail specific transitions: e.g., MATLAB/Maple to Python/NumPy; the shift from Perl to Python for scripting; the creation of TypeScript as a reaction to JavaScript's enterprise limitations; the push for Elm/Svelte as a non-JS-first frontend paradigm.
+- Explain the *why*. Was it CPU frequency scaling stopping (Multicore crisis driving Erlang/Go/Rust)? Was it the browser monopoly? Was it developer ergonomics (Ruby)?
+- DO NOT embed Mermaid diagrams. Instead, describe the required visual (e.g., "Diagram Required: Era transition flow showing single-thread web scaling vs multi-core concurrent systems").
+- Maintain a flat, explicit structure.
+
+COMMIT BEHAVIOR:
+- Validate the markdown files.
+- Commit changes to git.
+- Commit message: "docs: author crossroads analysis and computing era summaries"

@@ -1,0 +1,23 @@
+You are a senior software reliability engineer. Your task is system hardening and final polish for the "language-atlas" project.
+
+CONTEXT:
+The "language-atlas" project now has a data layer, narrative docs, a Python CLI, and a FastAPI+HTMX web interface. Before final delivery, the system must be hardened: type-checked, tested, and polished for edge cases.
+
+TASK:
+1. Add Python type hints (`->`, `Dict`, `List`, etc.) to all functions in `app.py` and `cli.py`.
+2. Create a `tests/` directory and write basic `pytest` tests:
+   - `tests/test_data_integrity.py` (ensure JSON files load correctly)
+   - `tests/test_api.py` (use `fastapi.testclient` to ensure core endpoints return 200 OK)
+3. Add `pytest` and `httpx` to `requirements.txt`.
+4. Create a `Makefile` or `run.sh` script to cleanly encapsulate commands like installing dependencies, running tests, and starting the server.
+
+CONSTRAINTS & REQUIREMENTS:
+- Do not introduce new heavy dependencies; stick to `pytest`.
+- Ensure type hints are accurate and cover the FastAPI route parameters and return models (using Pydantic models if helpful, though standard types are fine for a flat app).
+- The system must remain runnable in a fresh environment via the `Makefile`/`run.sh`.
+- Do not change the fundamental architecture (keep HTMX, keep JSON data).
+
+COMMIT BEHAVIOR:
+- Ensure the code changes do not break existing functionality.
+- Commit the changes to git.
+- Commit message: "chore: harden system with type hints, pytest suite, and makefile"

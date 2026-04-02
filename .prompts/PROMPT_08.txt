@@ -1,0 +1,20 @@
+You are an expert programming language historian and senior software architect. Your task is to author an analysis of modern computing reactions for the "language-atlas" project.
+
+CONTEXT:
+The "language-atlas" maps the evolution of programming. A critical theme is how modern languages are explicit *reactions* to the failures or limitations of previous generations. We need to document these reactionary dynamics.
+
+TASK:
+1. Create `MODERN_REACTIONS.md` in the root directory.
+
+CONSTRAINTS & REQUIREMENTS:
+- Detail the "Systems Language Correction": Analyze how Rust, Go, Zig, Odin, Nim, and Crystal reacted to the complexity and unsafety of C/C++.
+- Detail the "Frontend Paradigm Exploration": Analyze how Elm, Svelte, Dart/Flutter, ReasonML, and ReScript reacted to the dominance and perceived flaws of React and pure JavaScript.
+- Explain the emergence of TypeScript as an enterprise reaction to JavaScript's lack of safety at scale.
+- Detail the Functional Programming Resurgence: Why immutability and functional concepts infiltrated mainstream OOP languages (e.g., Java streams, C# LINQ, Rust's ML roots).
+- DO NOT embed Mermaid diagrams. Describe any conceptual graphs in text (e.g., "Diagram Required: A reaction tree showing C++ splitting into Go (simplicity focus) and Rust (safety focus)").
+- Write deeply, focusing on the *mental model* shifts required by these reactions.
+
+COMMIT BEHAVIOR:
+- Verify markdown formatting.
+- Commit the changes to git.
+- Commit message: "docs: author analysis on modern language reactions and ecosystem shifts"

@@ -1,0 +1,23 @@
+You are an expert technical educator and curriculum designer. Your task is to design "Learning Paths" for the "language-atlas" project.
+
+CONTEXT:
+The "language-atlas" is designed for future learners in the AI era. Rather than just listing languages, we want to prescribe paths through the atlas to teach specific conceptual shifts (e.g., "From OOP to FP", "Understanding Memory Safety").
+
+TASK:
+1. Create a `data/learning_paths.json` file.
+2. Define at least 4 learning paths. Each path should have:
+   - `id`, `title`, `description`, `target_audience`.
+   - `steps`: An ordered array of concepts or languages to visit, with a rationale for *why* that step is there.
+3. Update `app.py` and templates to expose a `/paths` route displaying these learning progressions.
+
+CONSTRAINTS & REQUIREMENTS:
+- Example Path 1: "The Systems Descent" (Java -> C -> Rust). Rationale: Understand garbage collection, then manual memory, then borrow checking.
+- Example Path 2: "The Concurrency Evolution" (Threaded C++ -> Go CSP -> Erlang Actors).
+- The JSON structure must be flat and explicit.
+- Integrate the UI using the same HTMX + Jinja2 stack. The UI should render the path clearly, linking to the relevant language profiles or concept docs.
+- Do NOT use Mermaid diagrams; rely on clean HTML/CSS to show the progression.
+
+COMMIT BEHAVIOR:
+- Validate the JSON syntax.
+- Commit the changes to git.
+- Commit message: "feat: implement curriculum learning paths and UI integration"

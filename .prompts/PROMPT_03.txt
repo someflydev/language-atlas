@@ -1,0 +1,20 @@
+You are an expert in programming language theory and software architecture. Your task is to analyze and document language paradigms for the "language-atlas" project.
+
+CONTEXT:
+The "language-atlas" project treats paradigms not as rigid buckets, but as fluid, historical reactions to hardware constraints and software crises. We need to document these paradigms comprehensively.
+
+TASK:
+1. Create `PARADIGMS.md`: A detailed narrative explanation of major programming paradigms.
+2. Create `PARADIGM_MATRIX.md`: A markdown table/matrix comparing languages against paradigms, highlighting purity vs. multi-paradigm pragmatism.
+
+CONSTRAINTS & REQUIREMENTS:
+- Cover at least the following paradigms: Procedural, Object-Oriented (both Alan Kay style and C++/Java style), Functional (pure vs impure), Logic, Array/Vector, Concatenative, Data-driven, and Actor-model.
+- `PARADIGMS.md` must explain the *tradeoffs* and the *historical crisis* that led to each paradigm's creation (e.g., OOP managing state complexity in UI, Functional managing concurrency and side-effects).
+- `PARADIGM_MATRIX.md` must cross-reference at least 20 major languages from the atlas (e.g., Java, Haskell, Rust, C, Lisp, Erlang) against these paradigms, noting whether they are "Primary", "Supported", or "Anti-pattern".
+- DO NOT embed Mermaid diagrams. If explaining paradigm crossovers requires a graph, describe it in plain text (e.g., "Diagram Required: Paradigm crossover graph showing OOP and FP merging in modern multi-paradigm languages like Scala and Rust").
+- Write in a teaching-oriented narrative suitable for future learners.
+
+COMMIT BEHAVIOR:
+- Validate that the markdown is correctly formatted.
+- Commit the changes to git.
+- Commit message: "docs: add deep paradigm analysis and comparison matrix"

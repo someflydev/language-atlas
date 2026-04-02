@@ -1,0 +1,245 @@
+You are designing a project called `language-atlas`.
+
+This project is a deeply structured, explorable system that captures:
+
+- the historical evolution of programming languages
+- paradigm shifts and tradeoffs
+- major inflection points in computing
+- relationships between languages (influence, reaction, ecosystem)
+- conceptual constructs (immutability, concurrency, type systems, etc.)
+- teaching-oriented narratives for future learners in the AI era
+
+This is NOT just documentation.
+
+This is a hybrid system combining:
+- structured JSON data
+- markdown documentation
+- HTMX + server-rendered web UI
+- Plotly visualizations
+- CLI exploration tools
+- learning paths
+
+---
+
+CRITICAL DESIGN PRINCIPLES:
+
+- Every artifact must be understandable in isolation
+- Every megaprompt must be runnable in a fresh session
+- No reliance on prior prompts or system prompts
+- Flat, explicit structure over magic
+- Minimal JavaScript (HTMX only)
+- Python-first backend
+- Markdown as a canonical narrative layer
+- JSON as canonical data layer
+- CLI + Web UI as complementary interfaces
+- AI-friendly repo structure (clear, inspectable, deterministic)
+
+---
+
+LANGUAGE COVERAGE (REQUIRED — DO NOT OMIT ANY):
+
+EARLY / FOUNDATIONAL:
+FORTRAN, COBOL, Lisp, Scheme, Pascal, Ada
+
+SYSTEMS / UNIX LINEAGE:
+C, C++, Go, Rust, Zig, Odin, Nim, Crystal
+
+FUNCTIONAL / ADVANCED:
+Haskell, OCaml, F#, Clojure, Scala, Erlang, Elixir
+
+SCRIPTING / GLUE:
+Perl, Python, Ruby, Lua
+
+WEB CORE:
+PHP, JavaScript, TypeScript
+
+FRONTEND (NON-JS-FIRST PARADIGMS):
+Elm, Svelte, Dart (Flutter), ReasonML, ReScript
+
+ENTERPRISE:
+Java, C#, VB, VB.NET
+
+DATA / SCIENTIFIC:
+R, Julia, MATLAB, Maple
+
+APPLE / MOBILE:
+Objective-C, Swift, Kotlin
+
+INFRA / CONFIG / DSL:
+SQL, Bash, HCL, YAML, JSON
+
+RUNTIME / IR:
+WebAssembly, LLVM
+
+---
+
+CORE HISTORICAL THEMES TO CAPTURE:
+
+- COBOL vs C (business vs systems)
+- Unix and Bell Labs (C, pipes, composability)
+- Lisp and symbolic computation (code as data, macros)
+- Structured programming (Pascal, Ada)
+- OOP explosion (C++, Java, enterprise era)
+- Web explosion (PHP, JavaScript, HTML)
+- Python absorbing Perl’s role
+- Ruby and developer happiness
+- JVM ecosystem (Java, Scala, Clojure)
+- Big data era (Hadoop, Lucene, JVM dominance)
+- Erlang/Elixir concurrency model
+- Distributed systems research (Google papers, Dynamo)
+- Cloud emergence (AWS, GCP, Azure)
+- DevOps / IaC (Terraform, config languages)
+- Systems language correction (Rust, Go, Zig, Odin, Nim, Crystal)
+- Frontend paradigm exploration (Elm, Svelte, Flutter)
+- TypeScript emergence from JavaScript limitations
+- MATLAB/Maple → Python/NumPy ecosystem shift
+- Functional programming resurgence
+- Immutability and concurrency trends
+
+---
+
+REQUIRED LANGUAGE FIELDS:
+
+Each language must include:
+
+- name
+- year
+- creators
+- paradigms (list)
+- cluster (systems, frontend, scripting, etc.)
+- generation (early, web1, cloud, modern)
+- primary_use_cases
+- key_innovations
+- influenced_by
+- influenced
+- philosophy (deep, non-generic)
+- mental_model (VERY IMPORTANT)
+- complexity_bias (low, medium, high)
+- safety_model (manual, runtime, compile_time, hybrid)
+
+---
+
+DATA MODEL REQUIREMENTS:
+
+- data/languages.json
+- data/paradigms.json
+- data/eras.json
+- data/influences.json
+- data/concepts.json
+- data/people.json
+
+---
+
+WEB UI REQUIREMENTS:
+
+- Python backend (FastAPI or Starlette)
+- Jinja2 templates
+- HTMX for interaction
+- Plotly for visualization
+- server-rendered HTML-first
+- no SPA frameworks
+
+---
+
+CLI REQUIREMENTS:
+
+- simple Python CLI
+- explore languages, paradigms, timeline, influences
+- no overengineering
+
+---
+
+DOCUMENTATION REQUIREMENTS:
+
+- TIMELINE.md (narrative history)
+- PARADIGMS.md
+- CROSSROADS.md (inflection points)
+- LANGUAGE_PROFILES/*
+- ERA_SUMMARIES/*
+- CONCEPTS.md
+- MODERN_REACTIONS.md
+- PARADIGM_MATRIX.md
+
+---
+
+MERMAID DIAGRAM RULE:
+
+DO NOT embed Mermaid diagrams directly in prompts.
+
+Instead:
+- describe what diagrams should exist
+- explain what they show
+- explain why they are useful
+
+Examples:
+- influence graph
+- paradigm crossover graph
+- era transition flow
+- learning path progression
+
+---
+
+FINAL GOAL:
+
+Generate a sequence of `.prompts/PROMPT_XX.txt` files that:
+
+- increment monotonically (PROMPT_01, PROMPT_02, …)
+- are NEVER reused or renumbered
+- each is fully self-contained
+- each can run in a fresh coding assistant session
+- each builds part of the system
+- collectively build the entire language-atlas project
+
+---
+
+The prompts should cover:
+
+1) data model + seed data
+2) narrative docs
+3) paradigm analysis
+4) language profiles
+5) crossroads analysis
+6) CLI tool
+7) validation
+8) modern reactions
+9) web UI foundation (HTMX + Plotly)
+10) filtering + comparison
+11) timeline + influence atlas
+12) markdown integration
+13) learning paths
+14) system hardening
+
+---
+
+OUTPUT FORMAT REQUIREMENT:
+
+You must generate multiple files:
+
+.prompts/PROMPT_01.txt
+.prompts/PROMPT_02.txt
+...
+.prompts/PROMPT_N.txt
+
+Each file must contain:
+- a complete, standalone megaprompt
+- all necessary context for that step
+- no dependency on previous prompts
+
+---
+
+Each prompt must:
+- restate critical context briefly
+- define exact tasks
+- define outputs
+- define constraints
+- define commit behavior
+
+---
+
+Do NOT be shallow.
+
+This system is meant to be:
+- historically accurate
+- philosophically rich
+- technically useful
+- educational across generations
