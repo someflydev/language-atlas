@@ -1,20 +1,20 @@
-You are an expert programming language historian and senior software architect. Your task is to author an analysis of modern computing reactions for the "language-atlas" project.
+You are a strict data engineer and QA specialist. Your task is to write validation scripts for the "language-atlas" project.
 
 CONTEXT:
-The "language-atlas" maps the evolution of programming. A critical theme is how modern languages are explicit *reactions* to the failures or limitations of previous generations. We need to document these reactionary dynamics.
+The "language-atlas" relies on flat JSON data (`data/languages.json`, etc.) and canonical Markdown narratives. As this system grows, we must ensure that our data conforms to the required schemas and that references between files are not broken.
 
 TASK:
-1. Create `docs/MODERN_REACTIONS.md` in the root directory.
+1. Create a `scripts/` directory.
+2. Write a Python script `scripts/validate_data.py`.
 
 CONSTRAINTS & REQUIREMENTS:
-- Detail the "Systems Language Correction": Analyze how Rust, Go, Zig, Odin, Nim, and Crystal reacted to the complexity and unsafety of C/C++.
-- Detail the "Frontend Paradigm Exploration": Analyze how Elm, Svelte, Dart/Flutter, ReasonML, and ReScript reacted to the dominance and perceived flaws of React and pure JavaScript.
-- Explain the emergence of TypeScript as an enterprise reaction to JavaScript's lack of safety at scale.
-- Detail the Functional Programming Resurgence: Why immutability and functional concepts infiltrated mainstream OOP languages (e.g., Java streams, C# LINQ, Rust's ML roots).
-- DO NOT embed Mermaid diagrams. Describe any conceptual graphs in text (e.g., "Diagram Required: A reaction tree showing C++ splitting into Go (simplicity focus) and Rust (safety focus)").
-- Write deeply, focusing on the *mental model* shifts required by these reactions.
+- The script must load `data/languages.json` and verify that EVERY language has the required keys: `name`, `year`, `creators`, `paradigms`, `cluster`, `generation`, `primary_use_cases`, `key_innovations`, `influenced_by`, `influenced`, `philosophy`, `mental_model`, `complexity_bias`, `safety_model`.
+- The script must validate the ENUM values (e.g., `complexity_bias` must be low, medium, or high; `safety_model` must be manual, runtime, compile_time, or hybrid).
+- The script must cross-reference `influenced_by` and `influenced` to ensure that referenced language names actually exist in the dataset.
+- The script should exit with code 0 if everything is valid, and code 1 with clear terminal output if errors are found.
+- Rely strictly on standard Python libraries (`json`, `sys`, `pathlib`).
 
 COMMIT BEHAVIOR:
-- Verify markdown formatting.
+- Make the script executable (`chmod +x scripts/validate_data.py`).
 - Commit the changes to git.
-- Commit message: "docs: author analysis on modern language reactions and ecosystem shifts"
+- Commit message: "chore: add python validation script for canonical JSON data"

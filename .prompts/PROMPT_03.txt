@@ -1,21 +1,19 @@
-You are an expert technical writer and computing historian. Your task is to establish the core narrative documentation for the "language-atlas" project.
+You are a programming language historian. Your task is to complete the "language-atlas" dataset.
 
 CONTEXT:
-The "language-atlas" is a structured system mapping the history of programming languages. Markdown is treated as the canonical narrative layer of the project. We are capturing the soul, the history, and the tradeoffs of computing paradigms for future learners in the AI era.
+The schema and most core languages are already established in `data/languages.json`. You must now add the final set of languages, focusing on Web, Enterprise, Data Science, and Infrastructure.
 
 TASK:
-1. Create a `docs/` directory.
-2. Create `docs/TIMELINE.md`: A grand narrative history of computing eras.
-3. Create `docs/CONCEPTS.md`: Deep dives into persistent computing constructs.
+1. Update `data/languages.json` to include the following 18 languages.
 
-CONSTRAINTS & REQUIREMENTS:
-- `docs/TIMELINE.md` MUST cover: COBOL vs C (business vs systems); Unix and Bell Labs; Lisp and symbolic computation; Structured programming (Pascal/Ada); OOP explosion; Web explosion; the shift of Perl's role to Python; Ruby and developer happiness; JVM dominance / Big Data; Distributed systems & Cloud emergence; DevOps/IaC; and the modern systems correction (Rust/Go/Zig).
-- `docs/CONCEPTS.md` MUST explain: Immutability, concurrency models (Erlang actors, CSP in Go, async/await), type systems (static/dynamic, nominal/structural), borrow checking, macros, and code-as-data.
-- Write deeply and philosophically. Avoid generic encyclopedia tones. Explain *why* things happened.
-- DO NOT embed Mermaid diagrams. Instead, if a visual would help, write a text block describing the diagram that *should* exist (e.g., "Diagram Required: An influence graph showing the flow of CSP from Hoare to Newsqueak to Go").
-- Assume no prior files exist, just write the Markdown files from scratch.
+REQUIRED LANGUAGES TO ADD:
+PHP, Elm, Svelte, Dart, ReasonML, ReScript, C#, VB, VB.NET, R, MATLAB, Maple, Objective-C, Swift, Kotlin, HCL, YAML, JSON.
+
+CONSTRAINTS:
+- CRITICAL: DO NOT OMIT any languages in this list.
+- Maintain the exact keys for every entry: `name`, `year`, `creators`, `paradigms`, `cluster`, `generation`, `primary_use_cases`, `key_innovations`, `influenced_by`, `influenced`, `philosophy`, `mental_model`, `complexity_bias`, `safety_model`.
+- Ensure "influenced" and "influenced_by" relationships are cross-referenced correctly across the entire 50+ language set.
+- Keep the depth of "philosophy" and "mental_model" high; avoid generic summaries.
 
 COMMIT BEHAVIOR:
-- Review the markdown for formatting and clarity.
-- Commit changes to git.
-- Commit message: "docs: author foundational narrative timeline and core concepts"
+- Commit message: "feat: complete language atlas with web, enterprise, and data languages"

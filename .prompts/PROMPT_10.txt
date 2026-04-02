@@ -1,23 +1,20 @@
-You are an expert backend and web developer. Your task is to build the Web UI Foundation for the "language-atlas" project using a Python-first, HTML-first approach.
+You are an expert programming language historian and senior software architect. Your task is to author an analysis of modern computing reactions for the "language-atlas" project.
 
 CONTEXT:
-The "language-atlas" requires a web interface. We are strictly avoiding SPA frameworks (no React, Vue, etc.). The stack must be Python (FastAPI or Starlette), Jinja2 for server-rendered HTML, HTMX for interactions, and Plotly for visualizations.
+The "language-atlas" maps the evolution of programming. A critical theme is how modern languages are explicit *reactions* to the failures or limitations of previous generations. We need to document these reactionary dynamics.
 
 TASK:
-1. Create `app.py` (FastAPI or Starlette application).
-2. Create or update `requirements.txt` containing at least `fastapi`, `uvicorn`, `jinja2`, `python-multipart`.
-3. Create a `templates/` directory with a `base.html` and an `index.html`.
-4. Create a `static/` directory with `static/css/styles.css` and `static/js/` (include the HTMX library via CDN in the template or download it).
+1. Create `docs/MODERN_REACTIONS.md` in the root directory.
 
 CONSTRAINTS & REQUIREMENTS:
-- The backend MUST use the `core/data_loader.py` established previously.
-- `index.html` should display a list or grid of all languages loaded from `data/languages.json`.
-- Minimal JavaScript: Use HTMX attributes (`hx-get`, `hx-target`) for any dynamic loading (e.g., clicking a language loads its details without a full page refresh).
-- The design should be semantic HTML, visually clean, relying on CSS rather than JS for layout.
-- Put all project styling in `static/css/styles.css`.
-- Ensure the app can be started cleanly in a fresh environment via `uvicorn app:app --reload`.
+- Detail the "Systems Language Correction": Analyze how Rust, Go, Zig, Odin, Nim, and Crystal reacted to the complexity and unsafety of C/C++.
+- Detail the "Frontend Paradigm Exploration": Analyze how Elm, Svelte, Dart/Flutter, ReasonML, and ReScript reacted to the dominance and perceived flaws of React and pure JavaScript.
+- Explain the emergence of TypeScript as an enterprise reaction to JavaScript's lack of safety at scale.
+- Detail the Functional Programming Resurgence: Why immutability and functional concepts infiltrated mainstream OOP languages (e.g., Java streams, C# LINQ, Rust's ML roots).
+- DO NOT embed Mermaid diagrams. Describe any conceptual graphs in text (e.g., "Diagram Required: A reaction tree showing C++ splitting into Go (simplicity focus) and Rust (safety focus)").
+- Write deeply, focusing on the *mental model* shifts required by these reactions.
 
 COMMIT BEHAVIOR:
-- Ensure the code is self-contained and handles potential missing data gracefully.
+- Verify markdown formatting.
 - Commit the changes to git.
-- Commit message: "feat: establish FastAPI and HTMX foundational web UI"
+- Commit message: "docs: author analysis on modern language reactions and ecosystem shifts"

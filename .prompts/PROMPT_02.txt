@@ -1,19 +1,19 @@
-You are a programming language historian. Your task is to expand the "language-atlas" dataset to include the full set of required languages.
+You are a programming language historian. Your task is to expand the "language-atlas" dataset.
 
 CONTEXT:
-The schema and initial 15 languages are already established in `data/languages.json`. You must now add the remaining 35+ languages to the dataset while maintaining the exact same schema and depth.
+The schema and initial 15 languages are already established in `data/languages.json`. You must now add the first half of the remaining languages, focusing on Systems and Functional programming paradigms.
 
 TASK:
-1. Update `data/languages.json` to include the remaining languages.
+1. Update `data/languages.json` to include the following 18 languages.
 
 REQUIRED LANGUAGES TO ADD:
-COBOL, Scheme, Pascal, Ada, Zig, Odin, Nim, Crystal, OCaml, F#, Clojure, Scala, Elixir, Perl, Lua, PHP, Elm, Svelte, Dart, ReasonML, ReScript, C#, VB, VB.NET, R, Julia, MATLAB, Maple, Objective-C, Swift, Kotlin, HCL, YAML, JSON, WebAssembly, LLVM.
+COBOL, Scheme, Pascal, Ada, Zig, Odin, Nim, Crystal, OCaml, F#, Clojure, Scala, Elixir, Perl, Lua, Julia, WebAssembly, LLVM.
 
 CONSTRAINTS:
-- CRITICAL: DO NOT OMIT any languages.
-- Maintain the exact keys for every entry as defined in the initial set.
-- Ensure "influenced" and "influenced_by" relationships are cross-referenced correctly with the existing 15 languages.
-- Keep the depth of "philosophy" and "mental_model" consistent with the previous prompt.
+- CRITICAL: DO NOT OMIT any languages in this list.
+- Maintain the exact keys for every entry: `name`, `year`, `creators`, `paradigms`, `cluster`, `generation`, `primary_use_cases`, `key_innovations`, `influenced_by`, `influenced`, `philosophy`, `mental_model`, `complexity_bias`, `safety_model`.
+- Ensure "influenced" and "influenced_by" relationships are cross-referenced correctly.
+- Keep the depth of "philosophy" and "mental_model" high; avoid generic summaries.
 
 COMMIT BEHAVIOR:
-- Commit message: "feat: expand language atlas to include full set of 50+ languages"
+- Commit message: "feat: expand language atlas with systems and functional languages"

@@ -1,20 +1,26 @@
-You are a strict data engineer and QA specialist. Your task is to write validation scripts for the "language-atlas" project.
+You are an expert CLI tool developer. Your task is to build a Python CLI to explore the "language-atlas" project.
 
 CONTEXT:
-The "language-atlas" relies on flat JSON data (`data/languages.json`, etc.) and canonical Markdown narratives. As this system grows, we must ensure that our data conforms to the required schemas and that references between files are not broken.
+The "language-atlas" project contains a rich JSON data model and Markdown narratives. Before building a web UI, we need a simple, zero-dependency (or minimal dependency) Python CLI to query and explore the historical data.
 
 TASK:
-1. Create a `scripts/` directory.
-2. Write a Python script `scripts/validate_data.py`.
+1. Create a `core/` directory.
+2. Create `core/data_loader.py`: A Python utility to load and parse the `data/*.json` files into consistent objects.
+3. Create `cli.py` in the root directory, importing and using `core/data_loader.py`.
+4. Implement a Command Line Interface that allows a user to explore languages, paradigms, timelines, and influences.
 
 CONSTRAINTS & REQUIREMENTS:
-- The script must load `data/languages.json` and verify that EVERY language has the required keys: `name`, `year`, `creators`, `paradigms`, `cluster`, `generation`, `primary_use_cases`, `key_innovations`, `influenced_by`, `influenced`, `philosophy`, `mental_model`, `complexity_bias`, `safety_model`.
-- The script must validate the ENUM values (e.g., `complexity_bias` must be low, medium, or high; `safety_model` must be manual, runtime, compile_time, or hybrid).
-- The script must cross-reference `influenced_by` and `influenced` to ensure that referenced language names actually exist in the dataset.
-- The script should exit with code 0 if everything is valid, and code 1 with clear terminal output if errors are found.
-- Rely strictly on standard Python libraries (`json`, `sys`, `pathlib`).
+- `core/data_loader.py` should provide clean functions like `get_all_languages()`, `get_language(name)`, etc.
+- Use standard library `argparse` or a lightweight library like `click`. If using `click`, ensure a `requirements.txt` is created or updated.
+- Commands MUST include:
+  - `list` (list all languages, optionally filtered by generation or cluster)
+  - `info <language>` (pretty-print the mental model, paradigms, and philosophy of a language)
+  - `influences <language>` (show what it influenced and was influenced by)
+  - `paradigms` (list all paradigms)
+- Both `cli.py` and the future web app MUST use `core/data_loader.py` for data access.
+- Gracefully handle missing data or missing files.
 
 COMMIT BEHAVIOR:
-- Make the script executable (`chmod +x scripts/validate_data.py`).
+- Test the CLI with `python cli.py --help` (conceptually).
 - Commit the changes to git.
-- Commit message: "chore: add python validation script for canonical JSON data"
+- Commit message: "feat: implement shared data loader and python CLI explorer"
