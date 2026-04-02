@@ -1,7 +1,7 @@
-You are an expert systems architect and programming language historian. Your task is to build the foundational data model and seed data for the "language-atlas" project.
+You are an expert systems architect and programming language historian. Your task is to build the foundational data model and initial seed data for the "language-atlas" project.
 
 CONTEXT:
-The "language-atlas" is a deeply structured, explorable system that captures the historical evolution of programming languages, paradigms, and major computing inflection points. It relies on a canonical JSON data layer and a Markdown narrative layer. This prompt focuses entirely on establishing the flat, explicit JSON data structures that will power the rest of the system.
+The "language-atlas" is a deeply structured, explorable system that captures the historical evolution of programming languages, paradigms, and major computing inflection points. It relies on a canonical JSON data layer. This prompt focuses on establishing the schema and the first "Keystone" set of languages.
 
 TASK:
 1. Create a `data` directory.
@@ -12,17 +12,16 @@ TASK:
    - `data/influences.json`
    - `data/concepts.json`
    - `data/people.json`
+   - `data/learning_paths.json` (Initialize as an empty list: `[]`)
 
 CONSTRAINTS & REQUIREMENTS:
-- `data/languages.json` MUST include the following languages: 
-  FORTRAN, COBOL, Lisp, Scheme, Pascal, Ada, C, C++, Go, Rust, Zig, Odin, Nim, Crystal, Haskell, OCaml, F#, Clojure, Scala, Erlang, Elixir, Perl, Python, Ruby, Lua, PHP, JavaScript, TypeScript, Elm, Svelte, Dart, ReasonML, ReScript, Java, C#, VB, VB.NET, R, Julia, MATLAB, Maple, Objective-C, Swift, Kotlin, SQL, Bash, HCL, YAML, JSON, WebAssembly, LLVM.
+- `data/languages.json` MUST include the following 15 KEYSTONE languages in this first pass: 
+  FORTRAN, Lisp, C, C++, Java, JavaScript, Python, Ruby, Haskell, Erlang, Go, Rust, TypeScript, SQL, Bash.
 - Each entry in `data/languages.json` MUST contain the exact keys:
   `name`, `year`, `creators` (list), `paradigms` (list), `cluster` (e.g., systems, frontend, scripting), `generation` (early, web1, cloud, modern), `primary_use_cases`, `key_innovations`, `influenced_by` (list), `influenced` (list), `philosophy` (deep, non-generic string), `mental_model` (crucial: explain how the programmer must think), `complexity_bias` (low/medium/high), `safety_model` (manual/runtime/compile_time/hybrid).
-- All files must be flat, explicit JSON. Do not over-engineer with nested dynamic references; prefer clear string keys linking entities.
-- Ensure the philosophy and mental models are historically accurate, philosophically rich, and non-trivial.
-- DO NOT embed any Mermaid diagrams.
-- Do not write any HTML, JS, or Python code yet.
+- All files must be flat, explicit JSON.
+- Ensure the philosophy and mental models are historically accurate and philosophically rich.
+- DO NOT use placeholders.
 
 COMMIT BEHAVIOR:
-- Once the files are successfully created and validated as correct JSON, commit the changes to git.
-- Commit message: "feat: establish canonical JSON data models and initial historical seed data"
+- Commit message: "feat: establish canonical JSON schema and keystone language data"
