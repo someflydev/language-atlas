@@ -1,0 +1,44 @@
+---
+Round: 1
+Timestamp: 2026-04-02T12:00:00Z
+Summary: Applied SAFE-AUTO fixes for organization, data integrity, and dependency management.
+Changes Applied:
+- PROMPT_01.txt :: Added DO NOT OMIT constraint and data/learning_paths.json initialization :: Data Integrity :: PF-002, PF-005
+- PROMPT_02.txt :: Moved TIMELINE.md, CONCEPTS.md to docs/ directory :: Organization :: PF-006
+- PROMPT_03.txt :: Moved PARADIGMS.md, PARADIGM_MATRIX.md to docs/ directory :: Organization :: PF-006
+- PROMPT_04.txt :: Moved LANGUAGE_PROFILES/ to docs/ directory :: Organization :: PF-006
+- PROMPT_05.txt :: Moved CROSSROADS.md, ERA_SUMMARIES/ to docs/ directory :: Organization :: PF-006
+- PROMPT_08.txt :: Moved MODERN_REACTIONS.md to docs/ directory :: Organization :: PF-006
+- PROMPT_06.txt, PROMPT_09.txt, PROMPT_11.txt, PROMPT_12.txt, PROMPT_14.txt :: Standardized requirements.txt updates to be additive :: Dependency Safety :: PF-001
+- PROMPT_12.txt :: Updated markdown path references to docs/ :: Consistency :: PF-006
+- PROMPT_13.txt :: Changed learning_paths.json creation to an update :: Consistency :: PF-005
+- PROMPT_14.txt :: Explicitly mandated Makefile and required targets :: Hardening :: PF-003
+Notes / Followups:
+- Needs confirmation on PF-004 (shared data loader utility).
+- Needs confirmation on PF-002b (splitting PROMPT_01 for data quality).
+---
+
+---
+Round: 2
+Timestamp: 2026-04-02T12:15:00Z
+Summary: Applied confirmation-based fixes for data quality and architectural modularity.
+Changes Applied:
+- PROMPT_01.txt :: Restricted to 15 keystone languages to ensure depth :: Data Quality :: PF-002b
+- PROMPT_01_b.txt :: Created new prompt for the remaining 35 languages :: Data Quality :: PF-002b
+- PROMPT_06.txt :: Introduced core/data_loader.py shared utility :: Modularity :: PF-004
+- PROMPT_09.txt :: Enforced static/css/ and static/js/ layout :: Organization :: PF-007
+- PROMPT_10.txt, PROMPT_11.txt, PROMPT_12.txt :: Mandated use of central styles.css :: Consistency :: PF-008
+Notes / Followups:
+- The prompt sequence now has 15 files (01, 01_b, 02-14). This numbering is slightly inconsistent.
+- Should I renumber the entire set to PROMPT_01...PROMPT_15?
+---
+
+---
+Round: 3
+Timestamp: 2026-04-02T12:30:00Z
+Summary: Final numbering normalization for strict monotonic ordering.
+Changes Applied:
+- All Prompts :: Renumbered 01_b through 14 to PROMPT_02.txt through PROMPT_15.txt :: Sequencing :: PF-009
+Notes / Followups:
+- Final state "Green". Ready for initial build run.
+---
