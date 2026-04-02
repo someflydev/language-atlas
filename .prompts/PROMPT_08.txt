@@ -17,6 +17,7 @@ CONSTRAINTS & REQUIREMENTS:
   - `info <language>` (pretty-print the mental model, paradigms, and philosophy of a language)
   - `influences <language>` (show what it influenced and was influenced by)
   - `paradigms` (list all paradigms)
+  - `research <language>` (generate a Research Brief with high-intent discovery prompts for an LLM)
 - Both `cli.py` and the future web app MUST use `core/data_loader.py` for data access.
 - Gracefully handle missing data or missing files.
 
