@@ -1,24 +1,22 @@
-You are an expert CLI tool developer. Your task is to build a Python CLI to explore the "language-atlas" project.
+You are an expert software historian. Your task is to analyze the major inflection points in computing history for the "language-atlas" project.
 
 CONTEXT:
-The "language-atlas" project contains a rich JSON data model and Markdown narratives. Before building a web UI, we need a simple, zero-dependency (or minimal dependency) Python CLI to query and explore the historical data.
+Programming language evolution is driven by crossroads—moments where hardware, business needs, or software complexity forced a massive paradigm shift. We need to document these pivots clearly.
 
 TASK:
-1. Create `cli.py` in the root directory.
-2. Implement a Command Line Interface that allows a user to explore languages, paradigms, timelines, and influences.
+1. Create `docs/CROSSROADS.md`: A deep analysis of pivotal moments and ecosystem shifts.
+2. Create an `docs/ERA_SUMMARIES/` directory and add 3 deep-dive markdown files:
+   - `docs/ERA_SUMMARIES/WEB_EXPLOSION.md`
+   - `docs/ERA_SUMMARIES/MULTICORE_CRISIS.md`
+   - `docs/ERA_SUMMARIES/SYSTEMS_RENAISSANCE.md`
 
 CONSTRAINTS & REQUIREMENTS:
-- Use standard library `argparse` or a lightweight library like `click` (if using `click`, ensure a `requirements.txt` is created).
-- Commands MUST include:
-  - `list` (list all languages, optionally filtered by generation or cluster)
-  - `info <language>` (pretty-print the mental model, paradigms, and philosophy of a language)
-  - `influences <language>` (show what it influenced and was influenced by)
-  - `paradigms` (list all paradigms)
-- The CLI must read directly from the `data/` directory JSON files (`data/languages.json`, etc.).
-- Do NOT overengineer. No complex state machines. Just flat, explicit Python functions that read JSON and format terminal output.
-- Gracefully handle missing data or missing files (since the user might be running this without all data perfectly seeded).
+- `docs/CROSSROADS.md` MUST detail specific transitions: e.g., MATLAB/Maple to Python/NumPy; the shift from Perl to Python for scripting; the creation of TypeScript as a reaction to JavaScript's enterprise limitations; the push for Elm/Svelte as a non-JS-first frontend paradigm.
+- Explain the *why*. Was it CPU frequency scaling stopping (Multicore crisis driving Erlang/Go/Rust)? Was it the browser monopoly? Was it developer ergonomics (Ruby)?
+- DO NOT embed Mermaid diagrams. Instead, describe the required visual (e.g., "Diagram Required: Era transition flow showing single-thread web scaling vs multi-core concurrent systems").
+- Maintain a flat, explicit structure.
 
 COMMIT BEHAVIOR:
-- Test the CLI with `python cli.py --help` (conceptually).
-- Commit the changes to git.
-- Commit message: "feat: implement python CLI for exploring language atlas data"
+- Validate the markdown files.
+- Commit changes to git.
+- Commit message: "docs: author crossroads analysis and computing era summaries"

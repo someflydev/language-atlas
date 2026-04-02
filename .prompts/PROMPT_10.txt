@@ -1,20 +1,23 @@
-You are an expert full-stack developer specializing in HTMX and Python. Your task is to build filtering and comparison features into the "language-atlas" Web UI.
+You are an expert backend and web developer. Your task is to build the Web UI Foundation for the "language-atlas" project using a Python-first, HTML-first approach.
 
 CONTEXT:
-The "language-atlas" has a foundational FastAPI + HTMX web UI. Users need the ability to filter the massive list of languages and conceptually compare them side-by-side, all without relying on heavy client-side JavaScript.
+The "language-atlas" requires a web interface. We are strictly avoiding SPA frameworks (no React, Vue, etc.). The stack must be Python (FastAPI or Starlette), Jinja2 for server-rendered HTML, HTMX for interactions, and Plotly for visualizations.
 
 TASK:
-1. Update `app.py` to add endpoints for filtering languages (by `cluster`, `generation`, or `paradigms`) and for comparing two languages.
-2. Update the Jinja2 templates to include a filtering sidebar or top-bar.
-3. Create a new template `templates/compare.html` or a comparison partial that HTMX can swap into the DOM.
+1. Create `app.py` (FastAPI or Starlette application).
+2. Create or update `requirements.txt` containing at least `fastapi`, `uvicorn`, `jinja2`, `python-multipart`.
+3. Create a `templates/` directory with a `base.html` and an `index.html`.
+4. Create a `static/` directory with `static/css/styles.css` and `static/js/` (include the HTMX library via CDN in the template or download it).
 
 CONSTRAINTS & REQUIREMENTS:
-- All filtering MUST be processed on the Python backend. The HTML form should use HTMX (e.g., `hx-get="/filter" hx-target="#language-list"`) to fetch updated HTML partials.
-- The comparison feature should allow selecting two languages and viewing their philosophies, mental models, safety models, and paradigms side-by-side in a table or grid.
-- Do NOT use React, Vue, or vanilla JS fetch API. Use strictly HTMX.
-- Ensure the Python backend parses the `data/languages.json` correctly to perform these queries.
+- The backend MUST use the `core/data_loader.py` established previously.
+- `index.html` should display a list or grid of all languages loaded from `data/languages.json`.
+- Minimal JavaScript: Use HTMX attributes (`hx-get`, `hx-target`) for any dynamic loading (e.g., clicking a language loads its details without a full page refresh).
+- The design should be semantic HTML, visually clean, relying on CSS rather than JS for layout.
+- Put all project styling in `static/css/styles.css`.
+- Ensure the app can be started cleanly in a fresh environment via `uvicorn app:app --reload`.
 
 COMMIT BEHAVIOR:
-- Verify that the HTMX attributes are correctly pointing to the FastAPI endpoints.
+- Ensure the code is self-contained and handles potential missing data gracefully.
 - Commit the changes to git.
-- Commit message: "feat: implement htmx-driven filtering and side-by-side comparison"
+- Commit message: "feat: establish FastAPI and HTMX foundational web UI"

@@ -1,30 +1,20 @@
-You are an expert developer and technical biographer. Your task is to generate the individual language profile markdown files for the "language-atlas" project.
+You are an expert in programming language theory and software architecture. Your task is to analyze and document language paradigms for the "language-atlas" project.
 
 CONTEXT:
-The "language-atlas" maps the history and philosophy of programming languages. While we have a JSON data layer, we also need human-readable, rich narrative profiles for the most pivotal languages.
+The "language-atlas" project treats paradigms not as rigid buckets, but as fluid, historical reactions to hardware constraints and software crises. We need to document these paradigms comprehensively.
 
 TASK:
-1. Create a directory `LANGUAGE_PROFILES/`.
-2. Write deep, philosophical, and technical Markdown profiles for the following 10 keystone languages:
-   - `LANGUAGE_PROFILES/C.md`
-   - `LANGUAGE_PROFILES/Lisp.md`
-   - `LANGUAGE_PROFILES/Java.md`
-   - `LANGUAGE_PROFILES/JavaScript.md`
-   - `LANGUAGE_PROFILES/Python.md`
-   - `LANGUAGE_PROFILES/Rust.md`
-   - `LANGUAGE_PROFILES/Erlang.md`
-   - `LANGUAGE_PROFILES/Haskell.md`
-   - `LANGUAGE_PROFILES/Go.md`
-   - `LANGUAGE_PROFILES/COBOL.md`
+1. Create `docs/PARADIGMS.md`: A detailed narrative explanation of major programming paradigms.
+2. Create `docs/PARADIGM_MATRIX.md`: A markdown table/matrix comparing languages against paradigms, highlighting purity vs. multi-paradigm pragmatism.
 
 CONSTRAINTS & REQUIREMENTS:
-- Each profile MUST contain the following sections: Overview, Historical Context, Mental Model, Key Innovations, Tradeoffs & Criticisms, and Legacy.
-- The "Mental Model" section is the most critical: explain exactly how a programmer must wire their brain to be effective in this language.
-- Discuss how the language reacted to its predecessors.
-- Do NOT use generic summaries. Be opinionated, technically precise, and historically accurate.
-- DO NOT embed Mermaid diagrams. Describe any necessary diagrams in text.
+- Cover at least the following paradigms: Procedural, Object-Oriented (both Alan Kay style and C++/Java style), Functional (pure vs impure), Logic, Array/Vector, Concatenative, Data-driven, and Actor-model.
+- `docs/PARADIGMS.md` must explain the *tradeoffs* and the *historical crisis* that led to each paradigm's creation (e.g., OOP managing state complexity in UI, Functional managing concurrency and side-effects).
+- `docs/PARADIGM_MATRIX.md` must cross-reference at least 20 major languages from the atlas (e.g., Java, Haskell, Rust, C, Lisp, Erlang) against these paradigms, noting whether they are "Primary", "Supported", or "Anti-pattern".
+- DO NOT embed Mermaid diagrams. If explaining paradigm crossovers requires a graph, describe it in plain text (e.g., "Diagram Required: Paradigm crossover graph showing OOP and FP merging in modern multi-paradigm languages like Scala and Rust").
+- Write in a teaching-oriented narrative suitable for future learners.
 
 COMMIT BEHAVIOR:
-- Ensure the files are placed in the `LANGUAGE_PROFILES/` directory.
-- Commit changes to git.
-- Commit message: "docs: create deep technical profiles for keystone languages"
+- Validate that the markdown is correctly formatted.
+- Commit the changes to git.
+- Commit message: "docs: add deep paradigm analysis and comparison matrix"
