@@ -1,5 +1,6 @@
 import argparse
 import sys
+import os
 from app.core.data_loader import DataLoader
 
 def format_list(items):
@@ -63,6 +64,20 @@ def research_command(loader, args):
     print(f"3. Construct a mental model for a {lang.get('paradigms', ['N/A'])[0]} programmer transitioning from C to {lang['name']}.")
     print(f"4. Analyze the social and economic conditions of {lang.get('year', 'N/A')} that led to the creation of {lang['name']} by {format_list(lang.get('creators', []))}.")
 
+def search_command(loader, args):
+    results = loader.search(args.term)
+    if not results:
+        print(f"No results found for '{args.term}'.")
+        return
+    
+    print(f"--- Search Results for '{args.term}' ---")
+    for res in results:
+        snippet = res.get('snippet', '')
+        if snippet:
+            snippet = snippet.replace('\n', ' ')[:100] + "..."
+        print(f"[{res['category'].upper()}] {res['title']}")
+        print(f"   {snippet}\n")
+
 def main():
     parser = argparse.ArgumentParser(description="Language Atlas CLI - Explore Programming Language History")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
@@ -87,8 +102,15 @@ def main():
     research_parser = subparsers.add_parser("research", help="Generate a Research Brief for a language")
     research_parser.add_argument("language", help="The name of the language")
 
+    # Search command
+    search_parser = subparsers.add_parser("search", help="Full-text search across languages and profiles")
+    search_parser.add_argument("term", help="The search term")
+
     args = parser.parse_args()
     loader = DataLoader()
+    
+    if loader.use_sqlite:
+        print(f"[*] Using SQLite backend: {loader.db_path}")
 
     if args.command == "list":
         list_command(loader, args)
@@ -100,6 +122,8 @@ def main():
         paradigms_command(loader, args)
     elif args.command == "research":
         research_command(loader, args)
+    elif args.command == "search":
+        search_command(loader, args)
     else:
         parser.print_help()
 
