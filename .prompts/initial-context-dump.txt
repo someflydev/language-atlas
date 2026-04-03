@@ -107,7 +107,7 @@ Each language must include:
 - creators
 - paradigms (list)
 - cluster (systems, frontend, scripting, etc.)
-- generation (early, web1, cloud, modern)
+- generation (early, web1, cloud, renaissance, intelligent)
 - primary_use_cases
 - key_innovations
 - influenced_by

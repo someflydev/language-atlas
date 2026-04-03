@@ -25,8 +25,18 @@
     "description": "Rapid development of dynamic languages for the browser, server, and system glue."
   },
   {
-    "name": "The Cloud & Modern Era",
-    "years": "2005-Present",
-    "description": "Focus on high concurrency, strong safety guarantees, and the convergence of paradigms."
+    "name": "The Cloud & Concurrency Shift",
+    "years": "2005-2014",
+    "description": "Focus on horizontal scaling, distributed systems, and the resurgence of functional patterns for concurrency."
+  },
+  {
+    "name": "The Safety & DX Renaissance",
+    "years": "2014-2022",
+    "description": "A move towards zero-cost memory safety, expressive type systems, and polished developer tooling."
+  },
+  {
+    "name": "The AI & Autonomic Era",
+    "years": "2022-Present",
+    "description": "The emergence of AI-native languages, specialized accelerators, and autonomous system optimizations."
   }
 ]
