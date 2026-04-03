@@ -1,6 +1,6 @@
 import argparse
 import sys
-from core.data_loader import DataLoader
+from app.core.data_loader import DataLoader
 
 def format_list(items):
     return ", ".join(items) if items else "None"

@@ -9,6 +9,10 @@
 - Each file in `.prompts/PROMPT_XX.txt` is intended to be executed in a **fresh coding assistant session** (e.g., Gemini, Codex, Claude).
 - Prompts must be self-contained and not rely on previous context, even if they build upon the state left by a previous prompt.
 
+## Environment & Python
+- **Use `uv`:** Always use `uv` for creating virtual environments and managing dependencies.
+- **Python Version:** When creating a virtual environment via `uv`, you MUST explicitly specify the Python version (e.g., `uv venv --python 3.12`).
+
 ## Commit Style
 - **Prefix:** Use `[PROMPT_XX]` for changes related to a specific prompt file (e.g., `[PROMPT_01]`). Use `[PRE-FLIGHT {CATEGORY}]` for architectural or pre-run refinements.
 - **Format:** Tim Pope style (Multi-line).
