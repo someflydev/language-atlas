@@ -15,8 +15,8 @@ TASK:
    - `data/learning_paths.json` (Initialize as an empty list: `[]`)
 
 CONSTRAINTS & REQUIREMENTS:
-- `data/languages.json` MUST include the following 15 KEYSTONE languages in this first pass: 
-  FORTRAN, Lisp, C, C++, Java, JavaScript, Python, Ruby, Haskell, Erlang, Go, Rust, TypeScript, SQL, Bash.
+- `data/languages.json` MUST include the following 19 KEYSTONE languages in this first pass: 
+  FORTRAN, ALGOL 60, Lisp, COBOL, SIMULA 67, C, Smalltalk, ML, C++, Java, JavaScript, Python, Ruby, Haskell, Erlang, Go, Rust, TypeScript, SQL, Bash.
 - Each entry in `data/languages.json` MUST contain the exact keys:
   `name`, `year`, `creators` (list), `paradigms` (list), `cluster` (e.g., systems, frontend, scripting), `generation` (early, web1, cloud, modern), `primary_use_cases`, `key_innovations`, `influenced_by` (list), `influenced` (list), `philosophy` (deep, non-generic string), `mental_model` (crucial: explain how the programmer must think), `complexity_bias` (low/medium/high), `safety_model` (manual/runtime/compile_time/hybrid).
 - All files must be flat, explicit JSON.

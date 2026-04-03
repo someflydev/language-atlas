@@ -4,10 +4,10 @@ CONTEXT:
 The "language-atlas" is a deeply structured system mapping programming language evolution. The schema and core languages (Systems/Functional) are already established in `data/languages.json`. You must now add the final set of languages, focusing on Web, Enterprise, Data Science, and Infrastructure.
 
 TASK:
-1. Update `data/languages.json` to include the following 18 languages.
+1. Update `data/languages.json` to include the following 21 languages.
 
 REQUIRED LANGUAGES TO ADD:
-PHP, Elm, Svelte, Dart, ReasonML, ReScript, C#, VB, VB.NET, R, MATLAB, Maple, Objective-C, Swift, Kotlin, HCL, YAML, JSON.
+PHP, Elm, Svelte, Dart, ReasonML, ReScript, C#, VB, VB.NET, R, MATLAB, Maple, Objective-C, Swift, Kotlin, HCL, YAML, JSON, PL/I, BCPL, SNOBOL.
 
 CONSTRAINTS:
 - CRITICAL: DO NOT OMIT any languages in this list.

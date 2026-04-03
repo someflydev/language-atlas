@@ -1,13 +1,13 @@
 You are a programming language historian. Your task is to expand the "language-atlas" dataset.
 
 CONTEXT:
-The "language-atlas" is a deeply structured system mapping programming language evolution. The schema and initial 15 languages (FORTRAN, Lisp, C, C++, Java, JavaScript, Python, Ruby, Haskell, Erlang, Go, Rust, TypeScript, SQL, Bash) are already established in `data/languages.json`. You must now add the first half of the remaining languages, focusing on Systems and Functional programming paradigms.
+The "language-atlas" is a deeply structured system mapping programming language evolution. The schema and initial 19 languages (FORTRAN, ALGOL 60, Lisp, COBOL, SIMULA 67, C, Smalltalk, ML, C++, Java, JavaScript, Python, Ruby, Haskell, Erlang, Go, Rust, TypeScript, SQL, Bash) are already established in `data/languages.json`. You must now add the first half of the remaining languages, focusing on Systems, Functional, and foundational Paradigmatic outliers.
 
 TASK:
-1. Update `data/languages.json` to include the following 18 languages.
+1. Update `data/languages.json` to include the following 22 languages.
 
 REQUIRED LANGUAGES TO ADD:
-COBOL, Scheme, Pascal, Ada, Zig, Odin, Nim, Crystal, OCaml, F#, Clojure, Scala, Elixir, Perl, Lua, Julia, WebAssembly, LLVM.
+Scheme, Pascal, Ada, Zig, Odin, Nim, Crystal, OCaml, F#, Clojure, Scala, Elixir, Perl, Lua, Julia, WebAssembly, LLVM, Prolog, APL, BASIC, Forth, Self.
 
 CONSTRAINTS:
 - CRITICAL: DO NOT OMIT any languages in this list.

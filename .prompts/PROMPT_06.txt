@@ -5,9 +5,13 @@ The "language-atlas" maps the history and philosophy of programming languages. A
 
 TASK:
 1. Create a directory `docs/LANGUAGE_PROFILES/`.
-2. Write deep, philosophical, and technical Markdown profiles for the following 10 keystone languages:
+2. Write deep, philosophical, and technical Markdown profiles for the following 15 keystone languages:
    - `docs/LANGUAGE_PROFILES/C.md`
    - `docs/LANGUAGE_PROFILES/Lisp.md`
+   - `docs/LANGUAGE_PROFILES/ALGOL_60.md`
+   - `docs/LANGUAGE_PROFILES/Smalltalk.md`
+   - `docs/LANGUAGE_PROFILES/ML.md`
+   - `docs/LANGUAGE_PROFILES/Prolog.md`
    - `docs/LANGUAGE_PROFILES/Java.md`
    - `docs/LANGUAGE_PROFILES/JavaScript.md`
    - `docs/LANGUAGE_PROFILES/Python.md`
@@ -16,6 +20,7 @@ TASK:
    - `docs/LANGUAGE_PROFILES/Haskell.md`
    - `docs/LANGUAGE_PROFILES/Go.md`
    - `docs/LANGUAGE_PROFILES/COBOL.md`
+   - `docs/LANGUAGE_PROFILES/SQL.md`
 
 CONSTRAINTS & REQUIREMENTS:
 - Each profile MUST contain the following sections: Overview, Historical Context, Mental Model, Key Innovations, Tradeoffs & Criticisms, Legacy, and AI-Assisted Discovery Missions.

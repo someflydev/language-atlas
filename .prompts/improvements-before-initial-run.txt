@@ -70,3 +70,16 @@ Changes Applied:
 Notes / Followups:
 - All 16 prompts now provide sufficient local context to be run independently of session history.
 ---
+
+---
+Round: 6
+Timestamp: 2026-04-02T15:30:00Z
+Summary: Expanded coverage to include historically critical languages and paradigms.
+Changes Applied:
+- PROMPT_01.txt, PROMPT_02.txt, PROMPT_03.txt :: Added 12 'Keystone' missing languages (ALGOL 60, Simula 67, Smalltalk, ML, Prolog, APL, BASIC, BCPL, Forth, Self, PL/I, SNOBOL) :: Coverage :: PF-019
+- PROMPT_05.txt :: Added 8 missing paradigms (Declarative, Reactive, Aspect-Oriented, Event-Driven, Generic, Constraint, Metaprogramming, Component-Based) :: Coverage :: PF-020
+- PROMPT_04.txt, PROMPT_06.txt :: Updated timeline and profiles to reflect the expanded language and paradigm set :: Consistency :: PF-021
+Notes / Followups:
+- Total language count increased to 60+ (19 keystone + 43 expansion).
+- Keystone profiles (PROMPT_06) increased from 10 to 15 to cover foundational shifts (ALGOL, Smalltalk, ML, Prolog, SQL).
+---
