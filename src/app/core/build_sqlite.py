@@ -100,6 +100,28 @@ def build_database():
         content TEXT,
         FOREIGN KEY (profile_id) REFERENCES language_profiles(id)
     );
+
+    -- Full-Text Search Tables
+    -- fts_languages: Keyword search across core language metadata
+    CREATE VIRTUAL TABLE fts_languages USING fts5(
+        name, 
+        display_name, 
+        year UNINDEXED, 
+        description, 
+        philosophy, 
+        mental_model,
+        language_id UNINDEXED
+    );
+
+    -- fts_profiles: Deep search through narrative profile content and sections
+    CREATE VIRTUAL TABLE fts_profiles USING fts5(
+        language_name,
+        section_name, 
+        content,
+        language_id UNINDEXED,
+        profile_id UNINDEXED,
+        section_id UNINDEXED
+    );
     """)
     
     # 4. Insert Data
@@ -213,7 +235,32 @@ def build_database():
                 cursor.execute("INSERT INTO profile_sections (profile_id, section_name, content) VALUES (?, ?, ?)",
                                (profile_id, sec_name, str(content)))
 
-    # 5. Create Indexes
+    # 5. Populate FTS Tables
+    print("Populating FTS tables...")
+    cursor.execute("""
+        INSERT INTO fts_languages (name, display_name, year, description, philosophy, mental_model, language_id)
+        SELECT name, display_name, year, description, philosophy, mental_model, id
+        FROM languages;
+    """)
+    
+    # Populate fts_profiles with both the top-level overview and individual sections
+    cursor.execute("""
+        INSERT INTO fts_profiles (language_name, section_name, content, language_id, profile_id, section_id)
+        SELECT l.name, 'Overview', lp.overview, l.id, lp.id, NULL
+        FROM languages l
+        JOIN language_profiles lp ON l.id = lp.language_id
+        WHERE lp.overview IS NOT NULL;
+    """)
+    
+    cursor.execute("""
+        INSERT INTO fts_profiles (language_name, section_name, content, language_id, profile_id, section_id)
+        SELECT l.name, ps.section_name, ps.content, l.id, lp.id, ps.id
+        FROM languages l
+        JOIN language_profiles lp ON l.id = lp.language_id
+        JOIN profile_sections ps ON lp.id = ps.profile_id;
+    """)
+
+    # 6. Create Indexes
     print("Creating indexes...")
     cursor.executescript("""
     CREATE INDEX idx_influences_source ON influences(source_id);
@@ -225,8 +272,8 @@ def build_database():
     CREATE INDEX idx_profile_sections_profile ON profile_sections(profile_id);
     """)
     
-    # 6. Create View
-    print("Creating view v_language_details...")
+    # 7. Create Views
+    print("Creating views...")
     cursor.execute("""
     CREATE VIEW v_language_details AS
     SELECT 
@@ -247,6 +294,26 @@ def build_database():
          WHERE lpe.language_id = l.id) as creators
     FROM languages l
     LEFT JOIN language_profiles lp ON l.id = lp.language_id;
+    """)
+
+    # Unified search view for combined results across languages and profiles
+    cursor.execute("""
+    CREATE VIEW v_global_search AS
+    SELECT 
+        'language' as category,
+        language_id as entity_id,
+        name as title,
+        description as snippet,
+        'languages' as source_table
+    FROM fts_languages
+    UNION ALL
+    SELECT
+        'profile' as category,
+        language_id as entity_id,
+        language_name || ' - ' || section_name as title,
+        content as snippet,
+        'profile_sections' as source_table
+    FROM fts_profiles;
     """)
     
     conn.commit()
