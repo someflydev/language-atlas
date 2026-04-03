@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Procedural",
+    "description": "Programming by specifying a sequence of structured steps and commands."
+  },
+  {
+    "name": "Object-Oriented",
+    "description": "Organizing code into objects that encapsulate data and behavior."
+  },
+  {
+    "name": "Functional",
+    "description": "Treating computation as the evaluation of mathematical functions, avoiding side effects."
+  },
+  {
+    "name": "Logic",
+    "description": "Programming based on formal logic; specifying what should be achieved rather than how."
+  },
+  {
+    "name": "Array/Vector",
+    "description": "Treating data as large arrays or vectors, performing operations on them collectively."
+  },
+  {
+    "name": "Concatenative",
+    "description": "Programming based on the composition of functions, often using a stack-oriented approach."
+  },
+  {
+    "name": "Data-driven",
+    "description": "Controlling the flow of a program based on the data itself, often through patterns or tables."
+  },
+  {
+    "name": "Actor-model",
+    "description": "Using independent 'actors' that communicate via message passing to handle concurrency."
+  },
+  {
+    "name": "Reactive",
+    "description": "Programming based on asynchronous data streams and the propagation of change."
+  },
+  {
+    "name": "Aspect-Oriented",
+    "description": "Separating cross-cutting concerns (e.g., logging) from the main business logic."
+  },
+  {
+    "name": "Event-Driven",
+    "description": "Flow determined by events such as user actions, sensor outputs, or message passing."
+  },
+  {
+    "name": "Generic",
+    "description": "Writing code that can work with different data types while maintaining type safety."
+  },
+  {
+    "name": "Constraint",
+    "description": "Solving problems by defining relationships (constraints) between variables."
+  },
+  {
+    "name": "Metaprogramming",
+    "description": "Writing programs that treat other programs as their data; code that generates or modifies code."
+  }
+]

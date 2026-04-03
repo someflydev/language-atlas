@@ -1,0 +1,72 @@
+[
+  {
+    "from": "FORTRAN",
+    "to": "ALGOL 60",
+    "type": "predecessor"
+  },
+  {
+    "from": "ALGOL 60",
+    "to": "C",
+    "type": "block-structure"
+  },
+  {
+    "from": "ALGOL 60",
+    "to": "SIMULA 67",
+    "type": "classes"
+  },
+  {
+    "from": "Lisp",
+    "to": "Smalltalk",
+    "type": "garbage-collection"
+  },
+  {
+    "from": "SIMULA 67",
+    "to": "C++",
+    "type": "object-orientation"
+  },
+  {
+    "from": "C",
+    "to": "C++",
+    "type": "evolution"
+  },
+  {
+    "from": "Smalltalk",
+    "to": "Java",
+    "type": "object-model"
+  },
+  {
+    "from": "Java",
+    "to": "JavaScript",
+    "type": "branding/syntax"
+  },
+  {
+    "from": "ML",
+    "to": "Haskell",
+    "type": "purity"
+  },
+  {
+    "from": "ML",
+    "to": "Rust",
+    "type": "type-system"
+  },
+  {
+    "from": "Haskell",
+    "to": "Rust",
+    "type": "traits/type-classes"
+  },
+  {
+    "from": "C",
+    "to": "Go",
+    "type": "syntax/simplicity"
+  },
+  {
+    "from": "JavaScript",
+    "to": "TypeScript",
+    "type": "superset"
+  },
+  {
+    "from": "Python",
+    "to": "Ruby",
+    "type": "scripting-philosophy"
+  }
+]
