@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Block structure",
+    "description": "The grouping of statements into a single unit, often allowing for nested scopes."
+  },
+  {
+    "name": "Garbage collection",
+    "description": "Automatic memory management where the system reclaims memory no longer in use by the program."
+  },
+  {
+    "name": "Object-oriented programming",
+    "description": "A paradigm based on the concept of 'objects' containing data and code."
+  },
+  {
+    "name": "Homoiconicity",
+    "description": "The property that the program structure is represented as a data structure in the language itself."
+  },
+  {
+    "name": "Hindley-Milner type system",
+    "description": "A type system that allows for powerful type inference without requiring explicit type annotations."
+  },
+  {
+    "name": "RAII",
+    "description": "Resource Acquisition Is Initialization: a pattern where resource management is tied to object lifetime."
+  },
+  {
+    "name": "Lazy evaluation",
+    "description": "The strategy of delaying the evaluation of an expression until its value is actually needed."
+  },
+  {
+    "name": "The Actor Model",
+    "description": "A mathematical model of concurrent computation that treats 'actors' as universal primitives."
+  },
+  {
+    "name": "Ownership and Borrowing",
+    "description": "A memory management model that uses strict rules to ensure memory safety without a garbage collector."
+  },
+  {
+    "name": "The Event Loop",
+    "description": "A programming construct that waits for and dispatches events or messages in a program."
+  },
+  {
+    "name": "Relational Model",
+    "description": "An approach to managing data using a structure and language consistent with first-order predicate logic."
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "The Dawn of Computation",
+    "years": "Pre-1950",
+    "description": "Initial development of automatic computation systems, from mechanical to vacuum tubes."
+  },
+  {
+    "name": "The Era of High-Level Languages",
+    "years": "1950-1960",
+    "description": "The move from machine-specific assembly to the first compilers and reusable code structures."
+  },
+  {
+    "name": "The Structured Revolution",
+    "years": "1960-1975",
+    "description": "The rise of blocks, flow control, and formal program structures, leading to modularity."
+  },
+  {
+    "name": "The Object-Oriented Explosion",
+    "years": "1975-1990",
+    "description": "The dominance of encapsulation, classes, and metaphors that model the real world."
+  },
+  {
+    "name": "The Web 1.0 & Scripting Surge",
+    "years": "1990-2005",
+    "description": "Rapid development of dynamic languages for the browser, server, and system glue."
+  },
+  {
+    "name": "The Cloud & Modern Era",
+    "years": "2005-Present",
+    "description": "Focus on high concurrency, strong safety guarantees, and the convergence of paradigms."
+  }
+]
