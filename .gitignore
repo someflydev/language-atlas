@@ -1,0 +1,28 @@
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment and Secrets
+.env
+.venv
+*.log
+
+# Distribution / Build
+dist/
+build/
+*.egg-info/
