@@ -1,0 +1,34 @@
+# Ruby: The Poet's Script
+
+## Overview
+Ruby is a dynamic, open-source programming language with a focus on simplicity and productivity. It is best known for its elegant syntax that is natural to read and easy to write, emphasizing programmer happiness and the beauty of code as a medium of creative expression.
+
+## Historical Context
+Created by Yukihiro "Matz" Matsumoto in 1995, Ruby was a reaction to the perceived "dryness" and machine-focus of Perl and Python. Matz wanted to combine the power of Lisp, the object-oriented nature of Smalltalk, and the scripting utility of Perl. Ruby reacted to the industrial rigidity of Java by being extremely flexible (allowing "monkey-patching" and open classes), prioritizing the human experience of writing code over the machine's experience of executing it. It exploded in popularity with the release of the Ruby on Rails framework in 2004.
+
+## Mental Model
+To be effective in Ruby, you must **think in terms of natural language and extreme object-oriented expressiveness**. Everything is an object, and every action is a message, allowing you to build an internal domain-specific language that reads almost like English.
+
+Your brain must be wired to:
+1. **Everything is an Object:** Even basic types like integers (`5.times`) are objects with behavior. There are no "primitives" in the mental model.
+2. **Blocks and Procs:** View the block (`do...end`) as a first-class way to pass behavior around, leading to the language's pervasive and elegant iterator patterns.
+3. **Malleability:** Understand that nothing is fixed. You can change the behavior of core classes at runtime to suit your needs, treating the language as a living, breathing entity.
+
+## Key Innovations
+- **Blocks and Closures:** A uniquely elegant syntax for passing snippets of code to methods, defining the "Ruby way" of iterating and managing resources.
+- **Mixins:** Using Modules to share behavior between classes without the complexity of multiple inheritance.
+- **Metaprogramming Power:** The ability for a program to inspect and modify its own structure at runtime, enabling frameworks like Rails to "magically" handle database mappings.
+- **Pure Object Orientation:** Taking Smalltalk's "everything is an object" philosophy to its logical, modern conclusion.
+
+## Tradeoffs & Criticisms
+- **Performance:** Ruby's extreme dynamism and focus on abstraction traditionally made it slower than Python and significantly slower than compiled languages.
+- **Magic and Obscurity:** The heavy use of metaprogramming and "magic" in frameworks can make it difficult to trace the actual source of behavior in a large codebase.
+- **Global State Risks:** The ability to modify core classes (monkey-patching) can lead to unpredictable conflicts between different libraries.
+
+## Legacy
+Ruby's legacy is the modern web development experience. Ruby on Rails defined the "Convention over Configuration" pattern that has been copied by almost every subsequent web framework. It proved that programmer productivity and happiness are valid, even critical, metrics for language success.
+
+## AI-Assisted Discovery Missions
+1. "Analyze how Ruby's 'Blocks' differ from 'Lambdas' and 'Procs' and how they enable the language's elegant internal DSLs."
+2. "Examine the 'Convention over Configuration' philosophy of Ruby on Rails and its impact on the 'Software as a Service' (SaaS) boom."
+3. "Discuss the concept of 'Monkey Patching' in Ruby: its power for extending functionality and its dangers for long-term maintainability."
