@@ -1,0 +1,24 @@
+You are an expert software engineer.
+
+Context:
+This repository contains a knowledge atlas about programming languages.
+Currently, data is stored as flat JSON files in the `data/` directory.
+We need to evolve the data structure to support subdirectories and ordered file loading, allowing us to split large datasets.
+
+Task:
+1. Update `src/app/core/data_loader.py`.
+2. Modify the internal loading logic to support optional subdirectories:
+   - If `data/<dataset>.json` exists, load it.
+   - If `data/<dataset>/` is a directory, recursively load all `.json` files inside it.
+3. When loading from a directory, sort the files alphabetically by filename (e.g., `01-core.json`, `02-systems.json`).
+4. Merge the datasets deterministically:
+   - If the JSON root is a list, extend the list.
+   - If the JSON root is a dictionary, update/merge the keys.
+5. Ensure the `DataLoader` public interface remains unchanged and all existing data in `data/` continues to load correctly.
+
+Commit message instructions:
+Prefix the commit with: [PROMPT_12]
+Use Tim Pope style:
+- 50 char max subject
+- Blank line
+- Wrapped 72 char body explaining the why and how. No literal "\n" text in the message.

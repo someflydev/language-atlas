@@ -1,0 +1,31 @@
+You are an expert software engineer.
+
+Context:
+We are introducing a SQLite Build System to our Derived Artifact Pipeline.
+JSON remains the source of truth, but SQLite will become our queryable artifact. It must be generated deterministically from the JSON data.
+We need to ensure the DB is read-only safe, has no triggers, and keeps a schema compatible with browser-based `sql.js`.
+
+Task:
+1. Create a new build script `src/app/core/build_sqlite.py`.
+2. The script must use `DataLoader` from `src/app/core/data_loader.py` to load all available JSON data (core data + language profiles).
+3. Drop and recreate a SQLite database named `language_atlas.sqlite` at the repository root deterministically. No mutation-in-place logic.
+4. Create normalized tables exactly as follows:
+   - `languages` (id, name, description, etc.)
+   - `paradigms` (id, name, description)
+   - `people` (id, name)
+   - `influences` (source_id, target_id)
+   - `language_paradigms` (language_id, paradigm_id)
+   - `language_people` (language_id, person_id, role)
+   - `language_profiles` (language_id, title, overview)
+   - `profile_sections` (profile_id, section_name, content)
+5. Insert all loaded data into these tables safely.
+6. Create useful indexes for all foreign keys.
+7. Create a view `v_language_details` that joins languages with their paradigms and people.
+8. Make the script executable so it can be run standalone to build the database.
+
+Commit message instructions:
+Prefix the commit with: [PROMPT_15]
+Use Tim Pope style:
+- 50 char max subject
+- Blank line
+- Wrapped 72 char body explaining the why and how. No literal "\n" text in the message.

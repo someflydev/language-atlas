@@ -1,0 +1,19 @@
+You are an expert software engineer.
+
+Context:
+We have introduced a script to extract structured JSON from our Markdown documentation (`data/docs/language_profiles/`).
+We now need a Unified Data Access Layer that can serve this new data alongside our core datasets.
+
+Task:
+1. Update `src/app/core/data_loader.py`.
+2. Extend the `DataLoader` class to load the extracted documentation JSON.
+3. Expose a new property or method (e.g., `language_profiles` or `get_language_profiles()`) that returns the combined parsed data from `data/docs/language_profiles/`.
+4. Ensure the loader handles the case where the `data/docs/language_profiles/` directory might not exist yet or is empty without crashing.
+5. Provide a clear way to link or join the core language data (from `data/languages.json`) with its corresponding extended profile data based on the language name or ID.
+
+Commit message instructions:
+Prefix the commit with: [PROMPT_14]
+Use Tim Pope style:
+- 50 char max subject
+- Blank line
+- Wrapped 72 char body explaining the why and how. No literal "\n" text in the message.

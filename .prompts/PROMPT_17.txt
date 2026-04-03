@@ -1,0 +1,19 @@
+You are an expert software engineer.
+
+Context:
+Our Derived Artifact Pipeline generates `language_atlas.sqlite` equipped with FTS5 search.
+We now need to add an optional, read-only SQLite integration to our backend data access layer, allowing the application and CLI to query SQLite directly instead of loading all JSON into memory.
+
+Task:
+1. Update `src/app/core/data_loader.py` to optionally support SQLite as a data source.
+2. Add a configuration mechanism (e.g., checking an environment variable `USE_SQLITE=1`) to determine whether to load from JSON or query `language_atlas.sqlite`.
+3. If `USE_SQLITE=1` is set and the database file exists, the `DataLoader` should execute read-only SQL queries to fetch data instead of parsing JSON files.
+4. Update `src/cli.py` and `src/app/app.py` to ensure they function seamlessly regardless of whether `DataLoader` is backed by JSON or SQLite.
+5. Add a simple full-text search CLI command (e.g., `python src/cli.py search <term>`) that leverages the FTS5 tables if the SQLite backend is active.
+
+Commit message instructions:
+Prefix the commit with: [PROMPT_17]
+Use Tim Pope style:
+- 50 char max subject
+- Blank line
+- Wrapped 72 char body explaining the why and how. No literal "\n" text in the message.

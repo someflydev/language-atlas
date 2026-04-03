@@ -1,0 +1,20 @@
+You are an expert software engineer.
+
+Context:
+Our SQLite Build System now deterministically generates `language_atlas.sqlite`.
+We want to add Full-Text Search (FTS) capabilities using SQLite's FTS5 extension to enable powerful keyword searches across our knowledge base.
+
+Task:
+1. Update `src/app/core/build_sqlite.py` to include FTS5 virtual tables during the build process.
+2. Create an FTS table `fts_languages` and populate it using textual data from the `languages` table (e.g., name, description, year).
+3. Create an FTS table `fts_profiles` and populate it using data from the `profile_sections` and `language_profiles` tables (e.g., overview, historical_context, key_innovations, tradeoffs).
+4. Ensure the data inserted into the FTS tables is properly linked back to the original row IDs so search results can fetch the full entities.
+5. Provide a basic query example or view that demonstrates searching across both structured data and narrative content using these FTS tables.
+6. Ensure the build script remains idempotent and browser-compatible.
+
+Commit message instructions:
+Prefix the commit with: [PROMPT_16]
+Use Tim Pope style:
+- 50 char max subject
+- Blank line
+- Wrapped 72 char body explaining the why and how. No literal "\n" text in the message.

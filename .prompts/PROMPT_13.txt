@@ -1,0 +1,29 @@
+You are an expert software engineer.
+
+Context:
+We are building a "Derived Artifact Pipeline".
+We have rich markdown profiles in `docs/LANGUAGE_PROFILES/`. We need to extract this unstructured text into structured JSON to power our data layer.
+
+Task:
+1. Create a new Python module `src/app/core/docs_parser.py`.
+2. Write a deterministic parser that reads markdown files from `docs/LANGUAGE_PROFILES/*.md`.
+3. Extract the following sections from each markdown file:
+   - `title`: Extracted from the H1 or filename.
+   - `overview`: Text before the first H2.
+   - `historical_context`: Content under 'Historical Context' or similar.
+   - `mental_model`: Content under 'Mental Model'.
+   - `key_innovations`: Extract as a list of strings if formatted as a markdown list.
+   - `tradeoffs`: Content under 'Tradeoffs'.
+   - `legacy`: Content under 'Legacy'.
+   - `ai_assisted_discovery_missions`: Content under 'AI Assisted Discovery Missions'.
+   Design the parser to be section-aware and tolerant of minor formatting variations.
+4. Output the parsed data as structured JSON files into `data/docs/language_profiles/` (create the directory if it doesn't exist).
+5. The output filename must match the markdown filename exactly (e.g., `data/docs/language_profiles/C.json` for `C.md`).
+6. Make `docs_parser.py` executable so it can be run standalone to generate the JSON files.
+
+Commit message instructions:
+Prefix the commit with: [PROMPT_13]
+Use Tim Pope style:
+- 50 char max subject
+- Blank line
+- Wrapped 72 char body explaining the why and how. No literal "\n" text in the message.
