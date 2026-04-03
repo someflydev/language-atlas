@@ -35,6 +35,16 @@ Metaprogramming is code that writes code. It is the ultimate expression of a lan
 *   **Macros (Lisp/Rust):** Small programs that run during compilation to expand code into more complex structures.
 *   **Code-as-Data (Homoiconicity):** In languages like Lisp, the program's structure *is* a data structure (lists). This means the language can manipulate itself with the same ease it manipulates a list of numbers.
 
+## 6. The Evolution of Generations: Chronological Context
+Programming languages don't exist in a vacuum; they are products of their era's hardware constraints and industry needs. We classify these into six distinct "Generations" (short-codes used in the data layer):
+
+*   **`dawn` (Pre-1950):** The foundational era. Logic, physical hardware mnemonics, and the birth of automatic computation (e.g., Assembly, Lambda Calculus).
+*   **`early` (1950-1975):** The High-Level & Structured Revolution. The move from machine-specific code to reusable structures, blocks, and early compilers (e.g., FORTRAN, ALGOL, C).
+*   **`web1` (1975-2005):** The Object-Oriented Explosion & Scripting Surge. A period dominated by encapsulation, class hierarchies, and "glue" for the early internet (e.g., Smalltalk, Java, JavaScript, Python).
+*   **`cloud` (2005-2014):** The Cloud & Concurrency Shift. Focus on horizontal scaling, actors, and distributed systems to manage multi-core hardware and the global web (e.g., Go, Erlang/Elixir, Clojure).
+*   **`renaissance` (2014-2022):** The Safety & DX Renaissance. A reaction to decades of memory unsafety and complexity. Focus on zero-cost safety, expressive type systems, and polished developer tooling (e.g., Rust, Swift, Zig).
+*   **`autonomic` (2022-Present):** The AI & Autonomic Era. Hardware-native AI optimization, specialized accelerators, and autonomous system optimizations (e.g., Mojo).
+
 ---
 
 > **Diagram Required:** An influence graph showing the flow of CSP from Hoare to Newsqueak to Go, illustrating how a 1970s mathematical theory became the backbone of modern cloud infrastructure.

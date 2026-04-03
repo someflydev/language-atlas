@@ -10,10 +10,13 @@ def list_command(loader, args):
     if not langs:
         print("No languages found matching filters.")
         return
-    print(f"{'Language':<15} | {'Year':<6} | {'Cluster':<15} | {'Generation':<10}")
-    print("-" * 55)
+    print(f"{'Language':<15} | {'Year':<6} | {'Cluster':<15} | {'Generation':<12} | {'Philosophy'}")
+    print("-" * 115)
     for lang in sorted(langs, key=lambda x: x.get('year', 0)):
-        print(f"{lang['name']:<15} | {lang.get('year', 'N/A'):<6} | {lang.get('cluster', 'N/A'):<15} | {lang.get('generation', 'N/A'):<10}")
+        philosophy = lang.get('philosophy', 'N/A')
+        if len(philosophy) > 60:
+            philosophy = philosophy[:57] + "..."
+        print(f"{lang['name']:<15} | {lang.get('year', 'N/A'):<6} | {lang.get('cluster', 'N/A'):<15} | {lang.get('generation', 'N/A'):<12} | {philosophy}")
 
 def info_command(loader, args):
     lang = loader.get_language(args.language)
