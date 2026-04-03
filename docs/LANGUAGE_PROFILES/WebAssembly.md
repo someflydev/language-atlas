@@ -1,0 +1,34 @@
+# WebAssembly: A Universal Binary Format
+
+## Overview
+WebAssembly (Wasm) is a binary instruction format for a stack-based virtual machine. It is designed as a portable compilation target for high-level languages like C, C++, and Rust, enabling near-native performance on the web.
+
+## Historical Context
+Announced in 2015 and first released in 2017, WebAssembly was developed by the W3C as a collaborative effort between major browser vendors (Google, Mozilla, Microsoft, Apple). It was the first "fourth language" to be natively supported by browsers, joining HTML, CSS, and JavaScript.
+
+## Mental Model
+To understand WebAssembly, you must **think like a virtual CPU**. It is not a language you typically "write" by hand; it is a target for other languages to "speak" to the machine.
+
+Your brain must be wired to:
+1. **Think in a Sandbox:** Wasm executes in a secure, isolated environment with no direct access to the host's memory or the browser's DOM.
+2. **Target a Stack Machine:** Operations are performed by pushing and popping values on a virtual stack, making the binary format extremely compact and fast to decode.
+3. **Embrace Linear Memory:** All data is stored in a single, large "flat" array of bytes that the program must manage manually or through the abstractions of the source language.
+
+## Key Innovations
+- **Binary Instruction Format:** A compact, platform-independent format that is much faster to parse and execute than JavaScript.
+- **Linear Memory:** A simple, efficient way to manage data that provides a clear boundary between the sandbox and the host.
+- **Near-Native Performance:** By using LLVM backends, Wasm can achieve execution speeds within 10-20% of native code.
+- **Language Portability:** Allowing languages that previously couldn't run on the web (C, Rust, Go) to become first-class citizens of the browser.
+
+## Tradeoffs & Criticisms
+- **Indirect DOM Access:** Wasm cannot directly manipulate the DOM; it must go through a JavaScript bridge, which introduces a performance bottleneck for UI-heavy tasks.
+- **Debugging Complexity:** Debugging raw binary or even the text representation (WAT) is significantly harder than debugging source-level JavaScript.
+- **Sandbox Limitations:** The strict security model can make it difficult to perform tasks that require direct system access, like file I/O or low-level networking.
+
+## Legacy
+WebAssembly is transcending the web. Through the WebAssembly System Interface (WASI), it is becoming a standard for edge computing, serverless functions, and plugin systems, potentially fulfilling the "Write Once, Run Anywhere" promise of the JVM but with better security and performance.
+
+## AI-Assisted Discovery Missions
+1. "Explain the 'WebAssembly Sandbox'—how does it ensure security while still allowing near-native performance?"
+2. "What is WASI (WebAssembly System Interface) and why is it considered the future of cloud-native and edge computing?"
+3. "Trace the journey of a Rust program being compiled to WebAssembly—from the source code to the `.wasm` binary to execution in the browser."

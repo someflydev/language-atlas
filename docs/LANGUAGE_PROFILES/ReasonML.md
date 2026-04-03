@@ -1,0 +1,34 @@
+# ReasonML: OCaml for the Web
+
+## Overview
+ReasonML is a syntax and toolchain for OCaml that provides a JavaScript-like interface to a powerful, statically typed functional language. It is designed to give web developers the safety of a rigorous type system without the steep learning curve of traditional functional syntax.
+
+## Historical Context
+Created by Jordan Walke (the creator of React) at Facebook in 2016, ReasonML was born out of the need for a safer and more performant way to build large-scale React applications. It leverages the battle-tested OCaml compiler and the BuckleScript (now ReScript) toolchain to target JavaScript.
+
+## Mental Model
+To use ReasonML, you must **view functional programming through a familiar lens**. You are writing OCaml, but it looks and feels like a highly disciplined version of JavaScript.
+
+Your brain must be wired to:
+1. **Embrace Immutable Data:** Like its OCaml parent, ReasonML encourages the use of immutable structures and pure functions.
+2. **Think in Modules:** Code is organized into modules that provide a clear separation of concerns and powerful composition patterns (Functors).
+3. **Trust the Sound Type System:** Unlike TypeScript, ReasonML's type system is "sound," meaning that if the code compiles, there are virtually no runtime type errors.
+
+## Key Innovations
+- **JavaScript-like Syntax for OCaml:** Making a sophisticated functional language accessible to a broader audience of web developers.
+- **BuckleScript Integration:** A high-performance compiler that turns ReasonML/OCaml into lean, human-readable JavaScript.
+- **Fast Iteration Loop:** Designed for near-instant compilation, making it suitable for modern web development workflows.
+- **Seamless React Integration:** Providing first-class support for React components and hooks through the ReasonReact library.
+
+## Tradeoffs & Criticisms
+- **Ecosystem Fragmentation:** The split between ReasonML and ReScript has caused some confusion and fragmentation in the community.
+- **Learning Curve:** Despite the familiar syntax, the underlying OCaml concepts (like variants, pattern matching, and functors) still require a significant shift in thinking.
+- **Interoperability Overhead:** While JS interop is possible, writing the "bindings" to existing JS libraries can be tedious and complex.
+
+## Legacy
+ReasonML proved that there is a strong appetite for industrial-grade functional programming in the frontend world. It directly influenced the development of ReScript and has pushed the broader JavaScript community toward more robust typing and functional patterns.
+
+## AI-Assisted Discovery Missions
+1. "Explain the difference between 'Sound Typing' in ReasonML and 'Structural Typing' in TypeScript—why does it matter for runtime safety?"
+2. "How does ReasonML's 'Pattern Matching' simplify the logic of a complex React component compared to standard JS 'switch' statements?"
+3. "Trace the compilation of a ReasonML module into JavaScript—how does the BuckleScript compiler optimize for output size and readability?"
