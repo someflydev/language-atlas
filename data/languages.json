@@ -13,7 +13,10 @@
     "philosophy": "Efficiency above all. FORTRAN's design prioritizes performance in numerical computations, often mirroring the underlying machine's arithmetic capabilities.",
     "mental_model": "Think in terms of mathematical formulae and memory blocks. Data flows through DO-loops and arithmetic expressions directly into registers.",
     "complexity_bias": "low",
-    "safety_model": "manual"
+    "safety_model": "manual",
+    "typing_discipline": "Static/Strong",
+    "memory_management": "Static-Allocation",
+    "is_keystone": true
   },
   {
     "name": "ALGOL 60",
@@ -29,7 +32,10 @@
     "philosophy": "The universal language for algorithms. ALGOL focused on structural elegance and logical consistency over specific machine implementation.",
     "mental_model": "Think in nested scopes. A program is a hierarchy of blocks, each with its own local state, forming a tree-like structure of execution.",
     "complexity_bias": "medium",
-    "safety_model": "manual"
+    "safety_model": "manual",
+    "typing_discipline": "Static/Strong",
+    "memory_management": "Stack-Only",
+    "is_keystone": true
   },
   {
     "name": "Lisp",
@@ -45,7 +51,10 @@
     "philosophy": "Computing is symbolic manipulation. Everything is a list, and code is just data waiting to be evaluated.",
     "mental_model": "Think in terms of S-expressions. The boundary between the program and the data it processes is non-existent; you are building a language to solve your problem.",
     "complexity_bias": "high",
-    "safety_model": "runtime"
+    "safety_model": "runtime",
+    "typing_discipline": "Dynamic/Strong",
+    "memory_management": "Tracing GC",
+    "is_keystone": true
   },
   {
     "name": "COBOL",
@@ -61,7 +70,10 @@
     "philosophy": "Code should be readable by non-programmers. COBOL aimed to bridge the gap between business managers and technical implementation.",
     "mental_model": "Think in terms of paper forms and accounting ledgers. Programs are divided into divisions (Data, Procedure, etc.) much like an office filing system.",
     "complexity_bias": "low",
-    "safety_model": "manual"
+    "safety_model": "manual",
+    "typing_discipline": "Static/Weak",
+    "memory_management": "Static-Allocation",
+    "is_keystone": true
   },
   {
     "name": "SIMULA 67",
@@ -77,7 +89,10 @@
     "philosophy": "The world is a system of interacting entities. Simulation requires modeling real-world objects as software abstractions.",
     "mental_model": "Think in terms of independent actors with their own state and behavior. A program is a simulated world where entities coexist and interact.",
     "complexity_bias": "medium",
-    "safety_model": "manual"
+    "safety_model": "manual",
+    "typing_discipline": "Static/Strong",
+    "memory_management": "Tracing GC",
+    "is_keystone": true
   },
   {
     "name": "C",
@@ -93,7 +108,10 @@
     "philosophy": "Trust the programmer. C provides a thin abstraction over hardware, offering maximum control and efficiency with minimal runtime overhead.",
     "mental_model": "Think in terms of memory addresses and bytes. The program is a series of manipulations on a flat linear memory space.",
     "complexity_bias": "medium",
-    "safety_model": "manual"
+    "safety_model": "manual",
+    "typing_discipline": "Static/Weak",
+    "memory_management": "Manual",
+    "is_keystone": true
   },
   {
     "name": "Smalltalk",
@@ -109,7 +127,10 @@
     "philosophy": "Computers as personal dynamic media. Programming is the act of sending messages between biological-like cells (objects).",
     "mental_model": "Think in terms of a living organism. You don't call functions; you send messages to objects, and they decide how to respond in their own context.",
     "complexity_bias": "medium",
-    "safety_model": "runtime"
+    "safety_model": "runtime",
+    "typing_discipline": "Dynamic/Strong",
+    "memory_management": "Tracing GC",
+    "is_keystone": true
   },
   {
     "name": "ML",
@@ -125,7 +146,10 @@
     "philosophy": "Correctness through types. ML proved that you can have strong, static safety without sacrificing the expressiveness of functional programming.",
     "mental_model": "Think in terms of mathematical proofs and transformations. Types are constraints that the compiler uses to ensure your logic is sound.",
     "complexity_bias": "high",
-    "safety_model": "compile_time"
+    "safety_model": "compile_time",
+    "typing_discipline": "Static/Strong",
+    "memory_management": "Tracing GC",
+    "is_keystone": true
   },
   {
     "name": "C++",
@@ -141,7 +165,10 @@
     "philosophy": "You don't pay for what you don't use. C++ aims to provide high-level abstractions without sacrificing the performance of C.",
     "mental_model": "Think in terms of resource ownership and object lifecycles. You are managing both the logic of the application and the lifetime of the hardware resources it uses.",
     "complexity_bias": "high",
-    "safety_model": "manual"
+    "safety_model": "manual",
+    "typing_discipline": "Static/Weak",
+    "memory_management": "Manual/RAII",
+    "is_keystone": true
   },
   {
     "name": "Java",
@@ -157,7 +184,10 @@
     "philosophy": "Simplicity and portability. Java removed the 'dangerous' parts of C++ to create a safe, scalable environment for large-scale development.",
     "mental_model": "Think in terms of blueprints and hierarchies. Everything is a class, and your program is a collection of interacting class instances running on a virtual sandbox.",
     "complexity_bias": "medium",
-    "safety_model": "runtime"
+    "safety_model": "runtime",
+    "typing_discipline": "Static/Strong",
+    "memory_management": "Tracing GC",
+    "is_keystone": true
   },
   {
     "name": "JavaScript",
@@ -173,7 +203,10 @@
     "philosophy": "The glue of the web. JavaScript was designed to be easy for non-programmers to add interactivity to web pages, evolving into a robust application platform.",
     "mental_model": "Think in terms of responses to actions. The program is a set of callbacks triggered by events, operating on a dynamic, mutable tree of objects.",
     "complexity_bias": "medium",
-    "safety_model": "runtime"
+    "safety_model": "runtime",
+    "typing_discipline": "Dynamic/Weak",
+    "memory_management": "Tracing GC",
+    "is_keystone": true
   },
   {
     "name": "Python",
@@ -189,7 +222,10 @@
     "philosophy": "There should be one—and preferably only one—obvious way to do it. Readability counts.",
     "mental_model": "Think in terms of clear, executable pseudocode. You describe what you want the computer to do in a way that is almost as readable as English.",
     "complexity_bias": "low",
-    "safety_model": "runtime"
+    "safety_model": "runtime",
+    "typing_discipline": "Dynamic/Strong",
+    "memory_management": "Tracing GC (with RC)",
+    "is_keystone": true
   },
   {
     "name": "Ruby",
@@ -205,7 +241,10 @@
     "philosophy": "Designed for programmer happiness. Ruby prioritizes the human experience of writing code over the machine's experience of executing it.",
     "mental_model": "Think in terms of natural language and expressiveness. Code is a medium of creative expression, and the language should get out of your way.",
     "complexity_bias": "medium",
-    "safety_model": "runtime"
+    "safety_model": "runtime",
+    "typing_discipline": "Dynamic/Strong",
+    "memory_management": "Tracing GC",
+    "is_keystone": true
   },
   {
     "name": "Haskell",
@@ -221,7 +260,10 @@
     "philosophy": "Pure computation. Haskell enforces a strict separation between pure logic and impure side effects, ensuring mathematical predictability.",
     "mental_model": "Think in terms of transformations of immutable data. You don't change state; you define how one value is computed from another, using the type system to track effectful operations.",
     "complexity_bias": "high",
-    "safety_model": "compile_time"
+    "safety_model": "compile_time",
+    "typing_discipline": "Static/Strong",
+    "memory_management": "Tracing GC (Lazy)",
+    "is_keystone": true
   },
   {
     "name": "Erlang",
@@ -237,7 +279,10 @@
     "philosophy": "Build systems that never stop. Erlang assumes failure is inevitable and provides the tools to isolate and recover from it without downtime.",
     "mental_model": "Think in terms of a swarm of isolated processes communicating via mailboxes. If one fails, the supervisor restarts it; the system as a whole remains healthy.",
     "complexity_bias": "medium",
-    "safety_model": "runtime"
+    "safety_model": "runtime",
+    "typing_discipline": "Dynamic/Strong",
+    "memory_management": "Per-Process GC",
+    "is_keystone": true
   },
   {
     "name": "Go",
@@ -253,7 +298,10 @@
     "philosophy": "Simplicity is the key to scalability. Go aims to make large-scale software development manageable by keeping the language small and the tools powerful.",
     "mental_model": "Think in terms of pipes and workers. Independent tasks (goroutines) communicate through channels, and structural typing allows for flexible, decoupled design.",
     "complexity_bias": "low",
-    "safety_model": "runtime"
+    "safety_model": "runtime",
+    "typing_discipline": "Static/Strong",
+    "memory_management": "Tracing GC (Low-latency)",
+    "is_keystone": true
   },
   {
     "name": "Rust",
@@ -269,7 +317,10 @@
     "philosophy": "Safety and performance without compromise. Rust empowers everyone to build reliable and efficient software by making memory safety a first-class citizen.",
     "mental_model": "Think in terms of data ownership. The compiler tracks who 'owns' every piece of data, preventing data races and memory leaks at compile time.",
     "complexity_bias": "high",
-    "safety_model": "compile_time"
+    "safety_model": "compile_time",
+    "typing_discipline": "Static/Strong (Linear)",
+    "memory_management": "Ownership/Borrowing",
+    "is_keystone": true
   },
   {
     "name": "TypeScript",
@@ -285,7 +336,10 @@
     "philosophy": "JavaScript that scales. TypeScript provides the tooling and safety needed for massive codebases while maintaining full compatibility with the JS ecosystem.",
     "mental_model": "Think in terms of shapes and contracts. You are adding a layer of documentation and verification on top of JavaScript's dynamic nature.",
     "complexity_bias": "medium",
-    "safety_model": "compile_time"
+    "safety_model": "compile_time",
+    "typing_discipline": "Static/Structural",
+    "memory_management": "Tracing GC (via JS)",
+    "is_keystone": true
   },
   {
     "name": "SQL",
@@ -301,7 +355,10 @@
     "philosophy": "Describe WHAT you want, not HOW to get it. SQL abstracts the physical storage of data, allowing the user to focus on logical relationships.",
     "mental_model": "Think in terms of sets and relationships. You are asking questions about a collection of data and defining how tables relate to one another.",
     "complexity_bias": "low",
-    "safety_model": "hybrid"
+    "safety_model": "hybrid",
+    "typing_discipline": "Static/Strong",
+    "memory_management": "Managed-Store",
+    "is_keystone": true
   },
   {
     "name": "Bash",
@@ -317,6 +374,9 @@
     "philosophy": "The command line is the interface. Bash provides the tools to connect disparate programs into a powerful, automated workflow.",
     "mental_model": "Think in terms of streams of text. A program is a filter that takes an input stream and produces an output stream, which can be piped to the next tool.",
     "complexity_bias": "low",
-    "safety_model": "manual"
+    "safety_model": "manual",
+    "typing_discipline": "Untyped/String",
+    "memory_management": "Manual/Process-based",
+    "is_keystone": true
   }
 ]
