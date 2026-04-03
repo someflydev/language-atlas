@@ -29,6 +29,8 @@ def validate():
     ]
 
     complexity_bias_enum = ['low', 'medium', 'high']
+    # Canonical generations from CONCEPTS.md and eras.json
+    generation_enum = ['dawn', 'early', 'web1', 'cloud', 'renaissance', 'autonomic']
     # Based on prompt: safety_model, typing_discipline, memory_management ENUM: manual, runtime, compile_time, hybrid
     generic_enum = ['manual', 'runtime', 'compile_time', 'hybrid']
 
@@ -50,6 +52,9 @@ def validate():
         # Check enums
         if 'complexity_bias' in lang and lang.get('complexity_bias') not in complexity_bias_enum:
             errors.append(f"Language '{name}': 'complexity_bias' must be one of {complexity_bias_enum}, got '{lang.get('complexity_bias')}'")
+
+        if 'generation' in lang and lang.get('generation') not in generation_enum:
+            errors.append(f"Language '{name}': 'generation' must be one of {generation_enum}, got '{lang.get('generation')}'")
 
         for key in ['safety_model', 'typing_discipline', 'memory_management']:
             if key in lang and lang.get(key) not in generic_enum:

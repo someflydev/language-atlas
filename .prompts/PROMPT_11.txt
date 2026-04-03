@@ -11,7 +11,7 @@ TASK:
 
 CONSTRAINTS & REQUIREMENTS:
 - The backend MUST use the `core/data_loader.py` utility which loads data from `data/languages.json`.
-- `index.html` should display a list or grid of all languages loaded from the data layer.
+- `index.html` should display a list or grid of all languages loaded from the data layer. Each item should at least show the name, year, cluster, and philosophy.
 - Static assets MUST be in `static/css/styles.css` and `static/js/`.
 - Jinja2 templates MUST be in `templates/`.
 

@@ -6,6 +6,7 @@ The "language-atlas" is designed for future learners in the AI era. Rather than 
 TASK:
 1. Update `data/learning_paths.json` with comprehensive path data.
 2. Define at least 4 "Learning Paths" (educational) and 2 "Industry Discovery Projects" (research-oriented).
+   - Use the standardized generations (`dawn` through `autonomic`) as a conceptual guide.
 3. Each entry in `data/learning_paths.json` should have:
    - `id`, `title`, `description`, `type` (learning_path or industry_discovery).
    - `target_audience`.
@@ -18,7 +19,7 @@ CONSTRAINTS & REQUIREMENTS:
 - Example Industry Project: "FinTech Performance & Safety" (C++ -> Rust). Rationale: Explore the high-stakes shift from legacy HFT systems to modern memory-safe alternatives.
 - Example Industry Project: "The Space-Grade Constraint" (Ada -> C -> Zig). Rationale: Research why safety-critical systems prioritize determinism and what modern systems languages offer.
 - The JSON structure must be flat and explicit.
-- Integrate the UI using the same HTMX + Jinja2 stack. The UI should render the path clearly, linking to the relevant language profiles or concept docs.
+- Integrate the UI using the same HTMX + Jinja2 stack. The UI should render the path clearly, linking to the relevant language profiles (in `docs/LANGUAGE_PROFILES/`) or concept docs.
 - Do NOT use Mermaid diagrams; rely on clean HTML/CSS to show the progression.
 
 COMMIT BEHAVIOR:

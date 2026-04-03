@@ -4,7 +4,8 @@ CONTEXT:
 The "language-atlas" has a foundational FastAPI + HTMX web UI. Users need the ability to filter the massive list of languages and conceptually compare them side-by-side, all without relying on heavy client-side JavaScript.
 
 TASK:
-1. Update `app.py` to add endpoints for filtering languages (by `cluster`, `generation`, or `paradigms`) and for comparing two languages.
+1. Update `app.py` to add endpoints for filtering languages (by `cluster`, `generation`, or `paradigms`) and for comparing two languages. 
+   - Note: Canonical generations in the data are: `dawn`, `early`, `web1`, `cloud`, `renaissance`, `autonomic`.
 2. Update the Jinja2 templates to include a filtering sidebar or top-bar.
 3. Update `static/css/styles.css` to handle the new layout requirements for comparison and filtering.
 4. Create a new template `templates/compare.html` or a comparison partial that HTMX can swap into the DOM.
