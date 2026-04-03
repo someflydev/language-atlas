@@ -1,0 +1,34 @@
+# ALGOL 60: The Blueprint of Structure
+
+## Overview
+ALGOL 60 (Algorithmic Language 1960) is perhaps the most influential language that is rarely used today. It established the "ALGOL style" of programming—structured, block-oriented, and logically consistent—which became the template for nearly all imperative languages that followed.
+
+## Historical Context
+ALGOL 60 was the result of an international collaboration between American and European computer scientists (including John Backus and Peter Naur) to create a universal, machine-independent language for describing algorithms. It reacted against the "ad-hoc" feel of early FORTRAN, seeking a formal, mathematical foundation for programming. It was also the first language to be described using Backus-Naur Form (BNF).
+
+## Mental Model
+To understand ALGOL 60, you must **think in nested scopes**. A program is not a flat list of instructions; it is a hierarchy of blocks, each defining its own world of variables and logic.
+
+Your brain must be wired to:
+1. **Respect the Block:** Understand that variables have a strictly defined lifespan and visibility based on their position in the code's hierarchy.
+2. **Value Lexical Scoping:** Variables are resolved by looking at the physical structure of the code, not the order of execution.
+3. **Formalize Intent:** Approach programming as the act of documenting an algorithm clearly and precisely, as if for publication in a scientific journal.
+
+## Key Innovations
+- **Block Structure:** The use of `begin` and `end` (or `{` and `}`) to group statements and define local scopes.
+- **Lexical Scoping:** Ensuring that variable names are resolved based on the nested structure of the source code.
+- **Recursion:** ALGOL 60 was one of the first imperative languages to support recursive procedure calls natively.
+- **BNF (Backus-Naur Form):** A formal notation for describing language syntax, which revolutionized compiler design.
+
+## Tradeoffs & Criticisms
+- **Lack of Standard I/O:** The original specification intentionally omitted I/O to remain machine-independent, which made it difficult to write "useful" programs without proprietary extensions.
+- **Call-by-Name:** A complex and often confusing parameter-passing mechanism (thunks) that proved difficult to implement efficiently and was eventually replaced by call-by-value/reference in later languages.
+- **Academic Bias:** Its focus on formal purity over practical machine constraints limited its adoption in industry compared to COBOL and FORTRAN.
+
+## Legacy
+ALGOL 60 is the direct ancestor of Pascal, C, C++, and Java. Every time you use a curly brace to start a new block or rely on a variable being local to a function, you are using the legacy of ALGOL 60. It transformed programming from a craft of machine-tricks into a rigorous engineering discipline.
+
+## AI-Assisted Discovery Missions
+1. "Explain the 'Call-by-Name' mechanism in ALGOL 60 and why it was eventually abandoned in favor of Call-by-Value."
+2. "Analyze how ALGOL 60's block structure influenced the design of lexical scoping in modern languages like JavaScript and Python."
+3. "Describe the significance of the ALGOL 60 Report and how it set the standard for formal language specifications."

@@ -1,0 +1,33 @@
+# C: The Portable Assembly
+
+## Overview
+C is the industry-standard systems programming language, providing a thin, transparent abstraction over computer hardware. It is the "lingua franca" of computing, serving as the foundation for operating systems, compilers, and high-performance applications.
+
+## Historical Context
+Emerging from Bell Labs in 1972, C was created by Dennis Ritchie as a successor to B (which was a simplified version of BCPL). It was born out of the necessity to rewrite the Unix operating system in a high-level language that was still efficient enough for systems work. C reacted against the complexity of PL/I and the machine-specificity of assembly, seeking a middle ground that offered portability without sacrificing control.
+
+## Mental Model
+To be effective in C, you must **think in terms of memory addresses and bytes**. You are not manipulating "objects" or "variables" in an abstract sense; you are orchestrating the movement and transformation of bits across a flat, linear memory space. 
+
+Your brain must be wired to:
+1. **Explicitly track lifetimes:** You are the garbage collector. You must know exactly when a piece of memory is allocated and when it must be freed.
+2. **Visualize the stack and heap:** You must distinguish between local variables that vanish on return and persistent data that survives function calls.
+3. **Respect the pointer:** Understand that a variable is often just a signpost to another location. Dereferencing is an act of trust in your own logic.
+
+## Key Innovations
+- **Pointers and Pointer Arithmetic:** The ability to treat memory addresses as first-class values.
+- **Typed Memory:** Providing a way to interpret raw bytes as specific data types (ints, floats, structs) without hidden runtime overhead.
+- **The Standard Library:** A portable interface for I/O and string manipulation that allowed C code to run on vastly different hardware architectures.
+
+## Tradeoffs & Criticisms
+- **Manual Memory Management:** The primary source of "use-after-free" and "buffer overflow" vulnerabilities.
+- **Weak Typing:** The ability to cast pointers indiscriminately can lead to silent data corruption.
+- **Lack of Modern Abstractions:** No native support for objects, namespaces, or high-level concurrency, often leading to "boilerplate" code in large systems.
+
+## Legacy
+C's legacy is the modern digital world. Almost every major operating system (Linux, macOS, Windows) and virtually all high-performance software (databases, browsers, game engines) are either written in C or depend on libraries written in it. It defined the "C-style" syntax used by Java, JavaScript, Python, and countless others.
+
+## AI-Assisted Discovery Missions
+1. "Explain the memory layout of a C program (stack, heap, data, text segments) and how pointer arithmetic interacts with these boundaries."
+2. "Analyze the security implications of C's string handling (null-termination) and propose modern C idioms to mitigate buffer overflows."
+3. "Trace the evolution from B to C, focusing on why the addition of 'types' was the critical breakthrough for systems programming."
