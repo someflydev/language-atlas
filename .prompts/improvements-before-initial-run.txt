@@ -83,3 +83,13 @@ Notes / Followups:
 - Total language count increased to 60+ (19 keystone + 43 expansion).
 - Keystone profiles (PROMPT_06) increased from 10 to 15 to cover foundational shifts (ALGOL, Smalltalk, ML, Prolog, SQL).
 ---
+
+---
+Round: 7
+Timestamp: 2026-04-02T15:45:00Z
+Summary: Hardened paradigm constraints to ensure 100% coverage.
+Changes Applied:
+- PROMPT_01.txt, PROMPT_05.txt :: Changed 'at least' to 'ALL' for paradigms and listed all 14 verbatim :: Constraint Hardening :: PF-022
+Notes / Followups:
+- This ensures that the documentation and data models do not omit any specified paradigms during generation.
+---

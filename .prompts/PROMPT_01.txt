@@ -17,6 +17,8 @@ TASK:
 CONSTRAINTS & REQUIREMENTS:
 - `data/languages.json` MUST include the following 19 KEYSTONE languages in this first pass: 
   FORTRAN, ALGOL 60, Lisp, COBOL, SIMULA 67, C, Smalltalk, ML, C++, Java, JavaScript, Python, Ruby, Haskell, Erlang, Go, Rust, TypeScript, SQL, Bash.
+- `data/paradigms.json` MUST contain the following 14 paradigms:
+  Procedural, Object-Oriented, Functional, Logic, Array/Vector, Concatenative, Data-driven, Actor-model, Reactive, Aspect-Oriented, Event-Driven, Generic, Constraint, and Metaprogramming.
 - Each entry in `data/languages.json` MUST contain the exact keys:
   `name`, `year`, `creators` (list), `paradigms` (list), `cluster` (e.g., systems, frontend, scripting), `generation` (early, web1, cloud, modern), `primary_use_cases`, `key_innovations`, `influenced_by` (list), `influenced` (list), `philosophy` (deep, non-generic string), `mental_model` (crucial: explain how the programmer must think), `complexity_bias` (low/medium/high), `safety_model` (manual/runtime/compile_time/hybrid).
 - All files must be flat, explicit JSON.

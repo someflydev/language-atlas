@@ -8,9 +8,9 @@ TASK:
 2. Create `docs/PARADIGM_MATRIX.md`: A markdown table/matrix comparing languages against paradigms, highlighting purity vs. multi-paradigm pragmatism.
 
 CONSTRAINTS & REQUIREMENTS:
-- Cover at least the following paradigms: Procedural, Object-Oriented (both Alan Kay style and C++/Java style), Functional (pure vs impure), Logic, Array/Vector, Concatenative, Data-driven, Actor-model, Reactive, Aspect-Oriented, Event-Driven, Generic, Constraint, and Metaprogramming.
-- `docs/PARADIGMS.md` must explain the *tradeoffs* and the *historical crisis* that led to each paradigm's creation (e.g., OOP managing state complexity in UI, Functional managing concurrency and side-effects, Reactive managing asynchronous streams).
-- `docs/PARADIGM_MATRIX.md` must cross-reference at least 30 major languages from the atlas (e.g., Java, Haskell, Rust, C, Lisp, Erlang, Smalltalk, Prolog, APL) against these paradigms, noting whether they are "Primary", "Supported", or "Anti-pattern".
+- Cover ALL of the following paradigms: Procedural, Object-Oriented, Functional, Logic, Array/Vector, Concatenative, Data-driven, Actor-model, Reactive, Aspect-Oriented, Event-Driven, Generic, Constraint, and Metaprogramming.
+- `docs/PARADIGMS.md` must explain the *tradeoffs* and the *historical crisis* that led to each paradigm's creation.
+- `docs/PARADIGM_MATRIX.md` must cross-reference at least 30 major languages from the atlas (e.g., Java, Haskell, Rust, C, Lisp, Erlang, Smalltalk, Prolog, APL) against ALL 14 paradigms, noting whether they are "Primary", "Supported", or "Anti-pattern".
 - DO NOT embed Mermaid diagrams. If explaining paradigm crossovers requires a graph, describe it in plain text (e.g., "Diagram Required: Paradigm crossover graph showing OOP and FP merging in modern multi-paradigm languages like Scala and Rust").
 - Write in a teaching-oriented narrative suitable for future learners.
 
