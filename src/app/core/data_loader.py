@@ -18,14 +18,49 @@ class DataLoader:
         self.people = self._load_json('people.json')
 
     def _load_json(self, filename):
-        path = os.path.join(self.data_dir, filename)
-        if not os.path.exists(path):
-            return []
-        with open(path, 'r') as f:
+        dataset_name = filename.replace('.json', '')
+        result = None
+
+        # 1. Try to load from <dataset>.json
+        file_path = os.path.join(self.data_dir, filename)
+        if os.path.isfile(file_path):
             try:
-                return json.load(f)
-            except json.JSONDecodeError:
-                return []
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    result = json.load(f)
+            except (json.JSONDecodeError, IOError):
+                pass
+
+        # 2. Try to load from <dataset>/ directory
+        dir_path = os.path.join(self.data_dir, dataset_name)
+        if os.path.isdir(dir_path):
+            json_files = []
+            for root, _, files in os.walk(dir_path):
+                for f in files:
+                    if f.endswith('.json'):
+                        json_files.append(os.path.join(root, f))
+            
+            # Sort alphabetically by filename as requested
+            json_files.sort(key=lambda x: os.path.basename(x))
+            
+            for f_path in json_files:
+                try:
+                    with open(f_path, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        if result is None:
+                            result = data
+                        else:
+                            result = self._merge_data(result, data)
+                except (json.JSONDecodeError, IOError):
+                    continue
+
+        return result if result is not None else []
+
+    def _merge_data(self, base, new_data):
+        if isinstance(base, list) and isinstance(new_data, list):
+            base.extend(new_data)
+        elif isinstance(base, dict) and isinstance(new_data, dict):
+            base.update(new_data)
+        return base
 
     def get_all_languages(self, filter_gen=None, filter_cluster=None):
         langs = self.languages
