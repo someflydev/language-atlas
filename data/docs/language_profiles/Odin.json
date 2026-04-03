@@ -1,0 +1,15 @@
+{
+  "title": "Odin: Data-Oriented Systems Programming",
+  "overview": "Odin is a general-purpose systems programming language designed for high performance, clarity, and simplicity. It is built to be a modern alternative to C, specifically optimized for \"Data-Oriented Design\" (DOD).",
+  "historical_context": "Created by Ginger Bill in 2016, Odin was born out of frustration with the complexity of C++ and the \"black magic\" of modern compilers. It draws inspiration from Pascal, C, and Go, aiming to provide a \"joyful\" experience for systems and graphics programmers.",
+  "mental_model": "To program in Odin, you must **focus on the layout of your data**. Instead of thinking in hierarchies or objects, you think about how data is packed in memory and how it can be transformed efficiently by the CPU.\n\nYour brain must be wired to:\n1. **Prioritize Data over Logic:** The structure of your data dictates the structure of your code.\n2. **Explicit is Better than Implicit:** Odin avoids \"hidden\" control flow (like exceptions or operator overloading) and \"hidden\" memory allocations.\n3. **Embrace the Context:** Odin uses a unique \"context system\" to pass around allocators and loggers without cluttering function signatures.",
+  "key_innovations": [
+    "**Data-Oriented Design (DOD) Support:** First-class support for AOSOA (Array of Structures of Arrays) and other performance-oriented layouts.",
+    "**Context System:** A thread-local pointer that provides a standard way to handle memory allocation and error reporting across libraries.",
+    "**Procedure Overloading:** Allowing the same name for different procedures, resolved based on argument types.",
+    "**Explicit Array Programming:** Built-in syntax for operating on arrays and slices as primary units of data."
+  ],
+  "tradeoffs": "- **Manual Memory Management:** While Odin provides powerful allocators, the programmer is still responsible for managing the lifetime of their data, which can lead to bugs.\n- **Young Ecosystem:** Compared to C++ or Rust, Odin has a smaller selection of third-party libraries and tools.\n- **Niche Appeal:** Its focus on DOD and graphics programming makes it highly specialized, which may limit its adoption for general application development.",
+  "legacy": "Odin is quickly becoming a favorite in the high-performance graphics and game development communities. It serves as a proof-of-concept that a systems language can be both low-level and pleasant to use without the baggage of 40 years of legacy syntax.",
+  "ai_assisted_discovery_missions": "1. \"How does Odin's 'Context System' solve the problem of dependency injection without using global state or complex object-oriented patterns?\"\n2. \"Compare 'Data-Oriented Design' in Odin with 'Object-Oriented Programming' in C++, focusing on cache locality and CPU performance.\"\n3. \"Demonstrate how Odin handles custom memory allocators and why this is critical for game engine development.\""
+}

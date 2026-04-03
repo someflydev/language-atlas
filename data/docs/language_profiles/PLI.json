@@ -1,0 +1,15 @@
+{
+  "title": "PL/I: The Universal Mainframe Language",
+  "overview": "PL/I (Programming Language One) is a procedural, imperative computer programming language designed for scientific, engineering, business, and system programming uses. It was IBM's ambitious attempt to create a single language that could replace all others on the mainframe.",
+  "historical_context": "Introduced by IBM in 1964 as part of the System/360 rollout, PL/I was designed by a committee to combine the features of FORTRAN (science), COBOL (business), and ALGOL 60 (structured programming). It aimed to unify the fragmented world of 1960s computing into a single, comprehensive standard.",
+  "mental_model": "To program in PL/I, you must **think in terms of a massive, all-encompassing toolkit**. You have every feature at your disposal, from low-level bit manipulation to high-level record processing and multitasking.\n\nYour brain must be wired to:\n1. **Navigate Complexity:** You must manage a vast array of data types, storage classes, and control structures.\n2. **Handle Exceptions Gracefully:** Use the advanced \"ON-unit\" system to define how the program should respond to specific error conditions or system events.\n3. **Think in \"Divisions\" (Conceptually):** While not as strict as COBOL, you still organize your code around the different needs of data definition and procedural logic.",
+  "key_innovations": [
+    "**Exception Handling (ON-units):** A sophisticated system for trapping and handling runtime errors, a precursor to modern try/catch blocks.",
+    "**Multitasking Support:** One of the first high-level languages to provide built-in primitives for concurrent execution.",
+    "**Pointer Variables:** Allowing for direct memory manipulation within a structured, high-level language.",
+    "**Extensive Data Types:** Supporting everything from complex numbers to fixed-point decimals and varying-length strings."
+  ],
+  "tradeoffs": "- **Excessive Complexity:** The language was so large that it was difficult for any single programmer to master, and compilers were notoriously slow and difficult to build.\n- **\"The Kitchen Sink\" Problem:** By trying to be everything to everyone, PL/I often felt cluttered and lacked the elegant simplicity of ALGOL or the focused efficiency of FORTRAN.\n- **Mainframe Lock-in:** Despite its power, PL/I remained primarily tied to the IBM mainframe ecosystem, limiting its adoption in the emerging world of minicomputers and PCs.",
+  "legacy": "PL/I was a monumental engineering achievement. It influenced the design of Pascal, C, and Ada, and it remains in use today in legacy mainframe environments, particularly in the banking and insurance industries.",
+  "ai_assisted_discovery_missions": "1. \"How did PL/I's 'ON-unit' system pave the way for modern exception handling in languages like C++ and Java?\"\n2. \"Analyze IBM's 'Universal Language' strategy\u2014why did PL/I fail to replace COBOL and FORTRAN despite its superior feature set?\"\n3. \"Explore PL/I's multitasking primitives\u2014how did they allow programmers to handle concurrent tasks on early mainframe systems?\""
+}
