@@ -151,6 +151,12 @@ class DataLoader:
     def get_all_eras(self):
         return self.eras
 
+    def get_all_people(self):
+        return self.people
+
+    def get_all_influences(self):
+        return self.influences
+
     def get_all_clusters(self):
         clusters = set()
         for lang in self.languages:
