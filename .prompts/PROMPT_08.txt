@@ -1,11 +1,11 @@
 You are an expert CLI tool developer. Your task is to build a Python CLI to explore the "language-atlas" project.
 
 CONTEXT:
-The "language-atlas" project contains a rich JSON data model and Markdown narratives. Before building a web UI, we need a simple, zero-dependency (or minimal dependency) Python CLI to query and explore the historical data.
+The "language-atlas" project contains a rich JSON data model in `data/languages.json` (and other JSON files in `data/`) and Markdown narratives in `docs/`. Before building a web UI, we need a simple, zero-dependency (or minimal dependency) Python CLI to query and explore the historical data.
 
 TASK:
 1. Create a `core/` directory.
-2. Create `core/data_loader.py`: A Python utility to load and parse the `data/*.json` files into consistent objects.
+2. Create `core/data_loader.py`: A Python utility to load and parse the `data/*.json` files into consistent objects. The primary data is in `data/languages.json`, which follows a schema including keys like `name`, `paradigms`, `mental_model`, `philosophy`, `influenced_by`, and `influenced`.
 3. Create `cli.py` in the root directory, importing and using `core/data_loader.py`.
 4. Implement a Command Line Interface that allows a user to explore languages, paradigms, timelines, and influences.
 

@@ -1,7 +1,7 @@
 You are a programming language historian. Your task is to complete the "language-atlas" dataset.
 
 CONTEXT:
-The schema and most core languages are already established in `data/languages.json`. You must now add the final set of languages, focusing on Web, Enterprise, Data Science, and Infrastructure.
+The "language-atlas" is a deeply structured system mapping programming language evolution. The schema and core languages (Systems/Functional) are already established in `data/languages.json`. You must now add the final set of languages, focusing on Web, Enterprise, Data Science, and Infrastructure.
 
 TASK:
 1. Update `data/languages.json` to include the following 18 languages.
@@ -11,7 +11,8 @@ PHP, Elm, Svelte, Dart, ReasonML, ReScript, C#, VB, VB.NET, R, MATLAB, Maple, Ob
 
 CONSTRAINTS:
 - CRITICAL: DO NOT OMIT any languages in this list.
-- Maintain the exact keys for every entry: `name`, `year`, `creators`, `paradigms`, `cluster`, `generation`, `primary_use_cases`, `key_innovations`, `influenced_by`, `influenced`, `philosophy`, `mental_model`, `complexity_bias`, `safety_model`.
+- Maintain the exact keys for every entry in `data/languages.json`:
+  `name`, `year`, `creators` (list), `paradigms` (list), `cluster` (e.g., systems, functional, frontend, scripting, data, infra, web, enterprise), `generation` (early, web1, cloud, modern), `primary_use_cases` (string), `key_innovations` (string), `influenced_by` (list of names), `influenced` (list of names), `philosophy` (deep, non-generic string), `mental_model` (crucial: explain how the programmer must think), `complexity_bias` (low/medium/high), `safety_model` (manual/runtime/compile_time/hybrid).
 - Ensure "influenced" and "influenced_by" relationships are cross-referenced correctly across the entire 50+ language set.
 - Keep the depth of "philosophy" and "mental_model" high; avoid generic summaries.
 

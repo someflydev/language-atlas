@@ -58,3 +58,15 @@ Notes / Followups:
 - Total prompt count increased to 16.
 - Sequential numbering (01-16) is restored and validated.
 ---
+
+---
+Round: 5
+Timestamp: 2026-04-02T15:00:00Z
+Summary: Hardened all prompt files for fresh-session reliability.
+Changes Applied:
+- PROMPT_02.txt, PROMPT_03.txt :: Added explicit JSON schema definitions :: Self-Containment :: PF-016
+- PROMPT_06.txt, PROMPT_08.txt, PROMPT_09.txt :: Added data source (data/languages.json) and structure context :: Self-Containment :: PF-017
+- PROMPT_11.txt, PROMPT_16.txt :: Added explicit file path references and core utility context :: Self-Containment :: PF-018
+Notes / Followups:
+- All 16 prompts now provide sufficient local context to be run independently of session history.
+---

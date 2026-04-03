@@ -10,12 +10,10 @@ TASK:
 4. Create a `static/` directory with `static/css/styles.css` and `static/js/` (include the HTMX library via CDN in the template or download it).
 
 CONSTRAINTS & REQUIREMENTS:
-- The backend MUST use the `core/data_loader.py` established previously.
-- `index.html` should display a list or grid of all languages loaded from `data/languages.json`.
-- Minimal JavaScript: Use HTMX attributes (`hx-get`, `hx-target`) for any dynamic loading (e.g., clicking a language loads its details without a full page refresh).
-- The design should be semantic HTML, visually clean, relying on CSS rather than JS for layout.
-- Put all project styling in `static/css/styles.css`.
-- Ensure the app can be started cleanly in a fresh environment via `uvicorn app:app --reload`.
+- The backend MUST use the `core/data_loader.py` utility which loads data from `data/languages.json`.
+- `index.html` should display a list or grid of all languages loaded from the data layer.
+- Static assets MUST be in `static/css/styles.css` and `static/js/`.
+- Jinja2 templates MUST be in `templates/`.
 
 COMMIT BEHAVIOR:
 - Ensure the code is self-contained and handles potential missing data gracefully.

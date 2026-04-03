@@ -1,7 +1,7 @@
 You are an expert developer and technical biographer. Your task is to generate the individual language profile markdown files for the "language-atlas" project.
 
 CONTEXT:
-The "language-atlas" maps the history and philosophy of programming languages. While we have a JSON data layer, we also need human-readable, rich narrative profiles for the most pivotal languages.
+The "language-atlas" maps the history and philosophy of programming languages. A canonical JSON data layer exists in `data/languages.json` containing metadata for over 50 languages. While we have this data layer, we also need human-readable, rich narrative profiles for the most pivotal languages.
 
 TASK:
 1. Create a directory `docs/LANGUAGE_PROFILES/`.
