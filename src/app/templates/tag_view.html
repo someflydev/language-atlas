@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-8 px-4">
+    <nav class="mb-12">
+        <a href="/" class="group inline-flex items-center text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors">
+            <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            BACK TO ATLAS
+        </a>
+    </nav>
+
+    <header class="mb-16">
+        <div class="flex items-center space-x-4 mb-4">
+            <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-black uppercase tracking-widest">{{ type }}</span>
+        </div>
+        <h1 class="text-6xl font-black text-slate-900 tracking-tighter mb-6">{{ info.name }}</h1>
+        <p class="text-2xl text-slate-500 font-medium leading-relaxed max-w-3xl">
+            {{ info.description }}
+        </p>
+    </header>
+
+    <div class="border-t border-slate-100 pt-12">
+        <div class="flex flex-wrap items-center justify-between gap-6 mb-12">
+            <h2 class="text-xs font-black uppercase tracking-widest text-slate-400">Languages in this {{ type }} ({{ languages|length }})</h2>
+            
+            <form action="" method="get" class="flex items-center space-x-4">
+                <span class="text-xs font-black uppercase tracking-widest text-slate-400">Sort:</span>
+                <div class="flex bg-slate-100 p-1 rounded-lg shadow-inner">
+                    <input type="radio" name="sort" value="name" id="sort-name" class="hidden" {% if current_sort == 'name' %}checked{% endif %} onchange="this.form.submit()">
+                    <label for="sort-name" class="px-6 py-2 text-xs font-bold uppercase rounded-md cursor-pointer transition-all {% if current_sort == 'name' %}bg-white shadow-sm text-blue-600{% else %}text-slate-500 hover:text-slate-700{% endif %}">
+                        Name
+                    </label>
+                    
+                    <input type="radio" name="sort" value="year" id="sort-year" class="hidden" {% if current_sort == 'year' %}checked{% endif %} onchange="this.form.submit()">
+                    <label for="sort-year" class="px-6 py-2 text-xs font-bold uppercase rounded-md cursor-pointer transition-all {% if current_sort == 'year' %}bg-white shadow-sm text-blue-600{% else %}text-slate-500 hover:text-slate-700{% endif %}">
+                        Year
+                    </label>
+                </div>
+            </form>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for lang in languages %}
+            <div class="card-container group relative flex flex-col h-full">
+                <!-- The Card Content -->
+                <article class="card h-full flex flex-col p-6 bg-white rounded-2xl border border-slate-100 shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:border-blue-100 group-hover:-translate-y-1 relative">
+                    <header class="mb-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">{{ lang.display_name }}</h3>
+                            <span class="text-xs font-bold text-slate-400">{{ lang.year }}</span>
+                        </div>
+                        <!-- Tags: Higher z-index and explicit pointer events -->
+                        <div class="flex flex-wrap gap-2 relative z-30">
+                            {% if lang.paradigms %}
+                            <a href="/paradigm/{{ lang.paradigms[0] }}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-1 rounded hover:bg-blue-100 transition-colors pointer-events-auto relative">
+                                {{ lang.paradigms[0] }}
+                            </a>
+                            {% endif %}
+                            <a href="/cluster/{{ lang.cluster }}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black uppercase tracking-wider text-slate-400 border border-slate-100 px-2 py-1 rounded hover:bg-slate-50 transition-colors badge cluster-{{ lang.cluster|lower }} pointer-events-auto relative">
+                                {{ lang.cluster }}
+                            </a>
+                        </div>
+                    </header>
+                    <p class="text-sm text-slate-500 leading-relaxed line-clamp-3 italic mb-4">
+                        "{{ lang.philosophy }}"
+                    </p>
+                    <!-- Card-level link overlay: Inside article, lower z-index than tags -->
+                    <a href="/language/{{ lang.name }}" class="absolute inset-0 z-10 rounded-2xl cursor-pointer" aria-label="View {{ lang.display_name }} profile"></a>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="/" method="get" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 mb-12">
+    <!-- Cluster Filters -->
+    <div class="mb-8">
+        <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Filter by Cluster</label>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {% for cluster in available_clusters %}
+            <label class="flex items-center space-x-3 cursor-pointer group">
+                <input type="checkbox" name="clusters" value="{{ cluster }}" 
+                       class="w-5 h-5 rounded-lg border-slate-300 text-blue-600 focus:ring-blue-500 transition-all cursor-pointer"
+                       {% if cluster in selected_clusters %}checked{% endif %}
+                       onchange="this.form.submit()">
+                <span class="text-sm font-bold text-slate-500 group-hover:text-slate-900 transition-colors">{{ cluster }}</span>
+            </label>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Paradigm Filters -->
+    <div class="mb-10">
+        <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Filter by Paradigm</label>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {% for paradigm in available_paradigms %}
+            <label class="flex items-center space-x-3 cursor-pointer group">
+                <input type="checkbox" name="paradigms" value="{{ paradigm }}" 
+                       class="w-5 h-5 rounded-lg border-slate-300 text-blue-600 focus:ring-blue-500 transition-all cursor-pointer"
+                       {% if paradigm in selected_paradigms %}checked{% endif %}
+                       onchange="this.form.submit()">
+                <span class="text-sm font-bold text-slate-500 group-hover:text-slate-900 transition-colors">{{ paradigm }}</span>
+            </label>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Year Range Slider -->
+    <div class="mb-10">
+        <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-6">Year Range: <span id="year-range-label" class="text-blue-600 font-bold ml-2">{{ min_year }} - {{ max_year }}</span></label>
+        <div class="relative h-2 bg-slate-100 rounded-full mx-2">
+            <div id="slider-track" class="absolute h-full bg-blue-500 rounded-full opacity-50"></div>
+            <input type="range" name="min_year" id="min_year" min="{{ min_bound }}" max="{{ max_bound }}" value="{{ min_year }}" 
+                   class="absolute pointer-events-none appearance-none w-full h-2 bg-transparent focus:outline-none slider-thumb z-20"
+                   onchange="this.form.submit()">
+            <input type="range" name="max_year" id="max_year" min="{{ min_bound }}" max="{{ max_bound }}" value="{{ max_year }}" 
+                   class="absolute pointer-events-none appearance-none w-full h-2 bg-transparent focus:outline-none slider-thumb z-30"
+                   onchange="this.form.submit()">
+        </div>
+        <div class="flex justify-between mt-6 px-1">
+            <span class="text-xs font-bold text-slate-400">{{ min_bound }}</span>
+            <span class="text-xs font-bold text-slate-400">{{ max_bound }}</span>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-6 pt-6 border-t border-slate-100">
+        <!-- Sort Control -->
+        <div class="flex items-center space-x-4">
+            <span class="text-xs font-black uppercase tracking-widest text-slate-400">Sort:</span>
+            <div class="flex bg-slate-100 p-1 rounded-lg">
+                <input type="radio" name="sort" value="name" id="sort-name" class="hidden" {% if current_sort == 'name' %}checked{% endif %} onchange="this.form.submit()">
+                <label for="sort-name" class="px-6 py-2 text-xs font-bold uppercase rounded-md cursor-pointer transition-all {% if current_sort == 'name' %}bg-white shadow-sm text-blue-600{% else %}text-slate-500 hover:text-slate-700{% endif %}">
+                    Name
+                </label>
+                
+                <input type="radio" name="sort" value="year" id="sort-year" class="hidden" {% if current_sort == 'year' %}checked{% endif %} onchange="this.form.submit()">
+                <label for="sort-year" class="px-6 py-2 text-xs font-bold uppercase rounded-md cursor-pointer transition-all {% if current_sort == 'year' %}bg-white shadow-sm text-blue-600{% else %}text-slate-500 hover:text-slate-700{% endif %}">
+                    Year
+                </label>
+            </div>
+        </div>
+        
+        <!-- Actions -->
+        <div class="flex items-center space-x-4">
+            <a href="/" class="text-xs font-bold uppercase text-slate-400 hover:text-slate-600 transition-colors">Reset All Filters</a>
+        </div>
+    </div>
+</form>
+
+<script>
+    const minInput = document.getElementById('min_year');
+    const maxInput = document.getElementById('max_year');
+    const track = document.getElementById('slider-track');
+    const label = document.getElementById('year-range-label');
+    const minBound = {{ min_bound }};
+    const maxBound = {{ max_bound }};
+
+    function updateSlider() {
+        const minVal = parseInt(minInput.value);
+        const maxVal = parseInt(maxInput.value);
+
+        if (minVal > maxVal) {
+            minInput.value = maxVal;
+        }
+
+        const minPercent = ((minInput.value - minBound) / (maxBound - minBound)) * 100;
+        const maxPercent = ((maxInput.value - minBound) / (maxBound - minBound)) * 100;
+
+        track.style.left = minPercent + '%';
+        track.style.width = (maxPercent - minPercent) + '%';
+        label.textContent = `${minInput.value} - ${maxInput.value}`;
+    }
+
+    minInput.addEventListener('input', updateSlider);
+    maxInput.addEventListener('input', updateSlider);
+    
+    // Also trigger update on page load
+    updateSlider();
+</script>
+
+<style>
+    .slider-thumb::-webkit-slider-thumb {
+        pointer-events: auto;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #3b82f6;
+        border: 4px solid white;
+        border-radius: 50%;
+        box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        cursor: pointer;
+        transition: transform 0.1s;
+    }
+    .slider-thumb::-webkit-slider-thumb:hover {
+        transform: scale(1.1);
+    }
+</style>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for lang in languages %}
+    <div class="card-container group relative flex flex-col h-full">
+        <!-- The Card Content -->
+        <article class="card h-full flex flex-col p-6 bg-white rounded-2xl border border-slate-100 shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:border-blue-100 group-hover:-translate-y-1 relative">
+            <header class="mb-4">
+                <div class="flex justify-between items-start mb-3">
+                    <h2 class="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">{{ lang.display_name }}</h2>
+                    <span class="text-xs font-bold text-slate-400">{{ lang.year }}</span>
+                </div>
+                <!-- Tags: Higher z-index and explicit pointer events -->
+                <div class="flex flex-wrap gap-2 relative z-30">
+                    {% if lang.paradigms %}
+                    <a href="/paradigm/{{ lang.paradigms[0] }}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-1 rounded hover:bg-blue-100 transition-colors pointer-events-auto relative">
+                        {{ lang.paradigms[0] }}
+                    </a>
+                    {% endif %}
+                    <a href="/cluster/{{ lang.cluster }}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black uppercase tracking-wider text-slate-400 border border-slate-100 px-2 py-1 rounded hover:bg-slate-50 transition-colors badge cluster-{{ lang.cluster|lower }} pointer-events-auto relative">
+                        {{ lang.cluster }}
+                    </a>
+                </div>
+            </header>
+            <p class="text-sm text-slate-500 leading-relaxed line-clamp-3 italic mb-4">
+                "{{ lang.philosophy }}"
+            </p>
+            <!-- Card-level link overlay: Inside article, lower z-index than tags -->
+            <a href="/language/{{ lang.name }}" class="absolute inset-0 z-10 rounded-2xl cursor-pointer" aria-label="View {{ lang.display_name }} profile"></a>
+        </article>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
