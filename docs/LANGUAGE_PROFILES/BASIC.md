@@ -1,0 +1,33 @@
+# BASIC: The Gateway to Computation
+
+## Overview
+BASIC (Beginner's All-purpose Symbolic Instruction Code) was the first language to democratize computing. Designed for simplicity and interactivity, it moved the computer out of the hands of white-coated specialists and onto the desks of students, hobbyists, and the first generation of home computer users.
+
+## Historical Context
+Created in 1964 by John Kemeny and Thomas Kurtz at Dartmouth College, BASIC was a reaction to the batch-processing era of FORTRAN and COBOL. At the time, computers were "scary" machines that required punched cards and hours of waiting. BASIC utilized the emerging technology of time-sharing to provide an interactive, line-by-line experience. It was the "lingua franca" of the 1970s and 80s home computer revolution, reacting to the high barrier of entry for programming by providing a vocabulary that felt like simple English.
+
+## Mental Model
+To be effective in BASIC, you must **think in terms of numbered steps and global state**. A program is a list of instructions that the computer follows in a linear path, with flow control managed by explicit jumps and simple, accessible variables.
+
+Your brain must be wired to:
+1. **Interactive Iteration:** Treat the program as a live conversation. You write a line, you `RUN` it, you see the result, and you fix it immediately.
+2. **The Line Number Logic:** Visualize your code as a physical list. Line numbers aren't just for order; they are the "addresses" for your `GOTO` and `GOSUB` jumps.
+3. **Global Simplicity:** Accept that state is everywhere. Variables are generally global and easily accessible, making small scripts fast to write but large programs difficult to manage.
+
+## Key Innovations
+- **Interactive Execution:** The "Read-Eval-Print Loop" (REPL) concept began here, allowing for immediate feedback.
+- **Line-Numbered Editing:** A simple way to manage code on early systems without sophisticated text editors.
+- **English-Like Keywords:** Used words like `PRINT`, `INPUT`, `LET`, and `NEXT` to make the code readable to novices.
+
+## Tradeoffs & Criticisms
+- **"GOTO" Spaghettification:** The reliance on line-number jumps led to code that was notoriously difficult to follow and maintain, famously criticized by Edsger Dijkstra.
+- **Lack of Structure:** Early BASIC lacked local variables and structured procedures, making it a "bad habit" for students learning formal computer science.
+- **Fragmentation:** Every home computer (Commodore 64, Apple II, BBC Micro) had its own slightly incompatible dialect of BASIC.
+
+## Legacy
+BASIC's legacy is the existence of the "programmer" as a common hobby. It evolved into Visual Basic, which powered enterprise software for decades, and its "simplicity first" philosophy can be seen in Python and the modern "low-code" movement. It proved that the power of the computer belonged to everyone, not just the experts.
+
+## AI-Assisted Discovery Missions
+1. "Trace the evolution of BASIC from Dartmouth to Microsoft's Altair BASIC, and how it shaped the early software industry."
+2. "Analyze Dijkstra's claim that 'the teaching of BASIC should be rated as a criminal offense' and how modern 'structured' BASICs addressed his concerns."
+3. "Explore how the interactive nature of BASIC influenced the design of modern notebooks like Jupyter."
