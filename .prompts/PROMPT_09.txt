@@ -8,9 +8,9 @@ TASK:
 2. Write a Python script `scripts/validate_data.py`.
 
 CONSTRAINTS & REQUIREMENTS:
-- The script must load `data/languages.json` and verify that EVERY language has the required keys: `name`, `year`, `creators`, `paradigms`, `cluster`, `generation`, `primary_use_cases`, `key_innovations`, `influenced_by`, `influenced`, `philosophy`, `mental_model`, `complexity_bias`, `safety_model`.
+- The script must load `data/languages.json` and verify that EVERY language has the required keys: `name`, `year`, `creators`, `paradigms`, `cluster`, `generation`, `primary_use_cases`, `key_innovations`, `influenced_by`, `influenced`, `philosophy`, `mental_model`, `complexity_bias`, `safety_model`, `typing_discipline`, `memory_management`, `is_keystone` (boolean).
 - `complexity_bias` ENUM: low, medium, high.
-- `safety_model` ENUM: manual, runtime, compile_time, hybrid.
+- `safety_model`, `typing_discipline`, `memory_management`, `is_keystone` (boolean) ENUM: manual, runtime, compile_time, hybrid.
 - The script must cross-reference `influenced_by` and `influenced` to ensure that referenced language names actually exist in the `data/languages.json` file.
 - The script should exit with code 0 if everything is valid, and code 1 with clear terminal output if errors are found.
 - Rely strictly on standard Python libraries (`json`, `sys`, `pathlib`).

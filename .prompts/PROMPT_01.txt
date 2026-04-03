@@ -20,7 +20,7 @@ CONSTRAINTS & REQUIREMENTS:
 - `data/paradigms.json` MUST contain the following 14 paradigms:
   Procedural, Object-Oriented, Functional, Logic, Array/Vector, Concatenative, Data-driven, Actor-model, Reactive, Aspect-Oriented, Event-Driven, Generic, Constraint, and Metaprogramming.
 - Each entry in `data/languages.json` MUST contain the exact keys:
-  `name`, `year`, `creators` (list), `paradigms` (list), `cluster` (e.g., systems, frontend, scripting), `generation` (early, web1, cloud, modern), `primary_use_cases`, `key_innovations`, `influenced_by` (list), `influenced` (list), `philosophy` (deep, non-generic string), `mental_model` (crucial: explain how the programmer must think), `complexity_bias` (low/medium/high), `safety_model` (manual/runtime/compile_time/hybrid).
+  `name`, `year`, `creators` (list), `paradigms` (list), `cluster` (e.g., systems, frontend, scripting), `generation` (early, web1, cloud, modern), `primary_use_cases`, `key_innovations`, `influenced_by` (list), `influenced` (list), `philosophy` (deep, non-generic string), `mental_model` (crucial: explain how the programmer must think), `complexity_bias` (low/medium/high), `safety_model`, `typing_discipline`, `memory_management`, `is_keystone` (boolean) (manual/runtime/compile_time/hybrid).
 - All files must be flat, explicit JSON.
 - Ensure the philosophy and mental models are historically accurate and philosophically rich.
 - DO NOT use placeholders.
