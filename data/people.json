@@ -1,0 +1,70 @@
+[
+  {
+    "name": "John Backus",
+    "contributions": ["FORTRAN", "ALGOL 60", "Backus-Naur Form (BNF)"]
+  },
+  {
+    "name": "John McCarthy",
+    "contributions": ["Lisp", "Garbage collection", "Time-sharing"]
+  },
+  {
+    "name": "Grace Hopper",
+    "contributions": ["COBOL", "FLOW-MATIC", "First compiler concepts"]
+  },
+  {
+    "name": "Dennis Ritchie",
+    "contributions": ["C", "Unix"]
+  },
+  {
+    "name": "Alan Kay",
+    "contributions": ["Smalltalk", "Object-oriented programming", "GUI concepts"]
+  },
+  {
+    "name": "Robin Milner",
+    "contributions": ["ML", "Hindley-Milner type system", "Pi-calculus"]
+  },
+  {
+    "name": "Bjarne Stroustrup",
+    "contributions": ["C++"]
+  },
+  {
+    "name": "James Gosling",
+    "contributions": ["Java", "Emacs (Gosling Emacs)"]
+  },
+  {
+    "name": "Brendan Eich",
+    "contributions": ["JavaScript"]
+  },
+  {
+    "name": "Guido van Rossum",
+    "contributions": ["Python"]
+  },
+  {
+    "name": "Yukihiro Matsumoto",
+    "contributions": ["Ruby"]
+  },
+  {
+    "name": "Philip Wadler",
+    "contributions": ["Haskell", "Monads in functional programming"]
+  },
+  {
+    "name": "Joe Armstrong",
+    "contributions": ["Erlang", "Fault-tolerant systems"]
+  },
+  {
+    "name": "Rob Pike",
+    "contributions": ["Go", "UTF-8", "Plan 9"]
+  },
+  {
+    "name": "Graydon Hoare",
+    "contributions": ["Rust"]
+  },
+  {
+    "name": "Anders Hejlsberg",
+    "contributions": ["TypeScript", "C#", "Turbo Pascal", "Delphi"]
+  },
+  {
+    "name": "Ken Thompson",
+    "contributions": ["Go", "B", "C", "Unix", "UTF-8"]
+  }
+]
