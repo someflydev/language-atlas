@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-width-4xl mx-auto py-8 px-4">
+    <nav class="mb-12">
+        <a href="/" class="group inline-flex items-center text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors">
+            <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            BACK TO ATLAS
+        </a>
+    </nav>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <!-- Sidebar Metadata -->
+        <aside class="lg:col-span-4 space-y-8 order-2 lg:order-1">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6">Vital Statistics</h3>
+                <dl class="space-y-6">
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Established</dt>
+                        <dd class="text-2xl font-black text-slate-900">{{ lang.year }}</dd>
+                    </div>
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Cluster</dt>
+                        <dd>
+                            <a href="/cluster/{{ lang.cluster }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black uppercase tracking-wide badge cluster-{{ lang.cluster|lower }} hover:opacity-80 transition-opacity">
+                                {{ lang.cluster }}
+                            </a>
+                        </dd>
+                    </div>
+                    {% if lang.creators %}
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Creators</dt>
+                        <dd class="text-slate-700 font-medium leading-relaxed">
+                            {{ lang.creators|join(", ") }}
+                        </dd>
+                    </div>
+                    {% endif %}
+                    {% if lang.paradigms %}
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Paradigms</dt>
+                        <dd class="flex flex-wrap gap-2 mt-2">
+                            {% for p in lang.paradigms %}
+                            <a href="/paradigm/{{ p }}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 bg-slate-100 text-slate-600 rounded text-[10px] font-bold uppercase hover:bg-slate-200 transition-colors">
+                                {{ p }}
+                            </a>
+                            {% endfor %}
+                        </dd>
+                    </div>
+                    {% endif %}
+                </dl>
+            </div>
+
+            {% if lang.primary_use_cases %}
+            <div class="bg-slate-900 p-6 rounded-2xl shadow-xl">
+                <h3 class="text-xs font-black uppercase tracking-widest text-slate-500 mb-4">Primary Domains</h3>
+                <ul class="space-y-3">
+                    {% for use in lang.primary_use_cases %}
+                    <li class="flex items-start text-sm text-slate-300">
+                        <svg class="w-4 h-4 text-blue-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                        </svg>
+                        {{ use }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </aside>
+
+        <!-- Main Content -->
+        <article class="lg:col-span-8 order-1 lg:order-2">
+            <header class="mb-12">
+                <h1 class="text-6xl lg:text-8xl font-black text-slate-900 tracking-tighter mb-4">{{ lang.display_name }}</h1>
+                <p class="text-xl text-slate-500 font-medium leading-relaxed italic border-l-4 border-blue-500 pl-6 py-2">
+                    {{ lang.philosophy }}
+                </p>
+            </header>
+
+            <div class="prose prose-slate prose-lg max-w-none 
+                        prose-headings:font-black prose-headings:tracking-tighter prose-headings:text-slate-900
+                        prose-a:text-blue-600 prose-code:text-blue-500 prose-pre:bg-slate-900 prose-pre:rounded-2xl
+                        markdown-content">
+                {{ content|safe }}
+            </div>
+        </article>
+    </div>
+</div>
+
+<style>
+    /* Custom prose-like overrides if Tailwind Typography isn't available via CDN default */
+    .markdown-content h1 { font-size: 2.5rem; margin-top: 3rem; margin-bottom: 1.5rem; }
+    .markdown-content h2 { font-size: 1.875rem; margin-top: 2.5rem; margin-bottom: 1.25rem; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.5rem; }
+    .markdown-content h3 { font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem; }
+    .markdown-content p { margin-bottom: 1.5rem; color: #334155; }
+    .markdown-content ul { list-style-type: disc; margin-bottom: 1.5rem; padding-left: 1.5rem; }
+    .markdown-content li { margin-bottom: 0.5rem; color: #334155; }
+    .markdown-content pre { background: #0f172a; padding: 1.5rem; border-radius: 1rem; overflow-x: auto; margin-bottom: 2rem; color: #f8fafc; }
+    .markdown-content code { font-family: ui-monospace, monospace; font-size: 0.9em; }
+</style>
+{% endblock %}
