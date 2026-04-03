@@ -16,6 +16,7 @@ class DataLoader:
         self.concepts = self._load_json('concepts.json')
         self.influences = self._load_json('influences.json')
         self.people = self._load_json('people.json')
+        self.language_profiles = self._load_language_profiles()
 
     def _load_json(self, filename):
         dataset_name = filename.replace('.json', '')
@@ -55,6 +56,31 @@ class DataLoader:
 
         return result if result is not None else []
 
+    def _load_language_profiles(self):
+        """
+        Loads extended language profile JSON files from data/docs/language_profiles/
+        Returns a dictionary mapping normalized language names to their profile data.
+        """
+        profiles_dir = os.path.join(self.data_dir, 'docs', 'language_profiles')
+        profiles = {}
+        
+        if not os.path.isdir(profiles_dir):
+            return profiles
+
+        for filename in os.listdir(profiles_dir):
+            if filename.endswith('.json'):
+                file_path = os.path.join(profiles_dir, filename)
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        # Use filename without extension as the key
+                        key = filename[:-5]
+                        profiles[key] = data
+                except (json.JSONDecodeError, IOError):
+                    continue
+        
+        return profiles
+
     def _merge_data(self, base, new_data):
         if isinstance(base, list) and isinstance(new_data, list):
             base.extend(new_data)
@@ -76,8 +102,42 @@ class DataLoader:
                 return lang
         return None
 
-    def get_all_paradigms(self):
-        return self.paradigms
+    def get_language_profiles(self):
+        """Returns all loaded language profile data."""
+        return self.language_profiles
+
+    def get_language_profile(self, name):
+        """
+        Returns the profile data for a given language name.
+        Handles name normalization to match filenames.
+        """
+        # 1. Try direct match
+        if name in self.language_profiles:
+            return self.language_profiles[name]
+        
+        # 2. Try normalized match (space -> underscore)
+        normalized_name = name.replace(' ', '_')
+        if normalized_name in self.language_profiles:
+            return self.language_profiles[normalized_name]
+            
+        return None
+
+    def get_combined_language_data(self, name):
+        """
+        Returns a dictionary merging core language data with its extended profile.
+        """
+        lang = self.get_language(name)
+        if not lang:
+            return None
+        
+        # Create a copy to avoid mutating the original core data
+        combined = dict(lang)
+        
+        profile = self.get_language_profile(lang['name'])
+        if profile:
+            combined.update(profile)
+            
+        return combined
 
     def get_influences(self, name):
         lang = self.get_language(name)
