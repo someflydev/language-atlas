@@ -9,7 +9,7 @@ help:
 
 docs:
 	@echo "Generating documentation..."
-	python3 scripts/generate_docs.py
+	USE_SQLITE=1 python3 scripts/generate_docs.py
 
 clean:
 	@echo "Cleaning up generated documentation..."

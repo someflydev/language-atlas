@@ -3,8 +3,10 @@ import os
 import json
 from pathlib import Path
 
-DB_PATH = "language_atlas.sqlite"
-OUTPUT_DIR = Path("generated-docs")
+# Get the project root directory (one level up from scripts/)
+ROOT_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = ROOT_DIR / "language_atlas.sqlite"
+OUTPUT_DIR = ROOT_DIR / "generated-docs"
 
 def setup_directories():
     """Create necessary directories for generated documentation."""
