@@ -45,7 +45,6 @@ def canonicalize(name):
     name = name.lower()
     
     # 2. Strip organizational suffixes for better deduplication
-    # Use word boundary \b to avoid stripping "Zinc" -> "Z"
     name = re.sub(r'\b(inc|corp|corporation|ltd|limited|llc|plc|foundation|labs|software)(\.?)(\b|$)', '', name).strip()
     
     # 3. Strip parentheticals
@@ -67,22 +66,32 @@ def canonicalize(name):
     }
     return replacements.get(name, name)
 
-def extract_concept_name(text):
-    if not text: return ""
-    match = re.match(r'\*\*(.*?)\*\*[:\s]*', text)
-    if match:
-        name = match.group(1).strip()
-    else:
-        name = text.strip()
+def extract_entities_from_text(text):
+    """
+    Scans a block of text (like a paragraph) for potential entities.
+    Returns (found_concepts, found_orgs)
+    """
+    if not text or not isinstance(text, str):
+        return [], []
     
-    if name.endswith(":"):
-        name = name[:-1].strip()
-
-    if not match:
-        if len(name) > 60 or len(name.split()) > 8:
-            return ""
+    concepts = []
+    orgs = []
     
-    return name
+    # 1. Extract bolded terms: **Concept Name**
+    bold_matches = re.findall(r'\*\*(.*?)\*\*', text)
+    for m in bold_matches:
+        # Strip trailing colons or spaces
+        clean_m = m.split(':')[0].strip()
+        if clean_m and len(clean_m) <= 60 and len(clean_m.split()) <= 8:
+            concepts.append(clean_m)
+            
+    # 2. Extract organizations: "at [Org Name]"
+    at_matches = re.findall(r'at ([A-Z][a-z]+(?: [A-Z][a-z]+){0,3})', text)
+    for m in at_matches:
+        if is_organization(m):
+            orgs.append(m)
+            
+    return concepts, orgs
 
 def audit():
     data_dir = Path("data")
@@ -109,6 +118,7 @@ def audit():
     known_languages = set()
     known_people = set()
 
+    # Pre-populate
     people_path = data_dir / "people.json"
     if people_path.exists():
         with open(people_path, "r") as f:
@@ -125,20 +135,22 @@ def audit():
 
     def add_reference(name, target_map):
         if not name or name == "Various": return
-        pretty_name = extract_concept_name(name)
-        if not pretty_name: return
-        
-        canon = canonicalize(pretty_name)
+        # Length guard on the entity name itself
+        if len(name) > 60 or len(name.split()) > 8:
+            return
+
+        canon = canonicalize(name)
         if not canon: return
         
+        # Check versioned languages
         version_match = re.match(r'^([a-z_]+)_(\d{2,4})$', canon)
         if version_match:
             base = version_match.group(1)
             if base in known_languages or base in existing_profiles["languages"]:
                 return
 
-        if canon not in target_map or (pretty_name[0].isupper() and not target_map[canon][0].isupper()):
-            target_map[canon] = pretty_name
+        if canon not in target_map or (name[0].isupper() and not target_map[canon][0].isupper()):
+            target_map[canon] = name
 
     # 1. Crawl people.json
     if people_path.exists():
@@ -157,7 +169,13 @@ def audit():
                 add_reference(lang.get("name"), referenced_languages)
                 for inf in lang.get("influenced_by", []): add_reference(inf, referenced_languages)
                 for inf in lang.get("influenced", []): add_reference(inf, referenced_languages)
-                for inv in lang.get("key_innovations", []): add_reference(inv, referenced_concepts)
+                for inv in lang.get("key_innovations", []):
+                    c, o = extract_entities_from_text(inv)
+                    for item in c: add_reference(item, referenced_concepts)
+                    for item in o: add_reference(item, referenced_organizations)
+                    # If it wasn't bolded, the whole thing might be a concept name (if short)
+                    if not c:
+                        add_reference(inv, referenced_concepts)
                 for creator in lang.get("creators", []):
                     if is_organization(creator): add_reference(creator, referenced_organizations)
                     else: add_reference(creator, referenced_concepts)
@@ -167,23 +185,25 @@ def audit():
         found_concepts, found_orgs = [], []
         if isinstance(data, dict):
             for k, v in data.items():
-                if k in ["overview", "historical_context", "legacy"]:
-                    if isinstance(v, str):
-                        # Pattern 1: "at [Organization Name]"
-                        # Look for "at " followed by 1-4 capitalized words
-                        at_matches = re.findall(r'at ([A-Z][a-z]+(?: [A-Z][a-z]+){0,3})', v)
-                        for m in at_matches:
-                            if is_organization(m): found_orgs.append(m)
+                if isinstance(v, (str, list)):
+                    texts = v if isinstance(v, list) else [v]
+                    for t in texts:
+                        if isinstance(t, str):
+                            c, o = extract_entities_from_text(t)
+                            found_concepts.extend(c)
+                            found_orgs.extend(o)
+                            # For list fields that aren't narrative, 
+                            # the whole item might be the entity
+                            if k in ["key_innovations", "key_aspects", "creators", "contributions"]:
+                                if not c: # No bolding found, treat whole string as potential
+                                    if is_organization(t): found_orgs.append(t)
+                                    else: found_concepts.append(t)
                 
-                elif k in ["key_innovations", "key_aspects", "creators"]:
-                    items = v if isinstance(v, list) else [v]
-                    for item in items:
-                        if is_organization(item): found_orgs.append(item)
-                        else: found_concepts.append(item)
-                
-                elif k not in ["ai_assisted_discovery_missions", "mental_model"]:
+                # Recurse
+                if isinstance(v, (dict, list)) and k not in ["ai_assisted_discovery_missions"]:
                     c, o = scan_profile_data(v)
                     found_concepts.extend(c); found_orgs.extend(o)
+                    
         elif isinstance(data, list):
             for item in data:
                 c, o = scan_profile_data(item); found_concepts.extend(c); found_orgs.extend(o)
