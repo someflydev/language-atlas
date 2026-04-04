@@ -1,64 +1,91 @@
-# Language Atlas Source
+# 🏛️ Atlas Control Center: Codebase & Semantic Schema
 
-This directory contains the core logic for the Language Atlas project, including the Web UI and the CLI tool.
+Welcome to the internal engine of the Language Atlas. This guide covers the technical architecture, the "Semantic Schema" powering our SQLite views, and the core logic that connects our data to the interactive dashboards.
 
-## Structure
+## 🏗️ Architecture Overview
 
-- `app/`: The FastAPI web application, templates, and static assets.
-- `cli.py`: Command-line interface for exploring the language data.
-- `app/core/`: Shared data loading logic.
+The codebase is split into three primary layers:
 
-## Web Application
+1.  **Core Logic (`src/app/core/`)**:
+    *   `data_loader.py`: The unified data access layer. It handles transparent switching between flat JSON files and the SQLite backend. It hydrates complex language objects, including creator and paradigm relations.
+    *   `build_sqlite.py`: The database orchestrator. It transforms the raw JSON "lake" into a structured relational database with full-text search (FTS5) capabilities.
+    *   `insights.py`: Analytical engine for generating cross-language historical reports.
+2.  **CLI Interface (`src/cli.py`)**:
+    *   A high-density "Control Room" built with `Typer` and `Rich`.
+    *   Features a `dashboard` command for real-time visual analysis of language impact.
+    *   Includes fuzzy name suggestion logic to help discover languages with complex naming (e.g., `ALGOL_60`).
+3.  **Web Application (`src/app/`)**:
+    *   FastAPI-powered server providing an interactive, filtered view of the programming language timeline.
 
-The web application provides a visual interface for exploring the evolution of programming languages.
+## 🔍 The Semantic Schema (SQLite Views)
 
-### Features
+Our database uses **Semantic Views** to abstract away complex JOINs and provide a clean API for both the CLI and Web layers.
 
-- **Interactive Atlas:** Explore a grid of language cards with primary paradigm and cluster badges.
-- **Advanced Filtering:**
-    - **Cluster Filter:** Multi-select checkboxes for domains like 'Systems', 'Web', or 'Cloud'.
-    - **Paradigm Filter:** Filter by 'Functional', 'Object-Oriented', and more.
-    - **Year Range Slider:** Double-ended slider with instant updates (1930 - 2024).
-- **Immersive Profiles:** Detailed language pages featuring:
-    - **Vital Statistics:** Quick-access sidebar for creators, paradigms, and established dates.
-    - **Markdown Rendering:** Beautifully styled technical documentation and discovery missions.
-- **Deep Exploration:** Clickable paradigm and cluster tags that open dedicated, descriptive view pages with their own sorting controls.
-- **Modern Styling:** Built with Tailwind CSS for a professional, responsive, and framework-free experience.
+### `v_language_details`
+Provides a flattened, comprehensive view of a language's metadata.
+*   **Columns**: `id`, `name`, `display_name`, `year`, `cluster`, `generation`, `profile_title`, `paradigms` (comma-separated), `creators` (comma-separated).
+*   **Usage**: Powering the `dashboard` and `info` commands.
 
-### Setup & Run
+### `v_global_search`
+A unified interface for full-text search across both core metadata and deep technical profiles.
+*   **Columns**: `category`, `language_id`, `title`, `snippet`, `source_table`.
+*   **Logic**: Unions `fts_languages` and `fts_profiles` to provide a "Google-style" search experience.
 
-1. **Install `uv`** (if not already installed):
-   Follow the instructions at [astral.sh/uv](https://astral.sh/uv) to install `uv` on your system.
+### Full-Text Search (FTS5)
+We leverage SQLite's `fts5` module for high-performance discovery:
+*   `fts_languages`: Optimized for searching names, philosophies, and mental models.
+*   `fts_profiles`: Optimized for deep-diving into the narrative sections of language documentation.
 
-2. **Create a virtual environment and install dependencies**:
-   From the project root, use `uv` to create a synced environment:
-   ```bash
-   uv venv --python 3.12
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   uv pip install -r src/app/requirements.txt
-   ```
+## 🛠️ CLI: Control Room Commands
 
-3. **Start the server**:
-   ```bash
-   python3 src/app/app.py
-   ```
-   The application will be available at `http://localhost:8000`.
-
-## CLI Tool
-
-The CLI tool allows for quick querying and filtering of language data directly from the terminal.
-
-### Usage
-
-To run the CLI tool from the project root, ensure the `src` directory is in your `PYTHONPATH`:
+The CLI is the primary tool for data-dense research.
 
 ```bash
-export PYTHONPATH=$PYTHONPATH:$(pwd)/src
-python3 src/cli.py list
+# Enter the Control Room for a specific language
+python3 src/cli.py dashboard "Rust"
+
+# Generate a visual summary of release density
+python3 src/cli.py report summary
+
+# Get a syntax-highlighted technical brief
+python3 src/cli.py info "C++" --pretty
+
+# Perform a global semantic search
+python3 src/cli.py search "memory safety"
 ```
 
-#### Commands:
-- `list`: List all languages.
-- `list --cluster <name>`: Filter by cluster (e.g., scientific, systems).
-- `list --gen <name>`: Filter by generation (e.g., early, renaissance).
-- `show <language_name>`: Show detailed information for a specific language.
+## 🧠 Internal Core Logic
+
+### The `DataLoader` Lifecycle
+1.  **Initialization**: Checks for `USE_SQLITE=1` environment variable.
+2.  **Discovery**: Scans `data/docs/language_profiles/` for extended technical specs.
+3.  **Hydration**: When fetching a language, it automatically joins related creators, paradigms, and influences into a single Python dictionary.
+
+### Fuzzy Suggestion Engine
+The CLI uses `difflib.get_close_matches` against the database's name index. This ensures that even if you misspell a language (e.g., `info rustt`), the Atlas provides an intelligent redirection.
+
+## 🚀 Setup & Run
+
+### 1. Install Dependencies
+```bash
+uv venv --python 3.12
+source .venv/bin/activate
+uv pip install -r src/app/requirements.txt
+uv add typer rich
+```
+
+### 2. Build the Database (Optional but Recommended)
+```bash
+python3 src/app/core/build_sqlite.py
+```
+
+### 3. Start the Web UI
+```bash
+python3 src/app/app.py
+```
+
+### 4. Run CLI Commands
+```bash
+export PYTHONPATH=$PYTHONPATH:$(pwd)/src
+python3 src/cli.py --help
+```

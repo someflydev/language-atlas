@@ -1,289 +1,459 @@
-import argparse
+import typer
 import sys
 import os
-import io
+import json
 import sqlite3
+import difflib
+from typing import Optional, List, Dict, Any
+from rich.console import Console
+from rich.table import Table
+from rich.panel import Panel
+from rich.layout import Layout
+from rich.columns import Columns
+from rich.markdown import Markdown
+from rich.live import Live
+from rich.text import Text
+from rich import print as rprint
 from app.core.data_loader import DataLoader
 
-def format_list(items):
-    return ", ".join(items) if items else "None"
+app = typer.Typer(help="Language Atlas CLI - Explore Programming Language History")
+console = Console(width=140, height=40)
 
-def get_io_string():
-    return io.StringIO()
+def get_loader():
+    return DataLoader()
 
-def list_command(loader, args):
-    langs = loader.get_all_languages(filter_gen=args.generation, filter_cluster=args.cluster)
+def suggest_language(loader: DataLoader, query: str) -> Optional[str]:
+    """Provides a fuzzy match suggestion for a language name."""
+    if loader.use_sqlite:
+        with loader._get_connection() as conn:
+            names = [row['name'] for row in conn.execute("SELECT name FROM languages").fetchall()]
+    else:
+        names = [l['name'] for l in loader.languages]
+    
+    matches = difflib.get_close_matches(query, names, n=1, cutoff=0.6)
+    return matches[0] if matches else None
+
+def handle_not_found(loader, language):
+    suggestion = suggest_language(loader, language)
+    if suggestion:
+        console.print(f"[red]Error: Language '{language}' not found.[/red] Did you mean [bold cyan]{suggestion}[/bold cyan]?")
+    else:
+        console.print(f"[red]Error: Language '{language}' not found.[/red]")
+    raise typer.Exit(1)
+
+def output_result(data: Any, json_out: bool):
+    if json_out:
+        console.print_json(data=data)
+    else:
+        # Standard rich output is already 'pretty'
+        pass
+
+@app.command()
+def dashboard(language: str, json_out: bool = typer.Option(False, "--json")):
+    """
+    The 'Impact Dashboard': Control Room style view for a language.
+    """
+    loader = get_loader()
+    lang = loader.get_language(language)
+    
+    if not lang:
+        handle_not_found(loader, language)
+    
+    if json_out:
+        console.print_json(data=lang)
+        return
+
+    # Fetch influences
+    influences = loader.get_influences(language)
+    
+    layout = Layout()
+    layout.split_column(
+        Layout(name="header", size=3),
+        Layout(name="main", size=10),
+        Layout(name="footer", size=3)
+    )
+    
+    layout["main"].split_row(
+        Layout(name="vital_signs", ratio=1),
+        Layout(name="innovations", ratio=2),
+        Layout(name="lineage", ratio=2)
+    )
+
+    # Header
+    title = lang.get('display_name') or lang['name']
+    layout["header"].update(Panel(f"[bold magenta]{title}[/bold magenta] ({lang.get('year', 'N/A')})", style="white on blue", border_style="bright_blue"))
+    
+    # Vital Signs
+    vital_signs = f"[bold]Year:[/bold] {lang.get('year', 'N/A')}\n"
+    vital_signs += f"[bold]Cluster:[/bold] {lang.get('cluster', 'N/A')}\n"
+    vital_signs += f"[bold]Keystone:[/bold] {'[bold green]YES[/bold green]' if lang.get('is_keystone') else '[red]NO[/red]'}\n"
+    vital_signs += f"[bold]Gen:[/bold] {lang.get('generation', 'N/A').upper()}"
+    layout["vital_signs"].update(Panel(vital_signs, title="Vital Signs", border_style="cyan"))
+    
+    # Innovations
+    innovations = lang.get('key_innovations', [])
+    colors = ["cyan", "yellow", "green", "magenta", "bright_blue", "bright_magenta"]
+    if not innovations:
+        innovation_list = "[dim]No specific innovations listed.[/dim]"
+    else:
+        innovation_list = "\n".join([f"• [bold {colors[i % len(colors)]}]{val}[/bold {colors[i % len(colors)]}]" for i, val in enumerate(innovations)])
+    layout["innovations"].update(Panel(innovation_list, title="Innovation Stats", border_style="yellow"))
+    
+    # Lineage
+    influenced_by = influences.get('influenced_by', [])
+    influenced = influences.get('influenced', [])
+    
+    ib_text = Text("Ancestors (Influenced By):\n", style="bold green")
+    for ib in influenced_by:
+        ib_text.append(f"  ← {ib}\n", style="green")
+        
+    i_text = Text("\nDescendants (Influenced):\n", style="bold cyan")
+    for i in influenced:
+        i_text.append(f"  → {i}\n", style="cyan")
+    
+    lineage_cols = Columns([ib_text, i_text])
+    layout["lineage"].update(Panel(lineage_cols, title="Lineage Panel", border_style="green"))
+    
+    # Footer
+    philosophy = lang.get('philosophy', 'N/A')
+    if len(philosophy) > 120:
+        philosophy = philosophy[:117] + "..."
+    layout["footer"].update(Panel(f"[italic]{philosophy}[/italic]", title="Philosophy Snippet", border_style="dim"))
+
+    console.print(layout)
+
+@app.command()
+def report(subcommand: str = typer.Argument(..., help="Subcommand: summary"), json_out: bool = typer.Option(False, "--json")):
+    """
+    Visual Reporting: Summary and analytical reports.
+    """
+    if subcommand != "summary":
+        console.print(f"[red]Unknown report subcommand: {subcommand}[/red]")
+        raise typer.Exit(1)
+
+    loader = get_loader()
+    if loader.use_sqlite:
+        with loader._get_connection() as conn:
+            rows = conn.execute("SELECT year FROM languages WHERE year IS NOT NULL").fetchall()
+            years = [row['year'] for row in rows]
+    else:
+        years = [l.get('year') for l in loader.languages if l.get('year')]
+    
+    if not years:
+        console.print("[yellow]No year data available for summary.[/yellow]")
+        return
+
+    decades = {}
+    for year in years:
+        decade = (year // 10) * 10
+        decades[decade] = decades.get(decade, 0) + 1
+    
+    if json_out:
+        console.print_json(data=decades)
+        return
+
+    table = Table(title="Historical Release Density (Decade-wise)", border_style="magenta")
+    table.add_column("Decade", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Count", justify="right", style="bold")
+    table.add_column("Density (Sparkline)", style="green")
+
+    for decade in sorted(decades.keys()):
+        count = decades[decade]
+        # Simulated sparkline
+        sparkline = "█" * count
+        table.add_row(f"{decade}s", str(count), sparkline)
+
+    console.print(table)
+
+@app.command()
+def info(language: str, json_out: bool = typer.Option(False, "--json"), pretty: bool = typer.Option(True, "--pretty")):
+    """
+    Get detailed information on a language as a syntax-highlighted report.
+    """
+    loader = get_loader()
+    lang = loader.get_language(language)
+    
+    if not lang:
+        handle_not_found(loader, language)
+    
+    if json_out:
+        console.print_json(data=lang)
+        return
+
+    md_content = f"""# {lang.get('display_name') or lang['name']} ({lang.get('year', 'N/A')})
+
+- **Creators:** {", ".join(lang.get('creators', []))}
+- **Paradigms:** {", ".join(lang.get('paradigms', []))}
+- **Cluster:** {lang.get('cluster', 'N/A')}
+- **Generation:** {lang.get('generation', 'N/A')}
+
+## Philosophy
+{lang.get('philosophy', 'N/A')}
+
+## Mental Model
+{lang.get('mental_model', 'N/A')}
+
+## Key Innovations
+{chr(10).join([f"- {i}" for i in lang.get('key_innovations', [])])}
+
+## Technical Specs
+- **Memory Management:** {lang.get('memory_management', 'N/A')}
+- **Safety Model:** {lang.get('safety_model', 'N/A')}
+- **Typing Discipline:** {lang.get('typing_discipline', 'N/A')}
+"""
+    console.print(Panel(Markdown(md_content), border_style="cyan"))
+
+@app.command()
+def research(language: str, json_out: bool = typer.Option(False, "--json")):
+    """
+    Generate a Research Brief for a language with discovery prompts.
+    """
+    loader = get_loader()
+    lang = loader.get_language(language)
+    
+    if not lang:
+        handle_not_found(loader, language)
+
+    if json_out:
+        console.print_json(data=lang) # Just return language data for now
+        return
+
+    innovations = lang.get('key_innovations', ['fundamental architectural choices'])
+    innovation = innovations[0] if innovations else 'core design'
+    
+    paradigms = lang.get('paradigms', ['multi-paradigm'])
+    paradigm = paradigms[0] if paradigms else 'modern'
+
+    md_content = f"""# RESEARCH BRIEF: {lang.get('display_name') or lang['name']}
+**Goal:** Deep dive into {lang['name']}'s historical significance and technical nuances.
+
+## LLM Discovery Prompts:
+1. Explain the architectural tradeoffs made in {lang['name']}'s **{lang.get('memory_management', 'memory model')}** and how it relates to its core philosophy of *'{lang.get('philosophy', 'N/A')[:50]}...'*.
+2. How did {lang['name']}'s key innovation of **'{innovation}'** directly influence modern languages?
+3. Construct a mental model for a **{paradigm}** programmer transitioning from C to {lang['name']}.
+4. Analyze the social and economic conditions of **{lang.get('year', 'N/A')}** that led to the creation of {lang['name']} by {", ".join(lang.get('creators', []))}.
+"""
+    console.print(Panel(Markdown(md_content), border_style="magenta"))
+
+@app.command()
+def list_langs(generation: Optional[str] = None, cluster: Optional[str] = None, json_out: bool = typer.Option(False, "--json")):
+    """
+    List all languages with optional filters.
+    """
+    loader = get_loader()
+    langs = loader.get_all_languages(filter_gen=generation, filter_cluster=cluster)
+    
+    if json_out:
+        console.print_json(data=langs)
+        return
+
     if not langs:
-        print("No languages found matching filters.")
+        console.print("[yellow]No languages found matching filters.[/yellow]")
         return
     
-    output = get_io_string()
-    output.write(f"{'Language':<15} | {'Year':<6} | {'Cluster':<15} | {'Generation':<12} | {'Philosophy'}\n")
-    output.write("-" * 115 + "\n")
+    table = Table(title="Languages Atlas Index", border_style="blue")
+    table.add_column("Language", style="cyan")
+    table.add_column("Year", justify="right")
+    table.add_column("Cluster", style="green")
+    table.add_column("Generation", style="magenta")
+    table.add_column("Philosophy")
+
     for lang in sorted(langs, key=lambda x: x.get('year', 0)):
         philosophy = lang.get('philosophy', 'N/A')
         if len(philosophy) > 60:
             philosophy = philosophy[:57] + "..."
-        output.write(f"{lang['name']:<15} | {lang.get('year', 'N/A'):<6} | {lang.get('cluster', 'N/A'):<15} | {lang.get('generation', 'N/A'):<12} | {philosophy}\n")
-    print(output.getvalue())
+        table.add_row(
+            lang['name'],
+            str(lang.get('year', 'N/A')),
+            lang.get('cluster', 'N/A'),
+            lang.get('generation', 'N/A'),
+            philosophy
+        )
+    console.print(table)
 
-def info_command(loader, args):
-    lang = loader.get_language(args.language)
-    if not lang:
-        print(f"Error: Language '{args.language}' not found.")
+@app.command()
+def influences(language: str, json_out: bool = typer.Option(False, "--json")):
+    """
+    Explore lineage and influences for a specific language.
+    """
+    loader = get_loader()
+    infl = loader.get_influences(language)
+    
+    if not infl:
+        handle_not_found(loader, language)
+        
+    if json_out:
+        console.print_json(data=infl)
         return
     
-    output = get_io_string()
-    output.write(f"--- {lang['name']} ({lang.get('year', 'N/A')}) ---\n")
-    output.write(f"Creators: {format_list(lang.get('creators', []))}\n")
-    output.write(f"Paradigms: {format_list(lang.get('paradigms', []))}\n")
-    output.write(f"Primary Use Cases: {format_list(lang.get('primary_use_cases', []))}\n")
-    output.write(f"\nPhilosophy:\n{lang.get('philosophy', 'N/A')}\n")
-    output.write(f"\nMental Model:\n{lang.get('mental_model', 'N/A')}\n")
-    output.write(f"\nKey Innovations: {format_list(lang.get('key_innovations', []))}\n")
-    print(output.getvalue())
-
-def influences_command(loader, args):
-    influences = loader.get_influences(args.language)
-    if not influences:
-        print(f"Error: Language '{args.language}' not found.")
-        return
+    table = Table(title=f"Lineage: {language}", border_style="green")
+    table.add_column("Direction", style="bold")
+    table.add_column("Languages", style="cyan")
     
-    output = get_io_string()
-    output.write(f"--- Influences for {args.language} ---\n")
-    output.write(f"Influenced by: {format_list(influences['influenced_by'])}\n")
-    output.write(f"Influenced:    {format_list(influences['influenced'])}\n")
-    print(output.getvalue())
-
-def paradigms_command(loader, args):
-    paradigms = loader.get_all_paradigms()
-    output = get_io_string()
-    output.write(f"{'Paradigm':<20} | {'Description'}\n")
-    output.write("-" * 60 + "\n")
-    # Note: loader.get_all_paradigms() returns names if SQLite, dicts if JSON
-    # This is a bit inconsistent in DataLoader, let's handle both
-    for p in sorted(paradigms):
-        if isinstance(p, dict):
-            output.write(f"{p['name']:<20} | {p['description']}\n")
-        else:
-            # If SQLite, we might only have names, let's fetch desc if needed
-            info = loader.get_paradigm_info(p)
-            output.write(f"{info['name']:<20} | {info['description']}\n")
-    print(output.getvalue())
-
-def research_command(loader, args):
-    lang = loader.get_language(args.language)
-    if not lang:
-        print(f"Error: Language '{args.language}' not found.")
-        return
+    table.add_row("← Influenced By", ", ".join(infl.get('influenced_by', [])))
+    table.add_row("→ Influenced", ", ".join(infl.get('influenced', [])))
     
-    output = get_io_string()
-    output.write(f"--- RESEARCH BRIEF: {lang['name']} ---\n")
-    output.write(f"Goal: Deep dive into {lang['name']}'s historical significance and technical nuances.\n\n")
-    output.write("LLM Discovery Prompts:\n")
-    output.write(f"1. Explain the architectural tradeoffs made in {lang['name']}'s {lang.get('memory_management', 'memory model')} and how it relates to its core philosophy of '{lang.get('philosophy', 'N/A')[:50]}...'.\n")
-    output.write(f"2. How did {lang['name']}'s key innovation of '{lang.get('key_innovations', ['N/A'])[0]}' directly influence modern languages like {format_list(lang.get('influenced', [])[:2])}?\n")
-    output.write(f"3. Construct a mental model for a {lang.get('paradigms', ['N/A'])[0]} programmer transitioning from C to {lang['name']}.\n")
-    output.write(f"4. Analyze the social and economic conditions of {lang.get('year', 'N/A')} that led to the creation of {lang['name']} by {format_list(lang.get('creators', []))}.\n")
-    print(output.getvalue())
+    console.print(table)
 
-def search_command(loader, args):
-    results = loader.search(args.term)
+@app.command()
+def search(term: str, json_out: bool = typer.Option(False, "--json")):
+    """
+    Full-text search across languages and profiles.
+    """
+    loader = get_loader()
+    results = loader.search(term)
+    
+    if json_out:
+        console.print_json(data=results)
+        return
+
     if not results:
-        print(f"No results found for '{args.term}'.")
+        console.print(f"[yellow]No results found for '{term}'.[/yellow]")
         return
     
-    output = get_io_string()
-    output.write(f"--- Search Results for '{args.term}' ---\n")
+    console.print(f"[bold]Search Results for:[/bold] [cyan]{term}[/cyan]\n")
     for res in results:
         snippet = res.get('snippet', '')
         if snippet:
-            snippet = snippet.replace('\n', ' ')[:100] + "..."
-        output.write(f"[{res['category'].upper()}] {res['title']}\n")
-        output.write(f"   {snippet}\n\n")
-    print(output.getvalue())
+            snippet = snippet.replace('\n', ' ')
+            if len(snippet) > 150:
+                snippet = snippet[:147] + "..."
+        
+        panel = Panel(
+            f"{snippet}",
+            title=f"[bold]{res['category'].upper()}[/bold]: {res['title']}",
+            border_style="dim"
+        )
+        console.print(panel)
 
-def like_command(loader, args):
+@app.command()
+def like(language: str, limit: int = 5, json_out: bool = typer.Option(False, "--json")):
+    """
+    Find languages semantically similar to the reference language.
+    """
+    loader = get_loader()
     if not loader.use_sqlite:
-        print("Error: 'like' command requires SQLite backend. Set USE_SQLITE=1.")
-        return
+        console.print("[red]Error: 'like' command requires SQLite backend. Set USE_SQLITE=1.[/red]")
+        raise typer.Exit(1)
     
-    lang = loader.get_language(args.language)
+    lang = loader.get_language(language)
     if not lang:
-        print(f"Error: Language '{args.language}' not found.")
-        return
+        handle_not_found(loader, language)
 
-    conn = sqlite3.connect(loader.db_path)
-    conn.row_factory = sqlite3.Row
-    
-    query = """
-    WITH matches AS (
-        SELECT l2.id, 10 as score, 'Same Cluster' as reason
-        FROM languages l1, languages l2
-        WHERE l1.name = ? AND l1.cluster = l2.cluster AND l1.id != l2.id
+    with loader._get_connection() as conn:
+        query = """
+        WITH matches AS (
+            SELECT l2.id, 10 as score, 'Same Cluster' as reason
+            FROM languages l1, languages l2
+            WHERE l1.name = ? AND l1.cluster = l2.cluster AND l1.id != l2.id
+            
+            UNION ALL
+            
+            SELECT lp2.language_id, 5, 'Shared Paradigm: ' || p.name
+            FROM languages l1
+            JOIN language_paradigms lp1 ON l1.id = lp1.language_id
+            JOIN language_paradigms lp2 ON lp1.paradigm_id = lp2.paradigm_id
+            JOIN paradigms p ON lp1.paradigm_id = p.id
+            WHERE l1.name = ? AND lp2.language_id != l1.id
+            
+            UNION ALL
+            
+            SELECT i2.target_id, 8, 'Shared Ancestor'
+            FROM languages l1
+            JOIN influences i1 ON l1.id = i1.target_id
+            JOIN influences i2 ON i1.source_id = i2.source_id
+            WHERE l1.name = ? AND i2.target_id != l1.id
+        )
+        SELECT l.display_name, SUM(score) as total_score, GROUP_CONCAT(reason, ', ') as reasons
+        FROM matches m
+        JOIN languages l ON m.id = l.id
+        GROUP BY l.id
+        ORDER BY total_score DESC
+        LIMIT ?
+        """
         
-        UNION ALL
+        cursor = conn.execute(query, (lang['name'], lang['name'], lang['name'], limit))
+        results = cursor.fetchall()
         
-        SELECT lp2.language_id, 5, 'Shared Paradigm: ' || p.name
-        FROM languages l1
-        JOIN language_paradigms lp1 ON l1.id = lp1.language_id
-        JOIN language_paradigms lp2 ON lp1.paradigm_id = lp2.paradigm_id
-        JOIN paradigms p ON lp1.paradigm_id = p.id
-        WHERE l1.name = ? AND lp2.language_id != l1.id
+        if json_out:
+            console.print_json(data=[dict(r) for r in results])
+            return
+
+        table = Table(title=f"Semantic Siblings: {lang.get('display_name') or lang['name']}", border_style="bright_blue")
+        table.add_column("Language", style="cyan")
+        table.add_column("Similarity Score", justify="right")
+        table.add_column("Common Traits")
         
-        UNION ALL
-        
-        SELECT i2.target_id, 8, 'Shared Ancestor'
-        FROM languages l1
-        JOIN influences i1 ON l1.id = i1.target_id
-        JOIN influences i2 ON i1.source_id = i2.source_id
-        WHERE l1.name = ? AND i2.target_id != l1.id
-    )
-    SELECT l.display_name, SUM(score) as total_score, GROUP_CONCAT(reason, ', ') as reasons
-    FROM matches m
-    JOIN languages l ON m.id = l.id
-    GROUP BY l.id
-    ORDER BY total_score DESC
-    LIMIT ?
-    """
-    
-    cursor = conn.execute(query, (lang['name'], lang['name'], lang['name'], args.limit))
-    results = cursor.fetchall()
-    
-    output = get_io_string()
-    output.write(f"--- Languages like {lang['display_name']} ---\n")
-    output.write(f"{'Language':<20} | {'Score':<5} | {'Reasons'}\n")
-    output.write("-" * 80 + "\n")
-    for row in results:
-        reasons = row['reasons']
-        if len(reasons) > 50: reasons = reasons[:47] + "..."
-        output.write(f"{row['display_name']:<20} | {row['total_score']:<5} | {reasons}\n")
-    
-    print(output.getvalue())
-    conn.close()
-
-def cross_section_command(loader, args):
-    if not loader.use_sqlite:
-        print("Error: 'cross-section' command requires SQLite backend. Set USE_SQLITE=1.")
-        return
-
-    conn = sqlite3.connect(loader.db_path)
-    conn.row_factory = sqlite3.Row
-
-    era_query = "SELECT slug, title FROM era_summaries WHERE slug LIKE ? OR title LIKE ?"
-    era_pattern = f"%{args.era}%"
-    era_row = conn.execute(era_query, (era_pattern, era_pattern)).fetchone()
-    
-    generation = None
-    if era_row:
-        slug = era_row['slug']
-        mapping = {
-            'MULTICORE_CRISIS': 'cloud',
-            'SYSTEMS_RENAISSANCE': 'renaissance',
-            'WEB_EXPLOSION': 'web1'
-        }
-        generation = mapping.get(slug)
-        print(f"[*] Matched era '{args.era}' to {era_row['title']} (Gen: {generation or 'N/A'})")
-    else:
-        generation = args.era.lower()
-
-    query = """
-    SELECT DISTINCT l.display_name, l.year, l.cluster, l.philosophy
-    FROM languages l
-    JOIN language_paradigms lp ON l.id = lp.language_id
-    JOIN paradigms p ON lp.paradigm_id = p.id
-    WHERE (p.name LIKE ? OR p.description LIKE ?)
-    """
-    params = [f"%{args.paradigm}%", f"%{args.paradigm}%"]
-    
-    if generation:
-        query += " AND l.generation = ?"
-        params.append(generation)
-    
-    query += " ORDER BY l.year ASC"
-    
-    cursor = conn.execute(query, params)
-    results = cursor.fetchall()
-    
-    output = get_io_string()
-    output.write(f"--- Cross-section: {args.paradigm} in {args.era} ---\n")
-    if not results:
-        output.write("No results found matching this cross-section.\n")
-    else:
-        output.write(f"{'Language':<20} | {'Year':<6} | {'Cluster':<15} | {'Philosophy'}\n")
-        output.write("-" * 100 + "\n")
         for row in results:
-            phil = row['philosophy'] or ""
-            if len(phil) > 50: phil = phil[:47] + "..."
-            output.write(f"{row['display_name']:<20} | {row['year']:<6} | {row['cluster']:<15} | {phil}\n")
-    
-    print(output.getvalue())
-    conn.close()
+            reasons = row['reasons']
+            if len(reasons) > 60: reasons = reasons[:57] + "..."
+            table.add_row(row['display_name'], str(row['total_score']), reasons)
+        
+        console.print(table)
 
-def main():
-    parser = argparse.ArgumentParser(description="Language Atlas CLI - Explore Programming Language History")
-    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+@app.command()
+def cross_section(paradigm: str, era: str, json_out: bool = typer.Option(False, "--json")):
+    """
+    Query cross-section of paradigms and eras.
+    """
+    loader = get_loader()
+    if not loader.use_sqlite:
+        console.print("[red]Error: 'cross-section' command requires SQLite backend. Set USE_SQLITE=1.[/red]")
+        raise typer.Exit(1)
 
-    # List command
-    list_parser = subparsers.add_parser("list", help="List all languages")
-    list_parser.add_argument("--generation", help="Filter by generation (e.g., early, mid, modern)")
-    list_parser.add_argument("--cluster", help="Filter by cluster (e.g., systems, scientific, AI)")
+    with loader._get_connection() as conn:
+        era_query = "SELECT slug, title FROM era_summaries WHERE slug LIKE ? OR title LIKE ?"
+        era_pattern = f"%{era}%"
+        era_row = conn.execute(era_query, (era_pattern, era_pattern)).fetchone()
+        
+        generation = None
+        if era_row:
+            slug = era_row['slug']
+            mapping = {
+                'MULTICORE_CRISIS': 'cloud',
+                'SYSTEMS_RENAISSANCE': 'renaissance',
+                'WEB_EXPLOSION': 'web1'
+            }
+            generation = mapping.get(slug)
+        else:
+            generation = era.lower()
 
-    # Info command
-    info_parser = subparsers.add_parser("info", help="Get detailed information on a language")
-    info_parser.add_argument("language", help="The name of the language")
+        query = """
+        SELECT DISTINCT l.display_name, l.year, l.cluster, l.philosophy
+        FROM languages l
+        JOIN language_paradigms lp ON l.id = lp.language_id
+        JOIN paradigms p ON lp.paradigm_id = p.id
+        WHERE (p.name LIKE ? OR p.description LIKE ?)
+        """
+        params = [f"%{paradigm}%", f"%{paradigm}%"]
+        
+        if generation:
+            query += " AND l.generation = ?"
+            params.append(generation)
+        
+        query += " ORDER BY l.year ASC"
+        
+        cursor = conn.execute(query, params)
+        results = cursor.fetchall()
+        
+        if json_out:
+            console.print_json(data=[dict(r) for r in results])
+            return
 
-    # Influences command
-    influences_parser = subparsers.add_parser("influences", help="Explore language influences")
-    influences_parser.add_argument("language", help="The name of the language")
-
-    # Paradigms command
-    subparsers.add_parser("paradigms", help="List all paradigms")
-
-    # Research command
-    research_parser = subparsers.add_parser("research", help="Generate a Research Brief for a language")
-    research_parser.add_argument("language", help="The name of the language")
-
-    # Search command
-    search_parser = subparsers.add_parser("search", help="Full-text search across languages and profiles")
-    search_parser.add_argument("term", help="The search term")
-
-    # Like command
-    like_parser = subparsers.add_parser("like", help="Find languages similar to X")
-    like_parser.add_argument("language", help="The reference language")
-    like_parser.add_argument("--limit", type=int, default=5, help="Limit number of results")
-
-    # Cross-section command
-    cs_parser = subparsers.add_parser("cross-section", help="Query cross-section of paradigms and eras")
-    cs_parser.add_argument("paradigm", help="The paradigm name (e.g. Object-Oriented)")
-    cs_parser.add_argument("era", help="The era name or generation (e.g. Multicore Crisis, cloud)")
-
-    args = parser.parse_args()
-    loader = DataLoader()
-    
-    if loader.use_sqlite:
-        # Note: We print this only if it's NOT a background check
-        if os.isatty(sys.stdout.fileno()):
-            print(f"[*] Using SQLite backend: {loader.db_path}")
-
-    if args.command == "list":
-        list_command(loader, args)
-    elif args.command == "info":
-        info_command(loader, args)
-    elif args.command == "influences":
-        influences_command(loader, args)
-    elif args.command == "paradigms":
-        paradigms_command(loader, args)
-    elif args.command == "research":
-        research_command(loader, args)
-    elif args.command == "search":
-        search_command(loader, args)
-    elif args.command == "like":
-        like_command(loader, args)
-    elif args.command == "cross-section":
-        cross_section_command(loader, args)
-    else:
-        parser.print_help()
+        title = f"Cross-section: {paradigm} in {era}"
+        table = Table(title=title, border_style="yellow")
+        if not results:
+            console.print(f"[yellow]No results found matching '{paradigm}' in '{era}'.[/yellow]")
+        else:
+            table.add_column("Language", style="cyan")
+            table.add_column("Year", justify="right")
+            table.add_column("Cluster")
+            table.add_column("Philosophy")
+            for row in results:
+                phil = row['philosophy'] or ""
+                if len(phil) > 50: phil = phil[:47] + "..."
+                table.add_row(row['display_name'], str(row['year']), row['cluster'], phil)
+            console.print(table)
 
 if __name__ == "__main__":
-    main()
+    app()
