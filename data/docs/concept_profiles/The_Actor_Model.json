@@ -1,0 +1,19 @@
+{
+  "title": "The Actor Model: Radical Isolation for Concurrency",
+  "overview": "The Actor Model is a mathematical model of concurrent computation that treats 'actors' as the universal primitives. It is designed to handle massive parallelism and fault tolerance by avoiding shared state entirely.",
+  "historical_context": "Proposed by Carl Hewitt in 1973, the Actor Model was a reaction to the complexity of shared-memory concurrency (locks, semaphores). It found its most successful practical application in Erlang, developed at Ericsson in the 1980s to build highly reliable telephone exchanges.",
+  "mental_model": "Think of a program as a collection of isolated islands. Each island has its own mailbox and can only communicate with other islands by sending asynchronous messages. No one can step onto another's island to change their data.\n\nYour brain must be wired to:\n1. **Value Isolation:** Actors never share memory. If you want an actor to know something, you must send it a copy of the data.\n2. **Think Asynchronously:** You send a message and move on. You don't wait for a response unless you explicitly design a 'reply' message flow.\n3. **Expect Failure:** Since actors are isolated, if one crashes, it doesn't take down the others. Use 'Supervisors' to watch and restart failed actors.",
+  "key_aspects": [
+    "**No Shared State:** Eliminates race conditions by ensuring that data is only ever local to a single actor.",
+    "**Asynchronous Message Passing:** Decouples the sender from the receiver, allowing for high levels of parallelism.",
+    "**Location Transparency:** Actors can be on the same machine or across a network; the message-passing interface remains the same.",
+    "**Fault Tolerance (Let it Crash):** The isolation of actors makes it possible to build systems that gracefully handle and recover from errors."
+  ],
+  "tradeoffs": "- **Complexity of Coordination:** Building complex workflows with many small, isolated actors can be difficult to reason about.\n- **Message Overhead:** Copying data for every message can be slower than shared memory for certain local tasks.\n- **Debugging Challenges:** Tracing the flow of messages through a distributed system is more complex than following a single-threaded execution.",
+  "legacy": "The Actor Model is the heart of Erlang and Elixir and has influenced many other modern frameworks like Akka (Scala/Java) and the distributed systems architecture of the modern cloud.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace the evolution of the Actor Model from Hewitt's original 1973 paper to its implementation in modern Erlang/Elixir.'",
+    "2. 'Compare the Actor Model's message-passing approach with Go's CSP (Communicating Sequential Processes).'",
+    "3. 'Analyze how the 'Supervision Tree' pattern in Erlang leverages the Actor Model to build 'nine nines' (99.9999999%) reliability.'"
+  ]
+}

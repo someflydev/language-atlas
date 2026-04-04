@@ -1,0 +1,19 @@
+{
+  "title": "Metaprogramming: Code that Writes Code",
+  "overview": "Metaprogramming is a programming technique in which computer programs have the ability to treat other programs as their data. It means that a program can be designed to read, generate, analyze or transform other programs, and even modify itself while running.",
+  "historical_context": "Rooted in the early macro systems of Assembly and popularized by Lisp's homoiconicity, metaprogramming was a reaction to the need for more flexible and expressive ways to build software. It enabled the creation of sophisticated tools and domain-specific languages by providing a way to automate and transform program logic.",
+  "mental_model": "Think in terms of transformations and generators. A program is not just a sequence of instructions, but a system that can manipulate its own structure and behavior through well-defined protocols.\n\nYour brain must be wired to:\n1. **Value Flexibility:** Understand that program logic can be generated and modified at compile-time or runtime, providing a powerful way to adapt to different needs.\n2. **Transform Logic:** Build complex software tools by treating code as a data structure that can be manipulated through standard language operations.\n3. **Think Systematically:** Imagine the program as a collection of modular building blocks that can be combined and transformed in many different ways.",
+  "key_aspects": [
+    "**Code Generation:** The ability of a program to generate new source code or bytecode at compile-time or runtime.",
+    "**Macro Systems:** The use of small programs to transform and expand code into more complex structures.",
+    "**Reflective Programming:** The ability of a program to inspect and modify its own structure and behavior at runtime.",
+    "**Domain-Specific Languages (DSLs):** The creation of specialized languages that are tailored to a specific problem domain."
+  ],
+  "tradeoffs": "- **Complexity:** Metaprogramming can make software architectures significantly more complex and difficult to understand.\n- **Debugging Challenges:** Tracing the flow of transformations and generated code can be much more difficult than following simple instructions.\n- **Performance Overhead:** Some forms of metaprogramming (like reflection) can add significant runtime performance overhead." ,
+  "legacy": "Metaprogramming has had a lasting impact on software engineering and has influenced the design of many modern languages, particularly those that emphasize flexibility and developer productivity.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explore the impact of Lisp macros on the evolution of modern metaprogramming tools like those in Rust or Elixir.'",
+    "2. 'Analyze the tradeoffs between compile-time metaprogramming (macros) and runtime metaprogramming (reflection).'",
+    "3. 'Discuss the relationship between Metaprogramming and modern domain-specific languages, and how they provide reusable solutions to specialized problems.'"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "title": "Garbage Collection: Automated Memory Management",
+  "overview": "Garbage Collection (GC) is a form of automatic memory management where the programming language's runtime system identifies and reclaims memory that is no longer being used by the program.",
+  "historical_context": "Invented by John McCarthy in 1959 for the Lisp programming language, GC was a reaction to the manual labor and error-prone nature of manual memory management (like malloc/free in C). It enabled the creation of more complex and reliable software systems by automating one of the most difficult parts of programming.",
+  "mental_model": "Think in terms of reachability. The system periodically scans the program's memory to find all data that can still be reached from the 'roots' (like global variables and the current execution stack). Any data that cannot be reached is considered 'garbage' and is automatically deleted.\n\nYour brain must be wired to:\n1. **Value Automatic Management:** Trust the runtime system to correctly manage memory for you, allowing you to focus on your program's logic.\n2. **Manage References:** Be aware of how your data structures are connected, as keeping a reference to data will prevent it from being garbage collected.\n3. **Think Systematically:** Imagine the program as a directed graph of objects, where the garbage collector periodically prunes the parts of the graph that are no longer reachable.",
+  "key_aspects": [
+    "**Automatic Memory Management:** Reclaims memory without explicit programmer intervention, reducing memory leaks and other related bugs.",
+    "**Reachability Analysis:** The process used by the GC to identify which data is still in use by the program.",
+    "**Stop-the-World Pauses:** The periods during which the program's execution is paused so the GC can perform its work.",
+    "**GC Algorithms:** The various methods used to implement garbage collection, such as Mark-and-Sweep, Reference Counting, and Generational GC."
+  ],
+  "tradeoffs": "- **Performance Overhead:** The GC adds significant runtime performance overhead compared to manual memory management.",
+  "legacy": "Garbage collection is a standard feature of most modern high-level languages, from Java and Python to JavaScript and Go. It has democratized programming by making it easier to build reliable and complex software systems.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explore the impact of John McCarthy's invention of garbage collection on the evolution of modern programming languages.'",
+    "2. 'Analyze the tradeoffs between various garbage collection algorithms, such as Mark-and-Sweep, Reference Counting, and Generational GC.'",
+    "3. 'Discuss the relationship between Garbage Collection and modern memory safety, and how it provides reusable solutions to common software problems.'"
+  ]
+}

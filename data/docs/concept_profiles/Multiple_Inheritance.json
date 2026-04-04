@@ -1,0 +1,19 @@
+{
+  "title": "Multiple Inheritance: Composing Behavior from Many Sources",
+  "overview": "Multiple Inheritance is a feature of some object-oriented programming languages that allows a class to inherit behaviors and properties from more than one parent class.",
+  "historical_context": "First introduced in SIMULA 67 and later popularized by C++ and Python, Multiple Inheritance was designed to provide a more flexible and expressive way to compose complex objects. It was a reaction to the limitations of single inheritance, which could lead to rigid and deeply nested class hierarchies.",
+  "mental_model": "Think in terms of composing specialized traits. A class is a combination of different behaviors and properties inherited from various sources, forming a 'directed acyclic graph' (DAG) of relationships rather than a simple tree.\n\nYour brain must be wired to:\n1. **Value Composition:** Build complex objects by combining simpler, specialized classes, with the expectation that they will work consistently together.\n2. **Manage Ambiguity:** Be aware of potential naming conflicts and the 'Diamond Problem', where a class inherits from two parents that share a common ancestor.\n3. **Think in Graphs:** Imagine the relationships between classes as a network of connections, providing a powerful and flexible way to represent complex domains.",
+  "key_aspects": [
+    "**Behavior Composition:** Enabled the creation of specialized classes by combining behaviors from multiple sources.",
+    "**Directed Acyclic Graph (DAG) Hierarchies:** Provided a more flexible and expressive model for class relationships than simple trees.",
+    "**The Diamond Problem:** The challenge of managing naming conflicts and redundant data when a class inherits from multiple parents with a common ancestor.",
+    "**Method Resolution Order (MRO):** The formal rules used by a language to determine the order in which inherited methods are searched and executed."
+  ],
+  "tradeoffs": "- **Complexity:** Multiple Inheritance can make class hierarchies significantly more difficult to understand and maintain.\n- **The Diamond Problem:** Managing potential conflicts and redundant data can lead to subtle bugs and complex implementation details.\n- **Learning Curve:** Understanding the power and pitfalls of Multiple Inheritance and Method Resolution Order required a new way of thinking about object-oriented design." ,
+  "legacy": "Multiple Inheritance has had a lasting impact on object-oriented programming and has influenced the design of many other languages, particularly those that use alternative models like traits or mixins.",
+  "ai_assisted_discovery_missions": [
+    "1. 'How does Python's C3 Linearization algorithm resolve the 'Diamond Problem' in Multiple Inheritance?'",
+    "2. 'Analyze the tradeoffs between Multiple Inheritance and alternative models like Traits (Rust/Scala) or Mixins (Ruby/JavaScript).'",
+    "3. 'Discuss why many modern object-oriented languages (like Java or C#) chose to restrict inheritance to a single parent while allowing multiple interface implementations.'"
+  ]
+}

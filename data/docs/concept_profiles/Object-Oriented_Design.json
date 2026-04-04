@@ -1,0 +1,19 @@
+{
+  "title": "Object-Oriented Design: Modeling the World through Objects",
+  "overview": "Object-Oriented Design (OOD) is a software engineering method that models a system as a collection of interacting objects, each encapsulating its own state and behavior. It is the basis for most modern software development.",
+  "historical_context": "Rooted in the development of SIMULA 67 and popularized by Smalltalk, C++, and Java, OOD was a reaction to the challenges of managing large-scale procedural codebases. Its central philosophy is that software should be organized around data objects and their interactions rather than just a sequence of steps.",
+  "mental_model": "Think in terms of objects as entities with specific roles and responsibilities. A program is a set of messages passed between these objects, where each object manages its own internal state and only exposes a well-defined interface.\n\nYour brain must be wired to:\n1. **Value Encapsulation:** Hide internal object details and only expose a clear, well-defined interface to other objects.\n2. **Organize Hierarchically:** Build complex systems through inheritance and composition, where specialized objects inherit behavior from more general ones.\n3. **Think in Interactions:** Focus on the messages passed between objects and the responsibilities of each entity in the overall system.",
+  "key_aspects": [
+    "**Encapsulation:** The bundling of data and the methods that operate on that data into a single unit (an object).",
+    "**Inheritance:** The mechanism by which one class can inherit the properties and behaviors of another class.",
+    "**Polymorphism:** The ability of different objects to respond to the same message in their own specialized way.",
+    "**Abstraction:** The process of simplifying complex systems by focusing on the essential features of an object or class."
+  ],
+  "tradeoffs": "- **Complexity:** OOD can make software architectures more complex and difficult to understand, particularly with deep inheritance hierarchies.\n- **Learning Curve:** Understanding the power and discipline of object-oriented design required a new way of thinking about software development.\n- **Performance Overhead:** The early object-oriented systems added some performance overhead compared to raw procedural code for some tasks." ,
+  "legacy": "Object-Oriented Design is the dominant model for modern software engineering. From enterprise applications to handheld devices, the 'object' model continues to define how we design, build, and maintain software in the digital age.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explore the impact of the SOLID principles on the evolution of modern object-oriented design.'",
+    "2. 'Analyze the differences between class-based inheritance (Java/C++) and prototype-based inheritance (JavaScript/Self).'",
+    "3. 'Discuss the relationship between Object-Oriented Design and modern design patterns, and how they provide reusable solutions to common software problems.'"
+  ]
+}

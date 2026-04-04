@@ -1,0 +1,19 @@
+{
+  "title": "Hindley-Milner Type System: Magic Inference",
+  "overview": "The Hindley-Milner (HM) type system is a formal logic for deducing the types of expressions in a programming language. It is the basis for powerful type inference in languages like Haskell, ML, and Rust.",
+  "historical_context": "Developed independently by Roger Hindley and Robin Milner in the late 1960s and 70s, the HM system was a reaction to the need for both strong type safety and developer productivity. It provided a way for a language to be strictly typed without requiring the programmer to explicitly annotate every variable and function.",
+  "mental_model": "Think in terms of constraints and unification. The compiler treats types as variables in a large system of equations and solves for the most general types that make the whole program logically consistent.\n\nYour brain must be wired to:\n1. **Value Type Inference:** Trust the compiler to correctly deduce the types of your expressions based on how they are used.\n2. **Internalize Unification:** Understand that the compiler 'unifies' different type constraints to find a common, consistent type for each part of the program.\n3. **Think Formally:** Imagine the program as a set of logical equations that the type system solves, providing a powerful and safe way to build complex software.",
+  "key_aspects": [
+    "**Type Inference:** The ability of the compiler to automatically deduce the types of expressions without explicit annotations.",
+    "**Principal Types:** The property that every expression has a most general type that covers all its possible uses.",
+    "**Parametric Polymorphism:** The ability to define functions and data structures that work with any type, while maintaining strict type safety.",
+    "**Unification Algorithm:** The formal process used by the HM system to resolve type constraints and find consistent types."
+  ],
+  "tradeoffs": "- **Complexity:** The formal logic and unification algorithm of the HM system can be difficult to implement and understand.\n- **Error Messages:** Type errors in HM systems can sometimes be cryptic or difficult to trace back to the source of the conflict.\n- **Performance Overhead:** The process of type inference can add significant compile-time performance overhead for large or complex programs." ,
+  "legacy": "The Hindley-Milner type system has had a lasting impact on programming language design and has influenced the design of many modern languages, particularly those that emphasize both safety and developer productivity.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explore the impact of the Hindley-Milner type system on the evolution of modern functional languages like Haskell or ML.'",
+    "2. 'Analyze the tradeoffs between explicit type annotations and automatic type inference in modern software development.'",
+    "3. 'Discuss the relationship between the Hindley-Milner system and modern type theory, and how they provide reusable solutions to complex problems.'"
+  ]
+}
