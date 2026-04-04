@@ -1,0 +1,28 @@
+You are a Senior Experience Architect and Language Historian. Your task is to implement "The Narrative Weave"—a massive expansion of the Guided Odysseys that leverages the newly added "Third Wave" data to create a world-class historical curriculum.
+
+CONTEXT:
+With the completion of the "Third Wave Expansion" (PROMPT_31), we now have the missing links (ABC, Simula 67, Common Lisp, Ada). Now we must evolve our linear Odysseys into robust, narrative-driven paths that explain the *why* of programming history.
+
+TASK:
+1.  **Expand Existing Odysseys**:
+    *   **The Systems Renaissance**: Insert **Ada** between C and Rust to contrast "Safety through Specification" vs. "Safety through Types." Insert **C#** or **Java** as the "Managed Detour."
+    *   **The Functional Frontier**: Insert **ML** and **Scheme** to show the bifurcation of the Lisp lineage and the birth of modern type theory.
+2.  **Implement New Master Odysseys**:
+    *   **"The Object-Oriented Odyssey"**: Simula 67 (The Origin) -> Smalltalk (The Ideal) -> Objective-C (The Hybrid) -> Ruby (The Modern Synthesis).
+    *   **"The Symbolic Spring (AI)"**: Lisp (The Spark) -> Prolog (The Logic) -> Python (The Consolidation) -> Mojo (The Future).
+    *   **"The Scientific Lineage"**: FORTRAN (The Pioneer) -> APL (The Notation) -> MATLAB/R (The Specialization) -> Julia (The Two-Language Solution).
+3.  **Implement "Dynamic Lineage Paths" (SQL Power)**:
+    *   Add a feature to the `DataLoader` and `cli.py` called `auto-odyssey`.
+    *   Given a language (e.g., "C"), it must use a Recursive CTE to find the top 4 most influential descendants based on `influence_score` and generate a temporary Odyssey on the fly.
+4.  **The "Challenge" Registry**:
+    *   Move the hardcoded "challenges" from `learning_paths.json` into a new `challenges` field within the individual `language_profiles/*.json` files.
+    *   Update `learning_paths.json` to simply reference the language; the Odyssey engine must pull the challenge text directly from the profile. This makes the data more modular and reusable.
+
+CONSTRAINTS:
+- No hardcoded narrative text in the CLI/TUI; pull everything from `data/`.
+- Ensure `AtlasAuditor` (`make audit`) passes after the migration of challenge text.
+- Use multi-line Tim Pope style commit messages.
+- Prefix commits with [PROMPT_32].
+
+DOCUMENTATION:
+Update `docs/CONCEPTS.md` to include a new section on "The Pedagogical Engine"—explaining how the Atlas uses influence graphs to generate learning paths.

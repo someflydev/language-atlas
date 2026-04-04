@@ -17,7 +17,7 @@ TASK:
     *   Update `data/paradigms.json` if any new paradigms are introduced (e.g., String-oriented, Prototype-based).
 4.  **Database Integration**:
     *   Rebuild `language_atlas.sqlite` and verify that all new entries are indexed in `fts_languages` and `fts_profiles`.
-    *   Run `scripts/validate_data.py` to ensure zero broken references.
+    *   Run `make audit` to ensure zero broken references and validate the expanded graph.
 
 CONSTRAINTS:
 - No emojis in headers.
