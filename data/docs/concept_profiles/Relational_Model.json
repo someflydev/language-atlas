@@ -1,0 +1,17 @@
+{
+  "title": "The Relational Model: Logic-Based Data Management",
+  "overview": "An approach to managing data using a structure based on first-order predicate logic, where all data is represented in terms of tuples, grouped into relations.",
+  "historical_context": "Proposed by E.F. Codd in 1970 as a way to decouple data storage from physical implementation.",
+  "mental_model": "Think of data as a set of mathematical facts (tables) that can be queried and combined using the rules of logic.",
+  "key_innovations": [
+    "Data independence.",
+    "Declarative querying (SQL).",
+    "Strict normalization rules."
+  ],
+  "tradeoffs": "Potential for \"Impedance Mismatch\" when mapping to object-oriented code.",
+  "legacy": "The foundation of almost all modern database systems (SQL).",
+  "ai_assisted_discovery_missions": [
+    "Analyze E.F. Codd’s 1970 paper and its impact on the industry.",
+    "Compare the Relational model with the earlier Hierarchical and Network models."
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Lazy Evaluation: Computation on Demand",
+  "overview": "Delaying the evaluation of an expression until its value is actually required by the program.",
+  "historical_context": "Derived from the Lambda Calculus and popularized by Haskell as a way to handle infinite data structures and optimize execution.",
+  "mental_model": "Think of a recipe where you only chop the vegetables when you are actually ready to put them in the pan.",
+  "key_innovations": [
+    "Infinite data structures.",
+    "Short-circuiting logic by default.",
+    "Potential for automatic memoization."
+  ],
+  "tradeoffs": "Difficult to predict memory usage and timing; can lead to \"space leaks.\"",
+  "legacy": "A defining feature of Haskell and an optional optimization in many other languages (e.g., Python generators, Scala lazy vals).",
+  "ai_assisted_discovery_missions": [
+    "Analyze how lazy evaluation enables infinite lists in Haskell.",
+    "Explain the \"thunk\" mechanism used to implement laziness."
+  ]
+}

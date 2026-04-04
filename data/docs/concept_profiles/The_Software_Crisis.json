@@ -1,0 +1,18 @@
+{
+  "title": "The Software Crisis: The Engine of Invention",
+  "overview": "The recurring historical realization that our ambitions for software complexity have outpaced our ability to manage it with current tools.",
+  "historical_context": "Formally named at the 1968 NATO Software Engineering Conference, but a recurring theme throughout computing history.",
+  "mental_model": "A wall that programmers eventually hit, forcing them to invent a new paradigm (e.g., Structured, Object-Oriented, or Memory-Safe) to climb over it.",
+  "key_innovations": [
+    "Spaghetti Code crisis -> Structured Programming.",
+    "Maintenance crisis -> Object-Oriented Design.",
+    "Multicore crisis -> Functional/Actor models.",
+    "Memory Safety crisis -> Ownership/Borrowing."
+  ],
+  "tradeoffs": "Each solution to a crisis introduces its own set of trade-offs and complexities, eventually leading to the next crisis.",
+  "legacy": "The primary narrative thread used in the Atlas to explain *why* languages were invented.",
+  "ai_assisted_discovery_missions": [
+    "Trace the Software Crisis from 1968 to the present day.",
+    "Analyze how Rust reacts to the \"Memory Safety Crisis\"."
+  ]
+}

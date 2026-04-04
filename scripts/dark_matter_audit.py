@@ -178,19 +178,48 @@ def audit():
             languages_data = json.load(f)
             for lang in languages_data:
                 add_reference(lang.get("name"), referenced_languages)
-                for inf in lang.get("influenced_by", []): add_reference(inf, referenced_languages)
-                for inf in lang.get("influenced", []): add_reference(inf, referenced_languages)
-                for inv in lang.get("key_innovations", []):
-                    c, o = extract_entities_from_text(inv)
-                    for item in c: add_reference(item, referenced_concepts)
-                    for item in o: add_reference(item, referenced_organizations)
-                    # If it wasn't bolded, the whole thing might be a concept name (if short)
-                    if not c:
-                        add_reference(inv, referenced_concepts)
+                
+                # Influences
+                for inf in lang.get("influenced_by", []): 
+                    add_reference(inf, referenced_languages)
+                for inf in lang.get("influenced", []): 
+                    add_reference(inf, referenced_languages)
+                
+                # Primary Use Cases & Innovations
+                for field in ["primary_use_cases", "key_innovations"]:
+                    for val in lang.get(field, []):
+                        c, o = extract_entities_from_text(val)
+                        for item in c: add_reference(item, referenced_concepts)
+                        for item in o: add_reference(item, referenced_organizations)
+                        # If it wasn't bolded, the whole string might be a concept
+                        if not c:
+                            add_reference(val, referenced_concepts)
+                
+                # Paradigms
+                for paradigm in lang.get("paradigms", []):
+                    # We can track these separately if we want, or just as concepts
+                    # But the user asked to ensure they are in data/paradigms.json
+                    add_reference(paradigm, referenced_concepts)
+
                 for creator in lang.get("creators", []):
                     if is_organization(creator): add_reference(creator, referenced_organizations)
                     else: add_reference(creator, referenced_concepts)
 
+    # Paradigms Check (Specific request)
+    missing_paradigms = []
+    paradigms_path = data_dir / "paradigms.json"
+    if paradigms_path.exists() and languages_path.exists():
+        with open(paradigms_path, "r") as f:
+            paradigms_data = json.load(f)
+            known_paradigms = {canonicalize(p["name"]) for p in paradigms_data}
+        
+        with open(languages_path, "r") as f:
+            languages_data = json.load(f)
+            for lang in languages_data:
+                for p in lang.get("paradigms", []):
+                    if canonicalize(p) not in known_paradigms:
+                        missing_paradigms.append(p)
+    
     # 3. Crawl existing profiles
     def scan_profile_data(data):
         found_concepts, found_orgs = [], []
@@ -258,6 +287,7 @@ def audit():
         "missing_language_profiles": sorted(list(set(missing_languages))),
         "missing_concept_profiles": sorted(list(set(missing_concepts))),
         "missing_org_profiles": sorted(list(set(missing_orgs))),
+        "missing_paradigms": sorted(list(set(missing_paradigms))),
         "ambiguous_references": []
     }
 

@@ -86,5 +86,57 @@
   {
     "name": "Prototype-based",
     "description": "A style of object-oriented programming in which inheritance is performed via a process of cloning existing objects that serve as prototypes."
+  },
+  {
+    "name": "Array",
+    "description": "A paradigm focused on processing entire arrays of data at once without explicit loops."
+  },
+  {
+    "name": "Array-oriented",
+    "description": "A synonym for the Array paradigm, emphasizing data-parallel operations on multi-dimensional structures."
+  },
+  {
+    "name": "Component-based",
+    "description": "Building software systems by composing reusable, independent components with well-defined interfaces."
+  },
+  {
+    "name": "Concurrent",
+    "description": "Programming focused on the execution of multiple tasks that overlap in time, often through processes or threads."
+  },
+  {
+    "name": "Declarative",
+    "description": "A high-level style where the logic of computation is expressed without describing its control flow."
+  },
+  {
+    "name": "Dynamic",
+    "description": "A paradigm where many common behaviors happen at runtime rather than compile-time."
+  },
+  {
+    "name": "Multiple Dispatch",
+    "description": "A feature where a function or method can be specialized based on the runtime types of all its arguments."
+  },
+  {
+    "name": "Parallel",
+    "description": "A paradigm designed for the simultaneous execution of multiple tasks, typically on multi-core hardware."
+  },
+  {
+    "name": "Protocol-oriented",
+    "description": "A style emphasizing the use of protocols (interfaces) and composition over rigid class hierarchies."
+  },
+  {
+    "name": "Reflective",
+    "description": "Programming that allows a system to observe and modify its own structure and behavior at runtime."
+  },
+  {
+    "name": "String-processing",
+    "description": "A paradigm specialized for the manipulation, searching, and transformation of text data."
+  },
+  {
+    "name": "Structured",
+    "description": "A paradigm aimed at improving quality and development time through the use of structured control flow (if/then/else, loops)."
+  },
+  {
+    "name": "Symbolic",
+    "description": "A paradigm that manipulates symbols and mathematical expressions as first-class data."
   }
 ]

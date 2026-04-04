@@ -1,0 +1,17 @@
+{
+  "title": "Semantic Search: Finding Deep Connections",
+  "overview": "A multi-layered search engine that uses full-text indexing (FTS5) to find connections across languages, people, and deep narrative profiles.",
+  "historical_context": "Implemented to allow researchers to find \"hidden\" mentions of concepts within the vast narrative documentation of the Atlas.",
+  "mental_model": "A global index that understands categories (language, profile, concept) and provides contextual snippets.",
+  "key_innovations": [
+    "BM25 ranking for relevance.",
+    "Cross-category search partials (HTMX-ready).",
+    "Indexing of deep profile sections."
+  ],
+  "tradeoffs": "Requires manual indexing and schema management to ensure all narrative content is searchable.",
+  "legacy": "Transforms the Atlas from a list of files into a searchable research platform.",
+  "ai_assisted_discovery_missions": [
+    "Analyze the SQLite FTS5 implementation used in the Atlas.",
+    "Explain how BM25 ranking improves search relevance."
+  ]
+}

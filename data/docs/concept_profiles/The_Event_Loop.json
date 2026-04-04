@@ -1,0 +1,17 @@
+{
+  "title": "The Event Loop: Single-Threaded Concurrency",
+  "overview": "A programming construct that waits for and dispatches events or messages, enabling non-blocking execution in a single-threaded environment.",
+  "historical_context": "Gained massive popularity with the Web Explosion (JavaScript) as a way to handle high-concurrency I/O without the overhead of threads.",
+  "mental_model": "Think of a restaurant waiter who takes orders and moves on to the next table while the kitchen is cooking, instead of standing still.",
+  "key_innovations": [
+    "Non-blocking I/O.",
+    "Callback-based task management.",
+    "High efficiency for I/O-bound workloads."
+  ],
+  "tradeoffs": "CPU-bound tasks can \"block\" the loop, freezing the entire application.",
+  "legacy": "The heartbeat of the modern web (Node.js, Browser JS) and Python’s asyncio.",
+  "ai_assisted_discovery_missions": [
+    "Compare the Node.js event loop with Python’s asyncio event loop.",
+    "Explain how the \"Callback Queue\" interacts with the \"Call Stack\"."
+  ]
+}

@@ -1,102 +1,30 @@
 [
   {
-    "name": "Block structure",
-    "description": "The grouping of statements into a single unit, often allowing for nested scopes."
-  },
-  {
-    "name": "Garbage collection",
-    "description": "Automatic memory management where the system reclaims memory no longer in use by the program."
-  },
-  {
-    "name": "Object-oriented programming",
-    "description": "A paradigm based on the concept of 'objects' containing data and code."
-  },
-  {
-    "name": "Homoiconicity",
-    "description": "The property that the program structure is represented as a data structure in the language itself."
-  },
-  {
-    "name": "Hindley-Milner type system",
-    "description": "A type system that allows for powerful type inference without requiring explicit type annotations."
-  },
-  {
-    "name": "RAII",
-    "description": "Resource Acquisition Is Initialization: a pattern where resource management is tied to object lifetime."
-  },
-  {
-    "name": "Lazy evaluation",
-    "description": "The strategy of delaying the evaluation of an expression until its value is actually needed."
-  },
-  {
-    "name": "The Actor Model",
-    "description": "A mathematical model of concurrent computation that treats 'actors' as universal primitives."
-  },
-  {
-    "name": "Ownership and Borrowing",
-    "description": "A memory management model that uses strict rules to ensure memory safety without a garbage collector."
-  },
-  {
-    "name": "The Event Loop",
-    "description": "A programming construct that waits for and dispatches events or messages in a program."
-  },
-  {
-    "name": "Relational Model",
-    "description": "An approach to managing data using a structure and language consistent with first-order predicate logic."
-  },
-  {
-    "name": "Design by Contract",
-    "description": "A software engineering method that defines the rights and obligations of software components through formal contracts."
-  },
-  {
-    "name": "Church-Turing Thesis",
-    "description": "A fundamental hypothesis stating that any effectively calculable function can be computed by a Turing Machine."
-  },
-  {
-    "name": "Multiple Inheritance",
-    "description": "A feature of object-oriented languages that allows a class to inherit from more than one parent class."
-  },
-  {
-    "name": "Object-Oriented Design",
-    "description": "A software engineering method that models a system as a collection of interacting objects."
-  },
-  {
-    "name": "Metaprogramming",
-    "description": "A technique where computer programs treat other programs as their data, allowing for code that writes or modifies code."
-  },
-  {
-    "name": "Borrow Checking",
-    "description": "A feature of the Rust type system that ensures memory safety without a garbage collector by tracking ownership and lifetimes."
-  },
-  {
-    "name": "Immutability",
-    "description": "The philosophy that once a piece of data is created, it cannot be changed, favoring transformation over modification."
-  },
-  {
-    "name": "Communicating Sequential Processes",
-    "description": "A formal language for describing patterns of interaction in concurrent systems, emphasizing communication via channels."
-  },
-  {
-    "name": "Async-Await",
-    "description": "A syntactic feature that allows asynchronous, non-blocking functions to be written in a style that resembles synchronous code."
-  },
-  {
-    "name": "Static vs Dynamic Typing",
-    "description": "The distinction between checking types at compile-time (Static) versus runtime (Dynamic)."
-  },
-  {
-    "name": "Nominal vs Structural Typing",
-    "description": "Whether a type system determines compatibility based on explicit names (Nominal) or the shape/structure of the data (Structural)."
-  },
-  {
-    "name": "Macros",
-    "description": "Programs that run during compilation to expand code into more complex structures, often used for metaprogramming."
+    "name": "The Pedagogical Engine",
+    "description": "The Atlas framework for generating interactive learning paths and exploring the historical influence graph of programming."
   },
   {
     "name": "Programming Language Generations",
     "description": "A classification of programming languages based on their historical era, hardware constraints, and industry needs."
   },
   {
-    "name": "The Pedagogical Engine",
-    "description": "The Atlas framework for generating interactive learning paths and exploring the historical influence graph of programming."
+    "name": "Guided Odyssey",
+    "description": "Curated narrative journeys through the Language Atlas that guide students from foundational precursors to modern systems."
+  },
+  {
+    "name": "Influence Graph",
+    "description": "The directed acyclic graph (DAG) representing how programming languages have influenced one another across history."
+  },
+  {
+    "name": "Semantic Search",
+    "description": "Full-text search capabilities across the Atlas using FTS5 to find deep connections between languages, people, and concepts."
+  },
+  {
+    "name": "Zenith State",
+    "description": "The mature phase of the Language Atlas where it serves as a high-density, authoritative research platform."
+  },
+  {
+    "name": "The Software Crisis",
+    "description": "The recurring historical realization that software complexity has outpaced hardware capabilities and programmer productivity, driving the invention of new paradigms."
   }
 ]

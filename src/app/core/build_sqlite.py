@@ -375,13 +375,24 @@ def build_database(conn=None, data_dir=None):
     for key, profile in concept_profiles.items():
         concept_id = None
         # key is filename without extension (e.g., "The_Actor_Model")
+        space_key = key.replace('_', ' ')
+        
         if key in concept_id_map:
             concept_id = concept_id_map[key]
+        elif space_key in concept_id_map:
+            concept_id = concept_id_map[space_key]
         else:
-            # Try to match by name normalization (underscore to space)
-            space_key = key.replace('_', ' ')
-            if space_key in concept_id_map:
-                concept_id = concept_id_map[space_key]
+            # Auto-create base concept from profile if missing in concepts.json
+            title = profile.get('title', space_key)
+            name_only = title.split(':')[0].strip()
+            # Double check if name_only is already in map
+            if name_only in concept_id_map:
+                concept_id = concept_id_map[name_only]
+            else:
+                cursor.execute("INSERT INTO concepts (name, description) VALUES (?, ?)", 
+                               (name_only, profile.get('overview', 'Detailed concept profile available.')))
+                concept_id = cursor.lastrowid
+                concept_id_map[name_only] = concept_id
         
         if concept_id:
             cursor.execute("INSERT INTO concept_profiles (concept_id, title, overview) VALUES (?, ?, ?)", 

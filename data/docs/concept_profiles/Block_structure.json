@@ -1,0 +1,17 @@
+{
+  "title": "Block Structure: Lexical Scoping and Nesting",
+  "overview": "The organization of code into nested blocks that define scope and lifetime. A foundational concept for structured programming.",
+  "historical_context": "Introduced by ALGOL 58 and refined in ALGOL 60, block structure replaced the linear, flat structure of assembly and FORTRAN.",
+  "mental_model": "Think of Russian nesting dolls. Each block creates a new environment that can access its own variables and those of its parents.",
+  "key_innovations": [
+    "Lexical scoping.",
+    "Variable lifetimes tied to block exit.",
+    "Nested procedure definitions."
+  ],
+  "tradeoffs": "Can lead to complex lookup rules and \"shadowing\" of variables.",
+  "legacy": "The standard for almost all modern imperative and functional languages.",
+  "ai_assisted_discovery_missions": [
+    "Trace the evolution of block structure from ALGOL to C.",
+    "Compare block structure with the earlier GOTO-based control flow."
+  ]
+}
