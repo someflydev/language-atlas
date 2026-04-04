@@ -7,41 +7,85 @@ Welcome to the internal engine of the Language Atlas. This guide covers the tech
 The codebase is split into three primary layers:
 
 1.  **Core Logic (`src/app/core/`)**:
-    *   `data_loader.py`: The unified data access layer. It handles transparent switching between flat JSON files and the SQLite backend. It hydrates complex language objects, including creator and paradigm relations.
-    *   `build_sqlite.py`: The database orchestrator. It transforms the raw JSON lake into a structured relational database with full-text search (FTS5) capabilities.
+    *   `data_loader.py`: The unified data access layer. Handles transparent switching between JSON files and SQLite.
+    *   `build_sqlite.py`: The database orchestrator. Transforms the JSON "lake" into a structured relational database.
     *   `insights.py`: Analytical engine for generating cross-language historical reports.
 2.  **CLI Interface (`src/cli.py`)**:
     *   A high-density Control Room built with Typer and Rich.
-    *   Features a `dashboard` command for real-time visual analysis of language impact.
-    *   Includes fuzzy name suggestion logic to help discover languages with complex naming.
+    *   Features a `dashboard` command for real-time visual analysis.
 3.  **Interactive TUI (`src/tui.py`)**:
-    *   The Living Atlas TUI provides an immersive, three-pane experience for exploring language evolution.
+    *   The "Living Atlas" TUI provides an immersive, three-pane experience for exploring language evolution.
     *   Features real-time FTS5 global search and deep navigation through influence scores.
 4.  **Web Application (`src/app/`)**:
-    *   FastAPI-powered server providing an interactive, filtered view of the programming language timeline.
+    *   FastAPI-powered server providing a filtered view of the programming language timeline.
 
-## The Semantic Schema (SQLite Views)
+## SQLite: The Analytical Engine
 
-Our database uses Semantic Views to abstract away complex JOINs and provide a clean API for both the CLI and Web layers.
+The Language Atlas uses SQLite not just as a storage layer, but as a powerful analytical engine. We leverage advanced features to model complex historical relationships.
 
-### `v_language_details`
-Provides a flattened, comprehensive view of a language's metadata.
-*   **Columns**: `id`, `name`, `display_name`, `year`, `cluster`, `generation`, `profile_title`, `paradigms` (comma-separated), `creators` (comma-separated).
-*   **Usage**: Powering the `dashboard` and `info` commands.
+### Inspection Fundamentals
 
-### `v_global_search`
-A unified interface for full-text search across both core metadata and deep technical profiles.
-*   **Columns**: `category`, `language_id`, `title`, `snippet`, `source_table`.
-*   **Logic**: Unions `fts_languages` and `fts_profiles` to provide a Google-style search experience.
+You can inspect the database state at any time:
 
-### Full-Text Search (FTS5)
-We leverage SQLite's `fts5` module for high-performance discovery:
-*   `fts_languages`: Optimized for searching names, philosophies, and mental models.
-*   `fts_profiles`: Optimized for deep-diving into the narrative sections of language documentation.
+```bash
+# Basic inspection using our internal script
+uv run python3 scripts/inspect_sqlite.py
+
+# Direct CLI access
+sqlite3 language_atlas.sqlite
+```
+
+### Feature Progression: From Basic to Complex
+
+We leverage SQLite's capabilities in increasing order of sophistication:
+
+1.  **Basic Relational (Foreign Keys & Indexes)**: Ensures data integrity across languages, paradigms, and creators.
+2.  **Aggregated Views**: `v_language_details` provides flattened metadata for easy consumption by the UI.
+3.  **Full-Text Search (FTS5)**: High-performance discovery across philosophies and technical profiles using the Porter stemming algorithm.
+4.  **Reactive Triggers**: Automatic FTS index updates when core language data changes.
+5.  **Window Functions**: Used in `insights.py` to calculate "Paradigm Volatility" (ranking decades by innovation density).
+6.  **Recursive CTEs**: Powerful graph traversals to calculate the "transitive influence" of keystone languages like ALGOL 60 or Lisp.
+
+### Core Schema Highlights
+
+The most interesting data resides in these tables:
+
+*   **`languages`**: Core metadata including `influence_score`, `year`, and `generation`.
+*   **`influences`**: A many-to-many relationship mapping the "lineage" of code.
+*   **`language_profiles`**: Extended technical narratives split into `profile_sections`.
+*   **`era_summaries`**: Contextual data about specific historical periods (e.g., "Web Explosion").
+
+### Query Progression: Understanding the Logic
+
+The system performs queries of varying difficulty behind the scenes:
+
+*   **Level 1: Simple Filter (Basic)**
+    ```sql
+    SELECT name FROM languages WHERE cluster = 'systems';
+    ```
+*   **Level 2: Complex Join (Intermediate)**
+    ```sql
+    SELECT p.name FROM paradigms p 
+    JOIN language_paradigms lp ON p.id = lp.paradigm_id 
+    WHERE lp.language_id = ?;
+    ```
+*   **Level 3: Full-Text Search (Advanced)**
+    ```sql
+    SELECT title, snippet(fts_languages, -1, '[b]', '[/b]', '...', 10) 
+    FROM fts_languages WHERE fts_languages MATCH 'memory safety';
+    ```
+*   **Level 4: Recursive Graph Traversal (Clever)**
+    ```sql
+    WITH RECURSIVE influence_chain(id, name, depth) AS (
+        SELECT id, name, 0 FROM languages WHERE name = 'C'
+        UNION ALL
+        SELECT l.id, l.name, ic.depth + 1
+        FROM languages l JOIN influences i ON l.id = i.target_id
+        JOIN influence_chain ic ON i.source_id = ic.id
+    ) SELECT name, MIN(depth) FROM influence_chain GROUP BY name;
+    ```
 
 ## CLI: Control Room Commands
-
-The CLI is the primary tool for data-dense research.
 
 ```bash
 # Launch the interactive Living Atlas TUI
@@ -50,67 +94,20 @@ uv run python3 src/cli.py tui
 # Enter the Control Room for a specific language
 uv run python3 src/cli.py dashboard "Rust"
 
-# Generate a visual summary of release density
-uv run python3 src/cli.py report summary
-
-# Get a syntax-highlighted technical brief
-uv run python3 src/cli.py info "C++" --pretty
-
 # Perform a global semantic search
 uv run python3 src/cli.py search "memory safety"
 ```
 
-## Fuzzy Discovery Tools
-
-In addition to the standard CLI, we provide a zero-config fuzzy finder for rapid exploration.
-
-```bash
-# Launch the fuzzy-search wrapper (requires fzf)
-# Use ENTER for TUI or CTRL-I for a quick Info brief
-bash scripts/atlas-fuzzy.sh
-```
-
-## Internal Core Logic
-
-### The DataLoader Lifecycle
-1.  **Initialization**: Checks for `USE_SQLITE=1` environment variable.
-2.  **Discovery**: Scans `data/docs/language_profiles/` for extended technical specs.
-3.  **Hydration**: When fetching a language, it automatically joins related creators, paradigms, and influences into a single Python dictionary.
-
-### Fuzzy Suggestion Engine
-The CLI uses `difflib.get_close_matches` against the database's name index. This ensures that even if you misspell a language, the Atlas provides an intelligent redirection.
-
 ## Makefile Commands
 
-The project includes a Makefile to automate common development tasks.
-
-*   `make docs`: Generates Markdown documentation files in the `generated-docs/` directory by querying the SQLite database.
-*   `make test`: Executes the fast test suite, covering unit tests and data consistency checks while excluding intensive analytical tests.
-*   `make test-intensive`: Runs the full test suite, including long-running analytical tests, and regenerates the `historical_insights.json` report.
-*   `make clean`: Removes all generated artifacts, including the `generated-docs/` directory, pytest caches, and the historical insights report.
-*   `make help`: Displays a summary of all available make targets and their descriptions.
+*   `make docs`: Generates Markdown documentation from the SQLite database.
+*   `make test`: Runs fast unit and consistency checks.
+*   `make test-intensive`: Executes long-running analytical tests and regenerates insights.
+*   `make clean`: Removes generated documentation and test artifacts.
 
 ## Setup and Run
 
-### 1. Install Dependencies
-```bash
-uv venv --python 3.12
-source .venv/bin/activate
-uv sync
-```
-
-### 2. Build the Database
-```bash
-uv run python3 src/app/core/build_sqlite.py
-```
-
-### 3. Start the Web UI
-```bash
-uv run python3 src/app/app.py
-```
-
-### 4. Run CLI Commands
-```bash
-export PYTHONPATH=$PYTHONPATH:$(pwd)/src
-uv run python3 src/cli.py --help
-```
+1.  **Install Dependencies**: `uv venv --python 3.12 && source .venv/bin/activate && uv sync`
+2.  **Build Database**: `uv run python3 src/app/core/build_sqlite.py`
+3.  **Start Web UI**: `uv run python3 src/app/app.py`
+4.  **Explore CLI**: `uv run python3 src/cli.py --help`
