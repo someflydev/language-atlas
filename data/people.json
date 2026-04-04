@@ -48,6 +48,14 @@
     ]
   },
   {
+    "name": "Alfred Aho",
+    "contributions": [
+      "AWK",
+      "Compilers",
+      "Algorithms"
+    ]
+  },
+  {
     "name": "Alick Glennie",
     "contributions": [
       "Autocode"
@@ -103,6 +111,14 @@
     ]
   },
   {
+    "name": "Barbara Liskov",
+    "contributions": [
+      "CLU",
+      "Abstract Data Types",
+      "Liskov Substitution Principle"
+    ]
+  },
+  {
     "name": "Barry Mailloux",
     "contributions": [
       "ALGOL 68"
@@ -113,6 +129,12 @@
     "contributions": [
       "Eiffel",
       "Design by Contract"
+    ]
+  },
+  {
+    "name": "Bill Kalsow",
+    "contributions": [
+      "Modula-3"
     ]
   },
   {
@@ -133,6 +155,14 @@
     "name": "Brad Cox",
     "contributions": [
       "Objective-C"
+    ]
+  },
+  {
+    "name": "Brian Kernighan",
+    "contributions": [
+      "AWK",
+      "C",
+      "Unix"
     ]
   },
   {
@@ -204,9 +234,38 @@
     ]
   },
   {
+    "name": "Daniel Weinreb",
+    "contributions": [
+      "Common Lisp",
+      "Zetalisp"
+    ]
+  },
+  {
     "name": "David J. Farber",
     "contributions": [
       "SNOBOL"
+    ]
+  },
+  {
+    "name": "David MacQueen",
+    "contributions": [
+      "Standard ML",
+      "SML/NJ"
+    ]
+  },
+  {
+    "name": "David Moon",
+    "contributions": [
+      "Common Lisp",
+      "Dylan"
+    ]
+  },
+  {
+    "name": "David Turner",
+    "contributions": [
+      "Miranda",
+      "SASL",
+      "KRC"
     ]
   },
   {
@@ -258,6 +317,12 @@
     ]
   },
   {
+    "name": "Gary Grossman",
+    "contributions": [
+      "ActionScript"
+    ]
+  },
+  {
     "name": "Gerald Jay Sussman",
     "contributions": [
       "Scheme",
@@ -285,6 +350,12 @@
     ]
   },
   {
+    "name": "Greg Nelson",
+    "contributions": [
+      "Modula-3"
+    ]
+  },
+  {
     "name": "Guido van Rossum",
     "contributions": [
       "Python"
@@ -297,6 +368,14 @@
       "Common Lisp",
       "Java",
       "High Performance Fortran"
+    ]
+  },
+  {
+    "name": "Herman Hollerith",
+    "contributions": [
+      "Hollerith Tabulator",
+      "Punched card data processing",
+      "IBM founder"
     ]
   },
   {
@@ -325,6 +404,12 @@
     ]
   },
   {
+    "name": "James Donahue",
+    "contributions": [
+      "Modula-3"
+    ]
+  },
+  {
     "name": "James Gosling",
     "contributions": [
       "Java",
@@ -341,6 +426,12 @@
     "name": "Jeff Bezanson",
     "contributions": [
       "Julia"
+    ]
+  },
+  {
+    "name": "Jeffrey Snover",
+    "contributions": [
+      "PowerShell"
     ]
   },
   {
@@ -416,6 +507,13 @@
     ]
   },
   {
+    "name": "Joseph Marie Jacquard",
+    "contributions": [
+      "Jacquard Loom",
+      "Punched card control"
+    ]
+  },
+  {
     "name": "Kasper Lund",
     "contributions": [
       "Dart",
@@ -461,6 +559,13 @@
     ]
   },
   {
+    "name": "Lambert Meertens",
+    "contributions": [
+      "ABC",
+      "ALGOL 68"
+    ]
+  },
+  {
     "name": "Larry Wall",
     "contributions": [
       "Perl",
@@ -477,9 +582,21 @@
     ]
   },
   {
+    "name": "Lee E. McMahon",
+    "contributions": [
+      "Sed"
+    ]
+  },
+  {
     "name": "Lennart Augustsson",
     "contributions": [
       "Haskell"
+    ]
+  },
+  {
+    "name": "Leo Geurts",
+    "contributions": [
+      "ABC"
     ]
   },
   {
@@ -489,9 +606,30 @@
     ]
   },
   {
+    "name": "Luca Cardelli",
+    "contributions": [
+      "Modula-3",
+      "Type systems",
+      "Quest"
+    ]
+  },
+  {
+    "name": "Lucille Glassman",
+    "contributions": [
+      "Modula-3"
+    ]
+  },
+  {
     "name": "Luiz Henrique de Figueiredo",
     "contributions": [
       "Lua"
+    ]
+  },
+  {
+    "name": "Mads Tofte",
+    "contributions": [
+      "Standard ML",
+      "Region-based memory management"
     ]
   },
   {
@@ -508,6 +646,20 @@
     ]
   },
   {
+    "name": "Mick Jordan",
+    "contributions": [
+      "Modula-3"
+    ]
+  },
+  {
+    "name": "Mike Cowlishaw",
+    "contributions": [
+      "REXX",
+      "NetREXX",
+      "Decimal arithmetic"
+    ]
+  },
+  {
     "name": "Mike Williams",
     "contributions": [
       "Erlang"
@@ -520,6 +672,14 @@
       "Modula-2",
       "Oberon",
       "Euler"
+    ]
+  },
+  {
+    "name": "Noam Chomsky",
+    "contributions": [
+      "Chomsky Hierarchy",
+      "Formal grammars",
+      "Linguistics"
     ]
   },
   {
@@ -543,17 +703,17 @@
     ]
   },
   {
+    "name": "Peter Weinberger",
+    "contributions": [
+      "AWK",
+      "Network File System (NFS)"
+    ]
+  },
+  {
     "name": "Philip Wadler",
     "contributions": [
       "Haskell",
       "Monads in functional programming"
-    ]
-  },
-  {
-    "name": "Ralph E. Griswold",
-    "contributions": [
-      "SNOBOL",
-      "Icon"
     ]
   },
   {
@@ -579,6 +739,13 @@
     "name": "Raymond F. Boyce",
     "contributions": [
       "SQL"
+    ]
+  },
+  {
+    "name": "Richard P. Gabriel",
+    "contributions": [
+      "Common Lisp",
+      "Worse is Better philosophy"
     ]
   },
   {
@@ -616,6 +783,13 @@
     ]
   },
   {
+    "name": "Robert Harper",
+    "contributions": [
+      "Standard ML",
+      "Type theory"
+    ]
+  },
+  {
     "name": "Robert Kowalski",
     "contributions": [
       "Prolog"
@@ -637,6 +811,7 @@
     "name": "Robin Milner",
     "contributions": [
       "ML",
+      "Standard ML",
       "Hindley-Milner type system",
       "Pi-calculus"
     ]
@@ -661,6 +836,13 @@
     ]
   },
   {
+    "name": "Scott Fahlman",
+    "contributions": [
+      "Common Lisp",
+      "Smiley emoticon"
+    ]
+  },
+  {
     "name": "Simon Peyton Jones",
     "contributions": [
       "Haskell"
@@ -676,6 +858,15 @@
     "name": "Stefan Karpinski",
     "contributions": [
       "Julia"
+    ]
+  },
+  {
+    "name": "Steven Pemberton",
+    "contributions": [
+      "ABC",
+      "ALGOL 68",
+      "XHTML",
+      "XForms"
     ]
   },
   {
@@ -718,6 +909,16 @@
     "name": "Xavier Leroy",
     "contributions": [
       "OCaml"
+    ]
+  },
+  {
+    "name": "Xerox PARC",
+    "contributions": [
+      "Mesa",
+      "Smalltalk",
+      "Ethernet",
+      "Laser printing",
+      "Graphical User Interface (GUI)"
     ]
   },
   {

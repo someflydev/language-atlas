@@ -78,5 +78,13 @@
   {
     "name": "Goal-directed",
     "description": "Execution centered around expressions that can succeed or fail, using generators and backtracking to find a successful path."
+  },
+  {
+    "name": "String-oriented",
+    "description": "Programming where string manipulation and pattern matching are the primary operations."
+  },
+  {
+    "name": "Prototype-based",
+    "description": "A style of object-oriented programming in which inheritance is performed via a process of cloning existing objects that serve as prototypes."
   }
 ]
