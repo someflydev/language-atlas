@@ -4,78 +4,71 @@ Welcome to the **Zenith** state of the Language Atlas—a professional-grade res
 
 ## Architecture Overview
 
-The Language Atlas is now a fully integrated platform with four primary layers:
+The Language Atlas is a data-driven platform where JSON is the single source of truth, integrated across four primary layers:
 
-1.  **Core Logic & Audit (`src/app/core/`)**:
+1.  **Core Logic & Audit (src/app/core/)**:
     *   `data_loader.py`: Unified data access layer with transparent SQLite/JSON switching.
-    *   `auditor.py`: **Atlas Auditor (Validation 2.0)**. A robust class providing JSON schema validation, referential integrity checks, and "Semantic Orphan" detection.
+    *   `auditor.py`: **Atlas Auditor (Validation 2.0)**. Provides JSON schema validation and referential integrity checks.
     *   `build_sqlite.py`: Transforms the JSON data lake into a structured, indexed relational database.
-2.  **Guided Mastery: Interactive Odysseys**:
-    *   Implemented across CLI, TUI, and Web.
-    *   Curated learning paths (e.g., "The Systems Renaissance") guide users through language milestones with technical challenges.
+2.  **The Pedagogical Engine: Interactive Odysseys**:
+    *   **Guided Paths**: Curated learning paths (e.g., "The Systems Renaissance") that pull narrative challenges directly from language profiles.
+    *   **Auto-Odyssey**: A dynamic, recursive engine that generates lineage-based learning paths on the fly using SQLite Recursive CTEs to find influential descendants.
 3.  **Discovery Interfaces**:
-    *   **CLI (`src/cli.py`)**: High-density "Control Room" for analytical reports and guided Odysseys.
-    *   **Living Atlas TUI (`src/tui.py`)**: Immersive three-pane explorer with real-time FTS5 search and Odyssey mode (toggle with `o`).
-    *   **Web UI & API (`src/app/app.py`)**: FastAPI server providing a rich visual timeline, interactive Odysseys, and a **Semantic Search API**.
+    *   **CLI (src/cli.py)**: High-density "Control Room" for analytical reports, guided Odysseys, and the new `auto-odyssey` command.
+    *   **Living Atlas TUI (src/tui.py)**: Immersive three-pane explorer with real-time FTS5 search and narrative Odyssey mode (toggle with `o`).
+    *   **Web UI & API (src/app/app.py)**: FastAPI server providing a rich visual timeline, interactive Odysseys, and a comprehensive **Semantic Search API**.
 4.  **Distribution (Zenith Build)**:
     *   A self-contained executable binary that bundles the entire platform, including the database and dependencies.
 
 ## Semantic Search API
 
-The Atlas exposes a high-performance JSON API for external tools and programmatic research.
+The Atlas exposes a high-performance JSON API for external tools and programmatic research. The base URL `/api` provides interactive documentation.
 
--   **Search**: `GET /api/search?q=concurrency` (FTS5 BM25 ranked)
--   **Odysseys**: `GET /api/odysseys` (List all paths)
--   **Language Profiles**: `GET /api/language/Rust` (Combined core + deep profile)
-
-Refer to `docs/api.md` for full documentation and integration examples.
+*   **API Base**: `GET /api` (Living documentation of all endpoints)
+*   **Search**: `GET /api/search?q=concurrency` (FTS5 BM25 ranked across languages, profiles, and concepts)
+*   **Odysseys**: `GET /api/odysseys` (List all guided paths)
+*   **Language Profiles**: `GET /api/language/Rust` (Combined core + deep profile data)
 
 ## Atlas Auditor: Validation 2.0
 
-The `AtlasAuditor` class provides a rigorous quality gate for our data graph:
+The `AtlasAuditor` class and the `scripts/dark_matter_audit.py` tool provide a rigorous quality gate:
 
-```python
-from app.core.auditor import AtlasAuditor
-auditor = AtlasAuditor()
-success, errors, warnings = auditor.run_all()
-# Detects "Semantic Orphans" (languages without influences or paradigms)
+```bash
+# Run the auditor and integrity checks
+make audit
+
+# Identify "Dark Matter" (missing profiles referenced in the data)
+uv run python3 scripts/dark_matter_audit.py
 ```
 
-## Control Room & TUI Usage
+## Control Room & Server Commands
 
 ```bash
 # Start a Guided Odyssey in the CLI
 uv run atlas odyssey systems_renaissance
 
-# Toggle Odyssey Mode in the TUI
-uv run atlas tui  # Then press 'o'
+# Generate a Dynamic Odyssey based on influence
+uv run atlas auto-odyssey "C"
 
 # Launch the FastAPI Web Server & API
-uv run python3 src/app/app.py
+make server
+
+# Regenerate all Markdown documentation from JSON/SQLite sources
+make docs
 ```
 
-## Distribution & Portability
+## Makefile Targets
 
-The Atlas can be packaged as a single-file standalone binary:
-
-```bash
-# Build the Zenith distribution
-uv run python3 scripts/build_zenith.py
-
-# Run the portable binary (no local dependencies required)
-./dist/atlas dashboard "Lisp"
-```
-
-## Makefile Commands
-
-*   `make docs`: Generates Markdown documentation from the SQLite database.
-*   `make test`: Runs fast unit and consistency checks (includes Atlas Auditor).
-*   `make build`: Builds the standalone Zenith binary.
-*   `make clean`: Removes generated artifacts and build temporary files.
+*   **server**: Starts the FastAPI web server on `http://localhost:8084`.
+*   **docs**: Regenerates all Markdown documentation in `generated-docs/` (Languages, Eras, Concepts, and Thematic Overviews) from the SQLite database.
+*   **audit**: Runs the Atlas Auditor and consistency checks.
+*   **test**: Runs fast unit and consistency checks.
+*   **build**: Builds the standalone Zenith binary.
+*   **clean**: Removes generated artifacts and temporary files.
 
 ## Setup and Run
 
 1.  **Install Dependencies**: `uv sync`
 2.  **Build Database**: `uv run python3 src/app/core/build_sqlite.py`
-3.  **Audit Data**: `uv run pytest tests/test_auditor.py`
-4.  **Explore**: Use `atlas --help` or visit `http://localhost:8084`.
+3.  **Regenerate Docs**: `make docs`
+4.  **Explore**: Use `atlas --help` or visit `http://localhost:8084/api`.
