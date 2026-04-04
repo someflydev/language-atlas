@@ -1,0 +1,18 @@
+{
+  "title": "Standard ML: The Rigorous Functionalist",
+  "overview": "Standard ML (SML) is a statically-typed, functional programming language known for its formal specification. It provides a robust and mathematically sound environment for building reliable software, particularly in the areas of theorem proving and compiler implementation.",
+  "historical_context": "SML emerged in the 1980s as a consolidation of various ML dialects, with a primary goal of creating a language with a complete and formal specification. This effort culminated in 'The Definition of Standard ML', a document that precisely defines the language's syntax and semantics. SML was a reaction to the lack of rigor in many programming languages, aiming to provide a foundation where programs could be mathematically proven to be correct.",
+  "mental_model": "Think in terms of mathematical transformations and powerful modules. You build systems by composing small, verified functional components within a robust type system, using structures and functors to manage complexity and ensure modularity.",
+  "key_innovations": [
+    "**Formal Specification:** One of the few programming languages with a complete and rigorous mathematical definition of its syntax and semantics.",
+    "**Powerful Module System:** SML introduced a sophisticated module system with structures (implementations), signatures (interfaces), and functors (parameterized modules), enabling advanced code reuse and abstraction.",
+    "**Strict Functional Evaluation:** Unlike lazy languages like Haskell, SML uses eager (strict) evaluation, which can make performance more predictable in certain contexts."
+  ],
+  "tradeoffs": "- **Learning Curve:** The rigorous type system and sophisticated module system can be challenging for developers used to more casual or imperative languages.\n- **Verbosity:** The focus on precision and formal definition can lead to more verbose code, particularly when defining complex module relationships.\n- **Ecosystem:** While highly respected in academia, SML has a smaller commercial ecosystem compared to languages like OCaml or Haskell.",
+  "legacy": "SML's legacy is its profound influence on the development of modern functional and statically-typed languages, including OCaml, F#, and Rust. Its emphasis on formal rigor and powerful modularity remains a benchmark for language design.",
+  "ai_assisted_discovery_missions": [
+    "1. Research 'The Definition of Standard ML' and explain why having a formal specification is important for language stability and compiler correctness.",
+    "2. Compare SML's module system (functors and signatures) with the 'traits' and 'generics' systems found in modern languages like Rust.",
+    "3. Analyze the differences between SML's strict evaluation and Haskell's lazy evaluation, and discuss the tradeoffs of each approach."
+  ]
+}

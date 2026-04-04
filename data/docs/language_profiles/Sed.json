@@ -1,0 +1,19 @@
+{
+  "title": "Sed: The Stream Editor",
+  "overview": "Sed (Stream Editor) is a non-interactive command-line utility for parsing and transforming text. It is a fundamental tool in the Unix toolkit, used for everything from simple string replacement to complex log file processing.",
+  "historical_context": "Developed in 1974 by Lee E. McMahon at Bell Labs, Sed was a reaction to the need for a non-interactive way to apply text transformations to streams of data. It was based on the `ed` editor's command set but designed to operate on a stream, allowing it to process files that were too large to fit in memory. Sed's compact syntax and power made it an essential part of the Unix pipe-and-filter architecture.",
+  "mental_model": "Think in terms of a stream of lines passing through a set of filters. You define transformations using a simple and compact command set, and Sed applies them to each line as it flows past, often using regular expressions for precise targeting.",
+  "key_innovations": [
+    "**Non-interactive Stream Editing:** The ability to perform text transformations without user intervention, making it ideal for scripts and pipelines.",
+    "**Regular Expression Pattern Space:** Sed introduced a 'pattern space' where lines are stored and manipulated using regular expressions, providing a powerful way to match and transform text.",
+    "**Line-Based Processing:** Designed to process text line by line, which allowed it to handle files of virtually any size with minimal memory overhead."
+  ],
+  "tradeoffs": "- **Arcane Syntax:** Sed's command set is extremely compact and can be difficult to read and maintain for complex transformations.\n- **Limited Logic:** Unlike AWK or Perl, Sed has very limited support for variables, loops, or complex conditional logic.\n- **Regex Variations:** Sed's flavor of regular expressions can differ slightly from more modern implementations, leading to confusion for those used to Perl-style regex."
+  ],
+  "legacy": "Sed's legacy is its enduring presence as a core Unix utility. It directly influenced the development of AWK and Perl, and its principles of stream-based text transformation remain a cornerstone of modern data processing pipelines.",
+  "ai_assisted_discovery_missions": [
+    "1. Demonstrate how to use Sed to replace all occurrences of a string in a file from the command line.",
+    "2. Explain the difference between Sed's 'pattern space' and its 'hold space', and provide an example of how they can be used together.",
+    "3. Compare the 'One-Liner' philosophy of Sed with the more verbose approach of modern scripting languages."
+  ]
+}

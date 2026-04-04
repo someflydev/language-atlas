@@ -1,0 +1,19 @@
+{
+  "title": "Miranda: The Elegant Functionalist",
+  "overview": "Miranda is a purely functional, non-strict programming language that prioritizes elegance and mathematical purity. It was one of the first functional languages to be used for commercial applications and served as the primary inspiration for Haskell.",
+  "historical_context": "Created by David Turner in 1985, Miranda was a reaction to the lack of purity and the complexity of earlier functional languages like ML. It combined features from Turner's earlier languages, SASL and KRC, into a single, cohesive system with a concise syntax based on mathematical notation. Miranda was a proprietary language, which limited its widespread adoption but ensured a high level of consistency and quality in its implementation.",
+  "mental_model": "Think in terms of transformations and equations. You define functions as mathematical relationships between inputs and outputs, and you use lazy evaluation to handle infinite data structures and complex control flow with ease.",
+  "key_innovations": [
+    "**Lazy Evaluation:** Miranda was one of the first mainstream functional languages to use non-strict evaluation by default, allowing for the creation of infinite lists and efficient computation.",
+    "**List Comprehensions:** A concise syntax for creating and manipulating lists based on set-builder notation, which later became a standard feature in many functional and imperative languages.",
+    "**Polymorphic Typing:** A robust type system that automatically infers the types of expressions, providing safety without the need for explicit declarations."
+  ],
+  "tradeoffs": "- **Proprietary Status:** Being a commercial product initially limited the size of the Miranda community and its influence compared to open-source alternatives like Haskell.\n- **Performance:** While highly optimized, the overhead of lazy evaluation and a high-level runtime could make it slower than lower-level languages for certain tasks.\n- **Learning Curve:** The purely functional paradigm and the use of lazy evaluation require a significant mental shift for developers used to imperative programming."
+  ],
+  "legacy": "Miranda's most significant legacy is its profound influence on the design of Haskell. Many of Haskell's core features, such as list comprehensions, lazy evaluation, and its basic syntax, can be traced directly back to Miranda. It remains a benchmark for elegance and purity in functional language design.",
+  "ai_assisted_discovery_missions": [
+    "1. Compare the syntax of Miranda with that of Haskell and identify the key features that Haskell inherited directly from its predecessor.",
+    "2. Explain how Miranda's lazy evaluation allows for the definition of infinite data structures and provide a simple code example.",
+    "3. Research the 'Miranda Challenge' and discuss its impact on the development of early functional programming."
+  ]
+}
