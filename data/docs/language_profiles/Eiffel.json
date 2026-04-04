@@ -1,0 +1,19 @@
+{
+  "title": "Eiffel: Software Engineering via Contracts",
+  "overview": "Eiffel is an object-oriented programming language designed by Bertrand Meyer that emphasizes software correctness through 'Design by Contract'. It features a powerful type system and clean syntax.",
+  "historical_context": "Created in the mid-1980s, Eiffel was designed to address the challenges of building large-scale, reliable software systems. Its central philosophy is that a program's behavior should be precisely defined by 'contracts' between its components, using pre-conditions, post-conditions, and invariants.",
+  "mental_model": "Think in terms of classes as 'suppliers' and callers as 'clients'. Every interaction is governed by a legally binding contract that defines the rights and obligations of both parties.\n\nYour brain must be wired to:\n1. **Value Contracts:** Use pre-conditions to ensure inputs are correct, post-conditions to verify results, and class invariants to maintain a consistent state.\n2. **Encapsulate Behavior:** Hide implementation details and only expose a clear, well-defined interface to clients.\n3. **Think Systematically:** Consider how your classes interact with each other to build a robust and correct software system.",
+  "key_innovations": [
+    "**Design by Contract:** Introduced pre-conditions, post-conditions, and invariants as built-in language features to define program behavior precisely.",
+    "**Multiple Inheritance with Renaming:** Provided a powerful and flexible way to inherit from multiple classes while avoiding naming conflicts.",
+    "**Strict Type Safety:** Featured a sophisticated type system that ensures that programs are correct at compile time.",
+    "**Generic Classes:** Allowed for the creation of reusable data structures and algorithms that work with different types."
+  ],
+  "tradeoffs": "- **Complexity:** The emphasis on contracts and multiple inheritance made Eiffel more complex to learn and use than simpler object-oriented languages.\n- **Learning Curve:** Understanding the power and discipline of Design by Contract required a new way of thinking about software development.\n- **Performance Overhead:** The early Eiffel compilers were not as efficient as C or Assembly for some performance-critical tasks." ,
+  "legacy": "Eiffel's concepts of Design by Contract and its emphasis on software correctness have had a lasting impact on modern software engineering and have influenced the design of many other languages.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explore the impact of Eiffel's Design by Contract on modern testing and formal verification methods.'",
+    "2. 'Analyze Bertrand Meyer's philosophy of 'Software Correctness' as expressed in his book 'Object-Oriented Software Construction'.'",
+    "3. 'Compare Eiffel's approach to multiple inheritance with modern alternatives like traits or mixins.'"
+  ]
+}

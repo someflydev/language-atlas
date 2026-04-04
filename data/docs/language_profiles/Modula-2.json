@@ -1,0 +1,19 @@
+{
+  "title": "Modula-2: The Evolution of Modularity",
+  "overview": "Modula-2 is a successor to the highly influential Pascal, designed by Niklaus Wirth to be a more complete systems programming language. It introduced explicit modularity through separate definition and implementation modules.",
+  "historical_context": "Created at a time when software was growing in complexity, Modula-2 was designed to provide the benefits of high-level languages like Pascal with the low-level machine access needed for systems programming. It was a reaction to the limitations of Pascal, particularly its lack of separate compilation and support for concurrency.",
+  "mental_model": "Think in terms of independent modules with well-defined interfaces. A program is a collection of modules that interact through clear, explicit imports and exports.\n\nYour brain must be wired to:\n1. **Value Encapsulation:** Hide internal module details and only expose what's strictly necessary for other modules to use.\n2. **Separation of Concerns:** Keep code and data that are logically related together in a single module, and use separate modules for different features.\n3. **Type Safety:** Rely on the compiler to enforce strict type checking across module boundaries, ensuring that modules interact correctly.",
+  "key_innovations": [
+    "**Explicit Modules:** Introduced separate definition and implementation modules, providing a clear boundary between an interface and its implementation.",
+    "**Low-Level Machine Access:** Provided types like 'ADDRESS' and 'WORD' for direct hardware manipulation, which were not available in standard Pascal.",
+    "**Coroutines:** Built-in support for simple, cooperative multitasking through 'coroutines'.",
+    "**Separate Compilation:** Allowed modules to be compiled independently, making it easier to build and maintain large-scale software systems."
+  ],
+  "tradeoffs": "- **Complexity:** The addition of modules and low-level features made Modula-2 more complex than its predecessor Pascal.\n- **Learning Curve:** Understanding the concept of separate definition and implementation modules required a new way of thinking about software design.\n- **Performance Overhead:** The early Modula-2 compilers were not as efficient as C or Assembly for some performance-critical tasks." ,
+  "legacy": "Modula-2 is the direct ancestor of later languages like Oberon and Ada, and its concepts of modularity and type safety have had a lasting impact on modern software engineering.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explore the differences between Modula-2's approach to modularity and modern module systems like those in Python or Rust.'",
+    "2. 'Analyze the impact of Modula-2 on the design of the Ada programming language and the Lilith workstation.'",
+    "3. 'Compare Modula-2's 'coroutines' with modern concurrency primitives like goroutines or async/await.'"
+  ]
+}

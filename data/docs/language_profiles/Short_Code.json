@@ -1,0 +1,18 @@
+{
+  "title": "Short Code: The First Electronic Interpreter",
+  "overview": "Short Code is recognized as the first high-level language designed for an electronic computer. It was originally proposed by John Mauchly in 1949 and implemented by William Schmitt on the BINAC and later the UNIVAC I.",
+  "historical_context": "Unlike earlier machine-specific instructions, Short Code was an 'interpretive system'. It allowed programmers to express mathematical equations in a more readable format, which was then converted into the computer's underlying machine code at runtime. It marks the transition from manual machine coding to more abstract representations of calculation.",
+  "mental_model": "Think in terms of algebraic substitution. A formula is expressed as a series of two-digit codes representing operands and operations. The machine evaluates these formulas step-by-step, as if it were solving an equation.\n\nYour brain must be wired to:\n1. **Map Symbols to Codes:** Translate mathematical symbols (like +, -, *) into specific numeric equivalents.\n2. **Value Form over Hardware:** Focus on the structure of the equation rather than the specific memory registers being used.\n3. **Think Algebraically:** Represent calculations as sequences of transformations on variables.",
+  "key_innovations": [
+    "**First High-Level Implementation:** Successfully allowed programs to be written in a symbolic language for an electronic computer.",
+    "**Algebraic Expression Evaluation:** Enabled the representation of complex mathematical formulas directly in code.",
+    "**Interpretive Execution:** Introduced the concept of translating high-level code into machine instructions during program execution."
+  ],
+  "tradeoffs": "- **Slow Execution:** Because it was an interpreter, it was significantly slower than manually written machine code.\n- **Limited Memory:** The UNIVAC I's memory constraints severely limited the complexity of programs that could be written.\n- **Fixed Format:** The two-digit coding system was rigid and not as flexible as modern syntax." ,
+  "legacy": "Short Code paved the way for the development of later compilers like FORTRAN by proving that computers could be programmed using abstract, symbolic notation rather than just raw machine numbers.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Investigate the two-digit coding system of Short Code and how it represented basic arithmetic operations.'",
+    "2. 'Compare the interpretive nature of Short Code with modern interpreted languages like Python.'",
+    "3. 'Discuss John Mauchly's vision for making computers more accessible through high-level languages like Short Code.'"
+  ]
+}

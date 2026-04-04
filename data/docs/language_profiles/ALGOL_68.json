@@ -1,0 +1,19 @@
+{
+  "title": "ALGOL 68: Orthogonality Perfected",
+  "overview": "ALGOL 68 is the successor to the highly influential ALGOL 60, designed to be more general and powerful through the principle of orthogonality—the idea that language features should be composable in any combination.",
+  "historical_context": "Created by an IFIP working group led by Adriaan van Wijngaarden, ALGOL 68 was an ambitious attempt to provide a truly universal language for algorithms. Its formal specification was famously difficult to read, leading to a split in the committee and the eventual creation of the simpler Pascal by Niklaus Wirth.",
+  "mental_model": "Think in terms of expressions and 'modes'. Every language construct returns a value, and any value can be used wherever a value of that mode is expected.\n\nYour brain must be wired to:\n1. **Compose Orthogonally:** Mix and match language features (e.g., nesting a procedure within a loop) with the expectation that they will work consistently.\n2. **Value Mode Correctness:** Pay close attention to the 'modes' (types) of your expressions, as the compiler enforces strict rules on how they can be combined.\n3. **Think in Expressions:** Almost everything in the language is an expression that yields a value, which allows for very dense and expressive code.",
+  "key_innovations": [
+    "**Orthogonal Design:** Features can be used in any combination where they make sense logically.",
+    "**User-Defined Modes:** Allowed programmers to define their own data types (pre-cursor to modern structs and objects).",
+    "**Parallel Clauses:** Featured built-in support for concurrent execution through 'par' blocks.",
+    "**Operator Overloading:** Enabled the redefinition of operators for user-defined modes."
+  ],
+  "tradeoffs": "- **Complexity:** The formal specification (using van Wijngaarden grammars) was incredibly dense and difficult to implement.\n- **Learning Curve:** The high level of abstraction and unique terminology (like 'collateral clauses') made it challenging for new programmers.\n- **Compiler Difficulty:** Building a full ALGOL 68 compiler was a major engineering task, meaning it was not as widely available as simpler languages like C or Pascal." ,
+  "legacy": "While not as commercially successful as its successor C, ALGOL 68 introduced many concepts that are now standard in modern languages, such as user-defined types, operator overloading, and advanced concurrency primitives.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Investigate the 'van Wijngaarden grammar' used to define ALGOL 68 and why it was so controversial.'",
+    "2. 'Compare ALGOL 68's approach to concurrency with modern models like Go's goroutines or Rust's async/await.'",
+    "3. 'Explore the impact of ALGOL 68 on the design of the C programming language and the Bourne shell.'"
+  ]
+}

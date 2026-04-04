@@ -1,0 +1,18 @@
+{
+  "title": "Autocode: The First Compilers",
+  "overview": "Autocode refers to a family of early programming languages developed in the 1950s that aimed to automate the creation of machine-specific instructions. The first such system was developed by Alick Glennie for the Manchester Mark 1 computer.",
+  "historical_context": "Created at a time when 'programming' was essentially manual numerical entry into a computer's memory, Autocode systems allowed the use of symbolic names for addresses and operations. They represent the first successful attempts at 'compilation'—the translation of a high-level symbolic language into machine code before execution.",
+  "mental_model": "Think in terms of simplified machine operations. You're still working with registers and memory, but now you can use labels and algebraic-like expressions rather than binary numbers.\n\nYour brain must be wired to:\n1. **Think in Symbols:** Use labels (like 'x' or 'y') for memory locations rather than absolute addresses.\n2. **Trust the Translation:** Rely on the Autocode system to correctly map symbolic instructions into machine-level code.\n3. **Think in Steps:** Break down calculations into a series of discrete commands that the computer can execute sequentially.",
+  "key_innovations": [
+    "**First Compiler Implementation:** Successfully translated symbolic code into machine instructions before execution.",
+    "**Symbolic Addressing:** Allowed the use of human-readable labels for memory locations.",
+    "**Simplified Instruction Set:** Reduced the complexity of programming by providing a set of more intuitive commands."
+  ],
+  "tradeoffs": "- **Hardware Specificity:** Each Autocode was usually tied to a specific computer architecture.\n- **Performance Overhead:** The early compilers added some overhead compared to hand-optimized machine code.\n- **Limited Abstraction:** Compared to modern languages, Autocodes were still very close to the underlying machine code." ,
+  "legacy": "Autocode proved the feasibility of using symbolic languages for programming and directly inspired the design of more advanced languages like FORTRAN and ALGOL.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explore Alick Glennie's motivations for creating the first Autocode for the Manchester Mark 1.'",
+    "2. 'Compare the 'Automatic Coding' vision of the 1950s with modern automated code generation or AI coding assistants.'",
+    "3. 'Discuss the differences between several Autocode variants (e.g., Manchester, Ferranti, EDSAC) and their respective machines.'"
+  ]
+}
