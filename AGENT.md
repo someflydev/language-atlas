@@ -15,6 +15,7 @@
 
 ## Documentation & Style
 - **Freshness & Usefulness:** Maintain `src/README.md` as the authoritative, up-to-date guide for codebase architecture, schema details, and operational commands. Documentation must be actionable and reflect the current state of the system.
+- **Data Completeness:** Any new language entry added to `data/languages.json` MUST be accompanied by a corresponding detailed JSON profile in `data/docs/language_profiles/`. The profile must include fields for `title`, `overview`, `historical_context`, `mental_model`, `key_innovations`, `tradeoffs`, `legacy`, and `ai_assisted_discovery_missions`.
 - **Visual Hygiene:** Do not use emojis in section titles or documentation headers.
 - **Typography:** Avoid using em dashes (—) or regular dashes (-) in place of em dashes in documentation. Use standard punctuation or clear sentence structures instead.
 - **Actionable Examples:** Prefer `uv run` in documentation examples to ensure consistent environment execution.

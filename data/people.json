@@ -66,5 +66,65 @@
   {
     "name": "Ken Thompson",
     "contributions": ["Go", "B", "C", "Unix", "UTF-8"]
+  },
+  {
+    "name": "Konrad Zuse",
+    "contributions": ["Plankalkül", "Z3 Computer"]
+  },
+  {
+    "name": "John Mauchly",
+    "contributions": ["Short Code", "ENIAC", "UNIVAC"]
+  },
+  {
+    "name": "Alick Glennie",
+    "contributions": ["Autocode"]
+  },
+  {
+    "name": "Adriaan van Wijngaarden",
+    "contributions": ["ALGOL 68"]
+  },
+  {
+    "name": "Niklaus Wirth",
+    "contributions": ["Pascal", "Modula-2", "Oberon", "Euler"]
+  },
+  {
+    "name": "Bertrand Meyer",
+    "contributions": ["Eiffel", "Design by Contract"]
+  },
+  {
+    "name": "John Ousterhout",
+    "contributions": ["Tcl", "Tk", "Log-structured file systems"]
+  },
+  {
+    "name": "John Warnock",
+    "contributions": ["PostScript", "Adobe PDF", "Bézier curves"]
+  },
+  {
+    "name": "Charles Geschke",
+    "contributions": ["PostScript", "Adobe"]
+  },
+  {
+    "name": "Jacob T. Schwartz",
+    "contributions": ["SETL"]
+  },
+  {
+    "name": "Ralph Griswold",
+    "contributions": ["SNOBOL", "Icon"]
+  },
+  {
+    "name": "Arthur Whitney",
+    "contributions": ["APL", "K", "Q"]
+  },
+  {
+    "name": "Kenneth E. Iverson",
+    "contributions": ["APL", "J", "A Programming Language"]
+  },
+  {
+    "name": "Slava Pestov",
+    "contributions": ["Factor"]
+  },
+  {
+    "name": "Louis Pilchard",
+    "contributions": ["Gleam"]
   }
 ]

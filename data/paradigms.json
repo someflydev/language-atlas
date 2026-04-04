@@ -54,5 +54,29 @@
   {
     "name": "Metaprogramming",
     "description": "Writing programs that treat other programs as their data; code that generates or modifies code."
+  },
+  {
+    "name": "Imperative",
+    "description": "Programming by specifying a sequence of statements that change a program's state."
+  },
+  {
+    "name": "Modular",
+    "description": "Designing a system by breaking it down into smaller, self-contained components with clear interfaces."
+  },
+  {
+    "name": "Scripting",
+    "description": "Using interpreted code to automate tasks, glue components together, or enhance larger applications."
+  },
+  {
+    "name": "Stack-based",
+    "description": "Using an explicit data stack to pass parameters and evaluate expressions, as seen in Forth and PostScript."
+  },
+  {
+    "name": "Set-theoretic",
+    "description": "Programming using mathematical set operations, quantifiers, and maps as primary abstractions."
+  },
+  {
+    "name": "Goal-directed",
+    "description": "Execution centered around expressions that can succeed or fail, using generators and backtracking to find a successful path."
   }
 ]
