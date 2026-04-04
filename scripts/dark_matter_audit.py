@@ -44,17 +44,21 @@ def canonicalize(name):
     # 1. Lowercase everything
     name = name.lower()
     
-    # 2. Strip organizational suffixes for better deduplication
+    # 2. Strip "the " from the beginning
+    if name.startswith("the "):
+        name = name[4:].strip()
+    
+    # 3. Strip organizational suffixes for better deduplication
     name = re.sub(r'\b(inc|corp|corporation|ltd|limited|llc|plc|foundation|labs|software)(\.?)(\b|$)', '', name).strip()
     
-    # 3. Strip parentheticals
+    # 4. Strip parentheticals
     name = re.sub(r'\(.*\)', '', name).strip()
-    # 4. Unify dashes and spaces to underscores
+    # 5. Unify dashes and spaces to underscores
     name = name.replace("-", "_").replace(" ", "_")
     
-    # 5. Remove multiple underscores
+    # 6. Remove multiple underscores
     name = re.sub(r'_+', '_', name)
-    # 6. Strip trailing/leading underscores or colons
+    # 7. Strip trailing/leading underscores or colons
     name = name.strip("_:")
     
     # Special mapping (canonical form)
@@ -135,6 +139,13 @@ def audit():
 
     def add_reference(name, target_map):
         if not name or name == "Various": return
+        
+        # User preference: Strip leading "The " for cleaner indexing
+        if name.lower().startswith("the "):
+            name = name[4:].strip()
+            if name:
+                name = name[0].upper() + name[1:]
+
         # Length guard on the entity name itself
         if len(name) > 60 or len(name.split()) > 8:
             return
