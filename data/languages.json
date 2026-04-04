@@ -1,5 +1,78 @@
 [
   {
+    "name": "Analytical Engine",
+    "year": 1837,
+    "creators": [
+      "Charles Babbage",
+      "Ada Lovelace"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "General-purpose mechanical computation"
+    ],
+    "key_innovations": [
+      "Programmatic control via punched cards",
+      "Separation of storage and processing (Mill vs Store)",
+      "Conditional branching"
+    ],
+    "influenced_by": [
+      "Mathematical Notation"
+    ],
+    "influenced": [
+      "Turing Machine",
+      "Plankalkül"
+    ],
+    "philosophy": "A mechanical machine capable of performing any mathematical operation, controlled by an external program. It is the theoretical ancestor of the general-purpose computer.",
+    "mental_model": "Think in terms of gears, levers, and punched cards. Data is stored in the 'Store' and moved to the 'Mill' for processing, governed by the instructions on the cards.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Analytical Engine"
+  },
+  {
+    "name": "Boolean Algebra",
+    "year": 1847,
+    "creators": [
+      "George Boole"
+    ],
+    "paradigms": [
+      "Logic"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Logical formalization",
+      "Circuit design"
+    ],
+    "key_innovations": [
+      "Binary logic operators (AND, OR, NOT)",
+      "Algebraic representation of truth values",
+      "Foundation of digital circuits"
+    ],
+    "influenced_by": [
+      "Mathematical Notation"
+    ],
+    "influenced": [
+      "Machine Code",
+      "Prolog",
+      "SQL"
+    ],
+    "philosophy": "Reducing human thought and logic to a simple algebraic system based on two values: True and False. It is the logical heart of all digital computing.",
+    "mental_model": "Think in terms of truth tables and logic gates. Complex decisions are built from simple binary operations that combine to form high-level logic.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Boolean Algebra"
+  },
+  {
     "name": "Mathematical Notation",
     "year": 1900,
     "creators": [
@@ -176,6 +249,44 @@
     "display_name": "Plankalkül"
   },
   {
+    "name": "Von Neumann Architecture",
+    "year": 1945,
+    "creators": [
+      "John von Neumann"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Computer architecture design"
+    ],
+    "key_innovations": [
+      "Stored-program concept",
+      "Shared memory for data and instructions",
+      "CPU/Memory separation"
+    ],
+    "influenced_by": [
+      "Turing Machine",
+      "ENIAC"
+    ],
+    "influenced": [
+      "Machine Code",
+      "Assembly",
+      "FORTRAN",
+      "C"
+    ],
+    "philosophy": "A unified model for computer hardware where instructions and data reside in the same memory space, allowing for self-modifying code and high flexibility.",
+    "mental_model": "Think in terms of the 'fetch-decode-execute' cycle. The computer is a linear sequence of instructions and data, all accessible by a central processor.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Von Neumann Architecture"
+  },
+  {
     "name": "Assembly",
     "year": 1947,
     "creators": [
@@ -209,6 +320,46 @@
     "memory_management": "manual",
     "is_keystone": true,
     "display_name": "Assembly"
+  },
+  {
+    "name": "Information Theory",
+    "year": 1948,
+    "creators": [
+      "Claude Shannon"
+    ],
+    "paradigms": [
+      "Functional"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Data compression",
+      "Cryptography",
+      "Communication"
+    ],
+    "key_innovations": [
+      "The 'Bit' as a unit of information",
+      "Entropy in data",
+      "Mathematical theory of communication"
+    ],
+    "influenced_by": [
+      "Boolean Algebra",
+      "Mathematical Notation"
+    ],
+    "influenced": [
+      "JSON",
+      "YAML",
+      "SQL",
+      "Compression Algorithms"
+    ],
+    "philosophy": "Information is a quantifiable physical quantity that can be measured, compressed, and transmitted reliably through noisy channels.",
+    "mental_model": "Think in terms of probability and bits. Every piece of data has a measurable amount of information, and computation is the process of manipulating that information efficiently.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Information Theory"
   },
   {
     "name": "Short Code",
