@@ -32,6 +32,8 @@ def validate_json(data_path):
     complexity_bias_enum = ['low', 'medium', 'high']
     generation_enum = ['dawn', 'early', 'web1', 'cloud', 'renaissance', 'autonomic']
     safety_model_enum = ['manual', 'runtime', 'compile_time', 'hybrid']
+    typing_discipline_enum = ['manual', 'runtime', 'compile_time', 'hybrid']
+    memory_management_enum = ['manual', 'runtime', 'compile_time', 'hybrid']
 
     for i, lang in enumerate(languages):
         name = lang.get('name', f"Entry #{i}")
@@ -55,9 +57,11 @@ def validate_json(data_path):
         if 'safety_model' in lang and lang.get('safety_model') not in safety_model_enum:
              errors.append(f"Language '{name}': 'safety_model' must be one of {safety_model_enum}")
 
-        for key in ['typing_discipline', 'memory_management']:
-            if key in lang and (not lang.get(key) or not isinstance(lang.get(key), str)):
-                errors.append(f"Language '{name}': '{key}' must be a non-empty string")
+        if 'typing_discipline' in lang and lang.get('typing_discipline') not in typing_discipline_enum:
+             errors.append(f"Language '{name}': 'typing_discipline' must be one of {typing_discipline_enum}")
+
+        if 'memory_management' in lang and lang.get('memory_management') not in memory_management_enum:
+             errors.append(f"Language '{name}': 'memory_management' must be one of {memory_management_enum}")
 
         if 'influenced_by' in lang and isinstance(lang['influenced_by'], list):
             for ref in lang['influenced_by']:

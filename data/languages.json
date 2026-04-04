@@ -1,5 +1,266 @@
 [
   {
+    "name": "Lambda Calculus",
+    "year": 1930,
+    "creators": [
+      "Alonzo Church"
+    ],
+    "paradigms": [
+      "Functional"
+    ],
+    "cluster": "mathematics",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Foundations of mathematics",
+      "Logic"
+    ],
+    "key_innovations": [
+      "Variable binding",
+      "Substitution",
+      "First-class functions"
+    ],
+    "influenced_by": [],
+    "influenced": [
+      "Lisp",
+      "Haskell",
+      "ML"
+    ],
+    "philosophy": "Computation is function application. Note: Historically characterized by Untyped typing and N/A memory management.",
+    "mental_model": "Functions are the only primitive.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Lambda Calculus"
+  },
+  {
+    "name": "Plankalkül",
+    "year": 1945,
+    "creators": [
+      "Konrad Zuse"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Mathematical calculations",
+      "Algorithm description"
+    ],
+    "key_innovations": [
+      "First high-level language",
+      "Nested data structures",
+      "Conditional statements"
+    ],
+    "influenced_by": [],
+    "influenced": [
+      "ALGOL 58"
+    ],
+    "philosophy": "A plan-calculus for expressing algorithms regardless of the underlying hardware. It was designed to solve problems logically rather than physically.",
+    "mental_model": "Think in terms of nested arrays and logical steps. Data is structured in a way that precedes the machine's memory layout.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "compile_time",
+    "is_keystone": true,
+    "display_name": "Plankalkül"
+  },
+  {
+    "name": "Assembly",
+    "year": 1947,
+    "creators": [
+      "Kathleen Booth"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "systems",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Direct hardware control",
+      "Operating systems"
+    ],
+    "key_innovations": [
+      "Mnemonic representation of machine code"
+    ],
+    "influenced_by": [
+      "Machine Code"
+    ],
+    "influenced": [
+      "FORTRAN",
+      "C",
+      "BCPL"
+    ],
+    "philosophy": "Provide a human-readable interface to the CPU's instruction set. Note: Historically characterized by Untyped typing and Manual memory management.",
+    "mental_model": "Think in registers and memory addresses. You are the CPU.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Assembly"
+  },
+  {
+    "name": "Short Code",
+    "year": 1949,
+    "creators": [
+      "John Mauchly"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Mathematical formulas"
+    ],
+    "key_innovations": [
+      "First high-level language for electronic computers",
+      "Mathematical expression evaluation"
+    ],
+    "influenced_by": [],
+    "influenced": [
+      "Autocode"
+    ],
+    "philosophy": "Bridge the gap between mathematical notation and machine code. Short Code allowed formulas to be represented more naturally.",
+    "mental_model": "Represent algebraic equations as a series of codes that the machine interprets. It's an algebraic interpreter.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Short Code"
+  },
+  {
+    "name": "Autocode",
+    "year": 1952,
+    "creators": [
+      "Alick Glennie"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Scientific computation"
+    ],
+    "key_innovations": [
+      "First compiler",
+      "Symbolic notation for machine instructions"
+    ],
+    "influenced_by": [
+      "Short Code"
+    ],
+    "influenced": [
+      "FORTRAN"
+    ],
+    "philosophy": "Simplify the programmer's life by automating the translation of symbols to machine instructions. The 'auto' in autocode refers to this automation.",
+    "mental_model": "A slightly abstracted view of the machine. You still think about memory locations but use symbolic names and expressions.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Autocode"
+  },
+  {
+    "name": "FLOW-MATIC",
+    "year": 1955,
+    "creators": [
+      "Grace Hopper"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "business",
+    "generation": "early",
+    "primary_use_cases": [
+      "Business data processing"
+    ],
+    "key_innovations": [
+      "English-like syntax"
+    ],
+    "influenced_by": [
+      "A-0"
+    ],
+    "influenced": [
+      "COBOL"
+    ],
+    "philosophy": "Programs should be readable by people who aren't mathematicians. Note: Historically characterized by Static/Weak typing and Static memory management.",
+    "mental_model": "English sentences as commands.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "compile_time",
+    "is_keystone": false,
+    "display_name": "FLOW-MATIC"
+  },
+  {
+    "name": "COMIT",
+    "year": 1957,
+    "creators": [
+      "Victor Yngve"
+    ],
+    "paradigms": [
+      "String-processing"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Machine translation"
+    ],
+    "key_innovations": [
+      "Pattern matching on strings"
+    ],
+    "influenced_by": [],
+    "influenced": [
+      "SNOBOL"
+    ],
+    "philosophy": "Rule-based string manipulation. Note: Historically characterized by Dynamic typing and Managed memory management.",
+    "mental_model": "If match, then replace.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "COMIT"
+  },
+  {
+    "name": "COMTRAN",
+    "year": 1957,
+    "creators": [
+      "Bob Bemer"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "business",
+    "generation": "early",
+    "primary_use_cases": [
+      "Business data processing"
+    ],
+    "key_innovations": [
+      "Advanced file handling"
+    ],
+    "influenced_by": [
+      "FORTRAN"
+    ],
+    "influenced": [
+      "COBOL"
+    ],
+    "philosophy": "Commercial translation of business logic. Note: Historically characterized by Static/Weak typing and Static memory management.",
+    "mental_model": "Data processing and reporting.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "compile_time",
+    "is_keystone": false,
+    "display_name": "COMTRAN"
+  },
+  {
     "name": "FORTRAN",
     "year": 1957,
     "creators": [
@@ -29,57 +290,14 @@
       "PL/I",
       "MATLAB"
     ],
-    "philosophy": "Efficiency above all. FORTRAN's design prioritizes performance in numerical computations, often mirroring the underlying machine's arithmetic capabilities.",
+    "philosophy": "Efficiency above all. FORTRAN's design prioritizes performance in numerical computations, often mirroring the underlying machine's arithmetic capabilities. Note: Historically characterized by Static/Strong typing and Static-Allocation memory management.",
     "mental_model": "Think in terms of mathematical formulae and memory blocks. Data flows through DO-loops and arithmetic expressions directly into registers.",
     "complexity_bias": "low",
     "safety_model": "manual",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Static-Allocation",
+    "typing_discipline": "compile_time",
+    "memory_management": "compile_time",
     "is_keystone": true,
     "display_name": "FORTRAN"
-  },
-  {
-    "name": "ALGOL 60",
-    "year": 1960,
-    "creators": [
-      "John Backus",
-      "Peter Naur",
-      "Friedrich L. Bauer"
-    ],
-    "paradigms": [
-      "Procedural"
-    ],
-    "cluster": "systems",
-    "generation": "early",
-    "primary_use_cases": [
-      "Algorithm description",
-      "Academic research"
-    ],
-    "key_innovations": [
-      "Block structure",
-      "Lexical scoping",
-      "Nested procedures",
-      "BNF notation"
-    ],
-    "influenced_by": [
-      "FORTRAN"
-    ],
-    "influenced": [
-      "C",
-      "Pascal",
-      "SIMULA 67",
-      "Scheme",
-      "BASIC",
-      "PL/I"
-    ],
-    "philosophy": "The universal language for algorithms. ALGOL focused on structural elegance and logical consistency over specific machine implementation.",
-    "mental_model": "Think in nested scopes. A program is a hierarchy of blocks, each with its own local state, forming a tree-like structure of execution.",
-    "complexity_bias": "medium",
-    "safety_model": "manual",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Stack-Only",
-    "is_keystone": true,
-    "display_name": "ALGOL 60"
   },
   {
     "name": "Lisp",
@@ -118,12 +336,12 @@
       "Forth",
       "Maple"
     ],
-    "philosophy": "Computing is symbolic manipulation. Everything is a list, and code is just data waiting to be evaluated.",
+    "philosophy": "Computing is symbolic manipulation. Everything is a list, and code is just data waiting to be evaluated. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of S-expressions. The boundary between the program and the data it processes is non-existent; you are building a language to solve your problem.",
     "complexity_bias": "high",
     "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "Lisp"
   },
@@ -155,14 +373,290 @@
     "influenced": [
       "PL/I"
     ],
-    "philosophy": "Code should be readable by non-programmers. COBOL aimed to bridge the gap between business managers and technical implementation.",
+    "philosophy": "Code should be readable by non-programmers. COBOL aimed to bridge the gap between business managers and technical implementation. Note: Historically characterized by Static/Weak typing and Static-Allocation memory management.",
     "mental_model": "Think in terms of paper forms and accounting ledgers. Programs are divided into divisions (Data, Procedure, etc.) much like an office filing system.",
     "complexity_bias": "low",
     "safety_model": "manual",
-    "typing_discipline": "Static/Weak",
-    "memory_management": "Static-Allocation",
+    "typing_discipline": "compile_time",
+    "memory_management": "compile_time",
     "is_keystone": true,
     "display_name": "COBOL"
+  },
+  {
+    "name": "ALGOL 60",
+    "year": 1960,
+    "creators": [
+      "John Backus",
+      "Peter Naur",
+      "Friedrich L. Bauer"
+    ],
+    "paradigms": [
+      "Procedural"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Algorithm description",
+      "Academic research"
+    ],
+    "key_innovations": [
+      "Block structure",
+      "Lexical scoping",
+      "Nested procedures",
+      "BNF notation"
+    ],
+    "influenced_by": [
+      "FORTRAN"
+    ],
+    "influenced": [
+      "C",
+      "Pascal",
+      "SIMULA 67",
+      "Scheme",
+      "BASIC",
+      "PL/I"
+    ],
+    "philosophy": "The universal language for algorithms. ALGOL focused on structural elegance and logical consistency over specific machine implementation. Note: Historically characterized by Static/Strong typing and Stack-Only memory management.",
+    "mental_model": "Think in nested scopes. A program is a hierarchy of blocks, each with its own local state, forming a tree-like structure of execution.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "compile_time",
+    "is_keystone": true,
+    "display_name": "ALGOL 60"
+  },
+  {
+    "name": "SNOBOL",
+    "year": 1962,
+    "creators": [
+      "David J. Farber",
+      "Ralph E. Griswold",
+      "Ivan P. Polonsky"
+    ],
+    "paradigms": [
+      "String-processing",
+      "Imperative"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Text processing",
+      "Pattern matching",
+      "Symbolic manipulation"
+    ],
+    "key_innovations": [
+      "First-class pattern matching",
+      "Dynamic data types",
+      "Associative arrays"
+    ],
+    "influenced_by": [
+      "COMIT"
+    ],
+    "influenced": [
+      "Icon",
+      "Lua",
+      "Perl"
+    ],
+    "philosophy": "Strings are the primary data structure. SNOBOL treats text not just as a sequence of characters, but as a rich structure to be searched and manipulated through powerful patterns. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of pattern matching and replacement. A program is a series of statements that attempt to match patterns against strings and perform actions based on success or failure.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "SNOBOL"
+  },
+  {
+    "name": "CPL",
+    "year": 1963,
+    "creators": [
+      "Christopher Strachey"
+    ],
+    "paradigms": [
+      "Procedural"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Research"
+    ],
+    "key_innovations": [
+      "First-class functions",
+      "Complex syntax"
+    ],
+    "influenced_by": [
+      "ALGOL 60"
+    ],
+    "influenced": [
+      "BCPL"
+    ],
+    "philosophy": "Combine high-level concepts with low-level control. Note: Historically characterized by Static/Strong typing and Manual memory management.",
+    "mental_model": "A bridge between ALGOL and low-level systems.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "CPL"
+  },
+  {
+    "name": "BASIC",
+    "year": 1964,
+    "creators": [
+      "John G. Kemeny",
+      "Thomas E. Kurtz"
+    ],
+    "paradigms": [
+      "Procedural"
+    ],
+    "cluster": "education",
+    "generation": "early",
+    "primary_use_cases": [
+      "Educational programming",
+      "Personal computing (8-bit era)",
+      "Rapid scripting"
+    ],
+    "key_innovations": [
+      "Line-numbered editor",
+      "Interactive execution",
+      "Keyword-based simplicity"
+    ],
+    "influenced_by": [
+      "FORTRAN",
+      "ALGOL 60"
+    ],
+    "influenced": [
+      "Visual Basic",
+      "Python",
+      "VB"
+    ],
+    "philosophy": "Computing for everyone. BASIC was designed to make the power of the computer accessible to non-experts through a simple, interactive interface. Note: Historically characterized by Dynamic/Weak typing and Static/Managed memory management.",
+    "mental_model": "Think in terms of numbered steps and global state. A program is a list of instructions that the computer follows in order, with GOTO and simple variables managing the flow.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "BASIC"
+  },
+  {
+    "name": "PL/I",
+    "year": 1964,
+    "creators": [
+      "IBM"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Structured"
+    ],
+    "cluster": "enterprise",
+    "generation": "early",
+    "primary_use_cases": [
+      "Mainframe computing",
+      "Business and scientific applications"
+    ],
+    "key_innovations": [
+      "Exception handling (ON-units)",
+      "Multitasking support",
+      "Pointer variables",
+      "Extensive data types"
+    ],
+    "influenced_by": [
+      "FORTRAN",
+      "ALGOL 60",
+      "COBOL"
+    ],
+    "influenced": [
+      "C",
+      "Pascal",
+      "Ada"
+    ],
+    "philosophy": "The universal language for everything. IBM designed PL/I to combine the scientific power of FORTRAN with the business capabilities of COBOL and the structure of ALGOL. Note: Historically characterized by Static/Weak typing and Static/Manual/Automatic memory management.",
+    "mental_model": "Think in terms of a massive toolkit. It is a comprehensive language that tries to provide every feature a programmer might need, from bit manipulation to complex record structures.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "PL/I"
+  },
+  {
+    "name": "APL",
+    "year": 1966,
+    "creators": [
+      "Kenneth E. Iverson"
+    ],
+    "paradigms": [
+      "Array-oriented",
+      "Functional"
+    ],
+    "cluster": "scientific",
+    "generation": "early",
+    "primary_use_cases": [
+      "Data analysis",
+      "Finance",
+      "Mathematics"
+    ],
+    "key_innovations": [
+      "Multi-dimensional array processing",
+      "Symbolic notation alphabet",
+      "Implicit looping",
+      "Rank polymorphism"
+    ],
+    "influenced_by": [
+      "Mathematical Notation"
+    ],
+    "influenced": [
+      "J",
+      "K",
+      "MATLAB",
+      "Numpy"
+    ],
+    "philosophy": "Notation as a tool of thought. APL uses a concise symbolic language to express complex mathematical and data-processing operations in a single line. Note: Historically characterized by Dynamic/Strong typing and Managed-Store memory management.",
+    "mental_model": "Think in terms of multi-dimensional array transformations. You apply operations to entire sets of data at once, using a symbolic alphabet that maps directly to mathematical concepts.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "APL"
+  },
+  {
+    "name": "BCPL",
+    "year": 1967,
+    "creators": [
+      "Martin Richards"
+    ],
+    "paradigms": [
+      "Procedural"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Compiler writing",
+      "Operating systems",
+      "Systems programming"
+    ],
+    "key_innovations": [
+      "Word-based memory model",
+      "Untyped variables",
+      "Bracket-based block structure"
+    ],
+    "influenced_by": [
+      "CPL"
+    ],
+    "influenced": [
+      "B",
+      "C"
+    ],
+    "philosophy": "Keep it simple and portable. BCPL was designed to be small enough to be easily ported between machines while providing enough power for systems-level tasks. Note: Historically characterized by Untyped typing and Manual memory management.",
+    "mental_model": "Think in terms of memory words. There are no types; everything is a word (usually 16 or 32 bits), and it is up to the programmer to interpret those bits correctly.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "BCPL"
   },
   {
     "name": "SIMULA 67",
@@ -195,14 +689,213 @@
       "C++",
       "Java"
     ],
-    "philosophy": "The world is a system of interacting entities. Simulation requires modeling real-world objects as software abstractions.",
+    "philosophy": "The world is a system of interacting entities. Simulation requires modeling real-world objects as software abstractions. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of independent actors with their own state and behavior. A program is a simulated world where entities coexist and interact.",
     "complexity_bias": "medium",
     "safety_model": "manual",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "SIMULA 67"
+  },
+  {
+    "name": "ALGOL 68",
+    "year": 1968,
+    "creators": [
+      "Adriaan van Wijngaarden",
+      "Barry Mailloux",
+      "John Peck",
+      "Cornelis Koster"
+    ],
+    "paradigms": [
+      "Imperative",
+      "Procedural"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Algorithm research",
+      "Systems programming"
+    ],
+    "key_innovations": [
+      "Orthogonality",
+      "User-defined types",
+      "Operator overloading",
+      "Parallel clauses"
+    ],
+    "influenced_by": [
+      "ALGOL 60"
+    ],
+    "influenced": [
+      "C",
+      "Pascal",
+      "Ada",
+      "C++"
+    ],
+    "philosophy": "Maximum orthogonality. Every language feature should be composable with every other, leading to a consistent and powerful system.",
+    "mental_model": "A world of expressions and 'modes'. Everything is an expression, and types (modes) define how data can be composed.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "ALGOL 68"
+  },
+  {
+    "name": "B",
+    "year": 1969,
+    "creators": [
+      "Ken Thompson",
+      "Dennis Ritchie"
+    ],
+    "paradigms": [
+      "Procedural"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Systems programming"
+    ],
+    "key_innovations": [
+      "Typeless variables",
+      "Influenced C's syntax"
+    ],
+    "influenced_by": [
+      "BCPL"
+    ],
+    "influenced": [
+      "C"
+    ],
+    "philosophy": "Keep it minimal for the PDP-7. Note: Historically characterized by Untyped typing and Manual memory management.",
+    "mental_model": "Think in memory words.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "B"
+  },
+  {
+    "name": "SETL",
+    "year": 1969,
+    "creators": [
+      "Jacob T. Schwartz"
+    ],
+    "paradigms": [
+      "Imperative",
+      "Set-theoretic"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "primary_use_cases": [
+      "Algorithm prototyping",
+      "Education"
+    ],
+    "key_innovations": [
+      "Set-theoretic data types",
+      "Quantifiers",
+      "First-class sets and maps"
+    ],
+    "influenced_by": [
+      "ALGOL 60"
+    ],
+    "influenced": [
+      "ABC",
+      "Python"
+    ],
+    "philosophy": "Programming with mathematical sets. SETL was designed to allow mathematicians to express algorithms in their natural notation.",
+    "mental_model": "The world is made of sets and maps. Operations are mathematical transformations on these structures.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "SETL"
+  },
+  {
+    "name": "Forth",
+    "year": 1970,
+    "creators": [
+      "Charles H. Moore"
+    ],
+    "paradigms": [
+      "Stack-based",
+      "Imperative",
+      "Reflective"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Embedded systems",
+      "Bootloaders",
+      "Space mission hardware"
+    ],
+    "key_innovations": [
+      "Dictionary-based extensibility",
+      "Dual-stack architecture",
+      "Reverse Polish Notation (RPN)"
+    ],
+    "influenced_by": [
+      "Lisp"
+    ],
+    "influenced": [
+      "PostScript",
+      "Factor"
+    ],
+    "philosophy": "The ultimate in simplicity and extensibility. Forth allows the programmer to build their own language from the ground up, starting with a minimal stack-based core. Note: Historically characterized by Untyped typing and Manual memory management.",
+    "mental_model": "Think in terms of the stack and the dictionary. You define new words in terms of existing ones, pushing and popping values on a data stack to perform computations.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Forth"
+  },
+  {
+    "name": "Pascal",
+    "year": 1970,
+    "creators": [
+      "Niklaus Wirth"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Structured"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Education",
+      "Systems programming",
+      "Application development"
+    ],
+    "key_innovations": [
+      "Strong typing",
+      "Structured primitives",
+      "One-pass compilation",
+      "Records and sets"
+    ],
+    "influenced_by": [
+      "ALGOL 60"
+    ],
+    "influenced": [
+      "Ada",
+      "Modula-2",
+      "Delphi",
+      "Java",
+      "Go",
+      "Odin",
+      "Nim",
+      "C#",
+      "PL/I"
+    ],
+    "philosophy": "Discipline is the path to correctness. Pascal was designed to force programmers to express their intent clearly through strict typing and structured control flow. Note: Historically characterized by Static/Strong typing and Manual memory management.",
+    "mental_model": "Think in terms of records and procedures. A program is a carefully orchestrated sequence of steps operating on well-defined data structures, where every type has its place.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Pascal"
   },
   {
     "name": "C",
@@ -244,14 +937,55 @@
       "PHP",
       "PL/I"
     ],
-    "philosophy": "Trust the programmer. C provides a thin abstraction over hardware, offering maximum control and efficiency with minimal runtime overhead.",
+    "philosophy": "Trust the programmer. C provides a thin abstraction over hardware, offering maximum control and efficiency with minimal runtime overhead. Note: Historically characterized by Static/Weak typing and Manual memory management.",
     "mental_model": "Think in terms of memory addresses and bytes. The program is a series of manipulations on a flat linear memory space.",
     "complexity_bias": "medium",
     "safety_model": "manual",
-    "typing_discipline": "Static/Weak",
-    "memory_management": "Manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
     "is_keystone": true,
     "display_name": "C"
+  },
+  {
+    "name": "Prolog",
+    "year": 1972,
+    "creators": [
+      "Alain Colmerauer",
+      "Robert Kowalski"
+    ],
+    "paradigms": [
+      "Logic",
+      "Constraint"
+    ],
+    "cluster": "AI",
+    "generation": "early",
+    "primary_use_cases": [
+      "Natural Language Processing",
+      "Expert systems",
+      "Theorem proving"
+    ],
+    "key_innovations": [
+      "Unification",
+      "Backtracking",
+      "Declarative logic programming"
+    ],
+    "influenced_by": [
+      "Planner",
+      "Lisp"
+    ],
+    "influenced": [
+      "Erlang",
+      "Mercury",
+      "Datalog"
+    ],
+    "philosophy": "Programming as logic. Prolog allows you to describe the facts and rules of a problem domain and let the computer find the solution through inference. Note: Historically characterized by Dynamic/Untyped typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of relationships and goals. You don't tell the computer what to do; you give it a set of axioms and ask it to prove a hypothesis.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Prolog"
   },
   {
     "name": "Smalltalk",
@@ -289,12 +1023,12 @@
       "Self",
       "Dart"
     ],
-    "philosophy": "Computers as personal dynamic media. Programming is the act of sending messages between biological-like cells (objects).",
+    "philosophy": "Computers as personal dynamic media. Programming is the act of sending messages between biological-like cells (objects). Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of a living organism. You don't call functions; you send messages to objects, and they decide how to respond in their own context.",
     "complexity_bias": "medium",
     "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "Smalltalk"
   },
@@ -331,14 +1065,382 @@
       "Scala",
       "Elm"
     ],
-    "philosophy": "Correctness through types. ML proved that you can have strong, static safety without sacrificing the expressiveness of functional programming.",
+    "philosophy": "Correctness through types. ML proved that you can have strong, static safety without sacrificing the expressiveness of functional programming. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of mathematical proofs and transformations. Types are constraints that the compiler uses to ensure your logic is sound.",
     "complexity_bias": "high",
     "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "ML"
+  },
+  {
+    "name": "SQL",
+    "year": 1974,
+    "creators": [
+      "Donald D. Chamberlin",
+      "Raymond F. Boyce"
+    ],
+    "paradigms": [
+      "Data-driven",
+      "Constraint"
+    ],
+    "cluster": "backend",
+    "generation": "early",
+    "primary_use_cases": [
+      "Relational databases",
+      "Data analysis"
+    ],
+    "key_innovations": [
+      "Relational algebra implementation",
+      "Declarative querying",
+      "Transaction ACID properties"
+    ],
+    "influenced_by": [
+      "QUEL"
+    ],
+    "influenced": [
+      "CycL",
+      "GraphQL"
+    ],
+    "philosophy": "Describe WHAT you want, not HOW to get it. SQL abstracts the physical storage of data, allowing the user to focus on logical relationships. Note: Historically characterized by Static/Strong typing and Managed-Store memory management.",
+    "mental_model": "Think in terms of sets and relationships. You are asking questions about a collection of data and defining how tables relate to one another.",
+    "complexity_bias": "low",
+    "safety_model": "hybrid",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "SQL"
+  },
+  {
+    "name": "Scheme",
+    "year": 1975,
+    "creators": [
+      "Guy L. Steele",
+      "Gerald Jay Sussman"
+    ],
+    "paradigms": [
+      "Functional",
+      "Metaprogramming"
+    ],
+    "cluster": "academic",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Academic research",
+      "Educational programming",
+      "Extension language"
+    ],
+    "key_innovations": [
+      "Lexical scoping",
+      "Tail Call Optimization (TCO)",
+      "First-class continuations",
+      "Hygienic macros"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "ALGOL 60"
+    ],
+    "influenced": [
+      "Common Lisp",
+      "Haskell",
+      "JavaScript",
+      "Clojure",
+      "Lua",
+      "R"
+    ],
+    "philosophy": "Small is beautiful. Scheme's minimalist design proves that a few powerful building blocks—lexical scoping and first-class continuations—are sufficient to build any abstraction. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of pure lambda calculus. Every control structure is just a variation of a function call, and the environment is a first-class participant in the computation.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Scheme"
+  },
+  {
+    "name": "Icon",
+    "year": 1977,
+    "creators": [
+      "Ralph Griswold"
+    ],
+    "paradigms": [
+      "Imperative",
+      "Goal-directed"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "primary_use_cases": [
+      "Text processing",
+      "String manipulation"
+    ],
+    "key_innovations": [
+      "Goal-directed execution",
+      "Generators",
+      "String scanning"
+    ],
+    "influenced_by": [
+      "SNOBOL"
+    ],
+    "influenced": [
+      "Python",
+      "Unicon"
+    ],
+    "philosophy": "Searching for success. Icon programs are built around expressions that can succeed or fail, and backtrack to find a successful path.",
+    "mental_model": "Execution is a search process. Expressions generate values and can be resumed if later parts of the program fail.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Icon"
+  },
+  {
+    "name": "Modula-2",
+    "year": 1978,
+    "creators": [
+      "Niklaus Wirth"
+    ],
+    "paradigms": [
+      "Imperative",
+      "Procedural",
+      "Modular"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Systems programming",
+      "Embedded systems",
+      "Education"
+    ],
+    "key_innovations": [
+      "Explicit modules (IMPORT/EXPORT)",
+      "Coroutines",
+      "Low-level machine access types"
+    ],
+    "influenced_by": [
+      "Pascal",
+      "Mesa"
+    ],
+    "influenced": [
+      "Oberon",
+      "Ada",
+      "Python"
+    ],
+    "philosophy": "Modularity and type safety for systems programming. Modula-2 refined Pascal to make it suitable for large-scale software engineering.",
+    "mental_model": "Software is a collection of modules with clear interfaces. Separation of definition and implementation is paramount.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Modula-2"
+  },
+  {
+    "name": "Ada",
+    "year": 1980,
+    "creators": [
+      "Jean Ichbiah",
+      "S. Tucker Taft"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Concurrent",
+      "Object-Oriented"
+    ],
+    "cluster": "safety-critical",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Aerospace",
+      "Defense",
+      "Real-time systems"
+    ],
+    "key_innovations": [
+      "Range constraints",
+      "Packages",
+      "Generics",
+      "Tasks",
+      "Strongly-typed numeric ranges"
+    ],
+    "influenced_by": [
+      "Pascal",
+      "ALGOL 68"
+    ],
+    "influenced": [
+      "C++",
+      "Java",
+      "Rust",
+      "Nim"
+    ],
+    "philosophy": "Software is an engineering discipline, not an art. Ada prioritizes safety and long-term maintainability for systems where failure is not an option. Note: Historically characterized by Static/Strong typing and Manual/Scoped memory management.",
+    "mental_model": "Think in terms of contracts and packages. You are building a fortress of code where every interface is strictly defined and every potential error is caught by the compiler.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Ada"
+  },
+  {
+    "name": "Maple",
+    "year": 1982,
+    "creators": [
+      "Symbolic Computation Group (University of Waterloo)"
+    ],
+    "paradigms": [
+      "Symbolic",
+      "Functional",
+      "Procedural"
+    ],
+    "cluster": "scientific",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Computer Algebra Systems (CAS)",
+      "Mathematical modeling",
+      "Education"
+    ],
+    "key_innovations": [
+      "Symbolic differentiation and integration",
+      "Arbitrary-precision arithmetic",
+      "Interactive worksheets"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "MACSYMA"
+    ],
+    "influenced": [
+      "Mathematica"
+    ],
+    "philosophy": "Mathematical rigor through software. Maple focuses on exact symbolic computation, allowing mathematicians to manipulate formulas and proofs with computational precision. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of algebraic expressions. You are not just calculating numbers; you are manipulating the symbols and structures of mathematics itself.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Maple"
+  },
+  {
+    "name": "PostScript",
+    "year": 1982,
+    "creators": [
+      "John Warnock",
+      "Charles Geschke"
+    ],
+    "paradigms": [
+      "Stack-based",
+      "Concatenative"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "primary_use_cases": [
+      "Desktop publishing",
+      "Laser printing",
+      "Graphics"
+    ],
+    "key_innovations": [
+      "Device-independent graphics",
+      "Stack-based execution",
+      "Bézier curves"
+    ],
+    "influenced_by": [
+      "Forth"
+    ],
+    "influenced": [
+      "PDF",
+      "NeWS"
+    ],
+    "philosophy": "Graphics as code. Represent images and text as a series of program instructions rather than a bitmap.",
+    "mental_model": "Think in terms of a global stack and a coordinate system. Push data, call operators, and draw on a virtual canvas.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "runtime",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "PostScript"
+  },
+  {
+    "name": "MATLAB",
+    "year": 1984,
+    "creators": [
+      "Cleve Moler"
+    ],
+    "paradigms": [
+      "Array-oriented",
+      "Procedural",
+      "Object-Oriented"
+    ],
+    "cluster": "scientific",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Linear algebra",
+      "Control systems",
+      "Signal processing",
+      "Image processing"
+    ],
+    "key_innovations": [
+      "Matrix-first language design",
+      "Simulink",
+      "Integrated plotting and analysis tools"
+    ],
+    "influenced_by": [
+      "FORTRAN",
+      "APL",
+      "LINPACK",
+      "EISPACK"
+    ],
+    "influenced": [
+      "Julia",
+      "Numpy",
+      "GNU Octave",
+      "Scilab"
+    ],
+    "philosophy": "The matrix is the fundamental unit. MATLAB provides a high-performance environment for numerical computation and visualization without the overhead of lower-level memory management. Note: Historically characterized by Dynamic/Strong typing and Managed-Store memory management.",
+    "mental_model": "Think in terms of linear transformations. Every variable is an array, and every operation is designed to work on matrices, reflecting the math of signal and image processing.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "MATLAB"
+  },
+  {
+    "name": "Objective-C",
+    "year": 1984,
+    "creators": [
+      "Brad Cox",
+      "Tom Love"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Procedural"
+    ],
+    "cluster": "systems",
+    "generation": "web1",
+    "primary_use_cases": [
+      "macOS and iOS development",
+      "Systems software"
+    ],
+    "key_innovations": [
+      "Dynamic dispatch via message passing",
+      "Categories",
+      "Automatic Reference Counting (ARC)"
+    ],
+    "influenced_by": [
+      "C",
+      "Smalltalk"
+    ],
+    "influenced": [
+      "Java",
+      "Swift"
+    ],
+    "philosophy": "The best of both worlds: C's performance and Smalltalk's flexibility. Objective-C added a thin layer of dynamic, message-passing objects onto the C language. Note: Historically characterized by Dynamic/Strong typing and Reference Counting (ARC) memory management.",
+    "mental_model": "Think in terms of C with a layer of Smalltalk objects. You use C for low-level logic and Objective-C's dynamic runtime for high-level object-oriented architecture.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Objective-C"
   },
   {
     "name": "C++",
@@ -378,14 +1480,643 @@
       "Julia",
       "PHP"
     ],
-    "philosophy": "You don't pay for what you don't use. C++ aims to provide high-level abstractions without sacrificing the performance of C.",
+    "philosophy": "You don't pay for what you don't use. C++ aims to provide high-level abstractions without sacrificing the performance of C. Note: Historically characterized by Static/Weak typing and Manual/RAII memory management.",
     "mental_model": "Think in terms of resource ownership and object lifecycles. You are managing both the logic of the application and the lifetime of the hardware resources it uses.",
     "complexity_bias": "high",
     "safety_model": "manual",
-    "typing_discipline": "Static/Weak",
-    "memory_management": "Manual/RAII",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
     "is_keystone": true,
     "display_name": "C++"
+  },
+  {
+    "name": "Eiffel",
+    "year": 1985,
+    "creators": [
+      "Bertrand Meyer"
+    ],
+    "paradigms": [
+      "Object-Oriented"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Enterprise software",
+      "Critical systems"
+    ],
+    "key_innovations": [
+      "Design by Contract (DbC)",
+      "Multiple inheritance with renaming",
+      "Strict type safety"
+    ],
+    "influenced_by": [
+      "Simula 67",
+      "ALGOL 68"
+    ],
+    "influenced": [
+      "Java",
+      "C#",
+      "D",
+      "Ruby"
+    ],
+    "philosophy": "Software correctness is achievable through contracts. Use pre-conditions, post-conditions, and invariants to define behavior precisely.",
+    "mental_model": "Classes are suppliers, and callers are clients. Every interaction is governed by a binding legal contract.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Eiffel"
+  },
+  {
+    "name": "Erlang",
+    "year": 1986,
+    "creators": [
+      "Joe Armstrong",
+      "Robert Virding",
+      "Mike Williams"
+    ],
+    "paradigms": [
+      "Functional",
+      "Actor-model"
+    ],
+    "cluster": "cloud",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Telecom systems",
+      "Messaging (WhatsApp)",
+      "Distributed systems"
+    ],
+    "key_innovations": [
+      "Lightweight processes",
+      "Fault tolerance (Let it crash)",
+      "Hot code swapping"
+    ],
+    "influenced_by": [
+      "Prolog",
+      "Smalltalk"
+    ],
+    "influenced": [
+      "Elixir",
+      "Akka",
+      "Cloud Haskell"
+    ],
+    "philosophy": "Build systems that never stop. Erlang assumes failure is inevitable and provides the tools to isolate and recover from it without downtime. Note: Historically characterized by Dynamic/Strong typing and Per-Process GC memory management.",
+    "mental_model": "Think in terms of a swarm of isolated processes communicating via mailboxes. If one fails, the supervisor restarts it; the system as a whole remains healthy.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Erlang"
+  },
+  {
+    "name": "Oberon",
+    "year": 1987,
+    "creators": [
+      "Niklaus Wirth"
+    ],
+    "paradigms": [
+      "Imperative",
+      "Procedural",
+      "Object-Oriented"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Systems programming",
+      "Operating systems"
+    ],
+    "key_innovations": [
+      "Type extension",
+      "Minimalism (very small language)",
+      "Integrated operating system"
+    ],
+    "influenced_by": [
+      "Modula-2"
+    ],
+    "influenced": [
+      "Go",
+      "Java",
+      "C#"
+    ],
+    "philosophy": "Make it as simple as possible, but no simpler. Oberon stripped away everything non-essential from Modula-2, adding only type extension.",
+    "mental_model": "Simplicity is the ultimate sophistication. A tiny core that can build entire operating systems through simple extensions.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Oberon"
+  },
+  {
+    "name": "Perl",
+    "year": 1987,
+    "creators": [
+      "Larry Wall"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Object-Oriented",
+      "Functional",
+      "Event-Driven"
+    ],
+    "cluster": "scripting",
+    "generation": "web1",
+    "primary_use_cases": [
+      "System administration",
+      "Web development (CGI)",
+      "Text processing"
+    ],
+    "key_innovations": [
+      "First-class Regex integration",
+      "CPAN repository",
+      "Sigils",
+      "Linguistic context sensitivity"
+    ],
+    "influenced_by": [
+      "C",
+      "sh",
+      "awk",
+      "sed"
+    ],
+    "influenced": [
+      "Ruby",
+      "PHP",
+      "Python",
+      "JavaScript",
+      "YAML"
+    ],
+    "philosophy": "There's more than one way to do it. Perl was built to be the 'Swiss Army Chainsaw' of the internet, handling text and systems with linguistic flexibility. Note: Historically characterized by Dynamic/Weak typing and Reference Counting memory management.",
+    "mental_model": "Think in terms of context and pattern matching. The meaning of your code changes based on where it is used, allowing for extremely dense and expressive scripts.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Perl"
+  },
+  {
+    "name": "Self",
+    "year": 1987,
+    "creators": [
+      "David Ungar",
+      "Randall Smith"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Prototype-based"
+    ],
+    "cluster": "academic",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Virtual machine research",
+      "User interface innovation"
+    ],
+    "key_innovations": [
+      "Prototypal inheritance",
+      "Slots for state and behavior",
+      "JIT pioneer (pioneered many modern techniques)"
+    ],
+    "influenced_by": [
+      "Smalltalk"
+    ],
+    "influenced": [
+      "JavaScript",
+      "NewtonScript",
+      "Lua",
+      "Dart"
+    ],
+    "philosophy": "The power of simplicity. Self takes the ideas of Smalltalk to their logical conclusion, replacing classes with prototypal inheritance and uniform object access. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of cloning and refining. There are no blueprints; you create an object and then modify it to suit your needs, inheriting behavior directly from your 'parents'.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Self"
+  },
+  {
+    "name": "Tcl",
+    "year": 1988,
+    "creators": [
+      "John Ousterhout"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Imperative",
+      "Functional"
+    ],
+    "cluster": "web",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Embedded scripting",
+      "GUI development (Tk)",
+      "Testing"
+    ],
+    "key_innovations": [
+      "Everything is a string",
+      "Command-based syntax",
+      "Seamless C integration"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "C",
+      "Shell"
+    ],
+    "influenced": [
+      "Python",
+      "JavaScript",
+      "Lua"
+    ],
+    "philosophy": "Glue it all together. Tcl was designed to be easily embedded and to provide a simple string-based interface to C components.",
+    "mental_model": "Everything is a command and every argument is a string. Commands can be redefined at runtime, making it highly flexible.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Tcl"
+  },
+  {
+    "name": "Bash",
+    "year": 1989,
+    "creators": [
+      "Brian Fox"
+    ],
+    "paradigms": [
+      "Procedural"
+    ],
+    "cluster": "scripting",
+    "generation": "web1",
+    "primary_use_cases": [
+      "System administration",
+      "Automation",
+      "Glue code"
+    ],
+    "key_innovations": [
+      "Pipeline architecture",
+      "Job control",
+      "Command substitution"
+    ],
+    "influenced_by": [
+      "sh (Bourne shell)",
+      "ksh",
+      "csh"
+    ],
+    "influenced": [
+      "Zsh",
+      "Fish"
+    ],
+    "philosophy": "The command line is the interface. Bash provides the tools to connect disparate programs into a powerful, automated workflow. Note: Historically characterized by Untyped/String typing and Manual/Process-based memory management.",
+    "mental_model": "Think in terms of streams of text. A program is a filter that takes an input stream and produces an output stream, which can be piped to the next tool.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Bash"
+  },
+  {
+    "name": "Haskell",
+    "year": 1990,
+    "creators": [
+      "Philip Wadler",
+      "Simon Peyton Jones",
+      "Lennart Augustsson"
+    ],
+    "paradigms": [
+      "Functional"
+    ],
+    "cluster": "academic",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Financial modeling",
+      "Compiler research",
+      "High-assurance systems"
+    ],
+    "key_innovations": [
+      "Lazy evaluation",
+      "Type classes",
+      "Purely functional (Monads for side effects)"
+    ],
+    "influenced_by": [
+      "ML",
+      "Miranda",
+      "Scheme"
+    ],
+    "influenced": [
+      "Rust",
+      "Scala",
+      "Swift",
+      "Purescript",
+      "F#",
+      "Clojure",
+      "Elm"
+    ],
+    "philosophy": "Pure computation. Haskell enforces a strict separation between pure logic and impure side effects, ensuring mathematical predictability. Note: Historically characterized by Static/Strong typing and Tracing GC (Lazy) memory management.",
+    "mental_model": "Think in terms of transformations of immutable data. You don't change state; you define how one value is computed from another, using the type system to track effectful operations.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Haskell"
+  },
+  {
+    "name": "J",
+    "year": 1990,
+    "creators": [
+      "Kenneth E. Iverson",
+      "Roger Hui"
+    ],
+    "paradigms": [
+      "Array",
+      "Functional"
+    ],
+    "cluster": "scientific",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Mathematics",
+      "Statistics",
+      "Research"
+    ],
+    "key_innovations": [
+      "ASCII-based array programming",
+      "Tacit programming (point-free)",
+      "Function rank"
+    ],
+    "influenced_by": [
+      "APL"
+    ],
+    "influenced": [
+      "K"
+    ],
+    "philosophy": "The notation of thought. J refined APL by removing the special characters and focusing on the mathematical structure of algorithms.",
+    "mental_model": "Think in verbs (functions) and nouns (data). Compose verbs into 'trains' that process nouns without explicit variable naming.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "J"
+  },
+  {
+    "name": "Python",
+    "year": 1991,
+    "creators": [
+      "Guido van Rossum"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Procedural",
+      "Functional"
+    ],
+    "cluster": "scripting",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Data science",
+      "AI/ML",
+      "Web backend",
+      "Automation"
+    ],
+    "key_innovations": [
+      "Significant whitespace",
+      "Extensive standard library (Batteries included)",
+      "Dynamic readability"
+    ],
+    "influenced_by": [
+      "ABC",
+      "C",
+      "Modula-3",
+      "Perl",
+      "BASIC"
+    ],
+    "influenced": [
+      "Ruby",
+      "Go",
+      "Swift",
+      "F#",
+      "Julia",
+      "Kotlin",
+      "YAML"
+    ],
+    "philosophy": "There should be one—and preferably only one—obvious way to do it. Readability counts. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (with RC) memory management.",
+    "mental_model": "Think in terms of clear, executable pseudocode. You describe what you want the computer to do in a way that is almost as readable as English.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Python"
+  },
+  {
+    "name": "VB",
+    "year": 1991,
+    "creators": [
+      "Alan Cooper",
+      "Microsoft"
+    ],
+    "paradigms": [
+      "Event-Driven",
+      "Procedural",
+      "Object-Oriented"
+    ],
+    "cluster": "enterprise",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Desktop applications",
+      "Rapid Application Development (RAD)",
+      "Office automation"
+    ],
+    "key_innovations": [
+      "Visual form designer",
+      "Component Object Model (COM) integration",
+      "Drag-and-drop programming"
+    ],
+    "influenced_by": [
+      "BASIC"
+    ],
+    "influenced": [
+      "VB.NET",
+      "VBScript",
+      "Xojo"
+    ],
+    "philosophy": "Democratizing software development. VB enabled a generation of non-professional programmers to build functional GUI applications with unprecedented speed. Note: Historically characterized by Dynamic/Weak typing and Reference Counting memory management.",
+    "mental_model": "Think in terms of a canvas. You draw your interface first and then attach snippets of code to events (like button clicks) to define the application's behavior.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "VB"
+  },
+  {
+    "name": "Dylan",
+    "year": 1992,
+    "creators": [
+      "Apple Computer"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Functional",
+      "Dynamic"
+    ],
+    "cluster": "systems",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Application development"
+    ],
+    "key_innovations": [
+      "Generic functions",
+      "Multiple inheritance",
+      "Macro system",
+      "Static compilation of dynamic features"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "Smalltalk",
+      "Scheme"
+    ],
+    "influenced": [
+      "Goo",
+      "Julia"
+    ],
+    "philosophy": "The best of both worlds. The flexibility and power of Lisp and Smalltalk, but with the performance and delivery of a compiled language like C++.",
+    "mental_model": "Objects and functions are first-class. The system is dynamic at development time but can be 'shaken down' into an efficient static binary.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "hybrid",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Dylan"
+  },
+  {
+    "name": "K",
+    "year": 1993,
+    "creators": [
+      "Arthur Whitney"
+    ],
+    "paradigms": [
+      "Array",
+      "Functional"
+    ],
+    "cluster": "finance",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Quantitative finance",
+      "Big data analysis"
+    ],
+    "key_innovations": [
+      "Extreme brevity",
+      "High-performance vector operations",
+      "In-memory database (kdb+) integration"
+    ],
+    "influenced_by": [
+      "APL",
+      "Lisp"
+    ],
+    "influenced": [
+      "Q",
+      "J"
+    ],
+    "philosophy": "Maximum density, maximum speed. K was designed to fit entire complex financial systems on a single screen and run them in cache.",
+    "mental_model": "Everything is an array. Operations are symbols that transform arrays. Code is read like a mathematical formula.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "K"
+  },
+  {
+    "name": "Lua",
+    "year": 1993,
+    "creators": [
+      "Roberto Ierusalimschy",
+      "Luiz Henrique de Figueiredo",
+      "Waldemar Celes"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Functional",
+      "Object-Oriented"
+    ],
+    "cluster": "scripting",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Game scripting",
+      "Embedded systems",
+      "Configuration"
+    ],
+    "key_innovations": [
+      "Table data structure",
+      "Metatables",
+      "Register-based virtual machine",
+      "Minimalist C API"
+    ],
+    "influenced_by": [
+      "SOL",
+      "DEL",
+      "Scheme",
+      "SNOBOL"
+    ],
+    "influenced": [
+      "JavaScript",
+      "Squirrel",
+      "MoonScript",
+      "Self"
+    ],
+    "philosophy": "Simplicity is the ultimate sophistication. Lua provides a minimal, fast, and highly embeddable engine that can be extended to fit any environment. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of tables and metatables. Everything is a hash map, and you can redefine the behavior of any operation by attaching metadata to your data structures.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Lua"
+  },
+  {
+    "name": "R",
+    "year": 1993,
+    "creators": [
+      "Ross Ihaka",
+      "Robert Gentleman"
+    ],
+    "paradigms": [
+      "Functional",
+      "Array-oriented",
+      "Object-Oriented"
+    ],
+    "cluster": "data",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Statistical computing",
+      "Data visualization",
+      "Bioinformatics"
+    ],
+    "key_innovations": [
+      "Vectorized operations",
+      "Lazy evaluation",
+      "Formula notation",
+      "CRAN repository system"
+    ],
+    "influenced_by": [
+      "S",
+      "Scheme",
+      "Common Lisp"
+    ],
+    "influenced": [
+      "Julia"
+    ],
+    "philosophy": "By statisticians, for statisticians. R is a domain-specific language that treats data and models as first-class objects, emphasizing analysis over engineering. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of vectors and frames. You apply statistical operations to entire columns or sets of data, and the language is designed to handle missing data and complex mathematical formulas natively.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "R"
   },
   {
     "name": "Java",
@@ -425,12 +2156,12 @@
       "Dart",
       "PHP"
     ],
-    "philosophy": "Simplicity and portability. Java removed the 'dangerous' parts of C++ to create a safe, scalable environment for large-scale development.",
+    "philosophy": "Simplicity and portability. Java removed the 'dangerous' parts of C++ to create a safe, scalable environment for large-scale development. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of blueprints and hierarchies. Everything is a class, and your program is a collection of interacting class instances running on a virtual sandbox.",
     "complexity_bias": "medium",
     "safety_model": "runtime",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "Java"
   },
@@ -475,63 +2206,55 @@
       "ReScript",
       "JSON"
     ],
-    "philosophy": "The glue of the web. JavaScript was designed to be easy for non-programmers to add interactivity to web pages, evolving into a robust application platform.",
+    "philosophy": "The glue of the web. JavaScript was designed to be easy for non-programmers to add interactivity to web pages, evolving into a robust application platform. Note: Historically characterized by Dynamic/Weak typing and Tracing GC memory management.",
     "mental_model": "Think in terms of responses to actions. The program is a set of callbacks triggered by events, operating on a dynamic, mutable tree of objects.",
     "complexity_bias": "medium",
     "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Weak",
-    "memory_management": "Tracing GC",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "JavaScript"
   },
   {
-    "name": "Python",
-    "year": 1991,
+    "name": "PHP",
+    "year": 1995,
     "creators": [
-      "Guido van Rossum"
+      "Rasmus Lerdorf"
     ],
     "paradigms": [
-      "Object-Oriented",
       "Procedural",
+      "Object-Oriented",
       "Functional"
     ],
-    "cluster": "scripting",
+    "cluster": "web",
     "generation": "web1",
     "primary_use_cases": [
-      "Data science",
-      "AI/ML",
-      "Web backend",
-      "Automation"
+      "Server-side web development",
+      "Content Management Systems (CMS)"
     ],
     "key_innovations": [
-      "Significant whitespace",
-      "Extensive standard library (Batteries included)",
-      "Dynamic readability"
+      "Template-based execution",
+      "Native web integration",
+      "Extensive library of web-specific functions"
     ],
     "influenced_by": [
-      "ABC",
-      "C",
-      "Modula-3",
       "Perl",
-      "BASIC"
+      "C",
+      "C++",
+      "Java",
+      "Tcl"
     ],
     "influenced": [
-      "Ruby",
-      "Go",
-      "Swift",
-      "F#",
-      "Julia",
-      "Kotlin",
-      "YAML"
+      "Hack"
     ],
-    "philosophy": "There should be one\u2014and preferably only one\u2014obvious way to do it. Readability counts.",
-    "mental_model": "Think in terms of clear, executable pseudocode. You describe what you want the computer to do in a way that is almost as readable as English.",
+    "philosophy": "The pragmatist's web tool. PHP was designed to get stuff done on the web quickly and easily, prioritizing convenience and deployment simplicity over formal language theory. Note: Historically characterized by Dynamic/Weak typing and Tracing GC (per-request) memory management.",
+    "mental_model": "Think in terms of the request-response cycle. The script is a template that executes once per HTTP request, generating HTML and interacting with the database before terminating.",
     "complexity_bias": "low",
     "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC (with RC)",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Python"
+    "display_name": "PHP"
   },
   {
     "name": "Ruby",
@@ -568,770 +2291,14 @@
       "Crystal",
       "Swift"
     ],
-    "philosophy": "Designed for programmer happiness. Ruby prioritizes the human experience of writing code over the machine's experience of executing it.",
+    "philosophy": "Designed for programmer happiness. Ruby prioritizes the human experience of writing code over the machine's experience of executing it. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of natural language and expressiveness. Code is a medium of creative expression, and the language should get out of your way.",
     "complexity_bias": "medium",
     "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "Ruby"
-  },
-  {
-    "name": "Haskell",
-    "year": 1990,
-    "creators": [
-      "Philip Wadler",
-      "Simon Peyton Jones",
-      "Lennart Augustsson"
-    ],
-    "paradigms": [
-      "Functional"
-    ],
-    "cluster": "academic",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Financial modeling",
-      "Compiler research",
-      "High-assurance systems"
-    ],
-    "key_innovations": [
-      "Lazy evaluation",
-      "Type classes",
-      "Purely functional (Monads for side effects)"
-    ],
-    "influenced_by": [
-      "ML",
-      "Miranda",
-      "Scheme"
-    ],
-    "influenced": [
-      "Rust",
-      "Scala",
-      "Swift",
-      "Purescript",
-      "F#",
-      "Clojure",
-      "Elm"
-    ],
-    "philosophy": "Pure computation. Haskell enforces a strict separation between pure logic and impure side effects, ensuring mathematical predictability.",
-    "mental_model": "Think in terms of transformations of immutable data. You don't change state; you define how one value is computed from another, using the type system to track effectful operations.",
-    "complexity_bias": "high",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC (Lazy)",
-    "is_keystone": true,
-    "display_name": "Haskell"
-  },
-  {
-    "name": "Erlang",
-    "year": 1986,
-    "creators": [
-      "Joe Armstrong",
-      "Robert Virding",
-      "Mike Williams"
-    ],
-    "paradigms": [
-      "Functional",
-      "Actor-model"
-    ],
-    "cluster": "cloud",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Telecom systems",
-      "Messaging (WhatsApp)",
-      "Distributed systems"
-    ],
-    "key_innovations": [
-      "Lightweight processes",
-      "Fault tolerance (Let it crash)",
-      "Hot code swapping"
-    ],
-    "influenced_by": [
-      "Prolog",
-      "Smalltalk"
-    ],
-    "influenced": [
-      "Elixir",
-      "Akka",
-      "Cloud Haskell"
-    ],
-    "philosophy": "Build systems that never stop. Erlang assumes failure is inevitable and provides the tools to isolate and recover from it without downtime.",
-    "mental_model": "Think in terms of a swarm of isolated processes communicating via mailboxes. If one fails, the supervisor restarts it; the system as a whole remains healthy.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Per-Process GC",
-    "is_keystone": true,
-    "display_name": "Erlang"
-  },
-  {
-    "name": "Go",
-    "year": 2009,
-    "creators": [
-      "Rob Pike",
-      "Ken Thompson",
-      "Robert Griesemer"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Generic"
-    ],
-    "cluster": "cloud",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Cloud infrastructure",
-      "Microservices",
-      "DevOps tools"
-    ],
-    "key_innovations": [
-      "Goroutines (CSP)",
-      "Implicit interfaces",
-      "Fast compilation",
-      "Single static binary"
-    ],
-    "influenced_by": [
-      "C",
-      "Pascal",
-      "Occam",
-      "Python"
-    ],
-    "influenced": [
-      "Zig",
-      "Odin",
-      "Crystal"
-    ],
-    "philosophy": "Simplicity is the key to scalability. Go aims to make large-scale software development manageable by keeping the language small and the tools powerful.",
-    "mental_model": "Think in terms of pipes and workers. Independent tasks (goroutines) communicate through channels, and structural typing allows for flexible, decoupled design.",
-    "complexity_bias": "low",
-    "safety_model": "runtime",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC (Low-latency)",
-    "is_keystone": true,
-    "display_name": "Go"
-  },
-  {
-    "name": "Rust",
-    "year": 2010,
-    "creators": [
-      "Graydon Hoare"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Functional",
-      "Generic"
-    ],
-    "cluster": "systems",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Operating systems",
-      "Browsers",
-      "WebAssembly",
-      "Blockchain"
-    ],
-    "key_innovations": [
-      "Ownership and Borrowing",
-      "Fearless concurrency",
-      "Zero-cost abstractions",
-      "Cargo package manager"
-    ],
-    "influenced_by": [
-      "C++",
-      "ML",
-      "Haskell",
-      "Cyclone",
-      "Ada",
-      "OCaml",
-      "Scala",
-      "LLVM"
-    ],
-    "influenced": [
-      "Mojo",
-      "Swift",
-      "Zig",
-      "Crystal"
-    ],
-    "philosophy": "Safety and performance without compromise. Rust empowers everyone to build reliable and efficient software by making memory safety a first-class citizen.",
-    "mental_model": "Think in terms of data ownership. The compiler tracks who 'owns' every piece of data, preventing data races and memory leaks at compile time.",
-    "complexity_bias": "high",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong (Linear)",
-    "memory_management": "Ownership/Borrowing",
-    "is_keystone": true,
-    "display_name": "Rust"
-  },
-  {
-    "name": "TypeScript",
-    "year": 2012,
-    "creators": [
-      "Anders Hejlsberg"
-    ],
-    "paradigms": [
-      "Functional",
-      "Object-Oriented",
-      "Generic"
-    ],
-    "cluster": "frontend",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Large-scale web applications",
-      "Cross-platform development"
-    ],
-    "key_innovations": [
-      "Structural type system",
-      "Optional static typing",
-      "Transpilation to JavaScript"
-    ],
-    "influenced_by": [
-      "JavaScript",
-      "C#",
-      "Java"
-    ],
-    "influenced": [
-      "AssemblyScript"
-    ],
-    "philosophy": "JavaScript that scales. TypeScript provides the tooling and safety needed for massive codebases while maintaining full compatibility with the JS ecosystem.",
-    "mental_model": "Think in terms of shapes and contracts. You are adding a layer of documentation and verification on top of JavaScript's dynamic nature.",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Structural",
-    "memory_management": "Tracing GC (via JS)",
-    "is_keystone": true,
-    "display_name": "TypeScript"
-  },
-  {
-    "name": "SQL",
-    "year": 1974,
-    "creators": [
-      "Donald D. Chamberlin",
-      "Raymond F. Boyce"
-    ],
-    "paradigms": [
-      "Data-driven",
-      "Constraint"
-    ],
-    "cluster": "backend",
-    "generation": "early",
-    "primary_use_cases": [
-      "Relational databases",
-      "Data analysis"
-    ],
-    "key_innovations": [
-      "Relational algebra implementation",
-      "Declarative querying",
-      "Transaction ACID properties"
-    ],
-    "influenced_by": [
-      "QUEL"
-    ],
-    "influenced": [
-      "CycL",
-      "GraphQL"
-    ],
-    "philosophy": "Describe WHAT you want, not HOW to get it. SQL abstracts the physical storage of data, allowing the user to focus on logical relationships.",
-    "mental_model": "Think in terms of sets and relationships. You are asking questions about a collection of data and defining how tables relate to one another.",
-    "complexity_bias": "low",
-    "safety_model": "hybrid",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Managed-Store",
-    "is_keystone": true,
-    "display_name": "SQL"
-  },
-  {
-    "name": "Bash",
-    "year": 1989,
-    "creators": [
-      "Brian Fox"
-    ],
-    "paradigms": [
-      "Procedural"
-    ],
-    "cluster": "scripting",
-    "generation": "web1",
-    "primary_use_cases": [
-      "System administration",
-      "Automation",
-      "Glue code"
-    ],
-    "key_innovations": [
-      "Pipeline architecture",
-      "Job control",
-      "Command substitution"
-    ],
-    "influenced_by": [
-      "sh (Bourne shell)",
-      "ksh",
-      "csh"
-    ],
-    "influenced": [
-      "Zsh",
-      "Fish"
-    ],
-    "philosophy": "The command line is the interface. Bash provides the tools to connect disparate programs into a powerful, automated workflow.",
-    "mental_model": "Think in terms of streams of text. A program is a filter that takes an input stream and produces an output stream, which can be piped to the next tool.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "Untyped/String",
-    "memory_management": "Manual/Process-based",
-    "is_keystone": true,
-    "display_name": "Bash"
-  },
-  {
-    "name": "Scheme",
-    "year": 1975,
-    "creators": [
-      "Guy L. Steele",
-      "Gerald Jay Sussman"
-    ],
-    "paradigms": [
-      "Functional",
-      "Metaprogramming"
-    ],
-    "cluster": "academic",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Academic research",
-      "Educational programming",
-      "Extension language"
-    ],
-    "key_innovations": [
-      "Lexical scoping",
-      "Tail Call Optimization (TCO)",
-      "First-class continuations",
-      "Hygienic macros"
-    ],
-    "influenced_by": [
-      "Lisp",
-      "ALGOL 60"
-    ],
-    "influenced": [
-      "Common Lisp",
-      "Haskell",
-      "JavaScript",
-      "Clojure",
-      "Lua",
-      "R"
-    ],
-    "philosophy": "Small is beautiful. Scheme's minimalist design proves that a few powerful building blocks\u2014lexical scoping and first-class continuations\u2014are sufficient to build any abstraction.",
-    "mental_model": "Think in terms of pure lambda calculus. Every control structure is just a variation of a function call, and the environment is a first-class participant in the computation.",
-    "complexity_bias": "high",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": true,
-    "display_name": "Scheme"
-  },
-  {
-    "name": "Pascal",
-    "year": 1970,
-    "creators": [
-      "Niklaus Wirth"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Structured"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "Education",
-      "Systems programming",
-      "Application development"
-    ],
-    "key_innovations": [
-      "Strong typing",
-      "Structured primitives",
-      "One-pass compilation",
-      "Records and sets"
-    ],
-    "influenced_by": [
-      "ALGOL 60"
-    ],
-    "influenced": [
-      "Ada",
-      "Modula-2",
-      "Delphi",
-      "Java",
-      "Go",
-      "Odin",
-      "Nim",
-      "C#",
-      "PL/I"
-    ],
-    "philosophy": "Discipline is the path to correctness. Pascal was designed to force programmers to express their intent clearly through strict typing and structured control flow.",
-    "mental_model": "Think in terms of records and procedures. A program is a carefully orchestrated sequence of steps operating on well-defined data structures, where every type has its place.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Manual",
-    "is_keystone": true,
-    "display_name": "Pascal"
-  },
-  {
-    "name": "Ada",
-    "year": 1980,
-    "creators": [
-      "Jean Ichbiah",
-      "S. Tucker Taft"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Concurrent",
-      "Object-Oriented"
-    ],
-    "cluster": "safety-critical",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Aerospace",
-      "Defense",
-      "Real-time systems"
-    ],
-    "key_innovations": [
-      "Range constraints",
-      "Packages",
-      "Generics",
-      "Tasks",
-      "Strongly-typed numeric ranges"
-    ],
-    "influenced_by": [
-      "Pascal",
-      "ALGOL 68"
-    ],
-    "influenced": [
-      "C++",
-      "Java",
-      "Rust",
-      "Nim"
-    ],
-    "philosophy": "Software is an engineering discipline, not an art. Ada prioritizes safety and long-term maintainability for systems where failure is not an option.",
-    "mental_model": "Think in terms of contracts and packages. You are building a fortress of code where every interface is strictly defined and every potential error is caught by the compiler.",
-    "complexity_bias": "high",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Manual/Scoped",
-    "is_keystone": true,
-    "display_name": "Ada"
-  },
-  {
-    "name": "Prolog",
-    "year": 1972,
-    "creators": [
-      "Alain Colmerauer",
-      "Robert Kowalski"
-    ],
-    "paradigms": [
-      "Logic",
-      "Constraint"
-    ],
-    "cluster": "AI",
-    "generation": "early",
-    "primary_use_cases": [
-      "Natural Language Processing",
-      "Expert systems",
-      "Theorem proving"
-    ],
-    "key_innovations": [
-      "Unification",
-      "Backtracking",
-      "Declarative logic programming"
-    ],
-    "influenced_by": [
-      "Planner",
-      "Lisp"
-    ],
-    "influenced": [
-      "Erlang",
-      "Mercury",
-      "Datalog"
-    ],
-    "philosophy": "Programming as logic. Prolog allows you to describe the facts and rules of a problem domain and let the computer find the solution through inference.",
-    "mental_model": "Think in terms of relationships and goals. You don't tell the computer what to do; you give it a set of axioms and ask it to prove a hypothesis.",
-    "complexity_bias": "high",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Untyped",
-    "memory_management": "Tracing GC",
-    "is_keystone": true,
-    "display_name": "Prolog"
-  },
-  {
-    "name": "APL",
-    "year": 1966,
-    "creators": [
-      "Kenneth E. Iverson"
-    ],
-    "paradigms": [
-      "Array-oriented",
-      "Functional"
-    ],
-    "cluster": "scientific",
-    "generation": "early",
-    "primary_use_cases": [
-      "Data analysis",
-      "Finance",
-      "Mathematics"
-    ],
-    "key_innovations": [
-      "Multi-dimensional array processing",
-      "Symbolic notation alphabet",
-      "Implicit looping",
-      "Rank polymorphism"
-    ],
-    "influenced_by": [
-      "Mathematical Notation"
-    ],
-    "influenced": [
-      "J",
-      "K",
-      "MATLAB",
-      "Numpy"
-    ],
-    "philosophy": "Notation as a tool of thought. APL uses a concise symbolic language to express complex mathematical and data-processing operations in a single line.",
-    "mental_model": "Think in terms of multi-dimensional array transformations. You apply operations to entire sets of data at once, using a symbolic alphabet that maps directly to mathematical concepts.",
-    "complexity_bias": "high",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Managed-Store",
-    "is_keystone": true,
-    "display_name": "APL"
-  },
-  {
-    "name": "BASIC",
-    "year": 1964,
-    "creators": [
-      "John G. Kemeny",
-      "Thomas E. Kurtz"
-    ],
-    "paradigms": [
-      "Procedural"
-    ],
-    "cluster": "education",
-    "generation": "early",
-    "primary_use_cases": [
-      "Educational programming",
-      "Personal computing (8-bit era)",
-      "Rapid scripting"
-    ],
-    "key_innovations": [
-      "Line-numbered editor",
-      "Interactive execution",
-      "Keyword-based simplicity"
-    ],
-    "influenced_by": [
-      "FORTRAN",
-      "ALGOL 60"
-    ],
-    "influenced": [
-      "Visual Basic",
-      "Python",
-      "VB"
-    ],
-    "philosophy": "Computing for everyone. BASIC was designed to make the power of the computer accessible to non-experts through a simple, interactive interface.",
-    "mental_model": "Think in terms of numbered steps and global state. A program is a list of instructions that the computer follows in order, with GOTO and simple variables managing the flow.",
-    "complexity_bias": "low",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Weak",
-    "memory_management": "Static/Managed",
-    "is_keystone": true,
-    "display_name": "BASIC"
-  },
-  {
-    "name": "Forth",
-    "year": 1970,
-    "creators": [
-      "Charles H. Moore"
-    ],
-    "paradigms": [
-      "Stack-based",
-      "Imperative",
-      "Reflective"
-    ],
-    "cluster": "systems",
-    "generation": "early",
-    "primary_use_cases": [
-      "Embedded systems",
-      "Bootloaders",
-      "Space mission hardware"
-    ],
-    "key_innovations": [
-      "Dictionary-based extensibility",
-      "Dual-stack architecture",
-      "Reverse Polish Notation (RPN)"
-    ],
-    "influenced_by": [
-      "Lisp"
-    ],
-    "influenced": [
-      "PostScript",
-      "Factor"
-    ],
-    "philosophy": "The ultimate in simplicity and extensibility. Forth allows the programmer to build their own language from the ground up, starting with a minimal stack-based core.",
-    "mental_model": "Think in terms of the stack and the dictionary. You define new words in terms of existing ones, pushing and popping values on a data stack to perform computations.",
-    "complexity_bias": "medium",
-    "safety_model": "manual",
-    "typing_discipline": "Untyped",
-    "memory_management": "Manual",
-    "is_keystone": true,
-    "display_name": "Forth"
-  },
-  {
-    "name": "Zig",
-    "year": 2016,
-    "creators": [
-      "Andrew Kelley"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Generic"
-    ],
-    "cluster": "systems",
-    "generation": "renaissance",
-    "primary_use_cases": [
-      "Systems programming",
-      "Game development",
-      "Embedded"
-    ],
-    "key_innovations": [
-      "Comptime (compile-time execution)",
-      "No hidden control flow",
-      "Explicit memory allocation",
-      "Error sets"
-    ],
-    "influenced_by": [
-      "C",
-      "C++",
-      "Go",
-      "Rust",
-      "LLVM"
-    ],
-    "influenced": [],
-    "philosophy": "No hidden magic. Zig provides total transparency over memory and control flow, ensuring the programmer is always aware of the machine's cost.",
-    "mental_model": "Think in terms of the raw machine and compile-time execution. You are writing code that can execute itself during compilation to generate optimized runtime behavior.",
-    "complexity_bias": "medium",
-    "safety_model": "hybrid",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Manual",
-    "is_keystone": false,
-    "display_name": "Zig"
-  },
-  {
-    "name": "Odin",
-    "year": 2016,
-    "creators": [
-      "Ginger Bill"
-    ],
-    "paradigms": [
-      "Procedural"
-    ],
-    "cluster": "systems",
-    "generation": "renaissance",
-    "primary_use_cases": [
-      "High-performance games",
-      "Graphics programming",
-      "Systems tools"
-    ],
-    "key_innovations": [
-      "Data-Oriented Design (DOD) support",
-      "Context system",
-      "Procedure overloading",
-      "Explicit array programming"
-    ],
-    "influenced_by": [
-      "Pascal",
-      "C",
-      "Go",
-      "Oberon"
-    ],
-    "influenced": [],
-    "philosophy": "Data-oriented design for the modern age. Odin focuses on performance and simplicity, providing a joyful alternative to C for systems programming.",
-    "mental_model": "Think in terms of data layouts and transformations. The language provides a clear mapping from high-level logic to the underlying memory representation.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Manual",
-    "is_keystone": false,
-    "display_name": "Odin"
-  },
-  {
-    "name": "Nim",
-    "year": 2008,
-    "creators": [
-      "Andreas Rumpf"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Object-Oriented",
-      "Functional",
-      "Metaprogramming"
-    ],
-    "cluster": "systems",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Systems programming",
-      "Web backend",
-      "Game development"
-    ],
-    "key_innovations": [
-      "AST macros",
-      "Uniform Function Call Syntax (UFCS)",
-      "Multiple backend targets (C, C++, JS)",
-      "Soft realtime GC"
-    ],
-    "influenced_by": [
-      "Python",
-      "Pascal",
-      "Lisp",
-      "Ada",
-      "Modula-3"
-    ],
-    "influenced": [],
-    "philosophy": "Efficient, expressive, and elegant. Nim combines the speed of C with the readability of Python and the metaprogramming power of Lisp.",
-    "mental_model": "Think in terms of a shape-shifting language. You write high-level code that the compiler transforms into highly optimized C, C++, or JavaScript, using macros to mold the language to your needs.",
-    "complexity_bias": "medium",
-    "safety_model": "hybrid",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Automatic (ARC/ORC)",
-    "is_keystone": false,
-    "display_name": "Nim"
-  },
-  {
-    "name": "Crystal",
-    "year": 2014,
-    "creators": [
-      "Ary Borensztein",
-      "Juan Wajnerman"
-    ],
-    "paradigms": [
-      "Object-Oriented",
-      "Generic"
-    ],
-    "cluster": "scripting",
-    "generation": "renaissance",
-    "primary_use_cases": [
-      "Web services",
-      "Command-line tools",
-      "Prototyping"
-    ],
-    "key_innovations": [
-      "Ruby-like syntax with static typing",
-      "Union types",
-      "Fibers for concurrency",
-      "Nil-safety"
-    ],
-    "influenced_by": [
-      "Ruby",
-      "C",
-      "Rust",
-      "Go"
-    ],
-    "influenced": [],
-    "philosophy": "Fast as C, slick as Ruby. Crystal brings the joy of Ruby's syntax to the world of static typing and high performance.",
-    "mental_model": "Think in terms of objects and inferred types. You write code that looks like a dynamic script, but the compiler statically verifies every method call and type interaction.",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": false,
-    "display_name": "Crystal"
   },
   {
     "name": "OCaml",
@@ -1369,675 +2336,14 @@
       "Elm",
       "ReScript"
     ],
-    "philosophy": "Pragmatism meets mathematical rigor. OCaml provides a powerful module system and functional core that handles both symbolic logic and systems-level performance.",
+    "philosophy": "Pragmatism meets mathematical rigor. OCaml provides a powerful module system and functional core that handles both symbolic logic and systems-level performance. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of modules and functors. You build small, reusable components and compose them into complex systems using a sophisticated type system.",
     "complexity_bias": "high",
     "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "OCaml"
-  },
-  {
-    "name": "WebAssembly",
-    "year": 2017,
-    "creators": [
-      "W3C"
-    ],
-    "paradigms": [
-      "Stack-based",
-      "Procedural"
-    ],
-    "cluster": "infra",
-    "generation": "renaissance",
-    "primary_use_cases": [
-      "Web browsers",
-      "Edge computing",
-      "Plugin systems"
-    ],
-    "key_innovations": [
-      "Binary instruction format",
-      "Linear memory",
-      "Near-native sandbox performance"
-    ],
-    "influenced_by": [
-      "asm.js",
-      "PNaCl",
-      "JVM",
-      "LLVM"
-    ],
-    "influenced": [],
-    "philosophy": "A universal binary format for the web and beyond. WebAssembly provides a secure, portable, and near-native execution environment for any language.",
-    "mental_model": "Think in terms of a virtual stack machine and linear memory. You are targeting a low-level, sandboxed instruction set that interacts with the host environment through well-defined imports.",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Manual/Linear",
-    "is_keystone": true,
-    "display_name": "WebAssembly"
-  },
-  {
-    "name": "LLVM",
-    "year": 2003,
-    "creators": [
-      "Chris Lattner",
-      "Vikram Adve"
-    ],
-    "paradigms": [
-      "Procedural"
-    ],
-    "cluster": "infra",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Compiler backends",
-      "JIT compilation",
-      "Code optimization"
-    ],
-    "key_innovations": [
-      "Static Single Assignment (SSA) form",
-      "Language-independent instruction set",
-      "Modular optimizer framework"
-    ],
-    "influenced_by": [
-      "C",
-      "GCC"
-    ],
-    "influenced": [
-      "Rust",
-      "Swift",
-      "Julia",
-      "Clang",
-      "Zig",
-      "WebAssembly"
-    ],
-    "philosophy": "The compiler as a library. LLVM provides a modular and reusable set of technologies for building compilers, optimizers, and runtime environments.",
-    "mental_model": "Think in terms of Static Single Assignment (SSA) form and basic blocks. You are manipulating a flow graph of registers and instructions that can be mapped to any hardware.",
-    "complexity_bias": "high",
-    "safety_model": "manual",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Manual",
-    "is_keystone": true,
-    "display_name": "LLVM"
-  },
-  {
-    "name": "F#",
-    "year": 2005,
-    "creators": [
-      "Don Syme"
-    ],
-    "paradigms": [
-      "Functional",
-      "Object-Oriented",
-      "Imperative"
-    ],
-    "cluster": "backend",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Data analysis",
-      "Enterprise logic",
-      "Web services"
-    ],
-    "key_innovations": [
-      "Units of measure",
-      "Type providers",
-      "Computation expressions",
-      "Asynchronous workflows"
-    ],
-    "influenced_by": [
-      "OCaml",
-      "C#",
-      "Haskell",
-      "Python"
-    ],
-    "influenced": [
-      "C#",
-      "Swift"
-    ],
-    "philosophy": "Succinct, robust, and performant. F# simplifies complex problem solving by making the right way also the easy way, especially on the .NET platform.",
-    "mental_model": "Think in terms of pipelines and domain modeling. You model your business logic as a series of data transformations, using discriminated unions to make illegal states unrepresentable.",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": false,
-    "display_name": "F#"
-  },
-  {
-    "name": "Clojure",
-    "year": 2007,
-    "creators": [
-      "Rich Hickey"
-    ],
-    "paradigms": [
-      "Functional",
-      "Metaprogramming"
-    ],
-    "cluster": "backend",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Data processing",
-      "Web backend",
-      "Concurrent systems"
-    ],
-    "key_innovations": [
-      "Persistent Data Structures",
-      "Software Transactional Memory (STM)",
-      "Lisp for the JVM",
-      "Spec (validation tool)"
-    ],
-    "influenced_by": [
-      "Lisp",
-      "Scheme",
-      "Java",
-      "Haskell"
-    ],
-    "influenced": [
-      "Elixir"
-    ],
-    "philosophy": "De-complecting the system. Clojure separates state from identity, providing a functional approach to managing complexity in concurrent environments.",
-    "mental_model": "Think in terms of information and time. Data is immutable, and the state of your application is a series of snapshots in a stream of time.",
-    "complexity_bias": "high",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": true,
-    "display_name": "Clojure"
-  },
-  {
-    "name": "Scala",
-    "year": 2004,
-    "creators": [
-      "Martin Odersky"
-    ],
-    "paradigms": [
-      "Functional",
-      "Object-Oriented"
-    ],
-    "cluster": "backend",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Big Data (Spark)",
-      "Microservices",
-      "High-performance servers"
-    ],
-    "key_innovations": [
-      "Implicits",
-      "Case classes",
-      "Traits",
-      "Union and Intersection types",
-      "Advanced type-level programming"
-    ],
-    "influenced_by": [
-      "Java",
-      "Haskell",
-      "Pizza",
-      "ML"
-    ],
-    "influenced": [
-      "Java",
-      "Kotlin",
-      "Swift",
-      "Rust"
-    ],
-    "philosophy": "The scalable language. Scala unifies object-oriented and functional programming into a single, cohesive system that grows with the needs of the developer.",
-    "mental_model": "Think in terms of objects as functional values. Every value is an object, and every operation is a method, but the logic is driven by functional composition and type-level reasoning.",
-    "complexity_bias": "high",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": true,
-    "display_name": "Scala"
-  },
-  {
-    "name": "Elixir",
-    "year": 2011,
-    "creators": [
-      "Jos\u00e9 Valim"
-    ],
-    "paradigms": [
-      "Functional",
-      "Concurrent",
-      "Metaprogramming"
-    ],
-    "cluster": "cloud",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Real-time messaging",
-      "Scalable web apps",
-      "Distributed systems"
-    ],
-    "key_innovations": [
-      "Ruby-like syntax on BEAM VM",
-      "Protocols",
-      "Macro system",
-      "Pipeline operator"
-    ],
-    "influenced_by": [
-      "Erlang",
-      "Ruby",
-      "Clojure"
-    ],
-    "influenced": [],
-    "philosophy": "Productivity meets reliability. Elixir brings a modern syntax and powerful tooling to the battle-tested Erlang VM, making distributed systems accessible.",
-    "mental_model": "Think in terms of transformations and isolated processes. You build systems as a series of data pipes, where failure is localized and handled through supervision trees.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Per-Process GC",
-    "is_keystone": false,
-    "display_name": "Elixir"
-  },
-  {
-    "name": "Perl",
-    "year": 1987,
-    "creators": [
-      "Larry Wall"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Object-Oriented",
-      "Functional",
-      "Event-Driven"
-    ],
-    "cluster": "scripting",
-    "generation": "web1",
-    "primary_use_cases": [
-      "System administration",
-      "Web development (CGI)",
-      "Text processing"
-    ],
-    "key_innovations": [
-      "First-class Regex integration",
-      "CPAN repository",
-      "Sigils",
-      "Linguistic context sensitivity"
-    ],
-    "influenced_by": [
-      "C",
-      "sh",
-      "awk",
-      "sed"
-    ],
-    "influenced": [
-      "Ruby",
-      "PHP",
-      "Python",
-      "JavaScript",
-      "YAML"
-    ],
-    "philosophy": "There's more than one way to do it. Perl was built to be the 'Swiss Army Chainsaw' of the internet, handling text and systems with linguistic flexibility.",
-    "mental_model": "Think in terms of context and pattern matching. The meaning of your code changes based on where it is used, allowing for extremely dense and expressive scripts.",
-    "complexity_bias": "high",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Weak",
-    "memory_management": "Reference Counting",
-    "is_keystone": true,
-    "display_name": "Perl"
-  },
-  {
-    "name": "Lua",
-    "year": 1993,
-    "creators": [
-      "Roberto Ierusalimschy",
-      "Luiz Henrique de Figueiredo",
-      "Waldemar Celes"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Functional",
-      "Object-Oriented"
-    ],
-    "cluster": "scripting",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Game scripting",
-      "Embedded systems",
-      "Configuration"
-    ],
-    "key_innovations": [
-      "Table data structure",
-      "Metatables",
-      "Register-based virtual machine",
-      "Minimalist C API"
-    ],
-    "influenced_by": [
-      "SOL",
-      "DEL",
-      "Scheme",
-      "SNOBOL"
-    ],
-    "influenced": [
-      "JavaScript",
-      "Squirrel",
-      "MoonScript",
-      "Self"
-    ],
-    "philosophy": "Simplicity is the ultimate sophistication. Lua provides a minimal, fast, and highly embeddable engine that can be extended to fit any environment.",
-    "mental_model": "Think in terms of tables and metatables. Everything is a hash map, and you can redefine the behavior of any operation by attaching metadata to your data structures.",
-    "complexity_bias": "low",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": true,
-    "display_name": "Lua"
-  },
-  {
-    "name": "Julia",
-    "year": 2012,
-    "creators": [
-      "Jeff Bezanson",
-      "Stefan Karpinski",
-      "Viral B. Shah",
-      "Alan Edelman"
-    ],
-    "paradigms": [
-      "Multiple Dispatch",
-      "Functional",
-      "Imperative",
-      "Metaprogramming"
-    ],
-    "cluster": "scientific",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Numerical analysis",
-      "Machine Learning",
-      "Data Science"
-    ],
-    "key_innovations": [
-      "Multiple dispatch as core mechanism",
-      "JIT-to-native (via LLVM)",
-      "Lisp-style macros",
-      "Parallelism primitives"
-    ],
-    "influenced_by": [
-      "Lisp",
-      "Python",
-      "MATLAB",
-      "R",
-      "C++"
-    ],
-    "influenced": [],
-    "philosophy": "Walk like Python, run like C. Julia solves the 'two-language problem' by providing a high-level syntax that the JIT compiler can optimize to native speed.",
-    "mental_model": "Think in terms of multiple dispatch and type combinations. Functions are generic, and the specific implementation is chosen based on the types of all arguments at runtime.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": false,
-    "display_name": "Julia"
-  },
-  {
-    "name": "Self",
-    "year": 1987,
-    "creators": [
-      "David Ungar",
-      "Randall Smith"
-    ],
-    "paradigms": [
-      "Object-Oriented",
-      "Prototype-based"
-    ],
-    "cluster": "academic",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Virtual machine research",
-      "User interface innovation"
-    ],
-    "key_innovations": [
-      "Prototypal inheritance",
-      "Slots for state and behavior",
-      "JIT pioneer (pioneered many modern techniques)"
-    ],
-    "influenced_by": [
-      "Smalltalk"
-    ],
-    "influenced": [
-      "JavaScript",
-      "NewtonScript",
-      "Lua",
-      "Dart"
-    ],
-    "philosophy": "The power of simplicity. Self takes the ideas of Smalltalk to their logical conclusion, replacing classes with prototypal inheritance and uniform object access.",
-    "mental_model": "Think in terms of cloning and refining. There are no blueprints; you create an object and then modify it to suit your needs, inheriting behavior directly from your 'parents'.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": true,
-    "display_name": "Self"
-  },
-  {
-    "name": "PHP",
-    "year": 1995,
-    "creators": [
-      "Rasmus Lerdorf"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Object-Oriented",
-      "Functional"
-    ],
-    "cluster": "web",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Server-side web development",
-      "Content Management Systems (CMS)"
-    ],
-    "key_innovations": [
-      "Template-based execution",
-      "Native web integration",
-      "Extensive library of web-specific functions"
-    ],
-    "influenced_by": [
-      "Perl",
-      "C",
-      "C++",
-      "Java",
-      "Tcl"
-    ],
-    "influenced": [
-      "Hack"
-    ],
-    "philosophy": "The pragmatist's web tool. PHP was designed to get stuff done on the web quickly and easily, prioritizing convenience and deployment simplicity over formal language theory.",
-    "mental_model": "Think in terms of the request-response cycle. The script is a template that executes once per HTTP request, generating HTML and interacting with the database before terminating.",
-    "complexity_bias": "low",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Weak",
-    "memory_management": "Tracing GC (per-request)",
-    "is_keystone": true,
-    "display_name": "PHP"
-  },
-  {
-    "name": "Elm",
-    "year": 2012,
-    "creators": [
-      "Evan Czaplicki"
-    ],
-    "paradigms": [
-      "Functional"
-    ],
-    "cluster": "frontend",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Web frontend",
-      "Single Page Applications (SPA)"
-    ],
-    "key_innovations": [
-      "The Elm Architecture (TEA)",
-      "No runtime exceptions",
-      "Semantic versioning enforced by compiler"
-    ],
-    "influenced_by": [
-      "Haskell",
-      "ML",
-      "OCaml"
-    ],
-    "influenced": [
-      "Redux",
-      "Svelte",
-      "SwiftUI"
-    ],
-    "philosophy": "Delightful web apps through purity. Elm enforces a strict, purely functional architecture that guarantees the absence of runtime errors and simplifies state management.",
-    "mental_model": "Think in terms of the Model-View-Update cycle. You define an immutable state, a way to render it as a view, and a way to transition between states via messages.",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC (via JS)",
-    "is_keystone": true,
-    "display_name": "Elm"
-  },
-  {
-    "name": "Svelte",
-    "year": 2016,
-    "creators": [
-      "Rich Harris"
-    ],
-    "paradigms": [
-      "Declarative",
-      "Component-based"
-    ],
-    "cluster": "frontend",
-    "generation": "renaissance",
-    "primary_use_cases": [
-      "Web applications",
-      "Interactive data visualizations"
-    ],
-    "key_innovations": [
-      "Compile-time reactivity",
-      "No virtual DOM",
-      "Zero-overhead abstractions"
-    ],
-    "influenced_by": [
-      "JavaScript",
-      "HTML",
-      "CSS",
-      "Elm",
-      "Ractive.js"
-    ],
-    "influenced": [],
-    "philosophy": "The compiler is the framework. Svelte shifts the work from the browser to the build step, transforming declarative components into highly efficient imperative code.",
-    "mental_model": "Think in terms of direct reactivity. You write your UI as a set of variables and templates, and the compiler automatically wires up the updates without the need for a runtime diffing engine.",
-    "complexity_bias": "low",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC (via JS)",
-    "is_keystone": false,
-    "display_name": "Svelte"
-  },
-  {
-    "name": "Dart",
-    "year": 2011,
-    "creators": [
-      "Lars Bak",
-      "Kasper Lund"
-    ],
-    "paradigms": [
-      "Object-Oriented",
-      "Functional",
-      "Imperative"
-    ],
-    "cluster": "web",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Mobile apps (Flutter)",
-      "Web applications",
-      "Server-side"
-    ],
-    "key_innovations": [
-      "Hot Reload",
-      "Optional sound types",
-      "Ahead-of-Time (AOT) and Just-in-Time (JIT) compilation"
-    ],
-    "influenced_by": [
-      "JavaScript",
-      "Java",
-      "C#",
-      "Smalltalk",
-      "Self"
-    ],
-    "influenced": [],
-    "philosophy": "Optimized for client development. Dart provides a productive environment for building high-performance UIs across platforms with a familiar, robust syntax.",
-    "mental_model": "Think in terms of a structured, class-based language that can be highly dynamic during development (JIT) and rock-solid in production (AOT).",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": false,
-    "display_name": "Dart"
-  },
-  {
-    "name": "ReasonML",
-    "year": 2016,
-    "creators": [
-      "Jordan Walke"
-    ],
-    "paradigms": [
-      "Functional",
-      "Object-Oriented",
-      "Imperative"
-    ],
-    "cluster": "frontend",
-    "generation": "renaissance",
-    "primary_use_cases": [
-      "Web applications",
-      "Native apps"
-    ],
-    "key_innovations": [
-      "JavaScript-like syntax for OCaml",
-      "BuckleScript compiler",
-      "Fast iteration loop"
-    ],
-    "influenced_by": [
-      "OCaml",
-      "JavaScript",
-      "React"
-    ],
-    "influenced": [
-      "ReScript"
-    ],
-    "philosophy": "The power of OCaml with the reach of JavaScript. ReasonML provides a bridge for JS developers to access the safety and performance of the OCaml ecosystem.",
-    "mental_model": "Think in terms of OCaml's semantics through a familiar lens. You are writing pure, type-safe functional code that compiles to lean, efficient JavaScript.",
-    "complexity_bias": "high",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC (via JS)",
-    "is_keystone": false,
-    "display_name": "ReasonML"
-  },
-  {
-    "name": "ReScript",
-    "year": 2020,
-    "creators": [
-      "Hongbo Zhang"
-    ],
-    "paradigms": [
-      "Functional",
-      "Imperative"
-    ],
-    "cluster": "frontend",
-    "generation": "renaissance",
-    "primary_use_cases": [
-      "Web development"
-    ],
-    "key_innovations": [
-      "Fastest JS compiler",
-      "Zero-cost abstractions",
-      "Human-readable JS output"
-    ],
-    "influenced_by": [
-      "ReasonML",
-      "OCaml",
-      "JavaScript"
-    ],
-    "influenced": [],
-    "philosophy": "The best parts of OCaml, focused entirely on the JS platform. ReScript is a refined, standalone language that prioritizes build speed and clean JS interop.",
-    "mental_model": "Think in terms of a robust type system that exists solely to produce the best possible JavaScript. It is a tool for professional JS engineers who want industrial-grade safety.",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC (via JS)",
-    "is_keystone": false,
-    "display_name": "ReScript"
   },
   {
     "name": "CSharp",
@@ -2082,54 +2388,94 @@
       "Dart",
       "F#"
     ],
-    "philosophy": "A versatile, component-oriented language. C# balances the power of C++ with the safety of Java, evolving rapidly to embrace functional and asynchronous patterns.",
+    "philosophy": "A versatile, component-oriented language. C# balances the power of C++ with the safety of Java, evolving rapidly to embrace functional and asynchronous patterns. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of properties, events, and data streams. It is a highly structured environment where language features like LINQ allow you to treat data as a first-class citizen.",
     "complexity_bias": "medium",
     "safety_model": "runtime",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
     "is_keystone": true
   },
   {
-    "name": "VB",
-    "year": 1991,
+    "name": "JSON",
+    "year": 2001,
     "creators": [
-      "Alan Cooper",
-      "Microsoft"
+      "Douglas Crockford"
     ],
     "paradigms": [
-      "Event-Driven",
-      "Procedural",
-      "Object-Oriented"
+      "Data-driven"
     ],
-    "cluster": "enterprise",
+    "cluster": "infra",
     "generation": "web1",
     "primary_use_cases": [
-      "Desktop applications",
-      "Rapid Application Development (RAD)",
-      "Office automation"
+      "Web APIs",
+      "Data exchange",
+      "Configuration"
     ],
     "key_innovations": [
-      "Visual form designer",
-      "Component Object Model (COM) integration",
-      "Drag-and-drop programming"
+      "Subset of JavaScript syntax for data",
+      "Universal portability",
+      "Strict, minimal specification"
     ],
     "influenced_by": [
-      "BASIC"
+      "JavaScript"
     ],
     "influenced": [
-      "VB.NET",
-      "VBScript",
-      "Xojo"
+      "YAML",
+      "HCL",
+      "BSON"
     ],
-    "philosophy": "Democratizing software development. VB enabled a generation of non-professional programmers to build functional GUI applications with unprecedented speed.",
-    "mental_model": "Think in terms of a canvas. You draw your interface first and then attach snippets of code to events (like button clicks) to define the application's behavior.",
+    "philosophy": "The simplest possible data format. JSON provides a language-independent way to represent data that is easy for both humans to read and machines to parse. Note: Historically characterized by Dynamic/Weak typing and Managed-Store memory management.",
+    "mental_model": "Think in terms of a universal dictionary. It is the common tongue of the web, representing everything as simple strings, numbers, booleans, arrays, and objects.",
     "complexity_bias": "low",
     "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Weak",
-    "memory_management": "Reference Counting",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "VB"
+    "display_name": "JSON"
+  },
+  {
+    "name": "YAML",
+    "year": 2001,
+    "creators": [
+      "Clark Evans",
+      "Ingy döt Net",
+      "Oren Ben-Kiki"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Data-driven"
+    ],
+    "cluster": "infra",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Configuration files",
+      "Data serialization",
+      "DevOps pipelines"
+    ],
+    "key_innovations": [
+      "Significant whitespace for structure",
+      "Complex key support",
+      "Anchor and Alias system"
+    ],
+    "influenced_by": [
+      "JSON",
+      "XML",
+      "C",
+      "Python",
+      "Perl"
+    ],
+    "influenced": [
+      "HCL"
+    ],
+    "philosophy": "Human-friendly data serialization. YAML prioritizes readability and ease of manual editing over the rigid structural requirements of XML or JSON. Note: Historically characterized by Dynamic/Weak typing and Managed-Store memory management.",
+    "mental_model": "Think in terms of nested lists and maps. It is a textual representation of a data tree where indentation defines the hierarchy, much like Python code.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "YAML"
   },
   {
     "name": "VB.NET",
@@ -2160,179 +2506,684 @@
       "Java"
     ],
     "influenced": [],
-    "philosophy": "The power of .NET with the approachability of Basic syntax. VB.NET provided a modern, object-oriented path for legacy VB developers while maintaining its readable, English-like style.",
+    "philosophy": "The power of .NET with the approachability of Basic syntax. VB.NET provided a modern, object-oriented path for legacy VB developers while maintaining its readable, English-like style. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of a verbose, human-readable version of C#. It offers the same platform power but uses a more explicit, less symbolic syntax.",
     "complexity_bias": "medium",
     "safety_model": "runtime",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
     "is_keystone": false,
     "display_name": "VB.NET"
   },
   {
-    "name": "R",
-    "year": 1993,
+    "name": "Factor",
+    "year": 2003,
     "creators": [
-      "Ross Ihaka",
-      "Robert Gentleman"
+      "Slava Pestov"
     ],
     "paradigms": [
-      "Functional",
-      "Array-oriented",
+      "Stack-based",
+      "Concatenative",
       "Object-Oriented"
-    ],
-    "cluster": "data",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Statistical computing",
-      "Data visualization",
-      "Bioinformatics"
-    ],
-    "key_innovations": [
-      "Vectorized operations",
-      "Lazy evaluation",
-      "Formula notation",
-      "CRAN repository system"
-    ],
-    "influenced_by": [
-      "S",
-      "Scheme",
-      "Common Lisp"
-    ],
-    "influenced": [
-      "Julia"
-    ],
-    "philosophy": "By statisticians, for statisticians. R is a domain-specific language that treats data and models as first-class objects, emphasizing analysis over engineering.",
-    "mental_model": "Think in terms of vectors and frames. You apply statistical operations to entire columns or sets of data, and the language is designed to handle missing data and complex mathematical formulas natively.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": true,
-    "display_name": "R"
-  },
-  {
-    "name": "MATLAB",
-    "year": 1984,
-    "creators": [
-      "Cleve Moler"
-    ],
-    "paradigms": [
-      "Array-oriented",
-      "Procedural",
-      "Object-Oriented"
-    ],
-    "cluster": "scientific",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Linear algebra",
-      "Control systems",
-      "Signal processing",
-      "Image processing"
-    ],
-    "key_innovations": [
-      "Matrix-first language design",
-      "Simulink",
-      "Integrated plotting and analysis tools"
-    ],
-    "influenced_by": [
-      "FORTRAN",
-      "APL",
-      "LINPACK",
-      "EISPACK"
-    ],
-    "influenced": [
-      "Julia",
-      "Numpy",
-      "GNU Octave",
-      "Scilab"
-    ],
-    "philosophy": "The matrix is the fundamental unit. MATLAB provides a high-performance environment for numerical computation and visualization without the overhead of lower-level memory management.",
-    "mental_model": "Think in terms of linear transformations. Every variable is an array, and every operation is designed to work on matrices, reflecting the math of signal and image processing.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Managed-Store",
-    "is_keystone": true,
-    "display_name": "MATLAB"
-  },
-  {
-    "name": "Maple",
-    "year": 1982,
-    "creators": [
-      "Symbolic Computation Group (University of Waterloo)"
-    ],
-    "paradigms": [
-      "Symbolic",
-      "Functional",
-      "Procedural"
-    ],
-    "cluster": "scientific",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Computer Algebra Systems (CAS)",
-      "Mathematical modeling",
-      "Education"
-    ],
-    "key_innovations": [
-      "Symbolic differentiation and integration",
-      "Arbitrary-precision arithmetic",
-      "Interactive worksheets"
-    ],
-    "influenced_by": [
-      "Lisp",
-      "MACSYMA"
-    ],
-    "influenced": [
-      "Mathematica"
-    ],
-    "philosophy": "Mathematical rigor through software. Maple focuses on exact symbolic computation, allowing mathematicians to manipulate formulas and proofs with computational precision.",
-    "mental_model": "Think in terms of algebraic expressions. You are not just calculating numbers; you are manipulating the symbols and structures of mathematics itself.",
-    "complexity_bias": "high",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": false,
-    "display_name": "Maple"
-  },
-  {
-    "name": "Objective-C",
-    "year": 1984,
-    "creators": [
-      "Brad Cox",
-      "Tom Love"
-    ],
-    "paradigms": [
-      "Object-Oriented",
-      "Procedural"
     ],
     "cluster": "systems",
-    "generation": "web1",
+    "generation": "cloud",
     "primary_use_cases": [
-      "macOS and iOS development",
-      "Systems software"
+      "Systems programming",
+      "Metaprogramming"
     ],
     "key_innovations": [
-      "Dynamic dispatch via message passing",
-      "Categories",
-      "Automatic Reference Counting (ARC)"
+      "Modern concatenative language",
+      "Interactive development environment",
+      "Library-rich stack ecosystem"
+    ],
+    "influenced_by": [
+      "Forth",
+      "Lisp",
+      "Self"
+    ],
+    "influenced": [],
+    "philosophy": "Stack-based programming for the 21st century. Factor combines the simplicity of Forth with the power of modern object systems and garbage collection.",
+    "mental_model": "Data flows through a stack. Words transform the stack. Programs are built by composing small, testable words.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Factor"
+  },
+  {
+    "name": "LLVM",
+    "year": 2003,
+    "creators": [
+      "Chris Lattner",
+      "Vikram Adve"
+    ],
+    "paradigms": [
+      "Procedural"
+    ],
+    "cluster": "infra",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Compiler backends",
+      "JIT compilation",
+      "Code optimization"
+    ],
+    "key_innovations": [
+      "Static Single Assignment (SSA) form",
+      "Language-independent instruction set",
+      "Modular optimizer framework"
     ],
     "influenced_by": [
       "C",
-      "Smalltalk"
+      "GCC"
+    ],
+    "influenced": [
+      "Rust",
+      "Swift",
+      "Julia",
+      "Clang",
+      "Zig",
+      "WebAssembly"
+    ],
+    "philosophy": "The compiler as a library. LLVM provides a modular and reusable set of technologies for building compilers, optimizers, and runtime environments. Note: Historically characterized by Static/Strong typing and Manual memory management.",
+    "mental_model": "Think in terms of Static Single Assignment (SSA) form and basic blocks. You are manipulating a flow graph of registers and instructions that can be mapped to any hardware.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "LLVM"
+  },
+  {
+    "name": "Scala",
+    "year": 2004,
+    "creators": [
+      "Martin Odersky"
+    ],
+    "paradigms": [
+      "Functional",
+      "Object-Oriented"
+    ],
+    "cluster": "backend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Big Data (Spark)",
+      "Microservices",
+      "High-performance servers"
+    ],
+    "key_innovations": [
+      "Implicits",
+      "Case classes",
+      "Traits",
+      "Union and Intersection types",
+      "Advanced type-level programming"
+    ],
+    "influenced_by": [
+      "Java",
+      "Haskell",
+      "Pizza",
+      "ML"
     ],
     "influenced": [
       "Java",
+      "Kotlin",
+      "Swift",
+      "Rust"
+    ],
+    "philosophy": "The scalable language. Scala unifies object-oriented and functional programming into a single, cohesive system that grows with the needs of the developer. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of objects as functional values. Every value is an object, and every operation is a method, but the logic is driven by functional composition and type-level reasoning.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Scala"
+  },
+  {
+    "name": "F#",
+    "year": 2005,
+    "creators": [
+      "Don Syme"
+    ],
+    "paradigms": [
+      "Functional",
+      "Object-Oriented",
+      "Imperative"
+    ],
+    "cluster": "backend",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Data analysis",
+      "Enterprise logic",
+      "Web services"
+    ],
+    "key_innovations": [
+      "Units of measure",
+      "Type providers",
+      "Computation expressions",
+      "Asynchronous workflows"
+    ],
+    "influenced_by": [
+      "OCaml",
+      "C#",
+      "Haskell",
+      "Python"
+    ],
+    "influenced": [
+      "C#",
       "Swift"
     ],
-    "philosophy": "The best of both worlds: C's performance and Smalltalk's flexibility. Objective-C added a thin layer of dynamic, message-passing objects onto the C language.",
-    "mental_model": "Think in terms of C with a layer of Smalltalk objects. You use C for low-level logic and Objective-C's dynamic runtime for high-level object-oriented architecture.",
+    "philosophy": "Succinct, robust, and performant. F# simplifies complex problem solving by making the right way also the easy way, especially on the .NET platform. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of pipelines and domain modeling. You model your business logic as a series of data transformations, using discriminated unions to make illegal states unrepresentable.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "F#"
+  },
+  {
+    "name": "Clojure",
+    "year": 2007,
+    "creators": [
+      "Rich Hickey"
+    ],
+    "paradigms": [
+      "Functional",
+      "Metaprogramming"
+    ],
+    "cluster": "backend",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Data processing",
+      "Web backend",
+      "Concurrent systems"
+    ],
+    "key_innovations": [
+      "Persistent Data Structures",
+      "Software Transactional Memory (STM)",
+      "Lisp for the JVM",
+      "Spec (validation tool)"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "Scheme",
+      "Java",
+      "Haskell"
+    ],
+    "influenced": [
+      "Elixir"
+    ],
+    "philosophy": "De-complecting the system. Clojure separates state from identity, providing a functional approach to managing complexity in concurrent environments. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of information and time. Data is immutable, and the state of your application is a series of snapshots in a stream of time.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Clojure"
+  },
+  {
+    "name": "Nim",
+    "year": 2008,
+    "creators": [
+      "Andreas Rumpf"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Object-Oriented",
+      "Functional",
+      "Metaprogramming"
+    ],
+    "cluster": "systems",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Systems programming",
+      "Web backend",
+      "Game development"
+    ],
+    "key_innovations": [
+      "AST macros",
+      "Uniform Function Call Syntax (UFCS)",
+      "Multiple backend targets (C, C++, JS)",
+      "Soft realtime GC"
+    ],
+    "influenced_by": [
+      "Python",
+      "Pascal",
+      "Lisp",
+      "Ada",
+      "Modula-3"
+    ],
+    "influenced": [],
+    "philosophy": "Efficient, expressive, and elegant. Nim combines the speed of C with the readability of Python and the metaprogramming power of Lisp. Note: Historically characterized by Static/Strong typing and Automatic (ARC/ORC) memory management.",
+    "mental_model": "Think in terms of a shape-shifting language. You write high-level code that the compiler transforms into highly optimized C, C++, or JavaScript, using macros to mold the language to your needs.",
+    "complexity_bias": "medium",
+    "safety_model": "hybrid",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Nim"
+  },
+  {
+    "name": "Go",
+    "year": 2009,
+    "creators": [
+      "Rob Pike",
+      "Ken Thompson",
+      "Robert Griesemer"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Generic"
+    ],
+    "cluster": "cloud",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Cloud infrastructure",
+      "Microservices",
+      "DevOps tools"
+    ],
+    "key_innovations": [
+      "Goroutines (CSP)",
+      "Implicit interfaces",
+      "Fast compilation",
+      "Single static binary"
+    ],
+    "influenced_by": [
+      "C",
+      "Pascal",
+      "Occam",
+      "Python"
+    ],
+    "influenced": [
+      "Zig",
+      "Odin",
+      "Crystal"
+    ],
+    "philosophy": "Simplicity is the key to scalability. Go aims to make large-scale software development manageable by keeping the language small and the tools powerful. Note: Historically characterized by Static/Strong typing and Tracing GC (Low-latency) memory management.",
+    "mental_model": "Think in terms of pipes and workers. Independent tasks (goroutines) communicate through channels, and structural typing allows for flexible, decoupled design.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Go"
+  },
+  {
+    "name": "Rust",
+    "year": 2010,
+    "creators": [
+      "Graydon Hoare"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Functional",
+      "Generic"
+    ],
+    "cluster": "systems",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Operating systems",
+      "Browsers",
+      "WebAssembly",
+      "Blockchain"
+    ],
+    "key_innovations": [
+      "Ownership and Borrowing",
+      "Fearless concurrency",
+      "Zero-cost abstractions",
+      "Cargo package manager"
+    ],
+    "influenced_by": [
+      "C++",
+      "ML",
+      "Haskell",
+      "Cyclone",
+      "Ada",
+      "OCaml",
+      "Scala",
+      "LLVM"
+    ],
+    "influenced": [
+      "Mojo",
+      "Swift",
+      "Zig",
+      "Crystal"
+    ],
+    "philosophy": "Safety and performance without compromise. Rust empowers everyone to build reliable and efficient software by making memory safety a first-class citizen. Note: Historically characterized by Static/Strong (Linear) typing and Ownership/Borrowing memory management.",
+    "mental_model": "Think in terms of data ownership. The compiler tracks who 'owns' every piece of data, preventing data races and memory leaks at compile time.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "compile_time",
+    "is_keystone": true,
+    "display_name": "Rust"
+  },
+  {
+    "name": "Dart",
+    "year": 2011,
+    "creators": [
+      "Lars Bak",
+      "Kasper Lund"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Functional",
+      "Imperative"
+    ],
+    "cluster": "web",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Mobile apps (Flutter)",
+      "Web applications",
+      "Server-side"
+    ],
+    "key_innovations": [
+      "Hot Reload",
+      "Optional sound types",
+      "Ahead-of-Time (AOT) and Just-in-Time (JIT) compilation"
+    ],
+    "influenced_by": [
+      "JavaScript",
+      "Java",
+      "C#",
+      "Smalltalk",
+      "Self"
+    ],
+    "influenced": [],
+    "philosophy": "Optimized for client development. Dart provides a productive environment for building high-performance UIs across platforms with a familiar, robust syntax. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of a structured, class-based language that can be highly dynamic during development (JIT) and rock-solid in production (AOT).",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Dart"
+  },
+  {
+    "name": "Elixir",
+    "year": 2011,
+    "creators": [
+      "José Valim"
+    ],
+    "paradigms": [
+      "Functional",
+      "Concurrent",
+      "Metaprogramming"
+    ],
+    "cluster": "cloud",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Real-time messaging",
+      "Scalable web apps",
+      "Distributed systems"
+    ],
+    "key_innovations": [
+      "Ruby-like syntax on BEAM VM",
+      "Protocols",
+      "Macro system",
+      "Pipeline operator"
+    ],
+    "influenced_by": [
+      "Erlang",
+      "Ruby",
+      "Clojure"
+    ],
+    "influenced": [],
+    "philosophy": "Productivity meets reliability. Elixir brings a modern syntax and powerful tooling to the battle-tested Erlang VM, making distributed systems accessible. Note: Historically characterized by Dynamic/Strong typing and Per-Process GC memory management.",
+    "mental_model": "Think in terms of transformations and isolated processes. You build systems as a series of data pipes, where failure is localized and handled through supervision trees.",
     "complexity_bias": "medium",
     "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Reference Counting (ARC)",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Elixir"
+  },
+  {
+    "name": "Kotlin",
+    "year": 2011,
+    "creators": [
+      "JetBrains"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Functional",
+      "Generic"
+    ],
+    "cluster": "enterprise",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Android development",
+      "Server-side",
+      "Multiplatform"
+    ],
+    "key_innovations": [
+      "Null safety as first-class citizen",
+      "Coroutines",
+      "Extension functions",
+      "Data classes"
+    ],
+    "influenced_by": [
+      "Java",
+      "Scala",
+      "C#",
+      "Groovy",
+      "Python"
+    ],
+    "influenced": [
+      "Java"
+    ],
+    "philosophy": "Pragmatic and concise. Kotlin aims to be a better Java, providing modern features and industrial-grade safety while maintaining 100% interoperability with the Java ecosystem. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of safe, concise Java. You are working within the JVM ecosystem but with a language that eliminates verbosity and null-pointer exceptions by default.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Objective-C"
+    "display_name": "Kotlin"
+  },
+  {
+    "name": "Elm",
+    "year": 2012,
+    "creators": [
+      "Evan Czaplicki"
+    ],
+    "paradigms": [
+      "Functional"
+    ],
+    "cluster": "frontend",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Web frontend",
+      "Single Page Applications (SPA)"
+    ],
+    "key_innovations": [
+      "The Elm Architecture (TEA)",
+      "No runtime exceptions",
+      "Semantic versioning enforced by compiler"
+    ],
+    "influenced_by": [
+      "Haskell",
+      "ML",
+      "OCaml"
+    ],
+    "influenced": [
+      "Redux",
+      "Svelte",
+      "SwiftUI"
+    ],
+    "philosophy": "Delightful web apps through purity. Elm enforces a strict, purely functional architecture that guarantees the absence of runtime errors and simplifies state management. Note: Historically characterized by Static/Strong typing and Tracing GC (via JS) memory management.",
+    "mental_model": "Think in terms of the Model-View-Update cycle. You define an immutable state, a way to render it as a view, and a way to transition between states via messages.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Elm"
+  },
+  {
+    "name": "Julia",
+    "year": 2012,
+    "creators": [
+      "Jeff Bezanson",
+      "Stefan Karpinski",
+      "Viral B. Shah",
+      "Alan Edelman"
+    ],
+    "paradigms": [
+      "Multiple Dispatch",
+      "Functional",
+      "Imperative",
+      "Metaprogramming"
+    ],
+    "cluster": "scientific",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Numerical analysis",
+      "Machine Learning",
+      "Data Science"
+    ],
+    "key_innovations": [
+      "Multiple dispatch as core mechanism",
+      "JIT-to-native (via LLVM)",
+      "Lisp-style macros",
+      "Parallelism primitives"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "Python",
+      "MATLAB",
+      "R",
+      "C++"
+    ],
+    "influenced": [],
+    "philosophy": "Walk like Python, run like C. Julia solves the 'two-language problem' by providing a high-level syntax that the JIT compiler can optimize to native speed. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of multiple dispatch and type combinations. Functions are generic, and the specific implementation is chosen based on the types of all arguments at runtime.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Julia"
+  },
+  {
+    "name": "TypeScript",
+    "year": 2012,
+    "creators": [
+      "Anders Hejlsberg"
+    ],
+    "paradigms": [
+      "Functional",
+      "Object-Oriented",
+      "Generic"
+    ],
+    "cluster": "frontend",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Large-scale web applications",
+      "Cross-platform development"
+    ],
+    "key_innovations": [
+      "Structural type system",
+      "Optional static typing",
+      "Transpilation to JavaScript"
+    ],
+    "influenced_by": [
+      "JavaScript",
+      "C#",
+      "Java"
+    ],
+    "influenced": [
+      "AssemblyScript"
+    ],
+    "philosophy": "JavaScript that scales. TypeScript provides the tooling and safety needed for massive codebases while maintaining full compatibility with the JS ecosystem. Note: Historically characterized by Static/Structural typing and Tracing GC (via JS) memory management.",
+    "mental_model": "Think in terms of shapes and contracts. You are adding a layer of documentation and verification on top of JavaScript's dynamic nature.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "TypeScript"
+  },
+  {
+    "name": "Crystal",
+    "year": 2014,
+    "creators": [
+      "Ary Borensztein",
+      "Juan Wajnerman"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Generic"
+    ],
+    "cluster": "scripting",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Web services",
+      "Command-line tools",
+      "Prototyping"
+    ],
+    "key_innovations": [
+      "Ruby-like syntax with static typing",
+      "Union types",
+      "Fibers for concurrency",
+      "Nil-safety"
+    ],
+    "influenced_by": [
+      "Ruby",
+      "C",
+      "Rust",
+      "Go"
+    ],
+    "influenced": [],
+    "philosophy": "Fast as C, slick as Ruby. Crystal brings the joy of Ruby's syntax to the world of static typing and high performance. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
+    "mental_model": "Think in terms of objects and inferred types. You write code that looks like a dynamic script, but the compiler statically verifies every method call and type interaction.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Crystal"
+  },
+  {
+    "name": "HCL",
+    "year": 2014,
+    "creators": [
+      "HashiCorp"
+    ],
+    "paradigms": [
+      "Declarative"
+    ],
+    "cluster": "infra",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Infrastructure as Code (Terraform)",
+      "Configuration"
+    ],
+    "key_innovations": [
+      "Block-based configuration",
+      "Interpolation syntax",
+      "Human-readable but machine-parsable"
+    ],
+    "influenced_by": [
+      "JSON",
+      "YAML",
+      "Nginx config",
+      "libucl"
+    ],
+    "influenced": [
+      "Pulumi (concepts)"
+    ],
+    "philosophy": "Configuration for humans and machines. HCL was designed to strike a balance between the readability of YAML and the structure of JSON, specifically for infrastructure definitions. Note: Historically characterized by Static/Strong typing and Managed-Store memory management.",
+    "mental_model": "Think in terms of desired state. You describe the resources you want to exist, and the tool (like Terraform) determines the steps to reach that state.",
+    "complexity_bias": "low",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "HCL"
   },
   {
     "name": "Swift",
@@ -2371,526 +3222,277 @@
     "influenced": [
       "Mojo"
     ],
-    "philosophy": "Safe, fast, and expressive. Swift was built to replace Objective-C, providing a modern, developer-friendly syntax with performance that rivals C++ and safety that prevents common crashes.",
+    "philosophy": "Safe, fast, and expressive. Swift was built to replace Objective-C, providing a modern, developer-friendly syntax with performance that rivals C++ and safety that prevents common crashes. Note: Historically characterized by Static/Strong typing and Reference Counting (ARC) memory management.",
     "mental_model": "Think in terms of value types and protocols. You prefer structs over classes and use protocols to define common behavior, creating a safe and composable system.",
     "complexity_bias": "medium",
     "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Reference Counting (ARC)",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "Swift"
   },
   {
-    "name": "Kotlin",
-    "year": 2011,
+    "name": "Gleam",
+    "year": 2016,
     "creators": [
-      "JetBrains"
-    ],
-    "paradigms": [
-      "Object-Oriented",
-      "Functional",
-      "Generic"
-    ],
-    "cluster": "enterprise",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Android development",
-      "Server-side",
-      "Multiplatform"
-    ],
-    "key_innovations": [
-      "Null safety as first-class citizen",
-      "Coroutines",
-      "Extension functions",
-      "Data classes"
-    ],
-    "influenced_by": [
-      "Java",
-      "Scala",
-      "C#",
-      "Groovy",
-      "Python"
-    ],
-    "influenced": [
-      "Java"
-    ],
-    "philosophy": "Pragmatic and concise. Kotlin aims to be a better Java, providing modern features and industrial-grade safety while maintaining 100% interoperability with the Java ecosystem.",
-    "mental_model": "Think in terms of safe, concise Java. You are working within the JVM ecosystem but with a language that eliminates verbosity and null-pointer exceptions by default.",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": true,
-    "display_name": "Kotlin"
-  },
-  {
-    "name": "HCL",
-    "year": 2014,
-    "creators": [
-      "HashiCorp"
-    ],
-    "paradigms": [
-      "Declarative"
-    ],
-    "cluster": "infra",
-    "generation": "renaissance",
-    "primary_use_cases": [
-      "Infrastructure as Code (Terraform)",
-      "Configuration"
-    ],
-    "key_innovations": [
-      "Block-based configuration",
-      "Interpolation syntax",
-      "Human-readable but machine-parsable"
-    ],
-    "influenced_by": [
-      "JSON",
-      "YAML",
-      "Nginx config",
-      "libucl"
-    ],
-    "influenced": [
-      "Pulumi (concepts)"
-    ],
-    "philosophy": "Configuration for humans and machines. HCL was designed to strike a balance between the readability of YAML and the structure of JSON, specifically for infrastructure definitions.",
-    "mental_model": "Think in terms of desired state. You describe the resources you want to exist, and the tool (like Terraform) determines the steps to reach that state.",
-    "complexity_bias": "low",
-    "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Managed-Store",
-    "is_keystone": false,
-    "display_name": "HCL"
-  },
-  {
-    "name": "YAML",
-    "year": 2001,
-    "creators": [
-      "Clark Evans",
-      "Ingy d\u00f6t Net",
-      "Oren Ben-Kiki"
-    ],
-    "paradigms": [
-      "Declarative",
-      "Data-driven"
-    ],
-    "cluster": "infra",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Configuration files",
-      "Data serialization",
-      "DevOps pipelines"
-    ],
-    "key_innovations": [
-      "Significant whitespace for structure",
-      "Complex key support",
-      "Anchor and Alias system"
-    ],
-    "influenced_by": [
-      "JSON",
-      "XML",
-      "C",
-      "Python",
-      "Perl"
-    ],
-    "influenced": [
-      "HCL"
-    ],
-    "philosophy": "Human-friendly data serialization. YAML prioritizes readability and ease of manual editing over the rigid structural requirements of XML or JSON.",
-    "mental_model": "Think in terms of nested lists and maps. It is a textual representation of a data tree where indentation defines the hierarchy, much like Python code.",
-    "complexity_bias": "low",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Weak",
-    "memory_management": "Managed-Store",
-    "is_keystone": true,
-    "display_name": "YAML"
-  },
-  {
-    "name": "JSON",
-    "year": 2001,
-    "creators": [
-      "Douglas Crockford"
-    ],
-    "paradigms": [
-      "Data-driven"
-    ],
-    "cluster": "infra",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Web APIs",
-      "Data exchange",
-      "Configuration"
-    ],
-    "key_innovations": [
-      "Subset of JavaScript syntax for data",
-      "Universal portability",
-      "Strict, minimal specification"
-    ],
-    "influenced_by": [
-      "JavaScript"
-    ],
-    "influenced": [
-      "YAML",
-      "HCL",
-      "BSON"
-    ],
-    "philosophy": "The simplest possible data format. JSON provides a language-independent way to represent data that is easy for both humans to read and machines to parse.",
-    "mental_model": "Think in terms of a universal dictionary. It is the common tongue of the web, representing everything as simple strings, numbers, booleans, arrays, and objects.",
-    "complexity_bias": "low",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Weak",
-    "memory_management": "Managed-Store",
-    "is_keystone": true,
-    "display_name": "JSON"
-  },
-  {
-    "name": "PL/I",
-    "year": 1964,
-    "creators": [
-      "IBM"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Structured"
-    ],
-    "cluster": "enterprise",
-    "generation": "early",
-    "primary_use_cases": [
-      "Mainframe computing",
-      "Business and scientific applications"
-    ],
-    "key_innovations": [
-      "Exception handling (ON-units)",
-      "Multitasking support",
-      "Pointer variables",
-      "Extensive data types"
-    ],
-    "influenced_by": [
-      "FORTRAN",
-      "ALGOL 60",
-      "COBOL"
-    ],
-    "influenced": [
-      "C",
-      "Pascal",
-      "Ada"
-    ],
-    "philosophy": "The universal language for everything. IBM designed PL/I to combine the scientific power of FORTRAN with the business capabilities of COBOL and the structure of ALGOL.",
-    "mental_model": "Think in terms of a massive toolkit. It is a comprehensive language that tries to provide every feature a programmer might need, from bit manipulation to complex record structures.",
-    "complexity_bias": "high",
-    "safety_model": "manual",
-    "typing_discipline": "Static/Weak",
-    "memory_management": "Static/Manual/Automatic",
-    "is_keystone": true,
-    "display_name": "PL/I"
-  },
-  {
-    "name": "BCPL",
-    "year": 1967,
-    "creators": [
-      "Martin Richards"
-    ],
-    "paradigms": [
-      "Procedural"
-    ],
-    "cluster": "systems",
-    "generation": "early",
-    "primary_use_cases": [
-      "Compiler writing",
-      "Operating systems",
-      "Systems programming"
-    ],
-    "key_innovations": [
-      "Word-based memory model",
-      "Untyped variables",
-      "Bracket-based block structure"
-    ],
-    "influenced_by": [
-      "CPL"
-    ],
-    "influenced": [
-      "B",
-      "C"
-    ],
-    "philosophy": "Keep it simple and portable. BCPL was designed to be small enough to be easily ported between machines while providing enough power for systems-level tasks.",
-    "mental_model": "Think in terms of memory words. There are no types; everything is a word (usually 16 or 32 bits), and it is up to the programmer to interpret those bits correctly.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "Untyped",
-    "memory_management": "Manual",
-    "is_keystone": true,
-    "display_name": "BCPL"
-  },
-  {
-    "name": "SNOBOL",
-    "year": 1962,
-    "creators": [
-      "David J. Farber",
-      "Ralph E. Griswold",
-      "Ivan P. Polonsky"
-    ],
-    "paradigms": [
-      "String-processing",
-      "Imperative"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "Text processing",
-      "Pattern matching",
-      "Symbolic manipulation"
-    ],
-    "key_innovations": [
-      "First-class pattern matching",
-      "Dynamic data types",
-      "Associative arrays"
-    ],
-    "influenced_by": [
-      "COMIT"
-    ],
-    "influenced": [
-      "Icon",
-      "Lua",
-      "Perl"
-    ],
-    "philosophy": "Strings are the primary data structure. SNOBOL treats text not just as a sequence of characters, but as a rich structure to be searched and manipulated through powerful patterns.",
-    "mental_model": "Think in terms of pattern matching and replacement. A program is a series of statements that attempt to match patterns against strings and perform actions based on success or failure.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic/Strong",
-    "memory_management": "Tracing GC",
-    "is_keystone": true,
-    "display_name": "SNOBOL"
-  },
-  {
-    "name": "Assembly",
-    "year": 1947,
-    "creators": [
-      "Kathleen Booth"
-    ],
-    "paradigms": [
-      "Imperative"
-    ],
-    "cluster": "systems",
-    "generation": "dawn",
-    "primary_use_cases": [
-      "Direct hardware control",
-      "Operating systems"
-    ],
-    "key_innovations": [
-      "Mnemonic representation of machine code"
-    ],
-    "influenced_by": [
-      "Machine Code"
-    ],
-    "influenced": [
-      "FORTRAN",
-      "C",
-      "BCPL"
-    ],
-    "philosophy": "Provide a human-readable interface to the CPU's instruction set.",
-    "mental_model": "Think in registers and memory addresses. You are the CPU.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "Untyped",
-    "memory_management": "Manual",
-    "is_keystone": true,
-    "display_name": "Assembly"
-  },
-  {
-    "name": "B",
-    "year": 1969,
-    "creators": [
-      "Ken Thompson",
-      "Dennis Ritchie"
-    ],
-    "paradigms": [
-      "Procedural"
-    ],
-    "cluster": "systems",
-    "generation": "early",
-    "primary_use_cases": [
-      "Systems programming"
-    ],
-    "key_innovations": [
-      "Typeless variables",
-      "Influenced C's syntax"
-    ],
-    "influenced_by": [
-      "BCPL"
-    ],
-    "influenced": [
-      "C"
-    ],
-    "philosophy": "Keep it minimal for the PDP-7.",
-    "mental_model": "Think in memory words.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "Untyped",
-    "memory_management": "Manual",
-    "is_keystone": true,
-    "display_name": "B"
-  },
-  {
-    "name": "CPL",
-    "year": 1963,
-    "creators": [
-      "Christopher Strachey"
-    ],
-    "paradigms": [
-      "Procedural"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "Research"
-    ],
-    "key_innovations": [
-      "First-class functions",
-      "Complex syntax"
-    ],
-    "influenced_by": [
-      "ALGOL 60"
-    ],
-    "influenced": [
-      "BCPL"
-    ],
-    "philosophy": "Combine high-level concepts with low-level control.",
-    "mental_model": "A bridge between ALGOL and low-level systems.",
-    "complexity_bias": "high",
-    "safety_model": "manual",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Manual",
-    "is_keystone": false,
-    "display_name": "CPL"
-  },
-  {
-    "name": "Lambda Calculus",
-    "year": 1930,
-    "creators": [
-      "Alonzo Church"
+      "Louis Pilchard"
     ],
     "paradigms": [
       "Functional"
     ],
-    "cluster": "mathematics",
-    "generation": "dawn",
+    "cluster": "web",
+    "generation": "renaissance",
     "primary_use_cases": [
-      "Foundations of mathematics",
-      "Logic"
+      "Backend systems",
+      "Web development"
     ],
     "key_innovations": [
-      "Variable binding",
-      "Substitution",
-      "First-class functions"
+      "Type-safe BEAM language",
+      "Fault-tolerant static typing",
+      "Simple, consistent syntax"
     ],
-    "influenced_by": [],
+    "influenced_by": [
+      "Erlang",
+      "Elm",
+      "Rust"
+    ],
+    "influenced": [],
+    "philosophy": "Fault tolerance with a safety net. Gleam brings static type safety to the Erlang ecosystem, making it easier to build reliable distributed systems.",
+    "mental_model": "Think in terms of pure functions and immutable data, all running inside isolated processes. The compiler ensures everything fits together.",
+    "complexity_bias": "low",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Gleam"
+  },
+  {
+    "name": "Odin",
+    "year": 2016,
+    "creators": [
+      "Ginger Bill"
+    ],
+    "paradigms": [
+      "Procedural"
+    ],
+    "cluster": "systems",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "High-performance games",
+      "Graphics programming",
+      "Systems tools"
+    ],
+    "key_innovations": [
+      "Data-Oriented Design (DOD) support",
+      "Context system",
+      "Procedure overloading",
+      "Explicit array programming"
+    ],
+    "influenced_by": [
+      "Pascal",
+      "C",
+      "Go",
+      "Oberon"
+    ],
+    "influenced": [],
+    "philosophy": "Data-oriented design for the modern age. Odin focuses on performance and simplicity, providing a joyful alternative to C for systems programming. Note: Historically characterized by Static/Strong typing and Manual memory management.",
+    "mental_model": "Think in terms of data layouts and transformations. The language provides a clear mapping from high-level logic to the underlying memory representation.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Odin"
+  },
+  {
+    "name": "ReasonML",
+    "year": 2016,
+    "creators": [
+      "Jordan Walke"
+    ],
+    "paradigms": [
+      "Functional",
+      "Object-Oriented",
+      "Imperative"
+    ],
+    "cluster": "frontend",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Web applications",
+      "Native apps"
+    ],
+    "key_innovations": [
+      "JavaScript-like syntax for OCaml",
+      "BuckleScript compiler",
+      "Fast iteration loop"
+    ],
+    "influenced_by": [
+      "OCaml",
+      "JavaScript",
+      "React"
+    ],
     "influenced": [
-      "Lisp",
-      "Haskell",
-      "ML"
+      "ReScript"
     ],
-    "philosophy": "Computation is function application.",
-    "mental_model": "Functions are the only primitive.",
-    "complexity_bias": "medium",
+    "philosophy": "The power of OCaml with the reach of JavaScript. ReasonML provides a bridge for JS developers to access the safety and performance of the OCaml ecosystem. Note: Historically characterized by Static/Strong typing and Tracing GC (via JS) memory management.",
+    "mental_model": "Think in terms of OCaml's semantics through a familiar lens. You are writing pure, type-safe functional code that compiles to lean, efficient JavaScript.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "ReasonML"
+  },
+  {
+    "name": "Svelte",
+    "year": 2016,
+    "creators": [
+      "Rich Harris"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Component-based"
+    ],
+    "cluster": "frontend",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Web applications",
+      "Interactive data visualizations"
+    ],
+    "key_innovations": [
+      "Compile-time reactivity",
+      "No virtual DOM",
+      "Zero-overhead abstractions"
+    ],
+    "influenced_by": [
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Elm",
+      "Ractive.js"
+    ],
+    "influenced": [],
+    "philosophy": "The compiler is the framework. Svelte shifts the work from the browser to the build step, transforming declarative components into highly efficient imperative code. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (via JS) memory management.",
+    "mental_model": "Think in terms of direct reactivity. You write your UI as a set of variables and templates, and the compiler automatically wires up the updates without the need for a runtime diffing engine.",
+    "complexity_bias": "low",
     "safety_model": "runtime",
-    "typing_discipline": "Untyped",
-    "memory_management": "N/A",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Svelte"
+  },
+  {
+    "name": "Zig",
+    "year": 2016,
+    "creators": [
+      "Andrew Kelley"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Generic"
+    ],
+    "cluster": "systems",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Systems programming",
+      "Game development",
+      "Embedded"
+    ],
+    "key_innovations": [
+      "Comptime (compile-time execution)",
+      "No hidden control flow",
+      "Explicit memory allocation",
+      "Error sets"
+    ],
+    "influenced_by": [
+      "C",
+      "C++",
+      "Go",
+      "Rust",
+      "LLVM"
+    ],
+    "influenced": [],
+    "philosophy": "No hidden magic. Zig provides total transparency over memory and control flow, ensuring the programmer is always aware of the machine's cost. Note: Historically characterized by Static/Strong typing and Manual memory management.",
+    "mental_model": "Think in terms of the raw machine and compile-time execution. You are writing code that can execute itself during compilation to generate optimized runtime behavior.",
+    "complexity_bias": "medium",
+    "safety_model": "hybrid",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Zig"
+  },
+  {
+    "name": "WebAssembly",
+    "year": 2017,
+    "creators": [
+      "W3C"
+    ],
+    "paradigms": [
+      "Stack-based",
+      "Procedural"
+    ],
+    "cluster": "infra",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Web browsers",
+      "Edge computing",
+      "Plugin systems"
+    ],
+    "key_innovations": [
+      "Binary instruction format",
+      "Linear memory",
+      "Near-native sandbox performance"
+    ],
+    "influenced_by": [
+      "asm.js",
+      "PNaCl",
+      "JVM",
+      "LLVM"
+    ],
+    "influenced": [],
+    "philosophy": "A universal binary format for the web and beyond. WebAssembly provides a secure, portable, and near-native execution environment for any language. Note: Historically characterized by Static/Strong typing and Manual/Linear memory management.",
+    "mental_model": "Think in terms of a virtual stack machine and linear memory. You are targeting a low-level, sandboxed instruction set that interacts with the host environment through well-defined imports.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Lambda Calculus"
+    "display_name": "WebAssembly"
   },
   {
-    "name": "FLOW-MATIC",
-    "year": 1955,
+    "name": "ReScript",
+    "year": 2020,
     "creators": [
-      "Grace Hopper"
+      "Hongbo Zhang"
     ],
     "paradigms": [
+      "Functional",
       "Imperative"
     ],
-    "cluster": "business",
-    "generation": "early",
+    "cluster": "frontend",
+    "generation": "renaissance",
     "primary_use_cases": [
-      "Business data processing"
+      "Web development"
     ],
     "key_innovations": [
-      "English-like syntax"
+      "Fastest JS compiler",
+      "Zero-cost abstractions",
+      "Human-readable JS output"
     ],
     "influenced_by": [
-      "A-0"
+      "ReasonML",
+      "OCaml",
+      "JavaScript"
     ],
-    "influenced": [
-      "COBOL"
-    ],
-    "philosophy": "Programs should be readable by people who aren't mathematicians.",
-    "mental_model": "English sentences as commands.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "Static/Weak",
-    "memory_management": "Static",
-    "is_keystone": false,
-    "display_name": "FLOW-MATIC"
-  },
-  {
-    "name": "COMTRAN",
-    "year": 1957,
-    "creators": [
-      "Bob Bemer"
-    ],
-    "paradigms": [
-      "Imperative"
-    ],
-    "cluster": "business",
-    "generation": "early",
-    "primary_use_cases": [
-      "Business data processing"
-    ],
-    "key_innovations": [
-      "Advanced file handling"
-    ],
-    "influenced_by": [
-      "FORTRAN"
-    ],
-    "influenced": [
-      "COBOL"
-    ],
-    "philosophy": "Commercial translation of business logic.",
-    "mental_model": "Data processing and reporting.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "Static/Weak",
-    "memory_management": "Static",
-    "is_keystone": false,
-    "display_name": "COMTRAN"
-  },
-  {
-    "name": "COMIT",
-    "year": 1957,
-    "creators": [
-      "Victor Yngve"
-    ],
-    "paradigms": [
-      "String-processing"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "Machine translation"
-    ],
-    "key_innovations": [
-      "Pattern matching on strings"
-    ],
-    "influenced_by": [],
-    "influenced": [
-      "SNOBOL"
-    ],
-    "philosophy": "Rule-based string manipulation.",
-    "mental_model": "If match, then replace.",
+    "influenced": [],
+    "philosophy": "The best parts of OCaml, focused entirely on the JS platform. ReScript is a refined, standalone language that prioritizes build speed and clean JS interop. Note: Historically characterized by Static/Strong typing and Tracing GC (via JS) memory management.",
+    "mental_model": "Think in terms of a robust type system that exists solely to produce the best possible JavaScript. It is a tool for professional JS engineers who want industrial-grade safety.",
     "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "Dynamic",
-    "memory_management": "Managed",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "COMIT"
+    "display_name": "ReScript"
   },
   {
     "name": "Mojo",
@@ -2922,12 +3524,12 @@
       "C++"
     ],
     "influenced": [],
-    "philosophy": "A superset of Python that provides systems-level performance and safety.",
+    "philosophy": "A superset of Python that provides systems-level performance and safety. Note: Historically characterized by Static/Strong typing and Ownership/Borrowing memory management.",
     "mental_model": "Think in Python, but with the control of C++ and the safety of Rust.",
     "complexity_bias": "medium",
     "safety_model": "compile_time",
-    "typing_discipline": "Static/Strong",
-    "memory_management": "Ownership/Borrowing",
+    "typing_discipline": "compile_time",
+    "memory_management": "compile_time",
     "is_keystone": false,
     "display_name": "Mojo"
   }
