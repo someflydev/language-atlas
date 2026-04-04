@@ -59,6 +59,12 @@ def extract_concept_name(text):
     # Strip trailing colon if present
     if name.endswith(":"):
         name = name[:-1].strip()
+
+    # GUARD: If it doesn't match the bold pattern and is too long, 
+    # it's likely narrative text, not a concept name.
+    if not match:
+        if len(name) > 60 or len(name.split()) > 8:
+            return ""
     
     return name
 
@@ -91,11 +97,13 @@ def audit():
 
     def add_reference(name, target_map):
         if not name or name == "Various": return
+        name = extract_concept_name(name)
+        if not name: return
+        
         canon = canonicalize(name)
         if not canon: return
         
         # If we already have this canonical form, don't overwrite with a "worse" name
-        # (e.g. prefer capitalized version if we have it)
         if canon not in target_map or (name[0].isupper() and not target_map[canon][0].isupper()):
             target_map[canon] = name
 
@@ -110,7 +118,6 @@ def audit():
                     add_reference(name, referenced_organizations)
                 
                 for contrib in person.get("contributions", []):
-                    # We'll re-check category later
                     add_reference(contrib, referenced_concepts)
 
     # 2. Crawl languages.json
@@ -128,7 +135,7 @@ def audit():
                 for inf in lang.get("influenced", []):
                     add_reference(inf, referenced_languages)
                 for inv in lang.get("key_innovations", []):
-                    add_reference(extract_concept_name(inv), referenced_concepts)
+                    add_reference(inv, referenced_concepts)
                 for creator in lang.get("creators", []):
                     if is_organization(creator):
                         add_reference(creator, referenced_organizations)
@@ -137,13 +144,15 @@ def audit():
     def scan_profile_data(data):
         found = []
         if isinstance(data, dict):
-            for key in ["key_innovations", "key_aspects", "historical_context"]:
+            # Only scan list-based innovation/aspect fields, NOT narrative text
+            for key in ["key_innovations", "key_aspects"]:
                 if key in data:
                     val = data[key]
                     if isinstance(val, list): found.extend(val)
                     elif isinstance(val, str): found.append(val)
-            for v in data.values():
-                found.extend(scan_profile_data(v))
+            for k, v in data.items():
+                if k not in ["overview", "historical_context", "legacy", "mental_model"]:
+                    found.extend(scan_profile_data(v))
         elif isinstance(data, list):
             for item in data:
                 found.extend(scan_profile_data(item))
