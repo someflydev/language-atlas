@@ -482,6 +482,72 @@ class DataLoader:
                 return path
         return None
 
+    def get_auto_odyssey(self, language_name):
+        """
+        Generates a dynamic Odyssey based on the most influential descendants of a language.
+        Uses a Recursive CTE to explore the lineage tree.
+        """
+        if not self.use_sqlite:
+            # Fallback for non-SQLite: just direct descendants
+            lang = self.get_language(language_name)
+            if not lang: return None
+            desc_names = lang.get('influenced', [])
+            steps = []
+            for name in desc_names[:4]:
+                steps.append({
+                    "language": name,
+                    "milestone": "Influenced Descendant"
+                })
+            return {
+                "id": f"auto_{language_name.lower()}",
+                "title": f"The Legacy of {language_name}",
+                "description": f"A dynamically generated journey through the most impactful languages influenced by {language_name}.",
+                "steps": steps
+            }
+
+        conn = self._get_connection()
+        query = """
+        WITH RECURSIVE descendants AS (
+            SELECT target_id, 1 as depth
+            FROM influences
+            WHERE source_id = (SELECT id FROM languages WHERE lower(name) = ? OR lower(display_name) = ?)
+            
+            UNION ALL
+            
+            SELECT i.target_id, d.depth + 1
+            FROM influences i
+            JOIN descendants d ON i.source_id = d.target_id
+            WHERE d.depth < 3
+        )
+        SELECT DISTINCT l.name, l.display_name, l.influence_score
+        FROM descendants d
+        JOIN languages l ON d.target_id = l.id
+        WHERE lower(l.name) != ?
+        ORDER BY l.influence_score DESC
+        LIMIT 4
+        """
+        
+        cursor = conn.execute(query, (language_name.lower(), language_name.lower(), language_name.lower()))
+        results = cursor.fetchall()
+        conn.close()
+        
+        if not results:
+            return None
+            
+        steps = []
+        for i, row in enumerate(results):
+            steps.append({
+                "language": row['name'],
+                "milestone": f"Generation {i+1} Impact"
+            })
+            
+        return {
+            "id": f"auto_{language_name.lower()}",
+            "title": f"The Legacy of {language_name}",
+            "description": f"A dynamically generated journey through the most impactful descendants in the {language_name} lineage.",
+            "steps": steps
+        }
+
     def get_all_people(self):
         if not self.use_sqlite:
             return self.people

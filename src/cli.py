@@ -456,6 +456,20 @@ def cross_section(paradigm: str, era: str, json_out: bool = typer.Option(False, 
             console.print(table)
 
 @app.command()
+def auto_odyssey(language: str):
+    """
+    Generate a dynamic, influence-based learning path for a given language.
+    """
+    loader = get_loader()
+    path = loader.get_auto_odyssey(language)
+    
+    if not path:
+        console.print(f"[yellow]Could not find influential descendants for '{language}'.[/yellow]")
+        return
+        
+    _run_odyssey(loader, path)
+
+@app.command()
 def odyssey(path_id: Optional[str] = typer.Argument(None)):
     """
     Interactive Odyssey Mode: Guided learning paths through programming history.
@@ -474,6 +488,7 @@ def odyssey(path_id: Optional[str] = typer.Argument(None)):
         
         console.print(table)
         console.print("\n[yellow]Run 'atlas odyssey <ID>' to start a journey.[/yellow]")
+        console.print("[dim]Or use 'atlas auto-odyssey <Language>' for a dynamic legacy path.[/dim]")
         return
 
     path = loader.get_learning_path(path_id)
@@ -481,18 +496,29 @@ def odyssey(path_id: Optional[str] = typer.Argument(None)):
         console.print(f"[red]Error: Odyssey '{path_id}' not found.[/red]")
         return
 
+    _run_odyssey(loader, path)
+
+def _run_odyssey(loader: DataLoader, path: Dict[str, Any]):
     console.print(Panel(f"[bold magenta]{path['title']}[/bold magenta]\n\n{path['description']}", border_style="bright_magenta"))
     
     for i, step in enumerate(path['steps']):
         lang_name = step['language']
-        lang = loader.get_language(lang_name)
+        # Use combined data to fetch the challenge from the profile
+        lang = loader.get_combined_language_data(lang_name)
         
         title = f"Step {i+1}: {step['milestone']} - {lang_name}"
-        content = f"[bold cyan]Challenge:[/bold cyan] {step['challenge']}\n"
+        
+        challenge = "[dim]No specific challenge listed for this step.[/dim]"
+        if lang:
+            challenge = lang.get('challenge', challenge)
+            
+        content = f"[bold cyan]Challenge:[/bold cyan] {challenge}\n"
         
         if lang:
-            content += f"\n[bold]Year:[/bold] {lang.get('year')}\n"
-            content += f"[bold]Philosophy:[/bold] {lang.get('philosophy')}\n"
+            content += f"\n[bold]Year:[/bold] {lang.get('year', 'N/A')}\n"
+            philosophy = lang.get('philosophy', 'N/A')
+            if len(philosophy) > 200: philosophy = philosophy[:197] + "..."
+            content += f"[bold]Philosophy:[/bold] {philosophy}\n"
         
         console.print(Panel(content, title=title, border_style="green"))
         

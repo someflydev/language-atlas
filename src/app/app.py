@@ -198,9 +198,20 @@ async def list_odysseys_view(request: Request):
 
 @app.get("/odyssey/{path_id}", response_class=HTMLResponse)
 async def get_odyssey_view(request: Request, path_id: str):
-    path = data_loader.get_learning_path(path_id)
-    if not path:
+    path_data = data_loader.get_learning_path(path_id)
+    if not path_data:
         raise HTTPException(status_code=404, detail="Odyssey not found")
+    
+    # Create a deep copy to avoid mutating the original data in the loader
+    import copy
+    path = copy.deepcopy(path_data)
+    
+    # Hydrate steps with challenges from profiles
+    for step in path['steps']:
+        lang_data = data_loader.get_combined_language_data(step['language'])
+        if lang_data:
+            step['challenge'] = lang_data.get('challenge', 'No specific challenge listed.')
+
     return templates.TemplateResponse(
         request=request,
         name="odyssey_detail.html",
@@ -238,9 +249,18 @@ async def api_list_odysseys():
 @app.get("/api/odyssey/{path_id}")
 async def api_get_odyssey(path_id: str):
     """Get a specific odyssey path."""
-    path = data_loader.get_learning_path(path_id)
-    if not path:
+    path_data = data_loader.get_learning_path(path_id)
+    if not path_data:
         raise HTTPException(status_code=404, detail="Odyssey not found")
+        
+    # Create a deep copy and hydrate
+    import copy
+    path = copy.deepcopy(path_data)
+    for step in path['steps']:
+        lang_data = data_loader.get_combined_language_data(step['language'])
+        if lang_data:
+            step['challenge'] = lang_data.get('challenge', 'No specific challenge listed.')
+            
     return path
 
 if __name__ == "__main__":

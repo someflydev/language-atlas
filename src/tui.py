@@ -190,7 +190,9 @@ class LivingAtlasApp(App):
         lang_data = self.loader.get_combined_language_data(step_data['language'])
         if lang_data:
             md = f"# Odyssey Step: {step_data['milestone']}\n\n"
-            md += f"## Challenge\n> {step_data['challenge']}\n\n"
+            # Pull challenge from lang_data instead of step_data
+            challenge = lang_data.get('challenge', 'No specific challenge listed.')
+            md += f"## Challenge\n> {challenge}\n\n"
             md += "---\n\n"
             md += self.generate_markdown(lang_data)
             self.query_one("#reader").document.update(md)
