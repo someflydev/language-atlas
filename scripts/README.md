@@ -69,6 +69,18 @@ A lightweight CLI wrapper for ad-hoc SQL queries against the Language Atlas SQLi
 - **Usage:** `uv run scripts/db_query.py "SELECT name, year FROM languages WHERE is_keystone = 1 LIMIT 5"`
 - **Features:** Auto-locates the database in the project root or `data/` directory.
 
+### dark_matter_audit.py
+
+The specialized "Dark Matter Audit" tool for identifying missing content profiles.
+
+- **Purpose:** Scan the entire Atlas (languages, people, and existing profiles) to identify every referenced language, concept, and organization that lacks a deep-dive JSON profile.
+- **Usage:** `uv run scripts/dark_matter_audit.py`
+- **Output:** Generates `data/reports/dark_matter_todo.json`, the authoritative TODO list for implementation phases.
+- **Features:**
+  - **Canonicalization:** Deduplicates variations in casing, punctuation, and parentheticals.
+  - **Version Filtering:** Intelligently filters versioned language references (e.g., "Ada 95" won't be flagged if "Ada" has a profile).
+  - **Organization Detection:** Identifies significant corporate and institutional entities that shaped computing history.
+
 ## Maintenance
 
 These scripts should be run as part of the data ingestion or modification workflow to ensure no regressions are introduced to the influence graph or data schemas.
