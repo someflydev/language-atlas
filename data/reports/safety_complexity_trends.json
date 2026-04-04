@@ -1,0 +1,96 @@
+{
+  "1830": {
+    "avg_complexity": 3.0,
+    "safety_distribution": {
+      "manual": 1
+    }
+  },
+  "1840": {
+    "avg_complexity": 1.0,
+    "safety_distribution": {
+      "manual": 1
+    }
+  },
+  "1900": {
+    "avg_complexity": 3.0,
+    "safety_distribution": {
+      "manual": 1
+    }
+  },
+  "1930": {
+    "avg_complexity": 2.0,
+    "safety_distribution": {
+      "manual": 1,
+      "runtime": 1
+    }
+  },
+  "1940": {
+    "avg_complexity": 2.3333333333333335,
+    "safety_distribution": {
+      "manual": 6
+    }
+  },
+  "1950": {
+    "avg_complexity": 1.625,
+    "safety_distribution": {
+      "manual": 6,
+      "runtime": 2
+    }
+  },
+  "1960": {
+    "avg_complexity": 2.1818181818181817,
+    "safety_distribution": {
+      "manual": 7,
+      "runtime": 4
+    }
+  },
+  "1970": {
+    "avg_complexity": 2.1,
+    "safety_distribution": {
+      "compile_time": 2,
+      "hybrid": 1,
+      "manual": 3,
+      "runtime": 4
+    }
+  },
+  "1980": {
+    "avg_complexity": 2.1538461538461537,
+    "safety_distribution": {
+      "compile_time": 2,
+      "manual": 3,
+      "runtime": 8
+    }
+  },
+  "1990": {
+    "avg_complexity": 2.076923076923077,
+    "safety_distribution": {
+      "compile_time": 2,
+      "manual": 2,
+      "runtime": 9
+    }
+  },
+  "2000": {
+    "avg_complexity": 2.0,
+    "safety_distribution": {
+      "compile_time": 2,
+      "hybrid": 1,
+      "manual": 1,
+      "runtime": 7
+    }
+  },
+  "2010": {
+    "avg_complexity": 1.875,
+    "safety_distribution": {
+      "compile_time": 11,
+      "hybrid": 1,
+      "manual": 1,
+      "runtime": 3
+    }
+  },
+  "2020": {
+    "avg_complexity": 2.0,
+    "safety_distribution": {
+      "compile_time": 2
+    }
+  }
+}

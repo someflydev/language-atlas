@@ -81,6 +81,19 @@ The specialized "Dark Matter Audit" tool for identifying missing content profile
   - **Version Filtering:** Intelligently filters versioned language references (e.g., "Ada 95" won't be flagged if "Ada" has a profile).
   - **Organization Detection:** Identifies significant corporate and institutional entities that shaped computing history.
 
+### generate_reports.py
+
+The "Atlas Analytics" suite for generating specialized, high-signal reports from the SQLite database.
+
+- **Purpose:** Broaden basic insights into a modular reporting system that captures the "Evolution of Programming" through metrics.
+- **Usage:** `uv run scripts/generate_reports.py --report all`
+- **Supported Reports:**
+  - `safety_complexity`: Decade-over-decade trends in language safety and complexity.
+  - `creator_impact`: Leaderboard of creators and organizations by their influence score.
+  - `cluster_genealogy`: Internal vs. external influence ratios for language clusters.
+  - `innovation_trends`: Extracting key innovation themes across generations.
+  - `db_health`: Identifying orphans, terminal languages, and missing high-impact profiles.
+
 ## Maintenance
 
 These scripts should be run as part of the data ingestion or modification workflow to ensure no regressions are introduced to the influence graph or data schemas.
