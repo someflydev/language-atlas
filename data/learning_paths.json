@@ -6,23 +6,23 @@
     "steps": [
       {
         "language": "C",
-        "milestone": "The Foundation",
-        "challenge": "Identify how C's philosophy of 'trusting the programmer' led to both its success and its legacy of security challenges."
+        "milestone": "The Foundation"
       },
       {
-        "language": "C++",
-        "milestone": "The Multi-Paradigm Pivot",
-        "challenge": "Examine RAII (Resource Acquisition Is Initialization) and how it attempted to solve resource management manually."
+        "language": "Ada",
+        "milestone": "The Safety Specification"
+      },
+      {
+        "language": "Java",
+        "milestone": "The Managed Detour"
       },
       {
         "language": "Rust",
-        "milestone": "The Safety Revolution",
-        "challenge": "Analyze the 'Borrow Checker' concept. How does it provide memory safety without a garbage collector?"
+        "milestone": "The Safety Revolution"
       },
       {
         "language": "Zig",
-        "milestone": "The Pragmatic Alternative",
-        "challenge": "Explore 'Comptime'. How does it differ from C++ templates or Rust macros?"
+        "milestone": "The Pragmatic Alternative"
       }
     ]
   },
@@ -33,23 +33,96 @@
     "steps": [
       {
         "language": "Lisp",
-        "milestone": "The Origin",
-        "challenge": "Understand 'Homoiconicity'. Why is it powerful to treat code as data?"
+        "milestone": "The Origin"
+      },
+      {
+        "language": "Scheme",
+        "milestone": "The Elegant Lisp"
+      },
+      {
+        "language": "ML",
+        "milestone": "The Type Theory Pivot"
       },
       {
         "language": "Haskell",
-        "milestone": "Pure Purity",
-        "challenge": "Investigate 'Lazy Evaluation' and 'Monads'. How do they manage side effects in a pure environment?"
+        "milestone": "Pure Purity"
       },
       {
         "language": "Elm",
-        "milestone": "Functional UI",
-        "challenge": "The Elm Architecture (TEA). How does it influence modern React/Redux patterns?"
+        "milestone": "Functional UI"
       },
       {
         "language": "Clojure",
-        "milestone": "The Pragmatic Lisp",
-        "challenge": "Examine 'Persistent Data Structures' and how they enable efficient immutability."
+        "milestone": "The Pragmatic Lisp"
+      }
+    ]
+  },
+  {
+    "id": "object_oriented_odyssey",
+    "title": "The Object-Oriented Odyssey",
+    "description": "Follow the concept of 'Objects' from their first appearance in simulation to their role as the dominant software architecture.",
+    "steps": [
+      {
+        "language": "SIMULA 67",
+        "milestone": "The Origin"
+      },
+      {
+        "language": "Smalltalk",
+        "milestone": "The Ideal"
+      },
+      {
+        "language": "Objective-C",
+        "milestone": "The Hybrid"
+      },
+      {
+        "language": "Ruby",
+        "milestone": "The Modern Synthesis"
+      }
+    ]
+  },
+  {
+    "id": "symbolic_spring",
+    "title": "The Symbolic Spring (AI)",
+    "description": "Explore the languages that powered the dreams of artificial intelligence from symbolic logic to modern machine learning.",
+    "steps": [
+      {
+        "language": "Lisp",
+        "milestone": "The Spark"
+      },
+      {
+        "language": "Prolog",
+        "milestone": "The Logic"
+      },
+      {
+        "language": "Python",
+        "milestone": "The Consolidation"
+      },
+      {
+        "language": "Mojo",
+        "milestone": "The Future"
+      }
+    ]
+  },
+  {
+    "id": "scientific_lineage",
+    "title": "The Scientific Lineage",
+    "description": "Trace the development of languages designed to crunch numbers and solve the world's most complex mathematical problems.",
+    "steps": [
+      {
+        "language": "FORTRAN",
+        "milestone": "The Pioneer"
+      },
+      {
+        "language": "APL",
+        "milestone": "The Notation"
+      },
+      {
+        "language": "MATLAB",
+        "milestone": "The Specialization"
+      },
+      {
+        "language": "Julia",
+        "milestone": "The Two-Language Solution"
       }
     ]
   },
@@ -60,23 +133,19 @@
     "steps": [
       {
         "language": "JavaScript",
-        "milestone": "The Scripting Spark",
-        "challenge": "Prototype-based inheritance. How does it differ from class-based inheritance?"
+        "milestone": "The Scripting Spark"
       },
       {
         "language": "PHP",
-        "milestone": "Server-Side Dominance",
-        "challenge": "The 'Shared Nothing' architecture. How did it help PHP scale the early web?"
+        "milestone": "Server-Side Dominance"
       },
       {
         "language": "TypeScript",
-        "milestone": "The Safety Layer",
-        "challenge": "Structural vs. Nominal typing. Why was structural typing chosen for TS?"
+        "milestone": "The Safety Layer"
       },
       {
         "language": "WebAssembly",
-        "milestone": "The Polyglot Web",
-        "challenge": "How does Wasm change the definition of a 'Web Language'?"
+        "milestone": "The Polyglot Web"
       }
     ]
   }
