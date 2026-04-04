@@ -151,6 +151,22 @@ def build_database(conn=None, data_dir=None):
         FOREIGN KEY (concept_id) REFERENCES concepts(id)
     );
 
+    CREATE TABLE concept_profiles (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        concept_id INTEGER NOT NULL UNIQUE,
+        title TEXT,
+        overview TEXT,
+        FOREIGN KEY (concept_id) REFERENCES concepts(id)
+    );
+
+    CREATE TABLE concept_profile_sections (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        profile_id INTEGER NOT NULL,
+        section_name TEXT NOT NULL,
+        content TEXT,
+        FOREIGN KEY (profile_id) REFERENCES concept_profiles(id)
+    );
+
     CREATE TABLE crossroads (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT NOT NULL UNIQUE,
@@ -206,6 +222,16 @@ def build_database(conn=None, data_dir=None):
         section_name, 
         content,
         language_id UNINDEXED,
+        profile_id UNINDEXED,
+        section_id UNINDEXED,
+        tokenize='porter'
+    );
+
+    CREATE VIRTUAL TABLE fts_concept_profiles USING fts5(
+        concept_name,
+        section_name, 
+        content,
+        concept_id UNINDEXED,
         profile_id UNINDEXED,
         section_id UNINDEXED,
         tokenize='porter'
@@ -334,6 +360,38 @@ def build_database(conn=None, data_dir=None):
                 cursor.execute("INSERT INTO profile_sections (profile_id, section_name, content) VALUES (?, ?, ?)",
                                (profile_id, sec_name, str(content)))
 
+    # Concept Profiles
+    concept_profiles = loader.get_concept_profiles()
+    concept_id_map = {} # name -> id
+    cursor.execute("SELECT name, id FROM concepts")
+    for name, cid in cursor.fetchall():
+        concept_id_map[name] = cid
+
+    for key, profile in concept_profiles.items():
+        concept_id = None
+        # key is filename without extension (e.g., "The_Actor_Model")
+        if key in concept_id_map:
+            concept_id = concept_id_map[key]
+        else:
+            # Try to match by name normalization (underscore to space)
+            space_key = key.replace('_', ' ')
+            if space_key in concept_id_map:
+                concept_id = concept_id_map[space_key]
+        
+        if concept_id:
+            cursor.execute("INSERT INTO concept_profiles (concept_id, title, overview) VALUES (?, ?, ?)", 
+                           (concept_id, profile.get('title'), profile.get('overview')))
+            profile_id = cursor.lastrowid
+            
+            # Sections
+            for sec_name, content in profile.items():
+                if sec_name in ['title', 'overview']:
+                    continue
+                if isinstance(content, list):
+                    content = "\n".join(content)
+                cursor.execute("INSERT INTO concept_profile_sections (profile_id, section_name, content) VALUES (?, ?, ?)",
+                               (profile_id, sec_name, str(content)))
+
     # 5. Populate FTS Tables
     
     # Era Summaries
@@ -431,6 +489,23 @@ def build_database(conn=None, data_dir=None):
         JOIN profile_sections ps ON lp.id = ps.profile_id;
     """)
 
+    # Populate fts_concept_profiles
+    cursor.execute("""
+        INSERT INTO fts_concept_profiles (concept_name, section_name, content, concept_id, profile_id, section_id)
+        SELECT c.name, 'Overview', cp.overview, c.id, cp.id, NULL
+        FROM concepts c
+        JOIN concept_profiles cp ON c.id = cp.concept_id
+        WHERE cp.overview IS NOT NULL;
+    """)
+    
+    cursor.execute("""
+        INSERT INTO fts_concept_profiles (concept_name, section_name, content, concept_id, profile_id, section_id)
+        SELECT c.name, cps.section_name, cps.content, c.id, cp.id, cps.id
+        FROM concepts c
+        JOIN concept_profiles cp ON c.id = cp.concept_id
+        JOIN concept_profile_sections cps ON cp.id = cps.profile_id;
+    """)
+
     # 6. Create Indexes
     print("Creating indexes...")
     cursor.executescript("""
@@ -441,6 +516,7 @@ def build_database(conn=None, data_dir=None):
     CREATE INDEX idx_lang_people_lang ON language_people(language_id);
     CREATE INDEX idx_lang_people_person ON language_people(person_id);
     CREATE INDEX idx_profile_sections_profile ON profile_sections(profile_id);
+    CREATE INDEX idx_concept_profile_sections_profile ON concept_profile_sections(profile_id);
     """)
     
     # 7. Create Views
@@ -485,7 +561,15 @@ def build_database(conn=None, data_dir=None):
         language_name || ' (' || section_name || ')' as title,
         content as snippet,
         'profile_sections' as source_table
-    FROM fts_profiles;
+    FROM fts_profiles
+    UNION ALL
+    SELECT
+        'concept' as category,
+        concept_id,
+        concept_name || ' (' || section_name || ')' as title,
+        content as snippet,
+        'concept_profile_sections' as source_table
+    FROM fts_concept_profiles;
     """)
 
     # Sync Triggers for fts_languages

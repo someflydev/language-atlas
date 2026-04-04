@@ -25,6 +25,7 @@ class DataLoader:
             self.influences = self._load_json('influences.json')
             self.people = self._load_json('people.json')
             self.language_profiles = self._load_language_profiles()
+            self.concept_profiles = self._load_concept_profiles()
         else:
             # When using SQLite, we don't load all data into memory at once
             self.languages = []
@@ -34,6 +35,7 @@ class DataLoader:
             self.influences = []
             self.people = []
             self.language_profiles = {}
+            self.concept_profiles = {}
 
     def _get_connection(self):
         """Returns a read-only connection to the SQLite database."""
@@ -86,6 +88,31 @@ class DataLoader:
         Returns a dictionary mapping normalized language names to their profile data.
         """
         profiles_dir = os.path.join(self.data_dir, 'docs', 'language_profiles')
+        profiles = {}
+        
+        if not os.path.isdir(profiles_dir):
+            return profiles
+
+        for filename in os.listdir(profiles_dir):
+            if filename.endswith('.json'):
+                file_path = os.path.join(profiles_dir, filename)
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        data = json.load(f)
+                        # Use filename without extension as the key
+                        key = filename[:-5]
+                        profiles[key] = data
+                except (json.JSONDecodeError, IOError):
+                    continue
+        
+        return profiles
+
+    def _load_concept_profiles(self):
+        """
+        Loads extended concept profile JSON files from data/docs/concept_profiles/
+        Returns a dictionary mapping normalized concept names to their profile data.
+        """
+        profiles_dir = os.path.join(self.data_dir, 'docs', 'concept_profiles')
         profiles = {}
         
         if not os.path.isdir(profiles_dir):
@@ -334,6 +361,74 @@ class DataLoader:
         conn.close()
         return profile_data
 
+    def get_concept_profiles(self):
+        """Returns all loaded concept profile data."""
+        if not self.use_sqlite:
+            return self.concept_profiles
+            
+        conn = self._get_connection()
+        cursor = conn.execute("""
+            SELECT c.name, cp.* 
+            FROM concepts c 
+            JOIN concept_profiles cp ON c.id = cp.concept_id
+        """)
+        profiles = {}
+        for row in cursor.fetchall():
+            concept_name = row['name']
+            profile_id = row['id']
+            profile_data = self._row_to_dict(row)
+            
+            # Fetch sections
+            s_cursor = conn.execute("SELECT section_name, content FROM concept_profile_sections WHERE profile_id = ?", (profile_id,))
+            for s_row in s_cursor.fetchall():
+                profile_data[s_row['section_name']] = s_row['content']
+            
+            profiles[concept_name] = profile_data
+        
+        conn.close()
+        return profiles
+
+    def get_concept_profile(self, name):
+        """
+        Returns the profile data for a given concept name.
+        """
+        if not self.use_sqlite:
+            # 1. Try direct match
+            if name in self.concept_profiles:
+                return self.concept_profiles[name]
+            
+            # 2. Try normalized match (space -> underscore)
+            normalized_name = name.replace(' ', '_')
+            if normalized_name in self.concept_profiles:
+                return self.concept_profiles[normalized_name]
+            return None
+
+        conn = self._get_connection()
+        # Try both direct and normalized names in SQL
+        normalized_name = name.replace(' ', '_')
+        cursor = conn.execute("""
+            SELECT cp.* 
+            FROM concept_profiles cp 
+            JOIN concepts c ON c.id = cp.concept_id 
+            WHERE lower(c.name) = ? OR lower(c.name) = ?
+        """, (name.lower(), normalized_name.lower()))
+        
+        row = cursor.fetchone()
+        if not row:
+            conn.close()
+            return None
+        
+        profile_id = row['id']
+        profile_data = self._row_to_dict(row)
+        
+        # Fetch sections
+        s_cursor = conn.execute("SELECT section_name, content FROM concept_profile_sections WHERE profile_id = ?", (profile_id,))
+        for s_row in s_cursor.fetchall():
+            profile_data[s_row['section_name']] = s_row['content']
+            
+        conn.close()
+        return profile_data
+
     def get_combined_language_data(self, name):
         """
         Returns a dictionary merging core language data with its extended profile.
@@ -484,13 +579,23 @@ class DataLoader:
                 language_id
             FROM fts_profiles
             WHERE fts_profiles MATCH ?
+            UNION ALL
+            SELECT 
+                'concept' as category, 
+                concept_name as title, 
+                concept_name as link_name,
+                snippet(fts_concept_profiles, -1, '<b>', '</b>', '...', 20) as snippet, 
+                bm25(fts_concept_profiles) as score,
+                concept_id as language_id
+            FROM fts_concept_profiles
+            WHERE fts_concept_profiles MATCH ?
             ORDER BY score
             LIMIT 30
         """
         try:
             # Ensure query term is formatted for FTS5 (basic escaping)
             # If it's a simple word, it's fine. If it has operators, they are used.
-            cursor = conn.execute(sql, (query_term, query_term))
+            cursor = conn.execute(sql, (query_term, query_term, query_term))
             results = [self._row_to_dict(row) for row in cursor.fetchall()]
         except sqlite3.OperationalError:
             # Fallback for invalid FTS5 syntax
