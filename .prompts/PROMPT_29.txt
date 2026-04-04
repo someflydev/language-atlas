@@ -1,0 +1,36 @@
+You are a Data Integrity Architect. Your task is to perform a "Dark Matter Audit" of the Language Atlas to identify every language, concept, and organization that is referenced but lacks a deep-dive profile.
+
+CONTEXT:
+Our system is powered by `people.json`, `languages.json`, and multiple profile directories: `data/docs/language_profiles/`, `data/docs/concept_profiles/`, and the planned `data/docs/org_profiles/`. A "complete" Atlas means every contribution listed for a person, every key innovation listed for a language, and every founding entity has its own detailed profile.
+
+TASK:
+1.  **Crawl people.json**: Extract all strings from the "contributions" arrays.
+2.  **Crawl languages.json**: 
+    - Extract all language names.
+    - Extract all items in "influenced_by" and "influenced".
+    - Extract all items in "key_innovations".
+    - Extract all items in "creators" that are organizations (e.g., "Apple Computer", "IBM", "W3C").
+3.  **Crawl existing profiles**: Scan the "key_innovations", "key_aspects", and "historical_context" sections of every JSON file in `language_profiles/` and `concept_profiles/` for referenced entities.
+4.  **Inventory existing profiles**: Build a list of all filenames (minus .json) currently in `language_profiles/`, `concept_profiles/`, and (if it exists) `org_profiles/`.
+5.  **Identify the Gaps**: 
+    - Find every referenced item that does NOT have a corresponding file.
+    - Categorize missing items into `languages`, `concepts`, or `organizations`.
+    - Resolve name variations (e.g., "Smalltalk-80" vs "Smalltalk").
+6.  **Build the TODO List**: Create a unified, deduplicated JSON file at `data/reports/dark_matter_todo.json`.
+
+OUTPUT STRUCTURE:
+The `dark_matter_todo.json` should be organized like this:
+{
+  "missing_language_profiles": ["ABC", "Simula 67", "D", ...],
+  "missing_concept_profiles": ["ASCII", "Design Patterns", "Entropy", "The Halting Problem", ...],
+  "missing_org_profiles": ["Apple Computer", "IBM", "W3C", "Bell Labs", ...],
+  "ambiguous_references": ["Various", "Symbolic Computation Group", ...]
+}
+
+CONSTRAINTS:
+- Use standard library Python only.
+- Handle normalization carefully (replace spaces with underscores for file matching).
+- Do not suggest profiles for "Various" but DO include significant corporate/institutional entities that have shaped computing history.
+
+DOCUMENTATION:
+Update `AGENT.md` to reflect that `data/reports/dark_matter_todo.json` is the authoritative source for the next implementation phase.
