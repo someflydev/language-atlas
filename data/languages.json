@@ -1,5 +1,38 @@
 [
   {
+    "name": "Jacquard Loom",
+    "year": 1804,
+    "creators": [
+      "Joseph Marie Jacquard"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Automated weaving",
+      "Punched card control"
+    ],
+    "key_innovations": [
+      "Punched card control",
+      "Binary instruction set (hole or no hole)",
+      "First programmable machine"
+    ],
+    "influenced_by": [],
+    "influenced": [
+      "Analytical Engine"
+    ],
+    "philosophy": "Mechanical automation of complex patterns through a series of binary instructions encoded on punched cards.",
+    "mental_model": "Think in terms of binary states (hole/no hole) controlling physical mechanisms. It is the first time a machine's behavior was decoupled from its physical construction.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Jacquard Loom"
+  },
+  {
     "name": "Analytical Engine",
     "year": 1837,
     "creators": [
@@ -71,6 +104,42 @@
     "memory_management": "manual",
     "is_keystone": true,
     "display_name": "Boolean Algebra"
+  },
+  {
+    "name": "Hollerith Tabulator",
+    "year": 1890,
+    "creators": [
+      "Herman Hollerith"
+    ],
+    "paradigms": [
+      "Data-driven"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Census data processing",
+      "Mechanical data sorting"
+    ],
+    "key_innovations": [
+      "Electromechanical sensing of punched cards",
+      "Accumulator-based counting",
+      "Automated sorting"
+    ],
+    "influenced_by": [
+      "Jacquard Loom"
+    ],
+    "influenced": [
+      "COBOL",
+      "SQL"
+    ],
+    "philosophy": "Processing large volumes of data by electromechanically sensing patterns on cards, transforming data into actionable statistics.",
+    "mental_model": "Think in terms of rows and columns of data being physically counted and sorted. It is the origin of automated data processing.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Hollerith Tabulator"
   },
   {
     "name": "Mathematical Notation",
@@ -490,6 +559,43 @@
     "memory_management": "compile_time",
     "is_keystone": false,
     "display_name": "FLOW-MATIC"
+  },
+  {
+    "name": "Chomsky Hierarchy",
+    "year": 1956,
+    "creators": [
+      "Noam Chomsky"
+    ],
+    "paradigms": [
+      "Logic"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Formal grammar theory",
+      "Compiler design"
+    ],
+    "key_innovations": [
+      "Classification of formal grammars",
+      "Context-free and Context-sensitive grammars",
+      "Universal grammar theory"
+    ],
+    "influenced_by": [
+      "Mathematical Notation"
+    ],
+    "influenced": [
+      "ALGOL 60",
+      "Lisp",
+      "BNF"
+    ],
+    "philosophy": "A mathematical framework for defining the complexity and structure of languages, both natural and artificial.",
+    "mental_model": "Think in terms of nested layers of complexity. Each level of the hierarchy defines what kind of machine is needed to parse it (e.g., Finite Automata for Regular, Pushdown Automata for Context-Free).",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Chomsky Hierarchy"
   },
   {
     "name": "COMIT",
@@ -1406,6 +1512,86 @@
     "display_name": "SQL"
   },
   {
+    "name": "Sed",
+    "year": 1974,
+    "creators": [
+      "Lee E. McMahon"
+    ],
+    "paradigms": [
+      "String-oriented"
+    ],
+    "cluster": "scripting",
+    "generation": "early",
+    "primary_use_cases": [
+      "Stream editing",
+      "Text transformation",
+      "Log processing"
+    ],
+    "key_innovations": [
+      "Non-interactive stream editing",
+      "Regular expression pattern space",
+      "Line-based processing"
+    ],
+    "influenced_by": [
+      "ed"
+    ],
+    "influenced": [
+      "AWK",
+      "Perl"
+    ],
+    "philosophy": "A non-interactive stream editor for filtering and transforming text using a simple, compact command set.",
+    "mental_model": "Think in terms of a stream of lines passing through a set of filters. You define transformations that are applied to each line as it flows past.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Sed"
+  },
+  {
+    "name": "CLU",
+    "year": 1974,
+    "creators": [
+      "Barbara Liskov"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Object-Oriented"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Research into data abstraction",
+      "Educational programming"
+    ],
+    "key_innovations": [
+      "Abstract Data Types (ADTs)",
+      "Iterators (Yield)",
+      "Exception handling",
+      "Parameterized types (Generics)"
+    ],
+    "influenced_by": [
+      "SIMULA 67",
+      "ALGOL 60"
+    ],
+    "influenced": [
+      "Ada",
+      "C++",
+      "Java",
+      "Python",
+      "Ruby",
+      "Swift"
+    ],
+    "philosophy": "Programs should be built from abstract data types that encapsulate data and provide a clean interface for interaction.",
+    "mental_model": "Think in terms of clusters (classes) that hide their internal representation. You interact with data through well-defined operations, ensuring type safety and modularity.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "CLU"
+  },
+  {
     "name": "Scheme",
     "year": 1975,
     "creators": [
@@ -1451,6 +1637,46 @@
     "display_name": "Scheme"
   },
   {
+    "name": "Mesa",
+    "year": 1976,
+    "creators": [
+      "Xerox PARC"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Modular"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Systems programming at Xerox PARC",
+      "Operating systems (Pilot)"
+    ],
+    "key_innovations": [
+      "Strongly-typed modular programming",
+      "Exception handling",
+      "Rich type system",
+      "Separate compilation of modules"
+    ],
+    "influenced_by": [
+      "Pascal",
+      "ALGOL 68"
+    ],
+    "influenced": [
+      "Modula-2",
+      "Java",
+      "C#"
+    ],
+    "philosophy": "Systems programming requires a high-level language with strong typing and modularity to manage the complexity of large software systems.",
+    "mental_model": "Think in terms of strictly defined modules and interfaces. Safety and correctness are ensured through a robust type system and structured error handling.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Mesa"
+  },
+  {
     "name": "Icon",
     "year": 1977,
     "creators": [
@@ -1486,6 +1712,47 @@
     "memory_management": "runtime",
     "is_keystone": false,
     "display_name": "Icon"
+  },
+  {
+    "name": "AWK",
+    "year": 1977,
+    "creators": [
+      "Alfred Aho",
+      "Peter Weinberger",
+      "Brian Kernighan"
+    ],
+    "paradigms": [
+      "String-oriented",
+      "Data-driven"
+    ],
+    "cluster": "scripting",
+    "generation": "early",
+    "primary_use_cases": [
+      "Text processing",
+      "Report generation",
+      "Data extraction"
+    ],
+    "key_innovations": [
+      "Associative arrays",
+      "Pattern-action pairs",
+      "Automatic field splitting"
+    ],
+    "influenced_by": [
+      "Sed",
+      "C"
+    ],
+    "influenced": [
+      "Perl",
+      "Tcl"
+    ],
+    "philosophy": "A specialized tool for processing text files structured as records and fields, using simple pattern-action rules.",
+    "mental_model": "Think in terms of records (lines) and fields (words). You define patterns that, when matched, trigger specific actions, making text manipulation highly efficient.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "AWK"
   },
   {
     "name": "Modula-2",
@@ -1527,6 +1794,45 @@
     "memory_management": "manual",
     "is_keystone": true,
     "display_name": "Modula-2"
+  },
+  {
+    "name": "REXX",
+    "year": 1979,
+    "creators": [
+      "Mike Cowlishaw"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Procedural"
+    ],
+    "cluster": "scripting",
+    "generation": "early",
+    "primary_use_cases": [
+      "Mainframe scripting",
+      "Macro programming",
+      "System automation"
+    ],
+    "key_innovations": [
+      "Natural language-like syntax",
+      "Dynamic typing with automatic string conversion",
+      "Designed for both humans and machines"
+    ],
+    "influenced_by": [
+      "PL/I",
+      "ALGOL 60"
+    ],
+    "influenced": [
+      "Python",
+      "Object REXX"
+    ],
+    "philosophy": "A language that is as easy to read and write as possible, prioritizing human productivity and readability over machine efficiency.",
+    "mental_model": "Think in terms of simple, English-like commands and powerful string manipulation. It is a tool for automating tasks and extending applications with minimal boilerplate.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "REXX"
   },
   {
     "name": "Ada",
@@ -1697,6 +2003,52 @@
     "display_name": "MATLAB"
   },
   {
+    "name": "Common Lisp",
+    "year": 1984,
+    "creators": [
+      "Scott Fahlman",
+      "Richard P. Gabriel",
+      "David Moon",
+      "Guy L. Steele",
+      "Daniel Weinreb"
+    ],
+    "paradigms": [
+      "Functional",
+      "Object-Oriented",
+      "Metaprogramming"
+    ],
+    "cluster": "academic",
+    "generation": "web1",
+    "primary_use_cases": [
+      "AI research",
+      "Symbolic processing",
+      "Large-scale application development"
+    ],
+    "key_innovations": [
+      "Common Lisp Object System (CLOS)",
+      "Condition system (Advanced error handling)",
+      "Standardization of Lisp dialects",
+      "Macros and metaprogramming"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "Maclisp",
+      "Scheme"
+    ],
+    "influenced": [
+      "Clojure",
+      "Julia"
+    ],
+    "philosophy": "A comprehensive and standardized Lisp dialect designed for industrial-strength application development and research.",
+    "mental_model": "Think in terms of a massive, multi-paradigm toolkit. It is a programmable programming language that provides everything needed for symbolic and object-oriented computing.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Common Lisp"
+  },
+  {
     "name": "Objective-C",
     "year": 1984,
     "creators": [
@@ -1820,6 +2172,43 @@
     "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "Eiffel"
+  },
+  {
+    "name": "Miranda",
+    "year": 1985,
+    "creators": [
+      "David Turner"
+    ],
+    "paradigms": [
+      "Functional"
+    ],
+    "cluster": "academic",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Educational programming",
+      "Research into non-strict functional programming"
+    ],
+    "key_innovations": [
+      "Lazy evaluation",
+      "List comprehensions",
+      "Polymorphic typing"
+    ],
+    "influenced_by": [
+      "SASL",
+      "KRC",
+      "ML"
+    ],
+    "influenced": [
+      "Haskell"
+    ],
+    "philosophy": "A purely functional language with lazy evaluation and a concise syntax based on mathematical notation.",
+    "mental_model": "Think in terms of transformations and infinite data structures. You define functions as equations and let the system evaluate them as needed (lazily).",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Miranda"
   },
   {
     "name": "Erlang",
@@ -1990,6 +2379,44 @@
     "display_name": "Self"
   },
   {
+    "name": "ABC",
+    "year": 1987,
+    "creators": [
+      "Leo Geurts",
+      "Lambert Meertens",
+      "Steven Pemberton"
+    ],
+    "paradigms": [
+      "Imperative",
+      "Procedural"
+    ],
+    "cluster": "education",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Educational programming",
+      "Algorithmic design"
+    ],
+    "key_innovations": [
+      "Significant whitespace for block structure",
+      "High-level data types (lists, maps, sets)",
+      "Focus on readability and simplicity"
+    ],
+    "influenced_by": [
+      "SETL"
+    ],
+    "influenced": [
+      "Python"
+    ],
+    "philosophy": "Programming should be as easy to learn and read as possible, replacing traditional low-level constructs with high-level abstractions.",
+    "mental_model": "Think in terms of simple, readable steps and powerful data structures. It is a precursor to Python's focus on indentation and clarity.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "ABC"
+  },
+  {
     "name": "Tcl",
     "year": 1988,
     "creators": [
@@ -2030,6 +2457,52 @@
     "memory_management": "runtime",
     "is_keystone": false,
     "display_name": "Tcl"
+  },
+  {
+    "name": "Modula-3",
+    "year": 1988,
+    "creators": [
+      "Luca Cardelli",
+      "James Donahue",
+      "Lucille Glassman",
+      "Mick Jordan",
+      "Bill Kalsow",
+      "Greg Nelson"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Modular",
+      "Concurrent"
+    ],
+    "cluster": "systems",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Systems programming",
+      "Research into safe systems languages"
+    ],
+    "key_innovations": [
+      "Objects as references to records",
+      "Safety via garbage collection and strong typing",
+      "Threads and synchronization as first-class citizens",
+      "Isolation of unsafe code"
+    ],
+    "influenced_by": [
+      "Modula-2",
+      "Mesa"
+    ],
+    "influenced": [
+      "Java",
+      "Python",
+      "C#"
+    ],
+    "philosophy": "Combine the modularity and type safety of Wirth's languages with modern features like objects, threads, and garbage collection.",
+    "mental_model": "Think in terms of safe, modular components. You are building complex systems where state and concurrency are managed through clear interfaces and language-level safety.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Modula-3"
   },
   {
     "name": "Bash",
@@ -2115,6 +2588,47 @@
     "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "Haskell"
+  },
+  {
+    "name": "Standard ML",
+    "year": 1990,
+    "creators": [
+      "Robin Milner",
+      "Mads Tofte",
+      "Robert Harper",
+      "David MacQueen"
+    ],
+    "paradigms": [
+      "Functional"
+    ],
+    "cluster": "academic",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Theorem proving",
+      "Compiler implementation",
+      "Academic research"
+    ],
+    "key_innovations": [
+      "Formal specification of the language (The Definition)",
+      "Strict functional evaluation",
+      "Powerful module system (Structures, Signatures, Functors)"
+    ],
+    "influenced_by": [
+      "ML"
+    ],
+    "influenced": [
+      "OCaml",
+      "F#",
+      "Rust"
+    ],
+    "philosophy": "A rigorously defined functional language that provides mathematical certainty through its formal specification.",
+    "mental_model": "Think in terms of mathematical transformations and powerful modules. You build systems by composing small, verified functional components within a robust type system.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "Standard ML"
   },
   {
     "name": "J",
@@ -2639,6 +3153,44 @@
     "display_name": "OCaml"
   },
   {
+    "name": "ActionScript",
+    "year": 1998,
+    "creators": [
+      "Gary Grossman"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Event-Driven"
+    ],
+    "cluster": "web",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Flash animation and applications",
+      "Web-based games"
+    ],
+    "key_innovations": [
+      "Deep integration with vector graphics",
+      "Event-driven animation model",
+      "ECMAScript-based syntax in a plugin environment"
+    ],
+    "influenced_by": [
+      "JavaScript",
+      "Java"
+    ],
+    "influenced": [
+      "TypeScript",
+      "Dart"
+    ],
+    "philosophy": "Bringing interactivity and programmatic control to the world of web animation and rich media.",
+    "mental_model": "Think in terms of timelines and movie clips. You attach code to visual objects that respond to user input and time-based events.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "ActionScript"
+  },
+  {
     "name": "CSharp",
     "display_name": "C#",
     "year": 2000,
@@ -2975,6 +3527,44 @@
     "memory_management": "runtime",
     "is_keystone": false,
     "display_name": "F#"
+  },
+  {
+    "name": "PowerShell",
+    "year": 2006,
+    "creators": [
+      "Jeffrey Snover"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Object-Oriented",
+      "Functional"
+    ],
+    "cluster": "systems",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "System administration",
+      "Task automation",
+      "Configuration management"
+    ],
+    "key_innovations": [
+      "Object-based pipeline (passing objects instead of text)",
+      "Deep .NET integration",
+      "Verb-Noun command structure"
+    ],
+    "influenced_by": [
+      "Bash",
+      "CSharp",
+      "Perl"
+    ],
+    "influenced": [],
+    "philosophy": "A powerful shell and scripting language that treats the system as a collection of objects rather than a stream of text.",
+    "mental_model": "Think in terms of a pipeline that carries structured data objects. You pipe the results of one command to another, and the shell handles the data transformation automatically.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "PowerShell"
   },
   {
     "name": "Clojure",
