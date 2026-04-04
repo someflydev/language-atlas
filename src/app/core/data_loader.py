@@ -443,41 +443,58 @@ class DataLoader:
             return self._row_to_dict(row)
         return {"name": name, "description": "A core model or style of computer programming."}
 
-    def search(self, term):
-        """Performs a full-text search using FTS5 tables."""
+    def search(self, query_term):
+        """Performs an advanced full-text search using FTS5 BM25 ranking and context snippets."""
         if not self.use_sqlite:
             # Simple in-memory search fallback
             results = []
-            term = term.lower()
+            term = query_term.lower()
             for lang in self.get_all_languages():
                 if term in lang['name'].lower() or term in lang.get('philosophy', '').lower():
                     results.append({
                         'category': 'language',
                         'title': lang['name'],
-                        'snippet': lang.get('philosophy', '')[:200]
+                        'snippet': lang.get('philosophy', '')[:200],
+                        'language_id': lang.get('id')
                     })
             return results
 
         conn = self._get_connection()
-        # Search using the v_global_search view which combines fts_languages and fts_profiles
-        # We need to join back to FTS tables if we want rank/snippets, 
-        # but for now we'll do a simple match on the view if possible, 
-        # or better, query the FTS tables directly.
+        # FTS5 bm25() returns lower scores for better matches.
+        # snippet() provides context for the match.
+        # -1 in snippet() searches all non-unindexed columns for the best match.
         
-        query = """
-            SELECT 'language' as category, name as title, philosophy as snippet, rank
+        sql = """
+            SELECT 
+                'language' as category, 
+                name as title, 
+                snippet(fts_languages, -1, '<b>', '</b>', '...', 20) as snippet, 
+                bm25(fts_languages) as score,
+                language_id
             FROM fts_languages 
             WHERE fts_languages MATCH ?
             UNION ALL
-            SELECT 'profile' as category, language_name || ' - ' || section_name as title, content as snippet, rank
+            SELECT 
+                'profile' as category, 
+                language_name || ' (' || section_name || ')' as title, 
+                snippet(fts_profiles, -1, '<b>', '</b>', '...', 20) as snippet, 
+                bm25(fts_profiles) as score,
+                language_id
             FROM fts_profiles
             WHERE fts_profiles MATCH ?
-            ORDER BY rank
-            LIMIT 20
+            ORDER BY score
+            LIMIT 30
         """
-        cursor = conn.execute(query, (term, term))
-        results = [self._row_to_dict(row) for row in cursor.fetchall()]
-        conn.close()
+        try:
+            # Ensure query term is formatted for FTS5 (basic escaping)
+            # If it's a simple word, it's fine. If it has operators, they are used.
+            cursor = conn.execute(sql, (query_term, query_term))
+            results = [self._row_to_dict(row) for row in cursor.fetchall()]
+        except sqlite3.OperationalError:
+            # Fallback for invalid FTS5 syntax
+            results = []
+        finally:
+            conn.close()
         return results
 
     def get_cluster_info(self, name):

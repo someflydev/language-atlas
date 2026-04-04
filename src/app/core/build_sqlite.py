@@ -188,7 +188,8 @@ def build_database():
         description, 
         philosophy, 
         mental_model,
-        language_id UNINDEXED
+        language_id UNINDEXED,
+        tokenize='porter'
     );
 
     -- fts_profiles: Deep search through narrative profile content and sections
@@ -198,7 +199,8 @@ def build_database():
         content,
         language_id UNINDEXED,
         profile_id UNINDEXED,
-        section_id UNINDEXED
+        section_id UNINDEXED,
+        tokenize='porter'
     );
     """)
     
@@ -446,12 +448,12 @@ def build_database():
     LEFT JOIN language_profiles lp ON l.id = lp.language_id;
     """)
 
-    # Unified search view for combined results across languages and profiles
+    # Unified search view for combined results
     cursor.execute("""
     CREATE VIEW v_global_search AS
     SELECT 
         'language' as category,
-        language_id as entity_id,
+        language_id,
         name as title,
         description as snippet,
         'languages' as source_table
@@ -459,11 +461,27 @@ def build_database():
     UNION ALL
     SELECT
         'profile' as category,
-        language_id as entity_id,
-        language_name || ' - ' || section_name as title,
+        language_id,
+        language_name || ' (' || section_name || ')' as title,
         content as snippet,
         'profile_sections' as source_table
     FROM fts_profiles;
+    """)
+
+    # Sync Triggers for fts_languages
+    cursor.executescript("""
+    CREATE TRIGGER languages_ai AFTER INSERT ON languages BEGIN
+      INSERT INTO fts_languages(rowid, name, display_name, description, philosophy, mental_model, language_id)
+      VALUES (new.id, new.name, new.display_name, new.description, new.philosophy, new.mental_model, new.id);
+    END;
+    CREATE TRIGGER languages_ad AFTER DELETE ON languages BEGIN
+      DELETE FROM fts_languages WHERE rowid = old.id;
+    END;
+    CREATE TRIGGER languages_au AFTER UPDATE ON languages BEGIN
+      DELETE FROM fts_languages WHERE rowid = old.id;
+      INSERT INTO fts_languages(rowid, name, display_name, description, philosophy, mental_model, language_id)
+      VALUES (new.id, new.name, new.display_name, new.description, new.philosophy, new.mental_model, new.id);
+    END;
     """)
     
     conn.commit()
