@@ -13,6 +13,7 @@ def setup_directories():
     (OUTPUT_DIR / "languages").mkdir(parents=True, exist_ok=True)
     (OUTPUT_DIR / "eras").mkdir(parents=True, exist_ok=True)
     (OUTPUT_DIR / "paradigms").mkdir(parents=True, exist_ok=True)
+    (OUTPUT_DIR / "concepts").mkdir(parents=True, exist_ok=True)
 
 def get_db_connection():
     """Establish connection to the SQLite database."""
@@ -129,6 +130,45 @@ def generate_language_profiles(conn):
             f.write(f"- **Safety Model:** {lang['safety_model']}\n")
             f.write(f"- **Complexity Bias:** {lang['complexity_bias']}\n")
 
+def generate_concept_profiles(conn):
+    """Generate individual Markdown files for each concept."""
+    query = """
+        SELECT c.*, cp.title as profile_title, cp.overview as profile_overview
+        FROM concepts c
+        LEFT JOIN concept_profiles cp ON c.id = cp.concept_id
+    """
+    concepts = conn.execute(query).fetchall()
+    
+    for concept in concepts:
+        concept_id = concept["id"]
+        concept_name = concept["name"]
+        profile_title = concept["profile_title"] if concept["profile_title"] else concept_name
+        
+        # Get sections
+        sections_query = """
+            SELECT cps.section_name, cps.content
+            FROM concept_profile_sections cps
+            JOIN concept_profiles cp ON cps.profile_id = cp.id
+            WHERE cp.concept_id = ?
+        """
+        sections = conn.execute(sections_query, (concept_id,)).fetchall()
+        
+        # Write file
+        safe_name = concept_name.replace(" ", "_").replace("/", "_")
+        file_path = OUTPUT_DIR / "concepts" / f"{safe_name}.md"
+        with open(file_path, "w") as f:
+            f.write(f"# {profile_title}\n\n")
+            
+            if concept['profile_overview']:
+                f.write(f"{concept['profile_overview']}\n\n")
+            
+            f.write(f"## Description\n{concept['description']}\n\n")
+            
+            if sections:
+                for section in sections:
+                    title = section["section_name"].replace("_", " ").title()
+                    f.write(f"## {title}\n{section['content']}\n\n")
+
 def generate_index_files(conn):
     """Generate index files for Paradigms and Eras."""
     # Paradigm Index
@@ -180,6 +220,56 @@ def generate_index_files(conn):
                 f.write(f"- [{lang['display_name']}](languages/{safe_name}.md) ({lang['year']})\n")
             f.write("\n")
 
+def generate_thematic_docs(conn):
+    """Generate thematic overview documents (Crossroads, Reactions, etc.)."""
+    # 1. Crossroads
+    crossroads = conn.execute("SELECT * FROM crossroads").fetchall()
+    with open(OUTPUT_DIR / "CROSSROADS.md", "w") as f:
+        f.write("# The Crossroads of Computing\n\n")
+        for cr in crossroads:
+            f.write(f"## {cr['title']}\n{cr['explanation']}\n\n")
+
+    # 2. Modern Reactions
+    reactions = conn.execute("SELECT * FROM modern_reactions").fetchall()
+    with open(OUTPUT_DIR / "MODERN_REACTIONS.md", "w") as f:
+        f.write("# Modern Reactions in Language Design\n\n")
+        for mr in reactions:
+            f.write(f"## {mr['theme']}\n{mr['explanation']}\n\n")
+
+    # 3. Paradigm Matrix
+    matrix = conn.execute("SELECT * FROM paradigm_matrix_dimensions").fetchall()
+    with open(OUTPUT_DIR / "PARADIGM_MATRIX.md", "w") as f:
+        f.write("# The Paradigm Matrix: Technical Dimensions\n\n")
+        for m in matrix:
+            f.write(f"## {m['axis']}\n{m['details']}\n\n")
+
+    # 4. Timeline
+    periods = conn.execute("SELECT * FROM timeline_periods").fetchall()
+    with open(OUTPUT_DIR / "TIMELINE.md", "w") as f:
+        f.write("# The Chronological Atlas: Major Events\n\n")
+        for p in periods:
+            f.write(f"## {p['era_or_period']}\n")
+            events = conn.execute("SELECT * FROM timeline_events WHERE period_id = ?", (p["id"],)).fetchall()
+            for e in events:
+                if e['year']:
+                    f.write(f"- **{e['year']}:** {e['description']}\n")
+                else:
+                    f.write(f"{e['description']}\n")
+                
+                related = conn.execute("SELECT related_name FROM timeline_event_related WHERE event_id = ?", (e["id"],)).fetchall()
+                if related:
+                    f.write(f"  * [Related: {', '.join([r['related_name'] for r in related])}]\n")
+            f.write("\n")
+
+    # 5. Concepts Summary
+    with open(OUTPUT_DIR / "CONCEPTS.md", "w") as f:
+        f.write("# Core Concepts: The Soul of Computation\n\n")
+        concepts = conn.execute("SELECT name, description FROM concepts").fetchall()
+        for c in concepts:
+            safe_name = c['name'].replace(" ", "_").replace("/", "_")
+            f.write(f"## [{c['name']}](concepts/{safe_name}.md)\n")
+            f.write(f"{c['description']}\n\n")
+
 def generate_era_summaries(conn):
     """Generate summary files for each Era."""
     eras = conn.execute("SELECT * FROM era_summaries").fetchall()
@@ -218,8 +308,14 @@ def main():
         print("Generating language profiles...")
         generate_language_profiles(conn)
         
+        print("Generating concept profiles...")
+        generate_concept_profiles(conn)
+        
         print("Generating era summaries...")
         generate_era_summaries(conn)
+        
+        print("Generating thematic documents...")
+        generate_thematic_docs(conn)
         
         print("Generating index files...")
         generate_index_files(conn)

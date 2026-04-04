@@ -247,6 +247,11 @@ def build_database(conn=None, data_dir=None):
         cursor.execute("INSERT INTO paradigms (name, description) VALUES (?, ?)", (p['name'], p.get('description')))
         paradigm_map[p['name']] = cursor.lastrowid
         
+    # Concepts (from data/concepts.json)
+    print("Inserting base concepts...")
+    for c in loader.concepts:
+        cursor.execute("INSERT OR IGNORE INTO concepts (name, description) VALUES (?, ?)", (c['name'], c.get('description')))
+
     # People
     people_map = {} # name -> id
     for p in loader.people:

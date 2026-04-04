@@ -165,19 +165,36 @@ async def get_cluster_view(request: Request, name: str, sort: str = "year"):
 
 @app.get("/language/{name}", response_class=HTMLResponse)
 async def get_language_profile(request: Request, name: str):
-    lang = data_loader.get_language(name)
+    lang = data_loader.get_combined_language_data(name)
     if not lang:
         raise HTTPException(status_code=404, detail="Language not found")
     
-    # Path to markdown profile
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
-    profile_path = os.path.join(base_dir, 'docs', 'LANGUAGE_PROFILES', f"{name}.md")
+    # Construct Markdown from the profile sections stored in the database
+    # This replaces the need for the deleted docs/LANGUAGE_PROFILES directory
+    content = f"# {lang.get('title', lang['name'])}\n\n"
+    content += f"{lang.get('overview', '')}\n\n"
     
-    if not os.path.exists(profile_path):
-        content = f"# {name}\n\nProfile documentation is coming soon."
-    else:
-        with open(profile_path, 'r') as f:
-            content = f.read()
+    # Core narrative sections
+    sections = [
+        ('philosophy', 'Philosophy'),
+        ('historical_context', 'Historical Context'),
+        ('mental_model', 'Mental Model'),
+        ('key_innovations', 'Key Innovations'),
+        ('tradeoffs', 'Tradeoffs'),
+        ('legacy', 'Legacy'),
+        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
+    ]
+    
+    for key, title in sections:
+        val = lang.get(key)
+        if val:
+            content += f"## {title}\n"
+            if isinstance(val, list):
+                for item in val:
+                    content += f"- {item}\n"
+                content += "\n"
+            else:
+                content += f"{val}\n\n"
     
     html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
     
@@ -219,6 +236,21 @@ async def get_odyssey_view(request: Request, path_id: str):
     )
 
 # --- SEMANTIC SEARCH API ---
+
+@app.get("/api")
+async def api_index():
+    """Returns documentation info for the API."""
+    return {
+        "title": "Language Atlas API",
+        "description": "Programmatic access to the Language Atlas database.",
+        "endpoints": {
+            "/api/search?q={term}": "Semantic search (min 2 chars)",
+            "/api/languages": "List all languages (with cluster/generation filters)",
+            "/api/language/{name}": "Detailed language profile data",
+            "/api/odysseys": "List all guided learning paths",
+            "/api/odyssey/{id}": "Specific journey data and challenges"
+        }
+    }
 
 @app.get("/api/search")
 async def api_search(q: str = Query(...)):
