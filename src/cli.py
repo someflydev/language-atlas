@@ -455,5 +455,19 @@ def cross_section(paradigm: str, era: str, json_out: bool = typer.Option(False, 
                 table.add_row(row['display_name'], str(row['year']), row['cluster'], phil)
             console.print(table)
 
+@app.command()
+def tui(language: Optional[str] = typer.Argument(None, help="Optional language to select on startup")):
+    """
+    Launch the 'Living Atlas' TUI - Interactive historical exploration.
+    """
+    try:
+        from tui import LivingAtlasApp
+        atlas_app = LivingAtlasApp(initial_language=language)
+        atlas_app.run()
+    except ImportError as e:
+        console.print(f"[red]Error: TUI dependencies not found. Try 'uv add textual'.[/red]")
+        console.print(f"[dim]Details: {e}[/dim]")
+        raise typer.Exit(1)
+
 if __name__ == "__main__":
     app()
