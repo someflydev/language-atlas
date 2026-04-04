@@ -53,7 +53,8 @@ def build_database(conn=None, data_dir=None):
         safety_model TEXT,
         typing_discipline TEXT,
         memory_management TEXT,
-        is_keystone BOOLEAN
+        is_keystone BOOLEAN,
+        influence_score INTEGER DEFAULT 0
     );
 
     CREATE TABLE paradigms (
@@ -295,6 +296,17 @@ def build_database(conn=None, data_dir=None):
     for src_id, tgt_id in all_influences:
         cursor.execute("INSERT OR IGNORE INTO influences (source_id, target_id) VALUES (?, ?)", (src_id, tgt_id))
 
+    # Calculate influence_score (sum of incoming and outgoing)
+    print("Calculating influence scores...")
+    cursor.execute("""
+        UPDATE languages 
+        SET influence_score = (
+            SELECT COUNT(*) FROM influences WHERE source_id = languages.id
+        ) + (
+            SELECT COUNT(*) FROM influences WHERE target_id = languages.id
+        )
+    """)
+
     # Language Profiles
     profiles = loader.get_language_profiles()
     for key, profile in profiles.items():
@@ -442,6 +454,7 @@ def build_database(conn=None, data_dir=None):
         l.year,
         l.cluster,
         l.generation,
+        l.influence_score,
         lp.title as profile_title,
         (SELECT GROUP_CONCAT(p.name, ', ') 
          FROM paradigms p 
