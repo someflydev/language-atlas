@@ -112,6 +112,42 @@ class DataLoader:
             base.update(new_data)
         return base
 
+
+    def get_all_era_summaries(self):
+        dir_path = os.path.join(self.data_dir, 'docs', 'era_summaries')
+        summaries = []
+        if os.path.isdir(dir_path):
+            for filename in os.listdir(dir_path):
+                if filename.endswith('.json'):
+                    with open(os.path.join(dir_path, filename), 'r', encoding='utf-8') as f:
+                        summaries.append(json.load(f))
+        return summaries
+
+    def get_era_summary(self, slug):
+        summaries = self.get_all_era_summaries()
+        for s in summaries:
+            if s.get('slug') == slug:
+                return s
+        return None
+
+    def get_concepts_reference(self):
+        return self._load_json('docs/concepts/concepts_reference.json')
+
+    def get_crossroads(self):
+        return self._load_json('docs/crossroads/crossroads.json')
+
+    def get_modern_reactions(self):
+        return self._load_json('docs/modern_reactions/modern_reactions.json')
+
+    def get_paradigms_reference(self):
+        return self._load_json('docs/paradigms/paradigms_reference.json')
+
+    def get_paradigm_matrix(self):
+        return self._load_json('docs/paradigms/paradigm_matrix.json')
+
+    def get_timeline(self):
+        return self._load_json('docs/timeline/timeline.json')
+
     def get_all_languages(self, filter_gen=None, filter_cluster=None):
         if not self.use_sqlite:
             langs = self.languages

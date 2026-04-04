@@ -103,6 +103,84 @@ def build_database():
 
     -- Full-Text Search Tables
     -- fts_languages: Keyword search across core language metadata
+    
+    CREATE TABLE era_summaries (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        slug TEXT NOT NULL UNIQUE,
+        title TEXT,
+        overview TEXT,
+        legacy_impact TEXT,
+        diagram TEXT
+    );
+
+    CREATE TABLE era_key_drivers (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        era_id INTEGER NOT NULL,
+        name TEXT,
+        description TEXT,
+        FOREIGN KEY (era_id) REFERENCES era_summaries(id)
+    );
+
+    CREATE TABLE era_pivotal_languages (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        era_id INTEGER NOT NULL,
+        name TEXT,
+        description TEXT,
+        FOREIGN KEY (era_id) REFERENCES era_summaries(id)
+    );
+
+    CREATE TABLE concepts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL UNIQUE,
+        description TEXT
+    );
+
+    CREATE TABLE concept_bullets (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        concept_id INTEGER NOT NULL,
+        name TEXT,
+        description TEXT,
+        FOREIGN KEY (concept_id) REFERENCES concepts(id)
+    );
+
+    CREATE TABLE crossroads (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL UNIQUE,
+        explanation TEXT
+    );
+
+    CREATE TABLE modern_reactions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        theme TEXT NOT NULL UNIQUE,
+        explanation TEXT
+    );
+
+    CREATE TABLE paradigm_matrix_dimensions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        axis TEXT NOT NULL UNIQUE,
+        details TEXT
+    );
+
+    CREATE TABLE timeline_periods (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        era_or_period TEXT NOT NULL UNIQUE
+    );
+
+    CREATE TABLE timeline_events (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        period_id INTEGER NOT NULL,
+        year TEXT,
+        description TEXT,
+        FOREIGN KEY (period_id) REFERENCES timeline_periods(id)
+    );
+
+    CREATE TABLE timeline_event_related (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        event_id INTEGER NOT NULL,
+        related_name TEXT,
+        FOREIGN KEY (event_id) REFERENCES timeline_events(id)
+    );
+
     CREATE VIRTUAL TABLE fts_languages USING fts5(
         name, 
         display_name, 
@@ -236,7 +314,79 @@ def build_database():
                                (profile_id, sec_name, str(content)))
 
     # 5. Populate FTS Tables
+    
+    # Era Summaries
+    print("Inserting era summaries...")
+    for era in loader.get_all_era_summaries():
+        cursor.execute("INSERT INTO era_summaries (slug, title, overview, legacy_impact, diagram) VALUES (?, ?, ?, ?, ?)",
+            (era.get('slug'), era.get('title'), era.get('overview'), era.get('legacy_impact'), era.get('diagram')))
+        era_id = cursor.lastrowid
+        
+        for driver in era.get('key_drivers', []):
+            cursor.execute("INSERT INTO era_key_drivers (era_id, name, description) VALUES (?, ?, ?)",
+                (era_id, driver.get('name'), driver.get('description')))
+                
+        for lang in era.get('pivotal_languages', []):
+            cursor.execute("INSERT INTO era_pivotal_languages (era_id, name, description) VALUES (?, ?, ?)",
+                (era_id, lang.get('name'), lang.get('description')))
+
+    # Concepts
+    print("Inserting concepts reference...")
+    concepts_ref = loader.get_concepts_reference()
+    if concepts_ref:
+        for concept in concepts_ref.get('concepts', []):
+            cursor.execute("INSERT OR IGNORE INTO concepts (name, description) VALUES (?, ?)", 
+                           (concept.get('name'), concept.get('description')))
+            cursor.execute("SELECT id FROM concepts WHERE name = ?", (concept.get('name'),))
+            concept_id = cursor.fetchone()[0]
+            
+            for bullet in concept.get('bullets', []):
+                cursor.execute("INSERT INTO concept_bullets (concept_id, name, description) VALUES (?, ?, ?)",
+                               (concept_id, bullet.get('name'), bullet.get('description')))
+
+    # Crossroads
+    print("Inserting crossroads...")
+    crossroads_data = loader.get_crossroads()
+    if crossroads_data:
+        for cr in crossroads_data.get('crossroads', []):
+            cursor.execute("INSERT INTO crossroads (title, explanation) VALUES (?, ?)",
+                           (cr.get('title'), cr.get('explanation')))
+
+    # Modern Reactions
+    print("Inserting modern reactions...")
+    modern_reactions_data = loader.get_modern_reactions()
+    if modern_reactions_data:
+        for mr in modern_reactions_data.get('reactions', []):
+            cursor.execute("INSERT INTO modern_reactions (theme, explanation) VALUES (?, ?)",
+                           (mr.get('theme'), mr.get('explanation')))
+
+    # Paradigm Matrix
+    print("Inserting paradigm matrix...")
+    matrix_data = loader.get_paradigm_matrix()
+    if matrix_data:
+        for dim in matrix_data.get('dimensions', []):
+            cursor.execute("INSERT INTO paradigm_matrix_dimensions (axis, details) VALUES (?, ?)",
+                           (dim.get('axis'), dim.get('details')))
+
+    # Timeline
+    print("Inserting timeline...")
+    timeline_data = loader.get_timeline()
+    if timeline_data:
+        for period in timeline_data.get('periods', []):
+            cursor.execute("INSERT INTO timeline_periods (era_or_period) VALUES (?)", (period.get('era_or_period'),))
+            period_id = cursor.lastrowid
+            
+            for event in period.get('events', []):
+                cursor.execute("INSERT INTO timeline_events (period_id, year, description) VALUES (?, ?, ?)",
+                               (period_id, event.get('year'), event.get('description')))
+                event_id = cursor.lastrowid
+                
+                for related in event.get('related', []):
+                    cursor.execute("INSERT INTO timeline_event_related (event_id, related_name) VALUES (?, ?)",
+                                   (event_id, related))
+
     print("Populating FTS tables...")
+
     cursor.execute("""
         INSERT INTO fts_languages (name, display_name, year, description, philosophy, mental_model, language_id)
         SELECT name, display_name, year, description, philosophy, mental_model, id
