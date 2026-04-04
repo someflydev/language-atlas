@@ -1,5 +1,43 @@
 [
   {
+    "name": "Mathematical Notation",
+    "year": 1900,
+    "creators": [
+      "Various"
+    ],
+    "paradigms": [
+      "Functional",
+      "Array"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Mathematical proof",
+      "Scientific description"
+    ],
+    "key_innovations": [
+      "Symbolic abstraction",
+      "Operator precedence",
+      "Variables as placeholders"
+    ],
+    "influenced_by": [],
+    "influenced": [
+      "APL",
+      "Lisp",
+      "Haskell",
+      "J",
+      "K"
+    ],
+    "philosophy": "Expressing universal truths through a dense, unambiguous symbolic language that transcends natural language and physical implementation.",
+    "mental_model": "Think in terms of transformations and relationships. Symbols represent operations on abstract values, forming a logical landscape independent of time or machine.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Mathematical Notation"
+  },
+  {
     "name": "Lambda Calculus",
     "year": 1930,
     "creators": [
@@ -33,6 +71,76 @@
     "memory_management": "manual",
     "is_keystone": true,
     "display_name": "Lambda Calculus"
+  },
+  {
+    "name": "Turing Machine",
+    "year": 1936,
+    "creators": [
+      "Alan Turing"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Foundational theory of computation"
+    ],
+    "key_innovations": [
+      "Universal computer concept",
+      "Infinite tape memory",
+      "State-based transitions"
+    ],
+    "influenced_by": [
+      "Mathematical Notation"
+    ],
+    "influenced": [
+      "Machine Code",
+      "Assembly",
+      "C"
+    ],
+    "philosophy": "A theoretical model defining what it means to compute. If it can be done on a Turing Machine, it can be done on any computer.",
+    "mental_model": "Think in terms of a head moving along a tape, reading and writing symbols while switching between states. It is the mechanical heart of all computation.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Turing Machine"
+  },
+  {
+    "name": "Machine Code",
+    "year": 1940,
+    "creators": [
+      "Various"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Direct hardware control",
+      "Bootstrapping"
+    ],
+    "key_innovations": [
+      "Binary representation of instructions",
+      "Direct memory addressing"
+    ],
+    "influenced_by": [],
+    "influenced": [
+      "Assembly",
+      "FORTRAN",
+      "C"
+    ],
+    "philosophy": "The rawest form of communication between human and machine. It is the physical manifestation of Boolean logic as electrical signals.",
+    "mental_model": "Think in bits and bytes. You are flipping switches and moving data between physical registers. There is no abstraction, only the machine's state.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Machine Code"
   },
   {
     "name": "Plankalkül",
@@ -132,6 +240,40 @@
     "memory_management": "manual",
     "is_keystone": false,
     "display_name": "Short Code"
+  },
+  {
+    "name": "A-0",
+    "year": 1951,
+    "creators": [
+      "Grace Hopper"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Mathematical calculations"
+    ],
+    "key_innovations": [
+      "First compiler system",
+      "Symbolic math representation"
+    ],
+    "influenced_by": [
+      "Short Code"
+    ],
+    "influenced": [
+      "FLOW-MATIC",
+      "COBOL"
+    ],
+    "philosophy": "Automating the programmer's task by translating symbolic math into machine code. A-0 proved that machines could write their own programs.",
+    "mental_model": "Think of a library of pre-written functions that the machine assembles based on your symbolic requests. It is the beginning of high-level abstraction.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "A-0"
   },
   {
     "name": "Autocode",
