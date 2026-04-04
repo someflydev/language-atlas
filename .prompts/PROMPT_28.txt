@@ -1,0 +1,32 @@
+You are a Senior Data Engineer. Your task is to build the "Atlas Toolkit"—a suite of zero-dependency Python scripts (Standard Library only) that provide deep introspection, auditing, and maintenance capabilities for the Language Atlas data.
+
+CONTEXT:
+We need permanent tools to maintain the integrity of our programming language "lake" (JSON) and its "warehouse" (SQLite). These scripts must be robust, use clean CLI output (tables/colors where possible using standard ANSI), and require no third-party libraries.
+
+TASK:
+Create the following scripts in the `scripts/` directory:
+
+1.  **`data_stats.py`**:
+    *   Provides high-level metrics: total counts, distribution by `generation`, `cluster`, and `safety_model`.
+    *   Identifies "Keystone Density" (percentage of keystone languages).
+2.  **`audit_lineage.py`**:
+    *   Validates the influence graph.
+    *   Checks for broken references (languages in `influenced_by` that don't exist).
+    *   Finds "Isolated Islands" (languages with zero incoming or outgoing influences).
+3.  **`check_integrity.py`**:
+    *   A deep-scanner for the JSON data.
+    *   Identifies missing optional fields (e.g., missing `key_innovations` or empty `philosophy`).
+    *   Validates that `year` is within reasonable bounds (1940-present).
+4.  **`export_summary.py`**:
+    *   Generates a clean CSV or Markdown table summary of all languages for external use.
+5.  **`db_query.py`**:
+    *   A lightweight wrapper to run ad-hoc SQL queries against `language_atlas.sqlite` from the CLI without needing the `sqlite3` binary installed.
+
+CONSTRAINTS:
+- Use `argparse` for CLI arguments.
+- Use `json`, `sqlite3`, `csv`, and `pathlib` from the standard library.
+- Ensure all scripts handle the project root directory correctly relative to their location in `scripts/`.
+- Provide meaningful error messages.
+
+DOCUMENTATION:
+After creating the scripts, author a comprehensive `scripts/README.md` that explains the purpose, usage, and example output of each tool in the toolkit.
