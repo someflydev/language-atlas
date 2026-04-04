@@ -13,6 +13,12 @@
 - **Use `uv`:** Always use `uv` for creating virtual environments and managing dependencies.
 - **Python Version:** When creating a virtual environment via `uv`, you MUST explicitly specify the Python version (e.g., `uv venv --python 3.12`).
 
+## Documentation & Style
+- **Freshness & Usefulness:** Maintain `src/README.md` as the authoritative, up-to-date guide for codebase architecture, schema details, and operational commands. Documentation must be actionable and reflect the current state of the system.
+- **Visual Hygiene:** Do not use emojis in section titles or documentation headers.
+- **Typography:** Avoid using em dashes (—) or regular dashes (-) in place of em dashes in documentation. Use standard punctuation or clear sentence structures instead.
+- **Actionable Examples:** Prefer `uv run` in documentation examples to ensure consistent environment execution.
+
 ## Commit Style
 - **Prefix:** Use `[PROMPT_XX]` for changes related to a specific prompt file (e.g., `[PROMPT_01]`). Use `[PRE-FLIGHT {CATEGORY}]` for architectural or pre-run refinements.
 - **Format:** Tim Pope style (Multi-line).
