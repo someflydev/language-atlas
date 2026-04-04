@@ -1,0 +1,312 @@
+You are operating inside the `language-atlas` repository.
+
+This is a prompt-first system where:
+
+- All work is defined in `.prompts/PROMPT_XX.txt`
+- Each prompt runs in a fresh coding assistant session
+- Prompts must be fully self-contained
+- JSON is the single source of truth for structured data
+- SQLite is a compiled artifact derived from JSON
+- Markdown docs are considered legacy source material that must be
+  represented in JSON before any migration or deletion
+
+---------------------------------------------------------------------
+CONTEXT
+---------------------------------------------------------------------
+
+The repository currently contains:
+
+- Structured JSON data under `data/`
+- A partially implemented docs-to-JSON pipeline
+- A SQLite builder (`build_sqlite.py`) that compiles JSON into
+  `language_atlas.sqlite`
+- Markdown documentation under `docs/` that includes:
+  - language profiles (already ported successfully)
+  - higher-level conceptual and historical documents that are NOT yet
+    fully represented in JSON
+
+Before any migration that removes or replaces markdown docs can occur,
+ALL markdown content must be faithfully represented in structured JSON
+with strong semantic coverage.
+
+Your task is to complete that coverage.
+
+---------------------------------------------------------------------
+PRIMARY GOAL
+---------------------------------------------------------------------
+
+Port ALL remaining markdown documentation into structured JSON with
+high semantic fidelity, then extend the SQLite builder to incorporate
+this new structured data.
+
+This establishes JSON as the authoritative representation for all
+knowledge in the repository.
+
+---------------------------------------------------------------------
+SCOPE OF WORK
+---------------------------------------------------------------------
+
+You must create structured JSON representations for:
+
+1. docs/ERA_SUMMARIES/*.md
+   - MULTICORE_CRISIS.md
+   - SYSTEMS_RENAISSANCE.md
+   - WEB_EXPLOSION.md
+
+2. docs/CONCEPTS.md
+
+3. docs/CROSSROADS.md
+
+4. docs/MODERN_REACTIONS.md
+
+5. docs/PARADIGMS.md
+
+6. docs/PARADIGM_MATRIX.md
+
+7. docs/TIMELINE.md
+
+The existing LANGUAGE_PROFILES content has already been handled and
+does not need to be reprocessed.
+
+---------------------------------------------------------------------
+PHASE 1 — ANALYZE SOURCE DOCUMENTS
+---------------------------------------------------------------------
+
+Inspect each markdown file listed above.
+
+Understand and preserve:
+
+- section structure (headings and hierarchy)
+- lists (ordered and unordered)
+- key narrative explanations
+- categorical groupings
+- relationships between:
+  - languages
+  - paradigms
+  - concepts
+  - eras
+- timeline ordering
+- matrix/tabular structures
+- cross-cutting themes and insights
+
+Do NOT reduce documents to flat text blobs.
+
+---------------------------------------------------------------------
+PHASE 2 — DESIGN JSON STRUCTURE
+---------------------------------------------------------------------
+
+Create structured JSON under `data/docs/` using a clean, extensible layout.
+
+Recommended structure:
+
+- data/docs/era_summaries/
+- data/docs/concepts/
+- data/docs/crossroads/
+- data/docs/modern_reactions/
+- data/docs/paradigms/
+- data/docs/timeline/
+
+Each JSON file should preserve meaning and structure.
+
+Examples of structure:
+
+ERA SUMMARIES:
+- slug
+- title
+- overview
+- key_drivers (list)
+- pivotal_languages (structured list)
+- legacy_impact
+- additional_sections
+- relationships (concepts, paradigms, eras)
+
+CONCEPTS:
+- introduction
+- categories
+- entries:
+  - name
+  - summary
+  - detailed_explanation
+  - bullet_points
+  - relationships
+
+CROSSROADS:
+- introduction
+- entries:
+  - title
+  - tension/tradeoff
+  - participants
+  - explanation
+  - implications
+
+MODERN REACTIONS:
+- introduction
+- entries:
+  - theme
+  - reacting_to
+  - representative_languages
+  - explanation
+  - relationships
+
+PARADIGMS:
+- overview
+- entries:
+  - name
+  - explanation
+  - history
+  - strengths
+  - tradeoffs
+  - representative_languages
+  - relationships
+
+PARADIGM MATRIX:
+- dimensions / axes
+- structured cell entries preserving matrix semantics
+
+TIMELINE:
+- introduction
+- chronological entries:
+  - year or range
+  - title
+  - description
+  - relationships
+
+Maintain clarity, consistency, and future queryability.
+
+---------------------------------------------------------------------
+PHASE 3 — IMPLEMENT PARSING
+---------------------------------------------------------------------
+
+Extend or update:
+
+- src/app/core/docs_parser.py
+
+Add parsing logic to convert markdown into the structured JSON defined
+above.
+
+Requirements:
+
+- deterministic output
+- section-aware parsing
+- preserve ordering where meaningful
+- avoid brittle hacks
+- allow future re-runs without manual intervention
+
+If needed, use specialized parsing logic per document type.
+
+---------------------------------------------------------------------
+PHASE 4 — UPDATE DATA LOADER
+---------------------------------------------------------------------
+
+Update:
+
+- src/app/core/data_loader.py
+
+Ensure all new JSON content is:
+
+- discoverable
+- consistently loaded
+- accessible through clear interfaces
+
+Expose structured access for each doc family.
+
+---------------------------------------------------------------------
+PHASE 5 — EXPAND SQLITE BUILDER
+---------------------------------------------------------------------
+
+Update:
+
+- src/app/core/build_sqlite.py
+
+Incorporate new structured data into SQLite.
+
+Design a schema that supports:
+
+- querying
+- joins across entities
+- doc generation
+- future UI usage
+
+Avoid a single "documents" blob table unless used only as a fallback.
+
+Prefer:
+
+- normalized tables where meaningful
+- relationship tables where possible
+- views for convenience
+
+Include coverage for:
+
+- era summaries
+- concepts
+- crossroads
+- modern reactions
+- paradigms
+- paradigm matrix
+- timeline
+
+---------------------------------------------------------------------
+PHASE 6 — REBUILD DATABASE
+---------------------------------------------------------------------
+
+Rebuild:
+
+language_atlas.sqlite
+
+Fix any issues encountered.
+
+Ensure successful completion.
+
+---------------------------------------------------------------------
+PHASE 7 — VALIDATE COVERAGE
+---------------------------------------------------------------------
+
+Confirm that each markdown document listed in SCOPE OF WORK is now:
+
+- structurally represented in JSON
+- semantically preserved
+- included in SQLite
+
+This is a semantic validation, not a text diff.
+
+Do NOT delete markdown docs yet.
+
+---------------------------------------------------------------------
+FILES TO CREATE OR UPDATE
+---------------------------------------------------------------------
+
+Expect changes in:
+
+- src/app/core/docs_parser.py
+- src/app/core/data_loader.py
+- src/app/core/build_sqlite.py
+- data/docs/**
+
+Add helper modules only if necessary.
+
+---------------------------------------------------------------------
+COMMIT REQUIREMENTS
+---------------------------------------------------------------------
+
+Create a single commit:
+
+[PROMPT_18]
+
+Close semantic gap between markdown docs and structured JSON
+
+- port remaining docs into structured JSON with full coverage
+- extend docs parser and data loader for new doc families
+- expand sqlite schema and rebuild compiled atlas database
+- preserve rich semantics for future generated-docs pipeline
+
+Wrap lines at ~72–80 characters.
+Do not include literal "\n".
+
+---------------------------------------------------------------------
+FINAL INSTRUCTION
+---------------------------------------------------------------------
+
+Establish complete structured JSON coverage for all remaining markdown
+documentation and integrate it into the SQLite build pipeline.
+
+Do not delete or modify original markdown docs in this step.
