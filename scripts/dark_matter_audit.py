@@ -3,32 +3,6 @@ import os
 import re
 from pathlib import Path
 
-def normalize(name):
-    if not name:
-        return ""
-    # Remove parentheticals like "Smalltalk-80 (later Smalltalk)"
-    name = re.sub(r'\(.*\)', '', name).strip()
-    # Special cases for languages
-    replacements = {
-        "C#": "CSharp",
-        "F#": "FSharp",
-        "VB.NET": "VBNET",
-        "PL/I": "PLI",
-        "A-0": "A-0", # Keep dash for A-0 if it exists
-        "ALGOL 60": "ALGOL_60",
-        "ALGOL 68": "ALGOL_68",
-        "Simula 67": "SIMULA_67",
-        "Smalltalk-80": "Smalltalk",
-    }
-    if name in replacements:
-        return replacements[name]
-    
-    # General normalization: replace spaces with underscores
-    # We should be careful about dashes. Many files use underscores.
-    # Let's try both or be consistent.
-    n = name.replace(" ", "_")
-    return n
-
 def is_organization(name):
     if not name: return False
     org_keywords = [
@@ -46,6 +20,33 @@ def is_organization(name):
         return True
     return False
 
+def canonicalize(name):
+    if not name:
+        return ""
+    # 1. Lowercase everything
+    name = name.lower()
+    # 2. Strip parentheticals: "Smalltalk-80 (later Smalltalk)" -> "smalltalk-80"
+    name = re.sub(r'\(.*\)', '', name).strip()
+    # 3. Unify dashes and spaces to underscores
+    name = name.replace("-", "_").replace(" ", "_")
+    # 4. Remove multiple underscores
+    name = re.sub(r'_+', '_', name)
+    # 5. Strip trailing/leading underscores or colons
+    name = name.strip("_:")
+    
+    # Special language mapping (canonical form)
+    replacements = {
+        "c#": "csharp",
+        "f#": "fsharp",
+        "vb.net": "vbnet",
+        "pl/i": "pli",
+        "a_0": "a_0",
+        "algol_60": "algol_60",
+        "algol_68": "algol_68",
+        "simula_67": "simula_67"
+    }
+    return replacements.get(name, name)
+
 def extract_concept_name(text):
     if not text: return ""
     # Try to extract "Name" from "**Name**: Description"
@@ -59,10 +60,6 @@ def extract_concept_name(text):
     if name.endswith(":"):
         name = name[:-1].strip()
     
-    # Remove common parentheticals that are actually part of the name in some contexts
-    # but not others, to help deduplication (e.g., "Algebraic Data Types (ADTs)")
-    # But wait, sometimes they are useful. Let's just strip trailing colons for now.
-    
     return name
 
 def audit():
@@ -74,7 +71,7 @@ def audit():
         "organizations": docs_dir / "org_profiles"
     }
 
-    # Inventory existing profiles
+    # Inventory existing profiles (canonical names)
     existing_profiles = {
         "languages": set(),
         "concepts": set(),
@@ -83,75 +80,68 @@ def audit():
     for cat, p_dir in profiles_dirs.items():
         if p_dir.exists():
             for f in p_dir.glob("*.json"):
-                existing_profiles[cat].add(f.stem.lower()) # Use lower for case-insensitive match
+                existing_profiles[cat].add(canonicalize(f.stem))
 
-    referenced_languages = set()
-    referenced_concepts = set()
-    referenced_organizations = set()
-    ambiguous_references = set()
+    # Use maps to keep a "pretty" representative name for each canonical key
+    referenced_languages = {} # canonical -> pretty
+    referenced_concepts = {} # canonical -> pretty
+    referenced_organizations = {} # canonical -> pretty
+    
+    known_languages = set()
 
-    # Helper to check if a normalized name exists in a category
-    def profile_exists(name, category):
-        norm = normalize(name)
-        # Try exact, underscore-normalized, and lowercase
-        variants = [norm, norm.replace("-", "_"), norm.replace("_", "-"), norm.lower(), norm.replace(" ", "_").lower()]
-        for v in variants:
-            if v.lower() in existing_profiles[category]:
-                return True
-        return False
+    def add_reference(name, target_map):
+        if not name or name == "Various": return
+        canon = canonicalize(name)
+        if not canon: return
+        
+        # If we already have this canonical form, don't overwrite with a "worse" name
+        # (e.g. prefer capitalized version if we have it)
+        if canon not in target_map or (name[0].isupper() and not target_map[canon][0].isupper()):
+            target_map[canon] = name
 
     # 1. Crawl people.json
     people_path = data_dir / "people.json"
-    people_data = []
     if people_path.exists():
         with open(people_path, "r") as f:
             people_data = json.load(f)
             for person in people_data:
                 name = person.get("name")
                 if is_organization(name):
-                    referenced_organizations.add(name)
+                    add_reference(name, referenced_organizations)
                 
                 for contrib in person.get("contributions", []):
-                    # For contributions, we try to see if it's a language first
-                    ambiguous_references.add(contrib)
+                    # We'll re-check category later
+                    add_reference(contrib, referenced_concepts)
 
     # 2. Crawl languages.json
     languages_path = data_dir / "languages.json"
-    known_languages = set()
     if languages_path.exists():
         with open(languages_path, "r") as f:
             languages_data = json.load(f)
             for lang in languages_data:
                 lang_name = lang.get("name")
-                known_languages.add(lang_name)
-                referenced_languages.add(lang_name)
+                known_languages.add(canonicalize(lang_name))
+                add_reference(lang_name, referenced_languages)
                 
                 for inf in lang.get("influenced_by", []):
-                    referenced_languages.add(inf)
+                    add_reference(inf, referenced_languages)
                 for inf in lang.get("influenced", []):
-                    referenced_languages.add(inf)
+                    add_reference(inf, referenced_languages)
                 for inv in lang.get("key_innovations", []):
-                    concept_name = extract_concept_name(inv)
-                    referenced_concepts.add(concept_name)
+                    add_reference(extract_concept_name(inv), referenced_concepts)
                 for creator in lang.get("creators", []):
                     if is_organization(creator):
-                        referenced_organizations.add(creator)
-                    elif creator == "Various":
-                        pass
-                    else:
-                        pass
+                        add_reference(creator, referenced_organizations)
 
-    # 3. Crawl existing profiles
+    # 3. Crawl existing profiles for deep-linked references
     def scan_profile_data(data):
         found = []
         if isinstance(data, dict):
             for key in ["key_innovations", "key_aspects", "historical_context"]:
                 if key in data:
                     val = data[key]
-                    if isinstance(val, list):
-                        found.extend(val)
-                    elif isinstance(val, str):
-                        found.append(val)
+                    if isinstance(val, list): found.extend(val)
+                    elif isinstance(val, str): found.append(val)
             for v in data.values():
                 found.extend(scan_profile_data(v))
         elif isinstance(data, list):
@@ -165,66 +155,56 @@ def audit():
                 try:
                     with open(f_path, "r") as f:
                         data = json.load(f)
-                        extracted = scan_profile_data(data)
-                        for item in extracted:
+                        for item in scan_profile_data(data):
                             if isinstance(item, str):
-                                concept_name = extract_concept_name(item)
-                                ambiguous_references.add(concept_name)
-                except Exception:
-                    pass
+                                add_reference(extract_concept_name(item), referenced_concepts)
+                except Exception: pass
 
-    # 4. Categorize ambiguous references
-    final_languages = referenced_languages.copy()
-    final_concepts = referenced_concepts.copy()
-    final_organizations = referenced_organizations.copy()
-
-    for item in ambiguous_references:
-        if item == "Various":
-            continue
-        if item in known_languages:
-            final_languages.add(item)
-        elif is_organization(item):
-            final_organizations.add(item)
-        else:
-            if item not in final_languages and item not in final_organizations:
-                final_concepts.add(item)
-
-    # 5. Identify Gaps
+    # 4. Cross-categorize and identify gaps
     missing_languages = []
     missing_concepts = []
     missing_orgs = []
 
-    for lang in sorted(final_languages):
-        if not profile_exists(lang, "languages"):
-            missing_languages.append(lang)
+    # Final Language Check
+    for canon, pretty in referenced_languages.items():
+        if canon not in existing_profiles["languages"]:
+            missing_languages.append(pretty)
 
-    for concept in sorted(final_concepts):
-        if not profile_exists(concept, "concepts"):
-            # Check if it might be a language
-            if concept in known_languages:
-                 if not profile_exists(concept, "languages"):
-                     missing_languages.append(concept)
-                 continue
-            missing_concepts.append(concept)
+    # Final Concepts Check (removing those that are actually languages or orgs)
+    for canon, pretty in referenced_concepts.items():
+        if canon in known_languages:
+            if canon not in existing_profiles["languages"]:
+                missing_languages.append(pretty)
+            continue
+        
+        if canon in referenced_organizations:
+            if canon not in existing_profiles["organizations"]:
+                missing_orgs.append(pretty)
+            continue
 
-    for org in sorted(final_organizations):
-        if not profile_exists(org, "organizations"):
-            missing_orgs.append(org)
+        if canon not in existing_profiles["concepts"]:
+            missing_concepts.append(pretty)
 
-    # Deduplicate and sort
+    # Final Org Check
+    for canon, pretty in referenced_organizations.items():
+        if canon not in existing_profiles["organizations"]:
+            missing_orgs.append(pretty)
+
+    # Deduplicate across lists and sort
     missing_languages = sorted(list(set(missing_languages)))
-    missing_concepts = sorted(list(set([c for c in missing_concepts if c not in missing_languages])))
+    missing_concepts = sorted(list(set(missing_concepts)))
     missing_orgs = sorted(list(set(missing_orgs)))
-
-    real_ambiguous = []
+    
+    # Ensure no language is listed as a concept
+    final_lang_canons = {canonicalize(l) for l in missing_languages}
+    missing_concepts = [c for c in missing_concepts if canonicalize(c) not in final_lang_canons]
 
     todo = {
         "missing_language_profiles": missing_languages,
         "missing_concept_profiles": missing_concepts,
         "missing_org_profiles": missing_orgs,
-        "ambiguous_references": real_ambiguous
+        "ambiguous_references": []
     }
-
 
     reports_dir = data_dir / "reports"
     reports_dir.mkdir(parents=True, exist_ok=True)
