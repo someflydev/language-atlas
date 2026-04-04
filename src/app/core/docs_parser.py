@@ -8,6 +8,12 @@ def parse_markdown(content, filename):
     """
     Parses a markdown language profile into a structured dictionary.
     """
+    # Remove YAML frontmatter if present
+    if content.startswith('---'):
+        end_frontmatter = content.find('---', 3)
+        if end_frontmatter != -1:
+            content = content[end_frontmatter + 3:].strip()
+
     # Extract title from H1 or fallback to filename
     title_match = re.search(r'^#\s+(.*)', content, re.MULTILINE)
     title = title_match.group(1).strip() if title_match else filename.stem
@@ -383,137 +389,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-import json
-import re
-
-with open('data/docs/timeline/timeline.json', 'r') as f:
-    data = json.load(f)
-
-for period in data['periods']:
-    lines = period['events'].strip().split('\n')
-    events = []
-    for line in lines:
-        m = re.match(r'- \*\*(\d{4}[s]?(?:-\d{4})?)\*\*:\s*(.*?)(?=\s*\([a-z, ]+\)|$)(?:\s*\((.*?)\))?$', line.strip())
-        if m:
-            events.append({
-                "year": m.group(1),
-                "description": m.group(2).strip(),
-                "related": [r.strip() for r in m.group(3).split(',')] if m.group(3) else []
-            })
-    if events:
-        period['events'] = events
-
-with open('data/docs/timeline/timeline.json', 'w') as f:
-    json.dump(data, f, indent=2)
-
-import re
-import json
-
-def parse_timeline_old(filepath):
-    with open(filepath, 'r') as f:
-        content = f.read()
-        
-    title_match = re.search(r'^#\s+(.*)', content, re.MULTILINE)
-    title = title_match.group(1).strip() if title_match else ""
-    
-    intro_match = re.search(r'^# .*?\n\n(.*?)(?=\n##)', content, re.DOTALL)
-    intro = intro_match.group(1).strip() if intro_match else ""
-    
-    timeline_events = []
-    sections = re.split(r'\n##\s+', content)
-    for section in sections[1:]:
-        header_match = re.match(r'(.*?)\n', section)
-        if not header_match: continue
-        name = header_match.group(1).strip()
-        body = section[header_match.end():].strip()
-        
-        events = []
-        for line in body.split('\n'):
-            line = line.strip()
-            if not line.startswith('-'):
-                continue
-            line = line[1:].strip()
-            # Try to match bold year
-            m = re.match(r'\*\*(.*?)\*\*:\s*(.*?)(?:\s*\((.*?)\))?$', line)
-            if m:
-                events.append({
-                    "year": m.group(1).strip(),
-                    "description": m.group(2).strip(),
-                    "related": [r.strip() for r in m.group(3).split(',')] if m.group(3) else []
-                })
-            else:
-                events.append({
-                    "year": "",
-                    "description": line,
-                    "related": []
-                })
-                
-        timeline_events.append({
-            "era_or_period": name,
-            "events": events
-        })
-
-    data = {
-        "title": title,
-        "intro": intro,
-        "periods": timeline_events
-    }
-    with open('data/docs/timeline/timeline.json', 'w') as f:
-        json.dump(data, f, indent=2)
-
-parse_timeline('docs/TIMELINE.md')
-import re
-import json
-
-def parse_timeline(filepath):
-    with open(filepath, 'r') as f:
-        content = f.read()
-        
-    title_match = re.search(r'^#\s+(.*)', content, re.MULTILINE)
-    title = title_match.group(1).strip() if title_match else ""
-    
-    intro_match = re.search(r'^# .*?\n\n(.*?)(?=\n##)', content, re.DOTALL)
-    intro = intro_match.group(1).strip() if intro_match else ""
-    
-    timeline_events = []
-    sections = re.split(r'\n##\s+', content)
-    for section in sections[1:]:
-        header_match = re.match(r'(.*?)\n', section)
-        if not header_match: continue
-        name = header_match.group(1).strip()
-        body = section[header_match.end():].strip()
-        
-        events = []
-        for line in body.split('\n'):
-            line = line.strip()
-            if not line.startswith('-'):
-                continue
-            line = line[1:].strip()
-            # Handle standard format: - **1952**: Autocode ... (lang, lang)
-            m = re.match(r'\*\*(.*?)\*\*:\s*(.*?)(?:\s*\((.*?)\))?$', line)
-            if m:
-                events.append({
-                    "year": m.group(1).strip(),
-                    "description": m.group(2).strip(),
-                    "related": [r.strip() for r in m.group(3).split(',')] if m.group(3) else []
-                })
-            else:
-                events.append({
-                    "year": "",
-                    "description": line,
-                    "related": []
-                })
-                
-        timeline_events.append({
-            "era_or_period": name,
-            "events": events
-        })
-
-    data = {
-        "title": title,
-        "intro": intro,
-        "periods": timeline_events
-    }
-    with open('data/docs/timeline/timeline.json', 'w') as f:
-        json.dump(data, f, indent=2)
-

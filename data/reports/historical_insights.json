@@ -1,0 +1,818 @@
+{
+  "metadata": {
+    "description": "Historical insights generated from the Language Atlas",
+    "engine": "SQLite Recursive CTEs & Window Functions"
+  },
+  "influence_depth": {
+    "ALGOL 60": [
+      {
+        "name": "ALGOL 60",
+        "distance": 0
+      },
+      {
+        "name": "BASIC",
+        "distance": 1
+      },
+      {
+        "name": "C",
+        "distance": 1
+      },
+      {
+        "name": "CPL",
+        "distance": 1
+      },
+      {
+        "name": "PL/I",
+        "distance": 1
+      },
+      {
+        "name": "Pascal",
+        "distance": 1
+      },
+      {
+        "name": "SIMULA 67",
+        "distance": 1
+      },
+      {
+        "name": "Scheme",
+        "distance": 1
+      },
+      {
+        "name": "Ada",
+        "distance": 2
+      },
+      {
+        "name": "BCPL",
+        "distance": 2
+      },
+      {
+        "name": "C++",
+        "distance": 2
+      },
+      {
+        "name": "CSharp",
+        "distance": 2
+      },
+      {
+        "name": "Clojure",
+        "distance": 2
+      },
+      {
+        "name": "Crystal",
+        "distance": 2
+      },
+      {
+        "name": "Go",
+        "distance": 2
+      },
+      {
+        "name": "Haskell",
+        "distance": 2
+      },
+      {
+        "name": "Java",
+        "distance": 2
+      },
+      {
+        "name": "JavaScript",
+        "distance": 2
+      },
+      {
+        "name": "LLVM",
+        "distance": 2
+      },
+      {
+        "name": "Lua",
+        "distance": 2
+      },
+      {
+        "name": "Nim",
+        "distance": 2
+      },
+      {
+        "name": "Objective-C",
+        "distance": 2
+      },
+      {
+        "name": "Odin",
+        "distance": 2
+      },
+      {
+        "name": "PHP",
+        "distance": 2
+      },
+      {
+        "name": "Perl",
+        "distance": 2
+      },
+      {
+        "name": "Python",
+        "distance": 2
+      },
+      {
+        "name": "R",
+        "distance": 2
+      },
+      {
+        "name": "Rust",
+        "distance": 2
+      },
+      {
+        "name": "Smalltalk",
+        "distance": 2
+      },
+      {
+        "name": "VB",
+        "distance": 2
+      },
+      {
+        "name": "YAML",
+        "distance": 2
+      },
+      {
+        "name": "Zig",
+        "distance": 2
+      },
+      {
+        "name": "B",
+        "distance": 3
+      },
+      {
+        "name": "Dart",
+        "distance": 3
+      },
+      {
+        "name": "Elixir",
+        "distance": 3
+      },
+      {
+        "name": "Elm",
+        "distance": 3
+      },
+      {
+        "name": "Erlang",
+        "distance": 3
+      },
+      {
+        "name": "F#",
+        "distance": 3
+      },
+      {
+        "name": "HCL",
+        "distance": 3
+      },
+      {
+        "name": "JSON",
+        "distance": 3
+      },
+      {
+        "name": "Julia",
+        "distance": 3
+      },
+      {
+        "name": "Kotlin",
+        "distance": 3
+      },
+      {
+        "name": "Mojo",
+        "distance": 3
+      },
+      {
+        "name": "ReScript",
+        "distance": 3
+      },
+      {
+        "name": "ReasonML",
+        "distance": 3
+      },
+      {
+        "name": "Ruby",
+        "distance": 3
+      },
+      {
+        "name": "Scala",
+        "distance": 3
+      },
+      {
+        "name": "Self",
+        "distance": 3
+      },
+      {
+        "name": "Svelte",
+        "distance": 3
+      },
+      {
+        "name": "Swift",
+        "distance": 3
+      },
+      {
+        "name": "TypeScript",
+        "distance": 3
+      },
+      {
+        "name": "VB.NET",
+        "distance": 3
+      },
+      {
+        "name": "WebAssembly",
+        "distance": 3
+      }
+    ],
+    "Lisp": [
+      {
+        "name": "Lisp",
+        "distance": 0
+      },
+      {
+        "name": "Clojure",
+        "distance": 1
+      },
+      {
+        "name": "Forth",
+        "distance": 1
+      },
+      {
+        "name": "Haskell",
+        "distance": 1
+      },
+      {
+        "name": "JavaScript",
+        "distance": 1
+      },
+      {
+        "name": "Julia",
+        "distance": 1
+      },
+      {
+        "name": "ML",
+        "distance": 1
+      },
+      {
+        "name": "Maple",
+        "distance": 1
+      },
+      {
+        "name": "Nim",
+        "distance": 1
+      },
+      {
+        "name": "Prolog",
+        "distance": 1
+      },
+      {
+        "name": "Ruby",
+        "distance": 1
+      },
+      {
+        "name": "Scheme",
+        "distance": 1
+      },
+      {
+        "name": "Smalltalk",
+        "distance": 1
+      },
+      {
+        "name": "Crystal",
+        "distance": 2
+      },
+      {
+        "name": "Dart",
+        "distance": 2
+      },
+      {
+        "name": "Elixir",
+        "distance": 2
+      },
+      {
+        "name": "Elm",
+        "distance": 2
+      },
+      {
+        "name": "Erlang",
+        "distance": 2
+      },
+      {
+        "name": "F#",
+        "distance": 2
+      },
+      {
+        "name": "JSON",
+        "distance": 2
+      },
+      {
+        "name": "Java",
+        "distance": 2
+      },
+      {
+        "name": "Lua",
+        "distance": 2
+      },
+      {
+        "name": "OCaml",
+        "distance": 2
+      },
+      {
+        "name": "Objective-C",
+        "distance": 2
+      },
+      {
+        "name": "R",
+        "distance": 2
+      },
+      {
+        "name": "ReScript",
+        "distance": 2
+      },
+      {
+        "name": "ReasonML",
+        "distance": 2
+      },
+      {
+        "name": "Rust",
+        "distance": 2
+      },
+      {
+        "name": "Scala",
+        "distance": 2
+      },
+      {
+        "name": "Self",
+        "distance": 2
+      },
+      {
+        "name": "Svelte",
+        "distance": 2
+      },
+      {
+        "name": "Swift",
+        "distance": 2
+      },
+      {
+        "name": "TypeScript",
+        "distance": 2
+      },
+      {
+        "name": "CSharp",
+        "distance": 3
+      },
+      {
+        "name": "HCL",
+        "distance": 3
+      },
+      {
+        "name": "Kotlin",
+        "distance": 3
+      },
+      {
+        "name": "Mojo",
+        "distance": 3
+      },
+      {
+        "name": "PHP",
+        "distance": 3
+      },
+      {
+        "name": "VB.NET",
+        "distance": 3
+      },
+      {
+        "name": "YAML",
+        "distance": 3
+      },
+      {
+        "name": "Zig",
+        "distance": 3
+      }
+    ],
+    "C": [
+      {
+        "name": "C",
+        "distance": 0
+      },
+      {
+        "name": "C++",
+        "distance": 1
+      },
+      {
+        "name": "Crystal",
+        "distance": 1
+      },
+      {
+        "name": "Go",
+        "distance": 1
+      },
+      {
+        "name": "Java",
+        "distance": 1
+      },
+      {
+        "name": "LLVM",
+        "distance": 1
+      },
+      {
+        "name": "Objective-C",
+        "distance": 1
+      },
+      {
+        "name": "Odin",
+        "distance": 1
+      },
+      {
+        "name": "PHP",
+        "distance": 1
+      },
+      {
+        "name": "PL/I",
+        "distance": 1
+      },
+      {
+        "name": "Perl",
+        "distance": 1
+      },
+      {
+        "name": "Python",
+        "distance": 1
+      },
+      {
+        "name": "Rust",
+        "distance": 1
+      },
+      {
+        "name": "YAML",
+        "distance": 1
+      },
+      {
+        "name": "Zig",
+        "distance": 1
+      },
+      {
+        "name": "Ada",
+        "distance": 2
+      },
+      {
+        "name": "CSharp",
+        "distance": 2
+      },
+      {
+        "name": "Clojure",
+        "distance": 2
+      },
+      {
+        "name": "Dart",
+        "distance": 2
+      },
+      {
+        "name": "F#",
+        "distance": 2
+      },
+      {
+        "name": "HCL",
+        "distance": 2
+      },
+      {
+        "name": "JavaScript",
+        "distance": 2
+      },
+      {
+        "name": "Julia",
+        "distance": 2
+      },
+      {
+        "name": "Kotlin",
+        "distance": 2
+      },
+      {
+        "name": "Mojo",
+        "distance": 2
+      },
+      {
+        "name": "Nim",
+        "distance": 2
+      },
+      {
+        "name": "Pascal",
+        "distance": 2
+      },
+      {
+        "name": "Ruby",
+        "distance": 2
+      },
+      {
+        "name": "Scala",
+        "distance": 2
+      },
+      {
+        "name": "Swift",
+        "distance": 2
+      },
+      {
+        "name": "TypeScript",
+        "distance": 2
+      },
+      {
+        "name": "VB.NET",
+        "distance": 2
+      },
+      {
+        "name": "WebAssembly",
+        "distance": 2
+      },
+      {
+        "name": "Elixir",
+        "distance": 3
+      },
+      {
+        "name": "JSON",
+        "distance": 3
+      },
+      {
+        "name": "ReScript",
+        "distance": 3
+      },
+      {
+        "name": "ReasonML",
+        "distance": 3
+      },
+      {
+        "name": "Svelte",
+        "distance": 3
+      }
+    ],
+    "Smalltalk": [
+      {
+        "name": "Smalltalk",
+        "distance": 0
+      },
+      {
+        "name": "Dart",
+        "distance": 1
+      },
+      {
+        "name": "Erlang",
+        "distance": 1
+      },
+      {
+        "name": "Java",
+        "distance": 1
+      },
+      {
+        "name": "JavaScript",
+        "distance": 1
+      },
+      {
+        "name": "Objective-C",
+        "distance": 1
+      },
+      {
+        "name": "Ruby",
+        "distance": 1
+      },
+      {
+        "name": "Self",
+        "distance": 1
+      },
+      {
+        "name": "CSharp",
+        "distance": 2
+      },
+      {
+        "name": "Clojure",
+        "distance": 2
+      },
+      {
+        "name": "Crystal",
+        "distance": 2
+      },
+      {
+        "name": "Elixir",
+        "distance": 2
+      },
+      {
+        "name": "JSON",
+        "distance": 2
+      },
+      {
+        "name": "Kotlin",
+        "distance": 2
+      },
+      {
+        "name": "Lua",
+        "distance": 2
+      },
+      {
+        "name": "PHP",
+        "distance": 2
+      },
+      {
+        "name": "ReScript",
+        "distance": 2
+      },
+      {
+        "name": "ReasonML",
+        "distance": 2
+      },
+      {
+        "name": "Scala",
+        "distance": 2
+      },
+      {
+        "name": "Svelte",
+        "distance": 2
+      },
+      {
+        "name": "Swift",
+        "distance": 2
+      },
+      {
+        "name": "TypeScript",
+        "distance": 2
+      },
+      {
+        "name": "VB.NET",
+        "distance": 2
+      },
+      {
+        "name": "F#",
+        "distance": 3
+      },
+      {
+        "name": "HCL",
+        "distance": 3
+      },
+      {
+        "name": "Mojo",
+        "distance": 3
+      },
+      {
+        "name": "Rust",
+        "distance": 3
+      },
+      {
+        "name": "YAML",
+        "distance": 3
+      },
+      {
+        "name": "Zig",
+        "distance": 4
+      }
+    ],
+    "Haskell": [
+      {
+        "name": "Haskell",
+        "distance": 0
+      },
+      {
+        "name": "Clojure",
+        "distance": 1
+      },
+      {
+        "name": "Elm",
+        "distance": 1
+      },
+      {
+        "name": "F#",
+        "distance": 1
+      },
+      {
+        "name": "Rust",
+        "distance": 1
+      },
+      {
+        "name": "Scala",
+        "distance": 1
+      },
+      {
+        "name": "Swift",
+        "distance": 1
+      },
+      {
+        "name": "Crystal",
+        "distance": 2
+      },
+      {
+        "name": "Elixir",
+        "distance": 2
+      },
+      {
+        "name": "Java",
+        "distance": 2
+      },
+      {
+        "name": "Kotlin",
+        "distance": 2
+      },
+      {
+        "name": "Mojo",
+        "distance": 2
+      },
+      {
+        "name": "Svelte",
+        "distance": 2
+      },
+      {
+        "name": "Zig",
+        "distance": 2
+      },
+      {
+        "name": "CSharp",
+        "distance": 3
+      },
+      {
+        "name": "Dart",
+        "distance": 3
+      },
+      {
+        "name": "JavaScript",
+        "distance": 3
+      },
+      {
+        "name": "PHP",
+        "distance": 3
+      },
+      {
+        "name": "TypeScript",
+        "distance": 3
+      },
+      {
+        "name": "VB.NET",
+        "distance": 3
+      },
+      {
+        "name": "JSON",
+        "distance": 4
+      },
+      {
+        "name": "ReScript",
+        "distance": 4
+      },
+      {
+        "name": "ReasonML",
+        "distance": 4
+      },
+      {
+        "name": "HCL",
+        "distance": 5
+      },
+      {
+        "name": "YAML",
+        "distance": 5
+      }
+    ]
+  },
+  "paradigm_volatility": [
+    {
+      "decade": 1930,
+      "new_paradigm_count": 1,
+      "volatility_rank": 6,
+      "rolling_avg": 1.0
+    },
+    {
+      "decade": 1940,
+      "new_paradigm_count": 1,
+      "volatility_rank": 6,
+      "rolling_avg": 1.0
+    },
+    {
+      "decade": 1950,
+      "new_paradigm_count": 3,
+      "volatility_rank": 3,
+      "rolling_avg": 1.6666666666666667
+    },
+    {
+      "decade": 1960,
+      "new_paradigm_count": 3,
+      "volatility_rank": 3,
+      "rolling_avg": 2.3333333333333335
+    },
+    {
+      "decade": 1970,
+      "new_paradigm_count": 5,
+      "volatility_rank": 2,
+      "rolling_avg": 3.6666666666666665
+    },
+    {
+      "decade": 1980,
+      "new_paradigm_count": 6,
+      "volatility_rank": 1,
+      "rolling_avg": 4.666666666666667
+    },
+    {
+      "decade": 2000,
+      "new_paradigm_count": 1,
+      "volatility_rank": 6,
+      "rolling_avg": 4.0
+    },
+    {
+      "decade": 2010,
+      "new_paradigm_count": 3,
+      "volatility_rank": 3,
+      "rolling_avg": 3.3333333333333335
+    },
+    {
+      "decade": 2020,
+      "new_paradigm_count": 1,
+      "volatility_rank": 6,
+      "rolling_avg": 1.6666666666666667
+    }
+  ]
+}

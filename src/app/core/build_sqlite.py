@@ -13,17 +13,24 @@ from app.core.data_loader import DataLoader
 
 DB_PATH = os.path.join(REPO_ROOT, 'language_atlas.sqlite')
 
-def build_database():
-    print(f"Loading data from JSON...")
-    loader = DataLoader()
+def build_database(conn=None, data_dir=None):
+    if data_dir:
+        loader = DataLoader(data_dir=data_dir)
+    else:
+        print(f"Loading data from JSON...")
+        loader = DataLoader()
     
     # 2. Drop and recreate DB
-    if os.path.exists(DB_PATH):
-        print(f"Removing existing database at {DB_PATH}")
-        os.remove(DB_PATH)
-        
-    print(f"Creating new database at {DB_PATH}")
-    conn = sqlite3.connect(DB_PATH)
+    close_conn = False
+    if conn is None:
+        if os.path.exists(DB_PATH):
+            print(f"Removing existing database at {DB_PATH}")
+            os.remove(DB_PATH)
+            
+        print(f"Creating new database at {DB_PATH}")
+        conn = sqlite3.connect(DB_PATH)
+        close_conn = True
+    
     cursor = conn.cursor()
     
     # Enable foreign keys
@@ -485,8 +492,9 @@ def build_database():
     """)
     
     conn.commit()
-    conn.close()
-    print(f"Database built successfully at {DB_PATH}")
+    if close_conn:
+        conn.close()
+        print(f"Database built successfully at {DB_PATH}")
 
 if __name__ == "__main__":
     build_database()

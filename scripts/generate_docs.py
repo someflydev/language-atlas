@@ -22,12 +22,19 @@ def get_db_connection():
 
 def generate_language_profiles(conn):
     """Generate individual Markdown files for each language."""
-    languages = conn.execute("SELECT * FROM languages").fetchall()
+    # Fetch languages and their profile title/overview
+    query = """
+        SELECT l.*, lp.title as profile_title, lp.overview as profile_overview
+        FROM languages l
+        LEFT JOIN language_profiles lp ON l.id = lp.language_id
+    """
+    languages = conn.execute(query).fetchall()
     
     for lang in languages:
         lang_id = lang["id"]
         lang_name = lang["name"]
         display_name = lang["display_name"]
+        profile_title = lang["profile_title"] if lang["profile_title"] else display_name
         
         # Get influences
         influences_query = """
@@ -94,7 +101,10 @@ def generate_language_profiles(conn):
             f.write("---\n")
             f.write(json.dumps(frontmatter, indent=2))
             f.write("\n---\n\n")
-            f.write(f"# {display_name}\n\n")
+            f.write(f"# {profile_title}\n\n")
+            
+            if lang['profile_overview']:
+                f.write(f"{lang['profile_overview']}\n\n")
             
             f.write(f"## Philosophy\n{lang['philosophy']}\n\n")
             f.write(f"## Mental Model\n{lang['mental_model']}\n\n")

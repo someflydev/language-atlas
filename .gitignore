@@ -22,6 +22,9 @@ htmlcov/
 .venv
 *.log
 
+# Data reports
+!data/reports/
+
 # Distribution / Build
 dist/
 build/
