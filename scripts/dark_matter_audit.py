@@ -5,7 +5,7 @@ from pathlib import Path
 
 def is_organization(name):
     if not name: return False
-    # Guard: Orgs are rarely more than 4-5 words
+    # Guard: Orgs are rarely more than 5 words
     words = name.split()
     if len(words) > 5: return False
 
@@ -15,26 +15,25 @@ def is_organization(name):
         "Mozilla", "JetBrains", "Facebook", "Meta", "Sun Microsystems",
         "W3C", "IETF", "DARPA", "MIT", "Stanford", "ETH Zurich", "Berkeley",
         "AT&T", "Digital Equipment Corporation", "DEC", "Netscape", "Oracle",
-        "HashiCorp", "AWS", "Amazon", "Intel", "AMD", "NVIDIA"
+        "HashiCorp", "AWS", "Amazon", "Intel", "AMD", "NVIDIA", "Dartmouth College",
+        "Remington Rand", "University of Cambridge", "University of Waterloo",
+        "Xerox", "Bell Telephone Laboratories", "JetBrains", "Modular Inc."
     }
     name_lower = name.lower()
     if any(o.lower() == name_lower for o in top_orgs):
         return True
 
     # Check for specific organizational suffixes/keywords
-    # We want to be strict to avoid "AST Macros" or "Garbage Collection"
     org_suffixes = [
         "Labs", "Corp", "Inc", "Foundation", "University", "Institute", 
         "Association", "Committee", "Consortium", "Group", "Systems",
-        "Software", "Research", "Project", "Department", "Agency"
+        "Software", "Research", "Project", "Department", "Agency", "College"
     ]
     if any(name.endswith(" " + s) or name.endswith(" " + s + ".") for s in org_suffixes):
-        # Additional check: If it contains "and" or too many lowercase words, it might be a concept
         if " and " in name_lower: return False
         return True
     
-    # Common short org names
-    if name.upper() in ["W3C", "IBM", "MIT", "CERN", "ACM", "IEEE", "GNU", "AT&T"]:
+    if name.upper() in ["W3C", "IBM", "MIT", "CERN", "ACM", "IEEE", "GNU", "AT&T", "DEC"]:
         return True
     
     return False
@@ -42,15 +41,29 @@ def is_organization(name):
 def canonicalize(name):
     if not name:
         return ""
+    # 1. Lowercase everything
     name = name.lower()
+    
+    # 2. Strip organizational suffixes for better deduplication
+    # Use word boundary \b to avoid stripping "Zinc" -> "Z"
+    name = re.sub(r'\b(inc|corp|corporation|ltd|limited|llc|plc|foundation|labs|software)(\.?)(\b|$)', '', name).strip()
+    
+    # 3. Strip parentheticals
     name = re.sub(r'\(.*\)', '', name).strip()
+    # 4. Unify dashes and spaces to underscores
     name = name.replace("-", "_").replace(" ", "_")
+    
+    # 5. Remove multiple underscores
     name = re.sub(r'_+', '_', name)
+    # 6. Strip trailing/leading underscores or colons
     name = name.strip("_:")
     
+    # Special mapping (canonical form)
     replacements = {
         "c#": "csharp", "f#": "fsharp", "vb.net": "vbnet", "pl/i": "pli",
-        "a_0": "a_0", "algol_60": "algol_60", "algol_68": "algol_68", "simula_67": "simula_67"
+        "a_0": "a_0", "algol_60": "algol_60", "algol_68": "algol_68", "simula_67": "simula_67",
+        "apple_inc": "apple", "xerox_parc": "xerox", "bell_telephone_laboratories": "bell_labs",
+        "microsoft_research": "microsoft"
     }
     return replacements.get(name, name)
 
@@ -96,7 +109,6 @@ def audit():
     known_languages = set()
     known_people = set()
 
-    # Pre-populate known entities
     people_path = data_dir / "people.json"
     if people_path.exists():
         with open(people_path, "r") as f:
@@ -134,11 +146,8 @@ def audit():
             people_data = json.load(f)
             for person in people_data:
                 p_name = person.get("name")
-                if is_organization(p_name):
-                    add_reference(p_name, referenced_organizations)
-                
-                for contrib in person.get("contributions", []):
-                    add_reference(contrib, referenced_concepts)
+                if is_organization(p_name): add_reference(p_name, referenced_organizations)
+                for contrib in person.get("contributions", []): add_reference(contrib, referenced_concepts)
 
     # 2. Crawl languages.json
     if languages_path.exists():
@@ -160,14 +169,18 @@ def audit():
             for k, v in data.items():
                 if k in ["overview", "historical_context", "legacy"]:
                     if isinstance(v, str):
-                        top_orgs = {"Bell Labs", "Google", "Microsoft", "Apple", "IBM", "Xerox PARC", "W3C"}
-                        for o in top_orgs:
-                            if o in v: found_orgs.append(o)
+                        # Pattern 1: "at [Organization Name]"
+                        # Look for "at " followed by 1-4 capitalized words
+                        at_matches = re.findall(r'at ([A-Z][a-z]+(?: [A-Z][a-z]+){0,3})', v)
+                        for m in at_matches:
+                            if is_organization(m): found_orgs.append(m)
+                
                 elif k in ["key_innovations", "key_aspects", "creators"]:
                     items = v if isinstance(v, list) else [v]
                     for item in items:
                         if is_organization(item): found_orgs.append(item)
                         else: found_concepts.append(item)
+                
                 elif k not in ["ai_assisted_discovery_missions", "mental_model"]:
                     c, o = scan_profile_data(v)
                     found_concepts.extend(c); found_orgs.extend(o)

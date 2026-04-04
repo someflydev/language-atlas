@@ -629,17 +629,21 @@
     "rn"
   ],
   "missing_org_profiles": [
-    "Apple",
     "Apple Inc.",
     "Bell Labs",
+    "Dartmouth College",
+    "Facebook",
     "Google",
     "HashiCorp",
     "IBM",
+    "Iverson Software",
     "JetBrains",
     "Microsoft",
     "Modular Inc.",
+    "Mozilla",
+    "Remington Rand",
     "W3C",
-    "Xerox PARC"
+    "Xerox"
   ],
   "ambiguous_references": []
 }
