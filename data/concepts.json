@@ -42,5 +42,29 @@
   {
     "name": "Relational Model",
     "description": "An approach to managing data using a structure and language consistent with first-order predicate logic."
+  },
+  {
+    "name": "Design by Contract",
+    "description": "A software engineering method that defines the rights and obligations of software components through formal contracts."
+  },
+  {
+    "name": "Church-Turing Thesis",
+    "description": "A fundamental hypothesis stating that any effectively calculable function can be computed by a Turing Machine."
+  },
+  {
+    "name": "Multiple Inheritance",
+    "description": "A feature of object-oriented languages that allows a class to inherit from more than one parent class."
+  },
+  {
+    "name": "Object-Oriented Design",
+    "description": "A software engineering method that models a system as a collection of interacting objects."
+  },
+  {
+    "name": "Metaprogramming",
+    "description": "A technique where computer programs treat other programs as their data, allowing for code that writes or modifies code."
+  },
+  {
+    "name": "Borrow Checking",
+    "description": "A feature of the Rust type system that ensures memory safety without a garbage collector by tracking ownership and lifetimes."
   }
 ]
