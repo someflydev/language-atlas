@@ -1,1 +1,83 @@
-[]
+[
+  {
+    "id": "systems_renaissance",
+    "title": "The Systems Renaissance",
+    "description": "Explore the evolution of systems programming from C to the modern era of memory safety and zero-cost abstractions.",
+    "steps": [
+      {
+        "language": "C",
+        "milestone": "The Foundation",
+        "challenge": "Identify how C's philosophy of 'trusting the programmer' led to both its success and its legacy of security challenges."
+      },
+      {
+        "language": "C++",
+        "milestone": "The Multi-Paradigm Pivot",
+        "challenge": "Examine RAII (Resource Acquisition Is Initialization) and how it attempted to solve resource management manually."
+      },
+      {
+        "language": "Rust",
+        "milestone": "The Safety Revolution",
+        "challenge": "Analyze the 'Borrow Checker' concept. How does it provide memory safety without a garbage collector?"
+      },
+      {
+        "language": "Zig",
+        "milestone": "The Pragmatic Alternative",
+        "challenge": "Explore 'Comptime'. How does it differ from C++ templates or Rust macros?"
+      }
+    ]
+  },
+  {
+    "id": "functional_frontier",
+    "title": "The Functional Frontier",
+    "description": "Trace the lineage of declarative and functional programming from the lambda calculus to modern type systems.",
+    "steps": [
+      {
+        "language": "Lisp",
+        "milestone": "The Origin",
+        "challenge": "Understand 'Homoiconicity'. Why is it powerful to treat code as data?"
+      },
+      {
+        "language": "Haskell",
+        "milestone": "Pure Purity",
+        "challenge": "Investigate 'Lazy Evaluation' and 'Monads'. How do they manage side effects in a pure environment?"
+      },
+      {
+        "language": "Elm",
+        "milestone": "Functional UI",
+        "challenge": "The Elm Architecture (TEA). How does it influence modern React/Redux patterns?"
+      },
+      {
+        "language": "Clojure",
+        "milestone": "The Pragmatic Lisp",
+        "challenge": "Examine 'Persistent Data Structures' and how they enable efficient immutability."
+      }
+    ]
+  },
+  {
+    "id": "web_explosion",
+    "title": "The Web Explosion",
+    "description": "Follow the rapid evolution of the web from simple scripting to complex, type-safe applications.",
+    "steps": [
+      {
+        "language": "JavaScript",
+        "milestone": "The Scripting Spark",
+        "challenge": "Prototype-based inheritance. How does it differ from class-based inheritance?"
+      },
+      {
+        "language": "PHP",
+        "milestone": "Server-Side Dominance",
+        "challenge": "The 'Shared Nothing' architecture. How did it help PHP scale the early web?"
+      },
+      {
+        "language": "TypeScript",
+        "milestone": "The Safety Layer",
+        "challenge": "Structural vs. Nominal typing. Why was structural typing chosen for TS?"
+      },
+      {
+        "language": "WebAssembly",
+        "milestone": "The Polyglot Web",
+        "challenge": "How does Wasm change the definition of a 'Web Language'?"
+      }
+    ]
+  }
+]

@@ -24,6 +24,7 @@ class DataLoader:
             self.concepts = self._load_json('concepts.json')
             self.influences = self._load_json('influences.json')
             self.people = self._load_json('people.json')
+            self.learning_paths = self._load_json('learning_paths.json')
             self.language_profiles = self._load_language_profiles()
             self.concept_profiles = self._load_concept_profiles()
         else:
@@ -34,6 +35,7 @@ class DataLoader:
             self.concepts = []
             self.influences = []
             self.people = []
+            self.learning_paths = self._load_json('learning_paths.json')
             self.language_profiles = {}
             self.concept_profiles = {}
 
@@ -468,6 +470,17 @@ class DataLoader:
         if not hasattr(self, '_eras_cache') or self._eras_cache is None:
             self._eras_cache = self._load_json('eras.json')
         return self._eras_cache
+
+    def get_learning_paths(self):
+        """Returns all available learning paths (Odysseys)."""
+        return self.learning_paths
+
+    def get_learning_path(self, path_id):
+        """Returns a specific learning path by ID."""
+        for path in self.learning_paths:
+            if path['id'] == path_id:
+                return path
+        return None
 
     def get_all_people(self):
         if not self.use_sqlite:

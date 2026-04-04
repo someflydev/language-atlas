@@ -456,6 +456,54 @@ def cross_section(paradigm: str, era: str, json_out: bool = typer.Option(False, 
             console.print(table)
 
 @app.command()
+def odyssey(path_id: Optional[str] = typer.Argument(None)):
+    """
+    Interactive Odyssey Mode: Guided learning paths through programming history.
+    """
+    loader = get_loader()
+    paths = loader.get_learning_paths()
+    
+    if not path_id:
+        table = Table(title="Available Odysseys", border_style="magenta")
+        table.add_column("ID", style="cyan")
+        table.add_column("Title", style="bold")
+        table.add_column("Description")
+        
+        for p in paths:
+            table.add_row(p['id'], p['title'], p['description'])
+        
+        console.print(table)
+        console.print("\n[yellow]Run 'atlas odyssey <ID>' to start a journey.[/yellow]")
+        return
+
+    path = loader.get_learning_path(path_id)
+    if not path:
+        console.print(f"[red]Error: Odyssey '{path_id}' not found.[/red]")
+        return
+
+    console.print(Panel(f"[bold magenta]{path['title']}[/bold magenta]\n\n{path['description']}", border_style="bright_magenta"))
+    
+    for i, step in enumerate(path['steps']):
+        lang_name = step['language']
+        lang = loader.get_language(lang_name)
+        
+        title = f"Step {i+1}: {step['milestone']} - {lang_name}"
+        content = f"[bold cyan]Challenge:[/bold cyan] {step['challenge']}\n"
+        
+        if lang:
+            content += f"\n[bold]Year:[/bold] {lang.get('year')}\n"
+            content += f"[bold]Philosophy:[/bold] {lang.get('philosophy')}\n"
+        
+        console.print(Panel(content, title=title, border_style="green"))
+        
+        if i < len(path['steps']) - 1:
+            if not typer.confirm(f"Continue to {path['steps'][i+1]['language']}?"):
+                console.print("[yellow]Odyssey paused. Return any time![/yellow]")
+                raise typer.Exit()
+    
+    console.print("\n[bold green]Congratulations! You have completed the Odyssey: " + path['title'] + "[/bold green]")
+
+@app.command()
 def tui(language: Optional[str] = typer.Argument(None, help="Optional language to select on startup")):
     """
     Launch the 'Living Atlas' TUI - Interactive historical exploration.

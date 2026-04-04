@@ -90,16 +90,30 @@ class LivingAtlasApp(App):
     #nexus_list {
         height: 1fr;
     }
+
+    #odyssey_tree {
+        display: none;
+    }
+
+    #odyssey_tree.visible {
+        display: block;
+    }
+
+    #chronology_tree.hidden {
+        display: none;
+    }
     """
 
     BINDINGS = [
         Binding("q", "quit", "Quit", priority=True),
         Binding("f", "focus_search", "Search"),
+        Binding("o", "toggle_odyssey", "Toggle Odyssey Mode"),
         Binding("escape", "hide_search", "Clear Search", show=False),
     ]
 
     selected_language = reactive(None)
     search_query = reactive("")
+    odyssey_mode = reactive(False)
 
     def __init__(self, initial_language: Optional[str] = None):
         super().__init__()
@@ -115,8 +129,9 @@ class LivingAtlasApp(App):
         yield ListView(id="search_results")
         with Horizontal(id="main_container"):
             with Vertical(id="left_pane"):
-                yield Label("CHRONOLOGY", classes="pane_title")
+                yield Label("CHRONOLOGY", id="pane_label", classes="pane_title")
                 yield Tree("Languages", id="chronology_tree")
+                yield Tree("Odysseys", id="odyssey_tree")
             with Vertical(id="center_pane"):
                 yield Label("READER", classes="pane_title")
                 yield MarkdownViewer(id="reader")
@@ -127,6 +142,7 @@ class LivingAtlasApp(App):
 
     def on_mount(self) -> None:
         self.populate_tree()
+        self.populate_odyssey_tree()
         if self.initial_language:
             self.selected_language = self.initial_language
             self.select_in_tree(self.initial_language)
@@ -150,9 +166,52 @@ class LivingAtlasApp(App):
             for lang in sorted(gens[gen_name], key=lambda x: x.get('year', 0)):
                 gen_node.add_leaf(lang['name'], data=lang)
 
+    def populate_odyssey_tree(self) -> None:
+        tree = self.query_one("#odyssey_tree")
+        tree.root.expand()
+        
+        paths = self.loader.get_learning_paths()
+        for p in paths:
+            path_node = tree.root.add(p['title'], expand=False, data=p)
+            for step in p['steps']:
+                path_node.add_leaf(f"{step['milestone']}: {step['language']}", data=step)
+
     def on_tree_node_selected(self, event: Tree.NodeSelected) -> None:
         if event.node.data:
-            self.selected_language = event.node.data['name']
+            if 'language' in event.node.data:
+                self.selected_language = event.node.data['language']
+                # Update reader with challenge info if it's a step
+                if 'challenge' in event.node.data:
+                    self.update_with_challenge(event.node.data)
+            elif 'name' in event.node.data:
+                self.selected_language = event.node.data['name']
+
+    def update_with_challenge(self, step_data: Dict[str, Any]) -> None:
+        lang_data = self.loader.get_combined_language_data(step_data['language'])
+        if lang_data:
+            md = f"# Odyssey Step: {step_data['milestone']}\n\n"
+            md += f"## Challenge\n> {step_data['challenge']}\n\n"
+            md += "---\n\n"
+            md += self.generate_markdown(lang_data)
+            self.query_one("#reader").document.update(md)
+            self.update_nexus(step_data['language'])
+
+    def watch_odyssey_mode(self, val: bool) -> None:
+        label = self.query_one("#pane_label")
+        c_tree = self.query_one("#chronology_tree")
+        o_tree = self.query_one("#odyssey_tree")
+        
+        if val:
+            label.update("ODYSSEYS")
+            c_tree.add_class("hidden")
+            o_tree.add_class("visible")
+        else:
+            label.update("CHRONOLOGY")
+            c_tree.remove_class("hidden")
+            o_tree.remove_class("visible")
+
+    def action_toggle_odyssey(self) -> None:
+        self.odyssey_mode = not self.odyssey_mode
 
     def watch_selected_language(self, old_val: str, new_val: str) -> None:
         if new_val:

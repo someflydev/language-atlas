@@ -187,5 +187,61 @@ async def get_language_profile(request: Request, name: str):
         context={"lang": lang, "content": html_content}
     )
 
+@app.get("/odysseys", response_class=HTMLResponse)
+async def list_odysseys_view(request: Request):
+    odysseys = data_loader.get_learning_paths()
+    return templates.TemplateResponse(
+        request=request,
+        name="odysseys.html",
+        context={"odysseys": odysseys}
+    )
+
+@app.get("/odyssey/{path_id}", response_class=HTMLResponse)
+async def get_odyssey_view(request: Request, path_id: str):
+    path = data_loader.get_learning_path(path_id)
+    if not path:
+        raise HTTPException(status_code=404, detail="Odyssey not found")
+    return templates.TemplateResponse(
+        request=request,
+        name="odyssey_detail.html",
+        context={"odyssey": path}
+    )
+
+# --- SEMANTIC SEARCH API ---
+
+@app.get("/api/search")
+async def api_search(q: str = Query(...)):
+    """Semantic search API for external consumers."""
+    if len(q) < 2:
+        return {"results": [], "query": q}
+    results = data_loader.search(q)
+    return {"results": results, "query": q}
+
+@app.get("/api/languages")
+async def api_list_languages(cluster: Optional[str] = None, generation: Optional[str] = None):
+    """List languages with filters as JSON."""
+    return data_loader.get_all_languages(filter_gen=generation, filter_cluster=cluster)
+
+@app.get("/api/language/{name}")
+async def api_get_language(name: str):
+    """Get detailed language data as JSON."""
+    lang = data_loader.get_combined_language_data(name)
+    if not lang:
+        raise HTTPException(status_code=404, detail="Language not found")
+    return lang
+
+@app.get("/api/odysseys")
+async def api_list_odysseys():
+    """List all guided learning paths."""
+    return data_loader.get_learning_paths()
+
+@app.get("/api/odyssey/{path_id}")
+async def api_get_odyssey(path_id: str):
+    """Get a specific odyssey path."""
+    path = data_loader.get_learning_path(path_id)
+    if not path:
+        raise HTTPException(status_code=404, detail="Odyssey not found")
+    return path
+
 if __name__ == "__main__":
     uvicorn.run("app:app", host="0.0.0.0", port=8084, reload=True)
