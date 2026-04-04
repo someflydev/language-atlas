@@ -1,0 +1,18 @@
+{
+  "title": "Async-Await: Cooperative Concurrency",
+  "overview": "A cooperative model where the programmer explicitly marks \"waiting\" points, allowing the system to switch to other tasks while waiting for I/O.",
+  "historical_context": "Evolved from callback-hell and promises as a way to manage high-concurrency I/O (Web Explosion), particularly in single-threaded runtimes.",
+  "mental_model": "Think of a chef who can prepare other ingredients while waiting for the oven to preheat.",
+  "key_innovations": [
+    "Non-blocking I/O.",
+    "Syntax that mirrors synchronous flow.",
+    "Lightweight task switching without full OS thread overhead."
+  ],
+  "tradeoffs": "The \"Function Coloring\" problem where async functions can only be called from other async contexts.",
+  "legacy": "Now standard in JavaScript, Python, C#, Rust, and Swift.",
+  "ai_assisted_discovery_missions": [
+    "Analyze the implementation of the JavaScript Event Loop vs. Python’s asyncio.",
+    "How does Rust’s zero-cost Async differ from other managed implementations?",
+    "Explore the history of F#’s Asynchronous Workflows as the precursor to C#’s async/await."
+  ]
+}

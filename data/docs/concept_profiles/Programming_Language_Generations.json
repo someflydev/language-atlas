@@ -1,0 +1,21 @@
+{
+  "title": "The Six Generations of Code",
+  "overview": "A classification system used in the Atlas to group languages by their chronological and hardware-driven context.",
+  "historical_context": "Derived from the traditional 1GL-5GL taxonomy, but refined for the systems-focused Narrative of the Atlas.",
+  "mental_model": "The evolution of the \"Atoms\" of computing across six distinct eras.",
+  "key_aspects": [
+    "dawn (Pre-1950): Logic & Physical MNEMonics.",
+    "early (1950-1975): The High-Level & Structured Revolution.",
+    "web1 (1975-2005): OO & Scripting Surge.",
+    "cloud (2005-2014): Scaling & Concurrency.",
+    "renaissance (2014-2022): Safety & DX.",
+    "autonomic (2022-Present): AI & Accelerators."
+  ],
+  "tradeoffs": "Generations are often fluid and overlap; a language born in \"cloud\" may still have \"early\" design principles.",
+  "legacy": "Provides the structural backbone for the Atlas timeline and dashboards.",
+  "ai_assisted_discovery_missions": [
+    "Trace the transition from \"dawn\" to \"early\" via the invention of the compiler.",
+    "Analyze why the \"cloud\" era favored memory safety over absolute manual control.",
+    "Predict the core characteristics of the next generation beyond \"autonomic\"."
+  ]
+}

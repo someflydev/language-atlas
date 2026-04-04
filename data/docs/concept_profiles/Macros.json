@@ -1,0 +1,18 @@
+{
+  "title": "Macros: The Reflection of Self",
+  "overview": "Small programs that run during compilation to expand code into more complex structures.",
+  "historical_context": "Born in Lisp and evolved into powerful hygienic macros in Scheme and Rust.",
+  "mental_model": "Code that writes code based on structural patterns.",
+  "key_innovations": [
+    "Syntax extensions.",
+    "Domain-Specific Languages (DSLs) within a language.",
+    "Zero-cost abstractions."
+  ],
+  "tradeoffs": "Difficult to debug, can lead to confusing error messages, and \"macro-expansion\" complexity.",
+  "legacy": "Key to Lisp’s longevity and Rust’s expressive power.",
+  "ai_assisted_discovery_missions": [
+    "What makes a macro \"hygienic\" and why does it matter?",
+    "Analyze the differences between Lisp’s defmacro and Rust’s proc_macros.",
+    "How are macros used to implement features that usually require compiler support?"
+  ]
+}

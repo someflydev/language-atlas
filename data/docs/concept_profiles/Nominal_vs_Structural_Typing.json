@@ -1,0 +1,18 @@
+{
+  "title": "The Grammar of Logic: Nominal vs. Structural",
+  "overview": "Is a type defined by its name (Nominal) or by its shape (Structural)?",
+  "historical_context": "Nominal typing is traditional in Java/C++; Structural typing is the \"Duck Typing\" of the static world (TypeScript/Go).",
+  "mental_model": "Nominal: \"You are a Bird because your ID card says Bird.\" Structural: \"If you walk like a duck and quack like a duck, you are a duck.\"",
+  "key_innovations": [
+    "Decoupled interfaces.",
+    "Easier integration between independent libraries.",
+    "Implicit implementation of interfaces."
+  ],
+  "tradeoffs": "Nominal: Clearer intent, less accidental compatibility. Structural: Higher flexibility, potentially ambiguous.",
+  "legacy": "Found in Go, TypeScript, and OCaml.",
+  "ai_assisted_discovery_missions": [
+    "Compare Go’s structural interfaces with Rust’s nominal traits.",
+    "How does TypeScript’s structural system handle type safety in a dynamic JS environment?",
+    "Explore the origins of Structural typing in the ML family."
+  ]
+}

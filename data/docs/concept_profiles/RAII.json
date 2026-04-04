@@ -1,0 +1,18 @@
+{
+  "title": "RAII: Resource Acquisition Is Initialization",
+  "overview": "Tying the lifetime of a resource (like memory) to the lifetime of an object. When the object goes out of scope, the resource is freed.",
+  "historical_context": "Pioneered by Bjarne Stroustrup for C++ as a way to automate resource management without a garbage collector.",
+  "mental_model": "The resource is the object; the object’s death is the resource’s freedom.",
+  "key_innovations": [
+    "Deterministic destruction.",
+    "Exception-safe resource handling.",
+    "Automated file and socket management."
+  ],
+  "tradeoffs": "Requires strict adherence to ownership rules and constructor/destructor idioms.",
+  "legacy": "The foundation of modern C++ and a major influence on Rust’s ownership model.",
+  "ai_assisted_discovery_missions": [
+    "Contrast RAII with Garbage Collection in high-performance contexts.",
+    "How does C++ Smart Pointers (std::unique_ptr) automate RAII?",
+    "Explain the relationship between RAII and the Borrow Checker in Rust."
+  ]
+}

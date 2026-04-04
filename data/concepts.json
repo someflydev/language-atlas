@@ -66,5 +66,37 @@
   {
     "name": "Borrow Checking",
     "description": "A feature of the Rust type system that ensures memory safety without a garbage collector by tracking ownership and lifetimes."
+  },
+  {
+    "name": "Immutability",
+    "description": "The philosophy that once a piece of data is created, it cannot be changed, favoring transformation over modification."
+  },
+  {
+    "name": "Communicating Sequential Processes",
+    "description": "A formal language for describing patterns of interaction in concurrent systems, emphasizing communication via channels."
+  },
+  {
+    "name": "Async-Await",
+    "description": "A syntactic feature that allows asynchronous, non-blocking functions to be written in a style that resembles synchronous code."
+  },
+  {
+    "name": "Static vs Dynamic Typing",
+    "description": "The distinction between checking types at compile-time (Static) versus runtime (Dynamic)."
+  },
+  {
+    "name": "Nominal vs Structural Typing",
+    "description": "Whether a type system determines compatibility based on explicit names (Nominal) or the shape/structure of the data (Structural)."
+  },
+  {
+    "name": "Macros",
+    "description": "Programs that run during compilation to expand code into more complex structures, often used for metaprogramming."
+  },
+  {
+    "name": "Programming Language Generations",
+    "description": "A classification of programming languages based on their historical era, hardware constraints, and industry needs."
+  },
+  {
+    "name": "The Pedagogical Engine",
+    "description": "The Atlas framework for generating interactive learning paths and exploring the historical influence graph of programming."
   }
 ]

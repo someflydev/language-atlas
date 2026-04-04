@@ -1,0 +1,18 @@
+{
+  "title": "Immutability: The Rejection of Change",
+  "overview": "In many modern paradigms, state is seen as the enemy. Immutability is the philosophy that once a piece of data is created, it cannot be changed. Instead of modifying an existing structure, we create a new one.",
+  "historical_context": "Immutability has been a core tenant of functional programming since the Lambda Calculus, but it gained widespread adoption in mainstream systems as a reaction to the \"Multicore Crisis\" and the difficulty of managing shared mutable state.",
+  "mental_model": "Moving from \"how do I change this?\" to \"how do I transform this into that?\"",
+  "key_innovations": [
+    "Shared immutable state eliminates data races.",
+    "Persistent data structures for efficient updates (structure sharing).",
+    "Simplified reasoning via referential transparency."
+  ],
+  "tradeoffs": "Increased memory usage (mitigated by structure sharing) and potential performance overhead compared to in-place mutation.",
+  "legacy": "Influenced modern languages like Clojure, Rust, and even React state management patterns.",
+  "ai_assisted_discovery_missions": [
+    "Explain the memory layout of persistent data structures (Hash Array Mapped Tries).",
+    "Compare the safety guarantees of Clojure vs. Rust in terms of immutability.",
+    "Trace the impact of immutability on modern concurrent database engines."
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "title": "Paradigm Matrix",
-  "intro": "This matrix compares major programming languages against the 14 fundamental paradigms explored in the Language Atlas. It highlights the distinction between \"Pure\" languages, multi-paradigm pragmatic languages, and cases where a paradigm is actively discouraged.",
+  "intro": "### Diagram Required: Paradigm crossover graph\nA graph showing the evolution of languages from pure single-paradigm (like Smalltalk or ALGOL) toward the highly interconnected multi-paradigm state of the modern era.",
   "dimensions": [
     {
       "axis": "Legend",

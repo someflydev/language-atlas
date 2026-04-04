@@ -1,0 +1,18 @@
+{
+  "title": "The Typing Spectrum: Static vs. Dynamic",
+  "overview": "Do we check the types before the program runs (Static) or while it’s running (Dynamic)? Static systems offer safety; dynamic systems offer speed of iteration.",
+  "historical_context": "The debate has raged since the early days of FORTRAN (Static) and Lisp (Dynamic).",
+  "mental_model": "Static: A rigid blueprint checked before construction. Dynamic: Building as you go, checking compatibility at each step.",
+  "key_innovations": [
+    "Type inference in static systems (Hindley-Milner).",
+    "JIT compilation for performance in dynamic systems.",
+    "Gradual typing for the middle ground."
+  ],
+  "tradeoffs": "Static: Upfront effort, ceremony. Dynamic: Runtime errors, potential for hidden bugs.",
+  "legacy": "Most modern languages now seek a hybrid approach (e.g., TypeScript, Python Type Hints).",
+  "ai_assisted_discovery_missions": [
+    "Explain the impact of Strong vs. Weak typing on the Static/Dynamic axis.",
+    "How did the rise of TypeScript change the industry’s perception of dynamic typing?",
+    "Analyze how JIT compilers (V8, PyPy) optimize dynamic types at runtime."
+  ]
+}

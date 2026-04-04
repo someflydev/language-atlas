@@ -1,0 +1,18 @@
+{
+  "title": "Communicating Sequential Processes (CSP)",
+  "overview": "\"Do not communicate by sharing memory; instead, share memory by communicating.\" Channels act as the pipes through which data flows between concurrent tasks.",
+  "historical_context": "Formalized by Tony Hoare in 1978 as a mathematical model for concurrent systems, CSP reacted against the complexity of lock-based concurrency.",
+  "mental_model": "Think of discrete processes connected by unidirectional pipes (channels) that synchronize during communication.",
+  "key_innovations": [
+    "First-class channels.",
+    "Select/Alt statements for non-deterministic communication.",
+    "Strict separation of concerns in concurrent logic."
+  ],
+  "tradeoffs": "Potential for deadlocks if channel buffers are full or if processes are waiting indefinitely.",
+  "legacy": "Directly implemented in languages like Go, Occam, and libraries for Clojure (core.async).",
+  "ai_assisted_discovery_missions": [
+    "Compare the CSP model of Go with the Actor model of Erlang.",
+    "Explain the theoretical foundations of Tony Hoare’s 1978 paper.",
+    "Analyze how Clojure’s core.async brings CSP to a dynamic Lisp."
+  ]
+}
