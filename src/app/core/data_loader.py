@@ -468,6 +468,7 @@ class DataLoader:
             SELECT 
                 'language' as category, 
                 name as title, 
+                name as link_name,
                 snippet(fts_languages, -1, '<b>', '</b>', '...', 20) as snippet, 
                 bm25(fts_languages) as score,
                 language_id
@@ -477,6 +478,7 @@ class DataLoader:
             SELECT 
                 'profile' as category, 
                 language_name || ' (' || section_name || ')' as title, 
+                language_name as link_name,
                 snippet(fts_profiles, -1, '<b>', '</b>', '...', 20) as snippet, 
                 bm25(fts_profiles) as score,
                 language_id

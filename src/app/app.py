@@ -1,6 +1,8 @@
 import os
 import markdown
+import sqlite3
 from typing import List, Optional
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException, Query
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -8,7 +10,24 @@ from fastapi.templating import Jinja2Templates
 from core.data_loader import DataLoader
 import uvicorn
 
-app = FastAPI(title="Language Atlas")
+# Ensure SQLite mode is enabled for DataLoader
+os.environ['USE_SQLITE'] = '1'
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Establish a read-only SQLite connection on startup
+    # This pattern is shared across the app's state for consistency
+    db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'language_atlas.sqlite'))
+    if not os.path.exists(db_path):
+        print(f"CRITICAL: Database not found at {db_path}")
+    
+    # We use a global data_loader which handles its own connections for now, 
+    # but we could also attach a pool or a single connection to app.state.
+    # For a high-concurrency app we'd use a pool, but for this project 
+    # DataLoader's per-call connection is safe and easy for read-only.
+    yield
+
+app = FastAPI(title="Language Atlas", lifespan=lifespan)
 
 # Mount static files
 static_dir = os.path.join(os.path.dirname(__file__), "static")
@@ -73,6 +92,24 @@ async def read_root(
             "max_year": max_year,
             "min_bound": 1930,
             "max_bound": 2024
+        }
+    )
+
+@app.get("/search", response_class=HTMLResponse)
+async def search(request: Request, q: str = Query("")):
+    """Delegates to FTS5 layer and returns HTMX-compatible partials."""
+    if not q or len(q) < 2:
+        return ""
+    
+    # Perform FTS search via DataLoader
+    results = data_loader.search(q)
+    
+    return templates.TemplateResponse(
+        request=request,
+        name="search_results.html",
+        context={
+            "results": results,
+            "query": q
         }
     )
 
