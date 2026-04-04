@@ -1,0 +1,28 @@
+You are a senior Product Engineer. Your task is to deliver the "Living Atlas" TUI—an interactive, immersive experience for exploring language evolution.
+
+CONTEXT:
+The TUI should feel like a "Time Machine" for code. It must be highly interactive, jumping between eras and influences with zero latency, powered by SQLite FTS5.
+
+TASK:
+1.  **The "Textual" Atlas (`src/tui.py`)**:
+    *   `uv add textual`.
+    *   **Three-Pane Master View**:
+        *   **The Chronology (Left)**: A `Tree` widget of languages grouped by Generation.
+        *   **The Reader (Center)**: A `MarkdownViewer` rendering the full profile.
+        *   **The Nexus (Right)**: An interactive list of influenced/influencing languages. Clicking an entry triggers a "Deep Navigation" (updating all panes).
+    *   **FTS Global Search**: A header input that performs real-time FTS5 searches across `v_global_search`. Highlight the search terms in the center pane results.
+2.  **The Nexus Graph**:
+    *   In the "Nexus" pane, indicate the "Influence Score" (calculated in PROMPT_23) for each connection.
+3.  **Fuzzy Finding Wrapper**:
+    *   Create `scripts/atlas-fuzzy.sh`. It must use `fzf` to allow users to fuzzy-search the entire atlas and instantly launch either the `info` view or the `TUI` at that specific language.
+4.  **CLI Hook**:
+    *   Add a `tui` command to `src/cli.py` to launch the app.
+
+CONSTRAINTS:
+- The TUI must handle terminal resizing gracefully.
+- Use `Textual`'s "Reactive" properties to ensure the UI updates instantly when the selected language changes.
+- The `fzf` integration must be "Zero-Config" for the user.
+
+COMMIT BEHAVIOR:
+- Commit the TUI, the fuzzy-search script, and the CLI integration.
+- Commit message: "feat: launch the Living Atlas TUI with FTS5 and fuzzy-finding"

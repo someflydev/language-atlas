@@ -1,0 +1,31 @@
+You are a senior Data Scientist and Language Historian. Your task is to perform an "Encyclopedic Expansion" of the Language Atlas, ensuring 100% accuracy and adding significant missing entries.
+
+CONTEXT:
+Our current dataset is a solid foundation but lacks breadth in "Pre-Dawn" languages, "Dead-End" influential experiments, and "Niche/Critical" modern systems. Additionally, our enums for `typing_discipline` and `memory_management` are currently inconsistent with the raw data.
+
+TASK:
+1.  **Deep Research & Correction (High Reasoning)**:
+    *   Audit all entries in `data/languages.json`.
+    *   **Accuracy Fix**: Ensure `typing_discipline` and `memory_management` use the standardized enum: `manual`, `runtime`, `compile_time`, `hybrid`. Move descriptive details (like "Strong/Static") into the `mental_model` or `philosophy` fields.
+    *   **Data Consistency**: Ensure every language has accurate `creators` and `key_innovations` based on historical consensus.
+2.  **Expansion (Adding 15+ Significant Languages)**:
+    *   Add at least 15 more significant entries, including:
+        *   **Historical**: ALGOL 68, Modula-2, Oberon, Eiffel, Dylan, Tcl, PostScript, SETL.
+        *   **Experimental/Niche**: Icon, K, J, Factor, Zig (check), Odin (check), Gleam.
+        *   **Ancestors**: Plankalkül (first high-level), Short Code, Autocode.
+    *   For each new entry, provide a complete, high-quality profile (Philosophy, Mental Model, Use Cases).
+3.  **Pipeline Update**:
+    *   Update `scripts/generate_docs.py` (or the internal SQLite builder) to accommodate any schema adjustments for new languages.
+    *   **Rebuild the Database**: Regenerate `language_atlas.sqlite` from the expanded JSON.
+    *   **Re-run Validation**: Run `scripts/validate_data.py` to ensure the new data satisfies all referential and structural integrity checks.
+4.  **Full-Text Search (FTS) Optimization**:
+    *   Ensure the expanded content (Philosophy, Mental Model) is fully indexed in `fts_languages`.
+    *   Update any "Search" queries in the CLI to leverage the increased data density.
+
+CONSTRAINTS:
+- Accuracy is paramount. Use verified historical data.
+- Ensure all IDs and references (`influenced_by`, `influenced`) are correctly cross-linked in the new JSON.
+
+COMMIT BEHAVIOR:
+- Commit the expanded JSON, the rebuilt SQLite DB, and any pipeline script updates.
+- Commit message: "feat: perform encyclopedic data expansion and accuracy audit"

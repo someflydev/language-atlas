@@ -1,0 +1,30 @@
+You are a senior Platform Engineer. Your final task is to unify the Language Atlas into a professional-grade, portable research platform with guided "Odysseys" and an API.
+
+CONTEXT:
+We have the data, the CLI, the TUI, and the tests. Now we need to bridge the gap between "Discovery" and "Guided Mastery," and make the entire system highly portable.
+
+TASK:
+1.  **Guided "Odysseys" (Learning Paths)**:
+    *   Leverage `data/learning_paths.json` to implement an **Interactive Odyssey Mode** in both the TUI and CLI.
+    *   Users can select a path (e.g., "The Systems Renaissance") and be guided through a sequence of languages, with "Challenges" or "Key Concepts" they must examine (using SQL to pull related data).
+2.  **Semantic Search API**:
+    *   Expose the `DataLoader` and FTS5 search logic as a **FastAPI-powered Search API**.
+    *   This API should serve the Web interface and be available for external tools.
+    *   Include a `docs/api.md` with usage examples.
+3.  **The "Atlas Auditor" (Validation 2.0)**:
+    *   Refactor `scripts/validate_data.py` into a robust `AtlasAuditor` class that runs within the `pytest` environment.
+    *   Add semantic checks: "Semantic Orphans" (languages without influences or paradigms) should be flagged as warnings to ensure a healthy graph.
+4.  **Distribution & Portability**:
+    *   Implement a `uv-build` process (using `shiv` or `pyinstaller`) to package the entire project as a **self-contained executable binary**.
+    *   The binary must bundle the Python code, the SQLite database, and the TUI logic, making it a single file that can be shared and run without local dependencies.
+5.  **Final Parity & Polish**:
+    *   Ensure the `src/app/` FastAPI web interface matches the aesthetic and analytical depth of the "Rich/Textual" CLI.
+    *   Perform a final pass on `src/README.md` to ensure it represents the complete "Zenith" state of the project.
+
+CONSTRAINTS:
+- Portability is key; the standalone binary should work on any compatible OS without `uv` pre-installed.
+- Odysseys must be data-driven, not hardcoded.
+
+COMMIT BEHAVIOR:
+- Commit the Odyssey logic, the API, the distribution build scripts, and the final documentation.
+- Commit message: "feat: unify platform into Zenith state with Odysseys and standalone distribution"

@@ -1,0 +1,30 @@
+You are a senior UX/CLI Engineer. Your task is to transform the CLI into a data-dense, visually stunning dashboard using Typer and Rich.
+
+CONTEXT:
+The CLI is the "Control Center" for the Atlas. It should provide "Control Room" style dashboards and syntax-highlighted technical reports that leverage our SQLite Views.
+
+TASK:
+1.  **Dependencies**: `uv add typer rich`.
+2.  **The "Impact Dashboard"**:
+    *   Refactor `src/cli.py` to `Typer`.
+    *   Implement a `dashboard <language>` command that uses `Rich` `Layout` and `Panel` to show:
+        *   **Vital Signs**: Year, Cluster, Keystone status.
+        *   **Innovation Stats**: Key innovations as a color-coded list.
+        *   **Lineage Panel**: Influences rendered in a `Columns` layout.
+3.  **Visual Reporting**:
+    *   Implement `report summary` using `Rich.Table` with "Sparklines" (simulated with unicode characters) showing the density of language releases per decade.
+    *   Render all `info` and `research` output as syntax-highlighted Markdown using `rich.markdown`.
+4.  **Integrated Docs & Discovery**:
+    *   Update `src/README.md` to be a master guide for the codebase, including a section on the "Semantic Schema" (explaining our SQLite Views).
+    *   Add "Fuzzy Suggestions": If a user types `info rustt`, the CLI should use the database to suggest `Rust`.
+5.  **Output Ergonomics**:
+    *   Add `--json` and `--pretty` flags to all commands.
+    *   Install shell completions via `typer`.
+
+CONSTRAINTS:
+- Use `Rich`'s full layout capabilities (Layout, Live, Table, Panel).
+- Documentation must be "up to date" and cover the internal `src/app/core` logic.
+
+COMMIT BEHAVIOR:
+- Commit the dashboard CLI and the comprehensive README updates.
+- Commit message: "feat: implement Rich dashboard CLI and semantic documentation"

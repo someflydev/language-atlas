@@ -1,0 +1,29 @@
+You are a senior SDET and Data Engineer. Your task is to build a "gold-standard" pytest suite that doesn't just verify code, but generates "mindblowing" historical insights as stamped-out artifacts.
+
+CONTEXT:
+We need to leverage the full power of SQLite (Recursive CTEs, Window Functions) to extract deep insights from the Language Atlas. These queries are "expensive" and should be treated as intensive analytical tasks.
+
+TASK:
+1.  **Pytest Excellence**:
+    *   Initialize `pyproject.toml` via `uv init` and add `pytest`, `pytest-cov`, `pytest-sqlite`.
+    *   Implement advanced fixtures in `tests/conftest.py` that provide an in-memory "Mirror Universe" of the production DB for safe, intensive testing.
+    *   Use `@pytest.mark.intensive` for long-running analytical tests.
+2.  **Insight Generation (The "Stamping" Engine)**:
+    *   Implement a module `src/app/core/insights.py` that runs complex SQL:
+        *   **Influence Depth**: Use a Recursive CTE to calculate the "transitive influence" of keystone languages (e.g., how many degrees of separation between ALGOL 60 and Rust?).
+        *   **Paradigm Volatility**: Calculate which eras saw the most rapid introduction of new paradigms.
+    *   **STAMPING**: These insights must be saved to `data/reports/historical_insights.json`. Ensure this directory exists and is NOT gitignored.
+3.  **Data Parity & Round-Trip**:
+    *   Verify `DataLoader` consistency across JSON/SQLite.
+    *   Test `docs_parser.py` by round-tripping `generated-docs/` Markdown back into JSON and asserting 100% field equality.
+4.  **Makefile Integration**:
+    *   `make test`: Run fast tests.
+    *   `make test-intensive`: Run analytical tests and regenerate the `data/reports/` artifacts.
+
+CONSTRAINTS:
+- Pytest usage must be "reference quality" (clean, documented, using modern patterns).
+- SQLite queries must use advanced features (CTE, Windowing) where appropriate for "mindblowing" results.
+
+COMMIT BEHAVIOR:
+- Commit the test suite and the first generation of "stamped" insight artifacts.
+- Commit message: "test: implement high-performance pytest suite and historical insight generator"
