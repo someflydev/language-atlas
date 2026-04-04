@@ -1,130 +1,729 @@
 [
   {
-    "name": "John Backus",
-    "contributions": ["FORTRAN", "ALGOL 60", "Backus-Naur Form (BNF)"]
-  },
-  {
-    "name": "John McCarthy",
-    "contributions": ["Lisp", "Garbage collection", "Time-sharing"]
-  },
-  {
-    "name": "Grace Hopper",
-    "contributions": ["COBOL", "FLOW-MATIC", "First compiler concepts"]
-  },
-  {
-    "name": "Dennis Ritchie",
-    "contributions": ["C", "Unix"]
-  },
-  {
-    "name": "Alan Kay",
-    "contributions": ["Smalltalk", "Object-oriented programming", "GUI concepts"]
-  },
-  {
-    "name": "Robin Milner",
-    "contributions": ["ML", "Hindley-Milner type system", "Pi-calculus"]
-  },
-  {
-    "name": "Bjarne Stroustrup",
-    "contributions": ["C++"]
-  },
-  {
-    "name": "James Gosling",
-    "contributions": ["Java", "Emacs (Gosling Emacs)"]
-  },
-  {
-    "name": "Brendan Eich",
-    "contributions": ["JavaScript"]
-  },
-  {
-    "name": "Guido van Rossum",
-    "contributions": ["Python"]
-  },
-  {
-    "name": "Yukihiro Matsumoto",
-    "contributions": ["Ruby"]
-  },
-  {
-    "name": "Philip Wadler",
-    "contributions": ["Haskell", "Monads in functional programming"]
-  },
-  {
-    "name": "Joe Armstrong",
-    "contributions": ["Erlang", "Fault-tolerant systems"]
-  },
-  {
-    "name": "Rob Pike",
-    "contributions": ["Go", "UTF-8", "Plan 9"]
-  },
-  {
-    "name": "Graydon Hoare",
-    "contributions": ["Rust"]
-  },
-  {
-    "name": "Anders Hejlsberg",
-    "contributions": ["TypeScript", "C#", "Turbo Pascal", "Delphi"]
-  },
-  {
-    "name": "Ken Thompson",
-    "contributions": ["Go", "B", "C", "Unix", "UTF-8"]
-  },
-  {
-    "name": "Konrad Zuse",
-    "contributions": ["Plankalkül", "Z3 Computer"]
-  },
-  {
-    "name": "John Mauchly",
-    "contributions": ["Short Code", "ENIAC", "UNIVAC"]
-  },
-  {
-    "name": "Alick Glennie",
-    "contributions": ["Autocode"]
+    "name": "Adele Goldberg",
+    "contributions": [
+      "Smalltalk-80",
+      "Design Patterns",
+      "Object-oriented programming"
+    ]
   },
   {
     "name": "Adriaan van Wijngaarden",
-    "contributions": ["ALGOL 68"]
+    "contributions": [
+      "ALGOL 68"
+    ]
   },
   {
-    "name": "Niklaus Wirth",
-    "contributions": ["Pascal", "Modula-2", "Oberon", "Euler"]
+    "name": "Alain Colmerauer",
+    "contributions": [
+      "Prolog"
+    ]
   },
   {
-    "name": "Bertrand Meyer",
-    "contributions": ["Eiffel", "Design by Contract"]
+    "name": "Alan Cooper",
+    "contributions": [
+      "Visual Basic"
+    ]
   },
   {
-    "name": "John Ousterhout",
-    "contributions": ["Tcl", "Tk", "Log-structured file systems"]
+    "name": "Alan Edelman",
+    "contributions": [
+      "Julia"
+    ]
   },
   {
-    "name": "John Warnock",
-    "contributions": ["PostScript", "Adobe PDF", "Bézier curves"]
+    "name": "Alan Kay",
+    "contributions": [
+      "Smalltalk",
+      "Object-oriented programming",
+      "GUI concepts"
+    ]
   },
   {
-    "name": "Charles Geschke",
-    "contributions": ["PostScript", "Adobe"]
+    "name": "Alan Turing",
+    "contributions": [
+      "Turing Machine",
+      "Universal computer",
+      "Halting Problem"
+    ]
   },
   {
-    "name": "Jacob T. Schwartz",
-    "contributions": ["SETL"]
+    "name": "Alick Glennie",
+    "contributions": [
+      "Autocode"
+    ]
   },
   {
-    "name": "Ralph Griswold",
-    "contributions": ["SNOBOL", "Icon"]
+    "name": "Alonzo Church",
+    "contributions": [
+      "Lambda Calculus",
+      "Church-Turing Thesis"
+    ]
+  },
+  {
+    "name": "Anders Hejlsberg",
+    "contributions": [
+      "TypeScript",
+      "C#",
+      "Turbo Pascal",
+      "Delphi"
+    ]
+  },
+  {
+    "name": "Andreas Rumpf",
+    "contributions": [
+      "Nim"
+    ]
+  },
+  {
+    "name": "Andrew Kelley",
+    "contributions": [
+      "Zig"
+    ]
+  },
+  {
+    "name": "Apple Computer",
+    "contributions": [
+      "Dylan",
+      "Swift"
+    ]
   },
   {
     "name": "Arthur Whitney",
-    "contributions": ["APL", "K", "Q"]
+    "contributions": [
+      "APL",
+      "K",
+      "Q"
+    ]
+  },
+  {
+    "name": "Ary Borensztein",
+    "contributions": [
+      "Crystal"
+    ]
+  },
+  {
+    "name": "Barry Mailloux",
+    "contributions": [
+      "ALGOL 68"
+    ]
+  },
+  {
+    "name": "Bertrand Meyer",
+    "contributions": [
+      "Eiffel",
+      "Design by Contract"
+    ]
+  },
+  {
+    "name": "Bjarne Stroustrup",
+    "contributions": [
+      "C++"
+    ]
+  },
+  {
+    "name": "Bob Bemer",
+    "contributions": [
+      "ASCII",
+      "COBOL",
+      "ESCAPE character"
+    ]
+  },
+  {
+    "name": "Brad Cox",
+    "contributions": [
+      "Objective-C"
+    ]
+  },
+  {
+    "name": "Brendan Eich",
+    "contributions": [
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "Brian Fox",
+    "contributions": [
+      "Bash"
+    ]
+  },
+  {
+    "name": "Charles Geschke",
+    "contributions": [
+      "PostScript",
+      "Adobe"
+    ]
+  },
+  {
+    "name": "Charles H. Moore",
+    "contributions": [
+      "Forth"
+    ]
+  },
+  {
+    "name": "Chris Lattner",
+    "contributions": [
+      "LLVM",
+      "Swift",
+      "Mojo"
+    ]
+  },
+  {
+    "name": "Christopher Strachey",
+    "contributions": [
+      "CPL",
+      "Denotational semantics"
+    ]
+  },
+  {
+    "name": "Clark Evans",
+    "contributions": [
+      "YAML"
+    ]
+  },
+  {
+    "name": "Cleve Moler",
+    "contributions": [
+      "MATLAB",
+      "LINPACK",
+      "EISPACK"
+    ]
+  },
+  {
+    "name": "Cornelis Koster",
+    "contributions": [
+      "ALGOL 68"
+    ]
+  },
+  {
+    "name": "Dan Ingalls",
+    "contributions": [
+      "Smalltalk",
+      "Squeak",
+      "BitBlt"
+    ]
+  },
+  {
+    "name": "David J. Farber",
+    "contributions": [
+      "SNOBOL"
+    ]
+  },
+  {
+    "name": "David Ungar",
+    "contributions": [
+      "Self",
+      "Green threads"
+    ]
+  },
+  {
+    "name": "Dennis Ritchie",
+    "contributions": [
+      "C",
+      "Unix"
+    ]
+  },
+  {
+    "name": "Don Syme",
+    "contributions": [
+      "F#",
+      "Generics in C#"
+    ]
+  },
+  {
+    "name": "Donald D. Chamberlin",
+    "contributions": [
+      "SQL",
+      "XQuery"
+    ]
+  },
+  {
+    "name": "Douglas Crockford",
+    "contributions": [
+      "JSON",
+      "JavaScript"
+    ]
+  },
+  {
+    "name": "Evan Czaplicki",
+    "contributions": [
+      "Elm"
+    ]
+  },
+  {
+    "name": "Friedrich L. Bauer",
+    "contributions": [
+      "ALGOL 60",
+      "Stack data structure"
+    ]
+  },
+  {
+    "name": "Gerald Jay Sussman",
+    "contributions": [
+      "Scheme",
+      "Structure and Interpretation of Computer Programs (SICP)"
+    ]
+  },
+  {
+    "name": "Ginger Bill",
+    "contributions": [
+      "Odin"
+    ]
+  },
+  {
+    "name": "Grace Hopper",
+    "contributions": [
+      "COBOL",
+      "FLOW-MATIC",
+      "First compiler concepts"
+    ]
+  },
+  {
+    "name": "Graydon Hoare",
+    "contributions": [
+      "Rust"
+    ]
+  },
+  {
+    "name": "Guido van Rossum",
+    "contributions": [
+      "Python"
+    ]
+  },
+  {
+    "name": "Guy L. Steele",
+    "contributions": [
+      "Scheme",
+      "Common Lisp",
+      "Java",
+      "High Performance Fortran"
+    ]
+  },
+  {
+    "name": "Hongbo Zhang",
+    "contributions": [
+      "ReScript",
+      "OCaml"
+    ]
+  },
+  {
+    "name": "Ingy döt Net",
+    "contributions": [
+      "YAML"
+    ]
+  },
+  {
+    "name": "Ivan P. Polonsky",
+    "contributions": [
+      "SNOBOL"
+    ]
+  },
+  {
+    "name": "Jacob T. Schwartz",
+    "contributions": [
+      "SETL"
+    ]
+  },
+  {
+    "name": "James Gosling",
+    "contributions": [
+      "Java",
+      "Emacs (Gosling Emacs)"
+    ]
+  },
+  {
+    "name": "Jean Ichbiah",
+    "contributions": [
+      "Ada"
+    ]
+  },
+  {
+    "name": "Jeff Bezanson",
+    "contributions": [
+      "Julia"
+    ]
+  },
+  {
+    "name": "Joe Armstrong",
+    "contributions": [
+      "Erlang",
+      "Fault-tolerant systems"
+    ]
+  },
+  {
+    "name": "John Backus",
+    "contributions": [
+      "FORTRAN",
+      "ALGOL 60",
+      "Backus-Naur Form (BNF)"
+    ]
+  },
+  {
+    "name": "John G. Kemeny",
+    "contributions": [
+      "BASIC"
+    ]
+  },
+  {
+    "name": "John Mauchly",
+    "contributions": [
+      "Short Code",
+      "ENIAC",
+      "UNIVAC"
+    ]
+  },
+  {
+    "name": "John McCarthy",
+    "contributions": [
+      "Lisp",
+      "Garbage collection",
+      "Time-sharing"
+    ]
+  },
+  {
+    "name": "John Ousterhout",
+    "contributions": [
+      "Tcl",
+      "Tk",
+      "Log-structured file systems"
+    ]
+  },
+  {
+    "name": "John Peck",
+    "contributions": [
+      "ALGOL 68"
+    ]
+  },
+  {
+    "name": "John Warnock",
+    "contributions": [
+      "PostScript",
+      "Adobe PDF",
+      "Bézier curves"
+    ]
+  },
+  {
+    "name": "Jordan Walke",
+    "contributions": [
+      "React",
+      "ReasonML"
+    ]
+  },
+  {
+    "name": "José Valim",
+    "contributions": [
+      "Elixir"
+    ]
+  },
+  {
+    "name": "Kasper Lund",
+    "contributions": [
+      "Dart",
+      "V8 engine"
+    ]
+  },
+  {
+    "name": "Kathleen Booth",
+    "contributions": [
+      "Assembly language"
+    ]
+  },
+  {
+    "name": "Ken Thompson",
+    "contributions": [
+      "Go",
+      "B",
+      "C",
+      "Unix",
+      "UTF-8"
+    ]
   },
   {
     "name": "Kenneth E. Iverson",
-    "contributions": ["APL", "J", "A Programming Language"]
+    "contributions": [
+      "APL",
+      "J",
+      "A Programming Language"
+    ]
   },
   {
-    "name": "Slava Pestov",
-    "contributions": ["Factor"]
+    "name": "Konrad Zuse",
+    "contributions": [
+      "Plankalkül",
+      "Z3 Computer"
+    ]
+  },
+  {
+    "name": "Kristen Nygaard",
+    "contributions": [
+      "Simula",
+      "Object-oriented programming"
+    ]
+  },
+  {
+    "name": "Larry Wall",
+    "contributions": [
+      "Perl",
+      "patch",
+      "rn"
+    ]
+  },
+  {
+    "name": "Lars Bak",
+    "contributions": [
+      "Dart",
+      "V8 engine",
+      "Self"
+    ]
+  },
+  {
+    "name": "Lennart Augustsson",
+    "contributions": [
+      "Haskell"
+    ]
   },
   {
     "name": "Louis Pilchard",
-    "contributions": ["Gleam"]
+    "contributions": [
+      "Gleam"
+    ]
+  },
+  {
+    "name": "Luiz Henrique de Figueiredo",
+    "contributions": [
+      "Lua"
+    ]
+  },
+  {
+    "name": "Martin Odersky",
+    "contributions": [
+      "Scala",
+      "Generic Java"
+    ]
+  },
+  {
+    "name": "Martin Richards",
+    "contributions": [
+      "BCPL"
+    ]
+  },
+  {
+    "name": "Mike Williams",
+    "contributions": [
+      "Erlang"
+    ]
+  },
+  {
+    "name": "Niklaus Wirth",
+    "contributions": [
+      "Pascal",
+      "Modula-2",
+      "Oberon",
+      "Euler"
+    ]
+  },
+  {
+    "name": "Ole-Johan Dahl",
+    "contributions": [
+      "Simula",
+      "Object-oriented programming"
+    ]
+  },
+  {
+    "name": "Oren Ben-Kiki",
+    "contributions": [
+      "YAML"
+    ]
+  },
+  {
+    "name": "Peter Naur",
+    "contributions": [
+      "ALGOL 60",
+      "Backus-Naur Form (BNF)"
+    ]
+  },
+  {
+    "name": "Philip Wadler",
+    "contributions": [
+      "Haskell",
+      "Monads in functional programming"
+    ]
+  },
+  {
+    "name": "Ralph E. Griswold",
+    "contributions": [
+      "SNOBOL",
+      "Icon"
+    ]
+  },
+  {
+    "name": "Ralph Griswold",
+    "contributions": [
+      "SNOBOL",
+      "Icon"
+    ]
+  },
+  {
+    "name": "Randall Smith",
+    "contributions": [
+      "Self"
+    ]
+  },
+  {
+    "name": "Rasmus Lerdorf",
+    "contributions": [
+      "PHP"
+    ]
+  },
+  {
+    "name": "Raymond F. Boyce",
+    "contributions": [
+      "SQL"
+    ]
+  },
+  {
+    "name": "Rich Harris",
+    "contributions": [
+      "Svelte",
+      "Rollup"
+    ]
+  },
+  {
+    "name": "Rich Hickey",
+    "contributions": [
+      "Clojure"
+    ]
+  },
+  {
+    "name": "Rob Pike",
+    "contributions": [
+      "Go",
+      "UTF-8",
+      "Plan 9"
+    ]
+  },
+  {
+    "name": "Robert Gentleman",
+    "contributions": [
+      "R"
+    ]
+  },
+  {
+    "name": "Robert Griesemer",
+    "contributions": [
+      "Go",
+      "V8 engine"
+    ]
+  },
+  {
+    "name": "Robert Kowalski",
+    "contributions": [
+      "Prolog"
+    ]
+  },
+  {
+    "name": "Robert Virding",
+    "contributions": [
+      "Erlang"
+    ]
+  },
+  {
+    "name": "Roberto Ierusalimschy",
+    "contributions": [
+      "Lua"
+    ]
+  },
+  {
+    "name": "Robin Milner",
+    "contributions": [
+      "ML",
+      "Hindley-Milner type system",
+      "Pi-calculus"
+    ]
+  },
+  {
+    "name": "Roger Hui",
+    "contributions": [
+      "J",
+      "A Programming Language"
+    ]
+  },
+  {
+    "name": "Ross Ihaka",
+    "contributions": [
+      "R"
+    ]
+  },
+  {
+    "name": "S. Tucker Taft",
+    "contributions": [
+      "Ada 95"
+    ]
+  },
+  {
+    "name": "Simon Peyton Jones",
+    "contributions": [
+      "Haskell"
+    ]
+  },
+  {
+    "name": "Slava Pestov",
+    "contributions": [
+      "Factor"
+    ]
+  },
+  {
+    "name": "Stefan Karpinski",
+    "contributions": [
+      "Julia"
+    ]
+  },
+  {
+    "name": "Thomas E. Kurtz",
+    "contributions": [
+      "BASIC"
+    ]
+  },
+  {
+    "name": "Tom Love",
+    "contributions": [
+      "Objective-C"
+    ]
+  },
+  {
+    "name": "Victor Yngve",
+    "contributions": [
+      "COMIT"
+    ]
+  },
+  {
+    "name": "Vikram Adve",
+    "contributions": [
+      "LLVM"
+    ]
+  },
+  {
+    "name": "Viral B. Shah",
+    "contributions": [
+      "Julia"
+    ]
+  },
+  {
+    "name": "Waldemar Celes",
+    "contributions": [
+      "Lua"
+    ]
+  },
+  {
+    "name": "Xavier Leroy",
+    "contributions": [
+      "OCaml"
+    ]
+  },
+  {
+    "name": "Yukihiro Matsumoto",
+    "contributions": [
+      "Ruby"
+    ]
   }
 ]
