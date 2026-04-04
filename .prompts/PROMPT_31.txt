@@ -1,0 +1,25 @@
+You are a Senior Language Historian. Your task is to perform the "Third Wave Expansion" of the Language Atlas, focusing on missing links, high-impact dialects, and mechanical ancestors.
+
+CONTEXT:
+We have established the foundations and the major modern players. Now we must fill the gaps between the "Dawn" and the "Web" eras, specifically targeting the experimental systems of Xerox PARC, the evolution of functional dialects, and the tools that defined text processing.
+
+TASK:
+1.  **Expansion (Adding 15+ Significant Languages & Foundations)**:
+    *   **The Missing Links**: ABC (precursor to Python), Simula 67 (OO foundation), CLU (Abstract Data Types), Mesa (PARC systems), Modula-3.
+    *   **The Functional & Symbolic Tree**: Standard ML (SML), Miranda (Haskell ancestor), Common Lisp (the consolidation), Scheme (the minimalist logic).
+    *   **The Text & Shell Revolution**: AWK, Sed, ActionScript (the Flash era), Visual Basic (Classic), PowerShell.
+    *   **Mechanical & Theory Foundations**: The Jacquard Loom (first programmatic control), Hollerith Tabulator (pre-electronic data processing), The Chomsky Hierarchy (formal grammar theory).
+2.  **Implementation Requirements**:
+    *   Add each to `data/languages.json` with standardized enums (`manual`, `runtime`, `compile_time`, `hybrid`).
+    *   Create a detailed JSON profile in `data/docs/language_profiles/` for each entry following the established schema.
+3.  **Metadata Synchronicity**:
+    *   Update `data/people.json` with all creators (e.g., Alfred Aho, Peter Weinberger, Brian Kernighan for AWK; Gerald Jay Sussman and Guy Steele for Scheme).
+    *   Update `data/paradigms.json` if any new paradigms are introduced (e.g., String-oriented, Prototype-based).
+4.  **Database Integration**:
+    *   Rebuild `language_atlas.sqlite` and verify that all new entries are indexed in `fts_languages` and `fts_profiles`.
+    *   Run `scripts/validate_data.py` to ensure zero broken references.
+
+CONSTRAINTS:
+- No emojis in headers.
+- Multi-line Tim Pope style commits.
+- Prefix commits with [PROMPT_31].
