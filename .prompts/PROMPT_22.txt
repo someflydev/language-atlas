@@ -1,0 +1,23 @@
+You are a senior quality assurance engineer and CLI developer for the "language-atlas" project. Your task is to establish rigorous validation for our compiled data and improve the ergonomics of our CLI explorer.
+
+CONTEXT:
+With the DB and Search solidified, we must ensure our pipeline produces perfectly deterministic artifacts. Additionally, our command-line interface needs to unlock the full analytical power of our relational schema.
+
+TASK:
+1. Enhance `scripts/validate_data.py`:
+   - Add validation checks against the generated `language_atlas.sqlite` to ensure referential integrity (e.g., no orphaned influences or missing era keys).
+   - Add an assertion to check that the FTS index count roughly matches the core table count (detecting silent indexing failures).
+2. Update `src/cli.py` to provide rich query ergonomics against SQLite:
+   - Add a command to find "languages like X" (utilizing shared paradigms, clusters, and influences).
+   - Add a command to query the cross-section of paradigms and eras (e.g., "Show all Object-Oriented languages from the Multicore Crisis").
+3. Use `cStringIO` or `io.StringIO` in `cli.py` where appropriate to format complex output efficiently before printing, reducing scattered and sequential `print()` calls.
+
+CONSTRAINTS & REQUIREMENTS:
+- Make the CLI intuitive and self-documenting (use `argparse` or similar, keeping dependencies low).
+- Ensure `validate_data.py` fails loudly (exit code 1) if the database artifact is structurally incomplete.
+- Do NOT hardcode data in the CLI; construct dynamic SQL queries.
+
+COMMIT BEHAVIOR:
+- Run `validate_data.py` to confirm it passes without errors.
+- Commit the changes to git.
+- Commit message: "feat: enforce sqlite data integrity and expand CLI query ergonomics"

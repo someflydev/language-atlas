@@ -1,0 +1,24 @@
+You are a senior documentation engineer for the "language-atlas" project. Your task is to build a robust Markdown generation pipeline that sources its data entirely from the compiled SQLite database.
+
+CONTEXT:
+We have transitioned to a model where JSON is the source of truth, SQLite is the query engine, and Markdown is solely a generated view layer. We must NOT use legacy markdown files as truth. All output goes to a `generated-docs/` directory.
+
+TASK:
+1. Create a new script `scripts/generate_docs.py`.
+2. This script must connect to `language_atlas.sqlite` and query it to generate rich Markdown files.
+   - Generate individual language profiles (e.g., `generated-docs/languages/Python.md`).
+   - Generate index files grouping languages by Era or Paradigm.
+3. The generated Markdown must include frontmatter and cleanly formatted sections.
+   - Example: Include a "Related Languages" or "Influences" section powered by SQL JOINs on the `influences` table.
+4. Update the `Makefile` to include a `docs` target that runs this script.
+5. Add `generated-docs/` to `.gitignore`.
+
+CONSTRAINTS & REQUIREMENTS:
+- The script MUST rely exclusively on SQLite queries, not the JSON files directly. This enforces the SQLite-as-engine paradigm.
+- Ensure the generated layout is beautiful, clear, and highlights the semantic relationships.
+- Do NOT reintroduce Markdown as a source of truth.
+
+COMMIT BEHAVIOR:
+- Run the script and verify the output structure.
+- Commit the script, .gitignore, and Makefile changes to git.
+- Commit message: "feat: implement markdown generation pipeline from SQLite engine"

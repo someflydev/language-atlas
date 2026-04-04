@@ -1,0 +1,22 @@
+You are a senior full-stack engineer for the "language-atlas" project. Your task is to deeply integrate the SQLite layer into the FastAPI web interface, ensuring maximum performance and alignment with our FTS strategy.
+
+CONTEXT:
+Our FastAPI app (`src/app/app.py`) must cleanly interface with our compiled SQLite database rather than parsing JSON. We need to implement a rich, unified search experience and prepare for future static deployments.
+
+TASK:
+1. Update `src/app/app.py` to establish a read-only SQLite connection on startup (this read-only pattern prepares us for static site generation with `sql.js` later).
+2. Refactor or add a `/search` endpoint in `app.py` that delegates to the FTS layer (built in a previous prompt).
+   - This endpoint must return HTMX-compatible partials showing the search results.
+   - The results MUST include title, match snippets (via SQLite `snippet()`), and rank order.
+3. Update `src/app/templates/` (e.g., a search bar template or global layout) to seamlessly integrate this fast, typo-tolerant search.
+4. Ensure the UI clearly distinguishes between a match in a language's high-level description versus a deep match in a narrative profile section.
+
+CONSTRAINTS & REQUIREMENTS:
+- The FastAPI application must not duplicate JSON logic; it should strictly query SQLite.
+- Maintain the HTMX + Jinja2 stack without heavy frontend dependencies.
+- Keep the design fast and minimal, using standard HTML forms and HTMX attributes.
+
+COMMIT BEHAVIOR:
+- Verify the web app starts and the search endpoint works correctly.
+- Commit the changes to git.
+- Commit message: "refactor: integrate FTS5 SQLite search into FastAPI and HTMX UI"

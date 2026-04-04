@@ -1,0 +1,22 @@
+You are a senior data architect for the "language-atlas" project. Your task is to enhance the SQLite FTS5 implementation and refine the database schema for better query ergonomics.
+
+CONTEXT:
+The system uses SQLite as a compiled query engine derived from JSON. We need to elevate our full-text search (FTS) to be production-ready, supporting BM25 ranking, text snippets, and robust cross-table querying.
+
+TASK:
+1. Update `src/app/core/build_sqlite.py` to refine the FTS5 virtual tables (`fts_languages`, `fts_profiles`).
+   - Ensure `fts_profiles` indexes not just language name and content, but explicitly ties back to `language_id`.
+   - Configure a unified FTS view or trigger-based syncing to keep FTS tables up-to-date with relational tables if necessary (or just populate them accurately during build).
+2. Update the Python data access layer (e.g., `src/app/core/data_loader.py` or a new `db.py` layer) to expose an advanced `search(query)` method.
+   - This method MUST utilize SQLite's `bm25()` function for ranking.
+   - It MUST return context snippets using the FTS5 `snippet()` function so users see matching text in context.
+3. Validate that the FTS tables gracefully handle missing content and that rankings are logically ordered.
+
+CONSTRAINTS & REQUIREMENTS:
+- Do NOT modify the JSON data layer.
+- Ensure the database schema remains browser-safe for future `sql.js` compatibility (e.g., no custom SQLite extensions or native C-bindings).
+
+COMMIT BEHAVIOR:
+- Ensure the `build_database()` process runs cleanly.
+- Commit the changes to git.
+- Commit message: "feat: enhance SQLite FTS5 with BM25 ranking and context snippets"
