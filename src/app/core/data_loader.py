@@ -1,6 +1,7 @@
 import json
 import os
 import sqlite3
+from typing import List, Optional
 
 class DataLoader:
     def __init__(self, data_dir=None):
@@ -177,24 +178,54 @@ class DataLoader:
     def get_timeline(self):
         return self._load_json('docs/timeline/timeline.json')
 
-    def get_all_languages(self, filter_gen=None, filter_cluster=None):
+    def get_all_languages(self, clusters=None, paradigms=None, min_year=1930, max_year=2024, sort="year", filter_gen=None, filter_cluster=None):
         if not self.use_sqlite:
             langs = self.languages
             if filter_gen:
                 langs = [l for l in langs if l.get('generation', '').lower() == filter_gen.lower()]
             if filter_cluster:
                 langs = [l for l in langs if l.get('cluster', '').lower() == filter_cluster.lower()]
+            if clusters:
+                langs = [l for l in langs if l.get('cluster') in clusters]
+            if paradigms:
+                langs = [
+                    l for l in langs 
+                    if any(p in (l.get('paradigms') or []) for p in paradigms)
+                ]
+            langs = [l for l in langs if min_year <= l.get('year', 0) <= max_year]
+            if sort == "name":
+                langs.sort(key=lambda x: x['name'].lower())
+            else:
+                langs.sort(key=lambda x: x.get('year', 0))
             return langs
         
         conn = self._get_connection()
-        query = "SELECT * FROM languages WHERE 1=1"
-        params = []
+        query = "SELECT * FROM languages WHERE year BETWEEN ? AND ?"
+        params = [min_year, max_year]
+
         if filter_gen:
             query += " AND lower(generation) = ?"
             params.append(filter_gen.lower())
         if filter_cluster:
             query += " AND lower(cluster) = ?"
             params.append(filter_cluster.lower())
+        if clusters:
+            placeholders = ', '.join(['?'] * len(clusters))
+            query += f" AND cluster IN ({placeholders})"
+            params.extend(clusters)
+        if paradigms:
+            placeholders = ', '.join(['?'] * len(paradigms))
+            query += f""" AND id IN (
+                SELECT language_id FROM language_paradigms lp
+                JOIN paradigms p ON lp.paradigm_id = p.id
+                WHERE p.name IN ({placeholders})
+            )"""
+            params.extend(paradigms)
+        
+        if sort == "name":
+            query += " ORDER BY lower(name) ASC"
+        else:
+            query += " ORDER BY year ASC"
         
         cursor = conn.execute(query, params)
         langs = [self._row_to_dict(row) for row in cursor.fetchall()]
@@ -205,6 +236,34 @@ class DataLoader:
         
         conn.close()
         return langs
+
+    def get_comparison_data(self, lang_names):
+        """Fetches detailed data for multiple languages for side-by-side comparison."""
+        if not self.use_sqlite:
+            return [self.get_combined_language_data(name) for name in lang_names]
+            
+        conn = self._get_connection()
+        placeholders = ', '.join(['?'] * len(lang_names))
+        # Match against either internal name or display name
+        query = f"SELECT * FROM languages WHERE name IN ({placeholders}) OR display_name IN ({placeholders})"
+        params = list(lang_names) + list(lang_names)
+        
+        cursor = conn.execute(query, params)
+        langs = [self._row_to_dict(row) for row in cursor.fetchall()]
+        
+        for lang in langs:
+            self._hydrate_language_json_compatibility(lang, conn)
+            
+        conn.close()
+        
+        # Sort results to match requested order
+        sorted_langs = []
+        for name in lang_names:
+            for lang in langs:
+                if lang['name'].lower() == name.lower() or lang['display_name'].lower() == name.lower():
+                    sorted_langs.append(lang)
+                    break
+        return sorted_langs
 
     def _row_to_dict(self, row):
         """Converts an sqlite3.Row to a dictionary."""

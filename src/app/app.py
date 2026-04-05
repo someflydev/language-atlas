@@ -49,50 +49,99 @@ async def read_root(
     min_year: int = 1930,
     max_year: int = 2024
 ):
-    all_languages = data_loader.get_all_languages()
+    # Fetch filtered languages directly from SQL via DataLoader
+    filtered_languages = data_loader.get_all_languages(
+        clusters=clusters,
+        paradigms=paradigms,
+        min_year=min_year,
+        max_year=max_year,
+        sort=sort
+    )
+    
     available_clusters = data_loader.get_all_clusters()
     available_paradigms = data_loader.get_all_paradigms()
 
-    filtered_languages = all_languages
+    context = {
+        "request": request,
+        "languages": filtered_languages, 
+        "current_sort": sort,
+        "available_clusters": available_clusters,
+        "selected_clusters": clusters or [],
+        "available_paradigms": available_paradigms,
+        "selected_paradigms": paradigms or [],
+        "min_year": min_year,
+        "max_year": max_year,
+        "min_bound": 1930,
+        "max_bound": 2024
+    }
 
-    # Filter by clusters
-    if clusters:
-        filtered_languages = [l for l in filtered_languages if l.get('cluster') in clusters]
+    if request.headers.get("HX-Request"):
+        return templates.TemplateResponse("partials/language_grid.html", context)
+
+    return templates.TemplateResponse("index.html", context)
+
+@app.get("/compare", response_class=HTMLResponse)
+async def compare_languages(request: Request, lang: List[str] = Query([]), lang1: Optional[str] = None, lang2: Optional[str] = None):
+    # Support both multi-param 'lang' and specific 'lang1'/'lang2'
+    selected = list(lang)
+    if lang1: selected.append(lang1)
+    if lang2: selected.append(lang2)
     
-    # Filter by paradigms
-    if paradigms:
-        filtered_languages = [
-            l for l in filtered_languages 
-            if any(p in (l.get('paradigms') or []) for p in paradigms)
-        ]
+    # Remove duplicates and empty strings
+    selected = list(dict.fromkeys([l for l in selected if l]))
     
-    # Filter by year range
-    filtered_languages = [
-        l for l in filtered_languages 
-        if min_year <= l.get('year', 0) <= max_year
-    ]
-
-    # Sort the results
-    if sort == "name":
-        filtered_languages.sort(key=lambda x: x['name'].lower())
-    else:
-        filtered_languages.sort(key=lambda x: x.get('year', 0))
-
+    if not selected:
+        return templates.TemplateResponse("compare.html", {"request": request, "languages": []})
+    
+    languages_data = data_loader.get_comparison_data(selected)
+    
     return templates.TemplateResponse(
-        request=request,
-        name="index.html",
-        context={
-            "languages": filtered_languages, 
-            "current_sort": sort,
-            "available_clusters": available_clusters,
-            "selected_clusters": clusters or [],
-            "available_paradigms": available_paradigms,
-            "selected_paradigms": paradigms or [],
-            "min_year": min_year,
-            "max_year": max_year,
-            "min_bound": 1930,
-            "max_bound": 2024
-        }
+        "compare.html", 
+        {"request": request, "languages": languages_data}
+    )
+
+@app.get("/compare/add")
+async def add_to_compare(request: Request, lang: str):
+    cookie_val = request.cookies.get("selected_languages", "")
+    selected = [l for l in cookie_val.split(",") if l]
+    if lang not in selected:
+        selected.append(lang)
+    
+    response = templates.TemplateResponse(
+        "partials/comparison_tray_content.html", 
+        {"request": request, "selected_languages": selected}
+    )
+    response.set_cookie("selected_languages", ",".join(selected))
+    return response
+
+@app.get("/compare/remove")
+async def remove_from_compare(request: Request, lang: str):
+    cookie_val = request.cookies.get("selected_languages", "")
+    selected = [l for l in cookie_val.split(",") if l and l != lang]
+    
+    response = templates.TemplateResponse(
+        "partials/comparison_tray_content.html", 
+        {"request": request, "selected_languages": selected}
+    )
+    response.set_cookie("selected_languages", ",".join(selected))
+    return response
+
+@app.get("/compare/clear")
+async def clear_compare(request: Request):
+    response = templates.TemplateResponse(
+        "partials/comparison_tray_content.html", 
+        {"request": request, "selected_languages": []}
+    )
+    response.delete_cookie("selected_languages")
+    return response
+
+@app.get("/compare/tray")
+async def get_comparison_tray(request: Request):
+    cookie_val = request.cookies.get("selected_languages", "")
+    selected = [l for l in cookie_val.split(",") if l]
+    return templates.TemplateResponse(
+        "partials/comparison_tray_content.html", 
+        {"request": request, "selected_languages": selected}
     )
 
 @app.get("/search", response_class=HTMLResponse)
