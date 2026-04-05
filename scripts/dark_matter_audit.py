@@ -77,8 +77,10 @@ def canonicalize(name):
     if name.startswith("the "): name = name[4:].strip()
     name = name.replace("cpu and memory", "cpu_memory").replace("cpu/memory", "cpu_memory")
     name = re.sub(r'\b(inc|corp|corporation|ltd|limited|llc|plc|foundation|labs|software)(\.?)(\b|$)', '', name).strip()
-    name = re.sub(r'\(\d{4}(?:/\d{4})?\)', '', name)
+    name = re.sub(r'\(\d{4}(?:–|-|/)(?:\d{4}|present)\)', '', name, flags=re.I)
+    name = re.sub(r'\(\d{4}\)', '', name)
     name = re.sub(r'\(proposed\)', '', name, flags=re.I)
+    
     name = name.replace("-", "_").replace(" ", "_")
     name = re.sub(r'_+', '_', name)
     name = name.strip("_:")
@@ -89,14 +91,19 @@ def canonicalize(name):
     }
     return replacements.get(name, name)
 
+def strip_years(name):
+    """Utility to aggressively strip years and metadata from strings."""
+    if not name: return ""
+    name = re.sub(r'\s*\(\d{4}(?:–|-|/)(?:\d{4}|Present)\)', '', name, flags=re.I)
+    name = re.sub(r'\s*\(\d{4}(?:/\d{4})?\)', '', name)
+    name = re.sub(r'\s*\(Proposed\)', '', name, flags=re.I)
+    return name.strip()
+
 def clean_name(name):
     if not name: return ""
-    name = name.replace('"', '')
+    name = name.replace('"', '').replace('`', '')
     name = re.sub(r'^\d+\.\s+', '', name)
-    name = re.sub(r'\s*\(\d{4}(?:/\d{4})?\):?$', '', name)
-    name = re.sub(r'\s*\(Proposed\):?$', '', name, flags=re.I)
-    
-    # Special acronym preservation: ARC, JIT, AOT, CSP, BNF
+    name = strip_years(name)
     name = name.strip(string.punctuation.replace(')', '').replace('(', '') + string.whitespace)
     if '(' in name and ')' not in name: name = name.split('(')[0].strip()
     if ')' in name and '(' not in name: name = name.split(')')[0].strip()
@@ -108,6 +115,7 @@ def split_entities(name):
     combos_to_protect = {"ARC/ORC", "AOT/JIT", "CPU/Memory", "CPU and Memory"}
     for combo in combos_to_protect:
         if combo in name: name = name.replace(combo, combo.replace("/", "_SLASH_").replace(" and ", "_AND_"))
+    
     parts = re.split(r'\s*&\s*|\s+and\s+', name)
     if len(parts) > 1:
         last_part = parts[-1].strip()
@@ -122,13 +130,15 @@ def split_entities(name):
             if suffix_found:
                 for i in range(len(parts) - 1):
                     if suffix_found.lower() not in parts[i].lower(): parts[i] = f"{parts[i].strip()} {suffix_found}"
+    
     final_parts = []
     for p in parts:
         if "/" in p and "PL_I_PROTECTED" not in p and "_SLASH_" not in p:
             if re.search(r'(?<=[a-zA-Z])/(?=[a-zA-Z])', p): final_parts.extend(re.split(r'/', p))
             else: final_parts.append(p)
         else: final_parts.append(p)
-    return [p.replace("PL_I_PROTECTED", "PL/I").replace("_SLASH_", "/").replace("_AND_", " and ").strip() for p in final_parts if p.strip()]
+    
+    return [strip_years(p.replace("PL_I_PROTECTED", "PL/I").replace("_SLASH_", "/").replace("_AND_", " and ")).strip() for p in final_parts if p.strip()]
 
 def extract_entities_from_text(text):
     if not text or not isinstance(text, str): return [], []
@@ -139,7 +149,7 @@ def extract_entities_from_text(text):
             n = clean_name(n)
             if n and len(n) <= 60 and len(n.split()) <= 10:
                 if not re.match(r'^\d{4}$', n): concepts.append(n)
-    at_matches = re.findall(r'at ([A-Z][a-z]+(?: [A-Z][a-z]+){0,3})', text)
+    at_matches = re.findall(r'at ([A-Z][A-Za-z]+(?: [A-Z][A-Za-z]+){0,3})', text)
     for m in at_matches:
         if is_organization(m): orgs.append(m)
     return concepts, orgs
@@ -156,7 +166,8 @@ def audit():
         "Automated Dark Matter detection to track progress", "Automated Dark Matter detection", 
         "Recursive completeness checks", "Strict data-completeness requirements for new entries",
         "Maturity and Completeness", "Mapping the DNA of Code", "The Narrative Engine", 
-        "The Odyssey Generator", "Auto-Odyssey generator", "Semantic Search", "Dark Matter Audit"
+        "The Odyssey Generator", "Auto-Odyssey generator", "Semantic Search", "Dark Matter Audit",
+        "DAWN", "EARLY", "WEB", "CLOUD", "RENAISSANCE", "AUTONOMIC"
     }
     meta_canons = {canonicalize(c) for c in meta_concepts}
     data_dir = Path("data"); docs_dir = data_dir / "docs"
@@ -193,9 +204,13 @@ def audit():
     def add_reference(name, target_map=None):
         if not name or name == "Various": return
         if re.search(r'^[A-Z]+\s+\(\d{4}-\d{4}\)$', name): return
+        
+        # Clean the name of years before processing combos
+        name_no_year = strip_years(name)
+        
         names = split_entities(name)
-        if any(sep in name for sep in [" and ", " & ", " / "]) or (len(names) > 1):
-            combo_clean = clean_name(name); canon_combo = canonicalize(combo_clean)
+        if any(sep in name_no_year for sep in [" and ", " & ", " / "]) or (len(names) > 1):
+            combo_clean = clean_name(name_no_year); canon_combo = canonicalize(combo_clean)
             if canon_combo and canon_combo not in meta_canons:
                 if canon_combo not in existing_profiles["concept_combos"]: referenced_combos[canon_combo] = combo_clean
         for n in names:
@@ -248,7 +263,6 @@ def audit():
         with open(concepts_path, "r") as f:
             for c in json.load(f):
                 add_reference(c.get("name"))
-                # Also scan description for bolded terms
                 bc, bo = extract_entities_from_text(c.get("description", ""))
                 for item in bc: add_reference(item)
                 for item in bo: add_reference(item, referenced_organizations)
@@ -260,7 +274,7 @@ def audit():
                 era_data = json.load(f)
                 for driver in era_data.get("key_drivers", []): add_reference(driver.get("name"))
                 for pl in era_data.get("pivotal_languages", []):
-                    add_reference(re.sub(r'\s*\(\d{4}\)', '', pl.get("name", "")), referenced_languages)
+                    add_reference(pl.get("name", ""), referenced_languages)
                 c, o = extract_entities_from_text(era_data.get("legacy_impact"))
                 for item in c: add_reference(item)
                 for item in o: add_reference(item, referenced_organizations)
