@@ -1,4 +1,4 @@
-.PHONY: docs clean help test test-intensive build audit
+.PHONY: docs clean help test test-intensive build audit dark-matter
 
 help:
 	@echo "Usage: make [target]"
@@ -9,6 +9,7 @@ help:
 	@echo "  test-intensive  Run intensive analytical tests and regenerate insight reports"
 	@echo "  build           Build the standalone Zenith binary (dist/atlas)"
 	@echo "  audit           Run the Atlas Auditor (Validation 2.0) checks"
+	@echo "  dark-matter     Run the Dark Matter Audit to identify missing profiles"
 	@echo "  server          Start the FastAPI web server on port 8084"
 	@echo "  clean           Remove the generated documentation and test artifacts"
 
@@ -23,6 +24,10 @@ test:
 audit:
 	@echo "Running Atlas Auditor checks..."
 	uv run python3 src/app/core/auditor.py
+
+dark-matter:
+	@echo "Running Dark Matter Audit..."
+	uv run python3 scripts/dark_matter_audit.py
 
 server:
 	@echo "Starting Language Atlas server on http://localhost:8084..."
