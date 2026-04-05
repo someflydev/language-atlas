@@ -253,6 +253,95 @@ async def get_language_profile(request: Request, name: str):
         context={"lang": lang, "content": html_content}
     )
 
+@app.get("/person/{name}", response_class=HTMLResponse)
+async def get_person_profile(request: Request, name: str):
+    profiles = data_loader.get_people_profiles()
+    norm_name = name
+    for k in profiles.keys():
+        if k.lower() == name.lower() or k.replace('_', ' ').lower() == name.lower():
+            norm_name = k
+            break
+            
+    person = profiles.get(norm_name)
+    if not person:
+        raise HTTPException(status_code=404, detail="Person not found")
+        
+    content = f"# {person.get('title', person.get('name', name))}\n\n"
+    content += f"{person.get('overview', '')}\n\n"
+    
+    sections = [
+        ('historical_context', 'Historical Context'),
+        ('mental_model', 'Mental Model'),
+        ('pivotal_works', 'Pivotal Works'),
+        ('affiliations', 'Affiliations'),
+        ('legacy', 'Legacy'),
+        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
+    ]
+    
+    for key, title in sections:
+        val = person.get(key)
+        if val:
+            content += f"## {title}\n"
+            if isinstance(val, list):
+                for item in val:
+                    content += f"- {item}\n"
+                content += "\n"
+            else:
+                content += f"{val}\n\n"
+                
+    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+    
+    return templates.TemplateResponse(
+        request=request,
+        name="profile.html",
+        context={"lang": person, "content": html_content, "title": person.get('name', name)}
+    )
+
+@app.get("/event/{slug}", response_class=HTMLResponse)
+async def get_event_profile(request: Request, slug: str):
+    events = data_loader.get_historical_events()
+    event = events.get(slug)
+    if not event:
+        for k, v in events.items():
+            if k.lower() == slug.lower() or v.get('slug', '').lower() == slug.lower():
+                event = v
+                break
+                
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+        
+    content = f"# {event.get('title', slug)}\n\n"
+    date_str = event.get('date', '')
+    if date_str:
+        content += f"**Date:** {date_str}\n\n"
+    content += f"{event.get('overview', '')}\n\n"
+    
+    sections = [
+        ('impact_on_computing', 'Impact on Computing'),
+        ('key_figures', 'Key Figures'),
+        ('legacy', 'Legacy'),
+        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
+    ]
+    
+    for key, title in sections:
+        val = event.get(key)
+        if val:
+            content += f"## {title}\n"
+            if isinstance(val, list):
+                for item in val:
+                    content += f"- {item}\n"
+                content += "\n"
+            else:
+                content += f"{val}\n\n"
+                
+    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+    
+    return templates.TemplateResponse(
+        request=request,
+        name="profile.html",
+        context={"lang": event, "content": html_content, "title": event.get('title', slug)}
+    )
+
 @app.get("/odysseys", response_class=HTMLResponse)
 async def list_odysseys_view(request: Request):
     odysseys = data_loader.get_learning_paths()
@@ -326,6 +415,40 @@ async def api_get_language(name: str):
 async def api_list_odysseys():
     """List all guided learning paths."""
     return data_loader.get_learning_paths()
+
+@app.get("/api/people")
+async def api_list_people():
+    return data_loader.get_people_profiles()
+
+@app.get("/api/person/{name}")
+async def api_get_person(name: str):
+    profiles = data_loader.get_people_profiles()
+    norm_name = name
+    for k in profiles.keys():
+        if k.lower() == name.lower() or k.replace('_', ' ').lower() == name.lower():
+            norm_name = k
+            break
+    person = profiles.get(norm_name)
+    if not person:
+        raise HTTPException(status_code=404, detail="Person not found")
+    return person
+
+@app.get("/api/events")
+async def api_list_events():
+    return data_loader.get_historical_events()
+
+@app.get("/api/event/{slug}")
+async def api_get_event(slug: str):
+    events = data_loader.get_historical_events()
+    event = events.get(slug)
+    if not event:
+        for k, v in events.items():
+            if k.lower() == slug.lower() or v.get('slug', '').lower() == slug.lower():
+                event = v
+                break
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+    return event
 
 @app.get("/api/odyssey/{path_id}")
 async def api_get_odyssey(path_id: str):

@@ -75,6 +75,34 @@ Retrieve a specific guided learning path by its ID.
   }
   ```
 
+### 6. List People
+Retrieve all people profiles.
+
+- **URL:** `/api/people`
+- **Method:** `GET`
+- **Response:** Key-value object mapping person names to their profile data.
+
+### 7. Get Person Detail
+Retrieve detailed profile information for a specific person.
+
+- **URL:** `/api/person/{name}`
+- **Method:** `GET`
+- **Response:** Detailed JSON object for the requested person.
+
+### 8. List Historical Events
+Retrieve all historical events.
+
+- **URL:** `/api/events`
+- **Method:** `GET`
+- **Response:** Key-value object mapping event slugs to their event data.
+
+### 9. Get Historical Event Detail
+Retrieve detailed information for a specific historical event.
+
+- **URL:** `/api/event/{slug}`
+- **Method:** `GET`
+- **Response:** Detailed JSON object for the requested event.
+
 ---
 
 ## Integration Examples

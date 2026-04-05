@@ -109,6 +109,40 @@
                 </td>
                 {% endfor %}
             </tr>
+
+            <!-- Primary Use Cases -->
+            <tr>
+                <td class="p-8 bg-slate-50/50">
+                    <span class="text-xs font-black uppercase tracking-widest text-slate-900">Primary Use Cases</span>
+                </td>
+                {% for lang in languages %}
+                <td class="p-8 text-sm text-slate-700">
+                    <div class="flex flex-wrap gap-2">
+                        {% for use in (lang.primary_use_cases or []) %}
+                        <span class="bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase px-2 py-1 rounded">
+                            {{ use }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </td>
+                {% endfor %}
+            </tr>
+
+            <!-- Key Innovations -->
+            <tr>
+                <td class="p-8 bg-slate-50/50 border-b-0">
+                    <span class="text-xs font-black uppercase tracking-widest text-slate-900">Key Innovations</span>
+                </td>
+                {% for lang in languages %}
+                <td class="p-8 text-sm text-slate-700 leading-relaxed border-b-0">
+                    <ul class="list-disc pl-4 space-y-1">
+                        {% for inn in (lang.key_innovations or [])[:3] %}
+                        <li>{{ inn }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                {% endfor %}
+            </tr>
         </tbody>
     </table>
 </div>

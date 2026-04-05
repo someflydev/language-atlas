@@ -32,8 +32,12 @@
                     {% if lang.creators %}
                     <div>
                         <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Creators</dt>
-                        <dd class="text-slate-700 font-medium leading-relaxed">
-                            {{ lang.creators|join(", ") }}
+                        <dd class="flex flex-wrap gap-2 mt-2">
+                            {% for creator in lang.creators %}
+                            <a href="/person/{{ creator|replace(' ', '_') }}" class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-[10px] font-bold uppercase hover:bg-blue-100 transition-colors">
+                                {{ creator }}
+                            </a>
+                            {% endfor %}
                         </dd>
                     </div>
                     {% endif %}

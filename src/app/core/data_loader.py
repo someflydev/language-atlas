@@ -28,6 +28,8 @@ class DataLoader:
             self.learning_paths = self._load_json('learning_paths.json')
             self.language_profiles = self._load_language_profiles()
             self.concept_profiles = self._load_concept_profiles()
+            self.people_profiles = self._load_people_profiles()
+            self.historical_events = self._load_historical_events()
         else:
             # When using SQLite, we don't load all data into memory at once
             self.languages = []
@@ -39,6 +41,8 @@ class DataLoader:
             self.learning_paths = self._load_json('learning_paths.json')
             self.language_profiles = {}
             self.concept_profiles = {}
+            self.people_profiles = {}
+            self.historical_events = {}
 
     def _get_connection(self):
         """Returns a read-only connection to the SQLite database."""
@@ -134,6 +138,76 @@ class DataLoader:
                     continue
         
         return profiles
+
+    def _load_people_profiles(self):
+        profiles_dir = os.path.join(self.data_dir, 'docs', 'people_profiles')
+        profiles = {}
+        if not os.path.isdir(profiles_dir): return profiles
+        for filename in os.listdir(profiles_dir):
+            if filename.endswith('.json'):
+                try:
+                    with open(os.path.join(profiles_dir, filename), 'r', encoding='utf-8') as f:
+                        profiles[filename[:-5]] = json.load(f)
+                except (json.JSONDecodeError, IOError): continue
+        return profiles
+
+    def get_people_profiles(self):
+        if not self.use_sqlite:
+            return getattr(self, 'people_profiles', {})
+            
+        conn = self._get_connection()
+        cursor = conn.execute("""
+            SELECT p.name, pp.* 
+            FROM people p 
+            JOIN people_profiles pp ON p.id = pp.person_id
+        """)
+        profiles = {}
+        for row in cursor.fetchall():
+            person_name = row['name']
+            profile_id = row['id']
+            profile_data = self._row_to_dict(row)
+            
+            s_cursor = conn.execute("SELECT section_name, content FROM people_profile_sections WHERE profile_id = ?", (profile_id,))
+            for s_row in s_cursor.fetchall():
+                profile_data[s_row['section_name']] = s_row['content']
+            
+            profiles[person_name] = profile_data
+        
+        conn.close()
+        return profiles
+
+    def _load_historical_events(self):
+        events_dir = os.path.join(self.data_dir, 'docs', 'historical_events')
+        events = {}
+        if not os.path.isdir(events_dir): return events
+        for filename in os.listdir(events_dir):
+            if filename.endswith('.json'):
+                try:
+                    with open(os.path.join(events_dir, filename), 'r', encoding='utf-8') as f:
+                        events[filename[:-5]] = json.load(f)
+                except (json.JSONDecodeError, IOError): continue
+        return events
+
+    def get_historical_events(self):
+        if not self.use_sqlite:
+            return getattr(self, 'historical_events', {})
+            
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT * FROM historical_events")
+        events = {}
+        for row in cursor.fetchall():
+            event_slug = row['slug']
+            event_id = row['id']
+            event_data = self._row_to_dict(row)
+            
+            s_cursor = conn.execute("SELECT section_name, content FROM event_sections WHERE event_id = ?", (event_id,))
+            for s_row in s_cursor.fetchall():
+                event_data[s_row['section_name']] = s_row['content']
+            
+            events[event_slug] = event_data
+        
+        conn.close()
+        return events
 
     def _merge_data(self, base, new_data):
         if isinstance(base, list) and isinstance(new_data, list):

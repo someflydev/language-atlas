@@ -140,7 +140,48 @@ def build_database(conn=None, data_dir=None):
     CREATE TABLE concepts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL UNIQUE,
-        description TEXT
+        description TEXT,
+        year INTEGER
+    );
+
+    CREATE TABLE concept_people (
+        concept_id INTEGER NOT NULL,
+        person_id INTEGER NOT NULL,
+        PRIMARY KEY (concept_id, person_id),
+        FOREIGN KEY (concept_id) REFERENCES concepts(id),
+        FOREIGN KEY (person_id) REFERENCES people(id)
+    );
+
+    CREATE TABLE people_profiles (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        person_id INTEGER NOT NULL UNIQUE,
+        title TEXT,
+        overview TEXT,
+        FOREIGN KEY (person_id) REFERENCES people(id)
+    );
+
+    CREATE TABLE people_profile_sections (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        profile_id INTEGER NOT NULL,
+        section_name TEXT NOT NULL,
+        content TEXT,
+        FOREIGN KEY (profile_id) REFERENCES people_profiles(id)
+    );
+
+    CREATE TABLE historical_events (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        slug TEXT NOT NULL UNIQUE,
+        title TEXT,
+        date TEXT,
+        overview TEXT
+    );
+
+    CREATE TABLE event_sections (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        event_id INTEGER NOT NULL,
+        section_name TEXT NOT NULL,
+        content TEXT,
+        FOREIGN KEY (event_id) REFERENCES historical_events(id)
     );
 
     CREATE TABLE concept_bullets (
@@ -247,17 +288,26 @@ def build_database(conn=None, data_dir=None):
         cursor.execute("INSERT INTO paradigms (name, description) VALUES (?, ?)", (p['name'], p.get('description')))
         paradigm_map[p['name']] = cursor.lastrowid
         
-    # Concepts (from data/concepts.json)
-    print("Inserting base concepts...")
-    for c in loader.concepts:
-        cursor.execute("INSERT OR IGNORE INTO concepts (name, description) VALUES (?, ?)", (c['name'], c.get('description')))
-
     # People
     people_map = {} # name -> id
     for p in loader.people:
         if p['name'] not in people_map:
             cursor.execute("INSERT INTO people (name) VALUES (?)", (p['name'],))
             people_map[p['name']] = cursor.lastrowid
+
+    # Concepts (from data/concepts.json)
+    print("Inserting base concepts...")
+    for c in loader.concepts:
+        cursor.execute("INSERT OR IGNORE INTO concepts (name, description, year) VALUES (?, ?, ?)", (c['name'], c.get('description'), c.get('year')))
+        cursor.execute("SELECT id FROM concepts WHERE name = ?", (c['name'],))
+        concept_row = cursor.fetchone()
+        if concept_row:
+            concept_id = concept_row[0]
+            for person in c.get('responsible', []):
+                if person not in people_map:
+                    cursor.execute("INSERT INTO people (name) VALUES (?)", (person,))
+                    people_map[person] = cursor.lastrowid
+                cursor.execute("INSERT OR IGNORE INTO concept_people (concept_id, person_id) VALUES (?, ?)", (concept_id, people_map[person]))
             
     # Languages
     lang_map = {} # name -> id
@@ -407,6 +457,60 @@ def build_database(conn=None, data_dir=None):
                     content = "\n".join(content)
                 cursor.execute("INSERT INTO concept_profile_sections (profile_id, section_name, content) VALUES (?, ?, ?)",
                                (profile_id, sec_name, str(content)))
+
+    # People Profiles
+    people_profiles = loader.get_people_profiles()
+    person_id_map = {} # name -> id
+    cursor.execute("SELECT name, id FROM people")
+    for name, pid in cursor.fetchall():
+        person_id_map[name] = pid
+
+    for key, profile in people_profiles.items():
+        person_id = None
+        space_key = key.replace('_', ' ')
+        
+        if key in person_id_map:
+            person_id = person_id_map[key]
+        elif space_key in person_id_map:
+            person_id = person_id_map[space_key]
+        else:
+            title = profile.get('title', space_key)
+            name_only = title.split(':')[0].strip()
+            if name_only in person_id_map:
+                person_id = person_id_map[name_only]
+            else:
+                cursor.execute("INSERT INTO people (name) VALUES (?)", (name_only,))
+                person_id = cursor.lastrowid
+                person_id_map[name_only] = person_id
+        
+        if person_id:
+            cursor.execute("INSERT INTO people_profiles (person_id, title, overview) VALUES (?, ?, ?)", 
+                           (person_id, profile.get('title'), profile.get('overview')))
+            profile_id = cursor.lastrowid
+            
+            for sec_name, content in profile.items():
+                if sec_name in ['title', 'overview']:
+                    continue
+                if isinstance(content, list):
+                    content = "\n".join(content)
+                cursor.execute("INSERT INTO people_profile_sections (profile_id, section_name, content) VALUES (?, ?, ?)",
+                               (profile_id, sec_name, str(content)))
+
+    # Historical Events
+    historical_events = loader.get_historical_events()
+    for key, event in historical_events.items():
+        slug = event.get('slug', key)
+        cursor.execute("INSERT INTO historical_events (slug, title, date, overview) VALUES (?, ?, ?, ?)",
+                       (slug, event.get('title'), event.get('date'), event.get('overview')))
+        event_id = cursor.lastrowid
+        
+        for sec_name, content in event.items():
+            if sec_name in ['slug', 'title', 'date', 'overview']:
+                continue
+            if isinstance(content, list):
+                content = "\n".join(content)
+            cursor.execute("INSERT INTO event_sections (event_id, section_name, content) VALUES (?, ?, ?)",
+                           (event_id, sec_name, str(content)))
 
     # 5. Populate FTS Tables
     
