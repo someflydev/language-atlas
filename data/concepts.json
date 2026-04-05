@@ -1,30 +1,134 @@
 [
   {
-    "name": "The Pedagogical Engine",
-    "description": "The Atlas framework for generating interactive learning paths and exploring the historical influence graph of programming."
+    "name": "Immutability",
+    "description": "The philosophy that data cannot be modified after its creation, eliminating shared mutable state bugs.",
+    "year": 1958,
+    "responsible": ["John McCarthy"]
   },
   {
-    "name": "Programming Language Generations",
-    "description": "A classification of programming languages based on their historical era, hardware constraints, and industry needs."
+    "name": "The Actor Model",
+    "description": "A model of concurrent computation where isolated entities communicate exclusively via message passing.",
+    "year": 1973,
+    "responsible": ["Carl Hewitt"]
   },
   {
-    "name": "Guided Odyssey",
-    "description": "Curated narrative journeys through the Language Atlas that guide students from foundational precursors to modern systems."
+    "name": "CSP - Communicating Sequential Processes",
+    "description": "A formal language for describing patterns of interaction in concurrent systems via channels.",
+    "year": 1978,
+    "responsible": ["Tony Hoare"]
   },
   {
-    "name": "Influence Graph",
-    "description": "The **directed acyclic graph (DAG)** representing how programming languages have influenced one another across history."
+    "name": "Async/Await",
+    "description": "A syntactic feature that allows asynchronous code to be written in a structured, synchronous-like style.",
+    "year": 2012,
+    "responsible": ["Microsoft"]
   },
   {
-    "name": "Semantic Search",
-    "description": "Full-text search capabilities across the Atlas using FTS5 to find deep connections between languages, people, and concepts."
+    "name": "Hindley-Milner Type System",
+    "description": "A formal type system that provides automatic type inference for strictly typed languages.",
+    "year": 1969,
+    "responsible": ["Roger Hindley", "Robin Milner"]
   },
   {
-    "name": "Zenith State",
-    "description": "The mature phase of the Language Atlas where it serves as a high-density, authoritative research platform."
+    "name": "Garbage Collection",
+    "description": "Automatic memory management that identifies and reclaims memory no longer in use by the program.",
+    "year": 1959,
+    "responsible": ["John McCarthy"]
+  },
+  {
+    "name": "RAII - Resource Acquisition Is Initialization",
+    "description": "A programming idiom where resource lifecycle is tied to object scope and destructors.",
+    "year": 1985,
+    "responsible": ["Bjarne Stroustrup"]
+  },
+  {
+    "name": "Ownership & Borrowing",
+    "description": "A memory management system that uses compile-time rules to ensure safety without a garbage collector.",
+    "year": 2010,
+    "responsible": ["Graydon Hoare", "Mozilla"]
+  },
+  {
+    "name": "Macros",
+    "description": "A system for defining code transformations that are expanded by the compiler or preprocessor.",
+    "year": 1958,
+    "responsible": ["Timothy Hart"]
+  },
+  {
+    "name": "Homoiconicity",
+    "description": "A property where the program's structure is itself a data structure of the language.",
+    "year": 1958,
+    "responsible": ["John McCarthy"]
   },
   {
     "name": "The Software Crisis",
-    "description": "The recurring historical realization that software complexity has outpaced hardware capabilities and programmer productivity, driving the invention of new paradigms."
+    "description": "The historical realization that software complexity often outpaces our tools and methodologies.",
+    "year": 1968,
+    "responsible": ["NATO Science Committee"]
+  },
+  {
+    "name": "Semantic Search",
+    "description": "Information retrieval that focuses on the conceptual intent of a query rather than literal keywords.",
+    "year": 2013,
+    "responsible": ["Google"]
+  },
+  {
+    "name": "Borrow Checking",
+    "description": "The compile-time analysis used to enforce ownership and reference validity rules.",
+    "year": 2012,
+    "responsible": ["Niko Matsakis"]
+  },
+  {
+    "name": "Block structure",
+    "description": "A lexical scoping mechanism where code is organized into nested blocks with their own scope.",
+    "year": 1958,
+    "responsible": ["ALGOL 58 Team"]
+  },
+  {
+    "name": "Design by Contract",
+    "description": "A formal approach to software design using preconditions, postconditions, and invariants.",
+    "year": 1986,
+    "responsible": ["Bertrand Meyer"]
+  },
+  {
+    "name": "Event Loop",
+    "description": "A programming construct that waits for and dispatches events or messages in a program.",
+    "year": 1970,
+    "responsible": ["Xerox PARC"]
+  },
+  {
+    "name": "Multiple Inheritance",
+    "description": "A feature where a class can inherit behaviors and features from more than one parent class.",
+    "year": 1967,
+    "responsible": ["Ole-Johan Dahl", "Kristen Nygaard"]
+  },
+  {
+    "name": "Nominal vs Structural Typing",
+    "description": "The distinction between typing based on explicit names versus typing based on data shape.",
+    "year": 1980,
+    "responsible": ["Luca Cardelli"]
+  },
+  {
+    "name": "Object-Oriented Design",
+    "description": "A design philosophy centered on objects, encapsulation, inheritance, and polymorphism.",
+    "year": 1967,
+    "responsible": ["Ole-Johan Dahl", "Kristen Nygaard"]
+  },
+  {
+    "name": "Relational Model",
+    "description": "A model for database management based on first-order predicate logic and set theory.",
+    "year": 1970,
+    "responsible": ["Edgar F. Codd"]
+  },
+  {
+    "name": "Static vs Dynamic Typing",
+    "description": "The fundamental divide between compile-time and runtime type checking.",
+    "year": 1958,
+    "responsible": ["John McCarthy", "FORTRAN Team"]
+  },
+  {
+    "name": "Church-Turing Thesis",
+    "description": "The hypothesis that every effectively calculable function is computable by a Turing machine.",
+    "year": 1936,
+    "responsible": ["Alonzo Church", "Alan Turing"]
   }
 ]
