@@ -1,19 +1,20 @@
 {
-  "title": "Design by Contract: Correctness through Specification",
-  "overview": "Design by Contract (DbC) is a software engineering method that defines the rights and obligations of software components through formal contracts. It uses pre-conditions, post-conditions, and class invariants to ensure software correctness.",
-  "historical_context": "Created by Bertrand Meyer in the mid-1980s as a core part of the Eiffel programming language, DbC was a reaction to the challenges of building large-scale, reliable software systems. Its central philosophy is that a program's behavior should be precisely defined by 'contracts' between its components.",
-  "mental_model": "Think in terms of classes as 'suppliers' and callers as 'clients'. Every interaction is governed by a legally binding contract that defines the rights and obligations of both parties.\n\nYour brain must be wired to:\n1. **Value Contracts:** Use pre-conditions to ensure inputs are correct, post-conditions to verify results, and class invariants to maintain a consistent state.\n2. **Encapsulate Behavior:** Hide implementation details and only expose a clear, well-defined interface to clients.\n3. **Think Systematically:** Consider how your classes interact with each other to build a robust and correct software system.",
+  "title": "Design by Contract: The Legal Code of Software",
+  "overview": "Design by Contract (DbC) is a rigorous software engineering methodology where components collaborate based on precise, mutual obligations. It treats software interfaces as legally binding agreements between a caller and a supplier.",
+  "historical_context": "During the Structured Revolution of the 1980s, the industry struggled with the Software Crisis of component integration: how to ensure that separate modules worked together correctly without exhaustive, fragile defensive programming. At this Crossroad, Bertrand Meyer developed the Eiffel language and introduced DbC. He argued that instead of checking for every possible error everywhere, software should rely on clear Contracts that define exactly what each party is responsible for.",
+  "mental_model": "To use Design by Contract, you must stop defending your code and start specifying it. You are a lawyer drafting an agreement where both sides have clear rights and duties.\n\nYour brain must be wired to:\n1. **Identify Pre-conditions:** As a supplier, define exactly what must be true (the cost to the client) before your code will even attempt to run.\n2. **Guarantee Post-conditions:** As a supplier, promise exactly what the state of the world will be (the benefit to the client) once your code finish successfully.\n3. **Maintain Invariants:** Ensure that the essential soul of your object (its invariant) remains true at all times, regardless of which methods are called.",
   "key_aspects": [
-    "**Pre-conditions:** The requirements that must be met by the client before calling a method.",
-    "**Post-conditions:** The guarantees that must be met by the supplier after a method returns.",
-    "**Class Invariants:** The properties that must remain true for all instances of a class at all times.",
-    "**Formal Specification:** The use of formal logic to define program behavior precisely."
+    "**Pre-conditions:** Requirements that a client must satisfy before calling a routine; if they fail, the client is at fault.",
+    "**Post-conditions:** Guarantees that a routine must satisfy upon completion; if they fail, the supplier is at fault.",
+    "**Class Invariants:** Constraints that must be true for all instances of a class throughout their entire lifetime.",
+    "**Exception as Breach:** The philosophy that an exception is not a normal control flow, but a sign that a contract has been broken and the system is in an invalid state."
   ],
-  "tradeoffs": "- **Complexity:** The addition of formal contracts can make software design more complex and time-consuming.\n- **Learning Curve:** Understanding the power and discipline of Design by Contract required a new way of thinking about software development.\n- **Performance Overhead:** Checking contracts at runtime can add some performance overhead, although they can often be disabled in production." ,
-  "legacy": "Design by Contract's concepts of formal specification and its emphasis on software correctness have had a lasting impact on modern software engineering and have influenced the design of many other languages and testing methods.",
+  "tradeoffs": "- **Verbose Specification:** Writing detailed contracts can significantly increase the amount of code and effort required during initial development.\n- **Performance Impact:** Checking complex invariants at runtime can introduce overhead, often requiring them to be disabled in production builds.\n- **Strict Discipline:** It requires a high level of team coordination; if one developer ignores the contracts, the safety of the entire system is compromised.",
+  "legacy": "While few languages have first-class support like Eiffel, the spirit of DbC lives on in Assert statements, modern Unit Testing frameworks, and newer specification languages like SPARK for Ada and the Microsoft Research projects like Spec#.",
   "ai_assisted_discovery_missions": [
-    "1. 'Explore the impact of Design by Contract on modern testing and formal verification methods.'",
-    "2. 'Analyze Bertrand Meyer's philosophy of 'Software Correctness' as expressed in his book 'Object-Oriented Software Construction'.'",
-    "3. 'Compare Design by Contract with modern alternatives like those in modern functional languages or formal verification tools.'"
-  ]
+    "1. 'Explain how Design by Contract differs from Defensive Programming and why Bertrand Meyer considers the latter a harmful practice.'",
+    "2. 'Analyze the role of Inheritance in DbC: why can a subclass only weaken pre-conditions and strengthen post-conditions?'",
+    "3. 'Trace the influence of DbC on modern Property-Based Testing tools like QuickCheck and Hypothesis.'"
+  ],
+  "challenge": "Write a contract for a Stack data structure's pop method. What are the pre-conditions, post-conditions, and the class invariant?"
 }

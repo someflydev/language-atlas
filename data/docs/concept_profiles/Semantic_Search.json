@@ -1,17 +1,20 @@
 {
-  "title": "Semantic Search: Finding Deep Connections",
-  "overview": "A multi-layered search engine that uses full-text indexing (FTS5) to find connections across languages, people, and deep narrative profiles.",
-  "historical_context": "Implemented to allow researchers to find \"hidden\" mentions of concepts within the vast narrative documentation of the Atlas.",
-  "mental_model": "A global index that understands categories (language, profile, concept) and provides contextual snippets.",
-  "key_innovations": [
-    "BM25 ranking for relevance.",
-    "Cross-category search partials (HTMX-ready).",
-    "Indexing of deep profile sections."
+  "title": "Semantic Search: The Narrative Engine",
+  "overview": "Semantic Search in the Language Atlas is a sophisticated retrieval system that goes beyond simple keyword matching. It uses full-text indexing and relevance ranking to find deep, narrative connections across languages, people, and historical events.",
+  "historical_context": "The Software Crisis for the Language Atlas project was one of Information Density. With hundreds of profiles and thousands of cross-references, it became impossible for users to find the Hidden Threads of history (e.g., finding every language influenced by the ALGOL 60 block structure). At this Crossroad, we implemented a custom Semantic Search engine using SQLite's FTS5. This transformed the Atlas from a static collection of files into a dynamic research tool that understands the context of its own content.",
+  "mental_model": "To use the Atlas Semantic Search, you must stop thinking of search terms and start thinking of research queries. You are not looking for a needle in a haystack; you are asking the Atlas to reveal a pattern across time.\n\nYour brain must be wired to:\n1. **Query by Concept:** Search for Memory Safety or Software Crisis to see how these ideas have mutated across different eras and languages.\n2. **Identify Cross-Domain Links:** Use the search results to see how a single person (like Tony Hoare) influenced both Null Pointers and CSP concurrently.\n3. **Value Relevance over Quantity:** Trust the BM25 ranking algorithm to surface the most significant narrative profiles first, rather than just every literal mention of a word.",
+  "key_aspects": [
+    "**Full-Text Indexing (FTS5):** A high-performance indexing engine built into SQLite that allows for complex, near-instant searches across thousands of JSON profiles.",
+    "**BM25 Ranking:** A sophisticated algorithm that ranks search results based on the frequency and rarity of terms, ensuring high relevance for researchers.",
+    "**Deep Context Snippets:** The search engine doesn't just return links; it provides contextual partials that show exactly how a term is used within a profile's narrative.",
+    "**Multi-Category Search:** A unified index that allows a single query to simultaneously scan across Languages, Concepts, Organizations, and Historical Events."
   ],
-  "tradeoffs": "Requires manual indexing and schema management to ensure all narrative content is searchable.",
-  "legacy": "Transforms the Atlas from a list of files into a searchable research platform.",
+  "tradeoffs": "- **Index Management:** Every time a profile is updated or added, the global index must be rebuilt or synchronized to ensure search accuracy.\n- **Schema Complexity:** Mapping the flexible, narrative fields of a JSON profile into a flat, searchable SQLite table requires careful architectural planning.\n- **Narrative Over-Match:** Because the Atlas uses high-quality prose, a search for a common word (like Revolution) might return more results than a researcher can easily digest.",
+  "legacy": "Semantic Search is the Zenith feature of the Language Atlas experience. It fulfills the project's goal of making the Dark Matter of computing history visible, searchable, and interconnected for a new generation of developers.",
   "ai_assisted_discovery_missions": [
-    "Analyze the SQLite FTS5 implementation used in the Atlas.",
-    "Explain how BM25 ranking improves search relevance."
-  ]
+    "1. 'Explain how the BM25 algorithm differs from simple TF-IDF and why it is better for ranking narrative documentation.'",
+    "2. 'Analyze the SQL VIRTUAL TABLE architecture used by FTS5 and how it handles external content indexing.'",
+    "3. 'Trace the implementation of Snippet generation: how does the search engine find and highlight the most relevant part of a large JSON file?'"
+  ],
+  "challenge": "Perform a search for 'The Software Crisis' in the Atlas. Which generation of languages appears most frequently in the results, and why?"
 }

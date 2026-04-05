@@ -1,17 +1,20 @@
 {
-  "title": "Lazy Evaluation: Computation on Demand",
-  "overview": "Delaying the evaluation of an expression until its value is actually required by the program.",
-  "historical_context": "Derived from the Lambda Calculus and popularized by Haskell as a way to handle infinite data structures and optimize execution.",
-  "mental_model": "Think of a recipe where you only chop the vegetables when you are actually ready to put them in the pan.",
-  "key_innovations": [
-    "Infinite data structures.",
-    "Short-circuiting logic by default.",
-    "Potential for automatic memoization."
+  "title": "Lazy Evaluation: The Efficiency of Procrastination",
+  "overview": "Lazy Evaluation is an evaluation strategy that delays the computation of an expression until its result is actually needed. It allows for the creation of infinite data structures and can avoid unnecessary work by skipping unread branches of logic.",
+  "historical_context": "In the 1970s, as programs grew in complexity, the Software Crisis involved managing the efficiency of large-scale data processing. At this Crossroad, researchers working on the Lambda Calculus and the Haskell language realized that Eager (or Strict) evaluation often wasted resources calculating values that were never used. By introducing Call-by-Need, they created a world where the consumer, not the producer, dictates when and how much work is done.",
+  "mental_model": "To understand Lazy Evaluation, you must stop seeing code as a to-do list and start seeing it as a recipe book. You don't cook every meal in the book; you only prepare what the guest actually orders.\n\nYour brain must be wired to:\n1. **Accept Infinite Possibility:** Realize that a list can be infinite (like all prime numbers) as long as you only ever look at the first few elements.\n2. **Internalize the Thunk:** Visualize every uncalculated value as a thunk: a small box containing the instructions for how to get the value later.\n3. **Think Outside the Timeline:** Understand that the order in which you write your code may have nothing to do with the order in which the computer actually performs the work.",
+  "key_aspects": [
+    "**Thunks:** The underlying mechanism that wraps an expression in a promise to compute it later, which is forced when the value is required.",
+    "**Infinite Data Structures:** The ability to define lists or trees that have no end, provided they are only traversed lazily (e.g., [1..]).",
+    "**Automatic Memoization:** Once a lazy value is calculated, it is cached (memoized) so that subsequent requests for the same value are nearly instantaneous.",
+    "**Short-Circuiting by Default:** Conditional logic (like if-then-else) becomes a natural consequence of laziness, as only the chosen branch is ever evaluated."
   ],
-  "tradeoffs": "Difficult to predict memory usage and timing; can lead to \"space leaks.\"",
-  "legacy": "A defining feature of Haskell and an optional optimization in many other languages (e.g., Python generators, Scala lazy vals).",
+  "tradeoffs": "- **Space Leaks:** If you create a massive chain of thunks (unevaluated work) without ever forcing them, you can consume all available memory without realizing it.\n- **Debugging Difficulty:** Because the order of execution is non-deterministic and on-demand, tracing the source of a performance bottleneck or an error can be extremely difficult.\n- **Predictability Issues:** It is hard to know exactly when a specific calculation will occur, which makes laziness unsuitable for time-sensitive or real-time systems.",
+  "legacy": "Lazy evaluation is the hallmark of Haskell, but its influence is everywhere. It powers Python's Generators, Java's Streams, and the Lazy Loading patterns used in web development and database ORMs to handle massive datasets efficiently.",
   "ai_assisted_discovery_missions": [
-    "Analyze how lazy evaluation enables infinite lists in Haskell.",
-    "Explain the \"thunk\" mechanism used to implement laziness."
-  ]
+    "1. 'Explain the difference between Call-by-Value, Call-by-Name, and Call-by-Need (Lazy Evaluation).'",
+    "2. 'Analyze how Lazy Evaluation allows for the implementation of the Sieve of Eratosthenes to find an infinite list of prime numbers.'",
+    "3. 'Trace the connection between Lazy Evaluation and the Call-with-Current-Continuation (call/cc) operator in Scheme.'"
+  ],
+  "challenge": "In a lazy language, what happens when you define x = 1 / 0 but never actually use the variable x in your program? Does the program crash?"
 }

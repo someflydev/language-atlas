@@ -1,0 +1,39 @@
+{
+  "slug": "AI_AUTONOMIC",
+  "title": "Era Summary: The AI & Autonomic Era (2022–Present)",
+  "overview": "The current 'Software Crisis' is one of intent and volume. We are no longer just writing code for humans; we are writing code *with* AI, and often *for* AI agents. This era is defined by the move toward autonomic systems—code that optimizes, heals, and even generates itself—running on specialized hardware accelerators.",
+  "key_drivers": [
+    {
+      "name": "The End of Moore's Law",
+      "description": "The shift from general-purpose CPUs to specialized accelerators (GPUs/TPUs) for high-performance AI workloads."
+    },
+    {
+      "name": "Large Language Models (LLMs)",
+      "description": "AI-assisted development (GitHub Copilot, etc.) has fundamentally changed the speed and nature of code generation."
+    },
+    {
+      "name": "The Data Wall",
+      "description": "The explosion of telemetry and data requires systems that can autonomously manage and scale their own infrastructure."
+    }
+  ],
+  "pivotal_languages": [
+    {
+      "name": "Python (Current State)",
+      "description": "The undisputed king of AI. While not new, its ecosystem (PyTorch, JAX) has made it the primary interface for modern machine learning."
+    },
+    {
+      "name": "Mojo (2023)",
+      "description": "A newcomer designed to combine Python's usability with C-level performance, specifically optimized for hardware accelerators."
+    },
+    {
+      "name": "Julia",
+      "description": "Designed for high-performance numerical analysis, bridging the gap between prototyping and production in scientific AI."
+    },
+    {
+      "name": "Swift/Kotlin (Autonomic UI)",
+      "description": "Using declarative, reactive patterns to manage the extreme complexity of modern, multi-platform user experiences."
+    }
+  ],
+  "legacy_impact": "This era is still being written, but it points toward a future where the 'Programmer' shifts from a manual coder to a 'System Orchestrator' or 'Prompt Engineer,' managing agentic workflows.",
+  "diagram": "A timeline from the 'Transformer' paper (2017) to the rise of AI-native toolchains and the shift toward hardware-software co-design."
+}

@@ -1,0 +1,39 @@
+{
+  "slug": "STRUCTURED_REVOLUTION",
+  "title": "Era Summary: The Structured Revolution (1960–1975)",
+  "overview": "As programs grew in size, they collapsed into 'spaghetti code.' The First Software Crisis (1968) was a crisis of complexity and reliability. The industry's reaction was a move toward formal control flow, modularity, and the banning of unstructured commands like GOTO. This era prioritized human understanding of program flow over clever execution tricks.",
+  "key_drivers": [
+    {
+      "name": "The Garmisch Conference",
+      "description": "The 1968 NATO conference where the term 'Software Engineering' and 'Software Crisis' were formalized."
+    },
+    {
+      "name": "Formal Methods",
+      "description": "A push for mathematical proofs of program correctness and disciplined, hierarchical control structures."
+    },
+    {
+      "name": "Portability and Systems",
+      "description": "The need to write operating systems in high-level languages rather than assembly, leading to the birth of C."
+    }
+  ],
+  "pivotal_languages": [
+    {
+      "name": "ALGOL 60",
+      "description": "The definitive structured language. Its block structure (begin/end) allowed for nested scopes, a revolutionary way to organize logic."
+    },
+    {
+      "name": "C (1972)",
+      "description": "The 'Portable Assembly.' Created at Bell Labs, it allowed systems programming to move beyond hardware lock-in, powering the Unix revolution."
+    },
+    {
+      "name": "Pascal (1970)",
+      "description": "Designed by Niklaus Wirth for teaching, it enforced strict typing and structured flow, becoming the standard for disciplined coding."
+    },
+    {
+      "name": "Simula 67",
+      "description": "The hidden ancestor of modern OOP. It invented the concept of 'classes' and 'objects' to model complex, real-world simulations."
+    }
+  ],
+  "legacy_impact": "The 'Structured Programming' manifesto (Dijkstra) established the core rules of flow control that we use today. It also birthed the C/Unix philosophy of small, modular tools that do one thing well.",
+  "diagram": "A visual 'spaghetti-to-blocks' transition, showing how GOTO-heavy assembly transformed into the structured, nested hierarchies of ALGOL and C."
+}

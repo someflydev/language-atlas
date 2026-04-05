@@ -1,18 +1,20 @@
 {
-  "title": "Macros: The Reflection of Self",
-  "overview": "Small programs that run during compilation to expand code into more complex structures.",
-  "historical_context": "Born in Lisp and evolved into powerful hygienic macros in Scheme and Rust.",
-  "mental_model": "Code that writes code based on structural patterns.",
-  "key_innovations": [
-    "Syntax extensions.",
-    "Domain-Specific Languages (DSLs) within a language.",
-    "Zero-cost abstractions."
+  "title": "Macros: The Language of Language Design",
+  "overview": "Macros are programs that write programs. They allow developers to extend the syntax of a language by defining new structures that are expanded into standard code during the compilation or pre-processing phase.",
+  "historical_context": "The Software Crisis of the 1960s was one of expressiveness: high-level languages were too rigid to adapt to every new domain. At this Crossroad, Lisp introduced the Macro. Unlike the simple text-replacement of the C Preprocessor, Lisp macros operated on the Abstract Syntax Tree (AST). This allowed programmers to create Domain-Specific Languages (DSLs) within the host language, effectively giving every developer the power of a compiler writer.",
+  "mental_model": "To master Macros, you must move from using a language to designing it. You are not just writing instructions; you are teaching the compiler new ways to understand your intent.\n\nYour brain must be wired to:\n1. **Think in Transformations:** See code as a raw material that can be reshaped, rewritten, and expanded before it ever hits the execution phase.\n2. **Respect Compilation Phases:** Distinguish between Macro Expansion Time (when your code is being written) and Run Time (when your code is being executed).\n3. **Value Syntactic Abstraction:** Use macros to hide repetitive boilerplate or complex patterns, creating a clean syntax that perfectly matches your problem domain.",
+  "key_aspects": [
+    "**AST Manipulation:** The ability of a macro to receive the structure of the code as input and return a modified version of that structure.",
+    "**Hygienic Macros:** A system (found in Scheme and Rust) that prevents macros from accidentally capturing or clashing with variables in the surrounding code.",
+    "**Zero-Cost Abstractions:** Because macros expand into low-level code at compile-time, they provide high-level features with no runtime performance penalty.",
+    "**Compile-Time Verification:** Advanced macro systems can perform their own checks, ensuring that custom syntax is used correctly before the program even runs."
   ],
-  "tradeoffs": "Difficult to debug, can lead to confusing error messages, and \"macro-expansion\" complexity.",
-  "legacy": "Key to Lisp’s longevity and Rust’s expressive power.",
+  "tradeoffs": "- **The Macro-Expansion Debugging Crisis:** When a macro fails, it can produce error messages that refer to code the programmer never actually wrote, making it incredibly hard to fix.\n- **Learning Curve:** Writing robust, hygienic macros requires a deep understanding of the language's internals and the phases of compilation.\n- **Code Obscurity:** Overuse of macros can create a private language that only the original author understands, making the codebase difficult for others to maintain.",
+  "legacy": "Macros are the secret weapon of the Lisp and Scheme families. They have seen a major Systems Renaissance in Rust, where procedural macros provide the expressive power of a dynamic language with the performance and safety of a systems language.",
   "ai_assisted_discovery_missions": [
-    "What makes a macro \"hygienic\" and why does it matter?",
-    "Analyze the differences between Lisp’s defmacro and Rust’s proc_macros.",
-    "How are macros used to implement features that usually require compiler support?"
-  ]
+    "1. 'Explain the difference between Textual Macros (like in C) and Syntactic Macros (like in Lisp or Rust).'",
+    "2. 'Analyze the Macro Hygiene problem: what happens when a macro introduces a variable name that already exists in the caller's scope?'",
+    "3. 'Trace how macros are used in the Clojure language to implement core features like threading macros (-> and ->>) that simplify nested function calls.'"
+  ],
+  "challenge": "Explain why you might use a Macro instead of a simple Function to implement a Logger that automatically includes the file name and line number of the caller."
 }

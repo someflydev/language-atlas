@@ -1,0 +1,39 @@
+{
+  "slug": "HIGH_LEVEL_LANGS",
+  "title": "Era Summary: The Birth of High-Level Languages (1950–1960)",
+  "overview": "In the 1950s, the first great leap occurred: the realization that machines could translate human-readable symbols into their own internal states. This era saw the foundational split between scientific, academic, symbolic, and administrative computing—a division that still influences language design today. The 'Software Crisis' moved from physical wiring to the challenge of building reliable, portable compilers.",
+  "key_drivers": [
+    {
+      "name": "Abstraction from Hardware",
+      "description": "The shift from machine-specific assembly to languages that could be ported across different computer architectures."
+    },
+    {
+      "name": "The Compiler Revolution",
+      "description": "Grace Hopper and others proved that software could write software, translating high-level code into efficient machine instructions."
+    },
+    {
+      "name": "Institutional Specialization",
+      "description": "Different industries (Science, Business, Academia) required different metaphors for their data and logic."
+    }
+  ],
+  "pivotal_languages": [
+    {
+      "name": "FORTRAN (1957)",
+      "description": "The scientist's answer. It brought mathematical notation to the machine, proving that high-level code could be as efficient as hand-coded assembly."
+    },
+    {
+      "name": "ALGOL 58 (1958)",
+      "description": "The academic's answer. It introduced the block structure and lexical scoping, providing a formal grammar for logical algorithms."
+    },
+    {
+      "name": "Lisp (1958)",
+      "description": "The philosopher's answer. It treated code as data and data as code, introducing symbolic computation, recursion, and the REPL."
+    },
+    {
+      "name": "COBOL (1959)",
+      "description": "The administrator's answer. It attempted to make programming look like English, aiming for business readability and data record processing."
+    }
+  ],
+  "legacy_impact": "This decade created the 'Big Three' paradigms—Procedural (Fortran/COBOL), Structural (ALGOL), and Functional (Lisp)—that still define the industry. It proved that software was a distinct engineering discipline, not just a hardware byproduct.",
+  "diagram": "A mapping showing the four pillars of the 1950s (Science, Academia, Symbolics, Business) and how each led to a foundational language that is still in use today."
+}
