@@ -1,0 +1,43 @@
+{% if selected_languages %}
+<div class="container flex items-center justify-between">
+    <div class="flex items-center gap-6">
+        <div class="flex flex-col">
+            <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Comparison Tray</span>
+            <span class="text-sm font-bold text-blue-600">{{ selected_languages|length }} languages selected</span>
+        </div>
+        
+        <div class="flex -space-x-3">
+            {% for lang in selected_languages %}
+            <div class="group relative">
+                <div class="w-12 h-12 rounded-full bg-white border-2 border-blue-100 flex items-center justify-center text-blue-600 text-[10px] font-black shadow-sm group-hover:border-blue-500 transition-colors">
+                    {{ lang[:2]|upper }}
+                </div>
+                <button hx-get="/compare/remove?lang={{ lang }}" hx-target="#comparison-tray" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs opacity-0 group-hover:opacity-100 transition-opacity border-2 border-white shadow-sm">
+                    &times;
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="flex items-center gap-6">
+        <button hx-get="/compare/clear" hx-target="#comparison-tray" class="text-xs font-bold uppercase tracking-widest text-slate-400 hover:text-red-500 transition-colors">Clear All</button>
+        {% if selected_languages|length >= 2 %}
+        <a href="/compare?{% for l in selected_languages %}lang={{ l }}&{% endfor %}" class="bg-blue-600 text-white px-8 py-3 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-blue-700 hover:-translate-y-0.5 transition-all shadow-xl shadow-blue-500/30">
+            Compare Now
+        </a>
+        {% else %}
+        <div class="text-xs font-bold text-slate-300 uppercase tracking-widest border border-slate-100 px-6 py-3 rounded-xl bg-slate-50/50">
+            Select 1 more to compare
+        </div>
+        {% endif %}
+    </div>
+</div>
+<script>
+    document.getElementById('comparison-tray').classList.add('show');
+</script>
+{% else %}
+<script>
+    document.getElementById('comparison-tray').classList.remove('show');
+</script>
+{% endif %}

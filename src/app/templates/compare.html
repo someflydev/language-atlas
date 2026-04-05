@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-12">
+    <div class="flex items-center justify-between mb-8">
+        <div>
+            <nav class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
+                <a href="/" class="hover:text-blue-600 transition-colors">Home</a>
+                <span>/</span>
+                <span class="text-blue-600">Comparison Engine</span>
+            </nav>
+            <h1 class="text-4xl font-black text-slate-900 leading-tight">Side-by-Side Analysis</h1>
+        </div>
+        <a href="/" class="text-xs font-black uppercase tracking-widest bg-slate-100 text-slate-500 px-6 py-3 rounded-xl hover:bg-slate-200 transition-all">
+            &larr; Back to Atlas
+        </a>
+    </div>
+
+    {% if languages %}
+        {% include "partials/comparison_table.html" %}
+    {% else %}
+        <div class="bg-white p-20 rounded-3xl border border-dashed border-slate-200 text-center">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-slate-50 rounded-full text-slate-300 mb-6">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 mb-2">No languages selected for comparison</h2>
+            <p class="text-slate-500 max-w-md mx-auto mb-8">Head back to the main grid and use the "+ Compare" button to select languages you'd like to analyze side-by-side.</p>
+            <a href="/" class="inline-block bg-blue-600 text-white px-8 py-4 rounded-2xl text-sm font-black uppercase tracking-widest hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/20">
+                Explore Languages
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

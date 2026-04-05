@@ -1,0 +1,45 @@
+<div id="language-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for lang in languages %}
+    <div class="card-container group relative flex flex-col h-full">
+        <!-- The Card Content -->
+        <article class="card h-full flex flex-col p-6 bg-white rounded-2xl border border-slate-100 shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:border-blue-100 group-hover:-translate-y-1 relative">
+            <header class="mb-4">
+                <div class="flex justify-between items-start mb-3">
+                    <h2 class="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">{{ lang.display_name }}</h2>
+                    <span class="text-xs font-bold text-slate-400">{{ lang.year }}</span>
+                </div>
+                <!-- Tags -->
+                <div class="flex flex-wrap gap-2 relative z-30">
+                    {% if lang.paradigms %}
+                    <a href="/paradigm/{{ lang.paradigms[0] }}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-1 rounded hover:bg-blue-100 transition-colors pointer-events-auto relative">
+                        {{ lang.paradigms[0] }}
+                    </a>
+                    {% endif %}
+                    <a href="/cluster/{{ lang.cluster }}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black uppercase tracking-wider text-slate-400 border border-slate-100 px-2 py-1 rounded hover:bg-slate-50 transition-colors badge cluster-{{ lang.cluster|lower }} pointer-events-auto relative">
+                        {{ lang.cluster }}
+                    </a>
+                </div>
+            </header>
+            <p class="text-sm text-slate-500 leading-relaxed line-clamp-3 italic mb-4">
+                "{{ lang.philosophy }}"
+            </p>
+            
+            <div class="mt-auto pt-4 flex justify-between items-center relative z-30">
+                <a href="/language/{{ lang.name }}" class="text-xs font-bold uppercase text-blue-600 hover:text-blue-800 transition-colors">
+                    View Profile &rarr;
+                </a>
+                <button 
+                    hx-get="/compare/add?lang={{ lang.name }}" 
+                    hx-target="#comparison-tray" 
+                    hx-swap="innerHTML"
+                    class="text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-500 px-3 py-2 rounded-lg hover:bg-blue-600 hover:text-white transition-all">
+                    + Compare
+                </button>
+            </div>
+
+            <!-- Card-level link overlay: Inside article, lower z-index than tags and buttons -->
+            <a href="/language/{{ lang.name }}" class="absolute inset-0 z-10 rounded-2xl cursor-pointer" aria-label="View {{ lang.display_name }} profile"></a>
+        </article>
+    </div>
+    {% endfor %}
+</div>
