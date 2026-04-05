@@ -9,6 +9,7 @@ help:
 	@echo "  test-intensive  Run intensive analytical tests and regenerate insight reports"
 	@echo "  build           Build the standalone Zenith binary (dist/atlas)"
 	@echo "  audit           Run the Atlas Auditor (Validation 2.0) checks"
+	@echo "  server          Start the FastAPI web server on port 8084"
 	@echo "  clean           Remove the generated documentation and test artifacts"
 
 docs:
@@ -22,6 +23,11 @@ test:
 audit:
 	@echo "Running Atlas Auditor checks..."
 	uv run python3 src/app/core/auditor.py
+
+server:
+	@echo "Starting Language Atlas server on http://localhost:8084..."
+	@echo "Press Ctrl+C to stop."
+	cd src/app && USE_SQLITE=1 uv run uvicorn app:app --host 0.0.0.0 --port 8084
 
 build:
 	@echo "Building Zenith standalone binary..."
