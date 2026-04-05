@@ -15,8 +15,15 @@
 
 ## Documentation & Style
 - **Freshness & Usefulness:** Maintain `src/README.md` as the authoritative, up-to-date guide for codebase architecture, schema details, and operational commands. Documentation must be actionable and reflect the current state of the system.
-- **Audit Authority:** `data/reports/dark_matter_todo.json` is the authoritative source for identifying missing profiles (languages, concepts, organizations) that need to be implemented in the next phase.
-- **Data Completeness:** Any new language entry added to `data/languages.json` MUST be accompanied by a corresponding detailed JSON profile in `data/docs/language_profiles/`. Any new significant concept (e.g., added to a person's contributions or a language's key innovations) MUST be accompanied by a corresponding detailed JSON profile in `data/docs/concept_profiles/`. The profiles must include fields for `title`, `overview`, `historical_context`, `mental_model`, `key_innovations` (or `key_aspects`), `tradeoffs`, `legacy`, and `ai_assisted_discovery_missions`.
+- **Audit Authority:** `data/reports/dark_matter_todo.json` is the authoritative source for identifying missing profiles (languages, concepts, organizations, historical events) that need to be implemented in the next phase.
+- **Data Completeness:**
+  - **Language Profiles:** Every language in `data/languages.json` MUST have a profile in `data/docs/language_profiles/`. Required fields: `title`, `overview`, `historical_context`, `mental_model`, `key_innovations`, `tradeoffs`, `legacy`, `ai_assisted_discovery_missions`.
+  - **Concept Profiles:** Significant concepts (innovations, paradigms, mental models) MUST have a profile in `data/docs/concept_profiles/`. Required fields: `title`, `overview`, `historical_context`, `key_aspects`, `technical_implications`, `legacy`, `ai_assisted_discovery_missions`.
+  - **Historical Events:** Significant events (e.g., WWII, Garmisch Conference) MUST have a profile in `data/docs/historical_events/`. Required fields: `title`, `date`, `overview`, `impact_on_computing`, `key_figures`, `legacy`, `ai_assisted_discovery_missions`.
+  - **People Profiles:** Every person in `data/people.json` SHOULD have a profile in `data/docs/people_profiles/`. Required fields: `title`, `overview`, `historical_context`, `pivotal_works`, `affiliations`, `legacy`, `ai_assisted_discovery_missions`. If they pioneered a specific mental model (e.g., Dijkstra and Structured Programming), include a `mental_model` section.
+  - **Organization Profiles:** Major organizations MUST have a profile in `data/docs/org_profiles/`. Required fields: `title`, `founded`, `overview`, `key_contributions`, `pivotal_people`, `legacy`, `ai_assisted_discovery_missions`.
+  - **Atlas Meta Profiles:** Profiles describing the internal architecture of the Language Atlas itself (e.g., The Pedagogical Engine, Zenith State) MUST have a profile in `data/docs/atlas_meta/`.
+  - **Era Summaries & Crossroads:** These narrative files in `data/docs/era_summaries/` and `data/docs/crossroads/` act as hubs. They must link to the detailed profiles mentioned above.
 - **Visual Hygiene:** Do not use emojis in section titles or documentation headers.
 - **Typography:** Avoid using em dashes (—) or regular dashes (-) in place of em dashes in documentation. Use standard punctuation or clear sentence structures instead.
 - **Actionable Examples:** Prefer `uv run` in documentation examples to ensure consistent environment execution.

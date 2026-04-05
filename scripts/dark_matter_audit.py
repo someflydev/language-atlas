@@ -1,15 +1,14 @@
 import json
 import os
 import re
+import string
 from pathlib import Path
 
 def is_organization(name):
     if not name: return False
-    # Guard: Orgs are rarely more than 5 words
     words = name.split()
     if len(words) > 5: return False
 
-    # Specific high-value organizations to always capture
     top_orgs = {
         "Bell Labs", "Google", "Microsoft", "Apple", "IBM", "Xerox PARC", 
         "Mozilla", "JetBrains", "Facebook", "Meta", "Sun Microsystems",
@@ -23,11 +22,10 @@ def is_organization(name):
     if any(o.lower() == name_lower for o in top_orgs):
         return True
 
-    # Check for specific organizational suffixes/keywords
     org_suffixes = [
         "Labs", "Corp", "Inc", "Foundation", "University", "Institute", 
         "Association", "Committee", "Consortium", "Group", "Systems",
-        "Software", "Research", "Project", "Department", "Agency", "College"
+        "Software", "Research", "Project", "Department", "Agency", "College", "Board"
     ]
     if any(name.endswith(" " + s) or name.endswith(" " + s + ".") for s in org_suffixes):
         if " and " in name_lower: return False
@@ -38,189 +36,245 @@ def is_organization(name):
     
     return False
 
+def is_person(name):
+    if not name: return False
+    words = name.split()
+    if not (2 <= len(words) <= 4): return False
+    
+    name_particles = {"van", "von", "de", "der", "le", "da", "di", "del", "du"}
+    noise = {"the", "and", "of", "for", "in", "on", "at", "with", "by", "is", "to", "a", "an", "not"}
+    org_words = {"labs", "inc", "corp", "foundation", "project", "committee", "group", "systems", "agency", "department", "university", "college", "board"}
+    event_words = {"conference", "war", "revolution", "crisis", "birth", "founding", "agreement", "treaty", "software", "computing", "moment", "shift", "impact"}
+    
+    concept_keywords = {
+        "memory", "management", "system", "garbage", "collection", "type", "structure", "language", 
+        "programming", "logic", "model", "control", "flow", "data", "analysis", "design", "interface",
+        "machine", "architecture", "compiler", "development", "revolution", "era", "crisis", "concept",
+        "paradigm", "pattern", "theory", "process", "execution", "abstract", "method", "object",
+        "class", "functional", "structured", "safety", "security", "resource", "optimization", "speed",
+        "stability", "compliance", "properties", "hurdles", "access", "manipulation", "interaction",
+        "compatibility", "equivalence", "refinement", "discovery", "mission", "graph", "state", "search",
+        "audit", "history", "evolution", "context", "snippet", "overhead", "latency", "ambiguity",
+        "fragility", "pathfinding", "constraint", "abstraction", "formalism", "algorithm", "definition",
+        "visualization", "engine", "narrative", "odyssey", "generator", "zenith", "maturity", "completeness",
+        "pivotal", "key", "hardware", "software", "stack", "heap", "segment", "address", "pointer", "variable",
+        "branching", "loop", "recursion", "closure", "acronym", "alias", "anchor", "application", "backend",
+        "frontend", "browser", "byte", "channel", "circuit", "client", "server", "cluster", "code", "syntax"
+    }
+
+    for w in words:
+        w_l = w.lower().strip(string.punctuation)
+        if not w_l: continue
+        if not w[0].isupper() and w_l not in name_particles: return False
+        if w_l in noise or w_l in org_words or w_l in event_words or w_l in concept_keywords:
+            return False
+        
+    return True
+
 def canonicalize(name):
-    if not name:
-        return ""
-    # 1. Lowercase everything
+    if not name: return ""
     name = name.lower()
-    
-    # 2. Strip "the " from the beginning
-    if name.startswith("the "):
-        name = name[4:].strip()
-    
-    # 3. Strip organizational suffixes for better deduplication
+    if name.startswith("the "): name = name[4:].strip()
+    name = name.replace("cpu and memory", "cpu_memory").replace("cpu/memory", "cpu_memory")
     name = re.sub(r'\b(inc|corp|corporation|ltd|limited|llc|plc|foundation|labs|software)(\.?)(\b|$)', '', name).strip()
-    
-    # 4. Strip parentheticals
-    name = re.sub(r'\(.*\)', '', name).strip()
-    # 5. Unify dashes and spaces to underscores
+    name = re.sub(r'\(\d{4}(?:/\d{4})?\)', '', name)
+    name = re.sub(r'\(proposed\)', '', name, flags=re.I)
     name = name.replace("-", "_").replace(" ", "_")
-    
-    # 6. Remove multiple underscores
     name = re.sub(r'_+', '_', name)
-    # 7. Strip trailing/leading underscores or colons
     name = name.strip("_:")
-    
-    # Special mapping (canonical form)
+    if name.startswith("the_"): name = name[4:]
     replacements = {
         "c#": "csharp", "f#": "fsharp", "vb.net": "vbnet", "pl/i": "pli",
-        "a_0": "a_0", "algol_60": "algol_60", "algol_68": "algol_68", "simula_67": "simula_67",
-        "apple_inc": "apple", "xerox_parc": "xerox", "bell_telephone_laboratories": "bell_labs",
-        "microsoft_research": "microsoft"
+        "a_0": "a_0", "algol_60": "algol_60", "algol_68": "algol_68", "simula_67": "simula_67"
     }
     return replacements.get(name, name)
 
+def clean_name(name):
+    if not name: return ""
+    name = name.replace('"', '')
+    name = re.sub(r'^\d+\.\s+', '', name)
+    name = re.sub(r'\s*\(\d{4}(?:/\d{4})?\):?$', '', name)
+    name = re.sub(r'\s*\(Proposed\):?$', '', name, flags=re.I)
+    
+    # Special acronym preservation: ARC, JIT, AOT, CSP, BNF
+    name = name.strip(string.punctuation.replace(')', '').replace('(', '') + string.whitespace)
+    if '(' in name and ')' not in name: name = name.split('(')[0].strip()
+    if ')' in name and '(' not in name: name = name.split(')')[0].strip()
+    return name.strip()
+
+def split_entities(name):
+    if not name: return []
+    if "PL/I" in name: name = name.replace("PL/I", "PL_I_PROTECTED")
+    combos_to_protect = {"ARC/ORC", "AOT/JIT", "CPU/Memory", "CPU and Memory"}
+    for combo in combos_to_protect:
+        if combo in name: name = name.replace(combo, combo.replace("/", "_SLASH_").replace(" and ", "_AND_"))
+    parts = re.split(r'\s*&\s*|\s+and\s+', name)
+    if len(parts) > 1:
+        last_part = parts[-1].strip()
+        last_words = last_part.split()
+        if len(last_words) > 1:
+            suffix_keywords = ["compilation", "management", "model", "programming", "system", "architecture", "design", "logic", "separation"]
+            suffix_found = ""
+            for kw in suffix_keywords:
+                if kw in last_part.lower():
+                    idx = last_part.lower().find(kw)
+                    suffix_found = last_part[idx:]; break
+            if suffix_found:
+                for i in range(len(parts) - 1):
+                    if suffix_found.lower() not in parts[i].lower(): parts[i] = f"{parts[i].strip()} {suffix_found}"
+    final_parts = []
+    for p in parts:
+        if "/" in p and "PL_I_PROTECTED" not in p and "_SLASH_" not in p:
+            if re.search(r'(?<=[a-zA-Z])/(?=[a-zA-Z])', p): final_parts.extend(re.split(r'/', p))
+            else: final_parts.append(p)
+        else: final_parts.append(p)
+    return [p.replace("PL_I_PROTECTED", "PL/I").replace("_SLASH_", "/").replace("_AND_", " and ").strip() for p in final_parts if p.strip()]
+
 def extract_entities_from_text(text):
-    """
-    Scans a block of text (like a paragraph) for potential entities.
-    Returns (found_concepts, found_orgs)
-    """
-    if not text or not isinstance(text, str):
-        return [], []
-    
-    concepts = []
-    orgs = []
-    
-    # 1. Extract bolded terms: **Concept Name**
+    if not text or not isinstance(text, str): return [], []
+    concepts, orgs = [], []
     bold_matches = re.findall(r'\*\*(.*?)\*\*', text)
     for m in bold_matches:
-        # Strip trailing colons or spaces
-        clean_m = m.split(':')[0].strip()
-        if clean_m and len(clean_m) <= 60 and len(clean_m.split()) <= 8:
-            concepts.append(clean_m)
-            
-    # 2. Extract organizations: "at [Org Name]"
+        for n in split_entities(m):
+            n = clean_name(n)
+            if n and len(n) <= 60 and len(n.split()) <= 10:
+                if not re.match(r'^\d{4}$', n): concepts.append(n)
     at_matches = re.findall(r'at ([A-Z][a-z]+(?: [A-Z][a-z]+){0,3})', text)
     for m in at_matches:
-        if is_organization(m):
-            orgs.append(m)
-            
+        if is_organization(m): orgs.append(m)
     return concepts, orgs
 
+def is_historical_event(name):
+    if not name: return False
+    if is_person(name): return False
+    event_keywords = ["Conference", "War", "Revolution", "Crisis", "Birth", "Founding", "Agreement", "Treaty"]
+    return any(k in name for k in event_keywords)
+
 def audit():
-    data_dir = Path("data")
-    docs_dir = data_dir / "docs"
+    meta_concepts = {
+        "The Pedagogical Engine", "Zenith State", "Guided Odyssey", "Influence Graph", 
+        "Automated Dark Matter detection to track progress", "Automated Dark Matter detection", 
+        "Recursive completeness checks", "Strict data-completeness requirements for new entries",
+        "Maturity and Completeness", "Mapping the DNA of Code", "The Narrative Engine", 
+        "The Odyssey Generator", "Auto-Odyssey generator", "Semantic Search", "Dark Matter Audit"
+    }
+    meta_canons = {canonicalize(c) for c in meta_concepts}
+    data_dir = Path("data"); docs_dir = data_dir / "docs"
     profiles_dirs = {
         "languages": docs_dir / "language_profiles",
         "concepts": docs_dir / "concept_profiles",
-        "organizations": docs_dir / "org_profiles"
+        "organizations": docs_dir / "org_profiles",
+        "historical_events": docs_dir / "historical_events",
+        "atlas_meta": docs_dir / "atlas_meta",
+        "concept_combos": docs_dir / "concept_combos",
+        "people": docs_dir / "people_profiles"
     }
-    profiles_dirs["organizations"].mkdir(parents=True, exist_ok=True)
-
-    existing_profiles = {
-        "languages": set(), "concepts": set(), "organizations": set()
-    }
+    for p_dir in profiles_dirs.values(): p_dir.mkdir(parents=True, exist_ok=True)
+    existing_profiles = {cat: set() for cat in profiles_dirs}
     for cat, p_dir in profiles_dirs.items():
         if p_dir.exists():
-            for f in p_dir.glob("*.json"):
-                existing_profiles[cat].add(canonicalize(f.stem))
+            for f in p_dir.glob("*.json"): existing_profiles[cat].add(canonicalize(f.stem))
 
-    referenced_languages = {}
-    referenced_concepts = {}
-    referenced_organizations = {}
-    
-    known_languages = set()
-    known_people = set()
+    referenced_languages, referenced_entities, referenced_organizations, referenced_historical_events, referenced_combos = {}, {}, {}, {}, {}
+    known_languages, known_people = set(), set()
 
-    # Pre-populate
     people_path = data_dir / "people.json"
     if people_path.exists():
         with open(people_path, "r") as f:
-            people_data = json.load(f)
-            for person in people_data:
-                known_people.add(person.get("name").lower())
+            for person in json.load(f):
+                name = person.get("name"); known_people.add(name.lower())
+                referenced_entities[canonicalize(name)] = name
 
     languages_path = data_dir / "languages.json"
     if languages_path.exists():
         with open(languages_path, "r") as f:
-            languages_data = json.load(f)
-            for lang in languages_data:
-                known_languages.add(canonicalize(lang.get("name")))
+            for lang in json.load(f): known_languages.add(canonicalize(lang.get("name")))
 
-    def add_reference(name, target_map):
+    def add_reference(name, target_map=None):
         if not name or name == "Various": return
-        
-        # User preference: Strip leading "The " for cleaner indexing
-        if name.lower().startswith("the "):
-            name = name[4:].strip()
-            if name:
-                name = name[0].upper() + name[1:]
+        if re.search(r'^[A-Z]+\s+\(\d{4}-\d{4}\)$', name): return
+        names = split_entities(name)
+        if any(sep in name for sep in [" and ", " & ", " / "]) or (len(names) > 1):
+            combo_clean = clean_name(name); canon_combo = canonicalize(combo_clean)
+            if canon_combo and canon_combo not in meta_canons:
+                if canon_combo not in existing_profiles["concept_combos"]: referenced_combos[canon_combo] = combo_clean
+        for n in names:
+            n = clean_name(n)
+            if not n: continue
+            if n.lower().startswith("the "):
+                n = n[4:].strip()
+                if n: n = n[0].upper() + n[1:]
+            if len(n) > 60 or len(n.split()) > 10: continue
+            if re.search(r'^\d{4}\s+Surge', n) or re.match(r'^\d{4}$', n): continue
+            canon = canonicalize(n)
+            if not canon or canon in meta_canons: continue
+            current_target = target_map
+            if current_target is None:
+                if is_historical_event(n): current_target = referenced_historical_events
+                elif is_organization(n): current_target = referenced_organizations
+                else: current_target = referenced_entities
+            if current_target is referenced_entities and n.lower() in known_people:
+                if canon in existing_profiles["people"]: return
+            version_match = re.match(r'^([a-z_]+)_(\d{2,4})$', canon)
+            if version_match:
+                base = version_match.group(1)
+                if base in known_languages or base in existing_profiles["languages"]: return
+            if canon not in current_target or (n[0].isupper() and not current_target[canon][0].isupper()):
+                current_target[canon] = n
 
-        # Length guard on the entity name itself
-        if len(name) > 60 or len(name.split()) > 8:
-            return
-
-        canon = canonicalize(name)
-        if not canon: return
-        
-        # Check versioned languages
-        version_match = re.match(r'^([a-z_]+)_(\d{2,4})$', canon)
-        if version_match:
-            base = version_match.group(1)
-            if base in known_languages or base in existing_profiles["languages"]:
-                return
-
-        if canon not in target_map or (name[0].isupper() and not target_map[canon][0].isupper()):
-            target_map[canon] = name
-
-    # 1. Crawl people.json
     if people_path.exists():
         with open(people_path, "r") as f:
-            people_data = json.load(f)
-            for person in people_data:
-                p_name = person.get("name")
-                if is_organization(p_name): add_reference(p_name, referenced_organizations)
-                for contrib in person.get("contributions", []): add_reference(contrib, referenced_concepts)
-
-    # 2. Crawl languages.json
+            for p in json.load(f):
+                for c in p.get("contributions", []): add_reference(c)
     if languages_path.exists():
         with open(languages_path, "r") as f:
-            languages_data = json.load(f)
-            for lang in languages_data:
-                add_reference(lang.get("name"), referenced_languages)
-                
-                # Influences
-                for inf in lang.get("influenced_by", []): 
-                    add_reference(inf, referenced_languages)
-                for inf in lang.get("influenced", []): 
-                    add_reference(inf, referenced_languages)
-                
-                # Primary Use Cases & Innovations
+            for l in json.load(f):
+                add_reference(l.get("name"), referenced_languages)
+                for inf in l.get("influenced_by", []): add_reference(inf, referenced_languages)
+                for inf in l.get("influenced", []): add_reference(inf, referenced_languages)
                 for field in ["primary_use_cases", "key_innovations"]:
-                    for val in lang.get(field, []):
+                    for val in l.get(field, []):
                         c, o = extract_entities_from_text(val)
-                        for item in c: add_reference(item, referenced_concepts)
+                        for item in c: add_reference(item)
                         for item in o: add_reference(item, referenced_organizations)
-                        # If it wasn't bolded, the whole string might be a concept
-                        if not c:
-                            add_reference(val, referenced_concepts)
-                
-                # Paradigms
-                for paradigm in lang.get("paradigms", []):
-                    # We can track these separately if we want, or just as concepts
-                    # But the user asked to ensure they are in data/paradigms.json
-                    add_reference(paradigm, referenced_concepts)
-
-                for creator in lang.get("creators", []):
+                        if not c: add_reference(val)
+                for paradigm in l.get("paradigms", []): add_reference(paradigm)
+                for creator in l.get("creators", []):
                     if is_organization(creator): add_reference(creator, referenced_organizations)
-                    else: add_reference(creator, referenced_concepts)
-
-    # Paradigms Check (Specific request)
-    missing_paradigms = []
-    paradigms_path = data_dir / "paradigms.json"
-    if paradigms_path.exists() and languages_path.exists():
-        with open(paradigms_path, "r") as f:
-            paradigms_data = json.load(f)
-            known_paradigms = {canonicalize(p["name"]) for p in paradigms_data}
-        
-        with open(languages_path, "r") as f:
-            languages_data = json.load(f)
-            for lang in languages_data:
-                for p in lang.get("paradigms", []):
-                    if canonicalize(p) not in known_paradigms:
-                        missing_paradigms.append(p)
+                    else: add_reference(creator)
     
-    # 3. Crawl existing profiles
+    concepts_path = data_dir / "concepts.json"
+    if concepts_path.exists():
+        with open(concepts_path, "r") as f:
+            for c in json.load(f):
+                add_reference(c.get("name"))
+                # Also scan description for bolded terms
+                bc, bo = extract_entities_from_text(c.get("description", ""))
+                for item in bc: add_reference(item)
+                for item in bo: add_reference(item, referenced_organizations)
+
+    era_dir = docs_dir / "era_summaries"
+    if era_dir.exists():
+        for era_file in era_dir.glob("*.json"):
+            with open(era_file, "r") as f:
+                era_data = json.load(f)
+                for driver in era_data.get("key_drivers", []): add_reference(driver.get("name"))
+                for pl in era_data.get("pivotal_languages", []):
+                    add_reference(re.sub(r'\s*\(\d{4}\)', '', pl.get("name", "")), referenced_languages)
+                c, o = extract_entities_from_text(era_data.get("legacy_impact"))
+                for item in c: add_reference(item)
+                for item in o: add_reference(item, referenced_organizations)
+    crossroads_file = docs_dir / "crossroads" / "crossroads.json"
+    if crossroads_file.exists():
+        with open(crossroads_file, "r") as f:
+            for entry in json.load(f).get("crossroads", []):
+                add_reference(entry.get("title"))
+                for player in entry.get("key_players", []): add_reference(player)
+                for rl in entry.get("related_languages", []): add_reference(rl, referenced_languages)
+                c, o = extract_entities_from_text(entry.get("explanation"))
+                for item in c: add_reference(item)
+                for item in o: add_reference(item, referenced_organizations)
+
     def scan_profile_data(data):
         found_concepts, found_orgs = [], []
         if isinstance(data, dict):
@@ -229,21 +283,13 @@ def audit():
                     texts = v if isinstance(v, list) else [v]
                     for t in texts:
                         if isinstance(t, str):
-                            c, o = extract_entities_from_text(t)
-                            found_concepts.extend(c)
-                            found_orgs.extend(o)
-                            # For list fields that aren't narrative, 
-                            # the whole item might be the entity
-                            if k in ["key_innovations", "key_aspects", "creators", "contributions"]:
-                                if not c: # No bolding found, treat whole string as potential
+                            c, o = extract_entities_from_text(t); found_concepts.extend(c); found_orgs.extend(o)
+                            if k in ["creators", "key_figures", "key_players", "pivotal_people", "key_innovations", "key_aspects", "contributions", "affiliations"]:
+                                if not c:
                                     if is_organization(t): found_orgs.append(t)
                                     else: found_concepts.append(t)
-                
-                # Recurse
                 if isinstance(v, (dict, list)) and k not in ["ai_assisted_discovery_missions"]:
-                    c, o = scan_profile_data(v)
-                    found_concepts.extend(c); found_orgs.extend(o)
-                    
+                    c, o = scan_profile_data(v); found_concepts.extend(c); found_orgs.extend(o)
         elif isinstance(data, list):
             for item in data:
                 c, o = scan_profile_data(item); found_concepts.extend(c); found_orgs.extend(o)
@@ -254,52 +300,54 @@ def audit():
             for f_path in p_dir.glob("*.json"):
                 try:
                     with open(f_path, "r") as f:
-                        data = json.load(f)
-                        c, o = scan_profile_data(data)
-                        for item in c: add_reference(item, referenced_concepts)
+                        c, o = scan_profile_data(json.load(f))
+                        for item in c: add_reference(item)
                         for item in o: add_reference(item, referenced_organizations)
                 except Exception: pass
 
-    # 4. Filter and categorize
-    missing_languages = []
-    missing_concepts = []
-    missing_orgs = []
+    missing_paradigms = []
+    if Path("data/paradigms.json").exists():
+        with open("data/paradigms.json", "r") as f: known_paradigms = {canonicalize(p["name"]) for p in json.load(f)}
+        if Path("data/languages.json").exists():
+            with open("data/languages.json", "r") as f:
+                for lang in json.load(f):
+                    for p in lang.get("paradigms", []):
+                        if canonicalize(p) not in known_paradigms: missing_paradigms.append(p)
 
+    missing_languages, missing_entities, missing_orgs, missing_events, missing_combos = [], [], [], [], []
     for canon, pretty in referenced_languages.items():
         if canon not in existing_profiles["languages"]: missing_languages.append(pretty)
-
     for canon, pretty in referenced_organizations.items():
         if canon not in existing_profiles["organizations"]: missing_orgs.append(pretty)
-
-    org_canons = {canonicalize(o) for o in missing_orgs}
-    org_canons.update(existing_profiles["organizations"])
-    lang_canons = {canonicalize(l) for l in missing_languages}
-    lang_canons.update(existing_profiles["languages"])
-    lang_canons.update(known_languages)
-
-    for canon, pretty in referenced_concepts.items():
-        if canon in lang_canons or canon in org_canons or pretty.lower() in known_people:
-            continue
-        if canon not in existing_profiles["concepts"]:
-            missing_concepts.append(pretty)
+    for canon, pretty in referenced_historical_events.items():
+        if canon not in existing_profiles["historical_events"]: missing_events.append(pretty)
+    for canon, pretty in referenced_combos.items():
+        if canon not in existing_profiles["concept_combos"]: missing_combos.append(pretty)
+    
+    entity_canons_existing = existing_profiles["concepts"].union(existing_profiles["people"]).union(existing_profiles["atlas_meta"])
+    for canon, pretty in referenced_entities.items():
+        if canon in {canonicalize(l) for l in missing_languages} or canon in existing_profiles["languages"]: continue
+        if canon in {canonicalize(o) for o in missing_orgs} or canon in existing_profiles["organizations"]: continue
+        if canon in {canonicalize(e) for e in missing_events} or canon in existing_profiles["historical_events"]: continue
+        if canon in {canonicalize(c) for c in missing_combos} or canon in existing_profiles["concept_combos"]: continue
+        if canon not in entity_canons_existing: missing_entities.append(pretty)
 
     todo = {
         "missing_language_profiles": sorted(list(set(missing_languages))),
-        "missing_concept_profiles": sorted(list(set(missing_concepts))),
+        "missing_entities": sorted(list(set(missing_entities))),
         "missing_org_profiles": sorted(list(set(missing_orgs))),
+        "missing_historical_events": sorted(list(set(missing_events))),
+        "missing_concept_combos": sorted(list(set(missing_combos))),
         "missing_paradigms": sorted(list(set(missing_paradigms))),
         "ambiguous_references": []
     }
-
-    reports_dir = data_dir / "reports"
-    reports_dir.mkdir(parents=True, exist_ok=True)
-    with open(reports_dir / "dark_matter_todo.json", "w") as f:
-        json.dump(todo, f, indent=2)
-
+    reports_dir = Path("data/reports"); reports_dir.mkdir(parents=True, exist_ok=True)
+    with open(reports_dir / "dark_matter_todo.json", "w") as f: json.dump(todo, f, indent=2)
     print(f"Audit complete. Results written to {reports_dir / 'dark_matter_todo.json'}")
     print(f"Missing Languages: {len(todo['missing_language_profiles'])}")
-    print(f"Missing Concepts: {len(todo['missing_concept_profiles'])}")
+    print(f"Missing Entities: {len(todo['missing_entities'])}")
     print(f"Missing Organizations: {len(todo['missing_org_profiles'])}")
+    print(f"Missing Events: {len(todo['missing_historical_events'])}")
+    print(f"Missing Combos: {len(todo['missing_concept_combos'])}")
 
-if __name__ == "__main__":
-    audit()
+if __name__ == "__main__": audit()
