@@ -1,0 +1,29 @@
+You are an expert technical communicator. Your task is to build a unified Narrative Hub that exposes the thematic content stored in the SQLite database to the Web UI.
+
+### CONTEXT:
+The system stores rich narrative content (Crossroads, Modern Reactions, Eras, Timelines, Concepts) in SQLite tables. This content is currently generated as static Markdown files, but we want the FastAPI app to serve it dynamically with full template integration.
+
+### TASK:
+1. **Narrative Hub Implementation:**
+   - Update `src/app/app.py` to add a `/narrative` hub route that lists thematic categories.
+   - Implement routes for each narrative type:
+     - `/narrative/crossroads`
+     - `/narrative/reactions`
+     - `/narrative/era/{slug}`
+     - `/narrative/timeline`
+     - `/narrative/concepts`
+2. **Data Retrieval:**
+   - Update `DataLoader` with methods to query the following tables: `crossroads`, `modern_reactions`, `era_summaries` (with `key_drivers` and `pivotal_languages`), `timeline_periods` (with `timeline_events`), and `concepts`.
+3. **Template Rendering:**
+   - Create a unified `templates/narrative_view.html` or specific templates for each type.
+   - Use the `markdown` library to render text content from the database.
+   - Ensure the UI is beautiful, utilizing the "markdown-body" styles in `static/css/styles.css`.
+
+### CONSTRAINTS:
+- Use **SQLite as the source of truth** for all narrative content; do not read the `generated-docs/` or `data/` folders directly during request handling.
+- Ensure deep-linking works (e.g., a language profile should link to the corresponding "Pivotal Language" entry in an Era summary).
+- Handle missing profiles or empty sections gracefully with meaningful fallbacks.
+
+### COMMIT BEHAVIOR:
+- Verify that all narrative sections are navigable and rendered correctly.
+- Commit message: "[PROMPT_35] implement unified narrative hub and sqlite-backed documentation rendering"

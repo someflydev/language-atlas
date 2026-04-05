@@ -1,0 +1,28 @@
+You are a senior software reliability engineer. Your task is to perform enterprise-grade hardening, comprehensive testing, and final polish for the "language-atlas" project.
+
+### CONTEXT:
+The project has evolved into a robust SQLite-backed system. We need to ensure type safety, data integrity, and behavioral correctness across the entire stack (CLI, App, and Data Layer).
+
+### TASK:
+1. **Type Safety:**
+   - Apply rigorous Python type hints to all modules in `src/app/`, `src/app/core/`, and `scripts/`.
+   - Setup a `mypy` configuration and ensure the project passes a strict check.
+2. **Comprehensive Testing:**
+   - Expand the `tests/` directory:
+     - `test_sqlite_build.py`: Verifies that the SQLite artifact correctly represents all data from the JSON sources.
+     - `test_dataloader_queries.py`: Exhaustive tests for all `DataLoader` methods, especially FTS search and complex joins.
+     - `test_app_routes.py`: Integration tests for all FastAPI endpoints using `TestClient`, verifying HTMX partials and status codes.
+3. **Hardening & Polish:**
+   - Update `Makefile` with `lint`, `type-check`, `test-coverage`, and `build-db` targets.
+   - Implement robust error handling in `app.py` (Custom exception handlers, 404/500 templates).
+   - Optimize SQLite connection handling in `DataLoader` (consider a connection pool or app-state management).
+   - Ensure `generated-docs/` are automatically updated during the build process.
+
+### CONSTRAINTS:
+- Use `pytest`, `httpx`, `mypy`, and `ruff`.
+- Do not introduce heavy runtime dependencies.
+- Ensure the system remains "zero-config" for new developers (everything reachable via `make`).
+
+### COMMIT BEHAVIOR:
+- Verify that all tests pass and coverage is high.
+- Commit message: "[PROMPT_37] implement enterprise-grade hardening, type safety, and comprehensive test suite"

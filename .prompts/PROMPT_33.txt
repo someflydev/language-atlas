@@ -1,0 +1,30 @@
+You are an expert full-stack developer specializing in HTMX, FastAPI, and SQLite. Your task is to implement advanced filtering and a side-by-side comparison feature for the "language-atlas" project, leveraging the SQLite-backed architecture.
+
+### CONTEXT:
+The system uses JSON as the source of truth, compiled into a SQLite database (`language_atlas.sqlite`). The FastAPI app (`src/app/app.py`) uses a `DataLoader` to query this database. We need to move filtering logic from Python to SQL and implement a comparison feature for deep analysis of language characteristics.
+
+### TASK:
+1. **Modernize Filtering:**
+   - Update `src/app/core/data_loader.py`: Enhance `get_all_languages` to support multiple paradigms, clusters, and year ranges directly in SQL.
+   - Update `src/app/app.py`: Move the filtering logic from the `/` route to the `DataLoader` call.
+   - Update `templates/index.html`: Ensure the filter form uses HTMX (`hx-get="/"`, `hx-target="#language-grid"`, `hx-trigger="change from:input, change from:select"`) to refresh the results partial.
+
+2. **Implement Side-by-Side Comparison:**
+   - Add `/compare` route to `app.py` that accepts `lang1` and `lang2` query parameters.
+   - Update `DataLoader` to provide a method for fetching comparison data for two languages efficiently.
+   - Create `templates/compare.html` and a partial `templates/partials/comparison_table.html`.
+   - The comparison should include: `philosophy`, `mental_model`, `safety_model`, `typing_discipline`, `memory_management`, and `paradigms`.
+
+3. **HTMX Integration:**
+   - Add "Add to Compare" buttons to the language cards in `index.html`.
+   - Use an HTMX-driven "Comparison Tray" (a small UI element that persists at the bottom) to hold selected languages before triggering the comparison view.
+
+### CONSTRAINTS:
+- Use **SQL queries** for all data retrieval; do not filter large lists in Python memory.
+- Use **HTMX** for all dynamic updates; do NOT use modern JS frameworks or heavy vanilla JS.
+- Maintain **SQLite as the primary data source**; do not read JSON files during request handling.
+- Preserve the existing look and feel in `static/css/styles.css`, extending it only where necessary.
+
+### COMMIT BEHAVIOR:
+- Verify that filtering and comparison work seamlessly via HTMX.
+- Commit message: "[PROMPT_33] implement htmx-driven advanced filtering and side-by-side comparison using sqlite"

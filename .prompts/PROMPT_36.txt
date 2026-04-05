@@ -1,0 +1,26 @@
+You are an expert technical educator and curriculum designer. Your task is to enhance the "Guided Odysseys" (Learning Paths) in the "language-atlas" project, adding high-fidelity paths and industry-oriented projects.
+
+### CONTEXT:
+The project features "Odysseys"—educational paths through the atlas. We need to expand these to include the specific legacy intent of teaching conceptual shifts and exploring industry-specific shifts, all integrated into the HTMX/SQLite stack.
+
+### TASK:
+1. **Content Expansion:**
+   - Update `data/learning_paths.json` to include 4 detailed "Educational Paths" and 2 "Industry Discovery Projects":
+     - *Paths:* "The Systems Descent" (Java -> C -> Rust), "The Concurrency Evolution" (C++ -> Go -> Erlang), etc.
+     - *Projects:* "FinTech Performance & Safety", "The Space-Grade Constraint".
+   - Ensure each step has a clear `rationale` and `challenge`.
+2. **UI Enhancement:**
+   - Update `templates/odyssey_detail.html` to implement a "Stepper UI" that shows the journey's progression.
+   - Integrate "AI Discovery Missions" fetched from the language profile data in SQLite into the steps.
+   - Link each step directly to the corresponding language profile and relevant concept docs.
+3. **Dynamic Odysseys:**
+   - Ensure the `get_auto_odyssey` logic in `DataLoader` is surfaced in the UI as a "Dynamic Heritage Journey" on language profile pages.
+
+### CONSTRAINTS:
+- Maintain the **JSON -> SQLite build pipeline**; ensure any changes to `learning_paths.json` are reflected in the database (or handled by the loader if not yet in schema).
+- Use **HTMX** for navigation within an Odyssey.
+- Ensure the distinction between "Learning Paths" and "Industry Projects" is clear in the `/odysseys` list.
+
+### COMMIT BEHAVIOR:
+- Verify that the new paths load correctly and the Stepper UI is functional.
+- Commit message: "[PROMPT_36] implement high-fidelity guided odysseys and industry discovery projects"

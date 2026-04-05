@@ -1,0 +1,29 @@
+You are an expert data visualization engineer. Your task is to integrate Plotly visualizations into the "language-atlas" Web UI, querying data directly from the SQLite database.
+
+### CONTEXT:
+The "language-atlas" tracks history and influence. We need to visualize the timeline of language creation and the complex web of influences using the SQLite-backed architecture.
+
+### TASK:
+1. **Setup:**
+   - Update `src/app/requirements.txt` to include `plotly` and `pandas`.
+2. **Backend Integration:**
+   - Update `src/app/app.py` to include a `/visualizations` route and endpoints for specific graph data (e.g., `/api/viz/timeline`, `/api/viz/influence`).
+   - In `DataLoader`, implement SQL queries to fetch:
+     - Timeline Data: Name, year, cluster, and `influence_score`.
+     - Influence Data: A list of source/target relationships from the `influences` table.
+3. **Create Visualizations:**
+   - **Timeline Chart:** A scatter plot (Year vs. Influence Score) colored by Cluster.
+   - **Influence Atlas:** A network-style graph (using Plotly's directed graphs or a chord diagram) showing connections between languages.
+4. **UI Integration:**
+   - Create `templates/visualizations.html`.
+   - Embed Plotly graphs using `fig.to_html(full_html=False, include_plotlyjs='cdn')` or by serving JSON to a minimal frontend loader.
+
+### CONSTRAINTS:
+- All data MUST be pulled from `language_atlas.sqlite`.
+- Use **Plotly Python** for graph generation.
+- Ensure graphs are responsive and styled to match the project's aesthetic.
+- Handle languages with no influence or missing data gracefully.
+
+### COMMIT BEHAVIOR:
+- Ensure the visualization page is accessible and performs efficiently.
+- Commit message: "[PROMPT_34] add plotly-powered timeline and influence visualizations backed by sqlite"
