@@ -13,7 +13,7 @@
   },
   {
     "name": "Influence Graph",
-    "description": "The directed acyclic graph (DAG) representing how programming languages have influenced one another across history."
+    "description": "The **directed acyclic graph (DAG)** representing how programming languages have influenced one another across history."
   },
   {
     "name": "Semantic Search",
