@@ -255,14 +255,7 @@ async def get_language_profile(request: Request, name: str):
 
 @app.get("/person/{name}", response_class=HTMLResponse)
 async def get_person_profile(request: Request, name: str):
-    profiles = data_loader.get_people_profiles()
-    norm_name = name
-    for k in profiles.keys():
-        if k.lower() == name.lower() or k.replace('_', ' ').lower() == name.lower():
-            norm_name = k
-            break
-            
-    person = profiles.get(norm_name)
+    person = data_loader.get_person(name)
     if not person:
         raise HTTPException(status_code=404, detail="Person not found")
         
@@ -299,14 +292,7 @@ async def get_person_profile(request: Request, name: str):
 
 @app.get("/event/{slug}", response_class=HTMLResponse)
 async def get_event_profile(request: Request, slug: str):
-    events = data_loader.get_historical_events()
-    event = events.get(slug)
-    if not event:
-        for k, v in events.items():
-            if k.lower() == slug.lower() or v.get('slug', '').lower() == slug.lower():
-                event = v
-                break
-                
+    event = data_loader.get_event(slug)
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
         
@@ -422,13 +408,7 @@ async def api_list_people():
 
 @app.get("/api/person/{name}")
 async def api_get_person(name: str):
-    profiles = data_loader.get_people_profiles()
-    norm_name = name
-    for k in profiles.keys():
-        if k.lower() == name.lower() or k.replace('_', ' ').lower() == name.lower():
-            norm_name = k
-            break
-    person = profiles.get(norm_name)
+    person = data_loader.get_person(name)
     if not person:
         raise HTTPException(status_code=404, detail="Person not found")
     return person
@@ -439,13 +419,7 @@ async def api_list_events():
 
 @app.get("/api/event/{slug}")
 async def api_get_event(slug: str):
-    events = data_loader.get_historical_events()
-    event = events.get(slug)
-    if not event:
-        for k, v in events.items():
-            if k.lower() == slug.lower() or v.get('slug', '').lower() == slug.lower():
-                event = v
-                break
+    event = data_loader.get_event(slug)
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
     return event

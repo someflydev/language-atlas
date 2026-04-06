@@ -209,6 +209,65 @@ class DataLoader:
         conn.close()
         return events
 
+    def get_person(self, name):
+        """Returns the profile data for a given person name."""
+        if not self.use_sqlite:
+            profiles = self.get_people_profiles()
+            if name in profiles: return profiles[name]
+            norm_name = name.replace(' ', '_')
+            if norm_name in profiles: return profiles[norm_name]
+            return None
+
+        conn = self._get_connection()
+        norm_name = name.replace(' ', '_')
+        cursor = conn.execute("""
+            SELECT pp.*, p.name 
+            FROM people_profiles pp 
+            JOIN people p ON p.id = pp.person_id 
+            WHERE lower(p.name) = ? OR lower(p.name) = ?
+        """, (name.lower(), norm_name.lower()))
+        
+        row = cursor.fetchone()
+        if not row:
+            conn.close()
+            return None
+        
+        profile_id = row['id']
+        profile_data = self._row_to_dict(row)
+        
+        s_cursor = conn.execute("SELECT section_name, content FROM people_profile_sections WHERE profile_id = ?", (profile_id,))
+        for s_row in s_cursor.fetchall():
+            profile_data[s_row['section_name']] = s_row['content']
+            
+        conn.close()
+        return profile_data
+
+    def get_event(self, slug):
+        """Returns the data for a given event slug."""
+        if not self.use_sqlite:
+            events = self.get_historical_events()
+            if slug in events: return events[slug]
+            for k, v in events.items():
+                if v.get('slug') == slug: return v
+            return None
+
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT * FROM historical_events WHERE slug = ? OR lower(title) = ?", (slug, slug.lower()))
+        row = cursor.fetchone()
+        if not row:
+            conn.close()
+            return None
+        
+        event_id = row['id']
+        event_data = self._row_to_dict(row)
+        
+        s_cursor = conn.execute("SELECT section_name, content FROM event_sections WHERE event_id = ?", (event_id,))
+        for s_row in s_cursor.fetchall():
+            event_data[s_row['section_name']] = s_row['content']
+            
+        conn.close()
+        return event_data
+
     def _merge_data(self, base, new_data):
         if isinstance(base, list) and isinstance(new_data, list):
             base.extend(new_data)
