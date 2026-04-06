@@ -5,15 +5,14 @@ The system stores rich narrative content (Crossroads, Modern Reactions, Eras, Ti
 
 ### TASK:
 1. **Narrative Hub Implementation:**
-   - Update `src/app/app.py` to add a `/narrative` hub route that acts as a "Unified History Engine", linking Eras, Crossroads, People, and Events into a single cohesive experience.
+   - Update `src/app/app.py` to add a `/narrative` hub route that acts as a "Unified History Engine". This hub should bridge the gap between Eras, Crossroads, People, and Events, turning the Atlas into a single cohesive story.
    - Implement routes for each narrative type:
      - `/narrative/crossroads`
      - `/narrative/reactions`
      - `/narrative/era/{slug}`
      - `/narrative/timeline`
      - `/narrative/concepts`
-     - `/person/{name}` (if not fully integrated)
-     - `/event/{slug}` (if not fully integrated)
+     - (Note: `/person/{name}` and `/event/{slug}` are already implemented, but should be deep-linked from these narrative hubs).
 2. **Data Retrieval:**
    - Update `DataLoader` with methods to query the following tables: `crossroads`, `modern_reactions`, `era_summaries` (with `key_drivers` and `pivotal_languages`), `timeline_periods` (with `timeline_events`), `concepts`, `people_profiles`, and `historical_events`.
 3. **Template Rendering:**
