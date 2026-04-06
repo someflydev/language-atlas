@@ -423,40 +423,103 @@ class DataLoader:
         return base
 
 
+    def get_crossroads(self):
+        if not self.use_sqlite:
+            return self._load_json('docs/crossroads/crossroads.json')
+            
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT * FROM crossroads ORDER BY id")
+        data = [self._row_to_dict(row) for row in cursor.fetchall()]
+        conn.close()
+        return data
+
+    def get_modern_reactions(self):
+        if not self.use_sqlite:
+            return self._load_json('docs/modern_reactions/modern_reactions.json')
+            
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT * FROM modern_reactions ORDER BY id")
+        data = [self._row_to_dict(row) for row in cursor.fetchall()]
+        conn.close()
+        return data
+
     def get_all_era_summaries(self):
-        dir_path = os.path.join(self.data_dir, 'docs', 'era_summaries')
-        summaries = []
-        if os.path.isdir(dir_path):
-            for filename in os.listdir(dir_path):
-                if filename.endswith('.json'):
-                    with open(os.path.join(dir_path, filename), 'r', encoding='utf-8') as f:
-                        summaries.append(json.load(f))
+        if not self.use_sqlite:
+            dir_path = os.path.join(self.data_dir, 'docs', 'era_summaries')
+            summaries = []
+            if os.path.isdir(dir_path):
+                for filename in os.listdir(dir_path):
+                    if filename.endswith('.json'):
+                        with open(os.path.join(dir_path, filename), 'r', encoding='utf-8') as f:
+                            summaries.append(json.load(f))
+            return summaries
+            
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT * FROM era_summaries ORDER BY id")
+        summaries = [self._row_to_dict(row) for row in cursor.fetchall()]
+        
+        for s in summaries:
+            self._hydrate_era_summary(s, conn)
+            
+        conn.close()
         return summaries
 
     def get_era_summary(self, slug):
-        summaries = self.get_all_era_summaries()
-        for s in summaries:
-            if s.get('slug') == slug:
-                return s
-        return None
+        if not self.use_sqlite:
+            summaries = self.get_all_era_summaries()
+            for s in summaries:
+                if s.get('slug') == slug:
+                    return s
+            return None
+            
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT * FROM era_summaries WHERE slug = ?", (slug,))
+        row = cursor.fetchone()
+        if not row:
+            conn.close()
+            return None
+            
+        summary = self._row_to_dict(row)
+        self._hydrate_era_summary(summary, conn)
+        conn.close()
+        return summary
 
-    def get_concepts_reference(self):
-        return self._load_json('docs/concepts/concepts_reference.json')
-
-    def get_crossroads(self):
-        return self._load_json('docs/crossroads/crossroads.json')
-
-    def get_modern_reactions(self):
-        return self._load_json('docs/modern_reactions/modern_reactions.json')
-
-    def get_paradigms_reference(self):
-        return self._load_json('docs/paradigms/paradigms_reference.json')
-
-    def get_paradigm_matrix(self):
-        return self._load_json('docs/paradigms/paradigm_matrix.json')
+    def _hydrate_era_summary(self, summary, conn):
+        era_id = summary['id']
+        
+        # Key Drivers
+        cursor = conn.execute("SELECT name, description FROM era_key_drivers WHERE era_id = ?", (era_id,))
+        summary['key_drivers'] = [self._row_to_dict(r) for r in cursor.fetchall()]
+        
+        # Pivotal Languages
+        cursor = conn.execute("SELECT name, description FROM era_pivotal_languages WHERE era_id = ?", (era_id,))
+        summary['pivotal_languages'] = [self._row_to_dict(r) for r in cursor.fetchall()]
 
     def get_timeline(self):
-        return self._load_json('docs/timeline/timeline.json')
+        if not self.use_sqlite:
+            return self._load_json('docs/timeline/timeline.json')
+            
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT * FROM timeline_periods ORDER BY id")
+        periods = [self._row_to_dict(row) for row in cursor.fetchall()]
+        
+        for p in periods:
+            p_id = p['id']
+            e_cursor = conn.execute("SELECT year, description FROM timeline_events WHERE period_id = ? ORDER BY id", (p_id,))
+            p['events'] = [self._row_to_dict(r) for r in e_cursor.fetchall()]
+            
+        conn.close()
+        return periods
+
+    def get_all_concepts(self):
+        if not self.use_sqlite:
+            return self.concepts
+            
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT * FROM concepts ORDER BY year, name")
+        concepts = [self._row_to_dict(row) for row in cursor.fetchall()]
+        conn.close()
+        return concepts
 
     def get_all_languages(self, clusters=None, paradigms=None, min_year=1930, max_year=2024, sort="year", filter_gen=None, filter_cluster=None):
         if not self.use_sqlite:
@@ -748,7 +811,7 @@ class DataLoader:
         # Try both direct and normalized names in SQL
         normalized_name = name.replace(' ', '_')
         cursor = conn.execute("""
-            SELECT cp.*, c.name, c.origin_year, c.responsible_entity
+            SELECT cp.*, c.name, c.year as origin_year
             FROM concept_profiles cp 
             JOIN concepts c ON c.id = cp.concept_id 
             WHERE lower(c.name) = ? OR lower(c.name) = ?
@@ -760,12 +823,22 @@ class DataLoader:
             return None
         
         profile_id = row['id']
+        concept_id = row['concept_id']
         profile_data = self._row_to_dict(row)
         
         # Fetch sections
         s_cursor = conn.execute("SELECT section_name, content FROM concept_profile_sections WHERE profile_id = ?", (profile_id,))
         for s_row in s_cursor.fetchall():
             profile_data[s_row['section_name']] = s_row['content']
+            
+        # Fetch responsible people
+        p_cursor = conn.execute("""
+            SELECT p.name 
+            FROM people p 
+            JOIN concept_people cp ON p.id = cp.person_id 
+            WHERE cp.concept_id = ?
+        """, (concept_id,))
+        profile_data['responsible_entity'] = ", ".join([r['name'] for r in p_cursor.fetchall()])
             
         conn.close()
         return profile_data
