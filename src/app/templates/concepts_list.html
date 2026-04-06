@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-12">
+    <div class="mb-12">
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-4">
+                <li>
+                    <div>
+                        <a href="/narrative" class="text-slate-400 hover:text-slate-500">
+                            <span class="text-sm font-bold">Narrative Hub</span>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="flex-shrink-0 h-5 w-5 text-slate-300" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                            <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                        </svg>
+                        <span class="ml-4 text-sm font-bold text-slate-500" aria-current="page">Key Concepts</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <h1 class="text-5xl font-extrabold text-slate-900 mb-8">The Concepts of Computing</h1>
+        <p class="text-xl text-slate-600 max-w-3xl leading-relaxed">
+            These are the mental models and technical breakthroughs that underpin all of modern programming. 
+            Each concept represents a solution to a specific challenge in complexity or efficiency.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for concept in concepts %}
+        <div class="group bg-white border border-slate-100 rounded-3xl p-8 hover:shadow-xl transition-all border-b-4 border-b-slate-100 hover:border-b-blue-500">
+            <div class="flex justify-between items-start mb-4">
+                <span class="text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{{ concept.year }}</span>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-4">{{ concept.name }}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                {{ concept.description }}
+            </p>
+            <a href="/concept/{{ concept.name.replace(' ', '_') }}" class="text-sm font-bold text-blue-600 hover:text-blue-700 flex items-center gap-2 group-hover:gap-3 transition-all">
+                Deep Dive Profile
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

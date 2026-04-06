@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-12">
+    <div class="mb-16">
+        <h1 class="text-5xl font-extrabold text-slate-900 mb-6">The Narrative Engine</h1>
+        <p class="text-xl text-slate-600 max-w-3xl leading-relaxed">
+            The evolution of programming is more than a series of syntax updates. It is a cohesive story of human ingenuity, 
+            responding to hardware limitations and solving the recurring "Software Crisis". Explore the eras, 
+            crossroads, and concepts that shaped the digital world.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <!-- Crossroads Card -->
+        <a href="/narrative/crossroads" class="group block p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-3">Historical Crossroads</h3>
+            <p class="text-slate-600">Pivotal moments where the industry made a fundamental choice that changed everything.</p>
+        </a>
+
+        <!-- Timeline Card -->
+        <a href="/narrative/timeline" class="group block p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-3">Historical Timeline</h3>
+            <p class="text-slate-600">A chronological journey from physical machines to high-level abstractions.</p>
+        </a>
+
+        <!-- Modern Reactions Card -->
+        <a href="/narrative/reactions" class="group block p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-3">Modern Reactions</h3>
+            <p class="text-slate-600">How today's languages are correcting the mistakes of the past and embracing new paradigms.</p>
+        </a>
+
+        <!-- Concepts Card -->
+        <a href="/narrative/concepts" class="group block p-8 bg-white border border-slate-100 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
+            <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-slate-900 mb-3">Key Concepts</h3>
+            <p class="text-slate-600">The mental models and technical innovations that form the foundation of computing.</p>
+        </a>
+    </div>
+
+    <div class="mb-8">
+        <h2 class="text-3xl font-bold text-slate-900 mb-8">Evolutionary Eras</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for era in eras %}
+            <a href="/narrative/era/{{ era.slug }}" class="group p-6 bg-slate-50 border border-slate-100 rounded-2xl hover:bg-white hover:shadow-lg transition-all">
+                <h4 class="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600">{{ era.title }}</h4>
+                <p class="text-sm text-slate-600 line-clamp-2">{{ era.overview }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

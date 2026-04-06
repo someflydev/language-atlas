@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-12">
+    <div class="mb-12">
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-4">
+                <li>
+                    <div>
+                        <a href="/narrative" class="text-slate-400 hover:text-slate-500">
+                            <span class="text-sm font-bold">Narrative Hub</span>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="flex-shrink-0 h-5 w-5 text-slate-300" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                            <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                        </svg>
+                        <span class="ml-4 text-sm font-bold text-slate-500" aria-current="page">{{ title }}</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <h1 class="text-4xl font-extrabold text-slate-900 mb-4">{{ title }}</h1>
+        <p class="text-lg text-slate-600 max-w-3xl leading-relaxed">
+            {{ description }}
+        </p>
+    </div>
+
+    <div class="space-y-12">
+        {% for item in items %}
+        <div class="bg-white border border-slate-100 rounded-3xl shadow-sm p-8 md:p-12">
+            <h2 class="text-3xl font-bold text-slate-900 mb-6">{{ item.title or item.theme }}</h2>
+            <div class="markdown-body text-slate-700 leading-relaxed prose prose-slate max-w-none">
+                {{ item.explanation_html | safe }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

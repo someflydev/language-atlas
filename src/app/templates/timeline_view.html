@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-12">
+    <div class="mb-12">
+        <nav class="flex mb-8" aria-label="Breadcrumb">
+            <ol class="flex items-center space-x-4">
+                <li>
+                    <div>
+                        <a href="/narrative" class="text-slate-400 hover:text-slate-500">
+                            <span class="text-sm font-bold">Narrative Hub</span>
+                        </a>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="flex-shrink-0 h-5 w-5 text-slate-300" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                            <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                        </svg>
+                        <span class="ml-4 text-sm font-bold text-slate-500" aria-current="page">Historical Timeline</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+
+        <h1 class="text-5xl font-extrabold text-slate-900 mb-8">Historical Timeline</h1>
+        <p class="text-xl text-slate-600 max-w-3xl leading-relaxed">
+            From the gears of mechanical engines to the distributed actor models of the cloud, 
+            this timeline tracks the major shifts in how we communicate with machines.
+        </p>
+    </div>
+
+    <div class="relative border-l-2 border-slate-200 ml-4 md:ml-8 pl-8 md:pl-12 space-y-16 py-8">
+        {% for period in timeline %}
+        <div class="relative">
+            <!-- Period Dot -->
+            <div class="absolute -left-[41px] md:-left-[57px] mt-1.5 w-6 h-6 rounded-full bg-blue-600 border-4 border-white shadow-sm"></div>
+            
+            <h2 class="text-3xl font-bold text-slate-900 mb-8">{{ period.era_or_period }}</h2>
+            
+            <div class="space-y-8">
+                {% for event in period.events %}
+                <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-6 md:p-8">
+                    {% if event.year %}
+                    <span class="inline-block px-3 py-1 bg-blue-50 text-blue-600 text-xs font-bold rounded-full mb-4 uppercase tracking-wider">
+                        {{ event.year }}
+                    </span>
+                    {% endif %}
+                    <div class="markdown-body prose prose-slate max-w-none text-slate-700">
+                        {{ event.description_html | safe }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
