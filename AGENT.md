@@ -35,4 +35,5 @@
   - **Body:** Separated from the subject by a blank line, wrapped at 72-80 characters.
   - **Content:** Detail the *rationale* and *technical impact* of the changes. Avoid listing every file if the grouping is logical.
 - **No Co-author:** Do not include co-author sections in commit messages.
+- **Explicit Staging:** NEVER lazily use `git add .` or `git commit -a`. Explicitly stage only the necessary and modified tracked files for each commit using `git add <file>...`. This prevents untracked or personal files (like `human-notes.md`) from being accidentally committed.
 - **Grouped Changes:** Perform logical, surgical updates and commit them individually. Group files or hunks that share a conceptual purpose (e.g., updating existing cross-references vs. adding new data) into separate, descriptive commits.
