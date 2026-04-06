@@ -1,0 +1,56 @@
+# PROMPT 38: API Enhancement & Documentation Audit
+
+## Objective
+Refine the Language Atlas API to be more intuitive, exhaustive, and well-documented. This involves renaming ambiguous endpoints, adding access to new data entities (paradigms, concepts, eras, organizations), and ensuring `API_GUIDE.md` is an exhaustive "source of truth".
+
+## Phase 1: API Implementation (src/app/app.py)
+
+1.  **Rename Event Endpoints:**
+    *   Change `@app.get("/api/events")` to `@app.get("/api/historical_events")`.
+    *   Update the function name to `api_list_historical_events`.
+
+2.  **Add New Data Endpoints:**
+    *   **Paradigms:**
+        *   `GET /api/paradigms`: Call `data_loader.get_all_paradigms()`.
+        *   `GET /api/paradigm/{name}`: Call `data_loader.get_paradigm_info(name)`.
+    *   **Concepts:**
+        *   `GET /api/concepts`: Call `data_loader.get_all_concepts()`.
+        *   `GET /api/concept/{name}`: Call `data_loader.get_concept_profile(name)`.
+    *   **Eras:**
+        *   `GET /api/eras`: Call `data_loader.get_all_era_summaries()`.
+        *   `GET /api/era/{slug}`: Call `data_loader.get_era_summary(slug)`.
+    *   **Organizations:**
+        *   `GET /api/organizations`: Call `data_loader.get_org_profiles()`.
+        *   `GET /api/org/{name}`: Call `data_loader.get_org(name)`.
+
+3.  **Enhance /api/languages:**
+    *   Update `api_list_languages` to support:
+        *   `sort`: `year` (default) or `name`.
+        *   `min_year`: integer (default 1930).
+        *   `max_year`: integer (default 2024).
+    *   Pass these to `data_loader.get_all_languages(...)`.
+
+## Phase 2: Documentation Audit (API_GUIDE.md)
+
+1.  **Exhaustive Query Parameters for `/api/languages`:**
+    *   **`cluster`**: `AI`, `academic`, `backend`, `business`, `cloud`, `data`, `education`, `enterprise`, `finance`, `frontend`, `historical`, `infra`, `mathematics`, `safety-critical`, `scientific`, `scripting`, `systems`, `web`.
+    *   **`generation`**: `dawn`, `early`, `web1`, `cloud`, `renaissance`, `autonomic`.
+    *   **`sort`**: `year`, `name`.
+
+2.  **Path Parameter Clarification:**
+    *   In the **Get Person Detail** section, add a note: 
+        > "Names containing spaces must be URL-encoded (e.g., `/api/person/John%20Backus`). The API also accepts underscores as a substitute for spaces (e.g., `/api/person/John_Backus`)."
+
+3.  **Update Endpoint References:**
+    *   Rename all mentions of `/api/events` to `/api/historical_events`.
+    *   Add documentation for all new endpoints (Paradigms, Concepts, Eras, Organizations).
+
+## Phase 3: Validation
+1.  **Direct Test:** Use `curl` to verify `/api/historical_events` returns data.
+2.  **Space Handling:** Verify `/api/person/Guido%20van%20Rossum` and `/api/person/Guido_van_Rossum` both return the profile for Guido van Rossum.
+3.  **Filter Check:** Verify `/api/languages?cluster=systems&sort=name` returns sorted results.
+
+## Implementation Hints for the Sub-Agent
+- Use `data_loader.get_all_paradigms()` for the list and `get_paradigm_info(name)` for detail.
+- Note that `get_org(name)` in `DataLoader` handles both spaces and underscores, similar to `get_person(name)`.
+- When updating `API_GUIDE.md`, ensure the examples section at the end is also updated to use the new `/api/historical_events` endpoint.
