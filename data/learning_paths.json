@@ -1,151 +1,157 @@
 [
   {
-    "id": "systems_renaissance",
-    "title": "The Systems Renaissance",
-    "description": "Explore the evolution of systems programming from C to the modern era of memory safety and zero-cost abstractions.",
+    "id": "systems_descent",
+    "title": "The Systems Descent",
+    "description": "Trace the path from high-level managed code down to the metal, and finally to modern memory safety.",
+    "type": "path",
     "steps": [
       {
-        "language": "C",
-        "milestone": "The Foundation"
-      },
-      {
-        "language": "Ada",
-        "milestone": "The Safety Specification"
-      },
-      {
         "language": "Java",
-        "milestone": "The Managed Detour"
+        "milestone": "The Managed abstraction",
+        "rationale": "Understand the comfort of Garbage Collection and the JVM before losing the safety net.",
+        "challenge": "Identify the overhead introduced by the JVM's memory management."
+      },
+      {
+        "language": "C",
+        "milestone": "The Raw Metal",
+        "rationale": "Experience the power and danger of manual memory management and pointers.",
+        "challenge": "Implement a linked list and manually manage every byte without leaking."
       },
       {
         "language": "Rust",
-        "milestone": "The Safety Revolution"
-      },
-      {
-        "language": "Zig",
-        "milestone": "The Pragmatic Alternative"
+        "milestone": "The Safety Revolution",
+        "rationale": "Discover how the Borrow Checker provides C-level performance with Java-level safety.",
+        "challenge": "Refactor a C-style pointer implementation to pass the Rust borrow checker."
       }
     ]
   },
   {
-    "id": "functional_frontier",
-    "title": "The Functional Frontier",
-    "description": "Trace the lineage of declarative and functional programming from the lambda calculus to modern type systems.",
+    "id": "concurrency_evolution",
+    "title": "The Concurrency Evolution",
+    "description": "Explore how different languages handle the challenge of doing many things at once.",
+    "type": "path",
+    "steps": [
+      {
+        "language": "C++",
+        "milestone": "Manual Threading",
+        "rationale": "Learn the traditional shared-memory model with mutexes and locks.",
+        "challenge": "Resolve a classic deadlock scenario in a multi-threaded application."
+      },
+      {
+        "language": "Go",
+        "milestone": "CSP & Goroutines",
+        "rationale": "Shift from shared memory to 'communicating by sharing' via channels.",
+        "challenge": "Implement a worker pool using goroutines and channels for synchronization."
+      },
+      {
+        "language": "Erlang",
+        "milestone": "The Actor Model",
+        "rationale": "Experience the ultimate isolation: no shared state, only asynchronous message passing.",
+        "challenge": "Build a fault-tolerant supervisor tree that restarts failing processes."
+      }
+    ]
+  },
+  {
+    "id": "functional_shift",
+    "title": "The Functional Shift",
+    "description": "Move away from imperative instructions towards declarative expressions and pure functions.",
+    "type": "path",
     "steps": [
       {
         "language": "Lisp",
-        "milestone": "The Origin"
-      },
-      {
-        "language": "Scheme",
-        "milestone": "The Elegant Lisp"
-      },
-      {
-        "language": "ML",
-        "milestone": "The Type Theory Pivot"
+        "milestone": "Symbolic Processing",
+        "rationale": "Return to the roots of functional programming where code is data.",
+        "challenge": "Write a macro that extends the language with a new control structure."
       },
       {
         "language": "Haskell",
-        "milestone": "Pure Purity"
+        "milestone": "Pure Purity",
+        "rationale": "Enforce side-effect freedom with a rigorous, lazy type system.",
+        "challenge": "Use Monads to handle IO while maintaining functional purity."
       },
       {
-        "language": "Elm",
-        "milestone": "Functional UI"
-      },
-      {
-        "language": "Clojure",
-        "milestone": "The Pragmatic Lisp"
+        "language": "Elixir",
+        "milestone": "Pragmatic Functionalism",
+        "rationale": "See how functional principles scale to massive distributed systems.",
+        "challenge": "Scale a functional web service to handle 10,000 concurrent connections."
       }
     ]
   },
   {
-    "id": "object_oriented_odyssey",
-    "title": "The Object-Oriented Odyssey",
-    "description": "Follow the concept of 'Objects' from their first appearance in simulation to their role as the dominant software architecture.",
+    "id": "web_architectural_journey",
+    "title": "The Web's Architectural Journey",
+    "description": "Follow the web's transition from simple scripts to robust, type-safe engineering.",
+    "type": "path",
     "steps": [
-      {
-        "language": "SIMULA 67",
-        "milestone": "The Origin"
-      },
-      {
-        "language": "Smalltalk",
-        "milestone": "The Ideal"
-      },
-      {
-        "language": "Objective-C",
-        "milestone": "The Hybrid"
-      },
-      {
-        "language": "Ruby",
-        "milestone": "The Modern Synthesis"
-      }
-    ]
-  },
-  {
-    "id": "symbolic_spring",
-    "title": "The Symbolic Spring (AI)",
-    "description": "Explore the languages that powered the dreams of artificial intelligence from symbolic logic to modern machine learning.",
-    "steps": [
-      {
-        "language": "Lisp",
-        "milestone": "The Spark"
-      },
-      {
-        "language": "Prolog",
-        "milestone": "The Logic"
-      },
-      {
-        "language": "Python",
-        "milestone": "The Consolidation"
-      },
-      {
-        "language": "Mojo",
-        "milestone": "The Future"
-      }
-    ]
-  },
-  {
-    "id": "scientific_lineage",
-    "title": "The Scientific Lineage",
-    "description": "Trace the development of languages designed to crunch numbers and solve the world's most complex mathematical problems.",
-    "steps": [
-      {
-        "language": "FORTRAN",
-        "milestone": "The Pioneer"
-      },
-      {
-        "language": "APL",
-        "milestone": "The Notation"
-      },
-      {
-        "language": "MATLAB",
-        "milestone": "The Specialization"
-      },
-      {
-        "language": "Julia",
-        "milestone": "The Two-Language Solution"
-      }
-    ]
-  },
-  {
-    "id": "web_explosion",
-    "title": "The Web Explosion",
-    "description": "Follow the rapid evolution of the web from simple scripting to complex, type-safe applications.",
-    "steps": [
-      {
-        "language": "JavaScript",
-        "milestone": "The Scripting Spark"
-      },
       {
         "language": "PHP",
-        "milestone": "Server-Side Dominance"
+        "milestone": "Template Roots",
+        "rationale": "Understand the birth of the dynamic web and the request-response cycle.",
+        "challenge": "Create a session-managed application using only core language features."
+      },
+      {
+        "language": "JavaScript",
+        "milestone": "The Client-Side Spark",
+        "rationale": "Bring interactivity to the browser and learn the event loop.",
+        "challenge": "Implement an asynchronous data fetcher that handles race conditions."
       },
       {
         "language": "TypeScript",
-        "milestone": "The Safety Layer"
+        "milestone": "Industrial Strength",
+        "rationale": "Add the safety of a modern type system to the web's most flexible language.",
+        "challenge": "Convert a dynamic JS library to a strictly typed TS module."
+      }
+    ]
+  },
+  {
+    "id": "fintech_performance",
+    "title": "FinTech Performance & Safety",
+    "description": "A focused project on building high-frequency trading systems where every microsecond and every bit of safety counts.",
+    "type": "project",
+    "steps": [
+      {
+        "language": "C++",
+        "milestone": "Low-Latency Core",
+        "rationale": "Used for the absolute fastest execution paths in trading engines.",
+        "challenge": "Optimize an order matching algorithm for sub-microsecond latency."
       },
       {
-        "language": "WebAssembly",
-        "milestone": "The Polyglot Web"
+        "language": "Java",
+        "milestone": "Enterprise Orchestration",
+        "rationale": "Handles the complex business logic and reporting with high throughput.",
+        "challenge": "Tune the G1 garbage collector to minimize 'stop-the-world' pauses."
+      },
+      {
+        "language": "Rust",
+        "milestone": "Modern Safety",
+        "rationale": "The emerging choice for combining C++ speed with absolute memory safety.",
+        "challenge": "Rewrite a critical risk-check module in Rust to eliminate segfault risks."
+      }
+    ]
+  },
+  {
+    "id": "space_grade_constraint",
+    "title": "The Space-Grade Constraint",
+    "description": "Develop software for environments where failure is not an option and resources are extremely limited.",
+    "type": "project",
+    "steps": [
+      {
+        "language": "Ada",
+        "milestone": "High-Integrity Specification",
+        "rationale": "The gold standard for safety-critical systems since the 1980s.",
+        "challenge": "Use Ravenscar profile to ensure deterministic real-time behavior."
+      },
+      {
+        "language": "C",
+        "milestone": "Embedded Realities",
+        "rationale": "The lingua franca of hardware interfacing in space missions.",
+        "challenge": "Write a hardware driver for a radiation-hardened processor."
+      },
+      {
+        "language": "Zig",
+        "milestone": "The Modern Embedded",
+        "rationale": "A fresh take on systems programming with better safety than C but same control.",
+        "challenge": "Use Zig's comptime to generate optimized telemetry packets."
       }
     ]
   }

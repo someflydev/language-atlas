@@ -14,11 +14,16 @@ from app.core.data_loader import DataLoader
 DB_PATH = os.path.join(REPO_ROOT, 'language_atlas.sqlite')
 
 def build_database(conn=None, data_dir=None):
+    # Force use_sqlite=0 for the loader used during build to ensure it reads from JSON
+    os.environ['USE_SQLITE'] = '0'
     if data_dir:
         loader = DataLoader(data_dir=data_dir)
     else:
         print(f"Loading data from JSON...")
         loader = DataLoader()
+    
+    # Reset USE_SQLITE if needed or just leave it for this process
+    os.environ['USE_SQLITE'] = '1'
     
     # 2. Drop and recreate DB
     close_conn = False
@@ -266,6 +271,24 @@ def build_database(conn=None, data_dir=None):
         event_id INTEGER NOT NULL,
         related_name TEXT,
         FOREIGN KEY (event_id) REFERENCES timeline_events(id)
+    );
+
+    CREATE TABLE learning_paths (
+        id TEXT PRIMARY KEY,
+        title TEXT NOT NULL,
+        description TEXT,
+        type TEXT DEFAULT 'path' -- 'path' or 'project'
+    );
+
+    CREATE TABLE learning_path_steps (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        path_id TEXT NOT NULL,
+        language_name TEXT NOT NULL,
+        milestone TEXT,
+        rationale TEXT,
+        challenge TEXT,
+        step_order INTEGER,
+        FOREIGN KEY (path_id) REFERENCES learning_paths(id)
     );
 
     CREATE VIRTUAL TABLE fts_languages USING fts5(
@@ -644,6 +667,19 @@ def build_database(conn=None, data_dir=None):
                 for related in event.get('related', []):
                     cursor.execute("INSERT INTO timeline_event_related (event_id, related_name) VALUES (?, ?)",
                                    (event_id, related))
+
+    # Learning Paths
+    print("Inserting learning paths...")
+    learning_paths = loader.get_learning_paths()
+    for path in learning_paths:
+        cursor.execute("INSERT INTO learning_paths (id, title, description, type) VALUES (?, ?, ?, ?)",
+                       (path['id'], path['title'], path['description'], path.get('type', 'path')))
+        
+        for idx, step in enumerate(path.get('steps', [])):
+            cursor.execute("""
+                INSERT INTO learning_path_steps (path_id, language_name, milestone, rationale, challenge, step_order)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (path['id'], step['language'], step.get('milestone'), step.get('rationale'), step.get('challenge'), idx))
 
     print("Populating FTS tables...")
 
