@@ -37,8 +37,62 @@ app.mount("/static", StaticFiles(directory=static_dir), name="static")
 templates_dir = os.path.join(os.path.dirname(__file__), "templates")
 templates = Jinja2Templates(directory=templates_dir)
 
+import re
+
 # Initialize data loader
 data_loader = DataLoader()
+
+# Global entity link map for auto-linking
+_entity_link_map = None
+
+def get_link_map():
+    global _entity_link_map
+    if _entity_link_map is None:
+        _entity_link_map = data_loader.get_entity_link_map()
+    return _entity_link_map
+
+def auto_link_content(html: str) -> str:
+    """Automatically wraps known entity names with HTML links, avoiding existing tags."""
+    link_map = get_link_map()
+    if not link_map:
+        return html
+    
+    # Names to look for, sorted by length descending
+    sorted_names = sorted(link_map.keys(), key=len, reverse=True)
+    
+    # Regex to match names NOT inside <a> or <code> or <pre> tags
+    # This is a bit complex for pure regex, so we'll use a simpler heuristic:
+    # Match the pattern ONLY if it's not preceded by something that looks like an open tag
+    # or inside one. A better way would be to use BeautifulSoup, but let's try a regex first.
+    
+    # Basic word boundary match for the names
+    name_pattern = r'\b(' + '|'.join(re.escape(name) for name in sorted_names) + r')\b'
+    
+    # We'll use re.split to split the HTML into tags and text
+    parts = re.split(r'(<[^>]+>)', html)
+    result = []
+    
+    in_skip_tag = False
+    skip_tags = {'a', 'code', 'pre', 'h1', 'h2', 'h3'}
+    
+    for part in parts:
+        if part.startswith('<'):
+            tag_name = part[1:].split()[0].replace('/', '').lower()
+            if tag_name in skip_tags:
+                if part.startswith('</'):
+                    in_skip_tag = False
+                else:
+                    in_skip_tag = True
+            result.append(part)
+        else:
+            if not in_skip_tag:
+                # Apply auto-linking to the text content
+                linked_text = re.sub(name_pattern, lambda m: f'<a href="{link_map[m.group(0)]}">{m.group(0)}</a>', part)
+                result.append(linked_text)
+            else:
+                result.append(part)
+                
+    return "".join(result)
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(
@@ -246,11 +300,12 @@ async def get_language_profile(request: Request, name: str):
                 content += f"{val}\n\n"
     
     html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+    html_content = auto_link_content(html_content)
     
     return templates.TemplateResponse(
         request=request,
         name="profile.html",
-        context={"lang": lang, "content": html_content}
+        context={"lang": lang, "content": html_content, "entity_type": "language"}
     )
 
 @app.get("/person/{name}", response_class=HTMLResponse)
@@ -283,123 +338,30 @@ async def get_person_profile(request: Request, name: str):
                 content += f"{val}\n\n"
                 
     html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+    html_content = auto_link_content(html_content)
     
     return templates.TemplateResponse(
         request=request,
         name="profile.html",
-        context={"lang": person, "content": html_content, "title": person.get('name', name)}
+        context={"lang": person, "content": html_content, "title": person.get('name', name), "entity_type": "person"}
     )
-
-@app.get("/event/{slug}", response_class=HTMLResponse)
-async def get_event_profile(request: Request, slug: str):
-    event = data_loader.get_event(slug)
-    if not event:
-        raise HTTPException(status_code=404, detail="Event not found")
-        
-    content = f"# {event.get('title', slug)}\n\n"
-    date_str = event.get('date', '')
-    if date_str:
-        content += f"**Date:** {date_str}\n\n"
-    content += f"{event.get('overview', '')}\n\n"
-    
-    sections = [
-        ('impact_on_computing', 'Impact on Computing'),
-        ('key_figures', 'Key Figures'),
-        ('legacy', 'Legacy'),
-        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
-    ]
-    
-    for key, title in sections:
-        val = event.get(key)
-        if val:
-            content += f"## {title}\n"
-            if isinstance(val, list):
-                for item in val:
-                    content += f"- {item}\n"
-                content += "\n"
-            else:
-                content += f"{val}\n\n"
-                
-    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
-    
+...
     return templates.TemplateResponse(
         request=request,
         name="profile.html",
-        context={"lang": event, "content": html_content, "title": event.get('title', slug)}
+        context={"lang": event, "content": html_content, "title": event.get('title', slug), "entity_type": "event"}
     )
-
-@app.get("/org/{name}", response_class=HTMLResponse)
-async def get_org_profile(request: Request, name: str):
-    org = data_loader.get_org(name)
-    if not org:
-        raise HTTPException(status_code=404, detail="Organization not found")
-        
-    content = f"# {org.get('title', org.get('name', name))}\n\n"
-    founded = org.get('founded')
-    if founded:
-        content += f"**Founded:** {founded}\n\n"
-    content += f"{org.get('overview', '')}\n\n"
-    
-    sections = [
-        ('key_contributions', 'Key Contributions'),
-        ('pivotal_people', 'Pivotal People'),
-        ('legacy', 'Legacy'),
-        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
-    ]
-    
-    for key, title in sections:
-        val = org.get(key)
-        if val:
-            content += f"## {title}\n"
-            if isinstance(val, list):
-                for item in val:
-                    content += f"- {item}\n"
-                content += "\n"
-            else:
-                content += f"{val}\n\n"
-                
-    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
-    
+...
     return templates.TemplateResponse(
         request=request,
         name="profile.html",
-        context={"lang": org, "content": html_content, "title": org.get('name', name)}
+        context={"lang": org, "content": html_content, "title": org.get('name', name), "entity_type": "org"}
     )
-
-@app.get("/concept/{name}", response_class=HTMLResponse)
-async def get_concept_detail(request: Request, name: str):
-    concept = data_loader.get_concept_profile(name)
-    if not concept:
-        raise HTTPException(status_code=404, detail="Concept not found")
-        
-    content = f"# {concept.get('title', concept.get('name', name))}\n\n"
-    content += f"{concept.get('overview', '')}\n\n"
-    
-    sections = [
-        ('historical_context', 'Historical Context'),
-        ('key_aspects', 'Key Aspects'),
-        ('technical_implications', 'Technical Implications'),
-        ('legacy', 'Legacy'),
-        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
-    ]
-    
-    for key, title in sections:
-        val = concept.get(key)
-        if val:
-            content += f"## {title}\n"
-            if isinstance(val, list):
-                for item in val:
-                    content += f"- {item}\n"
-                content += "\n"
-            else:
-                content += f"{val}\n\n"
-                
-    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
-    
+...
     return templates.TemplateResponse(
         request=request,
         name="profile.html",
-        context={"lang": concept, "content": html_content, "title": concept.get('title', name)}
+        context={"lang": concept, "content": html_content, "title": concept.get('title', name), "entity_type": "concept"}
     )
 
 @app.get("/odysseys", response_class=HTMLResponse)

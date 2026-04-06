@@ -340,6 +340,44 @@ class DataLoader:
         conn.close()
         return event_data
 
+    def get_entity_link_map(self):
+        """Returns a map of entity names to their routes for auto-linking."""
+        conn = self._get_connection()
+        link_map = {}
+        
+        # 1. Languages
+        cursor = conn.execute("SELECT name, display_name FROM languages")
+        for row in cursor.fetchall():
+            link_map[row['name']] = f"/language/{row['name']}"
+            if row['display_name'] and row['display_name'] != row['name']:
+                link_map[row['display_name']] = f"/language/{row['name']}"
+        
+        # 2. People
+        cursor = conn.execute("SELECT name FROM people")
+        for row in cursor.fetchall():
+            name = row['name']
+            link_map[name] = f"/person/{name.replace(' ', '_')}"
+            
+        # 3. Concepts
+        cursor = conn.execute("SELECT name FROM concepts")
+        for row in cursor.fetchall():
+            name = row['name']
+            link_map[name] = f"/concept/{name.replace(' ', '_')}"
+            
+        # 4. Organizations
+        cursor = conn.execute("SELECT name FROM organizations")
+        for row in cursor.fetchall():
+            name = row['name']
+            link_map[name] = f"/org/{name.replace(' ', '_')}"
+            
+        # 5. Events
+        cursor = conn.execute("SELECT title, slug FROM historical_events")
+        for row in cursor.fetchall():
+            link_map[row['title']] = f"/event/{row['slug']}"
+            
+        conn.close()
+        return link_map
+
     def _merge_data(self, base, new_data):
         if isinstance(base, list) and isinstance(new_data, list):
             base.extend(new_data)
