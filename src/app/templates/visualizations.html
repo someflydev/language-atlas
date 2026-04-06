@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-12">
+    <h1 class="text-4xl font-black text-slate-900 tracking-tight mb-4">Visualizing the Atlas</h1>
+    <p class="text-xl text-slate-500 max-w-2xl leading-relaxed">
+        Explore the evolution and interconnectedness of programming languages through data-driven insights.
+    </p>
+</div>
+
+<div class="grid grid-cols-1 gap-12 mb-20">
+    <!-- Timeline Visualization -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50 flex items-center justify-between">
+            <div>
+                <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Evolutionary Timeline</h2>
+                <p class="text-sm text-slate-400 font-bold mt-1">Programming Languages by Year and Influence</p>
+            </div>
+            <div class="flex space-x-2">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-600 uppercase tracking-widest">Interactive</span>
+            </div>
+        </div>
+        <div class="p-4 bg-slate-50/50">
+            <div id="timeline-chart" class="w-full h-[600px] flex items-center justify-center">
+                {{ timeline_plot | safe }}
+            </div>
+        </div>
+        <div class="p-8 bg-white text-sm text-slate-500 leading-relaxed">
+            <strong class="text-slate-900 block mb-2 uppercase tracking-widest text-xs">How to read this:</strong>
+            The X-axis represents the year of creation. The Y-axis represents the <strong>Influence Score</strong> (calculated as the sum of incoming and outgoing influence connections). Each dot is a language, colored by its functional cluster.
+        </div>
+    </div>
+
+    <!-- Influence Visualization -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50 flex items-center justify-between">
+            <div>
+                <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">The Influence Atlas</h2>
+                <p class="text-sm text-slate-400 font-bold mt-1">Mapping the Direct Connections Between Languages</p>
+            </div>
+            <div class="flex space-x-2">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-indigo-50 text-indigo-600 uppercase tracking-widest">Network Graph</span>
+            </div>
+        </div>
+        <div class="p-4 bg-slate-50/50">
+            <div id="influence-chart" class="w-full h-[800px] flex items-center justify-center">
+                {{ influence_plot | safe }}
+            </div>
+        </div>
+        <div class="p-8 bg-white text-sm text-slate-500 leading-relaxed">
+            <strong class="text-slate-900 block mb-2 uppercase tracking-widest text-xs">How to read this:</strong>
+            This graph shows the flow of ideas from older languages to newer ones. Nodes represent languages, and directed edges (lines) show where one language directly influenced another.
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Ensure Plotly graphs are responsive */
+    .js-plotly-plot {
+        width: 100% !important;
+    }
+</style>
+{% endblock %}

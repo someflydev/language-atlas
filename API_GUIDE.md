@@ -103,9 +103,20 @@ Retrieve detailed information for a specific historical event.
 - **Method:** `GET`
 - **Response:** Detailed JSON object for the requested event.
 
+### 10. Visualization Data
+Retrieve processed data for timeline and influence visualizations.
+
+- **URL:** `/api/viz/timeline`
+- **Method:** `GET`
+- **Response:** Array of objects containing language name, year, cluster, and influence score.
+- **URL:** `/api/viz/influence`
+- **Method:** `GET`
+- **Response:** Array of source/target influence relationships.
+
 ---
 
-## Integration Examples
+## Visualizations
+The Web UI provides interactive visualizations at `/visualizations`.
 
 ### Python (Requests)
 ```python

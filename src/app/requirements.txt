@@ -3,3 +3,8 @@ uvicorn
 jinja2
 python-multipart
 markdown
+plotly
+polars
+pandas
+pyarrow
+networkx

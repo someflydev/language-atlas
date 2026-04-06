@@ -5,7 +5,7 @@ The "language-atlas" tracks history and influence. We need to visualize the time
 
 ### TASK:
 1. **Setup:**
-   - Update `src/app/requirements.txt` to include `plotly` and `pandas`.
+   - Update `src/app/requirements.txt` to include `plotly` and `polars`.
 2. **Backend Integration:**
    - Update `src/app/app.py` to include a `/visualizations` route and endpoints for specific graph data (e.g., `/api/viz/timeline`, `/api/viz/influence`).
    - In `DataLoader`, implement SQL queries to fetch:

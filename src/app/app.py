@@ -1,6 +1,10 @@
 import os
 import markdown
 import sqlite3
+import polars as pl
+import plotly.express as px
+import plotly.graph_objects as go
+import networkx as nx
 from typing import List, Optional
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException, Query
@@ -93,6 +97,127 @@ def auto_link_content(html: str) -> str:
                 result.append(part)
                 
     return "".join(result)
+
+@app.get("/visualizations", response_class=HTMLResponse)
+async def get_visualizations(request: Request):
+    # 1. Timeline Chart
+    timeline_data = data_loader.get_timeline_data()
+    df_timeline = pd.DataFrame(timeline_data)
+    
+    # Sort for cleaner plotting
+    df_timeline = df_timeline.sort_values('year')
+    
+    fig_timeline = px.scatter(
+        df_timeline, 
+        x="year", 
+        y="influence_score",
+        color="cluster",
+        hover_name="name",
+        size="influence_score",
+        title="Programming Language Evolution & Influence",
+        template="plotly_white",
+        labels={"year": "Year of Creation", "influence_score": "Influence Score", "cluster": "Cluster"},
+        height=600
+    )
+    
+    fig_timeline.update_layout(
+        font_family="Inter, sans-serif",
+        title_font_size=24,
+        margin=dict(l=40, r=40, t=80, b=40),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    )
+    
+    timeline_html = fig_timeline.to_html(full_html=False, include_plotlyjs='cdn')
+
+    # 2. Influence Network Graph
+    influence_data = data_loader.get_influence_data()
+    G = nx.DiGraph()
+    for edge in influence_data:
+        G.add_edge(edge['source'], edge['target'])
+    
+    # Layout the graph
+    pos = nx.spring_layout(G, k=0.5, iterations=50)
+    
+    edge_x = []
+    edge_y = []
+    for edge in G.edges():
+        x0, y0 = pos[edge[0]]
+        x1, y1 = pos[edge[1]]
+        edge_x.extend([x0, x1, None])
+        edge_y.extend([y0, y1, None])
+
+    edge_trace = go.Scatter(
+        x=edge_x, y=edge_y,
+        line=dict(width=0.5, color='#cbd5e1'),
+        hoverinfo='none',
+        mode='lines')
+
+    node_x = []
+    node_y = []
+    node_text = []
+    for node in G.nodes():
+        x, y = pos[node]
+        node_x.append(x)
+        node_y.append(y)
+        node_text.append(node)
+
+    node_trace = go.Scatter(
+        x=node_x, y=node_y,
+        mode='markers+text',
+        hoverinfo='text',
+        text=node_text,
+        textposition="top center",
+        marker=dict(
+            showscale=True,
+            colorscale='Blues',
+            reversescale=True,
+            color=[],
+            size=10,
+            colorbar=dict(
+                thickness=15,
+                title='Node Connections',
+                xanchor='left',
+                titleside='right'
+            ),
+            line_width=2))
+
+    # Color nodes by number of connections
+    node_adjacencies = []
+    for node, adjacencies in enumerate(G.adjacency()):
+        node_adjacencies.append(len(adjacencies[1]))
+    
+    node_trace.marker.color = node_adjacencies
+
+    fig_influence = go.Figure(data=[edge_trace, node_trace],
+                 layout=go.Layout(
+                    title='<br>Programming Language Influence Network',
+                    titlefont_size=24,
+                    showlegend=False,
+                    hovermode='closest',
+                    margin=dict(b=20,l=5,r=5,t=40),
+                    template="plotly_white",
+                    xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                    yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
+                )
+    
+    influence_html = fig_influence.to_html(full_html=False, include_plotlyjs='cdn')
+
+    return templates.TemplateResponse(
+        "visualizations.html", 
+        {
+            "request": request, 
+            "timeline_plot": timeline_html,
+            "influence_plot": influence_html
+        }
+    )
+
+@app.get("/api/viz/timeline")
+async def api_viz_timeline():
+    return data_loader.get_timeline_data()
+
+@app.get("/api/viz/influence")
+async def api_viz_influence():
+    return data_loader.get_influence_data()
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(
@@ -345,19 +470,93 @@ async def get_person_profile(request: Request, name: str):
         name="profile.html",
         context={"lang": person, "content": html_content, "title": person.get('name', name), "entity_type": "person"}
     )
-...
+
+@app.get("/event/{slug}", response_class=HTMLResponse)
+async def get_event_profile(request: Request, slug: str):
+    event = data_loader.get_event(slug)
+    if not event:
+        raise HTTPException(status_code=404, detail="Event not found")
+        
+    content = f"# {event.get('title', slug)}\n\n"
+    content += f"{event.get('overview', '')}\n\n"
+    
+    # Render sections
+    sections = [
+        ('impact_on_computing', 'Impact on Computing'),
+        ('key_figures', 'Key Figures'),
+        ('legacy', 'Legacy'),
+        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
+    ]
+    for key, title in sections:
+        val = event.get(key)
+        if val:
+            content += f"## {title}\n"
+            content += f"{val}\n\n"
+
+    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+    html_content = auto_link_content(html_content)
+    
     return templates.TemplateResponse(
         request=request,
         name="profile.html",
         context={"lang": event, "content": html_content, "title": event.get('title', slug), "entity_type": "event"}
     )
-...
+
+@app.get("/org/{name}", response_class=HTMLResponse)
+async def get_org_profile(request: Request, name: str):
+    org = data_loader.get_org(name)
+    if not org:
+        raise HTTPException(status_code=404, detail="Organization not found")
+        
+    content = f"# {org.get('name', name)}\n\n"
+    content += f"{org.get('overview', '')}\n\n"
+    
+    sections = [
+        ('key_contributions', 'Key Contributions'),
+        ('pivotal_people', 'Pivotal People'),
+        ('legacy', 'Legacy'),
+        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
+    ]
+    for key, title in sections:
+        val = org.get(key)
+        if val:
+            content += f"## {title}\n"
+            content += f"{val}\n\n"
+
+    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+    html_content = auto_link_content(html_content)
+    
     return templates.TemplateResponse(
         request=request,
         name="profile.html",
         context={"lang": org, "content": html_content, "title": org.get('name', name), "entity_type": "org"}
     )
-...
+
+@app.get("/concept/{name}", response_class=HTMLResponse)
+async def get_concept_profile_view(request: Request, name: str):
+    concept = data_loader.get_concept_profile(name)
+    if not concept:
+        raise HTTPException(status_code=404, detail="Concept not found")
+        
+    content = f"# {concept.get('title', name)}\n\n"
+    content += f"{concept.get('overview', '')}\n\n"
+    
+    sections = [
+        ('historical_context', 'Historical Context'),
+        ('key_aspects', 'Key Aspects'),
+        ('technical_implications', 'Technical Implications'),
+        ('legacy', 'Legacy'),
+        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
+    ]
+    for key, title in sections:
+        val = concept.get(key)
+        if val:
+            content += f"## {title}\n"
+            content += f"{val}\n\n"
+
+    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+    html_content = auto_link_content(html_content)
+    
     return templates.TemplateResponse(
         request=request,
         name="profile.html",

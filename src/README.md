@@ -17,17 +17,27 @@ The Language Atlas is a data-driven platform where JSON is the single source of 
     *   **CLI (src/cli.py)**: High-density "Control Room" for analytical reports, guided Odysseys, and the new `auto-odyssey` command.
     *   **Living Atlas TUI (src/tui.py)**: Immersive three-pane explorer with real-time FTS5 search and narrative Odyssey mode (toggle with `o`).
     *   **Web UI & API (src/app/app.py)**: FastAPI server providing a rich visual timeline, interactive Odysseys, and a comprehensive **Semantic Search API**.
+    *   **Data Visualizations (Plotly + Polars)**: Interactive, high-fidelity visualizations of the Atlas timeline and influence network, powered by **Polars** for high-performance data processing.
 4.  **Distribution (Zenith Build)**:
     *   A self-contained executable binary that bundles the entire platform, including the database and dependencies.
 
-## Semantic Search API
+## Semantic Search & Visualization API
 
-The Atlas exposes a high-performance JSON API for external tools and programmatic research. The base URL `/api` provides interactive documentation.
+The Atlas exposes a high-performance JSON and Visualization API for external tools and programmatic research. The base URL `/api` provides interactive documentation.
 
 *   **API Base**: `GET /api` (Living documentation of all endpoints)
 *   **Search**: `GET /api/search?q=concurrency` (FTS5 BM25 ranked across languages, profiles, and concepts)
+*   **Visualizations**: `GET /visualizations` (Interactive Plotly dashboard)
+*   **Viz Data**: `GET /api/viz/timeline` and `GET /api/viz/influence` (Raw data for visualization layers)
 *   **Odysseys**: `GET /api/odysseys` (List all guided paths)
 *   **Language Profiles**: `GET /api/language/Rust` (Combined core + deep profile data)
+
+## Data Architecture & Performance
+
+The platform utilizes a hybrid data processing strategy:
+- **Primary Engine**: **Polars** is used for high-performance backend data transformation, sorting, and analytical calculations.
+- **Relational Layer**: **SQLite (FTS5)** provides indexed full-text search and complex relational queries.
+- **Visualization Layer**: **Plotly Express** handles rendering, utilizing a **Pandas/PyArrow** compatibility bridge for seamless data handover between Polars and the UI.
 
 ## Atlas Auditor: Validation 2.0
 
