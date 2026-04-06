@@ -40,6 +40,19 @@
                         <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Date</dt>
                         <dd class="text-2xl font-black text-slate-900">{{ lang.date }}</dd>
                     </div>
+                    {% elif entity_type == 'concept' %}
+                    {% if lang.origin_year %}
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Origin Year</dt>
+                        <dd class="text-2xl font-black text-slate-900">{{ lang.origin_year }}</dd>
+                    </div>
+                    {% endif %}
+                    {% if lang.responsible_entity %}
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Pioneer / Entity</dt>
+                        <dd class="text-sm font-bold text-slate-900">{{ lang.responsible_entity }}</dd>
+                    </div>
+                    {% endif %}
                     {% elif entity_type == 'org' %}
                     <div>
                         <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Founded</dt>

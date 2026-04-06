@@ -26,6 +26,21 @@
             </tr>
         </thead>
         <tbody class="divide-y divide-slate-50">
+            <!-- Influence Score -->
+            <tr>
+                <td class="p-8 bg-slate-50/50">
+                    <span class="text-xs font-black uppercase tracking-widest text-slate-900">Influence Density</span>
+                </td>
+                {% for lang in languages %}
+                <td class="p-8 text-sm text-slate-700">
+                    <div class="flex items-center gap-2">
+                        <div class="text-2xl font-black text-slate-900">{{ lang.influence_score or 0 }}</div>
+                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">Nodes</span>
+                    </div>
+                </td>
+                {% endfor %}
+            </tr>
+
             <!-- Philosophy -->
             <tr>
                 <td class="p-8 bg-slate-50/50">

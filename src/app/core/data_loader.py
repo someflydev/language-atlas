@@ -378,7 +378,44 @@ class DataLoader:
         conn.close()
         return link_map
 
+    def get_timeline_data(self):
+        """Fetches data for timeline visualization."""
+        if not self.use_sqlite:
+            return [{
+                'name': l['name'],
+                'year': l.get('year'),
+                'cluster': l.get('cluster'),
+                'influence_score': len(l.get('influenced_by', [])) + len(l.get('influenced', []))
+            } for l in self.languages]
+
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT name, year, cluster, influence_score FROM languages WHERE year IS NOT NULL")
+        data = [self._row_to_dict(row) for row in cursor.fetchall()]
+        conn.close()
+        return data
+
+    def get_influence_data(self):
+        """Fetches data for influence network visualization."""
+        if not self.use_sqlite:
+            edges = []
+            for l in self.languages:
+                for target in l.get('influenced', []):
+                    edges.append({'source': l['name'], 'target': target})
+            return edges
+
+        conn = self._get_connection()
+        cursor = conn.execute("""
+            SELECT s.name as source, t.name as target 
+            FROM influences i
+            JOIN languages s ON i.source_id = s.id
+            JOIN languages t ON i.target_id = t.id
+        """)
+        data = [self._row_to_dict(row) for row in cursor.fetchall()]
+        conn.close()
+        return data
+
     def _merge_data(self, base, new_data):
+
         if isinstance(base, list) and isinstance(new_data, list):
             base.extend(new_data)
         elif isinstance(base, dict) and isinstance(new_data, dict):
@@ -711,7 +748,7 @@ class DataLoader:
         # Try both direct and normalized names in SQL
         normalized_name = name.replace(' ', '_')
         cursor = conn.execute("""
-            SELECT cp.* 
+            SELECT cp.*, c.name, c.origin_year, c.responsible_entity
             FROM concept_profiles cp 
             JOIN concepts c ON c.id = cp.concept_id 
             WHERE lower(c.name) = ? OR lower(c.name) = ?
