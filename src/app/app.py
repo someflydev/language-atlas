@@ -1,4 +1,6 @@
 import os
+import re
+import copy
 import markdown
 import sqlite3
 import polars as pl
@@ -6,10 +8,10 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import networkx as nx
-from typing import List, Optional
+from typing import List, Optional, Dict, Any, Union
 from contextlib import asynccontextmanager
-from fastapi import FastAPI, Request, HTTPException, Query
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Request, HTTPException, Query, Response
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from core.data_loader import DataLoader
@@ -21,15 +23,11 @@ os.environ['USE_SQLITE'] = '1'
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Establish a read-only SQLite connection on startup
-    # This pattern is shared across the app's state for consistency
     db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'language_atlas.sqlite'))
     if not os.path.exists(db_path):
         print(f"CRITICAL: Database not found at {db_path}")
     
-    # We use a global data_loader which handles its own connections for now, 
-    # but we could also attach a pool or a single connection to app.state.
-    # For a high-concurrency app we'd use a pool, but for this project 
-    # DataLoader's per-call connection is safe and easy for read-only.
+    # We could attach a pool here if needed, but for now DataLoader handles its own connections
     yield
 
 app = FastAPI(title="Language Atlas", lifespan=lifespan)
@@ -42,19 +40,17 @@ app.mount("/static", StaticFiles(directory=static_dir), name="static")
 templates_dir = os.path.join(os.path.dirname(__file__), "templates")
 templates = Jinja2Templates(directory=templates_dir)
 
-import re
-
 # Initialize data loader
 data_loader = DataLoader()
 
 # Global entity link map for auto-linking
-_entity_link_map = None
+_entity_link_map: Optional[Dict[str, str]] = None
 
-def get_link_map():
+def get_link_map() -> Dict[str, str]:
     global _entity_link_map
     if _entity_link_map is None:
         _entity_link_map = data_loader.get_entity_link_map()
-    return _entity_link_map
+    return _entity_link_map or {}
 
 def auto_link_content(html: str) -> str:
     """Automatically wraps known entity names with HTML links, avoiding existing tags."""
@@ -66,28 +62,26 @@ def auto_link_content(html: str) -> str:
     sorted_names = sorted(link_map.keys(), key=len, reverse=True)
     
     # Regex to match names NOT inside <a> or <code> or <pre> tags
-    # This is a bit complex for pure regex, so we'll use a simpler heuristic:
-    # Match the pattern ONLY if it's not preceded by something that looks like an open tag
-    # or inside one. A better way would be to use BeautifulSoup, but let's try a regex first.
-    
     # Basic word boundary match for the names
     name_pattern = r'\b(' + '|'.join(re.escape(name) for name in sorted_names) + r')\b'
     
     # We'll use re.split to split the HTML into tags and text
     parts = re.split(r'(<[^>]+>)', html)
-    result = []
+    result: List[str] = []
     
     in_skip_tag = False
     skip_tags = {'a', 'code', 'pre', 'h1', 'h2', 'h3'}
     
     for part in parts:
         if part.startswith('<'):
-            tag_name = part[1:].split()[0].replace('/', '').lower()
-            if tag_name in skip_tags:
-                if part.startswith('</'):
-                    in_skip_tag = False
-                else:
-                    in_skip_tag = True
+            tag_name_match = re.match(r'</?([a-z0-9]+)', part.lower())
+            if tag_name_match:
+                tag_name = tag_name_match.group(1)
+                if tag_name in skip_tags:
+                    if part.startswith('</'):
+                        in_skip_tag = False
+                    else:
+                        in_skip_tag = True
             result.append(part)
         else:
             if not in_skip_tag:
@@ -99,8 +93,28 @@ def auto_link_content(html: str) -> str:
                 
     return "".join(result)
 
+# --- Exception Handlers ---
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException) -> Response:
+    if exc.status_code == 404:
+        return templates.TemplateResponse(
+            "errors/404.html", 
+            {"request": request, "detail": exc.detail}, 
+            status_code=404
+        )
+    return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
+
+@app.exception_handler(500)
+async def server_error_exception_handler(request: Request, exc: Exception) -> Response:
+    return templates.TemplateResponse(
+        "errors/500.html", 
+        {"request": request, "detail": "Internal Server Error"}, 
+        status_code=500
+    )
+
 @app.get("/visualizations", response_class=HTMLResponse)
-async def get_visualizations(request: Request):
+async def get_visualizations(request: Request) -> Response:
     # 1. Timeline Chart
     timeline_data = data_loader.get_timeline_data()
     df_timeline = pd.DataFrame(timeline_data)
@@ -139,8 +153,8 @@ async def get_visualizations(request: Request):
     # Layout the graph
     pos = nx.spring_layout(G, k=0.5, iterations=50)
     
-    edge_x = []
-    edge_y = []
+    edge_x: List[Optional[float]] = []
+    edge_y: List[Optional[float]] = []
     for edge in G.edges():
         x0, y0 = pos[edge[0]]
         x1, y1 = pos[edge[1]]
@@ -153,9 +167,9 @@ async def get_visualizations(request: Request):
         hoverinfo='none',
         mode='lines')
 
-    node_x = []
-    node_y = []
-    node_text = []
+    node_x: List[float] = []
+    node_y: List[float] = []
+    node_text: List[str] = []
     for node in G.nodes():
         x, y = pos[node]
         node_x.append(x)
@@ -183,9 +197,9 @@ async def get_visualizations(request: Request):
             line_width=2))
 
     # Color nodes by number of connections
-    node_adjacencies = []
-    for node, adjacencies in enumerate(G.adjacency()):
-        node_adjacencies.append(len(adjacencies[1]))
+    node_adjacencies: List[int] = []
+    for node in G.nodes():
+        node_adjacencies.append(len(list(G.neighbors(node))))
     
     node_trace.marker.color = node_adjacencies
 
@@ -213,11 +227,11 @@ async def get_visualizations(request: Request):
     )
 
 @app.get("/api/viz/timeline")
-async def api_viz_timeline():
+async def api_viz_timeline() -> List[Dict[str, Any]]:
     return data_loader.get_timeline_data()
 
 @app.get("/api/viz/influence")
-async def api_viz_influence():
+async def api_viz_influence() -> List[Dict[str, str]]:
     return data_loader.get_influence_data()
 
 @app.get("/", response_class=HTMLResponse)
@@ -228,7 +242,7 @@ async def read_root(
     paradigms: Optional[List[str]] = Query(None),
     min_year: int = 1930,
     max_year: int = 2024
-):
+) -> Response:
     # Fetch filtered languages directly from SQL via DataLoader
     filtered_languages = data_loader.get_all_languages(
         clusters=clusters,
@@ -261,7 +275,12 @@ async def read_root(
     return templates.TemplateResponse("index.html", context)
 
 @app.get("/compare", response_class=HTMLResponse)
-async def compare_languages(request: Request, lang: List[str] = Query([]), lang1: Optional[str] = None, lang2: Optional[str] = None):
+async def compare_languages(
+    request: Request, 
+    lang: List[str] = Query([]), 
+    lang1: Optional[str] = None, 
+    lang2: Optional[str] = None
+) -> Response:
     # Support both multi-param 'lang' and specific 'lang1'/'lang2'
     selected = list(lang)
     if lang1: selected.append(lang1)
@@ -281,7 +300,7 @@ async def compare_languages(request: Request, lang: List[str] = Query([]), lang1
     )
 
 @app.get("/compare/add")
-async def add_to_compare(request: Request, lang: str):
+async def add_to_compare(request: Request, lang: str) -> Response:
     cookie_val = request.cookies.get("selected_languages", "")
     selected = [l for l in cookie_val.split(",") if l]
     if lang not in selected:
@@ -295,7 +314,7 @@ async def add_to_compare(request: Request, lang: str):
     return response
 
 @app.get("/compare/remove")
-async def remove_from_compare(request: Request, lang: str):
+async def remove_from_compare(request: Request, lang: str) -> Response:
     cookie_val = request.cookies.get("selected_languages", "")
     selected = [l for l in cookie_val.split(",") if l and l != lang]
     
@@ -307,7 +326,7 @@ async def remove_from_compare(request: Request, lang: str):
     return response
 
 @app.get("/compare/clear")
-async def clear_compare(request: Request):
+async def clear_compare(request: Request) -> Response:
     response = templates.TemplateResponse(
         "partials/comparison_tray_content.html", 
         {"request": request, "selected_languages": []}
@@ -316,7 +335,7 @@ async def clear_compare(request: Request):
     return response
 
 @app.get("/compare/tray")
-async def get_comparison_tray(request: Request):
+async def get_comparison_tray(request: Request) -> Response:
     cookie_val = request.cookies.get("selected_languages", "")
     selected = [l for l in cookie_val.split(",") if l]
     return templates.TemplateResponse(
@@ -325,7 +344,7 @@ async def get_comparison_tray(request: Request):
     )
 
 @app.get("/search", response_class=HTMLResponse)
-async def search(request: Request, q: str = Query("")):
+async def search(request: Request, q: str = Query("")) -> Union[Response, str]:
     """Delegates to FTS5 layer and returns HTMX-compatible partials."""
     if not q or len(q) < 2:
         return ""
@@ -343,7 +362,7 @@ async def search(request: Request, q: str = Query("")):
     )
 
 @app.get("/paradigm/{name}", response_class=HTMLResponse)
-async def get_paradigm_view(request: Request, name: str, sort: str = "year"):
+async def get_paradigm_view(request: Request, name: str, sort: str = "year") -> Response:
     info = data_loader.get_paradigm_info(name)
     all_languages = data_loader.get_all_languages()
     filtered_languages = [
@@ -368,7 +387,7 @@ async def get_paradigm_view(request: Request, name: str, sort: str = "year"):
     )
 
 @app.get("/cluster/{name}", response_class=HTMLResponse)
-async def get_cluster_view(request: Request, name: str, sort: str = "year"):
+async def get_cluster_view(request: Request, name: str, sort: str = "year") -> Response:
     info = data_loader.get_cluster_info(name)
     all_languages = data_loader.get_all_languages()
     filtered_languages = [
@@ -393,13 +412,12 @@ async def get_cluster_view(request: Request, name: str, sort: str = "year"):
     )
 
 @app.get("/language/{name}", response_class=HTMLResponse)
-async def get_language_profile(request: Request, name: str):
+async def get_language_profile(request: Request, name: str) -> Response:
     lang = data_loader.get_combined_language_data(name)
     if not lang:
         raise HTTPException(status_code=404, detail="Language not found")
     
     # Construct Markdown from the profile sections stored in the database
-    # This replaces the need for the deleted docs/LANGUAGE_PROFILES directory
     content = f"# {lang.get('title', lang['name'])}\n\n"
     content += f"{lang.get('overview', '')}\n\n"
     
@@ -443,7 +461,7 @@ async def get_language_profile(request: Request, name: str):
     )
 
 @app.get("/person/{name}", response_class=HTMLResponse)
-async def get_person_profile(request: Request, name: str):
+async def get_person_profile(request: Request, name: str) -> Response:
     person = data_loader.get_person(name)
     if not person:
         raise HTTPException(status_code=404, detail="Person not found")
@@ -481,7 +499,7 @@ async def get_person_profile(request: Request, name: str):
     )
 
 @app.get("/event/{slug}", response_class=HTMLResponse)
-async def get_event_profile(request: Request, slug: str):
+async def get_event_profile(request: Request, slug: str) -> Response:
     event = data_loader.get_event(slug)
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
@@ -512,7 +530,7 @@ async def get_event_profile(request: Request, slug: str):
     )
 
 @app.get("/org/{name}", response_class=HTMLResponse)
-async def get_org_profile(request: Request, name: str):
+async def get_org_profile(request: Request, name: str) -> Response:
     org = data_loader.get_org(name)
     if not org:
         raise HTTPException(status_code=404, detail="Organization not found")
@@ -542,7 +560,7 @@ async def get_org_profile(request: Request, name: str):
     )
 
 @app.get("/concept/{name}", response_class=HTMLResponse)
-async def get_concept_profile_view(request: Request, name: str):
+async def get_concept_profile_view(request: Request, name: str) -> Response:
     concept = data_loader.get_concept_profile(name)
     if not concept:
         raise HTTPException(status_code=404, detail="Concept not found")
@@ -573,7 +591,7 @@ async def get_concept_profile_view(request: Request, name: str):
     )
 
 @app.get("/odysseys", response_class=HTMLResponse)
-async def list_odysseys_view(request: Request):
+async def list_odysseys_view(request: Request) -> Response:
     odysseys = data_loader.get_learning_paths()
     return templates.TemplateResponse(
         request=request,
@@ -582,13 +600,12 @@ async def list_odysseys_view(request: Request):
     )
 
 @app.get("/odyssey/{path_id}", response_class=HTMLResponse)
-async def get_odyssey_view(request: Request, path_id: str):
+async def get_odyssey_view(request: Request, path_id: str) -> Response:
     path_data = data_loader.get_learning_path(path_id)
     if not path_data:
         raise HTTPException(status_code=404, detail="Odyssey not found")
     
     # Create a deep copy to avoid mutating the original data in the loader
-    import copy
     path = copy.deepcopy(path_data)
     
     # Hydrate steps with additional data from profiles
@@ -624,7 +641,7 @@ async def get_odyssey_view(request: Request, path_id: str):
     )
 
 @app.get("/narrative", response_class=HTMLResponse)
-async def get_narrative_hub(request: Request):
+async def get_narrative_hub(request: Request) -> Response:
     eras = data_loader.get_all_era_summaries()
     return templates.TemplateResponse(
         request=request,
@@ -633,7 +650,7 @@ async def get_narrative_hub(request: Request):
     )
 
 @app.get("/narrative/crossroads", response_class=HTMLResponse)
-async def get_crossroads_view(request: Request):
+async def get_crossroads_view(request: Request) -> Response:
     crossroads = data_loader.get_crossroads()
     
     # Render explanation Markdown
@@ -653,7 +670,7 @@ async def get_crossroads_view(request: Request):
     )
 
 @app.get("/narrative/reactions", response_class=HTMLResponse)
-async def get_reactions_view(request: Request):
+async def get_reactions_view(request: Request) -> Response:
     reactions = data_loader.get_modern_reactions()
     
     # Render explanation Markdown
@@ -673,7 +690,7 @@ async def get_reactions_view(request: Request):
     )
 
 @app.get("/narrative/era/{slug}", response_class=HTMLResponse)
-async def get_era_view(request: Request, slug: str):
+async def get_era_view(request: Request, slug: str) -> Response:
     era = data_loader.get_era_summary(slug)
     if not era:
         raise HTTPException(status_code=404, detail="Era not found")
@@ -701,7 +718,7 @@ async def get_era_view(request: Request, slug: str):
     )
 
 @app.get("/narrative/timeline", response_class=HTMLResponse)
-async def get_timeline_narrative_view(request: Request):
+async def get_timeline_narrative_view(request: Request) -> Response:
     timeline = data_loader.get_timeline()
     
     # Render event descriptions
@@ -717,7 +734,7 @@ async def get_timeline_narrative_view(request: Request):
     )
 
 @app.get("/narrative/concepts", response_class=HTMLResponse)
-async def get_concepts_view(request: Request):
+async def get_concepts_view(request: Request) -> Response:
     concepts = data_loader.get_all_concepts()
     return templates.TemplateResponse(
         request=request,
@@ -728,7 +745,7 @@ async def get_concepts_view(request: Request):
 # --- SEMANTIC SEARCH API ---
 
 @app.get("/api")
-async def api_index():
+async def api_index() -> Dict[str, Any]:
     """Returns documentation info for the API."""
     return {
         "title": "Language Atlas API",
@@ -743,7 +760,7 @@ async def api_index():
     }
 
 @app.get("/api/search")
-async def api_search(q: str = Query(...)):
+async def api_search(q: str = Query(...)) -> Dict[str, Any]:
     """Semantic search API for external consumers."""
     if len(q) < 2:
         return {"results": [], "query": q}
@@ -751,12 +768,12 @@ async def api_search(q: str = Query(...)):
     return {"results": results, "query": q}
 
 @app.get("/api/languages")
-async def api_list_languages(cluster: Optional[str] = None, generation: Optional[str] = None):
+async def api_list_languages(cluster: Optional[str] = None, generation: Optional[str] = None) -> List[Dict[str, Any]]:
     """List languages with filters as JSON."""
     return data_loader.get_all_languages(filter_gen=generation, filter_cluster=cluster)
 
 @app.get("/api/language/{name}")
-async def api_get_language(name: str):
+async def api_get_language(name: str) -> Dict[str, Any]:
     """Get detailed language data as JSON."""
     lang = data_loader.get_combined_language_data(name)
     if not lang:
@@ -764,41 +781,40 @@ async def api_get_language(name: str):
     return lang
 
 @app.get("/api/odysseys")
-async def api_list_odysseys():
+async def api_list_odysseys() -> List[Dict[str, Any]]:
     """List all guided learning paths."""
     return data_loader.get_learning_paths()
 
 @app.get("/api/people")
-async def api_list_people():
+async def api_list_people() -> Dict[str, Any]:
     return data_loader.get_people_profiles()
 
 @app.get("/api/person/{name}")
-async def api_get_person(name: str):
+async def api_get_person(name: str) -> Dict[str, Any]:
     person = data_loader.get_person(name)
     if not person:
         raise HTTPException(status_code=404, detail="Person not found")
     return person
 
 @app.get("/api/events")
-async def api_list_events():
+async def api_list_events() -> Dict[str, Any]:
     return data_loader.get_historical_events()
 
 @app.get("/api/event/{slug}")
-async def api_get_event(slug: str):
+async def api_get_event(slug: str) -> Dict[str, Any]:
     event = data_loader.get_event(slug)
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
     return event
 
 @app.get("/api/odyssey/{path_id}")
-async def api_get_odyssey(path_id: str):
+async def api_get_odyssey(path_id: str) -> Dict[str, Any]:
     """Get a specific odyssey path."""
     path_data = data_loader.get_learning_path(path_id)
     if not path_data:
         raise HTTPException(status_code=404, detail="Odyssey not found")
         
     # Create a deep copy and hydrate
-    import copy
     path = copy.deepcopy(path_data)
     for step in path['steps']:
         lang_data = data_loader.get_combined_language_data(step['language'])
