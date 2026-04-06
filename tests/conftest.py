@@ -11,11 +11,21 @@ sys.path.append(str(REPO_ROOT / "src"))
 from app.core.data_loader import DataLoader
 from app.core.build_sqlite import build_database
 
+class NoCloseConnection:
+    """Wrapper for sqlite3.Connection that ignores close() calls to keep in-memory DB alive."""
+    def __init__(self, conn):
+        self._conn = conn
+    def __getattr__(self, name):
+        return getattr(self._conn, name)
+    def close(self):
+        # Do nothing to keep the :memory: database alive across DataLoader calls
+        pass
+
 @pytest.fixture(scope="session")
 def db_conn():
     """Provides a 'Mirror Universe' in-memory SQLite database populated with production data."""
     # Use standard sqlite3 to create an in-memory DB
-    conn = sqlite3.connect(":memory:")
+    conn = sqlite3.connect(":memory:", check_same_thread=False)
     conn.row_factory = sqlite3.Row
     
     # Populate with data from JSON using the production build logic
@@ -29,11 +39,9 @@ def db_conn():
 def mock_loader(db_conn, monkeypatch):
     """Provides a DataLoader that uses the in-memory test database."""
     loader = DataLoader()
-    # Mock _get_connection to return our in-memory connection
+    # Mock _get_connection to return our in-memory connection wrapped to avoid closing
     def mock_get_conn():
-        # Re-wrap in a connection that doesn't close the shared in-memory DB if needed
-        # Or just return the same connection. sqlite3 :memory: is shared within the same connection object.
-        return db_conn
+        return NoCloseConnection(db_conn)
     
     monkeypatch.setattr(loader, "_get_connection", mock_get_conn)
     monkeypatch.setattr(loader, "use_sqlite", True)

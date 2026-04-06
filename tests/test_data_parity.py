@@ -5,7 +5,7 @@ from pathlib import Path
 from app.core.data_loader import DataLoader
 from app.core.docs_parser import parse_markdown
 
-def test_dataloader_consistency(mock_loader):
+def test_dataloader_consistency(mock_loader, monkeypatch):
     """
     Verify DataLoader consistency between JSON and SQLite.
     When using the in-memory mirror, it should return data that matches 
@@ -13,6 +13,7 @@ def test_dataloader_consistency(mock_loader):
     """
     # 1. Load from JSON directly for comparison
     base_dir = Path(__file__).parent.parent
+    monkeypatch.setenv("USE_SQLITE", "0")
     raw_loader = DataLoader(data_dir=str(base_dir / "data"))
     raw_languages = raw_loader.languages
     

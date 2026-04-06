@@ -1,48 +1,49 @@
-.PHONY: docs clean help test test-intensive build audit dark-matter
+.PHONY: docs clean help test test-intensive build audit dark-matter type-check harden
 
 help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
 	@echo "  docs            Generate Markdown documentation from the SQLite database"
-	@echo "  test            Run fast tests (unit, consistency, and auditor checks)"
-	@echo "  test-intensive  Run intensive analytical tests and regenerate insight reports"
-	@echo "  build           Build the standalone Zenith binary (dist/atlas)"
-	@echo "  audit           Run the Atlas Auditor (Validation 2.0) checks"
-	@echo "  dark-matter     Run the Dark Matter Audit to identify missing profiles"
-	@echo "  server          Start the FastAPI web server on port 8084"
-	@echo "  clean           Remove the generated documentation and test artifacts"
+	@echo "  build           Rebuild the SQLite database from JSON sources"
+	@echo "  audit           Run the Atlas Auditor to check data integrity"
+	@echo "  dark-matter     Run the Dark Matter audit to find missing content"
+	@echo "  test            Run the comprehensive test suite"
+	@echo "  test-intensive  Run long-running analytical tests"
+	@echo "  type-check      Run mypy type checking"
+	@echo "  harden          Run full reliability suite (type-check, audit, test)"
+	@echo "  clean           Remove generated artifacts"
 
 docs:
 	@echo "Generating documentation..."
-	USE_SQLITE=1 uv run python3 scripts/generate_docs.py
-
-test:
-	@echo "Running fast tests..."
-	uv run pytest -m "not intensive"
-
-audit:
-	@echo "Running Atlas Auditor checks..."
-	uv run python3 src/app/core/auditor.py
-
-dark-matter:
-	@echo "Running Dark Matter Audit..."
-	uv run python3 scripts/dark_matter_audit.py
-
-server:
-	@echo "Starting Language Atlas server on http://localhost:8084..."
-	@echo "Press Ctrl+C to stop."
-	cd src/app && USE_SQLITE=1 uv run uvicorn app:app --host 0.0.0.0 --port 8084
+	python3 scripts/generate_docs.py
 
 build:
-	@echo "Building Zenith standalone binary..."
-	uv run python3 scripts/build_zenith.py
+	@echo "Building SQLite database..."
+	python3 src/app/core/build_sqlite.py
+
+audit:
+	@echo "Running Atlas Auditor..."
+	python3 src/app/core/auditor.py
+
+dark-matter:
+	@echo "Auditing for Dark Matter..."
+	python3 scripts/dark_matter_audit.py
+
+type-check:
+	@echo "Running type checks..."
+	mypy . --config-file mypy.ini
+
+test:
+	@echo "Running tests..."
+	pytest -v --cov=src/app/core
 
 test-intensive:
-	@echo "Running intensive analytical tests..."
-	uv run pytest -m intensive
-	@echo "Regenerating historical insights..."
-	uv run python3 src/app/core/insights.py
+	@echo "Running intensive tests..."
+	pytest -m intensive
+
+harden: type-check audit test
+	@echo "Hardening suite complete."
 
 clean:
 	@echo "Cleaning up generated documentation and build artifacts..."
