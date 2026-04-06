@@ -2,6 +2,7 @@ import os
 import markdown
 import sqlite3
 import polars as pl
+import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import networkx as nx
@@ -592,6 +593,108 @@ async def get_odyssey_view(request: Request, path_id: str):
         request=request,
         name="odyssey_detail.html",
         context={"odyssey": path}
+    )
+
+@app.get("/narrative", response_class=HTMLResponse)
+async def get_narrative_hub(request: Request):
+    eras = data_loader.get_all_era_summaries()
+    return templates.TemplateResponse(
+        request=request,
+        name="narrative_hub.html",
+        context={"eras": eras}
+    )
+
+@app.get("/narrative/crossroads", response_class=HTMLResponse)
+async def get_crossroads_view(request: Request):
+    crossroads = data_loader.get_crossroads()
+    
+    # Render explanation Markdown
+    for item in crossroads:
+        item['explanation_html'] = markdown.markdown(item.get('explanation', ''), extensions=['extra', 'codehilite'])
+        item['explanation_html'] = auto_link_content(item['explanation_html'])
+        
+    return templates.TemplateResponse(
+        request=request,
+        name="narrative_list.html",
+        context={
+            "title": "Historical Crossroads", 
+            "items": crossroads, 
+            "type": "crossroads",
+            "description": "Pivotal moments that changed the direction of computer science."
+        }
+    )
+
+@app.get("/narrative/reactions", response_class=HTMLResponse)
+async def get_reactions_view(request: Request):
+    reactions = data_loader.get_modern_reactions()
+    
+    # Render explanation Markdown
+    for item in reactions:
+        item['explanation_html'] = markdown.markdown(item.get('explanation', ''), extensions=['extra', 'codehilite'])
+        item['explanation_html'] = auto_link_content(item['explanation_html'])
+        
+    return templates.TemplateResponse(
+        request=request,
+        name="narrative_list.html",
+        context={
+            "title": "Modern Reactions", 
+            "items": reactions, 
+            "type": "reactions",
+            "description": "How the industry is responding to legacy constraints and new hardware realities."
+        }
+    )
+
+@app.get("/narrative/era/{slug}", response_class=HTMLResponse)
+async def get_era_view(request: Request, slug: str):
+    era = data_loader.get_era_summary(slug)
+    if not era:
+        raise HTTPException(status_code=404, detail="Era not found")
+        
+    # Render Markdown fields
+    era['overview_html'] = markdown.markdown(era.get('overview', ''), extensions=['extra', 'codehilite'])
+    era['overview_html'] = auto_link_content(era['overview_html'])
+    
+    era['legacy_html'] = markdown.markdown(era.get('legacy_impact', ''), extensions=['extra', 'codehilite'])
+    era['legacy_html'] = auto_link_content(era['legacy_html'])
+    
+    # Render list item descriptions
+    for driver in era.get('key_drivers', []):
+        driver['description_html'] = markdown.markdown(driver.get('description', ''), extensions=['extra'])
+        driver['description_html'] = auto_link_content(driver['description_html'])
+        
+    for lang in era.get('pivotal_languages', []):
+        lang['description_html'] = markdown.markdown(lang.get('description', ''), extensions=['extra'])
+        lang['description_html'] = auto_link_content(lang['description_html'])
+
+    return templates.TemplateResponse(
+        request=request,
+        name="era_view.html",
+        context={"era": era}
+    )
+
+@app.get("/narrative/timeline", response_class=HTMLResponse)
+async def get_timeline_narrative_view(request: Request):
+    timeline = data_loader.get_timeline()
+    
+    # Render event descriptions
+    for period in timeline:
+        for event in period.get('events', []):
+            event['description_html'] = markdown.markdown(event.get('description', ''), extensions=['extra', 'codehilite'])
+            event['description_html'] = auto_link_content(event['description_html'])
+            
+    return templates.TemplateResponse(
+        request=request,
+        name="timeline_view.html",
+        context={"timeline": timeline}
+    )
+
+@app.get("/narrative/concepts", response_class=HTMLResponse)
+async def get_concepts_view(request: Request):
+    concepts = data_loader.get_all_concepts()
+    return templates.TemplateResponse(
+        request=request,
+        name="concepts_list.html",
+        context={"concepts": concepts}
     )
 
 # --- SEMANTIC SEARCH API ---
