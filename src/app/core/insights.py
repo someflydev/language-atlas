@@ -2,12 +2,13 @@ import sqlite3
 import json
 import os
 from pathlib import Path
+from typing import List, Dict, Any, Optional, Union
 
 class InsightGenerator:
-    def __init__(self, db_conn):
+    def __init__(self, db_conn: sqlite3.Connection) -> None:
         self.conn = db_conn
 
-    def calculate_influence_depth(self, keystone_language_name):
+    def calculate_influence_depth(self, keystone_language_name: str) -> List[Dict[str, Any]]:
         """
         Uses a Recursive CTE to calculate the transitive influence of a keystone language.
         Returns the list of influenced languages and their distance.
@@ -31,7 +32,7 @@ class InsightGenerator:
         cursor.execute(query, (keystone_language_name,))
         return [dict(row) for row in cursor.fetchall()]
 
-    def calculate_paradigm_volatility(self):
+    def calculate_paradigm_volatility(self) -> List[Dict[str, Any]]:
         """
         Calculates which decades saw the most rapid introduction of new paradigms
         using Window Functions to rank them.
@@ -67,14 +68,14 @@ class InsightGenerator:
         cursor.execute(query)
         return [dict(row) for row in cursor.fetchall()]
 
-    def generate_all_insights(self):
+    def generate_all_insights(self) -> Dict[str, Any]:
         """
         Generates all insights and returns a dictionary.
         """
         # Keystone languages for influence depth
         keystones = ["ALGOL 60", "Lisp", "C", "Smalltalk", "Haskell"]
         
-        influence_data = {}
+        influence_data: Dict[str, List[Dict[str, Any]]] = {}
         for k in keystones:
             influence_data[k] = self.calculate_influence_depth(k)
             
@@ -87,7 +88,7 @@ class InsightGenerator:
             "paradigm_volatility": self.calculate_paradigm_volatility()
         }
 
-    def stamp_to_json(self, output_path):
+    def stamp_to_json(self, output_path: str) -> Dict[str, Any]:
         """
         Stamps the insights out as a JSON artifact.
         """
@@ -103,10 +104,10 @@ class InsightGenerator:
         return insights
 
 class AtlasAnalytics:
-    def __init__(self, db_conn):
+    def __init__(self, db_conn: sqlite3.Connection) -> None:
         self.conn = db_conn
 
-    def generate_safety_complexity_trends(self):
+    def generate_safety_complexity_trends(self) -> Dict[str, Dict[str, Any]]:
         """
         Aggregate average complexity_bias (low:1, medium:2, high:3) 
         and safety_model distribution per decade.
@@ -141,7 +142,7 @@ class AtlasAnalytics:
         cursor = self.conn.cursor()
         
         cursor.execute(query_avg)
-        trends = {}
+        trends: Dict[str, Dict[str, Any]] = {}
         for row in cursor.fetchall():
             decade = str(row['decade'])
             trends[decade] = {
@@ -158,7 +159,7 @@ class AtlasAnalytics:
                 
         return trends
 
-    def generate_creator_impact(self):
+    def generate_creator_impact(self) -> List[Dict[str, Any]]:
         """
         Rank creators (people) by the total influence_score 
         of all languages they are credited with.
@@ -179,7 +180,7 @@ class AtlasAnalytics:
         cursor.execute(query)
         return [dict(row) for row in cursor.fetchall()]
 
-    def generate_cluster_genealogy(self):
+    def generate_cluster_genealogy(self) -> Dict[str, Dict[str, Any]]:
         """
         For each cluster, calculate the "Internal vs. External Influence" ratio.
         """
@@ -196,7 +197,7 @@ class AtlasAnalytics:
         cursor = self.conn.cursor()
         cursor.execute(query)
         
-        matrix = {}
+        matrix: Dict[str, Dict[str, Any]] = {}
         for row in cursor.fetchall():
             src = row['source_cluster'] or "unknown"
             tgt = row['target_cluster'] or "unknown"
@@ -216,7 +217,7 @@ class AtlasAnalytics:
             
         return matrix
 
-    def generate_innovation_trends(self):
+    def generate_innovation_trends(self) -> Dict[str, List[str]]:
         """
         Extract common themes from key_innovations across different generation tags.
         """
@@ -232,7 +233,7 @@ class AtlasAnalytics:
         cursor = self.conn.cursor()
         cursor.execute(query)
         
-        gen_trends = {}
+        gen_trends: Dict[str, List[str]] = {}
         for row in cursor.fetchall():
             gen = row['generation'] or "unknown"
             if gen not in gen_trends:
@@ -246,7 +247,7 @@ class AtlasAnalytics:
             
         return gen_trends
 
-    def generate_db_health(self):
+    def generate_db_health(self) -> Dict[str, Any]:
         """
         Identify orphan, terminal languages and high-influence without profiles.
         """

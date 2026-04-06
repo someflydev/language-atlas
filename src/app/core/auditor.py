@@ -1,17 +1,18 @@
 import json
 import sqlite3
+import sys
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Tuple
+from typing import List, Dict, Any, Optional, Tuple, Set
 
 class AtlasAuditor:
-    def __init__(self, data_path: Optional[Path] = None, db_path: Optional[Path] = None):
+    def __init__(self, data_path: Optional[Path] = None, db_path: Optional[Path] = None) -> None:
         root = Path(__file__).parent.parent.parent.parent
         self.data_path = data_path or root / 'data' / 'languages.json'
         self.db_path = db_path or root / 'language_atlas.sqlite'
-        self.errors = []
-        self.warnings = []
+        self.errors: List[str] = []
+        self.warnings: List[str] = []
 
-    def clear(self):
+    def clear(self) -> None:
         self.errors = []
         self.warnings = []
 
@@ -23,13 +24,13 @@ class AtlasAuditor:
             
         with open(self.data_path, 'r', encoding='utf-8') as f:
             try:
-                languages = json.load(f)
+                languages: List[Dict[str, Any]] = json.load(f)
             except json.JSONDecodeError as e:
                 self.errors.append(f"Failed to parse JSON: {e}")
                 return False
 
-        all_language_names = {lang.get('name') for lang in languages if 'name' in lang}
-        all_display_names = {lang.get('display_name') for lang in languages if 'display_name' in lang}
+        all_language_names: Set[str] = {lang.get('name', '') for lang in languages if 'name' in lang}
+        all_display_names: Set[str] = {lang.get('display_name', '') for lang in languages if 'display_name' in lang}
 
         required_keys = [
             'name', 'year', 'creators', 'paradigms', 'cluster', 'generation',
@@ -38,7 +39,7 @@ class AtlasAuditor:
             'typing_discipline', 'memory_management', 'is_keystone'
         ]
 
-        enums = {
+        enums: Dict[str, List[str]] = {
             'complexity_bias': ['low', 'medium', 'high'],
             'generation': ['dawn', 'early', 'web1', 'cloud', 'renaissance', 'autonomic'],
             'safety_model': ['manual', 'runtime', 'compile_time', 'hybrid'],
@@ -54,8 +55,9 @@ class AtlasAuditor:
                     self.errors.append(f"Language '{name}' is missing required key: '{key}'")
 
             for field, allowed in enums.items():
-                if field in lang and lang.get(field) not in allowed:
-                    self.errors.append(f"Language '{name}': '{field}' must be one of {allowed}, got '{lang.get(field)}'")
+                val = lang.get(field)
+                if field in lang and val not in allowed:
+                    self.errors.append(f"Language '{name}': '{field}' must be one of {allowed}, got '{val}'")
 
             if 'is_keystone' in lang and not isinstance(lang['is_keystone'], bool):
                 self.errors.append(f"Language '{name}': 'is_keystone' must be a boolean")
@@ -72,8 +74,9 @@ class AtlasAuditor:
 
             # Reference Checks
             for ref_field in ['influenced_by', 'influenced']:
-                if ref_field in lang and isinstance(lang[ref_field], list):
-                    for ref in lang[ref_field]:
+                refs = lang.get(ref_field)
+                if isinstance(refs, list):
+                    for ref in refs:
                         if ref not in all_language_names and ref not in all_display_names:
                             self.warnings.append(f"Language '{name}' references unknown language in '{ref_field}': '{ref}'")
 
@@ -89,6 +92,7 @@ class AtlasAuditor:
             self.errors.append(f"Database file is empty")
             return False
 
+        conn: Optional[sqlite3.Connection] = None
         try:
             conn = sqlite3.connect(self.db_path)
             conn.row_factory = sqlite3.Row
@@ -103,18 +107,21 @@ class AtlasAuditor:
             ]
             for table, col, ref_table, ref_col in checks:
                 cursor.execute(f"SELECT COUNT(*) FROM {table} WHERE {col} NOT IN (SELECT {ref_col} FROM {ref_table})")
-                orphans = cursor.fetchone()[0]
+                row = cursor.fetchone()
+                orphans = row[0] if row else 0
                 if orphans > 0:
                     self.errors.append(f"Found {orphans} orphaned {col} in '{table}' table")
 
             # 2. FTS Index Integrity
             cursor.execute("SELECT (SELECT COUNT(*) FROM languages) - (SELECT COUNT(*) FROM fts_languages)")
-            diff = abs(cursor.fetchone()[0])
+            row = cursor.fetchone()
+            diff = abs(row[0]) if row else 0
             if diff > 0:
                 self.errors.append(f"FTS index 'fts_languages' is out of sync by {diff} rows")
 
             cursor.execute("SELECT (SELECT COUNT(*) FROM profile_sections) + (SELECT COUNT(*) FROM language_profiles WHERE overview IS NOT NULL AND overview != '') - (SELECT COUNT(*) FROM fts_profiles)")
-            diff = abs(cursor.fetchone()[0])
+            row = cursor.fetchone()
+            diff = abs(row[0]) if row else 0
             if diff > 0:
                 self.errors.append(f"FTS index 'fts_profiles' is out of sync by {diff} rows")
 
@@ -136,10 +143,12 @@ class AtlasAuditor:
             for row in orphans:
                 self.warnings.append(f"Semantic Orphan (SQL): Language '{row['name']}' has no associated paradigms.")
 
-            conn.close()
         except sqlite3.Error as e:
             self.errors.append(f"SQLite Error: {e}")
             return False
+        finally:
+            if conn:
+                conn.close()
 
         return len(self.errors) == 0
 
@@ -151,15 +160,15 @@ class AtlasAuditor:
 
 if __name__ == "__main__":
     auditor = AtlasAuditor()
-    success, errors, warnings = auditor.run_all()
+    success, errs, warns = auditor.run_all()
     
-    if warnings:
-        print(f"\n[!] Warnings ({len(warnings)}):")
-        for w in warnings: print(f"  - {w}")
+    if warns:
+        print(f"\n[!] Warnings ({len(warns)}):")
+        for w in warns: print(f"  - {w}")
         
     if not success:
-        print(f"\n[FAIL] Errors ({len(errors)}):")
-        for e in errors: print(f"  - {e}")
-        exit(1)
+        print(f"\n[FAIL] Errors ({len(errs)}):")
+        for e in errs: print(f"  - {e}")
+        sys.exit(1)
     
     print("\n[PASS] Atlas Audit successful.")
