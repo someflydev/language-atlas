@@ -17,6 +17,7 @@
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                 <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-6">Vital Statistics</h3>
                 <dl class="space-y-6">
+                    {% if entity_type == 'language' %}
                     <div>
                         <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Established</dt>
                         <dd class="text-2xl font-black text-slate-900">{{ lang.year }}</dd>
@@ -29,6 +30,23 @@
                             </a>
                         </dd>
                     </div>
+                    {% elif entity_type == 'person' %}
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Affiliations</dt>
+                        <dd class="text-sm font-bold text-slate-900">{{ lang.affiliations }}</dd>
+                    </div>
+                    {% elif entity_type == 'event' %}
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Date</dt>
+                        <dd class="text-2xl font-black text-slate-900">{{ lang.date }}</dd>
+                    </div>
+                    {% elif entity_type == 'org' %}
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Founded</dt>
+                        <dd class="text-2xl font-black text-slate-900">{{ lang.founded }}</dd>
+                    </div>
+                    {% endif %}
+
                     {% if lang.creators %}
                     <div>
                         <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Creators</dt>
