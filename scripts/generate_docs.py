@@ -2,26 +2,27 @@ import sqlite3
 import os
 import json
 from pathlib import Path
+from typing import List, Dict, Any, Optional, Union
 
 # Get the project root directory (one level up from scripts/)
-ROOT_DIR = Path(__file__).resolve().parent.parent
-DB_PATH = ROOT_DIR / "language_atlas.sqlite"
-OUTPUT_DIR = ROOT_DIR / "generated-docs"
+ROOT_DIR: Path = Path(__file__).resolve().parent.parent
+DB_PATH: Path = ROOT_DIR / "language_atlas.sqlite"
+OUTPUT_DIR: Path = ROOT_DIR / "generated-docs"
 
-def setup_directories():
+def setup_directories() -> None:
     """Create necessary directories for generated documentation."""
     (OUTPUT_DIR / "languages").mkdir(parents=True, exist_ok=True)
     (OUTPUT_DIR / "eras").mkdir(parents=True, exist_ok=True)
     (OUTPUT_DIR / "paradigms").mkdir(parents=True, exist_ok=True)
     (OUTPUT_DIR / "concepts").mkdir(parents=True, exist_ok=True)
 
-def get_db_connection():
+def get_db_connection() -> sqlite3.Connection:
     """Establish connection to the SQLite database."""
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     return conn
 
-def generate_language_profiles(conn):
+def generate_language_profiles(conn: sqlite3.Connection) -> None:
     """Generate individual Markdown files for each language."""
     # Fetch languages and their profile title/overview
     query = """
@@ -44,7 +45,7 @@ def generate_language_profiles(conn):
             JOIN languages l ON i.source_id = l.id
             WHERE i.target_id = ?
         """
-        influenced_by = [row["display_name"] for row in conn.execute(influences_query, (lang_id,)).fetchall()]
+        influenced_by: List[str] = [row["display_name"] for row in conn.execute(influences_query, (lang_id,)).fetchall()]
         
         influenced_query = """
             SELECT l.display_name 
@@ -52,7 +53,7 @@ def generate_language_profiles(conn):
             JOIN languages l ON i.target_id = l.id
             WHERE i.source_id = ?
         """
-        influenced_others = [row["display_name"] for row in conn.execute(influenced_query, (lang_id,)).fetchall()]
+        influenced_others: List[str] = [row["display_name"] for row in conn.execute(influenced_query, (lang_id,)).fetchall()]
         
         # Get paradigms
         paradigms_query = """
@@ -61,7 +62,7 @@ def generate_language_profiles(conn):
             JOIN paradigms p ON lp.paradigm_id = p.id
             WHERE lp.language_id = ?
         """
-        paradigms = [row["name"] for row in conn.execute(paradigms_query, (lang_id,)).fetchall()]
+        paradigms: List[str] = [row["name"] for row in conn.execute(paradigms_query, (lang_id,)).fetchall()]
         
         # Get creators
         creators_query = """
@@ -70,7 +71,7 @@ def generate_language_profiles(conn):
             JOIN people p ON lp.person_id = p.id
             WHERE lp.language_id = ?
         """
-        creators = [f"{row['name']} ({row['role']})" for row in conn.execute(creators_query, (lang_id,)).fetchall()]
+        creators: List[str] = [f"{row['name']} ({row['role']})" for row in conn.execute(creators_query, (lang_id,)).fetchall()]
         
         # Get sections
         sections_query = """
@@ -82,7 +83,7 @@ def generate_language_profiles(conn):
         sections = conn.execute(sections_query, (lang_id,)).fetchall()
         
         # Build Frontmatter
-        frontmatter = {
+        frontmatter: Dict[str, Any] = {
             "title": display_name,
             "year": lang["year"],
             "cluster": lang["cluster"],
@@ -98,7 +99,7 @@ def generate_language_profiles(conn):
         # Write file
         safe_name = lang_name.replace(" ", "_").replace("/", "_")
         file_path = OUTPUT_DIR / "languages" / f"{safe_name}.md"
-        with open(file_path, "w") as f:
+        with open(file_path, "w", encoding='utf-8') as f:
             f.write("---\n")
             f.write(json.dumps(frontmatter, indent=2))
             f.write("\n---\n\n")
@@ -130,7 +131,7 @@ def generate_language_profiles(conn):
             f.write(f"- **Safety Model:** {lang['safety_model']}\n")
             f.write(f"- **Complexity Bias:** {lang['complexity_bias']}\n")
 
-def generate_concept_profiles(conn):
+def generate_concept_profiles(conn: sqlite3.Connection) -> None:
     """Generate individual Markdown files for each concept."""
     query = """
         SELECT c.*, cp.title as profile_title, cp.overview as profile_overview
@@ -156,7 +157,7 @@ def generate_concept_profiles(conn):
         # Write file
         safe_name = concept_name.replace(" ", "_").replace("/", "_")
         file_path = OUTPUT_DIR / "concepts" / f"{safe_name}.md"
-        with open(file_path, "w") as f:
+        with open(file_path, "w", encoding='utf-8') as f:
             f.write(f"# {profile_title}\n\n")
             
             if concept['profile_overview']:
@@ -169,11 +170,11 @@ def generate_concept_profiles(conn):
                     title = section["section_name"].replace("_", " ").title()
                     f.write(f"## {title}\n{section['content']}\n\n")
 
-def generate_index_files(conn):
+def generate_index_files(conn: sqlite3.Connection) -> None:
     """Generate index files for Paradigms and Eras."""
     # Paradigm Index
     paradigms = conn.execute("SELECT * FROM paradigms ORDER BY name").fetchall()
-    with open(OUTPUT_DIR / "paradigms.md", "w") as f:
+    with open(OUTPUT_DIR / "paradigms.md", "w", encoding='utf-8') as f:
         f.write("# Languages by Paradigm\n\n")
         for p in paradigms:
             f.write(f"## {p['name']}\n")
@@ -200,7 +201,7 @@ def generate_index_files(conn):
     generations_query = "SELECT DISTINCT generation FROM languages ORDER BY year"
     generations = conn.execute(generations_query).fetchall()
     
-    with open(OUTPUT_DIR / "eras.md", "w") as f:
+    with open(OUTPUT_DIR / "eras.md", "w", encoding='utf-8') as f:
         f.write("# Languages by Era (Generation)\n\n")
         for gen_row in generations:
             gen = gen_row["generation"]
@@ -220,32 +221,32 @@ def generate_index_files(conn):
                 f.write(f"- [{lang['display_name']}](languages/{safe_name}.md) ({lang['year']})\n")
             f.write("\n")
 
-def generate_thematic_docs(conn):
+def generate_thematic_docs(conn: sqlite3.Connection) -> None:
     """Generate thematic overview documents (Crossroads, Reactions, etc.)."""
     # 1. Crossroads
     crossroads = conn.execute("SELECT * FROM crossroads").fetchall()
-    with open(OUTPUT_DIR / "CROSSROADS.md", "w") as f:
+    with open(OUTPUT_DIR / "CROSSROADS.md", "w", encoding='utf-8') as f:
         f.write("# The Crossroads of Computing\n\n")
         for cr in crossroads:
             f.write(f"## {cr['title']}\n{cr['explanation']}\n\n")
 
     # 2. Modern Reactions
     reactions = conn.execute("SELECT * FROM modern_reactions").fetchall()
-    with open(OUTPUT_DIR / "MODERN_REACTIONS.md", "w") as f:
+    with open(OUTPUT_DIR / "MODERN_REACTIONS.md", "w", encoding='utf-8') as f:
         f.write("# Modern Reactions in Language Design\n\n")
         for mr in reactions:
             f.write(f"## {mr['theme']}\n{mr['explanation']}\n\n")
 
     # 3. Paradigm Matrix
     matrix = conn.execute("SELECT * FROM paradigm_matrix_dimensions").fetchall()
-    with open(OUTPUT_DIR / "PARADIGM_MATRIX.md", "w") as f:
+    with open(OUTPUT_DIR / "PARADIGM_MATRIX.md", "w", encoding='utf-8') as f:
         f.write("# The Paradigm Matrix: Technical Dimensions\n\n")
         for m in matrix:
             f.write(f"## {m['axis']}\n{m['details']}\n\n")
 
     # 4. Timeline
     periods = conn.execute("SELECT * FROM timeline_periods").fetchall()
-    with open(OUTPUT_DIR / "TIMELINE.md", "w") as f:
+    with open(OUTPUT_DIR / "TIMELINE.md", "w", encoding='utf-8') as f:
         f.write("# The Chronological Atlas: Major Events\n\n")
         for p in periods:
             f.write(f"## {p['era_or_period']}\n")
@@ -262,7 +263,7 @@ def generate_thematic_docs(conn):
             f.write("\n")
 
     # 5. Concepts Summary
-    with open(OUTPUT_DIR / "CONCEPTS.md", "w") as f:
+    with open(OUTPUT_DIR / "CONCEPTS.md", "w", encoding='utf-8') as f:
         f.write("# Core Concepts: The Soul of Computation\n\n")
         concepts = conn.execute("SELECT name, description FROM concepts").fetchall()
         for c in concepts:
@@ -270,12 +271,12 @@ def generate_thematic_docs(conn):
             f.write(f"## [{c['name']}](concepts/{safe_name}.md)\n")
             f.write(f"{c['description']}\n\n")
 
-def generate_era_summaries(conn):
+def generate_era_summaries(conn: sqlite3.Connection) -> None:
     """Generate summary files for each Era."""
     eras = conn.execute("SELECT * FROM era_summaries").fetchall()
     for era in eras:
         file_path = OUTPUT_DIR / "eras" / f"{era['slug']}.md"
-        with open(file_path, "w") as f:
+        with open(file_path, "w", encoding='utf-8') as f:
             f.write(f"# {era['title']}\n\n")
             f.write(f"## Overview\n{era['overview']}\n\n")
             
@@ -299,7 +300,7 @@ def generate_era_summaries(conn):
             if era['diagram']:
                 f.write(f"## Diagram Concept\n{era['diagram']}\n\n")
 
-def main():
+def main() -> None:
     print("Setting up directories...")
     setup_directories()
     

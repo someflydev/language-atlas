@@ -3,8 +3,9 @@ import os
 import re
 import string
 from pathlib import Path
+from typing import List, Dict, Any, Optional, Set, Tuple, Union
 
-def is_organization(name):
+def is_organization(name: str) -> bool:
     if not name: return False
     words = name.split()
     if len(words) > 5: return False
@@ -36,7 +37,7 @@ def is_organization(name):
     
     return False
 
-def is_person(name):
+def is_person(name: str) -> bool:
     if not name: return False
     words = name.split()
     if not (2 <= len(words) <= 4): return False
@@ -71,7 +72,7 @@ def is_person(name):
         
     return True
 
-def canonicalize(name):
+def canonicalize(name: Optional[str]) -> str:
     if not name: return ""
     name = name.lower()
     if name.startswith("the "): name = name[4:].strip()
@@ -91,7 +92,7 @@ def canonicalize(name):
     }
     return replacements.get(name, name)
 
-def strip_years(name):
+def strip_years(name: str) -> str:
     """Utility to aggressively strip years and metadata from strings."""
     if not name: return ""
     name = re.sub(r'\s*\(\d{4}(?:–|-|/)(?:\d{4}|Present)\)', '', name, flags=re.I)
@@ -99,7 +100,7 @@ def strip_years(name):
     name = re.sub(r'\s*\(Proposed\)', '', name, flags=re.I)
     return name.strip()
 
-def clean_name(name):
+def clean_name(name: str) -> str:
     if not name: return ""
     name = name.replace('"', '').replace('`', '')
     name = re.sub(r'^\d+\.\s+', '', name)
@@ -109,7 +110,7 @@ def clean_name(name):
     if ')' in name and '(' not in name: name = name.split(')')[0].strip()
     return name.strip()
 
-def split_entities(name):
+def split_entities(name: str) -> List[str]:
     if not name: return []
     if "PL/I" in name: name = name.replace("PL/I", "PL_I_PROTECTED")
     combos_to_protect = {"ARC/ORC", "AOT/JIT", "CPU/Memory", "CPU and Memory"}
@@ -140,9 +141,10 @@ def split_entities(name):
     
     return [strip_years(p.replace("PL_I_PROTECTED", "PL/I").replace("_SLASH_", "/").replace("_AND_", " and ")).strip() for p in final_parts if p.strip()]
 
-def extract_entities_from_text(text):
+def extract_entities_from_text(text: Optional[str]) -> Tuple[List[str], List[str]]:
     if not text or not isinstance(text, str): return [], []
-    concepts, orgs = [], []
+    concepts: List[str] = []
+    orgs: List[str] = []
     bold_matches = re.findall(r'\*\*(.*?)\*\*', text)
     for m in bold_matches:
         for n in split_entities(m):
@@ -154,13 +156,13 @@ def extract_entities_from_text(text):
         if is_organization(m): orgs.append(m)
     return concepts, orgs
 
-def is_historical_event(name):
+def is_historical_event(name: str) -> bool:
     if not name: return False
     if is_person(name): return False
     event_keywords = ["Conference", "War", "Revolution", "Crisis", "Birth", "Founding", "Agreement", "Treaty"]
     return any(k in name for k in event_keywords)
 
-def audit():
+def audit() -> None:
     meta_concepts = {
         "The Pedagogical Engine", "Zenith State", "Guided Odyssey", "Influence Graph", 
         "Automated Dark Matter detection to track progress", "Automated Dark Matter detection", 
@@ -169,9 +171,9 @@ def audit():
         "The Odyssey Generator", "Auto-Odyssey generator", "Semantic Search", "Dark Matter Audit",
         "DAWN", "EARLY", "WEB", "CLOUD", "RENAISSANCE", "AUTONOMIC"
     }
-    meta_canons = {canonicalize(c) for c in meta_concepts}
+    meta_canons: Set[str] = {canonicalize(c) for c in meta_concepts}
     data_dir = Path("data"); docs_dir = data_dir / "docs"
-    profiles_dirs = {
+    profiles_dirs: Dict[str, Path] = {
         "languages": docs_dir / "language_profiles",
         "concepts": docs_dir / "concept_profiles",
         "organizations": docs_dir / "org_profiles",
@@ -181,27 +183,37 @@ def audit():
         "people": docs_dir / "people_profiles"
     }
     for p_dir in profiles_dirs.values(): p_dir.mkdir(parents=True, exist_ok=True)
-    existing_profiles = {cat: set() for cat in profiles_dirs}
+    existing_profiles: Dict[str, Set[str]] = {cat: set() for cat in profiles_dirs}
     for cat, p_dir in profiles_dirs.items():
         if p_dir.exists():
             for f in p_dir.glob("*.json"): existing_profiles[cat].add(canonicalize(f.stem))
 
-    referenced_languages, referenced_entities, referenced_organizations, referenced_historical_events, referenced_combos = {}, {}, {}, {}, {}
-    known_languages, known_people = set(), set()
+    referenced_languages: Dict[str, str] = {}
+    referenced_entities: Dict[str, str] = {}
+    referenced_organizations: Dict[str, str] = {}
+    referenced_historical_events: Dict[str, str] = {}
+    referenced_combos: Dict[str, str] = {}
+    known_languages: Set[str] = set()
+    known_people: Set[str] = set()
 
     people_path = data_dir / "people.json"
     if people_path.exists():
         with open(people_path, "r") as f:
             for person in json.load(f):
-                name = person.get("name"); known_people.add(name.lower())
-                referenced_entities[canonicalize(name)] = name
+                name = person.get("name")
+                if name:
+                    known_people.add(name.lower())
+                    referenced_entities[canonicalize(name)] = name
 
     languages_path = data_dir / "languages.json"
     if languages_path.exists():
         with open(languages_path, "r") as f:
-            for lang in json.load(f): known_languages.add(canonicalize(lang.get("name")))
+            for lang in json.load(f): 
+                name = lang.get("name")
+                if name:
+                    known_languages.add(canonicalize(name))
 
-    def add_reference(name, target_map=None):
+    def add_reference(name: Optional[str], target_map: Optional[Dict[str, str]] = None) -> None:
         if not name or name == "Various": return
         if re.search(r'^[A-Z]+\s+\(\d{4}-\d{4}\)$', name): return
         
@@ -289,8 +301,9 @@ def audit():
                 for item in c: add_reference(item)
                 for item in o: add_reference(item, referenced_organizations)
 
-    def scan_profile_data(data):
-        found_concepts, found_orgs = [], []
+    def scan_profile_data(data: Any) -> Tuple[List[str], List[str]]:
+        found_concepts: List[str] = []
+        found_orgs: List[str] = []
         if isinstance(data, dict):
             for k, v in data.items():
                 if isinstance(v, (str, list)):
@@ -319,16 +332,21 @@ def audit():
                         for item in o: add_reference(item, referenced_organizations)
                 except Exception: pass
 
-    missing_paradigms = []
+    missing_paradigms: List[str] = []
     if Path("data/paradigms.json").exists():
-        with open("data/paradigms.json", "r") as f: known_paradigms = {canonicalize(p["name"]) for p in json.load(f)}
+        with open("data/paradigms.json", "r") as f: 
+            known_paradigms: Set[str] = {canonicalize(p.get("name")) for p in json.load(f)}
         if Path("data/languages.json").exists():
             with open("data/languages.json", "r") as f:
                 for lang in json.load(f):
                     for p in lang.get("paradigms", []):
                         if canonicalize(p) not in known_paradigms: missing_paradigms.append(p)
 
-    missing_languages, missing_entities, missing_orgs, missing_events, missing_combos = [], [], [], [], []
+    missing_languages: List[str] = []
+    missing_entities: List[str] = []
+    missing_orgs: List[str] = []
+    missing_events: List[str] = []
+    missing_combos: List[str] = []
     for canon, pretty in referenced_languages.items():
         if canon not in existing_profiles["languages"]: missing_languages.append(pretty)
     for canon, pretty in referenced_organizations.items():
@@ -346,7 +364,7 @@ def audit():
         if canon in {canonicalize(c) for c in missing_combos} or canon in existing_profiles["concept_combos"]: continue
         if canon not in entity_canons_existing: missing_entities.append(pretty)
 
-    todo = {
+    todo: Dict[str, Any] = {
         "missing_language_profiles": sorted(list(set(missing_languages))),
         "missing_entities": sorted(list(set(missing_entities))),
         "missing_org_profiles": sorted(list(set(missing_orgs))),
