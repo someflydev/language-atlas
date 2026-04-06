@@ -885,14 +885,55 @@ class DataLoader:
 
     def get_learning_paths(self):
         """Returns all available learning paths (Odysseys)."""
-        return self.learning_paths
+        if not self.use_sqlite:
+            return self.learning_paths
+            
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT * FROM learning_paths")
+        paths = [self._row_to_dict(row) for row in cursor.fetchall()]
+        
+        for path in paths:
+            s_cursor = conn.execute("SELECT * FROM learning_path_steps WHERE path_id = ? ORDER BY step_order", (path['id'],))
+            path['steps'] = [
+                {
+                    "language": row['language_name'],
+                    "milestone": row['milestone'],
+                    "rationale": row['rationale'],
+                    "challenge": row['challenge']
+                } for row in s_cursor.fetchall()
+            ]
+        
+        conn.close()
+        return paths
 
     def get_learning_path(self, path_id):
         """Returns a specific learning path by ID."""
-        for path in self.learning_paths:
-            if path['id'] == path_id:
-                return path
-        return None
+        if not self.use_sqlite:
+            for path in self.learning_paths:
+                if path['id'] == path_id:
+                    return path
+            return None
+            
+        conn = self._get_connection()
+        cursor = conn.execute("SELECT * FROM learning_paths WHERE id = ?", (path_id,))
+        row = cursor.fetchone()
+        if not row:
+            conn.close()
+            return None
+            
+        path = self._row_to_dict(row)
+        s_cursor = conn.execute("SELECT * FROM learning_path_steps WHERE path_id = ? ORDER BY step_order", (path_id,))
+        path['steps'] = [
+            {
+                "language": row['language_name'],
+                "milestone": row['milestone'],
+                "rationale": row['rationale'],
+                "challenge": row['challenge']
+            } for row in s_cursor.fetchall()
+        ]
+        
+        conn.close()
+        return path
 
     def get_auto_odyssey(self, language_name):
         """
@@ -959,6 +1000,27 @@ class DataLoader:
             "description": f"A dynamically generated journey through the most impactful descendants in the {language_name} lineage.",
             "steps": steps
         }
+
+    def get_concepts_reference(self):
+        """Returns the concepts reference metadata."""
+        # Check common locations
+        paths = [
+            os.path.join(self.data_dir, 'docs', 'atlas_meta', 'concepts_reference.json'),
+            os.path.join(self.data_dir, 'docs', 'concepts', 'concepts_reference.json')
+        ]
+        for p in paths:
+            if os.path.exists(p):
+                with open(p, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+        return {"concepts": []}
+
+    def get_paradigm_matrix(self):
+        """Returns the paradigm matrix dimensions."""
+        p = os.path.join(self.data_dir, 'docs', 'paradigms', 'paradigm_matrix.json')
+        if os.path.exists(p):
+            with open(p, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        return {"dimensions": []}
 
     def get_all_people(self):
         if not self.use_sqlite:

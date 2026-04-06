@@ -428,10 +428,18 @@ async def get_language_profile(request: Request, name: str):
     html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
     html_content = auto_link_content(html_content)
     
+    # Generate Dynamic Heritage Journey
+    auto_odyssey = data_loader.get_auto_odyssey(lang['name'])
+    
     return templates.TemplateResponse(
         request=request,
         name="profile.html",
-        context={"lang": lang, "content": html_content, "entity_type": "language"}
+        context={
+            "lang": lang, 
+            "content": html_content, 
+            "entity_type": "language",
+            "auto_odyssey": auto_odyssey
+        }
     )
 
 @app.get("/person/{name}", response_class=HTMLResponse)
@@ -583,11 +591,31 @@ async def get_odyssey_view(request: Request, path_id: str):
     import copy
     path = copy.deepcopy(path_data)
     
-    # Hydrate steps with challenges from profiles
+    # Hydrate steps with additional data from profiles
     for step in path['steps']:
         lang_data = data_loader.get_combined_language_data(step['language'])
         if lang_data:
-            step['challenge'] = lang_data.get('challenge', 'No specific challenge listed.')
+            # Use data from step if it exists (for custom rationales), otherwise fallback to profile
+            raw_rationale = step.get('rationale') or lang_data.get('philosophy', 'Explore the unique philosophy of this language.')
+            raw_challenge = step.get('challenge') or lang_data.get('challenge', 'Implement a core pattern using this language.')
+            
+            step['rationale'] = auto_link_content(markdown.markdown(raw_rationale))
+            step['challenge'] = auto_link_content(markdown.markdown(raw_challenge))
+            
+            # Fetch AI Discovery Missions
+            missions = lang_data.get('ai_assisted_discovery_missions', [])
+            if isinstance(missions, str):
+                missions = [missions]
+            step['ai_missions'] = missions
+            
+            # Basic metadata for linking
+            step['display_name'] = lang_data.get('display_name', step['language'])
+            step['year'] = lang_data.get('year')
+        else:
+            step['display_name'] = step['language']
+            step['rationale'] = auto_link_content(markdown.markdown(step.get('rationale', "Data not available for this language.")))
+            step['challenge'] = auto_link_content(markdown.markdown(step.get('challenge', "Explore this language further.")))
+            step['ai_missions'] = []
 
     return templates.TemplateResponse(
         request=request,
