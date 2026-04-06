@@ -119,6 +119,36 @@
                         markdown-content">
                 {{ content|safe }}
             </div>
+
+            {% if entity_type == 'language' and auto_odyssey %}
+            <section class="mt-20 bg-slate-900 rounded-3xl p-8 md:p-12 shadow-2xl border border-slate-800">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+                    <div>
+                        <h2 class="text-3xl font-extrabold text-white mb-2">Dynamic Heritage Journey</h2>
+                        <p class="text-slate-400 max-w-xl">{{ auto_odyssey.description }}</p>
+                    </div>
+                    <div class="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 text-indigo-400 rounded-full border border-indigo-500/20 text-sm font-bold">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                        </span>
+                        AI Generated Lineage
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 relative">
+                    {% for step in auto_odyssey.steps %}
+                    <a href="/language/{{ step.language }}" class="relative group bg-slate-800/50 p-6 rounded-2xl border border-slate-700 hover:border-indigo-500 hover:bg-slate-800 transition-all z-10">
+                        <div class="w-10 h-10 rounded-full bg-slate-900 border-2 border-slate-700 flex items-center justify-center text-indigo-400 font-bold mb-4 group-hover:border-indigo-500 transition-colors">
+                            {{ loop.index }}
+                        </div>
+                        <h3 class="text-white font-bold mb-1 group-hover:text-indigo-400 transition-colors">{{ step.language }}</h3>
+                        <p class="text-slate-500 text-xs uppercase tracking-widest font-bold">{{ step.milestone }}</p>
+                    </a>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
         </article>
     </div>
 </div>
