@@ -328,6 +328,80 @@ async def get_event_profile(request: Request, slug: str):
         context={"lang": event, "content": html_content, "title": event.get('title', slug)}
     )
 
+@app.get("/org/{name}", response_class=HTMLResponse)
+async def get_org_profile(request: Request, name: str):
+    org = data_loader.get_org(name)
+    if not org:
+        raise HTTPException(status_code=404, detail="Organization not found")
+        
+    content = f"# {org.get('title', org.get('name', name))}\n\n"
+    founded = org.get('founded')
+    if founded:
+        content += f"**Founded:** {founded}\n\n"
+    content += f"{org.get('overview', '')}\n\n"
+    
+    sections = [
+        ('key_contributions', 'Key Contributions'),
+        ('pivotal_people', 'Pivotal People'),
+        ('legacy', 'Legacy'),
+        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
+    ]
+    
+    for key, title in sections:
+        val = org.get(key)
+        if val:
+            content += f"## {title}\n"
+            if isinstance(val, list):
+                for item in val:
+                    content += f"- {item}\n"
+                content += "\n"
+            else:
+                content += f"{val}\n\n"
+                
+    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+    
+    return templates.TemplateResponse(
+        request=request,
+        name="profile.html",
+        context={"lang": org, "content": html_content, "title": org.get('name', name)}
+    )
+
+@app.get("/concept/{name}", response_class=HTMLResponse)
+async def get_concept_detail(request: Request, name: str):
+    concept = data_loader.get_concept_profile(name)
+    if not concept:
+        raise HTTPException(status_code=404, detail="Concept not found")
+        
+    content = f"# {concept.get('title', concept.get('name', name))}\n\n"
+    content += f"{concept.get('overview', '')}\n\n"
+    
+    sections = [
+        ('historical_context', 'Historical Context'),
+        ('key_aspects', 'Key Aspects'),
+        ('technical_implications', 'Technical Implications'),
+        ('legacy', 'Legacy'),
+        ('ai_assisted_discovery_missions', 'AI Discovery Missions')
+    ]
+    
+    for key, title in sections:
+        val = concept.get(key)
+        if val:
+            content += f"## {title}\n"
+            if isinstance(val, list):
+                for item in val:
+                    content += f"- {item}\n"
+                content += "\n"
+            else:
+                content += f"{val}\n\n"
+                
+    html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
+    
+    return templates.TemplateResponse(
+        request=request,
+        name="profile.html",
+        context={"lang": concept, "content": html_content, "title": concept.get('title', name)}
+    )
+
 @app.get("/odysseys", response_class=HTMLResponse)
 async def list_odysseys_view(request: Request):
     odysseys = data_loader.get_learning_paths()

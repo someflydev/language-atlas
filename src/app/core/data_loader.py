@@ -30,6 +30,7 @@ class DataLoader:
             self.concept_profiles = self._load_concept_profiles()
             self.people_profiles = self._load_people_profiles()
             self.historical_events = self._load_historical_events()
+            self.org_profiles = self._load_org_profiles()
         else:
             # When using SQLite, we don't load all data into memory at once
             self.languages = []
@@ -43,6 +44,7 @@ class DataLoader:
             self.concept_profiles = {}
             self.people_profiles = {}
             self.historical_events = {}
+            self.org_profiles = {}
 
     def _get_connection(self):
         """Returns a read-only connection to the SQLite database."""
@@ -208,6 +210,76 @@ class DataLoader:
         
         conn.close()
         return events
+
+    def _load_org_profiles(self):
+        profiles_dir = os.path.join(self.data_dir, 'docs', 'org_profiles')
+        profiles = {}
+        if not os.path.isdir(profiles_dir): return profiles
+        for filename in os.listdir(profiles_dir):
+            if filename.endswith('.json'):
+                try:
+                    with open(os.path.join(profiles_dir, filename), 'r', encoding='utf-8') as f:
+                        profiles[filename[:-5]] = json.load(f)
+                except (json.JSONDecodeError, IOError): continue
+        return profiles
+
+    def get_org_profiles(self):
+        if not self.use_sqlite:
+            return getattr(self, 'org_profiles', {})
+            
+        conn = self._get_connection()
+        cursor = conn.execute("""
+            SELECT o.name, op.* 
+            FROM organizations o 
+            JOIN organization_profiles op ON o.id = op.org_id
+        """)
+        profiles = {}
+        for row in cursor.fetchall():
+            org_name = row['name']
+            profile_id = row['id']
+            profile_data = self._row_to_dict(row)
+            
+            s_cursor = conn.execute("SELECT section_name, content FROM organization_profile_sections WHERE profile_id = ?", (profile_id,))
+            for s_row in s_cursor.fetchall():
+                profile_data[s_row['section_name']] = s_row['content']
+            
+            profiles[org_name] = profile_data
+        
+        conn.close()
+        return profiles
+
+    def get_org(self, name):
+        """Returns the profile data for a given organization name."""
+        if not self.use_sqlite:
+            profiles = self.get_org_profiles()
+            if name in profiles: return profiles[name]
+            norm_name = name.replace(' ', '_')
+            if norm_name in profiles: return profiles[norm_name]
+            return None
+
+        conn = self._get_connection()
+        norm_name = name.replace(' ', '_')
+        cursor = conn.execute("""
+            SELECT op.*, o.name 
+            FROM organization_profiles op 
+            JOIN organizations o ON o.id = op.org_id 
+            WHERE lower(o.name) = ? OR lower(o.name) = ?
+        """, (name.lower(), norm_name.lower()))
+        
+        row = cursor.fetchone()
+        if not row:
+            conn.close()
+            return None
+        
+        profile_id = row['id']
+        profile_data = self._row_to_dict(row)
+        
+        s_cursor = conn.execute("SELECT section_name, content FROM organization_profile_sections WHERE profile_id = ?", (profile_id,))
+        for s_row in s_cursor.fetchall():
+            profile_data[s_row['section_name']] = s_row['content']
+            
+        conn.close()
+        return profile_data
 
     def get_person(self, name):
         """Returns the profile data for a given person name."""

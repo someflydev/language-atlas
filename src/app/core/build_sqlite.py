@@ -184,6 +184,28 @@ def build_database(conn=None, data_dir=None):
         FOREIGN KEY (event_id) REFERENCES historical_events(id)
     );
 
+    CREATE TABLE organizations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL UNIQUE,
+        founded TEXT
+    );
+
+    CREATE TABLE organization_profiles (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        org_id INTEGER NOT NULL UNIQUE,
+        title TEXT,
+        overview TEXT,
+        FOREIGN KEY (org_id) REFERENCES organizations(id)
+    );
+
+    CREATE TABLE organization_profile_sections (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        profile_id INTEGER NOT NULL,
+        section_name TEXT NOT NULL,
+        content TEXT,
+        FOREIGN KEY (profile_id) REFERENCES organization_profiles(id)
+    );
+
     CREATE TABLE concept_bullets (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         concept_id INTEGER NOT NULL,
@@ -511,6 +533,45 @@ def build_database(conn=None, data_dir=None):
                 content = "\n".join(content)
             cursor.execute("INSERT INTO event_sections (event_id, section_name, content) VALUES (?, ?, ?)",
                            (event_id, sec_name, str(content)))
+
+    # Organization Profiles
+    org_profiles = loader.get_org_profiles()
+    org_id_map = {} # name -> id
+    cursor.execute("SELECT name, id FROM organizations")
+    for name, oid in cursor.fetchall():
+        org_id_map[name] = oid
+
+    for key, profile in org_profiles.items():
+        org_id = None
+        space_key = key.replace('_', ' ')
+        
+        if key in org_id_map:
+            org_id = org_id_map[key]
+        elif space_key in org_id_map:
+            org_id = org_id_map[space_key]
+        else:
+            title = profile.get('title', space_key)
+            name_only = title.split(':')[0].strip()
+            if name_only in org_id_map:
+                org_id = org_id_map[name_only]
+            else:
+                cursor.execute("INSERT INTO organizations (name, founded) VALUES (?, ?)", 
+                               (name_only, profile.get('founded')))
+                org_id = cursor.lastrowid
+                org_id_map[name_only] = org_id
+        
+        if org_id:
+            cursor.execute("INSERT INTO organization_profiles (org_id, title, overview) VALUES (?, ?, ?)", 
+                           (org_id, profile.get('title'), profile.get('overview')))
+            profile_id = cursor.lastrowid
+            
+            for sec_name, content in profile.items():
+                if sec_name in ['title', 'overview', 'founded']:
+                    continue
+                if isinstance(content, list):
+                    content = "\n".join(content)
+                cursor.execute("INSERT INTO organization_profile_sections (profile_id, section_name, content) VALUES (?, ?, ?)",
+                               (profile_id, sec_name, str(content)))
 
     # 5. Populate FTS Tables
     
