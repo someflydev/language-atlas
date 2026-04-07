@@ -99,8 +99,9 @@ def auto_link_content(html: str) -> str:
 async def http_exception_handler(request: Request, exc: HTTPException) -> Response:
     if exc.status_code == 404:
         return templates.TemplateResponse(
-            "errors/404.html", 
-            {"request": request, "detail": exc.detail}, 
+            request=request,
+            name="errors/404.html", 
+            context={"detail": exc.detail}, 
             status_code=404
         )
     return JSONResponse({"detail": exc.detail}, status_code=exc.status_code)
@@ -108,8 +109,9 @@ async def http_exception_handler(request: Request, exc: HTTPException) -> Respon
 @app.exception_handler(500)
 async def server_error_exception_handler(request: Request, exc: Exception) -> Response:
     return templates.TemplateResponse(
-        "errors/500.html", 
-        {"request": request, "detail": "Internal Server Error"}, 
+        request=request,
+        name="errors/500.html", 
+        context={"detail": "Internal Server Error"}, 
         status_code=500
     )
 
@@ -218,9 +220,9 @@ async def get_visualizations(request: Request) -> Response:
     influence_html = fig_influence.to_html(full_html=False, include_plotlyjs='cdn')
 
     return templates.TemplateResponse(
-        "visualizations.html", 
-        {
-            "request": request, 
+        request=request,
+        name="visualizations.html", 
+        context={
             "timeline_plot": timeline_html,
             "influence_plot": influence_html
         }
@@ -270,9 +272,9 @@ async def read_root(
     }
 
     if request.headers.get("HX-Request"):
-        return templates.TemplateResponse("partials/language_grid.html", context)
+        return templates.TemplateResponse(request=request, name="partials/language_grid.html", context=context)
 
-    return templates.TemplateResponse("index.html", context)
+    return templates.TemplateResponse(request=request, name="index.html", context=context)
 
 @app.get("/compare", response_class=HTMLResponse)
 async def compare_languages(
@@ -290,13 +292,18 @@ async def compare_languages(
     selected = list(dict.fromkeys([l for l in selected if l]))
     
     if not selected:
-        return templates.TemplateResponse("compare.html", {"request": request, "languages": []})
+        return templates.TemplateResponse(
+            request=request,
+            name="compare.html", 
+            context={"languages": []}
+        )
     
     languages_data = data_loader.get_comparison_data(selected)
     
     return templates.TemplateResponse(
-        "compare.html", 
-        {"request": request, "languages": languages_data}
+        request=request,
+        name="compare.html", 
+        context={"languages": languages_data}
     )
 
 @app.get("/compare/add")
@@ -307,8 +314,9 @@ async def add_to_compare(request: Request, lang: str) -> Response:
         selected.append(lang)
     
     response = templates.TemplateResponse(
-        "partials/comparison_tray_content.html", 
-        {"request": request, "selected_languages": selected}
+        request=request,
+        name="partials/comparison_tray_content.html", 
+        context={"selected_languages": selected}
     )
     response.set_cookie("selected_languages", ",".join(selected))
     return response
@@ -319,8 +327,9 @@ async def remove_from_compare(request: Request, lang: str) -> Response:
     selected = [l for l in cookie_val.split(",") if l and l != lang]
     
     response = templates.TemplateResponse(
-        "partials/comparison_tray_content.html", 
-        {"request": request, "selected_languages": selected}
+        request=request,
+        name="partials/comparison_tray_content.html", 
+        context={"selected_languages": selected}
     )
     response.set_cookie("selected_languages", ",".join(selected))
     return response
@@ -328,8 +337,9 @@ async def remove_from_compare(request: Request, lang: str) -> Response:
 @app.get("/compare/clear")
 async def clear_compare(request: Request) -> Response:
     response = templates.TemplateResponse(
-        "partials/comparison_tray_content.html", 
-        {"request": request, "selected_languages": []}
+        request=request,
+        name="partials/comparison_tray_content.html", 
+        context={"selected_languages": []}
     )
     response.delete_cookie("selected_languages")
     return response
@@ -339,12 +349,13 @@ async def get_comparison_tray(request: Request) -> Response:
     cookie_val = request.cookies.get("selected_languages", "")
     selected = [l for l in cookie_val.split(",") if l]
     return templates.TemplateResponse(
-        "partials/comparison_tray_content.html", 
-        {"request": request, "selected_languages": selected}
+        request=request,
+        name="partials/comparison_tray_content.html", 
+        context={"selected_languages": selected}
     )
 
 @app.get("/search", response_class=HTMLResponse)
-async def search(request: Request, q: str = Query("")) -> Union[Response, str]:
+async def search(request: Request, q: str = Query("")) -> Any:
     """Delegates to FTS5 layer and returns HTMX-compatible partials."""
     if not q or len(q) < 2:
         return ""
@@ -752,8 +763,20 @@ async def api_index() -> Dict[str, Any]:
         "description": "Programmatic access to the Language Atlas database.",
         "endpoints": {
             "/api/search?q={term}": "Semantic search (min 2 chars)",
-            "/api/languages": "List all languages (with cluster/generation filters)",
+            "/api/languages": "List all languages (with cluster, generation, sort, min_year, max_year filters)",
             "/api/language/{name}": "Detailed language profile data",
+            "/api/paradigms": "List all programming paradigms",
+            "/api/paradigm/{name}": "Detailed paradigm information",
+            "/api/concepts": "List all programming concepts",
+            "/api/concept/{name}": "Detailed concept profile data",
+            "/api/eras": "List all historical eras of computing",
+            "/api/era/{slug}": "Detailed era summary and narrative",
+            "/api/organizations": "List all organization profiles",
+            "/api/org/{name}": "Detailed organization information",
+            "/api/people": "List all people profiles",
+            "/api/person/{name}": "Detailed person profile data",
+            "/api/historical_events": "List all historical events",
+            "/api/event/{slug}": "Detailed historical event data",
             "/api/odysseys": "List all guided learning paths",
             "/api/odyssey/{id}": "Specific journey data and challenges"
         }
@@ -768,9 +791,21 @@ async def api_search(q: str = Query(...)) -> Dict[str, Any]:
     return {"results": results, "query": q}
 
 @app.get("/api/languages")
-async def api_list_languages(cluster: Optional[str] = None, generation: Optional[str] = None) -> List[Dict[str, Any]]:
+async def api_list_languages(
+    cluster: Optional[str] = None, 
+    generation: Optional[str] = None,
+    sort: str = "year",
+    min_year: int = 1930,
+    max_year: int = 2024
+) -> List[Dict[str, Any]]:
     """List languages with filters as JSON."""
-    return data_loader.get_all_languages(filter_gen=generation, filter_cluster=cluster)
+    return data_loader.get_all_languages(
+        filter_gen=generation, 
+        filter_cluster=cluster,
+        sort=sort,
+        min_year=min_year,
+        max_year=max_year
+    )
 
 @app.get("/api/language/{name}")
 async def api_get_language(name: str) -> Dict[str, Any]:
@@ -779,6 +814,55 @@ async def api_get_language(name: str) -> Dict[str, Any]:
     if not lang:
         raise HTTPException(status_code=404, detail="Language not found")
     return lang
+
+@app.get("/api/paradigms")
+async def api_list_paradigms() -> List[str]:
+    """List all paradigms."""
+    return data_loader.get_all_paradigms()
+
+@app.get("/api/paradigm/{name}")
+async def api_get_paradigm(name: str) -> Dict[str, Any]:
+    """Get paradigm detail."""
+    return data_loader.get_paradigm_info(name)
+
+@app.get("/api/concepts")
+async def api_list_concepts() -> List[Dict[str, Any]]:
+    """List all concepts."""
+    return data_loader.get_all_concepts()
+
+@app.get("/api/concept/{name}")
+async def api_get_concept(name: str) -> Dict[str, Any]:
+    """Get concept detail."""
+    concept = data_loader.get_concept_profile(name)
+    if not concept:
+        raise HTTPException(status_code=404, detail="Concept not found")
+    return concept
+
+@app.get("/api/eras")
+async def api_list_eras() -> List[Dict[str, Any]]:
+    """List all era summaries."""
+    return data_loader.get_all_era_summaries()
+
+@app.get("/api/era/{slug}")
+async def api_get_era(slug: str) -> Dict[str, Any]:
+    """Get era summary detail."""
+    era = data_loader.get_era_summary(slug)
+    if not era:
+        raise HTTPException(status_code=404, detail="Era not found")
+    return era
+
+@app.get("/api/organizations")
+async def api_list_organizations() -> Dict[str, Any]:
+    """List all organization profiles."""
+    return data_loader.get_org_profiles()
+
+@app.get("/api/org/{name}")
+async def api_get_org(name: str) -> Dict[str, Any]:
+    """Get organization detail."""
+    org = data_loader.get_org(name)
+    if not org:
+        raise HTTPException(status_code=404, detail="Organization not found")
+    return org
 
 @app.get("/api/odysseys")
 async def api_list_odysseys() -> List[Dict[str, Any]]:
@@ -796,8 +880,8 @@ async def api_get_person(name: str) -> Dict[str, Any]:
         raise HTTPException(status_code=404, detail="Person not found")
     return person
 
-@app.get("/api/events")
-async def api_list_events() -> Dict[str, Any]:
+@app.get("/api/historical_events")
+async def api_list_historical_events() -> Dict[str, Any]:
     return data_loader.get_historical_events()
 
 @app.get("/api/event/{slug}")
