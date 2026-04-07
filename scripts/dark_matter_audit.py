@@ -279,27 +279,28 @@ def audit() -> None:
                 for item in bc: add_reference(item)
                 for item in bo: add_reference(item, referenced_organizations)
 
-    era_dir = docs_dir / "era_summaries"
-    if era_dir.exists():
-        for era_file in era_dir.glob("*.json"):
-            with open(era_file, "r") as f:
-                era_data = json.load(f)
-                for driver in era_data.get("key_drivers", []): add_reference(driver.get("name"))
-                for pl in era_data.get("pivotal_languages", []):
+    # Unified Era and Crossroads Audit from eras.json
+    eras_file = data_dir / "eras.json"
+    if eras_file.exists():
+        with open(eras_file, "r") as f:
+            eras_data = json.load(f)
+            for era in eras_data:
+                add_reference(era.get("name"))
+                for driver in era.get("key_drivers", []): add_reference(driver.get("name"))
+                for pl in era.get("pivotal_languages", []):
                     add_reference(pl.get("name", ""), referenced_languages)
-                c, o = extract_entities_from_text(era_data.get("legacy_impact"))
+                c, o = extract_entities_from_text(era.get("reactions_and_legacy", ""))
                 for item in c: add_reference(item)
                 for item in o: add_reference(item, referenced_organizations)
-    crossroads_file = docs_dir / "crossroads.json"
-    if crossroads_file.exists():
-        with open(crossroads_file, "r") as f:
-            for entry in json.load(f).get("crossroads", []):
-                add_reference(entry.get("title"))
-                for player in entry.get("key_players", []): add_reference(player)
-                for rl in entry.get("related_languages", []): add_reference(rl, referenced_languages)
-                c, o = extract_entities_from_text(entry.get("explanation"))
-                for item in c: add_reference(item)
-                for item in o: add_reference(item, referenced_organizations)
+                
+                # Audit internal crossroads
+                for cr in era.get("crossroads", []):
+                    add_reference(cr.get("title"))
+                    for player in cr.get("key_players", []): add_reference(player)
+                    for rl in cr.get("related_languages", []): add_reference(rl, referenced_languages)
+                    c, o = extract_entities_from_text(cr.get("explanation", ""))
+                    for item in c: add_reference(item)
+                    for item in o: add_reference(item, referenced_organizations)
 
     def scan_profile_data(data: Any) -> Tuple[List[str], List[str]]:
         found_concepts: List[str] = []
