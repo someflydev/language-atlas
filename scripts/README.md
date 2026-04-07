@@ -1,12 +1,55 @@
 # Atlas Toolkit
 
-A suite of zero-dependency Python scripts for deep introspection, auditing, and maintenance of the Language Atlas data.
+A suite of zero-dependency Python scripts and shell utilities for deep introspection, auditing, and maintenance of the Language Atlas data.
 
 ## Overview
 
 The Atlas Toolkit provides essential utilities for maintaining the integrity of the programming language data lake (JSON) and its corresponding warehouse (SQLite). These tools use only the Python Standard Library and are designed to be run from the project root.
 
-## Tools
+## Core Utilities
+
+### atlas-fuzzy.sh
+
+Fuzzy-search the entire Atlas and immediately jump to the TUI or detailed Info view.
+
+- **Purpose:** Rapid navigation and discovery within the dataset.
+- **Usage:** `./scripts/atlas-fuzzy.sh`
+- **Key Features:**
+  - Interactive selection via `fzf`.
+  - Press **ENTER** to launch the interactive Terminal UI (TUI).
+  - Press **CTRL-I** to view the static language profile (Info).
+
+**Example Output:**
+```text
+Living Atlas > Python
+> Python (1991)
+  Ruby (1995)
+  Perl (1987)
+  ...
+ENTER: TUI | CTRL-I: Info | ESC: Exit
+```
+
+### check_integrity.py
+
+A deep-scanner for validating JSON field completeness and value constraints.
+
+- **Purpose:** Surface missing data or inconsistent formatting in the core JSON before it is committed or ingested into the database.
+- **Usage:** `uv run scripts/check_integrity.py`
+- **Validation Rules:**
+  - Checks for missing or empty mandatory fields (e.g., `philosophy`, `key_innovations`).
+  - Validates that the `year` is within reasonable historical bounds (1800-Present).
+
+**Example Output:**
+```text
+=== Language Atlas: Integrity Check ===
+Scanning 110 entries...
+
+Found 2 integrity issues:
+ - Jacquard Loom:
+   * Year out of bounds: 1804 (Range: 1940-2026)
+ - Mojo:
+   * Empty field: influenced
+```
 
 ### data_stats.py
 
@@ -22,15 +65,35 @@ Provides high-level metrics and distributions across the dataset.
 **Example Output:**
 ```text
 === Language Atlas Statistics ===
-Total Languages: 95
-Keystone Languages: 65 (68.4% Keystone Density)
+Total Languages: 110
+Keystone Languages: 73 (66.4% Keystone Density)
 
 Distribution by Generation
 Generation  | Count | %    
 ---------------------------
-web1        | 30    | 31.6%
-early       | 29    | 30.5%
+web1        | 36    | 32.7%
+early       | 34    | 30.9%
 ...
+```
+
+### dark_matter_audit.py
+
+The specialized "Dark Matter Audit" tool for identifying missing content profiles.
+
+- **Purpose:** Scan the entire Atlas to identify every referenced language, concept, organization, and person that lacks a deep-dive JSON profile.
+- **Usage:** `uv run scripts/dark_matter_audit.py`
+- **Output:** Generates `data/reports/dark_matter_todo.json`, the authoritative TODO list for implementation phases.
+- **Features:**
+  - **Canonicalization:** Deduplicates variations in casing and punctuation.
+  - **Entity Detection:** Identifies missing profiles for organizations, historical events, and people.
+
+**Example Output:**
+```text
+Audit complete. Results written to data/reports/dark_matter_todo.json
+Missing Languages: 82
+Missing Entities: 1833
+Missing Organizations: 20
+Missing Events: 12
 ```
 
 ### audit_lineage.py
@@ -40,59 +103,137 @@ Validates the influence graph and identifies structural anomalies.
 - **Purpose:** Ensure the integrity of the influence network and find isolated entries.
 - **Usage:** `uv run scripts/audit_lineage.py`
 - **Checks:**
-  - **Broken References:** Identifies names in `influenced_by` or `influenced` fields that do not exist as primary entries.
+  - **Broken References:** Identifies names in influence fields that do not exist as primary entries.
   - **Isolated Islands:** Finds languages with zero incoming and zero outgoing influences.
 
-### check_integrity.py
+**Example Output:**
+```text
+=== Language Atlas: Lineage Audit ===
 
-A deep-scanner for validating JSON field completeness and value constraints.
+Found 94 Broken References:
+ - BASIC (influenced): Visual Basic (Not Found)
+ - APL (influenced): Numpy (Not Found)
+ ...
+No isolated islands found.
+```
 
-- **Purpose:** Surface missing data or inconsistent formatting in the core JSON.
-- **Usage:** `uv run scripts/check_integrity.py`
-- **Validation Rules:**
-  - Checks for missing or empty mandatory fields (e.g., `philosophy`, `key_innovations`).
-  - Validates that the `year` is within reasonable historical bounds (Default: 1800-Present).
+## Generation & Reporting
 
-### export_summary.py
+### generate_docs.py
 
-Generates tabular summaries of the dataset for external reporting.
+Orchestrates the creation of the entire Markdown-based "Living Documentation".
 
-- **Purpose:** Create portable summaries in CSV or Markdown formats.
-- **Usage:** `uv run scripts/export_summary.py --format md --output summary.md`
-- **Supported Formats:** CSV (default) and Markdown (`md`).
-
-### db_query.py
-
-A lightweight CLI wrapper for ad-hoc SQL queries against the Language Atlas SQLite database.
-
-- **Purpose:** Query the "warehouse" directly without requiring the `sqlite3` binary.
-- **Usage:** `uv run scripts/db_query.py "SELECT name, year FROM languages WHERE is_keystone = 1 LIMIT 5"`
-- **Features:** Auto-locates the database in the project root or `data/` directory.
-
-### dark_matter_audit.py
-
-The specialized "Dark Matter Audit" tool for identifying missing content profiles.
-
-- **Purpose:** Scan the entire Atlas (languages, people, and existing profiles) to identify every referenced language, concept, and organization that lacks a deep-dive JSON profile.
-- **Usage:** `uv run scripts/dark_matter_audit.py`
-- **Output:** Generates `data/reports/dark_matter_todo.json`, the authoritative TODO list for implementation phases.
+- **Purpose:** Convert raw JSON data into a structured, hyperlinked directory of language profiles, concept deep-dives, and era summaries.
+- **Usage:** `uv run scripts/generate_docs.py`
+- **Output:** Populates the `generated-docs/` directory.
 - **Features:**
-  - **Canonicalization:** Deduplicates variations in casing, punctuation, and parentheticals.
-  - **Version Filtering:** Intelligently filters versioned language references (e.g., "Ada 95" won't be flagged if "Ada" has a profile).
-  - **Organization Detection:** Identifies significant corporate and institutional entities that shaped computing history.
+  - Automatically handles cross-linking between profiles.
+  - Generates index files (A-Z) and thematic hubs.
+
+**Example Output:**
+```text
+Setting up directories...
+Generating language profiles...
+Generating concept profiles...
+Generating era summaries...
+Documentation generation complete.
+```
 
 ### generate_reports.py
 
 The "Atlas Analytics" suite for generating specialized, high-signal reports from the SQLite database.
 
-- **Purpose:** Broaden basic insights into a modular reporting system that captures the "Evolution of Programming" through metrics.
+- **Purpose:** Provide deep insights into the "Evolution of Programming" through modular reports.
 - **Usage:** `uv run scripts/generate_reports.py --report all`
 - **Supported Reports:**
-  - `safety_complexity`: Decade-over-decade trends in language safety and complexity.
-  - `creator_impact`: Leaderboard of creators and organizations by their influence score.
-  - `cluster_genealogy`: Internal vs. external influence ratios for language clusters.
-  - `innovation_trends`: Extracting key innovation themes across generations.
-  - `db_health`: Identifying orphans, terminal languages, and missing high-impact profiles.
+  - `safety_complexity`: Decade-over-decade trends in language safety.
+  - `creator_impact`: Leaderboard of creators by influence score.
+  - `db_health`: Identifies orphans and terminal languages.
+
+**Example Output:**
+```text
+Generating db_health report...
+Report saved to data/reports/db_health.json
+Done.
+```
+
+### export_summary.py
+
+Generates tabular summaries of the dataset for external reporting or spreadsheets.
+
+- **Purpose:** Create portable summaries in CSV or Markdown formats.
+- **Usage:** `uv run scripts/export_summary.py --format md --output summary.md`
+- **Supported Formats:** CSV (default) and Markdown (`md`).
+
+**Example Output:**
+```text
+Name,Year,Creators,Generation,Cluster,Keystone
+Jacquard Loom,1804,Joseph Marie Jacquard,dawn,historical,Yes
+Analytical Engine,1837,"Charles Babbage, Ada Lovelace",dawn,historical,Yes
+...
+```
+
+## Database Utilities
+
+### db_query.py
+
+A lightweight CLI wrapper for ad-hoc SQL queries against the Language Atlas SQLite database.
+
+- **Purpose:** Query the "warehouse" directly without requiring the `sqlite3` binary installed on the system.
+- **Usage:** `uv run scripts/db_query.py "SELECT name, year FROM languages WHERE is_keystone = 1 LIMIT 3"`
+
+**Example Output:**
+```text
+Connected to: language_atlas.sqlite
+
+name              | year
+------------------------
+Jacquard Loom     | 1804
+Analytical Engine | 1837
+Boolean Algebra   | 1847
+
+(3 rows returned)
+```
+
+### inspect_sqlite.py
+
+Provides a deep inspection of the SQLite schema and data samples for all tables.
+
+- **Purpose:** Debugging the database schema and verifying the results of the data pipeline.
+- **Usage:** `uv run scripts/inspect_sqlite.py`
+
+**Example Output:**
+```text
+Found 49 tables in language_atlas.sqlite
+
+================================================================================
+TABLE: languages (110 rows)
+--------------------------------------------------------------------------------
+Columns: id, name, year, cluster, generation, is_keystone ...
+Sample Data:
+  Row 1: { "id": 1, "name": "Jacquard Loom", "year": 1804 ... }
+```
+
+## Distribution
+
+### build_zenith.py
+
+Builds a standalone, zero-dependency binary of the Language Atlas CLI and TUI.
+
+- **Purpose:** Package the application for distribution to environments without Python or dependencies.
+- **Usage:** `uv run scripts/build_zenith.py`
+- **Features:**
+  - Bundles the SQLite database and all data files.
+  - Generates a single-file executable using PyInstaller.
+
+**Example Output:**
+```text
+[*] Starting Zenith Build...
+[*] Running PyInstaller...
+INFO: PyInstaller: 6.x.x
+...
+[*] Zenith Build Complete: dist/atlas
+```
 
 ## Maintenance
 
