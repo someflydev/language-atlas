@@ -304,7 +304,7 @@ if __name__ == "__main__":
         conn = sqlite3.connect(str(DB_PATH))
         conn.row_factory = sqlite3.Row
         generator = InsightGenerator(conn)
-        generator.stamp_to_json(str(REPO_ROOT / "data/reports/historical_insights.json"))
+        generator.stamp_to_json(str(REPO_ROOT / "generated-reports/historical_insights.json"))
         conn.close()
     else:
         print(f"Database not found at {DB_PATH}")

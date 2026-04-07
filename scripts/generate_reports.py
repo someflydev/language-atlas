@@ -21,7 +21,7 @@ def main():
         help="Specific report to generate"
     )
     parser.add_argument("--db", default=str(REPO_ROOT / "language_atlas.sqlite"), help="Path to SQLite database")
-    parser.add_argument("--output-dir", default=str(REPO_ROOT / "data/reports"), help="Directory for report output")
+    parser.add_argument("--output-dir", default=str(REPO_ROOT / "generated-reports"), help="Directory for report output")
     
     args = parser.parse_args()
     

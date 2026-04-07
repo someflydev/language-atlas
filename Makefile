@@ -51,4 +51,4 @@ clean:
 	rm -rf dist/
 	rm -rf build_temp/
 	rm -rf .pytest_cache/
-	rm -f data/reports/historical_insights.json
+	rm -f generated-reports/historical_insights.json

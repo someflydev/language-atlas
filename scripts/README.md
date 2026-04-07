@@ -82,14 +82,14 @@ The specialized "Dark Matter Audit" tool for identifying missing content profile
 
 - **Purpose:** Scan the entire Atlas to identify every referenced language, concept, organization, and person that lacks a deep-dive JSON profile.
 - **Usage:** `uv run scripts/dark_matter_audit.py`
-- **Output:** Generates `data/reports/dark_matter_todo.json`, the authoritative TODO list for implementation phases.
+- **Output:** Generates `generated-reports/dark_matter_todo.json`, the authoritative TODO list for implementation phases.
 - **Features:**
   - **Canonicalization:** Deduplicates variations in casing and punctuation.
   - **Entity Detection:** Identifies missing profiles for organizations, historical events, and people.
 
 **Example Output:**
 ```text
-Audit complete. Results written to data/reports/dark_matter_todo.json
+Audit complete. Results written to generated-reports/dark_matter_todo.json
 Missing Languages: 82
 Missing Entities: 1833
 Missing Organizations: 20
@@ -153,7 +153,7 @@ The "Atlas Analytics" suite for generating specialized, high-signal reports from
 **Example Output:**
 ```text
 Generating db_health report...
-Report saved to data/reports/db_health.json
+Report saved to generated-reports/db_health.json
 Done.
 ```
 

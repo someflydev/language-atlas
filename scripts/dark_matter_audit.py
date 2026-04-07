@@ -373,7 +373,7 @@ def audit() -> None:
         "missing_paradigms": sorted(list(set(missing_paradigms))),
         "ambiguous_references": []
     }
-    reports_dir = Path("data/reports"); reports_dir.mkdir(parents=True, exist_ok=True)
+    reports_dir = Path("generated-reports"); reports_dir.mkdir(parents=True, exist_ok=True)
     with open(reports_dir / "dark_matter_todo.json", "w") as f: json.dump(todo, f, indent=2)
     print(f"Audit complete. Results written to {reports_dir / 'dark_matter_todo.json'}")
     print(f"Missing Languages: {len(todo['missing_language_profiles'])}")

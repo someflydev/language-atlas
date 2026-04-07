@@ -22,13 +22,13 @@ htmlcov/
 .venv
 *.log
 
-# Data reports
-!data/reports/
+# Generated assets
+generated-docs/
+generated-reports/
+*.sqlite
 
 # Distribution / Build
 dist/
 build/
 *.egg-info/
-*.sqlite
 *.spec
-generated-docs/
