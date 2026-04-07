@@ -1,0 +1,29 @@
+Please reorganize the repository structure to separate source-of-truth data from generated artifacts. Currently, `data/reports/` contains generated reports, which can be confusing since the rest of the `data/` directory contains the JSON files that seed the SQLite database.
+
+Perform the following steps:
+
+1. **Move Reports Directory:**
+   Move the `data/reports/` directory to the root of the repository and rename it to `generated-reports/`. All report files (like `cluster_genealogy.json`, `creator_impact.json`, `dark_matter_todo.json`, etc.) should now reside in `generated-reports/`.
+
+2. **Update `.gitignore`:**
+   Modify the `.gitignore` file at the root of the repository:
+   - Remove the existing "Data reports" section or any specific ignores for `data/reports/`.
+   - Create a new section titled `# Generated assets`.
+   - Under this new section, add the following entries:
+     ```
+     generated-docs/
+     generated-reports/
+     *.sqlite
+     ```
+
+3. **Update Scripts:**
+   Search through the Python scripts in the `scripts/` directory and update any paths that reference `data/reports/` to point to `generated-reports/`. 
+   
+   Specific scripts to check and update include (but are not limited to):
+   - `scripts/dark_matter_audit.py`
+   - `scripts/generate_reports.py`
+   
+   Ensure that any script generating or reading these reports uses the new `generated-reports/` path.
+
+4. **Verify:**
+   Run the scripts that generate reports to ensure they successfully write to the new `generated-reports/` directory without errors.

@@ -1,0 +1,30 @@
+Update `scripts/README.md` to comprehensively document all scripts in the `scripts/` directory, organizing them by usefulness and expected frequency of invocation. For each script, provide its purpose, usage, and a representative **Example Output** block.
+
+Currently, some scripts are missing from the README (like `atlas-fuzzy.sh`, `build_zenith.py`, `generate_docs.py`, `inspect_sqlite.py`), and many lack example output blocks.
+
+Please follow these steps:
+
+1. **Discover and Analyze:** Run or inspect the contents of all scripts in `scripts/` to fully understand their purpose and output format. The current scripts are:
+   - `atlas-fuzzy.sh`
+   - `audit_lineage.py`
+   - `build_zenith.py`
+   - `check_integrity.py`
+   - `dark_matter_audit.py`
+   - `data_stats.py`
+   - `db_query.py`
+   - `export_summary.py`
+   - `generate_docs.py`
+   - `generate_reports.py`
+   - `inspect_sqlite.py`
+
+2. **Determine Logical Order:** Rank the scripts logically based on how often a contributor or maintainer would use them. Place the most frequently used or core utilities first (e.g., integrity checks, stats, fuzzy search), followed by generation/reporting tools, and finally ad-hoc database inspection tools.
+
+3. **Capture Examples:** Run the scripts to capture real output, or extract the print statements/formatting directly from the code to craft a highly accurate, representative mock output block.
+
+4. **Rewrite README.md:** Update `scripts/README.md` so that every script is documented with a uniform structure:
+   - A concise description and Purpose.
+   - The exact command to run it (e.g., `uv run scripts/data_stats.py` or `./scripts/atlas-fuzzy.sh`).
+   - Key features or checks performed.
+   - An `**Example Output:**` section with a realistic Markdown code block showing what the script prints to the console.
+
+Ensure the final README is polished, easy to read, and immediately useful for any developer trying to understand the Atlas Toolkit.
