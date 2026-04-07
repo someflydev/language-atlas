@@ -67,7 +67,12 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         CREATE TABLE paradigms (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL UNIQUE,
-            description TEXT
+            description TEXT,
+            year_introduced INTEGER,
+            motivation TEXT,
+            languages TEXT,
+            connected_paradigms TEXT,
+            key_features TEXT
         );
 
         CREATE TABLE people (
@@ -246,12 +251,6 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             explanation TEXT
         );
 
-        CREATE TABLE paradigm_matrix_dimensions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            axis TEXT NOT NULL UNIQUE,
-            details TEXT
-        );
-
         CREATE TABLE timeline_periods (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             era_or_period TEXT NOT NULL UNIQUE
@@ -325,10 +324,28 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         # 4. Insert Data
         print("Inserting data...")
         
+        import json
         # Paradigms
         paradigm_map: Dict[str, int] = {} # name -> id
         for p in loader.paradigms:
-            cursor.execute("INSERT INTO paradigms (name, description) VALUES (?, ?)", (p['name'], p.get('description')))
+            languages_json = json.dumps(p.get('languages', [])) if 'languages' in p else None
+            connected_paradigms_json = json.dumps(p.get('connected_paradigms', [])) if 'connected_paradigms' in p else None
+            key_features_json = json.dumps(p.get('key_features', {})) if 'key_features' in p else None
+            
+            cursor.execute('''
+                INSERT INTO paradigms (
+                    name, description, year_introduced, motivation, 
+                    languages, connected_paradigms, key_features
+                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', (
+                p['name'], 
+                p.get('description'),
+                p.get('year_introduced'),
+                p.get('motivation'),
+                languages_json,
+                connected_paradigms_json,
+                key_features_json
+            ))
             if cursor.lastrowid is not None:
                 paradigm_map[p['name']] = cursor.lastrowid
             
@@ -649,14 +666,6 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             for mr in modern_reactions_data:
                 cursor.execute("INSERT OR IGNORE INTO modern_reactions (theme, explanation) VALUES (?, ?)",
                             (mr.get('theme'), mr.get('explanation')))
-        # Paradigm Matrix
-        print("Inserting paradigm matrix...")
-        matrix_data = loader.get_paradigm_matrix()
-        if matrix_data:
-            for dim in matrix_data.get('dimensions', []):
-                cursor.execute("INSERT INTO paradigm_matrix_dimensions (axis, details) VALUES (?, ?)",
-                            (dim.get('axis'), dim.get('details')))
-
         # Timeline
         print("Inserting timeline...")
         timeline_data = loader.get_timeline()

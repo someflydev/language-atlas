@@ -13,8 +13,16 @@ def test_dataloader_json_all_methods(tmp_path, monkeypatch):
     data_dir = tmp_path / "data"
     data_dir.mkdir()
     (data_dir / "languages.json").write_text(json.dumps([{"name": "Python", "year": 1991, "cluster": "scripting", "paradigms": ["Object-Oriented"]}]))
-    (data_dir / "paradigms.json").write_text(json.dumps([{"name": "Object-Oriented", "description": "OO description"}]))
-    (data_dir / "eras.json").write_text(json.dumps([{"name": "Early", "year_start": 1950}]))
+    (data_dir / "paradigms.json").write_text(json.dumps([{"name": "Object-Oriented", "description": "OO description", "year_introduced": 1967, "motivation": "Crisis", "languages": ["Python"], "connected_paradigms": ["Procedural"], "key_features": {"The Reaction": "reaction"}}]))
+    (data_dir / "eras.json").write_text(json.dumps([{
+        "name": "Early Era", 
+        "slug": "early",
+        "year_start": 1950,
+        "description": "Early Era",
+        "crossroads": [{"title": "CR1", "explanation": "expl"}],
+        "modern_reactions": [{"theme": "R1", "explanation": "expl"}],
+        "timeline_events": [{"year": "1950", "description": "event1"}]
+    }]))
     (data_dir / "concepts.json").write_text(json.dumps([{"name": "Garbage Collection"}]))
     (data_dir / "influences.json").write_text(json.dumps([{"from": "ABC", "to": "Python"}]))
     (data_dir / "people.json").write_text(json.dumps([{"name": "Guido van Rossum"}]))
@@ -34,9 +42,7 @@ def test_dataloader_json_all_methods(tmp_path, monkeypatch):
     (docs_dir / "historical_events" / "event1.json").write_text(json.dumps({"title": "Event 1", "slug": "event1"}))
     (docs_dir / "org_profiles" / "PSF.json").write_text(json.dumps({"title": "PSF Profile"}))
     (docs_dir / "era_summaries" / "early.json").write_text(json.dumps({"slug": "early", "title": "Early Era"}))
-    (docs_dir / "crossroads.json").write_text(json.dumps({"crossroads": [{"title": "CR1"}]}))
-    (docs_dir / "modern_reactions.json").write_text(json.dumps({"reactions": [{"theme": "R1"}]}))
-    (docs_dir / "timeline.json").write_text(json.dumps({"periods": [{"era_or_period": "P1"}]}))
+
 
     loader = DataLoader(data_dir=str(data_dir))
     

@@ -1051,14 +1051,6 @@ class DataLoader:
                     return cast(Dict[str, Any], json.load(f))
         return {"concepts": []}
 
-    def get_paradigm_matrix(self) -> Dict[str, Any]:
-        """Returns the paradigm matrix dimensions."""
-        p = os.path.join(self.data_dir, 'docs', 'paradigms', 'paradigm_matrix.json')
-        if os.path.exists(p):
-            with open(p, 'r', encoding='utf-8') as f:
-                return cast(Dict[str, Any], json.load(f))
-        return {"dimensions": []}
-
     def get_all_people(self) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
             return self.people
@@ -1129,7 +1121,14 @@ class DataLoader:
             cursor = conn.execute("SELECT * FROM paradigms WHERE lower(name) = ?", (name.lower(),))
             row = cursor.fetchone()
             if row:
-                return self._row_to_dict(row)
+                data = self._row_to_dict(row)
+                for field in ['languages', 'connected_paradigms', 'key_features']:
+                    if data.get(field):
+                        try:
+                            data[field] = json.loads(data[field])
+                        except json.JSONDecodeError:
+                            pass
+                return data
             return {"name": name, "description": "A core model or style of computer programming."}
         finally:
             conn.close()
