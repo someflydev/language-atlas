@@ -1,0 +1,31 @@
+# Megaprompt Part 2: Deep Lineage with Recursive CTEs
+
+## Objective
+With the base schema and FTS5 search in place, we now want to unlock deep insights into the evolution of programming languages using SQLite **Recursive Common Table Expressions (CTEs)**. We want to push graph traversal logic down to the database layer, eliminating manual Python-side network building where possible.
+
+## Step 1: Architecting the Recursive Views in `build_sqlite.py`
+We need to track how languages influence each other across generations.
+1. **Direct & Indirect Descendants:**
+   - Create a view `v_language_descendants` using a recursive CTE.
+   - **Base Case:** Select direct influences from the `influences` table.
+   - **Recursive Step:** Join the CTE back to the `influences` table to find the "children of the children".
+   - Include a `depth` or `degrees_of_separation` column to track how far removed the influence is (e.g., C -> C++ (depth 1) -> Rust (depth 2)).
+   - Include a `path` column (e.g., `C -> C++ -> Rust`) to visualize the exact lineage.
+
+2. **Ancestry (Looking Backwards):**
+   - Create a similar view `v_language_ancestors` to find all languages that led to the creation of a specific language (e.g., tracking Rust's roots all the way back to ALGOL).
+
+3. **Safeguards:** Ensure the recursive CTE includes a `LIMIT` on depth (e.g., `WHERE depth < 10`) or cycle-detection logic to prevent infinite loops in cases of cyclical influence data.
+
+## Step 2: Evolving `data_loader.py`
+1. **Lineage Methods:** Add new methods to `DataLoader`:
+   - `get_descendants(language_id: int, max_depth: int = 5)`
+   - `get_ancestors(language_id: int, max_depth: int = 5)`
+2. **Data Transformation:** These methods should query the new recursive views and return structured hierarchical data (e.g., nested dictionaries or flat lists with depth indicators) suitable for UI rendering.
+
+## Step 3: FastAPI & Frontend Integration (`app.py`)
+1. **Entity Pages:** Update the individual Language Profile pages to display "Deep Ancestry" and "Far-Reaching Descendants" sections, utilizing the new CTE-powered methods.
+2. **Visualizations:** Update `/visualizations` (or add a new `/lineage/{language_id}` endpoint) to render interactive D3.js, Plotly, or Vis.js network graphs directly from the recursive CTE output. The database is now doing the hard work; the frontend just needs to draw the nodes and edges.
+
+## Execution
+Focus entirely on writing robust recursive SQL in `build_sqlite.py` and exposing it cleanly through the DataLoader. Verify the queries with tools like `sqlite3` CLI before wiring them into FastAPI.

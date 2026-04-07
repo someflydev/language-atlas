@@ -1,0 +1,33 @@
+Objective: Update the `src/app/core/` scripts to appropriately recognize, parse, and understand the new shape of the "source of truth" JSON data resulting from recent consolidations of paradigms and historical eras.
+
+Context:
+In recent updates, we deeply consolidated our core data files:
+1. **Paradigms** (`PROMPT_41`): The `data/paradigms.json` file was enriched with fields like `year_introduced`, `motivation`, `languages`, `connected_paradigms`, and `key_features`. Redundant data like `docs/paradigms/paradigm_matrix.json` and `paradigms_reference.json` were deleted.
+2. **Historical Eras** (`PROMPT_42` & `PROMPT_43`): Fragmented historical data (`era_summaries`, `crossroads`, `modern_reactions`, `timeline`) was merged into a single comprehensive `data/eras.json` source of truth. Standalone nested JSON files were deleted.
+
+However, our core application scripts (`data_loader.py`, `build_sqlite.py`, `docs_parser.py`) and test suite (`test_data_loader_full.py`) still partially assume the old disjointed structure, attempt to read deleted files, or fail to map the newly added rich fields into the SQLite database.
+
+Task:
+1. **Update `src/app/core/data_loader.py`**:
+   - **Paradigms**: Remove `get_paradigm_matrix()` entirely, as the file no longer exists. Ensure paradigm-related getters handle the newly enriched fields in `data/paradigms.json`.
+   - **Eras/Themes**: Ensure methods like `get_crossroads`, `get_modern_reactions`, `get_timeline`, and `get_era_summary` correctly extract and map their respective data structures from the unified `self.eras` list. Note that field names might have changed slightly during the `eras.json` consolidation; ensure mappings use the actual keys present in `data/eras.json`.
+
+2. **Update `src/app/core/build_sqlite.py`**:
+   - **Paradigms**: Expand the `paradigms` table schema to include the new fields (`year_introduced`, `motivation`). Ensure structured nested data (like `connected_paradigms`, `languages`, `key_features`) is either stored relationally in new junction/child tables or serialized correctly. Remove the `paradigm_matrix_dimensions` table, schema, and its insertion logic. Insert the newly enriched paradigm data properly.
+   - **Eras/Themes**: Review the schema and insertion logic to ensure it accurately extracts from the new nested `eras.json` data without causing `KeyError`s or missing records. If `crossroads` and `modern_reactions` are still independent tables, populate them correctly from inside `eras.json`.
+
+3. **Clean up `src/app/core/docs_parser.py`**:
+   - Remove `parse_paradigms` and `parse_paradigm_matrix` functions, along with their invocations in the `main` block, since they are attempting to generate JSON from deprecated markdown files.
+
+4. **Fix the Test Suite**:
+   - Update `tests/test_data_loader_full.py` and any other broken tests.
+   - The test setup should mock the new consolidated `eras.json` and `paradigms.json` structures, rather than writing out the old `data/docs/era_summaries/`, `data/docs/crossroads.json`, etc.
+   - Fix the mock data so that `DataLoader` methods (like `get_era_summary`) don't crash with `TypeError: 'NoneType' object is not subscriptable` (e.g., provide `slug`, `crossroads`, etc.).
+   - Run `pytest tests/` and verify that all `data_loader` and `build_sqlite` tests pass successfully.
+
+Commit message instructions:
+Prefix the commit with: [PROMPT_44]
+Use Tim Pope style:
+- 50 char max subject
+- Blank line
+- Wrapped 72 char body explaining the why and how. No literal "\n" text in the message.

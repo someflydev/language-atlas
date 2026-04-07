@@ -1,0 +1,38 @@
+# Megaprompt Part 3: Advanced Analytics via SQLite Window Functions
+
+## Objective
+In this final phase of the database deep dive, we will leverage **SQLite Window Functions** to generate "next-level" derived analytics and insights. We want to calculate rankings, percentiles, and rolling metrics entirely within SQL, completely bypassing pandas/polars for these operations.
+
+## Step 1: Analytical Views in `build_sqlite.py`
+Create advanced analytical views that provide immediate, pre-calculated insights for the application.
+
+1. **Era-Based Rankings:**
+   - Create a view `v_language_era_rankings`.
+   - Use the `RANK()` or `DENSE_RANK()` window function partitioned by `era` or `cluster` and ordered by `influence_score` descending.
+   - Example insight: "C was the #1 most influential language of its era, while Pascal was #2."
+   
+2. **Rolling Momentum & Growth:**
+   - Create a view `v_paradigm_momentum`.
+   - For each paradigm, calculate the cumulative number of languages adopting it over time using `COUNT() OVER (PARTITION BY paradigm_id ORDER BY year)`.
+   - This allows us to easily graph the rise of "Object-Oriented" vs "Functional" programming over the decades.
+
+3. **Relative Impact (Lead/Lag):**
+   - Create a view that uses `LAG()` and `LEAD()` to compare a language's complexity or safety model against the languages immediately preceding and following it in the same cluster.
+
+## Step 2: Consuming Analytics in `data_loader.py`
+1. Update `DataLoader` to include methods like `get_top_languages_by_era()` or `get_paradigm_momentum_timeline()`.
+2. These methods should simply `SELECT * FROM <analytical_view>`—the heavy lifting is already done by the database.
+
+## Step 3: FastApi Insights Dashboard (`app.py`)
+1. **Insights Page:** Create a dedicated `/insights` route in FastAPI.
+2. **Data Storytelling:** Use the window-function data to build a rich, data-driven dashboard.
+   - Display a "Top Languages by Decade" leaderboard.
+   - Render a time-series chart showing the "Rolling Momentum of Paradigms" directly from the window function output.
+3. **Contextual Stats:** On individual language pages, display contextual stats derived from the window functions (e.g., a badge that says *"Top 5% Most Influential Language of the 1990s"*).
+
+## Final Review
+Ensure the complete pipeline:
+- `build_sqlite.py` builds a bulletproof, feature-rich database.
+- `data_loader.py` elegantly queries FTS5, CTEs, and Window Functions.
+- `app.py` effortlessly serves these rich insights to the user.
+- Verify that performance is optimal and no complex in-memory aggregations remain in Python where SQL could have done the job.

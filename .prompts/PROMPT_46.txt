@@ -1,0 +1,33 @@
+# Megaprompt Part 1: SQLite Source-of-Truth Ingestion & Full-Text Search (FTS5)
+
+## Objective
+Our goal is to ensure `src/app/core/build_sqlite.py` flawlessly ingests all "source of truth" JSON data and leverages SQLite's advanced features to replace Python-side heavy lifting. In this first phase, we will perfect the schema and implement lightning-fast Full-Text Search (FTS5).
+
+## Step 1: Schema Audit & Perfect Ingestion
+1. **Audit `build_sqlite.py`:** Carefully review the `CREATE TABLE` statements. Ensure that *every* critical attribute from `data/*.json` and the rich markdown/JSON in `data/docs/**/*.json` is accurately represented.
+2. **Data Integrity:** Ensure `PRAGMA foreign_keys = ON;` is strictly enforced during ingestion. Verify that all relational mapping tables (e.g., `language_paradigms`, `language_people`) have correct foreign key constraints and `ON DELETE CASCADE` if appropriate.
+3. **Indexing:** Add explicit `CREATE INDEX` statements for frequently filtered or joined columns (e.g., `year`, `cluster`, `generation`, and foreign keys).
+
+## Step 2: Implement FTS5 for Global Search
+We want a Google-like search experience across the entire atlas.
+1. **Create Virtual Table:** In `build_sqlite.py`, create an FTS5 virtual table. It should index the rich text across multiple entities (Languages, Concepts, Paradigms, People, Eras).
+   - Example: 
+     ```sql
+     CREATE VIRTUAL TABLE search_index USING fts5(
+         entity_type UNINDEXED,
+         entity_id UNINDEXED,
+         title,
+         content,
+         tokenize='porter'
+     );
+     ```
+2. **Populate FTS5:** Write the logic in `build_sqlite.py` (or `data_loader.py`'s build phase) to populate `search_index` after the main tables are populated. Insert concatenated profiles, descriptions, and overviews.
+
+## Step 3: DataLoader & FastAPI Integration
+1. **DataLoader Methods:** In `src/app/core/data_loader.py`, add a `search(query: str)` method.
+   - The method must execute a query against `search_index` using the `MATCH` operator.
+   - Utilize FTS5 built-in functions: `bm25(search_index)` for relevance ranking (`ORDER BY rank`), and `snippet(search_index, -1, '<mark>', '</mark>', '...', 64)` to generate context-aware highlighted excerpts.
+2. **FastAPI Wiring:** In `src/app/app.py`, create or update a `/search` endpoint (HTML and JSON) that consumes `DataLoader.search()`. Ensure the frontend displays the highlighted snippets and links directly to the corresponding entity pages.
+
+## Execution
+Begin by updating `build_sqlite.py` to include the FTS5 schema and population logic, then implement the search functionality in `data_loader.py` and `app.py`. Do not proceed to Recursive CTEs until FTS5 is fully operational and blazing fast.

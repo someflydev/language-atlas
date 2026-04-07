@@ -1,0 +1,26 @@
+# Objective
+Update the `data/languages.json` dataset to accurately reflect and link the paradigms defined in `data/paradigms.json`, and then refactor the core application logic in `src/app/core/` to take advantage of this newly ordered data structure.
+
+# Context
+We want to ensure data consistency between paradigms and languages in our Language Atlas. `data/paradigms.json` acts as the source of truth for which languages belong to which paradigms. However, individual language entries in `data/languages.json` need their `paradigms` array updated to guarantee completeness and, crucially, to reflect the *significance* of each paradigm to the language's design and identity.
+
+# Instructions
+
+## Phase 1: Data Reconciliation
+1. **Load Paradigms:** Read `data/paradigms.json` to identify all paradigms and the languages associated with each.
+2. **Update Languages:** Process `data/languages.json`. For every language that is mentioned under a paradigm in `data/paradigms.json`:
+   - Ensure that paradigm is present in the language's `paradigms` list.
+   - **Order by Significance:** Reorder the `paradigms` list for every language so that it reflects the significance of the paradigm to the language. The primary/most defining paradigm MUST be first, followed by secondary paradigms in descending order of significance. 
+     *Example: For Scala, the order might be `["Object-Oriented", "Functional", "Concurrent"]`. For C, it would be `["Procedural", "Imperative"]`.*
+   - If a language has paradigms currently listed that are NOT in `data/paradigms.json`, leave them intact but ensure they are sorted appropriately based on significance relative to the newly added ones.
+
+## Phase 2: Core Logic Updates (`src/app/core/`)
+1. **Analyze Core Scripts:** Review the modules in `src/app/core/` that handle data loading, querying, or modeling for languages and paradigms.
+2. **Refactor for Significance:** Update the logic to explicitly leverage the fact that `language["paradigms"]` is now an ordered list prioritized by significance.
+   - *Primary Paradigm Extraction:* Create utility functions or properties (e.g., `get_primary_paradigm(language_id)`) that return the first element of the list.
+   - *Search & Filtering:* Adjust any paradigm-based search logic to optionally weigh primary paradigms heavier than secondary ones.
+   - *Data Models:* If you are using dataclasses or Pydantic models, update the field descriptions to note that the list is ordered by significance.
+
+## Phase 3: Validation
+1. Run the existing test suite (using `pytest tests/`) to ensure the changes to `data/languages.json` haven't broken any data parity or loading tests.
+2. Add new unit tests to verify your new functions in `src/app/core/` (e.g., testing that the primary paradigm is correctly identified).
