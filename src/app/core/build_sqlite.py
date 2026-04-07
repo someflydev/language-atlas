@@ -609,12 +609,12 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             cursor.execute("INSERT INTO era_summaries (slug, title, overview, legacy_impact, diagram) VALUES (?, ?, ?, ?, ?)",
                 (era.get('slug'), era.get('title'), era.get('overview'), era.get('legacy_impact'), era.get('diagram')))
             era_id = cursor.lastrowid
-            
+
             if era_id is not None:
                 for driver in era.get('key_drivers', []):
                     cursor.execute("INSERT INTO era_key_drivers (era_id, name, description) VALUES (?, ?, ?)",
                         (era_id, driver.get('name'), driver.get('description')))
-                        
+
                 for lang in era.get('pivotal_languages', []):
                     cursor.execute("INSERT INTO era_pivotal_languages (era_id, name, description) VALUES (?, ?, ?)",
                         (era_id, lang.get('name'), lang.get('description')))
@@ -624,7 +624,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         concepts_ref = loader.get_concepts_reference()
         if concepts_ref:
             for concept in concepts_ref.get('concepts', []):
-                cursor.execute("INSERT OR IGNORE INTO concepts (name, description) VALUES (?, ?)", 
+                cursor.execute("INSERT OR IGNORE INTO concepts (name, description) VALUES (?, ?)",
                             (concept.get('name'), concept.get('description')))
                 cursor.execute("SELECT id FROM concepts WHERE name = ?", (concept.get('name'),))
                 row_cid = cursor.fetchone()
@@ -639,7 +639,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         crossroads_data = loader.get_crossroads()
         if isinstance(crossroads_data, list):
             for cr in crossroads_data:
-                cursor.execute("INSERT INTO crossroads (title, explanation) VALUES (?, ?)",
+                cursor.execute("INSERT OR IGNORE INTO crossroads (title, explanation) VALUES (?, ?)",
                             (cr.get('title'), cr.get('explanation')))
 
         # Modern Reactions
@@ -647,9 +647,8 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         modern_reactions_data = loader.get_modern_reactions()
         if isinstance(modern_reactions_data, list):
             for mr in modern_reactions_data:
-                cursor.execute("INSERT INTO modern_reactions (theme, explanation) VALUES (?, ?)",
+                cursor.execute("INSERT OR IGNORE INTO modern_reactions (theme, explanation) VALUES (?, ?)",
                             (mr.get('theme'), mr.get('explanation')))
-
         # Paradigm Matrix
         print("Inserting paradigm matrix...")
         matrix_data = loader.get_paradigm_matrix()

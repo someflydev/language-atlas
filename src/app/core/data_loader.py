@@ -432,8 +432,10 @@ class DataLoader:
 
     def get_crossroads(self) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
-            data = self._load_json('docs/crossroads.json')
-            return cast(List[Dict[str, Any]], data.get('crossroads', []) if isinstance(data, dict) else data)
+            all_cr = []
+            for era in self.eras:
+                all_cr.extend(era.get('crossroads', []))
+            return all_cr
 
         conn = self._get_connection()
         try:
@@ -444,8 +446,10 @@ class DataLoader:
 
     def get_modern_reactions(self) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
-            data = self._load_json('docs/modern_reactions.json')
-            return cast(List[Dict[str, Any]], data.get('reactions', []) if isinstance(data, dict) else data)
+            all_mr = []
+            for era in self.eras:
+                all_mr.extend(era.get('modern_reactions', []))
+            return all_mr
 
         conn = self._get_connection()
         try:
@@ -456,13 +460,20 @@ class DataLoader:
 
     def get_all_era_summaries(self) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
-            dir_path = os.path.join(self.data_dir, 'docs', 'era_summaries')
+            # Map new era structure back to what the app expects if necessary
+            # or just return the new structure. 
+            # The app expects: slug, title, overview, key_drivers, pivotal_languages, legacy_impact, diagram
             summaries = []
-            if os.path.isdir(dir_path):
-                for filename in os.listdir(dir_path):
-                    if filename.endswith('.json'):
-                        with open(os.path.join(dir_path, filename), 'r', encoding='utf-8') as f:
-                            summaries.append(json.load(f))
+            for era in self.eras:
+                summaries.append({
+                    "slug": era.get("slug"),
+                    "title": era.get("name"),
+                    "overview": era.get("description"),
+                    "key_drivers": era.get("key_drivers", []),
+                    "pivotal_languages": era.get("pivotal_languages", []),
+                    "legacy_impact": era.get("reactions_and_legacy", ""),
+                    "diagram": era.get("diagram", "")
+                })
             return summaries
 
         conn = self._get_connection()
@@ -510,8 +521,13 @@ class DataLoader:
 
     def get_timeline(self) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
-            data = self._load_json('docs/timeline.json')
-            return cast(List[Dict[str, Any]], data.get('periods', []) if isinstance(data, dict) else data)
+            periods = []
+            for era in self.eras:
+                periods.append({
+                    "era_or_period": era.get("name"),
+                    "events": era.get("timeline_events", [])
+                })
+            return periods
 
         conn = self._get_connection()
         try:
