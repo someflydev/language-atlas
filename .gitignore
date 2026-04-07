@@ -30,4 +30,5 @@ dist/
 build/
 *.egg-info/
 *.sqlite
+*.spec
 generated-docs/
