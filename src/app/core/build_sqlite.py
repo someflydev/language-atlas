@@ -91,6 +91,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         CREATE TABLE language_paradigms (
             language_id INTEGER NOT NULL,
             paradigm_id INTEGER NOT NULL,
+            order_index INTEGER DEFAULT 0,
             PRIMARY KEY (language_id, paradigm_id),
             FOREIGN KEY (language_id) REFERENCES languages(id),
             FOREIGN KEY (paradigm_id) REFERENCES paradigms(id)
@@ -402,14 +403,13 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
                 lang_map[lang['name']] = lang_id
             
                 # Paradigms for this language
-                for p_name in lang.get('paradigms', []):
+                for order_idx, p_name in enumerate(lang.get('paradigms', [])):
                     if p_name not in paradigm_map:
                         cursor.execute("INSERT INTO paradigms (name) VALUES (?)", (p_name,))
                         if cursor.lastrowid is not None:
                             paradigm_map[p_name] = cursor.lastrowid
-                    cursor.execute("INSERT OR IGNORE INTO language_paradigms (language_id, paradigm_id) VALUES (?, ?)", 
-                                (lang_id, paradigm_map[p_name]))
-                    
+                    cursor.execute("INSERT OR REPLACE INTO language_paradigms (language_id, paradigm_id, order_index) VALUES (?, ?, ?)",
+                                (lang_id, paradigm_map[p_name], order_idx))                    
                 # Creators for this language
                 for person_name in lang.get('creators', []):
                     if person_name not in people_map:
@@ -765,11 +765,12 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             l.generation,
             l.influence_score,
             lp.title as profile_title,
-            (SELECT GROUP_CONCAT(p.name, ', ') 
-            FROM paradigms p 
-            JOIN language_paradigms lpa ON p.id = lpa.paradigm_id 
-            WHERE lpa.language_id = l.id) as paradigms,
-            (SELECT GROUP_CONCAT(pe.name, ', ') 
+            (SELECT GROUP_CONCAT(name, ', ')
+             FROM (SELECT p.name
+                   FROM paradigms p
+                   JOIN language_paradigms lpa ON p.id = lpa.paradigm_id
+                   WHERE lpa.language_id = l.id
+                   ORDER BY lpa.order_index ASC)) as paradigms,            (SELECT GROUP_CONCAT(pe.name, ', ') 
             FROM people pe 
             JOIN language_people lpe ON pe.id = lpe.person_id 
             WHERE lpe.language_id = l.id) as creators

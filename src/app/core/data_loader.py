@@ -553,7 +553,7 @@ class DataLoader:
         finally:
             conn.close()
 
-    def get_all_languages(self, clusters: Optional[List[str]] = None, paradigms: Optional[List[str]] = None, min_year: int = 1930, max_year: int = 2024, sort: str = "year", filter_gen: Optional[str] = None, filter_cluster: Optional[str] = None) -> List[Dict[str, Any]]:
+    def get_all_languages(self, clusters: Optional[List[str]] = None, paradigms: Optional[List[str]] = None, min_year: int = 1930, max_year: int = 2024, sort: str = "year", filter_gen: Optional[str] = None, filter_cluster: Optional[str] = None, primary_paradigm_weighting: bool = False) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
             langs = list(self.languages)
             if filter_gen:
@@ -572,6 +572,15 @@ class DataLoader:
                 langs.sort(key=lambda x: x['name'].lower())
             else:
                 langs.sort(key=lambda x: x.get('year', 0))
+            
+            if paradigms and primary_paradigm_weighting:
+                def sort_by_primary(lang):
+                    lang_paradigms = lang.get('paradigms') or []
+                    if lang_paradigms and lang_paradigms[0] in paradigms:
+                        return 0
+                    return 1
+                langs.sort(key=sort_by_primary)
+
             return langs
 
         conn = self._get_connection()
@@ -609,6 +618,14 @@ class DataLoader:
             # Hydrate languages with paradigms and creators if needed
             for lang in langs:
                 self._hydrate_language_json_compatibility(lang, conn)
+
+            if paradigms and primary_paradigm_weighting:
+                def sort_by_primary(lang):
+                    lang_paradigms = lang.get('paradigms') or []
+                    if lang_paradigms and lang_paradigms[0] in paradigms:
+                        return 0
+                    return 1
+                langs.sort(key=sort_by_primary)
 
             return langs
         finally:
@@ -660,10 +677,11 @@ class DataLoader:
 
         # Paradigms
         cursor = conn.execute("""
-            SELECT p.name 
-            FROM paradigms p 
-            JOIN language_paradigms lp ON p.id = lp.paradigm_id 
+            SELECT p.name
+            FROM paradigms p
+            JOIN language_paradigms lp ON p.id = lp.paradigm_id
             WHERE lp.language_id = ?
+            ORDER BY lp.order_index ASC
         """, (lang_id,))
         lang['paradigms'] = [r['name'] for r in cursor.fetchall()]
 
@@ -732,6 +750,13 @@ class DataLoader:
             return lang
         finally:
             conn.close()
+
+    def get_primary_paradigm(self, lang_name: str) -> Optional[str]:
+        """Returns the primary (most significant) paradigm for a language."""
+        lang = self.get_language(lang_name)
+        if lang and lang.get('paradigms'):
+            return lang['paradigms'][0]
+        return None
 
     def get_language_profiles(self) -> Dict[str, Any]:
         """Returns all loaded language profile data."""
