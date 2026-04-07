@@ -1,7 +1,5 @@
 {
-  "orphans": [
-    "Bash"
-  ],
+  "orphans": [],
   "terminal": [
     "Plankalk\u00fcl",
     "SQL",
@@ -10,6 +8,7 @@
     "PHP",
     "VB.NET",
     "Factor",
+    "PowerShell",
     "Nim",
     "Dart",
     "Elixir",
@@ -28,16 +27,20 @@
   "high_influence_missing_profiles": [
     {
       "name": "PL/I",
-      "influence_score": 8
+      "influence_score": 9
+    },
+    {
+      "name": "Common Lisp",
+      "influence_score": 5
     },
     {
       "name": "F#",
-      "influence_score": 5
+      "influence_score": 6
     }
   ],
   "summary": {
-    "orphan_count": 1,
-    "terminal_count": 21,
-    "missing_profile_count": 2
+    "orphan_count": 0,
+    "terminal_count": 22,
+    "missing_profile_count": 3
   }
 }
