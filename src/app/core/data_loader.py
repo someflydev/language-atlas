@@ -262,13 +262,13 @@ class DataLoader:
 
         conn = self._get_connection()
         try:
-            norm_name = name.replace(' ', '_')
+            alt_name = name.replace('_', ' ')
             cursor = conn.execute("""
                 SELECT op.*, o.name 
                 FROM organization_profiles op 
                 JOIN organizations o ON o.id = op.org_id 
                 WHERE lower(o.name) = ? OR lower(o.name) = ?
-            """, (name.lower(), norm_name.lower()))
+            """, (name.lower(), alt_name.lower()))
 
             row = cursor.fetchone()
             if not row:
@@ -290,19 +290,19 @@ class DataLoader:
         if not self.use_sqlite:
             profiles = self.get_people_profiles()
             if name in profiles: return profiles[name]
-            norm_name = name.replace(' ', '_')
-            if norm_name in profiles: return profiles[norm_name]
+            alt_name = name.replace('_', ' ')
+            if alt_name in profiles: return profiles[alt_name]
             return None
 
         conn = self._get_connection()
         try:
-            norm_name = name.replace(' ', '_')
+            alt_name = name.replace('_', ' ')
             cursor = conn.execute("""
                 SELECT pp.*, p.name 
                 FROM people_profiles pp 
                 JOIN people p ON p.id = pp.person_id 
                 WHERE lower(p.name) = ? OR lower(p.name) = ?
-            """, (name.lower(), norm_name.lower()))
+            """, (name.lower(), alt_name.lower()))
 
             row = cursor.fetchone()
             if not row:
@@ -754,22 +754,22 @@ class DataLoader:
             if name in self.language_profiles:
                 return self.language_profiles[name]
 
-            # 2. Try normalized match (space -> underscore)
-            normalized_name = name.replace(' ', '_')
-            if normalized_name in self.language_profiles:
-                return self.language_profiles[normalized_name]
+            # 2. Try normalized match (underscore -> space)
+            alt_name = name.replace('_', ' ')
+            if alt_name in self.language_profiles:
+                return self.language_profiles[alt_name]
             return None
 
         conn = self._get_connection()
         try:
-            # Try both direct and normalized names in SQL
-            normalized_name = name.replace(' ', '_')
+            # Try both direct and alternative names in SQL
+            alt_name = name.replace('_', ' ')
             cursor = conn.execute("""
                 SELECT lp.* 
                 FROM language_profiles lp 
                 JOIN languages l ON l.id = lp.language_id 
                 WHERE lower(l.name) = ? OR lower(l.name) = ?
-            """, (name.lower(), normalized_name.lower()))
+            """, (name.lower(), alt_name.lower()))
 
             row = cursor.fetchone()
             if not row:
@@ -824,22 +824,22 @@ class DataLoader:
             if name in self.concept_profiles:
                 return self.concept_profiles[name]
 
-            # 2. Try normalized match (space -> underscore)
-            normalized_name = name.replace(' ', '_')
-            if normalized_name in self.concept_profiles:
-                return self.concept_profiles[normalized_name]
+            # 2. Try alternative match (underscore -> space)
+            alt_name = name.replace('_', ' ')
+            if alt_name in self.concept_profiles:
+                return self.concept_profiles[alt_name]
             return None
 
         conn = self._get_connection()
         try:
-            # Try both direct and normalized names in SQL
-            normalized_name = name.replace(' ', '_')
+            # Try both direct and alternative names in SQL
+            alt_name = name.replace('_', ' ')
             cursor = conn.execute("""
                 SELECT cp.*, c.name, c.year as origin_year
                 FROM concept_profiles cp 
                 JOIN concepts c ON c.id = cp.concept_id 
                 WHERE lower(c.name) = ? OR lower(c.name) = ?
-            """, (name.lower(), normalized_name.lower()))
+            """, (name.lower(), alt_name.lower()))
 
             row = cursor.fetchone()
             if not row:
