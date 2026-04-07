@@ -1,0 +1,19 @@
+{
+  "slug": "software-crisis",
+  "title": "The Software Crisis: Birth of Software Engineering",
+  "date": "1968-1969",
+  "overview": "The 'Software Crisis' was a term coined in the late 1960s to describe the difficulty of writing efficient, correct, and maintainable software in a world of rapidly advancing hardware. As computers became more powerful, the complexity of the software required to run them grew exponentially, leading to projects that were chronically over budget, late, and riddled with bugs.",
+  "impact_on_computing": "This crisis led directly to the 1968 NATO Science Committee conference in Garmisch, Germany, where the term 'Software Engineering' was first used. It marked a transition from 'programming as a craft' to 'programming as a disciplined engineering practice.' It spurred the development of structured programming, high-level languages like ALGOL 68 and Pascal, and the formalization of lifecycle models.",
+  "key_figures": [
+    "Edsger W. Dijkstra",
+    "Friedrich L. Bauer",
+    "Peter Naur",
+    "Tony Hoare"
+  ],
+  "legacy": "The legacy of the Software Crisis is the entire field of Software Engineering. The principles of modularity, abstraction, and testing that we take for granted today were born from the realization that human cognitive limits are the primary bottleneck in computing.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Analyze the key arguments presented at the 1968 Garmisch Conference and how they shaped the design of ALGOL 68.'",
+    "2. 'Compare the 'Software Crisis' of the 1960s to the 'Multicore Crisis' of the 2000s.'",
+    "3. 'Trace the evolution of Structured Programming as a direct response to the Spaghetti Code typical of the Software Crisis era.'"
+  ]
+}
