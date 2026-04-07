@@ -57,7 +57,7 @@
     ],
     "influenced": [
       "Turing Machine",
-      "Plankalkül"
+      "Plankalk\u00fcl"
     ],
     "philosophy": "A mechanical machine capable of performing any mathematical operation, controlled by an external program. It is the theoretical ancestor of the general-purpose computer.",
     "mental_model": "Think in terms of gears, levers, and punched cards. Data is stored in the 'Store' and moved to the 'Mill' for processing, governed by the instructions on the cards.",
@@ -285,7 +285,7 @@
     "display_name": "Machine Code"
   },
   {
-    "name": "Plankalkül",
+    "name": "Plankalk\u00fcl",
     "year": 1945,
     "creators": [
       "Konrad Zuse"
@@ -315,7 +315,7 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": true,
-    "display_name": "Plankalkül"
+    "display_name": "Plankalk\u00fcl"
   },
   {
     "name": "Von Neumann Architecture",
@@ -666,7 +666,10 @@
       "John Backus"
     ],
     "paradigms": [
-      "Procedural"
+      "Procedural",
+      "Array",
+      "Array-oriented",
+      "Array/Vector"
     ],
     "cluster": "scientific",
     "generation": "early",
@@ -706,7 +709,13 @@
     ],
     "paradigms": [
       "Functional",
-      "Metaprogramming"
+      "Metaprogramming",
+      "Data-driven",
+      "Logic",
+      "Object-Oriented",
+      "Procedural",
+      "Event-Driven",
+      "Generic"
     ],
     "cluster": "AI",
     "generation": "early",
@@ -752,7 +761,9 @@
       "CODASYL"
     ],
     "paradigms": [
-      "Procedural"
+      "Procedural",
+      "Data-driven",
+      "Object-Oriented"
     ],
     "cluster": "business",
     "generation": "early",
@@ -987,7 +998,10 @@
     ],
     "paradigms": [
       "Array-oriented",
-      "Functional"
+      "Array",
+      "Array/Vector",
+      "Functional",
+      "Procedural"
     ],
     "cluster": "scientific",
     "generation": "early",
@@ -1219,7 +1233,10 @@
     ],
     "paradigms": [
       "Stack-based",
+      "Concatenative",
+      "Procedural",
       "Imperative",
+      "Metaprogramming",
       "Reflective"
     ],
     "cluster": "systems",
@@ -1258,6 +1275,7 @@
     ],
     "paradigms": [
       "Procedural",
+      "Object-Oriented",
       "Structured"
     ],
     "cluster": "academic",
@@ -1303,7 +1321,8 @@
       "Dennis Ritchie"
     ],
     "paradigms": [
-      "Procedural"
+      "Procedural",
+      "Event-Driven"
     ],
     "cluster": "systems",
     "generation": "early",
@@ -1395,7 +1414,10 @@
       "Dan Ingalls"
     ],
     "paradigms": [
-      "Object-Oriented"
+      "Object-Oriented",
+      "Actor-model",
+      "Event-Driven",
+      "Metaprogramming"
     ],
     "cluster": "systems",
     "generation": "early",
@@ -1438,7 +1460,8 @@
       "Robin Milner"
     ],
     "paradigms": [
-      "Functional"
+      "Functional",
+      "Generic"
     ],
     "cluster": "systems",
     "generation": "early",
@@ -1482,6 +1505,9 @@
     ],
     "paradigms": [
       "Data-driven",
+      "Array",
+      "Array-oriented",
+      "Array/Vector",
       "Constraint"
     ],
     "cluster": "backend",
@@ -1627,7 +1653,7 @@
       "Lua",
       "R"
     ],
-    "philosophy": "Small is beautiful. Scheme's minimalist design proves that a few powerful building blocks—lexical scoping and first-class continuations—are sufficient to build any abstraction. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "philosophy": "Small is beautiful. Scheme's minimalist design proves that a few powerful building blocks\u2014lexical scoping and first-class continuations\u2014are sufficient to build any abstraction. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of pure lambda calculus. Every control structure is just a variation of a function call, and the environment is a first-class participant in the computation.",
     "complexity_bias": "high",
     "safety_model": "runtime",
@@ -1843,8 +1869,11 @@
     ],
     "paradigms": [
       "Procedural",
+      "Object-Oriented",
+      "Actor-model",
       "Concurrent",
-      "Object-Oriented"
+      "Event-Driven",
+      "Generic"
     ],
     "cluster": "safety-critical",
     "generation": "web1",
@@ -1939,7 +1968,7 @@
     "key_innovations": [
       "Device-independent graphics",
       "Stack-based execution",
-      "Bézier curves"
+      "B\u00e9zier curves"
     ],
     "influenced_by": [
       "Forth"
@@ -1965,8 +1994,8 @@
     ],
     "paradigms": [
       "Array-oriented",
-      "Procedural",
-      "Object-Oriented"
+      "Object-Oriented",
+      "Procedural"
     ],
     "cluster": "scientific",
     "generation": "web1",
@@ -2095,8 +2124,13 @@
     ],
     "paradigms": [
       "Object-Oriented",
+      "Functional",
+      "Procedural",
+      "Actor-model",
+      "Event-Driven",
       "Generic",
-      "Procedural"
+      "Reactive",
+      "Metaprogramming"
     ],
     "cluster": "systems",
     "generation": "web1",
@@ -2219,8 +2253,10 @@
       "Mike Williams"
     ],
     "paradigms": [
+      "Actor-model",
       "Functional",
-      "Actor-model"
+      "Event-Driven",
+      "Reactive"
     ],
     "cluster": "cloud",
     "generation": "web1",
@@ -2260,8 +2296,8 @@
     ],
     "paradigms": [
       "Imperative",
-      "Procedural",
-      "Object-Oriented"
+      "Object-Oriented",
+      "Procedural"
     ],
     "cluster": "systems",
     "generation": "early",
@@ -2299,9 +2335,11 @@
     ],
     "paradigms": [
       "Procedural",
-      "Object-Oriented",
+      "Data-driven",
       "Functional",
-      "Event-Driven"
+      "Object-Oriented",
+      "Event-Driven",
+      "Metaprogramming"
     ],
     "cluster": "scripting",
     "generation": "web1",
@@ -2424,8 +2462,8 @@
     ],
     "paradigms": [
       "Scripting",
-      "Imperative",
-      "Functional"
+      "Functional",
+      "Imperative"
     ],
     "cluster": "web",
     "generation": "web1",
@@ -2471,8 +2509,8 @@
     ],
     "paradigms": [
       "Object-Oriented",
-      "Modular",
-      "Concurrent"
+      "Concurrent",
+      "Modular"
     ],
     "cluster": "systems",
     "generation": "web1",
@@ -2552,7 +2590,10 @@
       "Lennart Augustsson"
     ],
     "paradigms": [
-      "Functional"
+      "Functional",
+      "Generic",
+      "Reactive",
+      "Metaprogramming"
     ],
     "cluster": "academic",
     "generation": "web1",
@@ -2676,8 +2717,13 @@
     ],
     "paradigms": [
       "Object-Oriented",
+      "Functional",
       "Procedural",
-      "Functional"
+      "Actor-model",
+      "Event-Driven",
+      "Generic",
+      "Reactive",
+      "Metaprogramming"
     ],
     "cluster": "scripting",
     "generation": "web1",
@@ -2708,7 +2754,7 @@
       "Kotlin",
       "YAML"
     ],
-    "philosophy": "There should be one—and preferably only one—obvious way to do it. Readability counts. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (with RC) memory management.",
+    "philosophy": "There should be one\u2014and preferably only one\u2014obvious way to do it. Readability counts. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (with RC) memory management.",
     "mental_model": "Think in terms of clear, executable pseudocode. You describe what you want the computer to do in a way that is almost as readable as English.",
     "complexity_bias": "low",
     "safety_model": "runtime",
@@ -2726,8 +2772,8 @@
     ],
     "paradigms": [
       "Event-Driven",
-      "Procedural",
-      "Object-Oriented"
+      "Object-Oriented",
+      "Procedural"
     ],
     "cluster": "enterprise",
     "generation": "web1",
@@ -2933,7 +2979,14 @@
     ],
     "paradigms": [
       "Object-Oriented",
-      "Generic"
+      "Functional",
+      "Procedural",
+      "Actor-model",
+      "Event-Driven",
+      "Generic",
+      "Reactive",
+      "Aspect-Oriented",
+      "Metaprogramming"
     ],
     "cluster": "backend",
     "generation": "web1",
@@ -2979,9 +3032,12 @@
       "Brendan Eich"
     ],
     "paradigms": [
+      "Event-Driven",
       "Functional",
       "Object-Oriented",
-      "Event-Driven"
+      "Procedural",
+      "Reactive",
+      "Metaprogramming"
     ],
     "cluster": "frontend",
     "generation": "web1",
@@ -3030,8 +3086,8 @@
     ],
     "paradigms": [
       "Procedural",
-      "Object-Oriented",
-      "Functional"
+      "Functional",
+      "Object-Oriented"
     ],
     "cluster": "web",
     "generation": "web1",
@@ -3072,6 +3128,8 @@
     "paradigms": [
       "Object-Oriented",
       "Functional",
+      "Procedural",
+      "Event-Driven",
       "Metaprogramming"
     ],
     "cluster": "scripting",
@@ -3115,8 +3173,10 @@
     ],
     "paradigms": [
       "Functional",
-      "Imperative",
-      "Object-Oriented"
+      "Object-Oriented",
+      "Procedural",
+      "Generic",
+      "Imperative"
     ],
     "cluster": "systems",
     "generation": "web1",
@@ -3199,9 +3259,9 @@
     ],
     "paradigms": [
       "Object-Oriented",
-      "Generic",
       "Functional",
-      "Concurrent"
+      "Concurrent",
+      "Generic"
     ],
     "cluster": "enterprise",
     "generation": "web1",
@@ -3284,7 +3344,7 @@
     "year": 2001,
     "creators": [
       "Clark Evans",
-      "Ingy döt Net",
+      "Ingy d\u00f6t Net",
       "Oren Ben-Kiki"
     ],
     "paradigms": [
@@ -3330,8 +3390,8 @@
     ],
     "paradigms": [
       "Object-Oriented",
-      "Generic",
-      "Event-Driven"
+      "Event-Driven",
+      "Generic"
     ],
     "cluster": "enterprise",
     "generation": "web1",
@@ -3447,8 +3507,13 @@
       "Martin Odersky"
     ],
     "paradigms": [
+      "Object-Oriented",
       "Functional",
-      "Object-Oriented"
+      "Actor-model",
+      "Event-Driven",
+      "Generic",
+      "Reactive",
+      "Metaprogramming"
     ],
     "cluster": "backend",
     "generation": "web1",
@@ -3536,8 +3601,8 @@
     ],
     "paradigms": [
       "Scripting",
-      "Object-Oriented",
-      "Functional"
+      "Functional",
+      "Object-Oriented"
     ],
     "cluster": "systems",
     "generation": "cloud",
@@ -3574,6 +3639,8 @@
     ],
     "paradigms": [
       "Functional",
+      "Data-driven",
+      "Reactive",
       "Metaprogramming"
     ],
     "cluster": "backend",
@@ -3615,8 +3682,10 @@
     ],
     "paradigms": [
       "Procedural",
-      "Object-Oriented",
       "Functional",
+      "Object-Oriented",
+      "Event-Driven",
+      "Generic",
       "Metaprogramming"
     ],
     "cluster": "systems",
@@ -3659,7 +3728,10 @@
     ],
     "paradigms": [
       "Procedural",
-      "Generic"
+      "Generic",
+      "Object-Oriented",
+      "Actor-model",
+      "Event-Driven"
     ],
     "cluster": "cloud",
     "generation": "cloud",
@@ -3703,7 +3775,11 @@
     "paradigms": [
       "Procedural",
       "Functional",
-      "Generic"
+      "Generic",
+      "Object-Oriented",
+      "Actor-model",
+      "Event-Driven",
+      "Metaprogramming"
     ],
     "cluster": "systems",
     "generation": "cloud",
@@ -3789,11 +3865,14 @@
     "name": "Elixir",
     "year": 2011,
     "creators": [
-      "José Valim"
+      "Jos\u00e9 Valim"
     ],
     "paradigms": [
+      "Actor-model",
       "Functional",
       "Concurrent",
+      "Event-Driven",
+      "Reactive",
       "Metaprogramming"
     ],
     "cluster": "cloud",
@@ -3833,7 +3912,12 @@
     "paradigms": [
       "Object-Oriented",
       "Functional",
-      "Generic"
+      "Procedural",
+      "Actor-model",
+      "Event-Driven",
+      "Generic",
+      "Reactive",
+      "Metaprogramming"
     ],
     "cluster": "enterprise",
     "generation": "cloud",
@@ -3917,8 +4001,17 @@
     ],
     "paradigms": [
       "Multiple Dispatch",
+      "Array",
       "Functional",
+      "Array-oriented",
+      "Array/Vector",
+      "Object-Oriented",
+      "Procedural",
+      "Actor-model",
+      "Event-Driven",
+      "Generic",
       "Imperative",
+      "Reactive",
       "Metaprogramming"
     ],
     "cluster": "scientific",
@@ -3960,7 +4053,11 @@
     "paradigms": [
       "Functional",
       "Object-Oriented",
-      "Generic"
+      "Procedural",
+      "Event-Driven",
+      "Generic",
+      "Reactive",
+      "Metaprogramming"
     ],
     "cluster": "frontend",
     "generation": "cloud",
@@ -4078,7 +4175,12 @@
     "paradigms": [
       "Object-Oriented",
       "Functional",
+      "Procedural",
+      "Actor-model",
+      "Event-Driven",
       "Generic",
+      "Reactive",
+      "Metaprogramming",
       "Protocol-oriented"
     ],
     "cluster": "systems",
