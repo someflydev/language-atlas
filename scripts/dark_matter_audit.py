@@ -290,7 +290,7 @@ def audit() -> None:
                 c, o = extract_entities_from_text(era_data.get("legacy_impact"))
                 for item in c: add_reference(item)
                 for item in o: add_reference(item, referenced_organizations)
-    crossroads_file = docs_dir / "crossroads" / "crossroads.json"
+    crossroads_file = docs_dir / "crossroads.json"
     if crossroads_file.exists():
         with open(crossroads_file, "r") as f:
             for entry in json.load(f).get("crossroads", []):
@@ -323,6 +323,7 @@ def audit() -> None:
         return found_concepts, found_orgs
 
     for cat, p_dir in profiles_dirs.items():
+        if cat == "atlas_meta": continue
         if p_dir.exists():
             for f_path in p_dir.glob("*.json"):
                 try:

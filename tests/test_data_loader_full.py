@@ -27,9 +27,6 @@ def test_dataloader_json_all_methods(tmp_path, monkeypatch):
     (docs_dir / "historical_events").mkdir(parents=True)
     (docs_dir / "org_profiles").mkdir(parents=True)
     (docs_dir / "era_summaries").mkdir(parents=True)
-    (docs_dir / "crossroads").mkdir(parents=True)
-    (docs_dir / "modern_reactions").mkdir(parents=True)
-    (docs_dir / "timeline").mkdir(parents=True)
     
     (docs_dir / "language_profiles" / "Python.json").write_text(json.dumps({"title": "Python Profile"}))
     (docs_dir / "concept_profiles" / "Garbage_Collection.json").write_text(json.dumps({"title": "GC Profile"}))
@@ -37,9 +34,9 @@ def test_dataloader_json_all_methods(tmp_path, monkeypatch):
     (docs_dir / "historical_events" / "event1.json").write_text(json.dumps({"title": "Event 1", "slug": "event1"}))
     (docs_dir / "org_profiles" / "PSF.json").write_text(json.dumps({"title": "PSF Profile"}))
     (docs_dir / "era_summaries" / "early.json").write_text(json.dumps({"slug": "early", "title": "Early Era"}))
-    (docs_dir / "crossroads" / "crossroads.json").write_text(json.dumps({"crossroads": [{"title": "CR1"}]}))
-    (docs_dir / "modern_reactions" / "modern_reactions.json").write_text(json.dumps({"reactions": [{"theme": "R1"}]}))
-    (docs_dir / "timeline" / "timeline.json").write_text(json.dumps({"periods": [{"era_or_period": "P1"}]}))
+    (docs_dir / "crossroads.json").write_text(json.dumps({"crossroads": [{"title": "CR1"}]}))
+    (docs_dir / "modern_reactions.json").write_text(json.dumps({"reactions": [{"theme": "R1"}]}))
+    (docs_dir / "timeline.json").write_text(json.dumps({"periods": [{"era_or_period": "P1"}]}))
 
     loader = DataLoader(data_dir=str(data_dir))
     

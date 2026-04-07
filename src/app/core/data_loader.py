@@ -290,8 +290,8 @@ class DataLoader:
         if not self.use_sqlite:
             profiles = self.get_people_profiles()
             if name in profiles: return profiles[name]
-            alt_name = name.replace('_', ' ')
-            if alt_name in profiles: return profiles[alt_name]
+            norm_name = name.replace(' ', '_')
+            if norm_name in profiles: return profiles[norm_name]
             return None
 
         conn = self._get_connection()
@@ -432,7 +432,7 @@ class DataLoader:
 
     def get_crossroads(self) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
-            data = self._load_json('docs/crossroads/crossroads.json')
+            data = self._load_json('docs/crossroads.json')
             return cast(List[Dict[str, Any]], data.get('crossroads', []) if isinstance(data, dict) else data)
 
         conn = self._get_connection()
@@ -444,7 +444,7 @@ class DataLoader:
 
     def get_modern_reactions(self) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
-            data = self._load_json('docs/modern_reactions/modern_reactions.json')
+            data = self._load_json('docs/modern_reactions.json')
             return cast(List[Dict[str, Any]], data.get('reactions', []) if isinstance(data, dict) else data)
 
         conn = self._get_connection()
@@ -510,7 +510,7 @@ class DataLoader:
 
     def get_timeline(self) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
-            data = self._load_json('docs/timeline/timeline.json')
+            data = self._load_json('docs/timeline.json')
             return cast(List[Dict[str, Any]], data.get('periods', []) if isinstance(data, dict) else data)
 
         conn = self._get_connection()
@@ -824,10 +824,10 @@ class DataLoader:
             if name in self.concept_profiles:
                 return self.concept_profiles[name]
 
-            # 2. Try alternative match (underscore -> space)
-            alt_name = name.replace('_', ' ')
-            if alt_name in self.concept_profiles:
-                return self.concept_profiles[alt_name]
+            # 2. Try alternative match (space -> underscore)
+            norm_name = name.replace(' ', '_')
+            if norm_name in self.concept_profiles:
+                return self.concept_profiles[norm_name]
             return None
 
         conn = self._get_connection()

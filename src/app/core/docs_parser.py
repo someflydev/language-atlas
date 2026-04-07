@@ -122,10 +122,7 @@ def ensure_dir(path):
 directories = [
     'data/docs/era_summaries',
     'data/docs/concepts',
-    'data/docs/crossroads',
-    'data/docs/modern_reactions',
     'data/docs/paradigms',
-    'data/docs/timeline'
 ]
 for d in directories:
     ensure_dir(d)
@@ -250,7 +247,7 @@ def parse_crossroads(filepath):
         "intro": intro,
         "crossroads": crossroads
     }
-    with open('data/docs/crossroads/crossroads.json', 'w') as f:
+    with open('data/docs/crossroads.json', 'w') as f:
         json.dump(data, f, indent=2)
 
 def parse_modern_reactions(filepath):
@@ -280,7 +277,7 @@ def parse_modern_reactions(filepath):
         "intro": intro,
         "reactions": reactions
     }
-    with open('data/docs/modern_reactions/modern_reactions.json', 'w') as f:
+    with open('data/docs/modern_reactions.json', 'w') as f:
         json.dump(data, f, indent=2)
 
 def parse_paradigms(filepath):
@@ -373,7 +370,7 @@ def parse_timeline_old(filepath):
         "intro": intro,
         "periods": timeline_events
     }
-    with open('data/docs/timeline/timeline.json', 'w') as f:
+    with open('data/docs/timeline.json', 'w') as f:
         json.dump(data, f, indent=2)
 
 def main():
