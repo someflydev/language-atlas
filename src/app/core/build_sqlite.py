@@ -777,6 +777,40 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             'search_index' as source_table
         FROM search_index;
         """)
+
+        cursor.execute("""
+        CREATE VIEW v_language_descendants AS
+        WITH RECURSIVE descendants(source_id, target_id, depth, path) AS (
+            SELECT source_id, target_id, 1, 
+                   (SELECT name FROM languages WHERE id = source_id) || ' -> ' || (SELECT name FROM languages WHERE id = target_id)
+            FROM influences
+            UNION ALL
+            SELECT d.source_id, i.target_id, d.depth + 1,
+                   d.path || ' -> ' || (SELECT name FROM languages WHERE id = i.target_id)
+            FROM descendants d
+            JOIN influences i ON d.target_id = i.source_id
+            WHERE d.depth < 10
+        )
+        SELECT source_id as root_id, target_id as descendant_id, depth, path
+        FROM descendants;
+        """)
+
+        cursor.execute("""
+        CREATE VIEW v_language_ancestors AS
+        WITH RECURSIVE ancestors(target_id, source_id, depth, path) AS (
+            SELECT target_id, source_id, 1,
+                   (SELECT name FROM languages WHERE id = target_id) || ' <- ' || (SELECT name FROM languages WHERE id = source_id)
+            FROM influences
+            UNION ALL
+            SELECT a.target_id, i.source_id, a.depth + 1,
+                   a.path || ' <- ' || (SELECT name FROM languages WHERE id = i.source_id)
+            FROM ancestors a
+            JOIN influences i ON a.source_id = i.target_id
+            WHERE a.depth < 10
+        )
+        SELECT target_id as root_id, source_id as ancestor_id, depth, path
+        FROM ancestors;
+        """)
         
         conn.commit()
         print(f"Database built successfully at {DB_PATH}")

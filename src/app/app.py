@@ -460,6 +460,10 @@ async def get_language_profile(request: Request, name: str) -> Response:
     # Generate Dynamic Heritage Journey
     auto_odyssey = data_loader.get_auto_odyssey(lang['name'])
     
+    # Get ancestry and descendants
+    ancestors = data_loader.get_ancestors(lang['id'], max_depth=5)
+    descendants = data_loader.get_descendants(lang['id'], max_depth=5)
+    
     return templates.TemplateResponse(
         request=request,
         name="profile.html",
@@ -467,7 +471,9 @@ async def get_language_profile(request: Request, name: str) -> Response:
             "lang": lang, 
             "content": html_content, 
             "entity_type": "language",
-            "auto_odyssey": auto_odyssey
+            "auto_odyssey": auto_odyssey,
+            "ancestors": ancestors,
+            "descendants": descendants
         }
     )
 
@@ -752,6 +758,114 @@ async def get_concepts_view(request: Request) -> Response:
         name="concepts_list.html",
         context={"concepts": concepts}
     )
+
+@app.get("/lineage/{language_id}", response_class=HTMLResponse)
+async def get_lineage_visualization(request: Request, language_id: int) -> Response:
+    ancestors = data_loader.get_ancestors(language_id, max_depth=5)
+    descendants = data_loader.get_descendants(language_id, max_depth=5)
+    
+    # Construct graph data
+    G = nx.DiGraph()
+    
+    # Query root name
+    conn = data_loader._get_connection()
+    try:
+        cursor = conn.execute("SELECT name FROM languages WHERE id = ?", (language_id,))
+        row = cursor.fetchone()
+        root_name = row['name'] if row else f"Language {language_id}"
+    finally:
+        conn.close()
+
+    G.add_node(root_name)
+    
+    # Process ancestors (they point towards root or its parents)
+    for anc in ancestors:
+        path = anc['path']
+        parts = path.split(' <- ')
+        for i in range(len(parts) - 1):
+            G.add_edge(parts[i+1], parts[i])
+            
+    # Process descendants
+    for desc in descendants:
+        path = desc['path']
+        parts = path.split(' -> ')
+        for i in range(len(parts) - 1):
+            G.add_edge(parts[i], parts[i+1])
+
+    if not G.nodes or len(G.nodes) == 1:
+        return HTMLResponse("No lineage data found for this language.")
+
+    pos = nx.spring_layout(G, k=0.5, iterations=50)
+    
+    edge_x: List[Optional[float]] = []
+    edge_y: List[Optional[float]] = []
+    for edge in G.edges():
+        x0, y0 = pos[edge[0]]
+        x1, y1 = pos[edge[1]]
+        edge_x.extend([x0, x1, None])
+        edge_y.extend([y0, y1, None])
+
+    edge_trace = go.Scatter(
+        x=edge_x, y=edge_y,
+        line=dict(width=1, color='#cbd5e1'),
+        hoverinfo='none',
+        mode='lines')
+
+    node_x: List[float] = []
+    node_y: List[float] = []
+    node_text: List[str] = []
+    for node in G.nodes():
+        x, y = pos[node]
+        node_x.append(x)
+        node_y.append(y)
+        node_text.append(node)
+
+    node_trace = go.Scatter(
+        x=node_x, y=node_y,
+        mode='markers+text',
+        hoverinfo='text',
+        text=node_text,
+        textposition="top center",
+        marker=dict(
+            color=['#3b82f6' if node == root_name else '#94a3b8' for node in G.nodes()],
+            size=[15 if node == root_name else 10 for node in G.nodes()],
+            line_width=2))
+
+    fig = go.Figure(data=[edge_trace, node_trace],
+                 layout=go.Layout(
+                    title=f'<br>Deep Lineage: {root_name}',
+                    titlefont_size=24,
+                    showlegend=False,
+                    hovermode='closest',
+                    margin=dict(b=20,l=5,r=5,t=40),
+                    template="plotly_white",
+                    xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                    yaxis=dict(showgrid=False, zeroline=False, showticklabels=False))
+                )
+    
+    html = fig.to_html(full_html=False, include_plotlyjs='cdn')
+    
+    # Wrap in our standard layout
+    page_html = f'''
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Lineage: {root_name}</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-slate-50 min-h-screen p-8 font-sans">
+        <div class="max-w-6xl mx-auto bg-white rounded-3xl shadow-sm border border-slate-100 p-8">
+            <a href="/language/{{root_name}}" class="inline-flex items-center text-sm font-bold text-slate-400 hover:text-blue-600 mb-6 uppercase tracking-wide">
+                &larr; Back to Profile
+            </a>
+            <div class="w-full h-[700px]">
+                {{html}}
+            </div>
+        </div>
+    </body>
+    </html>
+    '''
+    return HTMLResponse(content=page_html)
 
 # --- SEMANTIC SEARCH API ---
 

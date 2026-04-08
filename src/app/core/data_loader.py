@@ -934,6 +934,42 @@ class DataLoader:
             'influenced': lang.get('influenced', [])
         }
 
+    def get_descendants(self, language_id: int, max_depth: int = 5) -> List[Dict[str, Any]]:
+        if not self.use_sqlite:
+            return []
+            
+        conn = self._get_connection()
+        try:
+            query = """
+                SELECT d.descendant_id, l.name, l.display_name, d.depth, d.path
+                FROM v_language_descendants d
+                JOIN languages l ON d.descendant_id = l.id
+                WHERE d.root_id = ? AND d.depth <= ?
+                ORDER BY d.depth ASC, l.name ASC
+            """
+            cursor = conn.execute(query, (language_id, max_depth))
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_ancestors(self, language_id: int, max_depth: int = 5) -> List[Dict[str, Any]]:
+        if not self.use_sqlite:
+            return []
+            
+        conn = self._get_connection()
+        try:
+            query = """
+                SELECT a.ancestor_id, l.name, l.display_name, a.depth, a.path
+                FROM v_language_ancestors a
+                JOIN languages l ON a.ancestor_id = l.id
+                WHERE a.root_id = ? AND a.depth <= ?
+                ORDER BY a.depth ASC, l.name ASC
+            """
+            cursor = conn.execute(query, (language_id, max_depth))
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
     def get_all_eras(self) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
             return self.eras

@@ -120,6 +120,47 @@
                 {{ content|safe }}
             </div>
 
+            {% if entity_type == 'language' %}
+            {% if ancestors or descendants %}
+            <section class="mt-12 bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-3xl font-extrabold text-slate-900">Lineage</h2>
+                    <a href="/lineage/{{ lang.id }}" class="text-sm font-bold text-blue-600 hover:text-blue-800 uppercase tracking-wide">View Full Graph &rarr;</a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {% if ancestors %}
+                    <div>
+                        <h3 class="text-sm font-black uppercase tracking-widest text-slate-400 mb-4">Deep Ancestry</h3>
+                        <ul class="space-y-3">
+                            {% for a in ancestors %}
+                            <li class="text-sm text-slate-600">
+                                <span class="font-bold text-slate-900">{{ a.name }}</span> <span class="text-slate-400">({{ a.depth }} deg.)</span>
+                                <div class="text-xs text-slate-400 mt-1">{{ a.path }}</div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% if descendants %}
+                    <div>
+                        <h3 class="text-sm font-black uppercase tracking-widest text-slate-400 mb-4">Far-Reaching Descendants</h3>
+                        <ul class="space-y-3">
+                            {% for d in descendants %}
+                            <li class="text-sm text-slate-600">
+                                <span class="font-bold text-slate-900">{{ d.name }}</span> <span class="text-slate-400">({{ d.depth }} deg.)</span>
+                                <div class="text-xs text-slate-400 mt-1">{{ d.path }}</div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+            {% endif %}
+            {% endif %}
+
             {% if entity_type == 'language' and auto_odyssey %}
             <section class="mt-20 bg-slate-900 rounded-3xl p-8 md:p-12 shadow-2xl border border-slate-800">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
