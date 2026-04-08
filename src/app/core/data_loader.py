@@ -1178,38 +1178,18 @@ class DataLoader:
         try:
             sql = """
                 SELECT 
-                    'language' as category, 
-                    name as title, 
-                    name as link_name,
-                    snippet(fts_languages, -1, '<b>', '</b>', '...', 20) as snippet, 
-                    bm25(fts_languages) as score,
-                    language_id
-                FROM fts_languages 
-                WHERE fts_languages MATCH ?
-                UNION ALL
-                SELECT 
-                    'profile' as category, 
-                    language_name || ' (' || section_name || ')' as title, 
-                    language_name as link_name,
-                    snippet(fts_profiles, -1, '<b>', '</b>', '...', 20) as snippet, 
-                    bm25(fts_profiles) as score,
-                    language_id
-                FROM fts_profiles
-                WHERE fts_profiles MATCH ?
-                UNION ALL
-                SELECT 
-                    'concept' as category, 
-                    concept_name as title, 
-                    concept_name as link_name,
-                    snippet(fts_concept_profiles, -1, '<b>', '</b>', '...', 20) as snippet, 
-                    bm25(fts_concept_profiles) as score,
-                    concept_id as language_id
-                FROM fts_concept_profiles
-                WHERE fts_concept_profiles MATCH ?
+                    entity_type as category, 
+                    title as title, 
+                    entity_id as link_name,
+                    snippet(search_index, -1, '<mark>', '</mark>', '...', 64) as snippet, 
+                    bm25(search_index) as score,
+                    entity_id as language_id
+                FROM search_index 
+                WHERE search_index MATCH ?
                 ORDER BY score
                 LIMIT 30
             """
-            cursor = conn.execute(sql, (query_term, query_term, query_term))
+            cursor = conn.execute(sql, (query_term,))
             return [self._row_to_dict(row) for row in cursor.fetchall()]
         except sqlite3.OperationalError:
             # Fallback for invalid FTS5 syntax

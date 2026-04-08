@@ -328,30 +328,17 @@ class LivingAtlasApp(App):
             return
 
         conn = self.loader._get_connection()
-        # Search using v_global_search FTS5
-        # v_global_search is a union of fts_languages and fts_profiles
-        # But we need to match it. Actually v_global_search is NOT an FTS table,
-        # it just selects from them. FTS tables are fts_languages and fts_profiles.
-        
-        # We'll use a modified version of Loader.search logic but targeting v_global_search if possible,
-        # or just join them.
-        
+        # Search using search_index FTS5
         sql = """
-            SELECT category, title, snippet, l.name as language_name
-            FROM (
-                SELECT 'language' as category, language_id, name as title, snippet(fts_languages, -1, '[b]', '[/b]', '...', 10) as snippet, bm25(fts_languages) as score
-                FROM fts_languages WHERE fts_languages MATCH ?
-                UNION ALL
-                SELECT 'profile' as category, language_id, language_name || ' (' || section_name || ')' as title, snippet(fts_profiles, -1, '[b]', '[/b]', '...', 10) as snippet, bm25(fts_profiles) as score
-                FROM fts_profiles WHERE fts_profiles MATCH ?
-            ) s
-            JOIN languages l ON s.language_id = l.id
-            ORDER BY score
+            SELECT entity_type as category, title, snippet(search_index, -1, '[b]', '[/b]', '...', 10) as snippet, entity_id as language_name
+            FROM search_index 
+            WHERE search_index MATCH ?
+            ORDER BY bm25(search_index)
             LIMIT 10
         """
         
         try:
-            cursor = conn.execute(sql, (query, query))
+            cursor = conn.execute(sql, (query,))
             rows = cursor.fetchall()
             results_list.clear()
             if rows:

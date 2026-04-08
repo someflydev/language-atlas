@@ -21,10 +21,8 @@ def temp_db(tmp_path: Path) -> Path:
     conn.execute("CREATE TABLE language_profiles (id INTEGER PRIMARY KEY, language_id INTEGER, overview TEXT)")
     conn.execute("CREATE TABLE profile_sections (id INTEGER PRIMARY KEY, profile_id INTEGER, section_name TEXT, content TEXT)")
     
-    conn.execute("CREATE VIRTUAL TABLE fts_languages USING fts5(name, display_name, year, description, philosophy, mental_model, language_id)")
-    conn.execute("INSERT INTO fts_languages (name, language_id) VALUES ('Python', 1)")
-    
-    conn.execute("CREATE VIRTUAL TABLE fts_profiles USING fts5(language_name, section_name, content, language_id, profile_id, section_id)")
+    conn.execute("CREATE VIRTUAL TABLE search_index USING fts5(entity_type UNINDEXED, entity_id UNINDEXED, title, content)")
+    conn.execute("INSERT INTO search_index (entity_type, entity_id, title) VALUES ('language', 'Python', 'Python')")
     conn.commit()
     conn.close()
     return db_path

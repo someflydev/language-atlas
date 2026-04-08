@@ -113,17 +113,11 @@ class AtlasAuditor:
                     self.errors.append(f"Found {orphans} orphaned {col} in '{table}' table")
 
             # 2. FTS Index Integrity
-            cursor.execute("SELECT (SELECT COUNT(*) FROM languages) - (SELECT COUNT(*) FROM fts_languages)")
+            cursor.execute("SELECT (SELECT COUNT(*) FROM languages) - (SELECT COUNT(DISTINCT entity_id) FROM search_index WHERE entity_type = 'language')")
             row = cursor.fetchone()
             diff = abs(row[0]) if row else 0
             if diff > 0:
-                self.errors.append(f"FTS index 'fts_languages' is out of sync by {diff} rows")
-
-            cursor.execute("SELECT (SELECT COUNT(*) FROM profile_sections) + (SELECT COUNT(*) FROM language_profiles WHERE overview IS NOT NULL AND overview != '') - (SELECT COUNT(*) FROM fts_profiles)")
-            row = cursor.fetchone()
-            diff = abs(row[0]) if row else 0
-            if diff > 0:
-                self.errors.append(f"FTS index 'fts_profiles' is out of sync by {diff} rows")
+                self.errors.append(f"FTS index 'search_index' is out of sync by {diff} rows")
 
             # 3. Semantic Orphans Check (SQL level)
             cursor.execute("""

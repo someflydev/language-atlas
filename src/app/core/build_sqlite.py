@@ -84,8 +84,8 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             source_id INTEGER NOT NULL,
             target_id INTEGER NOT NULL,
             PRIMARY KEY (source_id, target_id),
-            FOREIGN KEY (source_id) REFERENCES languages(id),
-            FOREIGN KEY (target_id) REFERENCES languages(id)
+            FOREIGN KEY (source_id) REFERENCES languages(id) ON DELETE CASCADE,
+            FOREIGN KEY (target_id) REFERENCES languages(id) ON DELETE CASCADE
         );
 
         CREATE TABLE language_paradigms (
@@ -93,8 +93,8 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             paradigm_id INTEGER NOT NULL,
             order_index INTEGER DEFAULT 0,
             PRIMARY KEY (language_id, paradigm_id),
-            FOREIGN KEY (language_id) REFERENCES languages(id),
-            FOREIGN KEY (paradigm_id) REFERENCES paradigms(id)
+            FOREIGN KEY (language_id) REFERENCES languages(id) ON DELETE CASCADE,
+            FOREIGN KEY (paradigm_id) REFERENCES paradigms(id) ON DELETE CASCADE
         );
 
         CREATE TABLE language_people (
@@ -102,8 +102,8 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             person_id INTEGER NOT NULL,
             role TEXT,
             PRIMARY KEY (language_id, person_id, role),
-            FOREIGN KEY (language_id) REFERENCES languages(id),
-            FOREIGN KEY (person_id) REFERENCES people(id)
+            FOREIGN KEY (language_id) REFERENCES languages(id) ON DELETE CASCADE,
+            FOREIGN KEY (person_id) REFERENCES people(id) ON DELETE CASCADE
         );
 
         CREATE TABLE language_profiles (
@@ -111,7 +111,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             language_id INTEGER NOT NULL UNIQUE,
             title TEXT,
             overview TEXT,
-            FOREIGN KEY (language_id) REFERENCES languages(id)
+            FOREIGN KEY (language_id) REFERENCES languages(id) ON DELETE CASCADE
         );
 
         CREATE TABLE profile_sections (
@@ -119,7 +119,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             profile_id INTEGER NOT NULL,
             section_name TEXT NOT NULL,
             content TEXT,
-            FOREIGN KEY (profile_id) REFERENCES language_profiles(id)
+            FOREIGN KEY (profile_id) REFERENCES language_profiles(id) ON DELETE CASCADE
         );
 
         CREATE TABLE era_summaries (
@@ -136,7 +136,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             era_id INTEGER NOT NULL,
             name TEXT,
             description TEXT,
-            FOREIGN KEY (era_id) REFERENCES era_summaries(id)
+            FOREIGN KEY (era_id) REFERENCES era_summaries(id) ON DELETE CASCADE
         );
 
         CREATE TABLE era_pivotal_languages (
@@ -144,7 +144,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             era_id INTEGER NOT NULL,
             name TEXT,
             description TEXT,
-            FOREIGN KEY (era_id) REFERENCES era_summaries(id)
+            FOREIGN KEY (era_id) REFERENCES era_summaries(id) ON DELETE CASCADE
         );
 
         CREATE TABLE concepts (
@@ -158,8 +158,8 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             concept_id INTEGER NOT NULL,
             person_id INTEGER NOT NULL,
             PRIMARY KEY (concept_id, person_id),
-            FOREIGN KEY (concept_id) REFERENCES concepts(id),
-            FOREIGN KEY (person_id) REFERENCES people(id)
+            FOREIGN KEY (concept_id) REFERENCES concepts(id) ON DELETE CASCADE,
+            FOREIGN KEY (person_id) REFERENCES people(id) ON DELETE CASCADE
         );
 
         CREATE TABLE people_profiles (
@@ -167,7 +167,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             person_id INTEGER NOT NULL UNIQUE,
             title TEXT,
             overview TEXT,
-            FOREIGN KEY (person_id) REFERENCES people(id)
+            FOREIGN KEY (person_id) REFERENCES people(id) ON DELETE CASCADE
         );
 
         CREATE TABLE people_profile_sections (
@@ -175,7 +175,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             profile_id INTEGER NOT NULL,
             section_name TEXT NOT NULL,
             content TEXT,
-            FOREIGN KEY (profile_id) REFERENCES people_profiles(id)
+            FOREIGN KEY (profile_id) REFERENCES people_profiles(id) ON DELETE CASCADE
         );
 
         CREATE TABLE historical_events (
@@ -191,7 +191,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             event_id INTEGER NOT NULL,
             section_name TEXT NOT NULL,
             content TEXT,
-            FOREIGN KEY (event_id) REFERENCES historical_events(id)
+            FOREIGN KEY (event_id) REFERENCES historical_events(id) ON DELETE CASCADE
         );
 
         CREATE TABLE organizations (
@@ -205,7 +205,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             org_id INTEGER NOT NULL UNIQUE,
             title TEXT,
             overview TEXT,
-            FOREIGN KEY (org_id) REFERENCES organizations(id)
+            FOREIGN KEY (org_id) REFERENCES organizations(id) ON DELETE CASCADE
         );
 
         CREATE TABLE organization_profile_sections (
@@ -213,7 +213,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             profile_id INTEGER NOT NULL,
             section_name TEXT NOT NULL,
             content TEXT,
-            FOREIGN KEY (profile_id) REFERENCES organization_profiles(id)
+            FOREIGN KEY (profile_id) REFERENCES organization_profiles(id) ON DELETE CASCADE
         );
 
         CREATE TABLE concept_bullets (
@@ -221,7 +221,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             concept_id INTEGER NOT NULL,
             name TEXT,
             description TEXT,
-            FOREIGN KEY (concept_id) REFERENCES concepts(id)
+            FOREIGN KEY (concept_id) REFERENCES concepts(id) ON DELETE CASCADE
         );
 
         CREATE TABLE concept_profiles (
@@ -229,7 +229,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             concept_id INTEGER NOT NULL UNIQUE,
             title TEXT,
             overview TEXT,
-            FOREIGN KEY (concept_id) REFERENCES concepts(id)
+            FOREIGN KEY (concept_id) REFERENCES concepts(id) ON DELETE CASCADE
         );
 
         CREATE TABLE concept_profile_sections (
@@ -237,7 +237,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             profile_id INTEGER NOT NULL,
             section_name TEXT NOT NULL,
             content TEXT,
-            FOREIGN KEY (profile_id) REFERENCES concept_profiles(id)
+            FOREIGN KEY (profile_id) REFERENCES concept_profiles(id) ON DELETE CASCADE
         );
 
         CREATE TABLE crossroads (
@@ -262,14 +262,14 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             period_id INTEGER NOT NULL,
             year TEXT,
             description TEXT,
-            FOREIGN KEY (period_id) REFERENCES timeline_periods(id)
+            FOREIGN KEY (period_id) REFERENCES timeline_periods(id) ON DELETE CASCADE
         );
 
         CREATE TABLE timeline_event_related (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             event_id INTEGER NOT NULL,
             related_name TEXT,
-            FOREIGN KEY (event_id) REFERENCES timeline_events(id)
+            FOREIGN KEY (event_id) REFERENCES timeline_events(id) ON DELETE CASCADE
         );
 
         CREATE TABLE learning_paths (
@@ -287,37 +287,14 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             rationale TEXT,
             challenge TEXT,
             step_order INTEGER,
-            FOREIGN KEY (path_id) REFERENCES learning_paths(id)
+            FOREIGN KEY (path_id) REFERENCES learning_paths(id) ON DELETE CASCADE
         );
 
-        CREATE VIRTUAL TABLE fts_languages USING fts5(
-            name, 
-            display_name, 
-            year UNINDEXED, 
-            description, 
-            philosophy, 
-            mental_model,
-            language_id UNINDEXED,
-            tokenize='porter'
-        );
-
-        CREATE VIRTUAL TABLE fts_profiles USING fts5(
-            language_name,
-            section_name, 
+        CREATE VIRTUAL TABLE search_index USING fts5(
+            entity_type UNINDEXED,
+            entity_id UNINDEXED,
+            title,
             content,
-            language_id UNINDEXED,
-            profile_id UNINDEXED,
-            section_id UNINDEXED,
-            tokenize='porter'
-        );
-
-        CREATE VIRTUAL TABLE fts_concept_profiles USING fts5(
-            concept_name,
-            section_name, 
-            content,
-            concept_id UNINDEXED,
-            profile_id UNINDEXED,
-            section_id UNINDEXED,
             tokenize='porter'
         );
         """)
@@ -700,48 +677,59 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
 
         print("Populating FTS tables...")
 
+        # Languages
         cursor.execute("""
-            INSERT INTO fts_languages (name, display_name, year, description, philosophy, mental_model, language_id)
-            SELECT name, display_name, year, description, philosophy, mental_model, id
+            INSERT INTO search_index (entity_type, entity_id, title, content)
+            SELECT 'language', name, name || COALESCE(' - ' || display_name, ''), 
+                   COALESCE(description, '') || ' ' || COALESCE(philosophy, '') || ' ' || COALESCE(mental_model, '')
             FROM languages;
         """)
-        
         cursor.execute("""
-            INSERT INTO fts_profiles (language_name, section_name, content, language_id, profile_id, section_id)
-            SELECT l.name, 'Overview', lp.overview, l.id, lp.id, NULL
+            INSERT INTO search_index (entity_type, entity_id, title, content)
+            SELECT 'language', l.name, l.name || ' (' || COALESCE(ps.section_name, 'Overview') || ')', COALESCE(ps.content, lp.overview)
             FROM languages l
             JOIN language_profiles lp ON l.id = lp.language_id
-            WHERE lp.overview IS NOT NULL;
-        """)
-        
-        cursor.execute("""
-            INSERT INTO fts_profiles (language_name, section_name, content, language_id, profile_id, section_id)
-            SELECT l.name, ps.section_name, ps.content, l.id, lp.id, ps.id
-            FROM languages l
-            JOIN language_profiles lp ON l.id = lp.language_id
-            JOIN profile_sections ps ON lp.id = ps.profile_id;
+            LEFT JOIN profile_sections ps ON lp.id = ps.profile_id;
         """)
 
-        # Populate fts_concept_profiles
+        # Concepts
         cursor.execute("""
-            INSERT INTO fts_concept_profiles (concept_name, section_name, content, concept_id, profile_id, section_id)
-            SELECT c.name, 'Overview', cp.overview, c.id, cp.id, NULL
+            INSERT INTO search_index (entity_type, entity_id, title, content)
+            SELECT 'concept', c.name, c.name || ' (' || COALESCE(cps.section_name, 'Overview') || ')', COALESCE(cps.content, cp.overview)
             FROM concepts c
             JOIN concept_profiles cp ON c.id = cp.concept_id
-            WHERE cp.overview IS NOT NULL;
+            LEFT JOIN concept_profile_sections cps ON cp.id = cps.profile_id;
         """)
         
+        # Paradigms
         cursor.execute("""
-            INSERT INTO fts_concept_profiles (concept_name, section_name, content, concept_id, profile_id, section_id)
-            SELECT c.name, cps.section_name, cps.content, c.id, cp.id, cps.id
-            FROM concepts c
-            JOIN concept_profiles cp ON c.id = cp.concept_id
-            JOIN concept_profile_sections cps ON cp.id = cps.profile_id;
+            INSERT INTO search_index (entity_type, entity_id, title, content)
+            SELECT 'paradigm', name, name, COALESCE(description, '') || ' ' || COALESCE(motivation, '')
+            FROM paradigms;
+        """)
+
+        # People
+        cursor.execute("""
+            INSERT INTO search_index (entity_type, entity_id, title, content)
+            SELECT 'person', p.name, p.name || ' (' || COALESCE(pps.section_name, 'Overview') || ')', COALESCE(pps.content, pp.overview)
+            FROM people p
+            JOIN people_profiles pp ON p.id = pp.person_id
+            LEFT JOIN people_profile_sections pps ON pp.id = pps.profile_id;
+        """)
+        
+        # Eras
+        cursor.execute("""
+            INSERT INTO search_index (entity_type, entity_id, title, content)
+            SELECT 'era', slug, title, COALESCE(overview, '') || ' ' || COALESCE(legacy_impact, '')
+            FROM era_summaries;
         """)
 
         # 6. Create Indexes
         print("Creating indexes...")
         cursor.executescript("""
+        CREATE INDEX idx_languages_year ON languages(year);
+        CREATE INDEX idx_languages_cluster ON languages(cluster);
+        CREATE INDEX idx_languages_generation ON languages(generation);
         CREATE INDEX idx_influences_source ON influences(source_id);
         CREATE INDEX idx_influences_target ON influences(target_id);
         CREATE INDEX idx_lang_paradigms_lang ON language_paradigms(language_id);
@@ -782,44 +770,12 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         cursor.execute("""
         CREATE VIEW v_global_search AS
         SELECT 
-            'language' as category,
-            language_id,
-            name as title,
-            description as snippet,
-            'languages' as source_table
-        FROM fts_languages
-        UNION ALL
-        SELECT
-            'profile' as category,
-            language_id,
-            language_name || ' (' || section_name || ')' as title,
+            entity_type as category,
+            entity_id,
+            title,
             content as snippet,
-            'profile_sections' as source_table
-        FROM fts_profiles
-        UNION ALL
-        SELECT
-            'concept' as category,
-            concept_id,
-            concept_name || ' (' || section_name || ')' as title,
-            content as snippet,
-            'concept_profile_sections' as source_table
-        FROM fts_concept_profiles;
-        """)
-
-        # Sync Triggers for fts_languages
-        cursor.executescript("""
-        CREATE TRIGGER languages_ai AFTER INSERT ON languages BEGIN
-        INSERT INTO fts_languages(rowid, name, display_name, description, philosophy, mental_model, language_id)
-        VALUES (new.id, new.name, new.display_name, new.description, new.philosophy, new.mental_model, new.id);
-        END;
-        CREATE TRIGGER languages_ad AFTER DELETE ON languages BEGIN
-        DELETE FROM fts_languages WHERE rowid = old.id;
-        END;
-        CREATE TRIGGER languages_au AFTER UPDATE ON languages BEGIN
-        DELETE FROM fts_languages WHERE rowid = old.id;
-        INSERT INTO fts_languages(rowid, name, display_name, description, philosophy, mental_model, language_id)
-        VALUES (new.id, new.name, new.display_name, new.description, new.philosophy, new.mental_model, new.id);
-        END;
+            'search_index' as source_table
+        FROM search_index;
         """)
         
         conn.commit()

@@ -4,7 +4,17 @@
         Search Results ({{ results|length }})
     </div>
     {% for result in results %}
-    <a href="/language/{{ result.link_name }}" 
+    {% set route = 'language' %}
+    {% if result.category == 'era' %}
+        {% set route = 'narrative/era' %}
+    {% elif result.category == 'concept' %}
+        {% set route = 'concept' %}
+    {% elif result.category == 'person' %}
+        {% set route = 'person' %}
+    {% elif result.category == 'paradigm' %}
+        {% set route = 'paradigm' %}
+    {% endif %}
+    <a href="/{{ route }}/{{ result.link_name|replace(' ', '_') }}" 
        class="block p-4 hover:bg-slate-50 rounded-lg transition-colors border-b border-slate-50 last:border-0 group">
         <div class="flex justify-between items-start mb-1">
             <span class="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
