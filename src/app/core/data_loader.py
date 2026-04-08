@@ -1249,3 +1249,45 @@ class DataLoader:
         desc = cluster_map.get(name.lower(), f"A functional grouping of languages with similar {name} goals.")
         return {"name": name, "description": desc}
 
+    def get_top_languages_by_era(self) -> List[Dict[str, Any]]:
+        if not self.use_sqlite:
+            return []
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("SELECT * FROM v_language_era_rankings ORDER BY generation_rank ASC, cluster_rank ASC")
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_paradigm_momentum_timeline(self) -> List[Dict[str, Any]]:
+        if not self.use_sqlite:
+            return []
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("SELECT * FROM v_paradigm_momentum ORDER BY year ASC")
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_language_lead_lag(self) -> List[Dict[str, Any]]:
+        if not self.use_sqlite:
+            return []
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("SELECT * FROM v_language_lead_lag")
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+            
+    def get_language_ranking(self, language_id: int) -> Optional[Dict[str, Any]]:
+        if not self.use_sqlite:
+            return None
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("SELECT * FROM v_language_era_rankings WHERE id = ?", (language_id,))
+            row = cursor.fetchone()
+            return self._row_to_dict(row) if row else None
+        finally:
+            conn.close()
+
+

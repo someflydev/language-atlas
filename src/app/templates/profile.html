@@ -30,6 +30,36 @@
                             </a>
                         </dd>
                     </div>
+                    {% if ranking %}
+                    {% if ranking.generation_percentile <= 0.05 %}
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Influence</dt>
+                        <dd>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-indigo-100 text-indigo-800">
+                                Top 5% Most Influential of the {{ ranking.generation }}
+                            </span>
+                        </dd>
+                    </div>
+                    {% elif ranking.generation_percentile <= 0.10 %}
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Influence</dt>
+                        <dd>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-indigo-100 text-indigo-800">
+                                Top 10% Most Influential of the {{ ranking.generation }}
+                            </span>
+                        </dd>
+                    </div>
+                    {% elif ranking.generation_rank <= 5 %}
+                    <div>
+                        <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Influence</dt>
+                        <dd>
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-indigo-100 text-indigo-800">
+                                Top 5 Language of the {{ ranking.generation }}
+                            </span>
+                        </dd>
+                    </div>
+                    {% endif %}
+                    {% endif %}
                     {% elif entity_type == 'person' %}
                     <div>
                         <dt class="text-xs font-bold text-slate-400 uppercase tracking-tighter mb-1">Affiliations</dt>

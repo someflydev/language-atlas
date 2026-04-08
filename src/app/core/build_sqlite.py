@@ -812,6 +812,58 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         FROM ancestors;
         """)
         
+        cursor.execute("""
+        CREATE VIEW v_language_era_rankings AS
+        SELECT 
+            id, name, display_name, year, cluster, generation, influence_score,
+            RANK() OVER (PARTITION BY cluster ORDER BY influence_score DESC) as cluster_rank,
+            RANK() OVER (PARTITION BY generation ORDER BY influence_score DESC) as generation_rank,
+            PERCENT_RANK() OVER (PARTITION BY generation ORDER BY influence_score DESC) as generation_percentile
+        FROM languages
+        WHERE influence_score IS NOT NULL;
+        """)
+
+        cursor.execute("""
+        CREATE VIEW v_paradigm_momentum AS
+        WITH yearly_counts AS (
+            SELECT 
+                p.id as paradigm_id,
+                p.name as paradigm_name,
+                l.year,
+                COUNT(l.id) as new_languages
+            FROM paradigms p
+            JOIN language_paradigms lp ON p.id = lp.paradigm_id
+            JOIN languages l ON lp.language_id = l.id
+            WHERE l.year IS NOT NULL
+            GROUP BY p.id, p.name, l.year
+        )
+        SELECT 
+            paradigm_id,
+            paradigm_name,
+            year,
+            SUM(new_languages) OVER (PARTITION BY paradigm_id ORDER BY year) as cumulative_languages
+        FROM yearly_counts;
+        """)
+
+        cursor.execute("""
+        CREATE VIEW v_language_lead_lag AS
+        SELECT 
+            name,
+            cluster,
+            year,
+            complexity_bias,
+            safety_model,
+            LAG(name) OVER (PARTITION BY cluster ORDER BY year) as prev_language,
+            LAG(complexity_bias) OVER (PARTITION BY cluster ORDER BY year) as prev_complexity,
+            LAG(safety_model) OVER (PARTITION BY cluster ORDER BY year) as prev_safety,
+            LEAD(name) OVER (PARTITION BY cluster ORDER BY year) as next_language,
+            LEAD(complexity_bias) OVER (PARTITION BY cluster ORDER BY year) as next_complexity,
+            LEAD(safety_model) OVER (PARTITION BY cluster ORDER BY year) as next_safety
+        FROM languages
+        WHERE year IS NOT NULL;
+        """)
+
+        
         conn.commit()
         print(f"Database built successfully at {DB_PATH}")
     finally:

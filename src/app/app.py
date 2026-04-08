@@ -463,6 +463,7 @@ async def get_language_profile(request: Request, name: str) -> Response:
     # Get ancestry and descendants
     ancestors = data_loader.get_ancestors(lang['id'], max_depth=5)
     descendants = data_loader.get_descendants(lang['id'], max_depth=5)
+    lang_rank = data_loader.get_language_ranking(lang['id'])
     
     return templates.TemplateResponse(
         request=request,
@@ -473,7 +474,8 @@ async def get_language_profile(request: Request, name: str) -> Response:
             "entity_type": "language",
             "auto_odyssey": auto_odyssey,
             "ancestors": ancestors,
-            "descendants": descendants
+            "descendants": descendants,
+            "ranking": lang_rank
         }
     )
 
@@ -866,6 +868,70 @@ async def get_lineage_visualization(request: Request, language_id: int) -> Respo
     </html>
     '''
     return HTMLResponse(content=page_html)
+
+@app.get("/insights", response_class=HTMLResponse)
+async def get_insights(request: Request) -> Response:
+    rankings = data_loader.get_top_languages_by_era()
+    momentum = data_loader.get_paradigm_momentum_timeline()
+    
+    # Generate the momentum chart using Plotly
+    import pandas as pd
+    import plotly.express as px
+    
+    if momentum:
+        df_momentum = pd.DataFrame(momentum)
+        # Sort values
+        df_momentum = df_momentum.sort_values(['year', 'paradigm_name'])
+        
+        fig_momentum = px.line(
+            df_momentum,
+            x="year",
+            y="cumulative_languages",
+            color="paradigm_name",
+            title="Rolling Momentum of Paradigms",
+            template="plotly_white",
+            labels={"year": "Year", "cumulative_languages": "Cumulative Languages", "paradigm_name": "Paradigm"}
+        )
+        
+        fig_momentum.update_layout(
+            font_family="Inter, sans-serif",
+            title_font_size=24,
+            margin=dict(l=40, r=40, t=80, b=40),
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        )
+        
+        momentum_chart_html = fig_momentum.to_html(full_html=False, include_plotlyjs='cdn')
+    else:
+        momentum_chart_html = "<p>No data available.</p>"
+
+    # Group rankings by generation for the template
+    grouped_rankings = {}
+    for r in rankings:
+        gen = r.get('generation')
+        if not gen:
+            continue
+        if gen not in grouped_rankings:
+            grouped_rankings[gen] = []
+        # only keep top 5 per generation
+        if r.get('generation_rank', 99) <= 5:
+            grouped_rankings[gen].append(r)
+
+    # sort the lists by generation_rank
+    for gen in grouped_rankings:
+        grouped_rankings[gen].sort(key=lambda x: x.get('generation_rank', 99))
+
+    return templates.TemplateResponse(
+        request=request,
+        name="insights.html",
+        context={
+            "grouped_rankings": grouped_rankings,
+            "momentum_chart": momentum_chart_html
+        }
+    )
+
+@app.get("/api/insights/momentum")
+async def api_insights_momentum() -> List[Dict[str, Any]]:
+    return data_loader.get_paradigm_momentum_timeline()
 
 # --- SEMANTIC SEARCH API ---
 
