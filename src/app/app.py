@@ -40,6 +40,12 @@ app.mount("/static", StaticFiles(directory=static_dir), name="static")
 templates_dir = os.path.join(os.path.dirname(__file__), "templates")
 templates = Jinja2Templates(directory=templates_dir)
 
+# Expose ATLAS_STATIC_MODE to all templates as a callable so it is
+# evaluated at render time, not at import time.  The SiteCrawler sets
+# this env var before making requests; clearing it on exit restores the
+# normal live-app behaviour.
+templates.env.globals["static_mode"] = lambda: os.environ.get("ATLAS_STATIC_MODE", "0") == "1"
+
 # Initialize data loader
 data_loader = DataLoader()
 
@@ -194,7 +200,6 @@ async def get_visualizations(request: Request) -> Response:
                 thickness=15,
                 title='Node Connections',
                 xanchor='left',
-                titleside='right'
             ),
             line_width=2))
 
@@ -208,7 +213,7 @@ async def get_visualizations(request: Request) -> Response:
     fig_influence = go.Figure(data=[edge_trace, node_trace],
                  layout=go.Layout(
                     title='<br>Programming Language Influence Network',
-                    titlefont_size=24,
+                    title_font_size=24,
                     showlegend=False,
                     hovermode='closest',
                     margin=dict(b=20,l=5,r=5,t=40),
@@ -836,7 +841,7 @@ async def get_lineage_visualization(request: Request, language_id: int) -> Respo
     fig = go.Figure(data=[edge_trace, node_trace],
                  layout=go.Layout(
                     title=f'<br>Deep Lineage: {root_name}',
-                    titlefont_size=24,
+                    title_font_size=24,
                     showlegend=False,
                     hovermode='closest',
                     margin=dict(b=20,l=5,r=5,t=40),
