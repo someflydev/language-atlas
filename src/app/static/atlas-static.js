@@ -10,9 +10,15 @@
 // This script is intentionally small (under 200 lines). It is not a SPA;
 // it enhances the already-rendered static HTML in place.
 
-import { createDbWorker } from "https://cdn.jsdelivr.net/npm/sql.js-httpvfs@0.8.12/dist/index.js";
+// esm.sh is used instead of the jsDelivr dist/index.js URL because
+// dist/index.js is a UMD bundle; browsers cannot import named exports
+// from it via <script type="module">. esm.sh wraps the package as a
+// proper ES module and re-exports its named bindings correctly.
+import { createDbWorker } from "https://esm.sh/sql.js-httpvfs@0.8.12";
 
-// Pinned CDN paths for the worker JS and WASM binary.
+// Worker JS and WASM are still loaded directly from jsDelivr because
+// they are passed as URL strings to createDbWorker (not imported as
+// ES modules) and jsDelivr reliably serves them with correct MIME types.
 const WORKER_URL =
   "https://cdn.jsdelivr.net/npm/sql.js-httpvfs@0.8.12/dist/sqlite.worker.js";
 const WASM_URL =
