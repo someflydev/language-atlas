@@ -15,8 +15,8 @@ help:
 	@echo "  clean           Remove generated artifacts"
 
 docs:
-	@echo "Generating documentation..."
-	python3 scripts/generate_docs.py
+	@echo "Generating documentation (INDEX.md and README.md included)..."
+	uv run python scripts/generate_docs.py
 
 build:
 	@echo "Building SQLite database..."
