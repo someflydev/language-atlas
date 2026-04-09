@@ -23,6 +23,8 @@
 | `concepts/` | Additional concept doc files |
 | `paradigms/` | Paradigm narrative docs |
 | `atlas_meta/` | Internal architecture profiles (Pedagogical Engine, Zenith State) |
+| `era_summaries/` | Hub narratives for each era; link out to detailed profiles |
+| `crossroads/` | Pivotal decision-point narratives; link out to detailed profiles |
 
 ## Build Pipeline
 ```bash
