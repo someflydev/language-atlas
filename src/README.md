@@ -85,3 +85,14 @@ make docs
 2.  **Build Database**: `uv run python3 src/app/core/build_sqlite.py`
 3.  **Regenerate Docs**: `make docs`
 4.  **Explore**: Use `atlas --help` or visit `http://localhost:8084/api`.
+
+## GitHub Pages Deployment
+
+A static export with a client-side SQLite database can be published to
+GitHub Pages from the `gh-pages` branch. The export is produced by
+`make pages`, which rebuilds the database, runs `SiteCrawler` to write
+`site/`, and copies the database into `site/db/atlas/` for
+`sql.js-httpvfs` HTTP range-request access.
+
+See [`docs/GH_PAGES.md`](../docs/GH_PAGES.md) for the full build and
+deploy workflow, local preview instructions, and troubleshooting.

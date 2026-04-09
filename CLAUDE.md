@@ -50,6 +50,8 @@ make build        # Rebuild SQLite from JSON
 make test         # Run test suite
 make harden       # type-check + audit + test
 make docs         # Regenerate generated-docs/
+make site         # Export static HTML into site/
+make pages        # Prepare gh-pages artifacts (gh-pages branch only)
 make audit        # Data integrity check
 make dark-matter  # Find missing profiles
 ```

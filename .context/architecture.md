@@ -30,6 +30,19 @@ JSON + data/docs/ → build_sqlite.py → language_atlas.sqlite
                FastAPI /routes  |  CLI commands  |  TUI panels
 ```
 
+## Client-Side SQLite Layer
+
+The static export in `site/` includes a JavaScript shim
+(`src/app/static/atlas-static.js`) that loads the project's SQLite
+database in the browser using
+[phiresky/sql.js-httpvfs](https://github.com/phiresky/sql.js-httpvfs).
+The library uses HTTP range requests to fetch only the 4 KiB SQLite
+pages needed for each query, making the published site fast even for
+multi-megabyte databases. The database asset is copied to
+`site/db/atlas/db.sqlite3` by `scripts/prep_pages.py` as part of the
+`make pages` build step. See `docs/GH_PAGES.md` for the full deploy
+workflow.
+
 ## Key Design Choices
 - `USE_SQLITE=1` env var activates SQLite mode in DataLoader; `0` reads JSON (used during build)
 - `language_atlas.sqlite` is gitignored; rebuilt via `make build`
