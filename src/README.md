@@ -10,7 +10,9 @@ The Language Atlas is a data-driven platform where JSON is the single source of 
     *   `data_loader.py`: Unified data access layer with transparent SQLite/JSON switching.
     *   `auditor.py`: **Atlas Auditor (Validation 2.0)**. Provides JSON schema validation and referential integrity checks.
     *   `build_sqlite.py`: Transforms the JSON data lake into a structured, indexed relational database.
-    *   `site_builder.py`: **Site Builder**. Generates the `generated-docs/` Markdown tree (language profiles, concept profiles, era summaries, thematic documents, homepage INDEX.md, and project README.md) by calling DataLoader methods. Contains all generation logic; `scripts/generate_docs.py` is a thin CLI wrapper around it. HTML rendering is added in a subsequent prompt.
+    *   `site_builder.py`: **Site Builder**. Contains two output modes:
+        *   `SiteBuilder` generates the `generated-docs/` Markdown tree (language profiles, concept profiles, era summaries, thematic documents, homepage INDEX.md, and project README.md) by calling DataLoader methods. `scripts/generate_docs.py` is a thin CLI wrapper around it.
+        *   `SiteCrawler` (HTML export) spins up the real FastAPI app via `fastapi.testclient.TestClient` and walks every exported GET route. Each response is written to `site/<path>/index.html`. After fetching, `_rewrite_links` converts absolute internal URLs into relative paths correct for the file's depth in the tree. Static assets under `src/app/static/` are mirrored verbatim into `site/static/`. HTMX-driven pages are exported in their fully-rendered, unfiltered server state; the filter form is preserved but an `ATLAS_STATIC_MODE` notice is injected near the top of each page. Run via `make site`.
 2.  **The Pedagogical Engine: Interactive Odysseys**:
     *   **Guided Paths**: Curated learning paths (e.g., "The Systems Renaissance") that pull narrative challenges directly from language profiles.
     *   **Auto-Odyssey**: A dynamic, recursive engine that generates lineage-based learning paths on the fly using SQLite Recursive CTEs to find influential descendants.

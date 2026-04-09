@@ -4,33 +4,37 @@
 **HTMX partials:** requests with `HX-Request` header return partial templates
 
 ## Web Routes (HTML)
-| Route | Template | Notes |
-|---|---|---|
-| `GET /` | `index.html` / `partials/language_grid.html` | Filter by cluster, paradigms, year; HTMX partial |
-| `GET /compare` | `compare.html` | lang, lang1, lang2 params |
-| `GET /compare/add` | `partials/comparison_tray_content.html` | Sets cookie |
-| `GET /compare/remove` | `partials/comparison_tray_content.html` | Modifies cookie |
-| `GET /compare/clear` | `partials/comparison_tray_content.html` | Deletes cookie |
-| `GET /compare/tray` | `partials/comparison_tray_content.html` | Reads cookie |
-| `GET /search` | `search_results.html` | FTS5 search, q param (min 2 chars) |
-| `GET /language/{name}` | `profile.html` | entity_type=language; auto-link Markdown |
-| `GET /person/{name}` | `profile.html` | entity_type=person |
-| `GET /event/{slug}` | `profile.html` | entity_type=event |
-| `GET /org/{name}` | `profile.html` | entity_type=org |
-| `GET /concept/{name}` | `profile.html` | entity_type=concept |
-| `GET /paradigm/{name}` | `tag_view.html` | type=Paradigm |
-| `GET /cluster/{name}` | `tag_view.html` | type=Cluster |
-| `GET /odysseys` | `odysseys.html` | |
-| `GET /odyssey/{path_id}` | `odyssey_detail.html` | hydrates steps with language profiles |
-| `GET /narrative` | `narrative_hub.html` | eras hub |
-| `GET /narrative/crossroads` | `narrative_list.html` | type=crossroads |
-| `GET /narrative/reactions` | `narrative_list.html` | type=reactions |
-| `GET /narrative/era/{slug}` | `era_view.html` | |
-| `GET /narrative/timeline` | `timeline_view.html` | |
-| `GET /narrative/concepts` | `concepts_list.html` | |
-| `GET /lineage/{language_id}` | HTMLResponse (inline) | Plotly lineage graph |
-| `GET /insights` | `insights.html` | window function analytics |
-| `GET /visualizations` | `visualizations.html` | Plotly timeline + influence network |
+
+"Static export" column: **crawled** = emitted by `SiteCrawler` into `site/`; **skipped** = not exported (POST, cookie mutator, HTMX partial, or JSON-only).
+
+| Route | Template | Notes | Static export |
+|---|---|---|---|
+| `GET /` | `index.html` / `partials/language_grid.html` | Filter by cluster, paradigms, year; HTMX partial | crawled (full grid, filter form inert) |
+| `GET /compare` | `compare.html` | lang, lang1, lang2 params | crawled (empty state) |
+| `GET /compare/add` | `partials/comparison_tray_content.html` | Sets cookie | skipped |
+| `GET /compare/remove` | `partials/comparison_tray_content.html` | Modifies cookie | skipped |
+| `GET /compare/clear` | `partials/comparison_tray_content.html` | Deletes cookie | skipped |
+| `GET /compare/tray` | `partials/comparison_tray_content.html` | Reads cookie | skipped |
+| `GET /search` | `search_results.html` | FTS5 search, q param (min 2 chars) | skipped (needs query) |
+| `GET /language/{name}` | `profile.html` | entity_type=language; auto-link Markdown | crawled |
+| `GET /person/{name}` | `profile.html` | entity_type=person | crawled |
+| `GET /event/{slug}` | `profile.html` | entity_type=event | crawled |
+| `GET /org/{name}` | `profile.html` | entity_type=org | crawled |
+| `GET /concept/{name}` | `profile.html` | entity_type=concept | crawled |
+| `GET /paradigm/{name}` | `tag_view.html` | type=Paradigm | crawled |
+| `GET /cluster/{name}` | `tag_view.html` | type=Cluster | crawled |
+| `GET /odysseys` | `odysseys.html` | | crawled |
+| `GET /odyssey/{path_id}` | `odyssey_detail.html` | hydrates steps with language profiles | crawled |
+| `GET /narrative` | `narrative_hub.html` | eras hub | crawled |
+| `GET /narrative/crossroads` | `narrative_list.html` | type=crossroads | crawled |
+| `GET /narrative/reactions` | `narrative_list.html` | type=reactions | crawled |
+| `GET /narrative/era/{slug}` | `era_view.html` | | crawled |
+| `GET /narrative/timeline` | `timeline_view.html` | | crawled |
+| `GET /narrative/concepts` | `concepts_list.html` | | crawled |
+| `GET /lineage/{language_id}` | HTMLResponse (inline) | Plotly lineage graph | crawled |
+| `GET /insights` | `insights.html` | window function analytics | crawled |
+| `GET /visualizations` | `visualizations.html` | Plotly timeline + influence network | crawled |
+| `GET /api` | API index / docs | JSON | skipped |
 
 ## JSON API Routes
 | Route | Notes |

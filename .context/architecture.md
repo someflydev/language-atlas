@@ -13,7 +13,8 @@
 data/           JSON source of truth (languages, paradigms, people, etc.)
 data/docs/      Rich narrative profiles (language_profiles/, concept_profiles/, etc.)
 src/app/core/   build_sqlite.py | data_loader.py | auditor.py | insights.py
-                site_builder.py  (Markdown generation for generated-docs/)
+                site_builder.py  (SiteBuilder: Markdown for generated-docs/;
+                                  SiteCrawler: static HTML export to site/)
 src/app/app.py  FastAPI routes + Jinja2 templates
 src/app/templates/  Jinja2 HTML templates
 src/cli.py      Typer CLI (atlas dashboard, odyssey, auto-odyssey)
@@ -35,3 +36,7 @@ JSON + data/docs/ → build_sqlite.py → language_atlas.sqlite
 - All analytics use SQLite window functions and recursive CTEs (no pandas aggregations)
 - FTS5 virtual table `search_index` powers `/search` and `/api/search`
 - Auto-linking: `auto_link_content()` in app.py wraps known entity names in HTML links
+- Static export: `SiteCrawler` uses `TestClient` to mirror live FastAPI output into `site/`.
+  The crawler sets `ATLAS_STATIC_MODE=1` before importing the app so templates inject a
+  "static export" notice. Internal links are rewritten to relative paths by `_rewrite_links`.
+  `site/` is gitignored on `main`; the gh-pages branch workflow is handled in PROMPT_51.
