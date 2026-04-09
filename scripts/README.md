@@ -96,6 +96,8 @@ Missing Organizations: 20
 Missing Events: 12
 ```
 
+The output file `generated-reports/dark_matter_todo.json` is committed to the repository so the TODO list is visible in git history as the data corpus grows.
+
 ### audit_lineage.py
 
 Validates the influence graph and identifies structural anomalies.
@@ -148,6 +150,8 @@ The "Atlas Analytics" suite for generating specialized, high-signal reports from
 - **Supported Reports:**
   - `safety_complexity`: Decade-over-decade trends in language safety.
   - `creator_impact`: Leaderboard of creators by influence score.
+  - `cluster_genealogy`: Cross-pollination of ideas between language clusters.
+  - `innovation_trends`: Dominant technological themes by era.
   - `db_health`: Identifies orphans and terminal languages.
 
 **Example Output:**
@@ -156,6 +160,20 @@ Generating db_health report...
 Report saved to generated-reports/db_health.json
 Done.
 ```
+
+#### Report Artifacts
+
+All outputs are written to `generated-reports/`. Re-run `uv run scripts/generate_reports.py --report all` to regenerate.
+
+**safety_complexity_trends.json** — Tracks the evolution of language safety and complexity over time. Key fields: `avg_complexity` (numerical mapping of complexity bias per decade) and `safety_distribution` (count of languages by safety model per decade). Use this to visualize whether languages are becoming safer or more complex across decades.
+
+**creator_impact.json** — Ranks the architects of the Language Atlas by influence. Key fields: `total_impact` (sum of influence scores for all languages a creator is credited with) and `language_count`. Identifies the most influential individuals and organizations in programming history.
+
+**cluster_genealogy.json** — Measures cross-pollination between language clusters. Key fields: `internal` (same-cluster influences), `external` (cross-cluster influences), and `ratio`. High internal ratios indicate self-referential ecosystems (e.g., Systems); high external ratios indicate broad foundational impact (e.g., Mathematics).
+
+**innovation_trends.json** — Captures dominant technological themes by era. Groups key innovations from language profiles by generation (dawn, early, web1, renaissance). Functions as a keyword cloud of the core advancements that defined each stage of programming evolution.
+
+**db_health.json** — Identifies structural anomalies and missing content. Checks: `orphans` (languages with no influences), `terminal` (influenced-but-never-influenced-others), and `high_influence_missing_profiles` (high-impact languages lacking a profile). A maintenance tool for gap analysis in the lineage graph.
 
 ### export_summary.py
 
