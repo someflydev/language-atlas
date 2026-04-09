@@ -10,6 +10,7 @@ The Language Atlas is a data-driven platform where JSON is the single source of 
     *   `data_loader.py`: Unified data access layer with transparent SQLite/JSON switching.
     *   `auditor.py`: **Atlas Auditor (Validation 2.0)**. Provides JSON schema validation and referential integrity checks.
     *   `build_sqlite.py`: Transforms the JSON data lake into a structured, indexed relational database.
+    *   `site_builder.py`: **Site Builder**. Generates the `generated-docs/` Markdown tree (language profiles, concept profiles, era summaries, thematic documents, homepage INDEX.md, and project README.md) by calling DataLoader methods. Contains all generation logic; `scripts/generate_docs.py` is a thin CLI wrapper around it. HTML rendering is added in a subsequent prompt.
 2.  **The Pedagogical Engine: Interactive Odysseys**:
     *   **Guided Paths**: Curated learning paths (e.g., "The Systems Renaissance") that pull narrative challenges directly from language profiles.
     *   **Auto-Odyssey**: A dynamic, recursive engine that generates lineage-based learning paths on the fly using SQLite Recursive CTEs to find influential descendants.

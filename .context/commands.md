@@ -18,7 +18,7 @@ make server
 | Target | Command |
 |---|---|
 | `make build` | Rebuild SQLite from JSON: `python3 src/app/core/build_sqlite.py` |
-| `make docs` | Generate Markdown docs: `python3 scripts/generate_docs.py` |
+| `make docs` | Generate Markdown docs (including INDEX.md and README.md): `uv run python scripts/generate_docs.py` |
 | `make audit` | Data integrity: `python3 src/app/core/auditor.py` |
 | `make dark-matter` | Missing profiles: `python3 scripts/dark_matter_audit.py` |
 | `make test` | `pytest -v --cov=src/app/core` |

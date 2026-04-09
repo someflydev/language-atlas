@@ -13,6 +13,7 @@
 data/           JSON source of truth (languages, paradigms, people, etc.)
 data/docs/      Rich narrative profiles (language_profiles/, concept_profiles/, etc.)
 src/app/core/   build_sqlite.py | data_loader.py | auditor.py | insights.py
+                site_builder.py  (Markdown generation for generated-docs/)
 src/app/app.py  FastAPI routes + Jinja2 templates
 src/app/templates/  Jinja2 HTML templates
 src/cli.py      Typer CLI (atlas dashboard, odyssey, auto-odyssey)
