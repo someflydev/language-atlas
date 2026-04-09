@@ -1,0 +1,262 @@
+# PROMPT_50: Static HTML Site Export via FastAPI Crawler
+
+## Read-First Protocol
+Before doing anything, read these in order:
+
+1. `AGENT.md` (mandate file)
+2. `CLAUDE.md`
+3. `.context/architecture.md`
+4. `.context/routes.md`
+5. `.context/database.md`
+6. `.context/data-pipeline.md`
+7. `.context/commands.md`
+8. `.context/workflow.md`
+9. `src/app/core/site_builder.py` (introduced in PROMPT_49 - this is the
+   module you will extend)
+10. `src/app/app.py` (the FastAPI app you will crawl; especially the route
+    table and the `auto_link_content` helper)
+11. `src/app/templates/base.html` and any template that uses HTMX
+
+After reading, create `tmp/PROMPT_50_checklist.md` with this prompt's tasks
+as checkboxes. Do not commit `tmp/`.
+
+## Background
+PROMPT_49 promoted the doc-generation script into
+`src/app/core/site_builder.py`, a `SiteBuilder` class that consumes a
+`DataLoader` and emits Markdown into `generated-docs/`. The narrative
+homepage and project meta files are now produced.
+
+This prompt adds a second output mode: a fully-rendered static HTML site
+under `site/` (gitignored), suitable for hosting on GitHub Pages. The
+emitted HTML must be visually identical to what users see when they hit the
+live FastAPI app on port 8084. PROMPT_51 will then add the client-side
+SQLite layer that makes that static site feel dynamic, plus the gh-pages
+branch workflow itself.
+
+This prompt does not touch the `gh-pages` branch, does not commit any
+`.sqlite` or `.html` artifacts, and does not introduce any client-side
+JavaScript framework. It is a pure rendering pipeline.
+
+## Decisions ratified by this prompt
+1. **Crawler-based export over template duplication.** The static site is
+   produced by spinning up the real FastAPI app via
+   `fastapi.testclient.TestClient` and walking every GET route. Each
+   response is written to `site/<path>/index.html`. This guarantees that the
+   static site stays in pixel-parity with the live app, with zero template
+   duplication and no risk of two render paths drifting.
+
+   Alternative considered: rendering Jinja2 templates directly from the site
+   builder. Rejected because templates depend on FastAPI request context,
+   `url_for`, dependency injection, and the `auto_link_content` middleware
+   pass. Reimplementing those would create a maintenance burden and a
+   second source of truth. The TestClient approach side-steps all of it.
+
+2. **URL rewriting via a `STATIC_BASE` toggle in the FastAPI app.** Add a
+   small helper in `src/app/app.py` (or `src/app/core/site_builder.py` as a
+   post-processor; pick whichever is cleaner once you have read the code)
+   that rewrites absolute internal URLs (`href="/language/Foo"`) into
+   relative URLs that resolve correctly when the file lives at
+   `site/language/Foo/index.html`. Use a single, well-tested rewriting
+   helper. Do NOT scatter rewrite logic across templates.
+
+3. **Static assets are mirrored, not regenerated.** Anything under
+   `src/app/static/` (CSS, fonts, images) is copied verbatim into
+   `site/static/`. If `src/app/static/` does not yet exist, create it and
+   move any inline `<style>` blocks the templates depend on into
+   `static/atlas.css`. The crawler copy step is the only thing that touches
+   `site/static/`.
+
+4. **HTMX endpoints are crawled with their default (unfiltered) state and
+   then made inert in the static export.** The static site shows a fully
+   rendered language grid on `/`, but the filter form does nothing because
+   there is no server. PROMPT_51 will swap that inertness for client-side
+   SQLite filtering. For this prompt: emit a small `<noscript>` notice or a
+   muted alert at the top of the index page that says something like
+   "Filtering is unavailable in the static export; visit the live app for
+   interactive filters." That message disappears in PROMPT_51 once JS is
+   wired up.
+
+5. **POST/cookie endpoints are skipped.** The compare tray
+   (`/compare/add`, `/compare/remove`, `/compare/clear`) and any other
+   stateful endpoint is not exported. The compare landing page (`/compare`
+   itself, GET) is exported in its empty state.
+
+6. **`site/` is gitignored on `main`.** This prompt updates `.gitignore` so
+   `site/` is ignored everywhere. PROMPT_51 will document how the gh-pages
+   branch overrides this.
+
+## Tasks
+
+### Task 1: Inventory routes to crawl
+Walk `src/app/app.py` and produce a list of every GET route the crawler
+will emit. Categories:
+
+- **Static routes:** `/`, `/compare`, `/insights`, `/visualizations`,
+  `/odysseys`, `/narrative`, `/narrative/crossroads`, `/narrative/reactions`,
+  `/narrative/timeline`, `/narrative/concepts`, `/api`, `/search?q=` (skip
+  search; it needs a query)
+- **Parameterized routes:** `/language/{name}`, `/person/{name}`,
+  `/event/{slug}`, `/org/{name}`, `/concept/{name}`, `/paradigm/{name}`,
+  `/cluster/{name}`, `/odyssey/{path_id}`, `/narrative/era/{slug}`,
+  `/lineage/{language_id}`
+- **Skipped:** any HTMX partial route, any POST, any compare-tray cookie
+  mutator, any route returning JSON only
+
+For each parameterized route, fetch the parameter values from `DataLoader`:
+- languages: `loader.get_all_languages()`
+- people: `loader.get_all_people()`
+- events: `loader.get_all_historical_events()`
+- orgs: `loader.get_all_organizations()`
+- concepts: `loader.get_all_concepts()`
+- paradigms: `loader.get_all_paradigms()`
+- clusters: distinct `cluster` values from languages
+- odysseys: `loader.get_all_learning_paths()`
+- eras: `loader.get_all_era_summaries()`
+
+If a method does not exist on `DataLoader`, add it. Same rule as PROMPT_49:
+no raw SQL inside `site_builder.py`.
+
+### Task 2: Add `SiteCrawler` to `src/app/core/site_builder.py`
+Define a class:
+```
+class SiteCrawler:
+    def __init__(self, loader: DataLoader, out_dir: Path) -> None: ...
+    def crawl(self) -> CrawlReport: ...    # returns counts and any failures
+    def _enumerate_urls(self) -> list[str]: ...
+    def _fetch(self, url: str) -> str: ...
+    def _write(self, url: str, html: str) -> Path: ...
+    def _rewrite_links(self, html: str, current_url: str) -> str: ...
+    def _copy_static_assets(self) -> None: ...
+```
+Implementation notes:
+- Construct `TestClient(app)` from `src.app.app`. Set `os.environ["USE_SQLITE"]
+  = "1"` before importing.
+- For each URL in `_enumerate_urls()`, fetch via the test client, raise on
+  any non-200, and write the body to `site/<url>/index.html` (so `/` becomes
+  `site/index.html`, `/language/C` becomes `site/language/C/index.html`).
+- URL-encode path segments containing spaces or special characters; use the
+  same encoding rules the FastAPI app uses so the filename matches the
+  href the templates emit.
+- After fetching, run the body through `_rewrite_links` which converts
+  `href="/foo/bar"` and `src="/static/x.css"` into the correct relative
+  path given the file's depth in the tree. Use BeautifulSoup4 or `lxml` if
+  it is already a project dependency; otherwise prefer a small, focused
+  regex pass over `href="/..."` and `src="/..."` and document the trade-off
+  in a comment. Do not pull in a new heavy dependency without weighing it.
+- `_copy_static_assets` mirrors `src/app/static/` into `site/static/`
+  recursively. If the source directory is empty or missing, create it
+  first.
+
+### Task 3: Make HTMX-driven pages render usefully in static export
+Inspect `src/app/templates/index.html` and any partial template under
+`src/app/templates/partials/`. The language grid is loaded via an HTMX
+swap. For the static export:
+
+- Confirm that the initial server render of `/` already includes a fully
+  populated, unfiltered language grid (it should; HTMX is progressive
+  enhancement). If it does not, add a server-side fallback that renders
+  the full grid on first load.
+- In `base.html` (or wherever the filter form lives), check the value of an
+  env var `ATLAS_STATIC_MODE` (or a Jinja context flag set by the crawler)
+  and, when truthy, inject a muted `<div class="static-notice">` near the
+  top of the page reading: "You are viewing the static export. Interactive
+  filtering and search will be enabled in the next release." Do not remove
+  the form; just gate the notice on the flag.
+
+The crawler sets `ATLAS_STATIC_MODE=1` in the environment before importing
+the app, and clears it on exit so other tests are not affected.
+
+### Task 4: `Makefile` target
+Add:
+```
+site:
+	@echo "Building static site into site/..."
+	uv run python -m app.core.site_builder --html
+```
+Wire `--html` into a small `__main__` block at the bottom of
+`src/app/core/site_builder.py` that dispatches between `SiteBuilder` (no
+flag, Markdown) and `SiteCrawler` (`--html`, HTML). Both modes should work
+from `make docs` and `make site` respectively.
+
+### Task 5: `.gitignore`
+Append a single line: `site/`. Do not touch any other `.gitignore` entries.
+Confirm `language_atlas.sqlite` and `generated-docs/` remain ignored.
+
+### Task 6: Tests
+Add `tests/test_site_crawler.py` with:
+1. `test_crawler_emits_index_html` - runs the crawler into `tmp_path`,
+   asserts `tmp_path / "index.html"` exists and is non-empty.
+2. `test_crawler_emits_one_file_per_language` - asserts the count of
+   `tmp_path/language/*/index.html` equals
+   `len(loader.get_all_languages())`.
+3. `test_crawler_links_resolve` - parses every emitted HTML file, collects
+   every `href="..."` that does NOT start with `http`, `mailto:`, `#`, or
+   `javascript:`, resolves it relative to the file's path, and asserts the
+   target file exists on disk. This is the contract that the static site
+   does not 404 itself.
+4. `test_crawler_copies_static_assets` - asserts `tmp_path/static/` exists
+   and contains at least one file (or skip if `src/app/static/` is empty).
+5. `test_crawler_no_500s` - asserts the `CrawlReport.failures` list is
+   empty after a full run.
+
+Tests require `make build` to have run. Document this in
+`tests/README.md` if such a file exists; otherwise add a brief note in
+`src/README.md`.
+
+### Task 7: Documentation
+- Update `src/README.md`: under the "Site builder" subsection added by
+  PROMPT_49, add an "HTML export" paragraph naming `SiteCrawler` and
+  describing the TestClient approach, the URL-rewrite step, and the
+  HTMX inertness.
+- Update `.context/architecture.md`: mention `SiteCrawler` and that the
+  static export mirrors live FastAPI output.
+- Update `.context/commands.md`: add `make site` to the Makefile target
+  table.
+- Update `.context/routes.md`: add a "Static export" column or note
+  flagging which routes are crawled vs skipped.
+
+### Task 8: Verify
+1. `make build`
+2. `make docs` (still works after PROMPT_49 changes)
+3. `make site` (new) produces a `site/` directory
+4. Open `site/index.html` in a local browser via
+   `cd site && uv run python -m http.server 8085` and click through to
+   confirm: homepage loads, language profile pages load, paradigm pages
+   load, era summaries load, internal links work, static CSS loads.
+5. `make harden`
+
+## Constraints (non-negotiable)
+- Do NOT commit `site/`, `language_atlas.sqlite`, or `generated-docs/`.
+- Do NOT create or push the `gh-pages` branch. PROMPT_51 owns that.
+- Do NOT introduce client-side JavaScript beyond what is already in the
+  templates. PROMPT_51 owns the `sql.js-httpvfs` integration.
+- No emojis. No em dashes in new prose.
+- Use `uv run` in all documentation and Makefile examples.
+- Commit style: Tim Pope multi-line via heredoc, prefix `[PROMPT_50]`,
+  50-char subject, body wrapped 72-80, no co-author. See
+  `.context/workflow.md`.
+- Stage files explicitly. Never `git add .`.
+- Suggested commit grouping: (a) crawler module + DataLoader additions,
+  (b) template static-mode notice + static asset directory, (c) Makefile +
+  .gitignore, (d) tests, (e) docs/context updates. Adjust if a different
+  grouping is more honest.
+
+## Acceptance
+- `make site` produces a `site/` tree containing one `index.html` per
+  exported route.
+- Opening `site/index.html` and clicking through every link type
+  (language, person, event, org, concept, paradigm, cluster, era, odyssey)
+  loads without 404s.
+- `tests/test_site_crawler.py` passes with the five cases above.
+- `make harden` is green.
+- `site/` is ignored by git.
+- `src/app/core/site_builder.py` still contains zero `conn.execute(`
+  substrings (the PROMPT_49 invariant holds).
+
+## Out of scope (do not attempt)
+- `sql.js-httpvfs`, `sqlite-wasm`, or any client-side SQL engine. PROMPT_51.
+- Creating, checking out, or pushing the `gh-pages` branch. PROMPT_51.
+- Writing a root `index.html` or front-facing `README.md`. PROMPT_51.
+- Implementing client-side filtering, client-side search, or any form of
+  page interactivity that depends on JavaScript executing the SQLite file.
+- Splitting the SQLite database into HTTP-range chunks. PROMPT_51.

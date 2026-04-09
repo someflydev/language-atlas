@@ -1,0 +1,233 @@
+# PROMPT_49: System-Aware Site Builder Foundation
+
+## Read-First Protocol
+Before doing anything, read these files in order. They contain non-negotiable
+mandates and the architectural lay of the land.
+
+1. `AGENT.md` (mandate file: commit style, doc freshness, typography rules,
+   "do not read human-notes.md")
+2. `CLAUDE.md` (project entry point and session checklist)
+3. `.context/architecture.md`
+4. `.context/database.md`
+5. `.context/routes.md`
+6. `.context/data-pipeline.md`
+7. `.context/commands.md`
+8. `.context/workflow.md`
+
+After reading, create `tmp/PROMPT_49_checklist.md` with this prompt's tasks as
+checkboxes and tick them off as you go. Do not commit anything in `tmp/`.
+
+## Background
+Language Atlas is a FastAPI + SQLite + JSON platform for exploring the history
+of programming languages. The single source of truth is the JSON files under
+`data/`; `make build` compiles them into `language_atlas.sqlite` (gitignored)
+which the FastAPI app, the Typer CLI, and the Textual TUI all read through
+`src/app/core/data_loader.py` (the `DataLoader` class).
+
+Documentation generation today lives in `scripts/generate_docs.py`. It runs
+raw SQL queries directly against the SQLite file and writes Markdown into
+`generated-docs/` (also gitignored). The script duplicates query logic that
+already exists, battle-tested, inside `DataLoader` and `InsightGenerator`.
+There is also no narrative homepage that ties the generated tree together;
+it is a flat collection of files with no front door.
+
+This prompt is the first of three that prepare the project for a static-site
+deployment to GitHub Pages on a long-lived `gh-pages` branch (PROMPT_50 adds
+HTML rendering, PROMPT_51 adds client-side SQLite via `sql.js-httpvfs` and
+the gh-pages workflow itself). This prompt is intentionally scoped to land
+safely on `main` without introducing any sqlite-in-git or static-site output.
+
+## Decisions ratified by this prompt
+1. Promote doc generation from `scripts/generate_docs.py` into a proper module
+   at `src/app/core/site_builder.py`. The module is a class `SiteBuilder` that
+   takes a `DataLoader` instance in its constructor.
+2. The new module uses `DataLoader` for every query. If a needed query is
+   missing from `DataLoader`, add it to `DataLoader` rather than dropping raw
+   SQL into `site_builder.py`. The site builder must not duplicate query logic
+   that lives in `data_loader.py` or `insights.py`.
+3. `scripts/generate_docs.py` becomes a four-line CLI wrapper that imports
+   `SiteBuilder`, constructs a `DataLoader`, and calls `build_markdown(out)`.
+   Existing callers (`make docs`, the Makefile) keep working.
+4. Output for this prompt remains Markdown only, in `generated-docs/`. HTML
+   rendering arrives in PROMPT_50; do not introduce HTML output here.
+5. Add a narrative homepage at `generated-docs/INDEX.md` and a project meta
+   page at `generated-docs/README.md` that together act as the front door.
+6. `language_atlas.sqlite` and `generated-docs/` remain gitignored. This
+   prompt does not change `.gitignore`.
+
+## Tasks
+
+### Task 1: Create `src/app/core/site_builder.py`
+- Define a `SiteBuilder` class with this surface:
+  ```
+  class SiteBuilder:
+      def __init__(self, loader: DataLoader, out_dir: Path) -> None: ...
+      def build_markdown(self) -> None: ...           # orchestrates the rest
+      def emit_language_profiles(self) -> None: ...
+      def emit_concept_profiles(self) -> None: ...
+      def emit_paradigm_index(self) -> None: ...
+      def emit_era_index(self) -> None: ...
+      def emit_era_summaries(self) -> None: ...
+      def emit_thematic_docs(self) -> None: ...        # crossroads, reactions, matrix, timeline, concepts
+      def emit_narrative_overview(self) -> None: ...   # see Task 3
+      def emit_homepage_index(self) -> None: ...       # see Task 3
+  ```
+- Port the body of every function in `scripts/generate_docs.py` over, but
+  rewrite each one to call `DataLoader` methods instead of executing raw SQL
+  directly. Examples:
+    - languages list -> `loader.get_all_languages()`
+    - paradigms list -> `loader.get_all_paradigms()`
+    - era summaries  -> `loader.get_all_era_summaries()` (or whatever
+      DataLoader exposes; check the file before adding)
+- If `DataLoader` lacks a method you need (for example, "get language profile
+  with sections", or "get all crossroads"), ADD that method to `DataLoader`
+  and write a one-line test for it in `tests/test_data_loader_full.py`. Do
+  not write raw `conn.execute(...)` from inside `site_builder.py`.
+- Trivial composition (joining two DataLoader results, sorting them, slicing
+  the top N) is fine inside `site_builder.py`. The rule is: no SQL strings.
+- The output file layout for the existing files MUST stay byte-for-byte
+  identical to what `scripts/generate_docs.py` produced previously, with the
+  sole additions being `INDEX.md` and `README.md` at the root of
+  `generated-docs/`. Run a diff before and after to confirm parity.
+
+### Task 2: Slim down `scripts/generate_docs.py`
+After Task 1, replace the contents of `scripts/generate_docs.py` with:
+```python
+"""Thin CLI wrapper. Real logic lives in src/app/core/site_builder.py."""
+from pathlib import Path
+import os, sys
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
+os.environ.setdefault("USE_SQLITE", "1")
+from app.core.data_loader import DataLoader
+from app.core.site_builder import SiteBuilder
+
+ROOT = Path(__file__).resolve().parent.parent
+def main() -> None:
+    loader = DataLoader()
+    SiteBuilder(loader, ROOT / "generated-docs").build_markdown()
+    print("Documentation generation complete.")
+
+if __name__ == "__main__":
+    main()
+```
+Verify `make docs` still works after this change.
+
+### Task 3: Narrative homepage and project meta
+Add two new emitters used by `build_markdown()`:
+
+`generated-docs/INDEX.md` (homepage / table of contents) must contain, in
+this order, with these section headings:
+1. `# Language Atlas` (one-paragraph project tagline; pull from
+   `data/docs/atlas_meta/` if a profile exists, otherwise emit a placeholder
+   sentence and a `<!-- TODO copy -->` HTML comment so the human can polish
+   it later)
+2. `## Browse`
+   - Bullet list linking to: `eras.md`, `paradigms.md`, `CONCEPTS.md`,
+     `CROSSROADS.md`, `MODERN_REACTIONS.md`, `PARADIGM_MATRIX.md`,
+     `TIMELINE.md`
+3. `## Highlights`
+   - Top 10 most influential languages by `influence_score` (use the
+     `v_language_era_rankings` view via a new `DataLoader.get_top_influential(n)`
+     method if one does not already exist), each linking to its profile file
+4. `## Eras at a glance`
+   - One bullet per era from `era_summaries`, linking to
+     `eras/<slug>.md`
+5. `## Counts`
+   - A small bulleted snapshot: total languages, total paradigms, total
+     concepts, total people, total profiles. Pull from DataLoader.
+6. `## Where to go next`
+   - A short paragraph pointing readers at `README.md` (the meta page below)
+     and at the live FastAPI app on port 8084 if running locally.
+
+`generated-docs/README.md` (project meta / about) must contain:
+1. `# About these docs`
+2. A paragraph explaining: this directory is auto-generated from
+   `language_atlas.sqlite` by `src/app/core/site_builder.py`, do not hand-edit
+3. `## Regenerating`
+   - The exact commands: `make build`, then `make docs`
+4. `## Source layout`
+   - One-line descriptions of `data/`, `data/docs/`, `src/app/core/`,
+     `scripts/`
+5. `## Live app`
+   - Pointer to `src/README.md`, `API_GUIDE.md`, and the dev server command
+     (`cd src/app && uv run uvicorn app:app --reload --port 8084`)
+
+### Task 4: Update `Makefile`
+- Keep `make docs` calling `python3 scripts/generate_docs.py` (the wrapper
+  still exists).
+- Replace `python3` with `uv run python` per AGENT.md actionable-examples
+  rule.
+- The target output should mention that INDEX.md and README.md are also
+  produced.
+
+### Task 5: Tests
+Create `tests/test_site_builder.py` with these cases (use `tmp_path` so
+tests don't pollute the real `generated-docs/`):
+1. `test_site_builder_runs_against_live_db` - constructs a `DataLoader`,
+   instantiates `SiteBuilder` with `tmp_path`, calls `build_markdown()`, and
+   asserts no exceptions.
+2. `test_site_builder_emits_index_and_readme` - asserts `INDEX.md` and
+   `README.md` exist in `tmp_path` after a build, and that `INDEX.md`
+   contains the literal headings `## Browse`, `## Highlights`, `## Eras at a
+   glance`, `## Counts`.
+3. `test_site_builder_language_count_matches_loader` - asserts the number of
+   files under `tmp_path / "languages"` equals
+   `len(loader.get_all_languages())`.
+4. `test_site_builder_concept_count_matches_loader` - same idea for concepts.
+5. `test_site_builder_no_raw_sql` - greps `src/app/core/site_builder.py` for
+   the substring `conn.execute(` and asserts it does not appear. (This is a
+   guard rail enforcing decision 2.)
+
+These tests require the SQLite file to exist; if it does not, run `make
+build` once before invoking pytest. Mark the file with no `@pytest.mark`
+decorators (they should run as part of the default suite).
+
+### Task 6: Documentation
+- Update `src/README.md`: add a "Site builder" subsection under whatever
+  module-overview section exists, naming `src/app/core/site_builder.py` and
+  describing its responsibility (Markdown output today, HTML output coming).
+- Update `.context/architecture.md`: add `site_builder.py` to the layers
+  diagram alongside `auditor.py`, `insights.py`, etc.
+- Update `.context/commands.md`: note that `make docs` now also produces
+  `INDEX.md` and `README.md`.
+
+### Task 7: Verify
+Run, in this order, and resolve any failures before committing:
+1. `make build`
+2. `make docs`
+3. Compare the language/concept/era files in `generated-docs/` against the
+   git-clean baseline (commit the new files only after confirming the
+   pre-existing files are byte-identical or have only intentional diffs).
+4. `make harden` (runs type-check, audit, test)
+
+## Constraints (non-negotiable)
+- Do NOT commit `language_atlas.sqlite`.
+- Do NOT commit anything under `generated-docs/`.
+- Do NOT commit `tmp/` artifacts or `human-notes.md`.
+- No emojis anywhere (code, content, commit messages).
+- No em dashes in any new prose; rewrite sentences instead.
+- Use `uv run` in any documentation example you add.
+- Commit style: Tim Pope multi-line via heredoc, prefix `[PROMPT_49]`, 50-char
+  subject, body wrapped 72-80, no co-author line. See `.context/workflow.md`.
+- Stage files explicitly with `git add <file>` per file. Never `git add .`.
+- Group commits logically: one commit for the new module + DataLoader
+  additions, one commit for the script slim-down + Makefile, one commit for
+  tests, one commit for docs/context updates. Adjust if a different grouping
+  is more honest.
+
+## Acceptance
+- `src/app/core/site_builder.py` exists and contains all generation logic.
+- `scripts/generate_docs.py` is the thin wrapper described in Task 2.
+- `make docs` produces `generated-docs/INDEX.md` and `generated-docs/README.md`
+  in addition to all previously-emitted files, with no parity regressions.
+- `pytest` and `mypy` both pass cleanly.
+- `tests/test_site_builder.py` exists with the five cases above.
+- `src/app/core/site_builder.py` contains zero `conn.execute(` substrings.
+
+## Out of scope (do not attempt)
+- HTML output of any kind (PROMPT_50)
+- `sql.js-httpvfs` or any client-side JS (PROMPT_51)
+- Touching `.gitignore`, creating a `gh-pages` branch, or writing a root
+  `index.html` or `README.md` (PROMPT_51)
+- Removing `scripts/generate_docs.py` entirely (keep the wrapper for
+  back-compat; existing tooling and muscle memory points at that path)

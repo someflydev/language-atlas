@@ -1,0 +1,392 @@
+# PROMPT_51: Client-Side SQLite, gh-pages Workflow, Root index.html, Front-Facing README
+
+## Read-First Protocol
+Before doing anything, read these in order:
+
+1. `AGENT.md` (mandate file)
+2. `CLAUDE.md`
+3. `.context/architecture.md`
+4. `.context/routes.md`
+5. `.context/database.md`
+6. `.context/commands.md`
+7. `.context/workflow.md`
+8. `src/app/core/site_builder.py` (introduced in PROMPT_49, extended with
+   `SiteCrawler` in PROMPT_50)
+9. `src/app/templates/base.html` and `src/app/templates/index.html` (the
+   filter form and search box you will wire up to client-side SQLite)
+10. `src/README.md` and `scripts/README.md` (source material for the
+    front-facing README quickstart you will scaffold)
+
+After reading, create `tmp/PROMPT_51_checklist.md` with this prompt's tasks
+as checkboxes. Do not commit `tmp/`.
+
+## Background
+PROMPT_49 promoted doc generation into `src/app/core/site_builder.py`.
+PROMPT_50 added `SiteCrawler`, which spins up the FastAPI app via
+`TestClient` and writes a fully-rendered static HTML mirror of the live
+site into `site/` (gitignored). The static site currently shows an
+unfiltered, inert language grid because there is no server to handle the
+HTMX endpoints.
+
+This prompt closes the loop. It adds a small client-side SQLite layer
+using **phiresky/sql.js-httpvfs**, which loads the project's SQLite file
+in the browser via HTTP range requests, runs queries against it, and
+re-injects results into the page. That technique is the one referenced in
+the famous "Hosting SQLite databases on GitHub Pages" blog post; it is the
+exact pattern this project wants to mirror.
+
+This prompt also lays down the deployment workflow for the long-lived
+`gh-pages` branch (the user maintains it manually; this prompt does NOT
+create, check out, or push that branch), creates the root-level
+`index.html` redirect, and stubs a front-facing `README.md` on `main` that
+will become the project's GitHub-first impression.
+
+## Decisions ratified by this prompt
+
+1. **Client-side query engine: phiresky/sql.js-httpvfs.** Loaded from a CDN
+   (`jsdelivr` or `unpkg`) so there is no npm/Node tooling in the project.
+   The chunked SQLite file plus its `config.json` live under `site/db/`.
+
+   Alternatives considered: the official `@sqlite.org/sqlite-wasm` build,
+   and plain `sql.js`. Both require downloading the entire SQLite file
+   up-front, which negates the GitHub-Pages-friendly streaming model.
+   `sql.js-httpvfs` uses HTTP range requests to fetch only the chunks
+   needed for the current query, which keeps page loads fast even for a
+   multi-megabyte database.
+
+2. **The `gh-pages` branch is maintained by hand, not by CI.** The user
+   has explicitly chosen the manual workflow: check out `gh-pages`, merge
+   from `main`, run `make site` and `make pages`, commit, push. This
+   prompt provides the tooling and the documentation; it does NOT create
+   the branch, push to it, or set up any GitHub Actions workflow.
+
+3. **Root `index.html` is a meta-refresh redirect to `site/index.html`.**
+   It exists only on the `gh-pages` branch. Its sole job is to satisfy
+   GitHub Pages' "the repo root must have a homepage" requirement and
+   forward the visitor into the real site. Keeping it minimal avoids
+   maintaining two homepages.
+
+4. **A new front-facing `README.md` lands on `main`.** This is separate
+   from `src/README.md` (which is the authoritative codebase guide
+   protected by AGENT.md). The new root `README.md` is short, friendly,
+   and links into `src/README.md` and `API_GUIDE.md` for depth. It exists
+   to be the first thing a visitor sees on github.com.
+
+5. **`make pages` is the one command the user runs on the `gh-pages`
+   branch** to produce a deployable tree. It rebuilds the database,
+   runs the static site builder, chunks the database for HTTP range
+   requests, copies the chunks under `site/db/`, writes `.nojekyll`, and
+   writes the root redirect `index.html`. It refuses to run if the
+   current branch is `main`.
+
+## Tasks
+
+### Task 1: Add `scripts/prep_pages.py`
+Create a Python script (not bash; Python is the project's language and is
+already on the path) that:
+
+1. Verifies the current branch is NOT `main`. If it is, exit non-zero with
+   a clear message: "Refusing to build pages artifacts on main; switch to
+   gh-pages first." Use `subprocess.run(["git", "rev-parse",
+   "--abbrev-ref", "HEAD"])` to check.
+2. Verifies `language_atlas.sqlite` exists at the repo root. If not,
+   instructs the user to run `make build` and exits non-zero.
+3. Verifies `site/` exists. If not, instructs the user to run `make site`
+   and exits non-zero.
+4. Splits `language_atlas.sqlite` into fixed-size chunks suitable for
+   `sql.js-httpvfs`. Use a chunk size of 1 MiB (1048576 bytes). Write the
+   chunks under `site/db/atlas/` named `db.sqlite3.<n>` (matching the
+   `sql.js-httpvfs` "split file" mode), plus a `config.json` next to them
+   matching the schema documented at
+   https://github.com/phiresky/sql.js-httpvfs#usage. The script should
+   compute the file's total length and the request chunk size and emit:
+   ```json
+   {
+     "serverMode": "full",
+     "requestChunkSize": 1024,
+     "databaseLengthBytes": <length>,
+     "urlPrefix": "atlas/"
+   }
+   ```
+   Refer to the upstream README before finalizing the field names; the
+   project must match whatever the published version expects.
+
+   If matching upstream's exact split format proves fiddly, the simpler
+   fallback is `serverMode: "full"` with the entire `.sqlite` file served
+   as a single asset (no chunking). Document whichever approach you
+   choose in `docs/GH_PAGES.md`. Streaming is preferred but not required
+   for this prompt to be considered complete.
+5. Writes `.nojekyll` at the repo root.
+6. Writes `index.html` at the repo root with this exact content:
+   ```html
+   <!doctype html>
+   <html lang="en">
+     <head>
+       <meta charset="utf-8">
+       <meta http-equiv="refresh" content="0; url=site/">
+       <title>Language Atlas</title>
+       <link rel="canonical" href="site/">
+     </head>
+     <body>
+       <p>Redirecting to <a href="site/">Language Atlas</a>.</p>
+     </body>
+   </html>
+   ```
+7. Prints a summary: file counts, total bytes, next-step git commands the
+   user should run.
+
+### Task 2: Add `make pages` target
+In the Makefile add:
+```
+pages: build site
+	@echo "Preparing GitHub Pages artifacts..."
+	uv run python scripts/prep_pages.py
+```
+Document in the Makefile help block: "pages           Prepare gh-pages
+artifacts (run on gh-pages branch only)".
+
+### Task 3: Wire `sql.js-httpvfs` into the templates
+In `src/app/templates/base.html` (or whichever template is the layout
+root), add a conditional block that loads `sql.js-httpvfs` from a CDN and
+the project's own `atlas-static.js` shim, gated on a Jinja flag
+`atlas_static_mode` (which the crawler in PROMPT_50 already sets via the
+environment variable).
+
+```html
+{% if atlas_static_mode %}
+  <script type="module" src="/static/atlas-static.js"></script>
+{% endif %}
+```
+
+The script tag must use a relative URL after PROMPT_50's link rewriter
+processes it.
+
+Create `src/app/static/atlas-static.js`. It must:
+
+1. Import `createDbWorker` from
+   `https://cdn.jsdelivr.net/npm/sql.js-httpvfs@latest/dist/index.js` (or
+   pin a specific version; pinning is preferred). If ESM-from-CDN is too
+   fragile, fall back to the UMD build and document the choice.
+2. On `DOMContentLoaded`, instantiate the worker pointing at
+   `db/atlas/config.json` (relative to the page; resolve correctly from
+   nested pages by using a `<base>` tag or by computing the depth).
+3. Hook the homepage filter form: when the user changes cluster, paradigm,
+   or year, run a SQL query against the worker
+   (`SELECT * FROM languages WHERE ...`) and rebuild the language grid
+   client-side. Reuse the same DOM structure the FastAPI partial emits so
+   the visual result matches.
+4. Hook the search box: when the user types (debounced 200ms), query the
+   FTS5 `search_index` virtual table and render results into the same
+   container the live `/search` page uses.
+5. Remove the static-mode notice div that PROMPT_50 added once the worker
+   has booted successfully.
+6. Catch and log any worker errors; on failure, leave the static-mode
+   notice in place so the page still displays useful content.
+
+The shim is intentionally small (target: under 200 lines). It is not a
+SPA; it is progressive enhancement on top of the already-rendered HTML.
+
+### Task 4: Update PROMPT_50's static-mode notice copy
+PROMPT_50 added a notice div reading "Filtering is unavailable in the
+static export...". Update the copy to reference the JS shim:
+
+```
+This is the static export. Search and filtering run entirely in your
+browser via SQLite WASM. If you see this message after the page has
+loaded, the database failed to fetch.
+```
+
+The shim removes this notice on successful boot, so users with working JS
+never see it.
+
+### Task 5: Front-facing `README.md` on `main`
+Create `README.md` at the repo root. This is a NEW file on `main`. It does
+NOT replace `src/README.md`. Structure:
+
+1. `# Language Atlas` (project name)
+2. One-paragraph tagline. Mark with `<!-- TODO copy -->` so the user
+   knows to polish the wording later. Suggested first draft:
+   "Language Atlas is a research platform for exploring the history,
+   evolution, and intellectual lineage of programming languages. It ships
+   as a FastAPI web app, a Typer CLI, and a Textual TUI, all backed by a
+   SQLite database compiled from a curated JSON corpus."
+3. `## Quickstart`
+   ```
+   uv venv --python 3.12
+   uv sync
+   make build
+   cd src/app && uv run uvicorn app:app --reload --port 8084
+   ```
+   Then "open http://localhost:8084".
+4. `## What's inside`
+   - One-line bullets pointing at: `src/README.md` (architecture),
+     `API_GUIDE.md` (HTTP API), `scripts/README.md` (operational scripts),
+     `data/` (the JSON corpus), `data/docs/` (narrative profiles),
+     `AGENT.md` (contributor mandates).
+5. `## Make targets`
+   - A small table mirroring the Makefile help, copy-pasted not
+     hand-maintained: `make build`, `make docs`, `make site`, `make pages`,
+     `make audit`, `make dark-matter`, `make test`, `make harden`,
+     `make clean`. Each row has a one-line description.
+6. `## Live demo`
+   - "A static export with a client-side SQLite database is published
+     from the `gh-pages` branch. See `docs/GH_PAGES.md` for the build and
+     deploy workflow." Do not hard-code a URL; the user can fill it in
+     after the first deploy. Mark with `<!-- TODO live URL -->`.
+7. `## License`
+   - Whatever license the repo uses, or `<!-- TODO license -->` if
+     undecided.
+
+Use `<!-- TODO ... -->` HTML comments throughout for any passage the
+human will copywrite later. No emojis. No em dashes.
+
+### Task 6: `docs/GH_PAGES.md`
+Create `docs/GH_PAGES.md` documenting the deploy workflow end-to-end:
+
+1. Why the project uses a hand-maintained `gh-pages` branch instead of
+   GitHub Actions. Reference Decision 2 above.
+2. One-time setup:
+   ```
+   git checkout --orphan gh-pages
+   git rm -rf .
+   git commit --allow-empty -m "[gh-pages] Initial empty branch"
+   git push origin gh-pages
+   ```
+   (This is documented for the user to run; the prompt itself does NOT
+   execute these commands.)
+3. Recurring deploy:
+   ```
+   git checkout gh-pages
+   git merge main --no-ff
+   make pages
+   git add site language_atlas.sqlite .nojekyll index.html
+   git commit -m "[gh-pages] Refresh from main @ <sha>"
+   git push origin gh-pages
+   git checkout main
+   ```
+4. What `make pages` does, step by step.
+5. How the client-side SQLite layer works (one paragraph + a link to
+   phiresky's blog post and the `sql.js-httpvfs` repo).
+6. How to preview locally before pushing:
+   ```
+   cd <repo root>
+   uv run python -m http.server 8085
+   open http://localhost:8085/
+   ```
+7. Troubleshooting: what to check if the worker fails to boot, where
+   browser console errors come from, how to validate the chunked db
+   layout.
+
+### Task 7: `.gitignore`
+On `main`, ensure these are gitignored (some already are; just verify):
+- `site/`
+- `language_atlas.sqlite`
+- `generated-docs/`
+- `.nojekyll`
+- `/index.html` (the root redirect; only the root, not nested
+  `index.html` files)
+- `site/db/`
+
+Use a pattern that ignores `index.html` only at the repo root, not deep
+inside. The right pattern is `/index.html`.
+
+Document in `docs/GH_PAGES.md` that on the `gh-pages` branch the user
+will need a local override (or simply force-add) to commit those
+otherwise-ignored files. Suggest the user keep a `.gitignore` override on
+the `gh-pages` branch only, or use `git add -f` for the affected paths.
+The cleanest approach: a separate `.gitignore` content on the `gh-pages`
+branch. Document this trade-off.
+
+### Task 8: Tests
+Add `tests/test_prep_pages.py` with:
+1. `test_prep_pages_refuses_on_main` - monkeypatches the branch detection
+   to return `main`, runs the script's main entry point, asserts it
+   exits non-zero with a message containing "Refusing".
+2. `test_prep_pages_writes_redirect_html` - in a tmp git repo on a fake
+   non-main branch with a fake `language_atlas.sqlite` and a fake `site/`
+   directory, runs the script and asserts `index.html` and `.nojekyll`
+   exist at the tmp root and `index.html` contains
+   `meta http-equiv="refresh"`.
+3. `test_prep_pages_chunks_database` - asserts at least one file exists
+   under `site/db/atlas/` after running and that `config.json` parses as
+   JSON with the expected top-level keys.
+
+The JS shim is not unit-tested in this prompt; manual smoke testing is
+documented in `docs/GH_PAGES.md`.
+
+### Task 9: Documentation updates
+- `src/README.md`: add a "GitHub Pages deployment" subsection at the end
+  pointing at `docs/GH_PAGES.md`.
+- `.context/commands.md`: add `make pages` to the Makefile target table
+  with the note "must be run on gh-pages branch".
+- `.context/architecture.md`: add a short paragraph at the bottom
+  describing the client-side SQLite layer and `sql.js-httpvfs`, with a
+  pointer to `docs/GH_PAGES.md`.
+- `CLAUDE.md`: add a one-line entry under "Common Operations" for
+  `make pages`.
+
+### Task 10: Verify
+1. `make build`
+2. `make site`
+3. `make pages` should refuse to run because the current branch is
+   `main`. That refusal is the success signal. Do NOT switch branches.
+4. `make harden`
+5. Manually verify the templates render correctly when
+   `ATLAS_STATIC_MODE=1` is set, and that the `<script>` tag for
+   `atlas-static.js` is present in the rendered HTML.
+
+## Constraints (non-negotiable)
+- Do NOT create, check out, or push the `gh-pages` branch. Document the
+  workflow only.
+- Do NOT commit `language_atlas.sqlite`, `site/`, `generated-docs/`,
+  `.nojekyll`, or root `index.html` on `main`.
+- The new front-facing `README.md` IS committed on `main` (this is the
+  one new tracked file at the repo root that this prompt produces).
+- No emojis anywhere. No em dashes in any new prose; rewrite sentences
+  instead. (See AGENT.md.)
+- Use `uv run` in all documentation examples and Makefile invocations.
+- Commit style: Tim Pope multi-line via heredoc, prefix `[PROMPT_51]`,
+  50-char subject, body wrapped 72-80, no co-author. See
+  `.context/workflow.md`.
+- Stage files explicitly. Never `git add .`. The new `README.md` and
+  `docs/GH_PAGES.md` must be staged by name.
+- Do NOT touch `human-notes.md`. (See AGENT.md.)
+- Suggested commit grouping:
+  - (a) `scripts/prep_pages.py` + Makefile `pages` target + `.gitignore`
+  - (b) Template gating + `src/app/static/atlas-static.js` + static-mode
+        notice copy update
+  - (c) `tests/test_prep_pages.py`
+  - (d) `README.md` (root) + `docs/GH_PAGES.md`
+  - (e) `src/README.md`, `.context/`, `CLAUDE.md` updates
+  Adjust if a different grouping is more honest.
+
+## Acceptance
+- `scripts/prep_pages.py` exists and refuses to run on `main`.
+- `make pages` is wired up and short-circuits on `main` with a clear
+  message.
+- `src/app/static/atlas-static.js` exists and is loaded by the templates
+  when `ATLAS_STATIC_MODE=1`.
+- `README.md` exists at the repo root with the structure above and
+  `<!-- TODO -->` markers for prose the user wants to polish.
+- `docs/GH_PAGES.md` exists and fully documents the manual gh-pages
+  workflow including initial setup, recurring deploy, local preview, and
+  troubleshooting.
+- `tests/test_prep_pages.py` passes.
+- `make harden` is green.
+- `.gitignore` ignores `site/`, root `index.html`, and `.nojekyll` on
+  `main` without affecting nested `index.html` files.
+
+## Out of scope (do not attempt)
+- Creating, checking out, or pushing the `gh-pages` branch.
+- Setting up any GitHub Actions workflow. The user has explicitly chosen
+  the manual workflow.
+- Replacing or modifying `src/README.md`. That file is governed by
+  AGENT.md and lives in `src/`. The new `README.md` is at the repo root
+  and is a separate document with a different audience.
+- Rewriting any FastAPI route. The static site uses what PROMPT_50's
+  crawler emits.
+- Implementing client-side rendering for compare-tray cookie endpoints,
+  POST handlers, or `/lineage/{id}` Plotly graphs (those crawl fine as
+  static HTML; they just are not interactive).
+- Adding npm, package.json, or any Node tooling. The shim is loaded
+  from a CDN by `<script type="module">`.
