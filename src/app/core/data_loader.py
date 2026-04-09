@@ -346,35 +346,70 @@ class DataLoader:
         finally:
             conn.close()
 
+    @staticmethod
+    def _url_safe_segment(name: str) -> bool:
+        """Return True if name can safely be a single URL path segment.
+
+        Rejects names containing characters that would be misinterpreted
+        by URL parsers:
+          /  -- treated as a path separator
+          #  -- treated as a fragment identifier
+          ?  -- treated as a query string delimiter
+          &  -- treated as a query parameter separator
+        """
+        return not any(c in name for c in "/#?&")
+
     def get_entity_link_map(self) -> Dict[str, str]:
-        """Returns a map of entity names to their routes for auto-linking."""
+        """Returns a map of entity names to their routes for auto-linking.
+
+        Only entities whose names form valid, unambiguous URL path segments
+        are included.  Names containing path separators (/), fragment
+        markers (#), query delimiters (? &) are skipped.
+        """
         conn = self._get_connection()
         link_map: Dict[str, str] = {}
         try:
             # 1. Languages
             cursor = conn.execute("SELECT name, display_name FROM languages")
             for row in cursor.fetchall():
-                link_map[row['name']] = f"/language/{row['name']}"
-                if row['display_name'] and row['display_name'] != row['name']:
+                if self._url_safe_segment(row['name']):
+                    link_map[row['name']] = f"/language/{row['name']}"
+                if (row['display_name'] and row['display_name'] != row['name']
+                        and self._url_safe_segment(row['display_name'])):
                     link_map[row['display_name']] = f"/language/{row['name']}"
 
-            # 2. People
-            cursor = conn.execute("SELECT name FROM people")
+            # 2. People (only those with profile entries to avoid dead links)
+            cursor = conn.execute("""
+                SELECT DISTINCT p.name
+                FROM people p
+                JOIN people_profiles pp ON p.id = pp.person_id
+            """)
             for row in cursor.fetchall():
                 name = row['name']
-                link_map[name] = f"/person/{name.replace(' ', '_')}"
+                if self._url_safe_segment(name):
+                    link_map[name] = f"/person/{name.replace(' ', '_')}"
 
-            # 3. Concepts
-            cursor = conn.execute("SELECT name FROM concepts")
+            # 3. Concepts (only those with profile entries)
+            cursor = conn.execute("""
+                SELECT DISTINCT c.name
+                FROM concepts c
+                JOIN concept_profiles cp ON c.id = cp.concept_id
+            """)
             for row in cursor.fetchall():
                 name = row['name']
-                link_map[name] = f"/concept/{name.replace(' ', '_')}"
+                if self._url_safe_segment(name):
+                    link_map[name] = f"/concept/{name.replace(' ', '_')}"
 
-            # 4. Organizations
-            cursor = conn.execute("SELECT name FROM organizations")
+            # 4. Organizations (only those with profile entries)
+            cursor = conn.execute("""
+                SELECT DISTINCT o.name
+                FROM organizations o
+                JOIN organization_profiles op ON o.id = op.org_id
+            """)
             for row in cursor.fetchall():
                 name = row['name']
-                link_map[name] = f"/org/{name.replace(' ', '_')}"
+                if self._url_safe_segment(name):
+                    link_map[name] = f"/org/{name.replace(' ', '_')}"
 
             # 5. Events
             cursor = conn.execute("SELECT title, slug FROM historical_events")
@@ -1119,6 +1154,77 @@ class DataLoader:
         conn = self._get_connection()
         try:
             cursor = conn.execute("SELECT name FROM people ORDER BY name")
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_all_organizations(self) -> List[Dict[str, Any]]:
+        """Returns organizations that have a profile entry (name field)."""
+        if not self.use_sqlite:
+            profiles = self.get_org_profiles()
+            return [{"name": name} for name in sorted(profiles.keys())]
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("""
+                SELECT DISTINCT o.name
+                FROM organizations o
+                JOIN organization_profiles op ON o.id = op.org_id
+                ORDER BY o.name
+            """)
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_all_historical_events(self) -> List[Dict[str, Any]]:
+        """Returns historical events with slug and title fields."""
+        if not self.use_sqlite:
+            events = self.get_historical_events()
+            return [{"slug": k, "title": v.get("title", k)} for k, v in events.items()]
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("SELECT slug, title FROM historical_events ORDER BY slug")
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_all_learning_paths(self) -> List[Dict[str, Any]]:
+        """Returns all learning paths (Odysseys). Alias for get_learning_paths()."""
+        return self.get_learning_paths()
+
+    def get_all_people_with_profiles(self) -> List[Dict[str, Any]]:
+        """Returns only people who have a profile entry (name field)."""
+        if not self.use_sqlite:
+            profiles = self.get_people_profiles()
+            return [{"name": name} for name in sorted(profiles.keys())]
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("""
+                SELECT DISTINCT p.name
+                FROM people p
+                JOIN people_profiles pp ON p.id = pp.person_id
+                ORDER BY p.name
+            """)
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_all_concepts_with_profiles(self) -> List[Dict[str, Any]]:
+        """Returns only concepts who have a profile entry (name field)."""
+        if not self.use_sqlite:
+            # Fall back to all concepts in JSON mode
+            return self.get_all_concepts()
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("""
+                SELECT DISTINCT c.name
+                FROM concepts c
+                JOIN concept_profiles cp ON c.id = cp.concept_id
+                ORDER BY c.name
+            """)
             return [self._row_to_dict(row) for row in cursor.fetchall()]
         finally:
             conn.close()

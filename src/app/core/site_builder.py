@@ -1,11 +1,20 @@
-"""Static-site Markdown builder for Language Atlas.
+"""Static-site builder for Language Atlas.
 
-Orchestrates all Markdown generation for generated-docs/. Logic lives here;
+Provides two output modes:
+- SiteBuilder: Markdown generation into generated-docs/ (Markdown mode).
+- SiteCrawler: Full-rendered HTML export into site/ via FastAPI TestClient
+  (HTML mode, added in PROMPT_50).
+
 scripts/generate_docs.py is a thin CLI wrapper that calls build_markdown().
-
-Output today is Markdown only. HTML rendering is added in PROMPT_50.
+The __main__ block below dispatches between the two modes.
 """
 
+from __future__ import annotations
+
+import os
+import re
+import shutil
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 import json
@@ -444,3 +453,416 @@ class SiteBuilder:
             " the history and evolution of programming languages."
             " <!-- TODO copy -->"
         )
+
+
+# ---------------------------------------------------------------------------
+# CrawlReport
+# ---------------------------------------------------------------------------
+
+@dataclass
+class CrawlReport:
+    """Summary produced by SiteCrawler.crawl()."""
+
+    written: List[str] = field(default_factory=list)
+    failures: List[Dict[str, Any]] = field(default_factory=list)
+
+    @property
+    def ok_count(self) -> int:
+        return len(self.written)
+
+    @property
+    def fail_count(self) -> int:
+        return len(self.failures)
+
+
+# ---------------------------------------------------------------------------
+# SiteCrawler
+# ---------------------------------------------------------------------------
+
+class SiteCrawler:
+    """Crawls the live FastAPI app via TestClient and writes static HTML.
+
+    Each GET route that returns HTML is fetched and written to
+    site/<path>/index.html so the tree can be served as a static site.
+    Internal links are rewritten from absolute (/language/C) to relative
+    (../../language/C/index.html) so every page works without a server.
+
+    URL rewriting uses focused regex passes over href="..." and src="..."
+    attributes rather than pulling in a heavy dependency like BeautifulSoup4.
+    This is intentional: the templates use well-formed, predictable href
+    patterns, so a targeted regex is cheaper and has no extra install cost.
+    The trade-off is that malformed or dynamically generated attribute values
+    may not be caught; that is acceptable for this controlled codebase.
+    """
+
+    # Routes that produce JSON or are stateful; always skip these.
+    _SKIP_PREFIXES = (
+        "/api",
+        "/compare/add",
+        "/compare/remove",
+        "/compare/clear",
+        "/compare/tray",
+        "/search",
+    )
+
+    def __init__(self, loader: DataLoader, out_dir: Path) -> None:
+        self._loader = loader
+        self._out = out_dir
+
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
+
+    def crawl(self) -> CrawlReport:
+        """Run the full crawl and return a CrawlReport.
+
+        The crawl runs in two phases:
+        1. Fetch all URLs and write raw HTML to disk.  Only server errors
+           (5xx) are added to CrawlReport.failures; 404s are silently
+           skipped since many entities have no profile page yet.
+        2. Post-process every written file: rewrite absolute internal hrefs
+           to relative paths, using the set of files written in phase 1.
+           Any link whose target was not written (404, excluded route, or
+           unsafe URL segment) is replaced with href="#" so the static site
+           contains no broken internal links.
+        """
+        report = CrawlReport()
+
+        os.environ["ATLAS_STATIC_MODE"] = "1"
+        os.environ.setdefault("USE_SQLITE", "1")
+
+        try:
+            # Lazy import so env vars are set before app module executes.
+            # app.py uses bare `from core.data_loader import ...` which
+            # requires src/app/ on sys.path.  We append (not insert at 0)
+            # so that the existing `src` entry that satisfies
+            # `from app.app import app` stays highest-priority.
+            import sys
+            app_dir = str(Path(__file__).parent.parent)
+            if app_dir not in sys.path:
+                sys.path.append(app_dir)
+
+            from starlette.testclient import TestClient  # type: ignore[import]
+            from app.app import app  # type: ignore[import]
+
+            self._out.mkdir(parents=True, exist_ok=True)
+
+            # Phase 1: fetch and write raw HTML (no link rewriting yet).
+            url_to_path: Dict[str, Path] = {}
+            with TestClient(app, raise_server_exceptions=False) as client:
+                urls = self._enumerate_urls()
+                for url in urls:
+                    try:
+                        status, html = self._fetch(client, url)
+                        if status == 200:
+                            path = self._write(url, html)
+                            url_to_path[url] = path
+                            report.written.append(str(path))
+                        elif status >= 500:
+                            report.failures.append({
+                                "url": url,
+                                "error": f"HTTP {status}",
+                            })
+                        # 404 and other 4xx: expected for entities without
+                        # profiles; silently skip, do not add to failures.
+                    except Exception as exc:
+                        report.failures.append({"url": url, "error": str(exc)})
+
+            self._copy_static_assets()
+
+            # Phase 2: rewrite links with knowledge of which files exist.
+            written_files = {Path(p).resolve() for p in report.written}
+            for url, path in url_to_path.items():
+                raw = path.read_text(encoding="utf-8")
+                rewritten = self._rewrite_links(
+                    raw, url, self._out, written_files
+                )
+                path.write_text(rewritten, encoding="utf-8")
+
+        finally:
+            os.environ.pop("ATLAS_STATIC_MODE", None)
+
+        return report
+
+    # ------------------------------------------------------------------
+    # URL enumeration
+    # ------------------------------------------------------------------
+
+    def _enumerate_urls(self) -> List[str]:
+        """Return all GET URLs to crawl, in a stable order.
+
+        Entity URLs (languages, people, concepts, orgs, events) are taken
+        directly from the entity link map so that the file paths match the
+        hrefs that auto_link_content() embeds in the rendered HTML.
+        Non-entity parameterized routes (paradigms, clusters, odysseys, eras)
+        are enumerated from the DataLoader.
+
+        /lineage/{language_id} is excluded: each page runs a NetworkX
+        spring_layout computation that is too CPU-intensive for a batch
+        crawl.  The output is a standalone Plotly visualization without the
+        shared base template.  PROMPT_51 can revisit if needed.
+        """
+        seen: set[str] = set()
+        urls: List[str] = []
+
+        def add(url: str) -> None:
+            if url not in seen:
+                seen.add(url)
+                urls.append(url)
+
+        # --- Static (no parameters) ---
+        for route in [
+            "/",
+            "/compare",
+            "/insights",
+            "/visualizations",
+            "/odysseys",
+            "/narrative",
+            "/narrative/crossroads",
+            "/narrative/reactions",
+            "/narrative/timeline",
+            "/narrative/concepts",
+        ]:
+            add(route)
+
+        # --- Entity URLs from the link map ---
+        # Using the link map ensures file paths match the hrefs that
+        # auto_link_content() generates for each entity type:
+        #   languages -> /language/{name}          (spaces)
+        #   people    -> /person/{name_underscore}  (underscores)
+        #   concepts  -> /concept/{name_underscore} (underscores)
+        #   orgs      -> /org/{name_underscore}     (underscores)
+        #   events    -> /event/{slug}              (hyphens)
+        link_map = self._loader.get_entity_link_map()
+        for _name, url in sorted(link_map.items()):
+            # Skip any URL whose last path segment contains a literal slash
+            # (e.g. /language/PL/I), which would be misread as two segments.
+            segments = url.lstrip("/").split("/")
+            if len(segments) >= 2 and "/" in segments[-1]:
+                continue
+            add(url)
+
+        # --- Non-entity parameterized routes ---
+
+        # Paradigms
+        for name in self._loader.get_all_paradigms():
+            if "/" in name:
+                continue
+            add(f"/paradigm/{_pct_encode(name)}")
+
+        # Clusters
+        for name in self._loader.get_all_clusters():
+            if "/" in name:
+                continue
+            add(f"/cluster/{_pct_encode(name)}")
+
+        # Odysseys
+        for lp in self._loader.get_all_learning_paths():
+            add(f"/odyssey/{_pct_encode(str(lp['id']))}")
+
+        # Era narratives
+        for era in self._loader.get_all_era_summaries():
+            add(f"/narrative/era/{_pct_encode(era['slug'])}")
+
+        return urls
+
+    # ------------------------------------------------------------------
+    # Fetch and write helpers
+    # ------------------------------------------------------------------
+
+    def _fetch(self, client: Any, url: str) -> tuple[int, str]:
+        """Fetch url via TestClient; return (status_code, body_text)."""
+        response = client.get(url)
+        return response.status_code, response.text
+
+    def _write(self, url: str, html: str) -> Path:
+        """Write html to site/<url>/index.html and return the Path.
+
+        Path segments are URL-decoded (spaces and special chars are preserved
+        as literal filesystem characters) so that relative hrefs emitted by
+        the templates -- which are not percent-encoded -- resolve correctly
+        against the resulting file tree.
+        """
+        import urllib.parse
+
+        # Normalise: strip query string and trailing slashes
+        clean = url.split("?")[0].rstrip("/")
+
+        if clean == "" or clean == "/":
+            dest = self._out / "index.html"
+        else:
+            # Decode each segment individually, then build subdirectory
+            parts = [urllib.parse.unquote(s) for s in clean.lstrip("/").split("/") if s]
+            dest = self._out.joinpath(*parts) / "index.html"
+
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(html, encoding="utf-8")
+        return dest
+
+    # ------------------------------------------------------------------
+    # Link rewriting
+    # ------------------------------------------------------------------
+
+    # File extensions that identify direct static asset references.
+    # Only paths whose last segment ends in one of these are treated as
+    # file refs (and left without an appended /index.html).  All other
+    # paths -- including entity names that happen to contain a dot, such
+    # as "Guy_L._Steele" -- are treated as directory index pages.
+    _STATIC_EXTS = frozenset([
+        ".css", ".js", ".mjs", ".map",
+        ".png", ".jpg", ".jpeg", ".gif", ".ico", ".svg", ".webp",
+        ".woff", ".woff2", ".ttf", ".eot", ".otf",
+        ".json", ".txt", ".xml", ".html",
+    ])
+
+    def _rewrite_links(
+        self,
+        html: str,
+        current_url: str,
+        out_dir: Optional[Path] = None,
+        written_files: Optional[set] = None,
+    ) -> str:
+        """Rewrite absolute internal hrefs and srcs to relative paths.
+
+        A file at site/language/C/index.html is 2 levels deep, so the
+        prefix is '../../'.  href="/language/Python" becomes
+        '../../language/Python/index.html'.  Static assets keep their
+        extension; page paths get /index.html appended.
+
+        When out_dir and written_files are provided, any link whose
+        resolved target is not in written_files is replaced with href="#"
+        so that the static site contains no broken internal links.  This
+        handles entities that 404 on the live app, excluded routes (e.g.
+        /lineage/), and names containing URL-unsafe characters.
+
+        HTML entities in href values (e.g. &amp;) are decoded before path
+        processing so that concept names with ampersands resolve correctly.
+        """
+        import html as _html_lib
+        depth = _url_depth(current_url)
+        prefix = "../" * depth  # e.g. "../../" for depth 2
+
+        def rewrite_attr(m: "re.Match[str]") -> str:
+            attr = m.group(1)   # 'href' or 'src'
+            quote = m.group(2)  # '"' or "'"
+            raw = m.group(3)    # the path value (may contain HTML entities)
+
+            # Skip external URLs, anchors, mailto, javascript
+            if (
+                raw.startswith("http")
+                or raw.startswith("//")
+                or raw.startswith("#")
+                or raw.startswith("mailto:")
+                or raw.startswith("javascript:")
+            ):
+                return m.group(0)
+
+            # Skip non-rooted paths (already relative)
+            if not raw.startswith("/"):
+                return m.group(0)
+
+            # HTML-decode so that &amp; -> & before path operations
+            path = _html_lib.unescape(raw)
+            stripped = path.lstrip("/")
+
+            # Root href (href="/") -> relative path to index.html
+            if not stripped:
+                if written_files is not None and out_dir is not None:
+                    target = (out_dir / "index.html").resolve()
+                    if target not in written_files:
+                        return f'{attr}={quote}#{quote}'
+                return f'{attr}={quote}{prefix}index.html{quote}'
+
+            # Static assets (rooted under /static/) keep their extension
+            if stripped.startswith("static/"):
+                return f'{attr}={quote}{prefix}{stripped}{quote}'
+
+            # Paths whose last segment ends in a known file extension are
+            # treated as direct file refs (no /index.html appended).
+            last_segment = stripped.rsplit("/", 1)[-1]
+            if "." in last_segment:
+                ext = "." + last_segment.rsplit(".", 1)[-1].lower()
+                if ext in self._STATIC_EXTS:
+                    return f'{attr}={quote}{prefix}{stripped}{quote}'
+
+            # Internal page path: append /index.html and check existence.
+            rel_path = f"{stripped}/index.html"
+            if written_files is not None and out_dir is not None:
+                target = (out_dir / rel_path).resolve()
+                if target not in written_files:
+                    # Target was not written (404, excluded, or unsafe URL).
+                    # Use '#' to avoid a broken link in the static export.
+                    return f'{attr}={quote}#{quote}'
+
+            return f'{attr}={quote}{prefix}{rel_path}{quote}'
+
+        pattern = re.compile(r'(href|src)=(["\'])(/[^"\']*)\2')
+        return pattern.sub(rewrite_attr, html)
+
+    # ------------------------------------------------------------------
+    # Static asset copy
+    # ------------------------------------------------------------------
+
+    def _copy_static_assets(self) -> None:
+        """Mirror src/app/static/ into site/static/ recursively."""
+        # Resolve src/app/static relative to this file
+        this_dir = Path(__file__).parent
+        src_static = this_dir.parent / "static"
+        dst_static = self._out / "static"
+
+        src_static.mkdir(parents=True, exist_ok=True)
+        dst_static.mkdir(parents=True, exist_ok=True)
+
+        if any(src_static.iterdir()):
+            shutil.copytree(src_static, dst_static, dirs_exist_ok=True)
+
+
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _pct_encode(value: str) -> str:
+    """Percent-encode a URL path segment, preserving hyphens and dots."""
+    import urllib.parse
+    return urllib.parse.quote(value, safe="-._~")
+
+
+def _url_depth(url: str) -> int:
+    """Return the number of path segments in url, excluding query string."""
+    path = url.split("?")[0].rstrip("/")
+    if not path or path == "/":
+        return 0
+    return len([s for s in path.lstrip("/").split("/") if s])
+
+
+# ---------------------------------------------------------------------------
+# __main__ dispatch
+# ---------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    import sys
+
+    mode_html = "--html" in sys.argv
+
+    os.environ.setdefault("USE_SQLITE", "1")
+    loader = DataLoader()
+
+    if mode_html:
+        repo_root = Path(__file__).parent.parent.parent.parent
+        out_dir = repo_root / "site"
+        print(f"Building static HTML site into {out_dir} ...")
+        crawler = SiteCrawler(loader, out_dir)
+        report = crawler.crawl()
+        print(f"  Written: {report.ok_count} files")
+        if report.failures:
+            print(f"  Failures: {report.fail_count}")
+            for f in report.failures:
+                print(f"    {f['url']}: {f['error']}")
+        else:
+            print("  No failures.")
+    else:
+        repo_root = Path(__file__).parent.parent.parent.parent
+        out_dir = repo_root / "generated-docs"
+        print(f"Building Markdown docs into {out_dir} ...")
+        SiteBuilder(loader, out_dir).build_markdown()
+        print("Done.")
