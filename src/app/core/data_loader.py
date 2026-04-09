@@ -1290,4 +1290,295 @@ class DataLoader:
         finally:
             conn.close()
 
+    # ------------------------------------------------------------------
+    # Site-builder helpers (added for src/app/core/site_builder.py)
+    # ------------------------------------------------------------------
+
+    def get_language_doc_info(self, name: str) -> Optional[Dict[str, Any]]:
+        """Returns all fields needed for static-site doc generation for one language.
+
+        Includes display-name influence lists, role-annotated creators, and
+        ordered profile sections so site_builder.py never writes raw SQL.
+        """
+        if not self.use_sqlite:
+            lang = self.get_language(name)
+            if not lang:
+                return None
+            profile = self.get_language_profile(lang['name'])
+            return {
+                'id': lang.get('id'),
+                'name': lang['name'],
+                'display_name': lang.get('display_name', lang['name']),
+                'year': lang.get('year'),
+                'cluster': lang.get('cluster'),
+                'generation': lang.get('generation'),
+                'is_keystone': lang.get('is_keystone', False),
+                'typing_discipline': lang.get('typing_discipline'),
+                'memory_management': lang.get('memory_management'),
+                'safety_model': lang.get('safety_model'),
+                'complexity_bias': lang.get('complexity_bias'),
+                'philosophy': lang.get('philosophy'),
+                'mental_model': lang.get('mental_model'),
+                'profile_title': profile.get('title') if profile else None,
+                'profile_overview': profile.get('overview') if profile else None,
+                'influenced_by': lang.get('influenced_by', []),
+                'influenced': lang.get('influenced', []),
+                'paradigms': lang.get('paradigms', []),
+                'creators': lang.get('creators', []),
+                'sections': [],
+            }
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("""
+                SELECT l.*, lp.title AS profile_title,
+                       lp.overview AS profile_overview,
+                       lp.id AS lp_id
+                FROM languages l
+                LEFT JOIN language_profiles lp ON l.id = lp.language_id
+                WHERE lower(l.name) = ?
+            """, (name.lower(),))
+            row = cursor.fetchone()
+            if not row:
+                return None
+
+            data = self._row_to_dict(row)
+            lang_id = data['id']
+            lp_id = data.get('lp_id')
+
+            cursor = conn.execute("""
+                SELECT l.display_name
+                FROM influences i JOIN languages l ON i.source_id = l.id
+                WHERE i.target_id = ?
+            """, (lang_id,))
+            data['influenced_by'] = [r['display_name'] for r in cursor.fetchall()]
+
+            cursor = conn.execute("""
+                SELECT l.display_name
+                FROM influences i JOIN languages l ON i.target_id = l.id
+                WHERE i.source_id = ?
+            """, (lang_id,))
+            data['influenced'] = [r['display_name'] for r in cursor.fetchall()]
+
+            cursor = conn.execute("""
+                SELECT p.name
+                FROM paradigms p
+                JOIN language_paradigms lp ON p.id = lp.paradigm_id
+                WHERE lp.language_id = ?
+            """, (lang_id,))
+            data['paradigms'] = [r['name'] for r in cursor.fetchall()]
+
+            cursor = conn.execute("""
+                SELECT p.name, lp.role
+                FROM language_people lp JOIN people p ON lp.person_id = p.id
+                WHERE lp.language_id = ?
+            """, (lang_id,))
+            data['creators'] = [
+                f"{r['name']} ({r['role']})" for r in cursor.fetchall()
+            ]
+
+            if lp_id:
+                cursor = conn.execute(
+                    "SELECT section_name, content FROM profile_sections"
+                    " WHERE profile_id = ?",
+                    (lp_id,),
+                )
+                data['sections'] = [self._row_to_dict(r) for r in cursor.fetchall()]
+            else:
+                data['sections'] = []
+
+            return data
+        finally:
+            conn.close()
+
+    def get_concept_doc_info(self, name: str) -> Optional[Dict[str, Any]]:
+        """Returns concept data merged with its profile and ordered sections."""
+        if not self.use_sqlite:
+            for c in self.concepts:
+                if c['name'].lower() == name.lower():
+                    profile = self.get_concept_profile(name)
+                    return {
+                        'name': c['name'],
+                        'description': c.get('description', ''),
+                        'profile_title': profile.get('title') if profile else None,
+                        'profile_overview': profile.get('overview') if profile else None,
+                        'sections': [],
+                    }
+            return None
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("""
+                SELECT c.*, cp.title AS profile_title,
+                       cp.overview AS profile_overview,
+                       cp.id AS cp_id
+                FROM concepts c
+                LEFT JOIN concept_profiles cp ON c.id = cp.concept_id
+                WHERE lower(c.name) = ?
+            """, (name.lower(),))
+            row = cursor.fetchone()
+            if not row:
+                return None
+
+            data = self._row_to_dict(row)
+            cp_id = data.get('cp_id')
+
+            if cp_id:
+                cursor = conn.execute(
+                    "SELECT section_name, content"
+                    " FROM concept_profile_sections WHERE profile_id = ?",
+                    (cp_id,),
+                )
+                data['sections'] = [self._row_to_dict(r) for r in cursor.fetchall()]
+            else:
+                data['sections'] = []
+
+            return data
+        finally:
+            conn.close()
+
+    def get_all_paradigm_objects(self) -> List[Dict[str, Any]]:
+        """Returns all paradigm records with their associated language lists."""
+        if not self.use_sqlite:
+            result = []
+            for p in self.paradigms:
+                p_copy = dict(p)
+                p_copy['lang_list'] = []
+                result.append(p_copy)
+            return sorted(result, key=lambda x: x.get('name', ''))
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("SELECT * FROM paradigms ORDER BY name")
+            paradigms = [self._row_to_dict(r) for r in cursor.fetchall()]
+
+            for p in paradigms:
+                p_id = p['id']
+                cursor = conn.execute("""
+                    SELECT l.display_name, l.name, l.year
+                    FROM language_paradigms lp
+                    JOIN languages l ON lp.language_id = l.id
+                    WHERE lp.paradigm_id = ?
+                    ORDER BY l.year
+                """, (p_id,))
+                p['lang_list'] = [self._row_to_dict(r) for r in cursor.fetchall()]
+
+            return paradigms
+        finally:
+            conn.close()
+
+    def get_paradigm_matrix(self) -> List[Dict[str, Any]]:
+        """Returns paradigm matrix dimension entries, or empty list if absent."""
+        if not self.use_sqlite:
+            return []
+
+        conn = self._get_connection()
+        try:
+            conn.execute(
+                "SELECT 1 FROM paradigm_matrix_dimensions LIMIT 1"
+            )
+        except Exception:
+            conn.close()
+            return []
+        try:
+            cursor = conn.execute("SELECT * FROM paradigm_matrix_dimensions")
+            return [self._row_to_dict(r) for r in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_timeline_with_related(self) -> List[Dict[str, Any]]:
+        """Returns timeline periods with events, each event including related names."""
+        if not self.use_sqlite:
+            periods = self.get_timeline()
+            for p in periods:
+                for e in p.get('events', []):
+                    e.setdefault('related', [])
+            return periods
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("SELECT * FROM timeline_periods ORDER BY id")
+            periods = [self._row_to_dict(r) for r in cursor.fetchall()]
+
+            for p in periods:
+                p_id = p['id']
+                e_cursor = conn.execute(
+                    "SELECT * FROM timeline_events WHERE period_id = ? ORDER BY id",
+                    (p_id,),
+                )
+                events = [self._row_to_dict(r) for r in e_cursor.fetchall()]
+
+                for e in events:
+                    e_id = e['id']
+                    r_cursor = conn.execute(
+                        "SELECT related_name FROM timeline_event_related"
+                        " WHERE event_id = ?",
+                        (e_id,),
+                    )
+                    e['related'] = [r['related_name'] for r in r_cursor.fetchall()]
+
+                p['events'] = events
+
+            return periods
+        finally:
+            conn.close()
+
+    def get_top_influential(self, n: int = 10) -> List[Dict[str, Any]]:
+        """Returns top N languages ordered by influence_score, highest first."""
+        if not self.use_sqlite:
+            langs = sorted(
+                self.languages,
+                key=lambda x: x.get('influence_score', 0),
+                reverse=True,
+            )
+            return [
+                {
+                    'name': l['name'],
+                    'display_name': l.get('display_name', l['name']),
+                    'influence_score': l.get('influence_score', 0),
+                }
+                for l in langs[:n]
+            ]
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute(
+                "SELECT name, display_name, influence_score"
+                " FROM v_language_era_rankings"
+                " ORDER BY influence_score DESC"
+                " LIMIT ?",
+                (n,),
+            )
+            return [self._row_to_dict(r) for r in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_entity_counts(self) -> Dict[str, int]:
+        """Returns a snapshot of entity counts across the Atlas."""
+        if not self.use_sqlite:
+            return {
+                'languages': len(self.languages),
+                'paradigms': len(self.paradigms),
+                'concepts': len(self.concepts),
+                'people': len(self.people),
+                'profiles': len(self.language_profiles),
+            }
+
+        conn = self._get_connection()
+        try:
+            def _count(table: str) -> int:
+                row = conn.execute(
+                    f"SELECT COUNT(*) FROM {table}"  # noqa: S608
+                ).fetchone()
+                return int(row[0])
+
+            return {
+                'languages': _count('languages'),
+                'paradigms': _count('paradigms'),
+                'concepts': _count('concepts'),
+                'people': _count('people'),
+                'profiles': _count('language_profiles'),
+            }
+        finally:
+            conn.close()
 

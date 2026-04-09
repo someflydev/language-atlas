@@ -190,3 +190,15 @@ def test_dataloader_edge_cases(tmp_path, monkeypatch):
     assert loader.get_event("None") is None
     assert loader.get_org("None") is None
     assert loader.get_person("None") is None
+
+
+def test_new_site_builder_dataloader_methods(mock_loader):
+    """One-line smoke tests for methods added to support SiteBuilder."""
+    assert mock_loader.get_language_doc_info("Python") is not None
+    first_concept = mock_loader.get_all_concepts()[0]["name"]
+    assert mock_loader.get_concept_doc_info(first_concept) is not None
+    assert isinstance(mock_loader.get_all_paradigm_objects(), list)
+    assert isinstance(mock_loader.get_paradigm_matrix(), list)
+    assert isinstance(mock_loader.get_timeline_with_related(), list)
+    assert len(mock_loader.get_top_influential(5)) <= 5
+    assert "languages" in mock_loader.get_entity_counts()
