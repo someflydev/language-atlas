@@ -61,9 +61,12 @@
         </nav>
     </header>
     {% if atlas_static_mode() %}
-    <div class="static-notice" style="background:#f0f9ff;border-bottom:1px solid #bae6fd;padding:0.5rem 1.5rem;text-align:center;font-size:0.8rem;color:#0369a1;">
-        You are viewing the static export. Interactive filtering and search will be enabled in the next release.
+    <div id="static-mode-notice" class="static-notice" style="background:#f0f9ff;border-bottom:1px solid #bae6fd;padding:0.5rem 1.5rem;text-align:center;font-size:0.8rem;color:#0369a1;">
+        This is the static export. Search and filtering run entirely in your
+        browser via SQLite WASM. If you see this message after the page has
+        loaded, the database failed to fetch.
     </div>
+    <script type="module" src="/static/atlas-static.js"></script>
     {% endif %}
     <main class="container">
         {% block content %}{% endblock %}
