@@ -10,8 +10,15 @@
 1. Read `AGENT.md` and `CLAUDE.md`
 2. Load relevant `context/` files for the work at hand
 3. Create `tmp/PROMPT_XX_checklist.md` with `- [ ]` markdown checkboxes for all planned work
-4. Work through the checklist, checking off items as completed
+4. Work through the checklist, checking off each item with `[x]` **immediately after it is
+   done** — not in a batch at the end. Edit the file after every completed task.
 5. If session ends before work is complete, write `tmp/HANDOFF.md` (never commit it)
+
+**Why this matters:** context windows are finite. If the session exhausts its context and
+triggers auto-compaction (or hits a rate limit) before the checklist is updated, the next
+session cannot tell what was already done. It will re-read every source file to reconstruct
+state, wasting context that could go toward finishing the work. Checking off items in real
+time is the only reliable record that survives a hard stop.
 
 ## Checklist File Convention
 ```

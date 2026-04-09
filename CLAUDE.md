@@ -21,7 +21,9 @@ Always read `AGENT.md` before executing any `.prompts/PROMPT_XX.txt` file.
 When starting a new PROMPT session:
 1. Load relevant context files above
 2. Create `tmp/PROMPT_XX_checklist.md` with `- [ ]` checkboxes
-3. Check off work as it's done
+3. Check off each item **immediately after completing it** — edit the file after every task,
+   not in a batch at the end. If auto-compaction or a rate limit cuts the session short, the
+   checklist is the only record a follow-up session can trust without re-reading everything.
 4. If session ends unfinished, write `tmp/HANDOFF.md` (never commit it)
 
 ## Key Paths
