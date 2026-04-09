@@ -1,0 +1,220 @@
+PROMPT_52 — Makefile consistency, tooling hygiene, and gitignore/report cleanup
+=============================================================================
+
+Always read CLAUDE.md before proceeding. Do not read human-notes.md.
+Load .context/commands.md for operational context.
+
+## Goal
+
+Tighten the Makefile so every invocation uses the right Python runtime,
+expand `make clean` to cover all stale artifacts, fix type-checking so
+it is actually runnable, add a .gitignore exception so
+`generated-reports/dark_matter_todo.json` is tracked, and consolidate
+the `generated-reports/README.md` content into `scripts/README.md`
+before deleting it.
+
+## Session checklist
+
+Create `tmp/PROMPT_52_checklist.md` with the following items and check
+each off immediately after completing it:
+
+- [ ] Read CLAUDE.md and .context/commands.md
+- [ ] Fix Makefile: src/app/core/ scripts → uv run
+- [ ] Fix Makefile: scripts/ scripts — correct runtime per category
+- [ ] Fix Makefile: pytest targets → uv run pytest
+- [ ] Fix Makefile: type-check → uv run mypy, add mypy to pyproject.toml
+- [ ] Expand make clean
+- [ ] Update .gitignore to un-ignore dark_matter_todo.json
+- [ ] Merge generated-reports/README.md → scripts/README.md, delete the original
+- [ ] Commit
+
+---
+
+## Task 1 — Fix Makefile invocations
+
+Read the current `Makefile` carefully before making any changes.
+
+### Rule: scripts in src/app/core/
+
+Any Makefile target that invokes a file under `src/app/core/` must use:
+
+    PYTHONPATH=src uv run python -m app.core.<module_name>
+
+where `<module_name>` is the filename without `.py`. Do NOT use
+`python3 src/app/core/<file>.py` — that uses the system Python and
+misses the venv.
+
+Currently broken targets:
+- `build`: `python3 src/app/core/build_sqlite.py`
+  → `PYTHONPATH=src uv run python -m app.core.build_sqlite`
+- `audit`: `python3 src/app/core/auditor.py`
+  → `PYTHONPATH=src uv run python -m app.core.auditor`
+
+### Rule: scripts in scripts/
+
+Determine the correct invocation by whether the script is zero-dependency
+(stdlib only) or needs the uv-managed venv. Read the import block of each
+script to verify before deciding.
+
+- `scripts/dark_matter_audit.py`: stdlib only (json, os, re, string,
+  pathlib). Zero-dep. Keep as: `python3 scripts/dark_matter_audit.py`
+
+- `scripts/generate_docs.py`: imports from app.core (DataLoader,
+  SiteBuilder) but does its own `sys.path.insert` to add `src/`. It
+  needs the venv for third-party deps (fastapi, jinja2, etc.) but does
+  not need PYTHONPATH set externally.
+  Keep as: `uv run python scripts/generate_docs.py`
+
+- `scripts/prep_pages.py`: stdlib only (json, shutil, subprocess, sys,
+  pathlib). Zero-dep.
+  Change: `uv run python scripts/prep_pages.py` → `python3 scripts/prep_pages.py`
+
+Verify the `pages` target: it currently calls `uv run python
+scripts/prep_pages.py`. Change only that call; `build` and `site` which
+are dependencies of `pages` will be fixed by Task 1 above.
+
+### Rule: pytest
+
+`pytest` is listed in `pyproject.toml` dependencies but is NOT
+installed globally on the system. All pytest invocations must go
+through `uv run`:
+
+- `test` target:           `pytest -v --cov=src/app/core`
+  → `uv run pytest -v --cov=src/app/core`
+
+- `test-intensive` target: `pytest -m intensive`
+  → `uv run pytest -m intensive`
+
+Note: do NOT add `--cov=...` to test-intensive — the current form is
+intentional (intensive tests are slow; coverage is tracked by the
+regular test run).
+
+---
+
+## Task 2 — Fix type-check (add mypy to project, wire uv run)
+
+`mypy` is referenced in `make type-check` and a `mypy.ini` exists in
+the root, but `mypy` is not in `pyproject.toml` and therefore cannot
+be run.
+
+Steps:
+1. Open `pyproject.toml`. Under `[dependency-groups]`, in the `dev`
+   group, add `"mypy>=1.10"` alongside pyinstaller.
+2. In the Makefile, change:
+       mypy . --config-file mypy.ini
+   to:
+       uv run mypy . --config-file mypy.ini
+
+---
+
+## Task 3 — Expand make clean
+
+Read the current `clean` target. It removes:
+  - generated-docs/
+  - dist/
+  - build_temp/
+  - .pytest_cache/
+  - generated-reports/historical_insights.json
+
+Extend it to also remove:
+
+- `atlas.spec`            — PyInstaller spec file (*.spec is gitignored)
+- `language_atlas.sqlite` — built artifact (*.sqlite is gitignored)
+- `.coverage`             — pytest-cov output (gitignored)
+- `htmlcov/`              — HTML coverage report (gitignored)
+- `site/`                 — static site export (gitignored)
+
+Remove the targeted `generated-reports/historical_insights.json` line
+and replace it with `generated-reports/` (clean the whole dir) EXCEPT
+add a comment noting that `dark_matter_todo.json` is tracked and will be
+recreated by `make dark-matter`. Use `find generated-reports/ -name
+'*.json' ! -name 'dark_matter_todo.json' -delete` or `rm -f` with
+explicit filenames — do not `rm -rf generated-reports/` since that
+would delete the tracked file on disk. Keep it surgical.
+
+The cleanest approach:
+
+    rm -f generated-reports/cluster_genealogy.json
+    rm -f generated-reports/creator_impact.json
+    rm -f generated-reports/db_health.json
+    rm -f generated-reports/innovation_trends.json
+    rm -f generated-reports/safety_complexity_trends.json
+
+(These are the five report files produced by `make` targets, excluding
+`dark_matter_todo.json` which is now tracked.)
+
+Also add `find . -type d -name '__pycache__' -exec rm -rf {} + 2>/dev/null || true`
+to remove pycache dirs scattered through the tree.
+
+---
+
+## Task 4 — .gitignore: un-ignore dark_matter_todo.json
+
+`generated-reports/` is currently fully gitignored. We want to track
+`generated-reports/dark_matter_todo.json` so the TODO list evolves
+visibly with the data.
+
+In `.gitignore`, immediately after the `generated-reports/` line, add:
+
+    !generated-reports/dark_matter_todo.json
+
+This negation exception tells git to track that one file despite the
+directory-level ignore.
+
+After editing .gitignore, run:
+
+    git add generated-reports/dark_matter_todo.json
+
+to start tracking it (it already exists on disk from prior runs of
+`make dark-matter`). Confirm it appears in `git status` as a new
+tracked file.
+
+---
+
+## Task 5 — Merge generated-reports/README.md → scripts/README.md, then delete it
+
+`generated-reports/README.md` explains what each report artifact
+contains and how to regenerate them. This information belongs in
+`scripts/README.md` alongside the `generate_reports.py` section, not
+in a directory that is mostly gitignored.
+
+Steps:
+
+1. Read `generated-reports/README.md` fully.
+2. Read `scripts/README.md` — find the `generate_reports.py` section.
+3. The `generate_reports.py` section currently lists `safety_complexity`,
+   `creator_impact`, and `db_health` as the supported reports. Add the
+   missing reports (`cluster_genealogy`, `innovation_trends`) so the
+   `--report` choices list is complete and matches `generate_reports.py`.
+4. Under the `generate_reports.py` section (or as a clearly-labelled
+   sub-section "Report Artifacts"), add a concise description of each
+   output file's purpose, key fields, and interpretation, drawn from
+   `generated-reports/README.md`. Keep the writing tight — the goal is
+   reference accuracy, not verbosity.
+5. At the end of the `dark_matter_audit.py` section in `scripts/README.md`,
+   add a note: "The output file `generated-reports/dark_matter_todo.json`
+   is committed to the repository so the TODO list is visible in git
+   history as the data corpus grows."
+6. Delete `generated-reports/README.md`.
+
+---
+
+## Commit instructions
+
+Follow CLAUDE.md commit style (Tim Pope, heredoc, PROMPT_52 prefix, no
+co-author, explicit staging only). Break into logical commits:
+
+Commit 1 — Makefile + pyproject.toml fixes:
+  Stage: Makefile, pyproject.toml
+
+Commit 2 — .gitignore exception + start tracking dark_matter_todo.json:
+  Stage: .gitignore, generated-reports/dark_matter_todo.json
+
+Commit 3 — scripts/README.md updated, generated-reports/README.md deleted:
+  Stage: scripts/README.md
+  Delete: git rm generated-reports/README.md
+
+Suggested subject lines:
+  [PROMPT_52] Fix Makefile invocations and add mypy to dev deps
+  [PROMPT_52] Track generated-reports/dark_matter_todo.json in git
+  [PROMPT_52] Merge generated-reports/README into scripts/README

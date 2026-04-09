@@ -1,0 +1,175 @@
+PROMPT_53 — Documentation freshness pass
+=========================================
+
+Always read CLAUDE.md before proceeding. Do not read human-notes.md.
+Load .context/architecture.md, .context/routes.md, and
+.context/commands.md.
+
+## Goal
+
+Perform a systematic freshness pass on every user-facing README and the
+API guide. The goal is accuracy: every command example should work,
+every target listed should match the Makefile, and every file path or
+architectural claim should reflect the actual codebase. No speculative
+additions — only fix what is wrong or stale.
+
+This prompt runs after PROMPT_52, so assume:
+- `Makefile` already uses correct `uv run` / `PYTHONPATH=src uv run`
+  invocations throughout
+- `generated-reports/README.md` has been deleted
+- `scripts/README.md` has been updated with report artifact docs
+- `generated-reports/dark_matter_todo.json` is now tracked
+
+## Session checklist
+
+Create `tmp/PROMPT_53_checklist.md` and check each item off immediately
+after completing it:
+
+- [ ] Read CLAUDE.md and the three context files
+- [ ] Audit README.md (root)
+- [ ] Audit src/README.md
+- [ ] Audit API_GUIDE.md
+- [ ] Audit scripts/README.md (post-PROMPT_52)
+- [ ] Commit
+
+---
+
+## What to audit and how
+
+For each document below, read the file in full, then cross-check every
+factual claim against the actual source. Do NOT rewrite prose for style
+— only correct inaccuracies, remove stale content, and add genuinely
+missing information. Follow CLAUDE.md style rules: no emojis in section
+titles, no em dashes, standard punctuation.
+
+---
+
+### 1. README.md (root)
+
+Key things to verify:
+
+**Quickstart block** — Check that the server command matches how the
+app is actually started. The block currently shows:
+    cd src/app && uv run uvicorn app:app --reload --port 8084
+Open `src/app/app.py` (or check CLAUDE.md / context files) to confirm
+the correct module path and port. Also verify whether `cd src/app` is
+necessary or whether the command can be run from the project root.
+
+**Make targets table** — Each row should match what currently exists in
+the Makefile after PROMPT_52. Verify the descriptions are accurate.
+Note: `make server` appears in src/README.md's command list but is NOT
+a Makefile target — do not add it to the table here; instead remove any
+reference to it if it appears, or leave it out if it's already absent.
+
+**What's inside section** — Verify all linked files exist:
+`src/README.md`, `API_GUIDE.md`, `scripts/README.md`, `data/`,
+`data/docs/`, `CLAUDE.md`. The `generated-reports/README.md` link (if
+any) should be removed since that file is deleted after PROMPT_52.
+
+**TODO placeholders** — The file has two `<!-- TODO ... -->` comments
+(copy, live URL). Leave these as-is; they are intentional placeholders
+for the human.
+
+**dark-matter target description** — The table entry for `make
+dark-matter` should say it writes `generated-reports/dark_matter_todo.json`
+and that this file is tracked in git.
+
+---
+
+### 2. src/README.md
+
+This is the authoritative architecture reference. Read it fully, then
+cross-check:
+
+**Setup and Run section** — It contains:
+    uv run python3 src/app/core/build_sqlite.py
+This is stale after PROMPT_52. Update to match the new Makefile form:
+    make build
+or equivalently:
+    PYTHONPATH=src uv run python -m app.core.build_sqlite
+Prefer `make build` for brevity in docs; the Makefile is now canonical.
+
+**Makefile Targets section** — Check every bullet against the Makefile.
+There is a `server` bullet here that does NOT exist as a Makefile
+target. Either remove it or replace it with the actual server command
+(check app.py to find the correct uvicorn invocation). Do not invent a
+`make server` target that doesn't exist.
+
+**Atlas Auditor section** — The command example:
+    uv run python3 scripts/dark_matter_audit.py
+should be changed to:
+    python3 scripts/dark_matter_audit.py
+(zero-dep script; uv not needed).
+
+**Any other command examples** — Scan for bare `python3
+src/app/core/...` calls and update them to the PROMPT_52 form
+(`PYTHONPATH=src uv run python -m app.core.*`) or `make <target>`.
+
+**File path claims** — Verify that every file path mentioned (e.g.,
+`src/app/core/site_builder.py`, `scripts/generate_docs.py`,
+`docs/GH_PAGES.md`) actually exists. Use your tools to confirm;
+remove or correct any that don't.
+
+---
+
+### 3. API_GUIDE.md
+
+Read the full file. Cross-check the route list against `src/app/app.py`
+to verify:
+
+- Every endpoint listed in the guide exists as a route in app.py.
+- No routes in app.py are missing from the guide (add stubs for any
+  that are genuinely missing; document the response shape if knowable
+  from the route handler without major inference).
+- URL patterns are correct (e.g., `/api/language/{name}` vs
+  `/api/languages/{id}`).
+- The base URL note (`http://localhost:8084/api`) is accurate.
+- The cURL and Python examples actually match real endpoints.
+
+If you find the guide is already accurate, no changes needed — say so
+in a comment in the checklist. Do not pad the file with speculative
+endpoints or response schema details you cannot confirm from app.py.
+
+---
+
+### 4. scripts/README.md (post-PROMPT_52)
+
+PROMPT_52 added report artifact documentation and updated dark_matter
+references. This pass should:
+
+- Verify every `Usage:` line in each section uses the correct invocation
+  from the conventions established in PROMPT_52:
+  - Zero-dep scripts (dark_matter_audit.py, check_integrity.py,
+    data_stats.py, audit_lineage.py, db_query.py, inspect_sqlite.py,
+    export_summary.py): `python3 scripts/<name>.py`
+  - App-core-dependent scripts (generate_docs.py, generate_reports.py):
+    `uv run python scripts/<name>.py`
+  - Zero-dep scripts (prep_pages.py): `python3 scripts/prep_pages.py`
+  - Shell scripts (atlas-fuzzy.sh): `./scripts/atlas-fuzzy.sh`
+
+- Verify `build_zenith.py` usage: it's in the dev group (pyinstaller),
+  so it needs `uv run python scripts/build_zenith.py`. Check the script
+  imports; update the Usage line accordingly.
+
+- Remove any reference to `generated-reports/README.md` if such a
+  reference was added by PROMPT_52 (it should not be, but verify).
+
+- Check that the `dark_matter_audit.py` section accurately describes
+  the file path of its output (`generated-reports/dark_matter_todo.json`)
+  and notes that the file is committed to the repo.
+
+---
+
+## Commit instructions
+
+Follow CLAUDE.md commit style (Tim Pope, heredoc, PROMPT_53 prefix, no
+co-author, explicit staging only).
+
+A single commit is appropriate here since all changes are documentation:
+
+    [PROMPT_53] Documentation freshness pass
+
+Stage only the files you actually changed. If a file needed no changes,
+do not stage it. Describe in the commit body which files were updated
+and the primary class of correction in each (e.g., "stale command
+examples", "missing make target", "removed deleted file reference").
