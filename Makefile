@@ -1,10 +1,11 @@
-.PHONY: docs clean help test test-intensive build audit dark-matter type-check harden
+.PHONY: docs site clean help test test-intensive build audit dark-matter type-check harden
 
 help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
 	@echo "  docs            Generate Markdown documentation from the SQLite database"
+	@echo "  site            Export fully-rendered static HTML site into site/"
 	@echo "  build           Rebuild the SQLite database from JSON sources"
 	@echo "  audit           Run the Atlas Auditor to check data integrity"
 	@echo "  dark-matter     Run the Dark Matter audit to find missing content"
@@ -17,6 +18,10 @@ help:
 docs:
 	@echo "Generating documentation (INDEX.md and README.md included)..."
 	uv run python scripts/generate_docs.py
+
+site:
+	@echo "Building static site into site/..."
+	PYTHONPATH=src uv run python -m app.core.site_builder --html
 
 build:
 	@echo "Building SQLite database..."

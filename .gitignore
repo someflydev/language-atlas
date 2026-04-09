@@ -30,6 +30,9 @@ generated-reports/
 # Temporary session files (handoffs, checklists)
 tmp/
 
+# Static site export (produced by make site; managed on gh-pages branch)
+site/
+
 # Distribution / Build
 dist/
 build/
