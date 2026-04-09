@@ -35,7 +35,7 @@ Open http://localhost:8084.
 | `make site` | Export fully-rendered static HTML into `site/` |
 | `make pages` | Prepare gh-pages artifacts (run on gh-pages branch only) |
 | `make audit` | Run the Atlas Auditor to check data integrity |
-| `make dark-matter` | Find missing profiles (writes `generated-reports/dark_matter_todo.json`) |
+| `make dark-matter` | Find missing profiles; writes `generated-reports/dark_matter_todo.json` (tracked in git) |
 | `make test` | Run the test suite |
 | `make harden` | Full reliability suite: type-check, audit, test |
 | `make clean` | Remove generated artifacts |

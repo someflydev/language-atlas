@@ -163,7 +163,14 @@ Retrieve detailed information for a specific historical event.
 - **Method:** `GET`
 - **Response:** Detailed JSON object for the requested event.
 
-### 18. Visualization Data
+### 18. Insights: Paradigm Momentum
+Retrieve paradigm momentum data for the insights dashboard.
+
+- **URL:** `/api/insights/momentum`
+- **Method:** `GET`
+- **Response:** Array of objects with paradigm momentum analytics.
+
+### 19. Visualization Data
 Retrieve processed data for timeline and influence visualizations.
 
 - **URL:** `/api/viz/timeline`

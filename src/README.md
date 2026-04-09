@@ -51,7 +51,7 @@ The `AtlasAuditor` class and the `scripts/dark_matter_audit.py` tool provide a r
 make audit
 
 # Identify "Dark Matter" (missing profiles referenced in the data)
-uv run python3 scripts/dark_matter_audit.py
+python3 scripts/dark_matter_audit.py
 ```
 
 ## Control Room & Server Commands
@@ -64,7 +64,7 @@ uv run atlas odyssey systems_renaissance
 uv run atlas auto-odyssey "C"
 
 # Launch the FastAPI Web Server & API
-make server
+cd src/app && uv run uvicorn app:app --reload --port 8084
 
 # Regenerate all Markdown documentation from JSON/SQLite sources
 make docs
@@ -72,17 +72,20 @@ make docs
 
 ## Makefile Targets
 
-*   **server**: Starts the FastAPI web server on `http://localhost:8084`.
+*   **build**: Rebuilds the SQLite database from JSON sources.
 *   **docs**: Regenerates all Markdown documentation in `generated-docs/` (Languages, Eras, Concepts, and Thematic Overviews) from the SQLite database.
+*   **site**: Exports fully-rendered static HTML into `site/`.
+*   **pages**: Prepares gh-pages artifacts (run on gh-pages branch only).
 *   **audit**: Runs the Atlas Auditor and consistency checks.
+*   **dark-matter**: Finds missing profiles; writes `generated-reports/dark_matter_todo.json`.
 *   **test**: Runs fast unit and consistency checks.
-*   **build**: Builds the standalone Zenith binary.
+*   **harden**: Full reliability suite: type-check, audit, test.
 *   **clean**: Removes generated artifacts and temporary files.
 
 ## Setup and Run
 
 1.  **Install Dependencies**: `uv sync`
-2.  **Build Database**: `uv run python3 src/app/core/build_sqlite.py`
+2.  **Build Database**: `make build`
 3.  **Regenerate Docs**: `make docs`
 4.  **Explore**: Use `atlas --help` or visit `http://localhost:8084/api`.
 
