@@ -44,7 +44,7 @@ templates = Jinja2Templates(directory=templates_dir)
 # evaluated at render time, not at import time.  The SiteCrawler sets
 # this env var before making requests; clearing it on exit restores the
 # normal live-app behaviour.
-templates.env.globals["static_mode"] = lambda: os.environ.get("ATLAS_STATIC_MODE", "0") == "1"
+templates.env.globals["atlas_static_mode"] = lambda: os.environ.get("ATLAS_STATIC_MODE", "0") == "1"
 
 # Initialize data loader
 data_loader = DataLoader()
