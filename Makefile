@@ -26,15 +26,15 @@ site:
 
 pages: build site
 	@echo "Preparing GitHub Pages artifacts..."
-	uv run python scripts/prep_pages.py
+	python3 scripts/prep_pages.py
 
 build:
 	@echo "Building SQLite database..."
-	python3 src/app/core/build_sqlite.py
+	PYTHONPATH=src uv run python -m app.core.build_sqlite
 
 audit:
 	@echo "Running Atlas Auditor..."
-	python3 src/app/core/auditor.py
+	PYTHONPATH=src uv run python -m app.core.auditor
 
 dark-matter:
 	@echo "Auditing for Dark Matter..."
@@ -42,15 +42,15 @@ dark-matter:
 
 type-check:
 	@echo "Running type checks..."
-	mypy . --config-file mypy.ini
+	uv run mypy . --config-file mypy.ini
 
 test:
 	@echo "Running tests..."
-	pytest -v --cov=src/app/core
+	uv run pytest -v --cov=src/app/core
 
 test-intensive:
 	@echo "Running intensive tests..."
-	pytest -m intensive
+	uv run pytest -m intensive
 
 harden: type-check audit test
 	@echo "Hardening suite complete."
@@ -61,4 +61,15 @@ clean:
 	rm -rf dist/
 	rm -rf build_temp/
 	rm -rf .pytest_cache/
-	rm -f generated-reports/historical_insights.json
+	rm -f atlas.spec
+	rm -f language_atlas.sqlite
+	rm -f .coverage
+	rm -rf htmlcov/
+	rm -rf site/
+	# Remove generated report files; dark_matter_todo.json is tracked and recreated by make dark-matter
+	rm -f generated-reports/cluster_genealogy.json
+	rm -f generated-reports/creator_impact.json
+	rm -f generated-reports/db_health.json
+	rm -f generated-reports/innovation_trends.json
+	rm -f generated-reports/safety_complexity_trends.json
+	find . -type d -name '__pycache__' -exec rm -rf {} + 2>/dev/null || true

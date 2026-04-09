@@ -33,5 +33,6 @@ addopts = "--strict-markers --cov=src/app/core"
 
 [dependency-groups]
 dev = [
+    "mypy>=1.10",
     "pyinstaller>=6.19.0",
 ]
