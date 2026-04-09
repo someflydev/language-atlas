@@ -47,7 +47,8 @@ tmp/HANDOFF.md
 ## Staging Rules
 - NEVER `git add .` or `git add -A`
 - Always stage specific files: `git add src/app/app.py data/languages.json`
-- Never commit: `human-notes.md`, `tmp/HANDOFF.md`, `tmp/*.md`, `*.sqlite`, `generated-docs/`, `generated-reports/` (unless explicitly tracking changes to `dark_matter_todo.json`)
+- Never read or commit `human-notes.md` — it is the user's personal tracking file, not agent input
+- Never commit: `tmp/HANDOFF.md`, `tmp/*.md`, `*.sqlite`, `generated-docs/`, `generated-reports/` (unless explicitly tracking changes to `dark_matter_todo.json`)
 
 ## Commit Grouping
 Group related files into logical commits:

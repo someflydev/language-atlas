@@ -5,6 +5,8 @@ Language Atlas is a data-driven research platform for exploring the history and 
 ## Read First
 Always read `AGENT.md` before executing any `.prompts/PROMPT_XX.txt` file.
 
+**Never read `human-notes.md`** — it is the user's personal tracking file, not an agent input.
+
 ## Context Files (load what you need)
 | File | Load when... |
 |---|---|
@@ -49,6 +51,11 @@ make docs         # Regenerate generated-docs/
 make audit        # Data integrity check
 make dark-matter  # Find missing profiles
 ```
+
+## Documentation Style
+- No emojis in section titles or documentation headers
+- Avoid em dashes; use standard punctuation or restructure the sentence
+- Use `uv run` in all documentation examples (not bare `python3`)
 
 ## Commit Style (Tim Pope, heredoc)
 - Prefix: `[PROMPT_XX]`; body at 72-80 chars; no co-author
