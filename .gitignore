@@ -24,7 +24,8 @@ htmlcov/
 
 # Generated assets
 generated-docs/
-generated-reports/
+generated-reports/*
+!generated-reports/dark_matter_todo.json
 *.sqlite
 
 # Temporary session files (handoffs, checklists)
