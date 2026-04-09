@@ -1,4 +1,4 @@
-.PHONY: docs site clean help test test-intensive build audit dark-matter type-check harden
+.PHONY: docs site pages clean help test test-intensive build audit dark-matter type-check harden
 
 help:
 	@echo "Usage: make [target]"
@@ -6,6 +6,7 @@ help:
 	@echo "Targets:"
 	@echo "  docs            Generate Markdown documentation from the SQLite database"
 	@echo "  site            Export fully-rendered static HTML site into site/"
+	@echo "  pages           Prepare gh-pages artifacts (run on gh-pages branch only)"
 	@echo "  build           Rebuild the SQLite database from JSON sources"
 	@echo "  audit           Run the Atlas Auditor to check data integrity"
 	@echo "  dark-matter     Run the Dark Matter audit to find missing content"
@@ -22,6 +23,10 @@ docs:
 site:
 	@echo "Building static site into site/..."
 	PYTHONPATH=src uv run python -m app.core.site_builder --html
+
+pages: build site
+	@echo "Preparing GitHub Pages artifacts..."
+	uv run python scripts/prep_pages.py
 
 build:
 	@echo "Building SQLite database..."
