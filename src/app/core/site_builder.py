@@ -5,8 +5,8 @@ Provides two output modes:
 - SiteCrawler: Full-rendered HTML export into site/ via FastAPI TestClient
   (HTML mode, added in PROMPT_50).
 
-scripts/generate_docs.py is a thin CLI wrapper that calls build_markdown().
-The __main__ block below dispatches between the two modes.
+The __main__ block below dispatches between the two modes:
+run without --html for Markdown (make docs), with --html for HTML (make site).
 """
 
 from __future__ import annotations
@@ -353,8 +353,8 @@ class SiteBuilder:
                 " site_builder.py, auditor.py, insights.py\n"
             )
             f.write(
-                "- `scripts/` - thin CLI wrappers and utility scripts"
-                " (generate_docs.py, dark_matter_audit.py, etc.)\n"
+                "- `scripts/` - utility scripts"
+                " (dark_matter_audit.py, generate_reports.py, etc.)\n"
             )
             f.write("\n")
 

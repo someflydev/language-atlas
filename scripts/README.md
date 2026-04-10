@@ -121,26 +121,6 @@ No isolated islands found.
 
 ## Generation & Reporting
 
-### generate_docs.py
-
-Orchestrates the creation of the entire Markdown-based "Living Documentation".
-
-- **Purpose:** Convert raw JSON data into a structured, hyperlinked directory of language profiles, concept deep-dives, and era summaries.
-- **Usage:** `uv run python scripts/generate_docs.py`
-- **Output:** Populates the `generated-docs/` directory.
-- **Features:**
-  - Automatically handles cross-linking between profiles.
-  - Generates index files (A-Z) and thematic hubs.
-
-**Example Output:**
-```text
-Setting up directories...
-Generating language profiles...
-Generating concept profiles...
-Generating era summaries...
-Documentation generation complete.
-```
-
 ### generate_reports.py
 
 The "Atlas Analytics" suite for generating specialized, high-signal reports from the SQLite database.
