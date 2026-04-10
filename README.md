@@ -9,10 +9,8 @@ SQLite database compiled from a curated JSON corpus.
 ## Quickstart
 
 ```bash
-uv venv --python 3.12
-uv sync
-make build
-cd src/app && uv run uvicorn app:app --reload --port 8084
+make init
+make server
 ```
 
 Open http://localhost:8084.
