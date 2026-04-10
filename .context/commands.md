@@ -17,16 +17,18 @@ make server
 ## Makefile Targets
 | Target | Command |
 |---|---|
-| `make build` | Rebuild SQLite from JSON: `python3 src/app/core/build_sqlite.py` |
-| `make docs` | Generate Markdown docs (including INDEX.md and README.md): `uv run python scripts/generate_docs.py` |
-| `make site` | Build static HTML export into `site/`: `uv run python -m app.core.site_builder --html` |
-| `make pages` | Prepare gh-pages artifacts (must be run on gh-pages branch): `uv run python scripts/prep_pages.py` |
-| `make audit` | Data integrity: `python3 src/app/core/auditor.py` |
+| `make init` | Create venv, install deps, build database |
+| `make build` | Rebuild SQLite from JSON: `PYTHONPATH=src uv run python -m app.core.build_sqlite` |
+| `make server` | Start FastAPI dev server on port 8084 |
+| `make audit` | Data integrity: `PYTHONPATH=src uv run python -m app.core.auditor` |
 | `make dark-matter` | Missing profiles: `python3 scripts/dark_matter_audit.py` |
 | `make test` | `pytest -v --cov=src/app/core` |
-| `make test-intensive` | `pytest -m intensive` |
-| `make type-check` | `mypy . --config-file mypy.ini` |
 | `make harden` | type-check + audit + test |
+| `make type-check` | `mypy . --config-file mypy.ini` |
+| `make test-intensive` | `pytest -m intensive` |
+| `make docs` | Generate Markdown docs: `PYTHONPATH=src uv run python -m app.core.site_builder` |
+| `make site` | Build static HTML export into `site/`: `PYTHONPATH=src uv run python -m app.core.site_builder --html` |
+| `make pages` | Prepare gh-pages artifacts (must be run on gh-pages branch): `python3 scripts/prep_pages.py` |
 | `make clean` | Remove generated-docs/, dist/, build_temp/ |
 
 ## CLI (Typer — `src/cli.py`)
@@ -46,7 +48,6 @@ uv run python3 src/tui.py   # Launch Textual TUI (LivingAtlasApp)
 ## Scripts
 | Script | Purpose |
 |---|---|
-| `scripts/generate_docs.py` | Generate Markdown in generated-docs/ from SQLite |
 | `scripts/generate_reports.py` | JSON analytics reports in generated-reports/ |
 | `scripts/dark_matter_audit.py` | Find missing profiles, writes dark_matter_todo.json |
 | `scripts/audit_lineage.py` | Lineage integrity check |

@@ -1,36 +1,36 @@
-.PHONY: docs site pages clean help test test-intensive build audit dark-matter type-check harden
+.PHONY: init build server audit dark-matter test harden type-check test-intensive docs site pages clean help
 
 help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
-	@echo "  docs            Generate Markdown documentation from the SQLite database"
-	@echo "  site            Export fully-rendered static HTML site into site/"
-	@echo "  pages           Prepare gh-pages artifacts (run on gh-pages branch only)"
+	@echo "  init            Set up virtualenv, install deps, and build the database"
 	@echo "  build           Rebuild the SQLite database from JSON sources"
+	@echo "  server          Start the FastAPI dev server on port 8084"
 	@echo "  audit           Run the Atlas Auditor to check data integrity"
 	@echo "  dark-matter     Run the Dark Matter audit to find missing content"
 	@echo "  test            Run the comprehensive test suite"
-	@echo "  test-intensive  Run long-running analytical tests"
-	@echo "  type-check      Run mypy type checking"
 	@echo "  harden          Run full reliability suite (type-check, audit, test)"
+	@echo "  type-check      Run mypy type checking"
+	@echo "  test-intensive  Run long-running analytical tests"
+	@echo "  docs            Generate Markdown documentation from the SQLite database"
+	@echo "  site            Export fully-rendered static HTML site into site/"
+	@echo "  pages           Prepare gh-pages artifacts (run on gh-pages branch only)"
 	@echo "  clean           Remove generated artifacts"
 
-docs:
-	@echo "Generating documentation (INDEX.md and README.md included)..."
-	uv run python scripts/generate_docs.py
-
-site:
-	@echo "Building static site into site/..."
-	PYTHONPATH=src uv run python -m app.core.site_builder --html
-
-pages: build site
-	@echo "Preparing GitHub Pages artifacts..."
-	python3 scripts/prep_pages.py
+init:
+	@command -v uv >/dev/null 2>&1 || { echo "uv is not on PATH. Install it from https://github.com/astral-sh/uv"; exit 1; }
+	uv venv --python 3.12
+	uv sync
+	$(MAKE) build
 
 build:
 	@echo "Building SQLite database..."
 	PYTHONPATH=src uv run python -m app.core.build_sqlite
+
+server:
+	@echo "Starting FastAPI dev server on port 8084..."
+	cd src/app && uv run uvicorn app:app --reload --port 8084
 
 audit:
 	@echo "Running Atlas Auditor..."
@@ -40,20 +40,32 @@ dark-matter:
 	@echo "Auditing for Dark Matter..."
 	python3 scripts/dark_matter_audit.py
 
-type-check:
-	@echo "Running type checks..."
-	uv run mypy . --config-file mypy.ini
-
 test:
 	@echo "Running tests..."
 	uv run pytest -v --cov=src/app/core
+
+harden: type-check audit test
+	@echo "Hardening suite complete."
+
+type-check:
+	@echo "Running type checks..."
+	uv run mypy . --config-file mypy.ini
 
 test-intensive:
 	@echo "Running intensive tests..."
 	uv run pytest -m intensive
 
-harden: type-check audit test
-	@echo "Hardening suite complete."
+docs:
+	@echo "Generating documentation (INDEX.md and README.md included)..."
+	PYTHONPATH=src uv run python -m app.core.site_builder
+
+site:
+	@echo "Building static site into site/..."
+	PYTHONPATH=src uv run python -m app.core.site_builder --html
+
+pages: build site
+	@echo "Preparing GitHub Pages artifacts..."
+	python3 scripts/prep_pages.py
 
 clean:
 	@echo "Cleaning up generated documentation and build artifacts..."
