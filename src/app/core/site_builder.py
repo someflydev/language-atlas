@@ -366,7 +366,7 @@ class SiteBuilder:
             f.write(
                 "To run the dev server locally:\n\n"
                 "```bash\n"
-                "cd src/app && uv run uvicorn app:app --reload --port 8084\n"
+                "make server\n"
                 "```\n"
             )
 
@@ -428,7 +428,7 @@ class SiteBuilder:
                 " and how to regenerate them. To explore the Atlas interactively,"
                 " run the FastAPI dev server on port 8084 locally:\n\n"
                 "```bash\n"
-                "cd src/app && uv run uvicorn app:app --reload --port 8084\n"
+                "make server\n"
                 "```\n"
             )
 

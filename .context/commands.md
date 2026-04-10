@@ -8,9 +8,6 @@ uv sync                  # install dependencies from uv.lock
 
 ## Development Server
 ```bash
-# From repo root:
-cd src/app && uv run uvicorn app:app --reload --port 8084
-# Or via Makefile (if make server target exists):
 make server
 ```
 

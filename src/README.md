@@ -72,20 +72,24 @@ make docs
 
 ## Makefile Targets
 
+*   **init**: Sets up the virtualenv, installs dependencies, and builds the database.
 *   **build**: Rebuilds the SQLite database from JSON sources.
-*   **docs**: Regenerates all Markdown documentation in `generated-docs/` (Languages, Eras, Concepts, and Thematic Overviews) from the SQLite database.
-*   **site**: Exports fully-rendered static HTML into `site/`.
-*   **pages**: Prepares gh-pages artifacts (run on gh-pages branch only).
+*   **server**: Starts the FastAPI dev server on port 8084.
 *   **audit**: Runs the Atlas Auditor and consistency checks.
 *   **dark-matter**: Finds missing profiles; writes `generated-reports/dark_matter_todo.json`.
 *   **test**: Runs fast unit and consistency checks.
 *   **harden**: Full reliability suite: type-check, audit, test.
+*   **type-check**: Runs mypy type checking.
+*   **test-intensive**: Runs long-running analytical tests.
+*   **docs**: Regenerates all Markdown documentation in `generated-docs/` from the SQLite database.
+*   **site**: Exports fully-rendered static HTML into `site/`.
+*   **pages**: Prepares gh-pages artifacts (run on gh-pages branch only).
 *   **clean**: Removes generated artifacts and temporary files.
 
 ## Setup and Run
 
-1.  **Install Dependencies**: `uv sync`
-2.  **Build Database**: `make build`
+1.  **Bootstrap**: `make init`
+2.  **Start server**: `make server`
 3.  **Regenerate Docs**: `make docs`
 4.  **Explore**: Use `atlas --help` or visit `http://localhost:8084/api`.
 

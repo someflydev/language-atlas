@@ -28,14 +28,16 @@ Open http://localhost:8084.
 
 | Target | Description |
 |---|---|
+| `make init` | Set up virtualenv, install deps, and build the database |
 | `make build` | Rebuild `language_atlas.sqlite` from JSON sources |
-| `make docs` | Regenerate `generated-docs/` Markdown tree |
-| `make site` | Export fully-rendered static HTML into `site/` |
-| `make pages` | Prepare gh-pages artifacts (run on gh-pages branch only) |
+| `make server` | Start the FastAPI dev server on port 8084 |
 | `make audit` | Run the Atlas Auditor to check data integrity |
 | `make dark-matter` | Find missing profiles; writes `generated-reports/dark_matter_todo.json` (tracked in git) |
 | `make test` | Run the test suite |
 | `make harden` | Full reliability suite: type-check, audit, test |
+| `make docs` | Regenerate `generated-docs/` Markdown tree |
+| `make site` | Export fully-rendered static HTML into `site/` |
+| `make pages` | Prepare gh-pages artifacts (run on gh-pages branch only) |
 | `make clean` | Remove generated artifacts |
 
 ## Live demo
