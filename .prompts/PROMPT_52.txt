@@ -218,3 +218,96 @@ Suggested subject lines:
   [PROMPT_52] Fix Makefile invocations and add mypy to dev deps
   [PROMPT_52] Track generated-reports/dark_matter_todo.json in git
   [PROMPT_52] Merge generated-reports/README into scripts/README
+
+---
+
+## Addendum — extra work completed post-session (ad-hoc)
+
+The following tasks were resolved outside the original session scope,
+documented in `tmp/adhoc_makefile_improvements.md`. They are committed
+under `[PROMPT_52 extra]` to keep the prompt history traceable.
+
+### Task 6 — Delete scripts/generate_docs.py
+
+`scripts/generate_docs.py` is a 4-line shim around
+`SiteBuilder.build_markdown()`. The `site_builder.py` `__main__` block
+already dispatches both modes: without `--html` it runs
+`SiteBuilder.build_markdown()` (Markdown into `generated-docs/`); with
+`--html` it runs `SiteCrawler` (HTML into `site/`). `make docs` and
+`make site` are symmetric:
+
+    docs:  PYTHONPATH=src uv run python -m app.core.site_builder
+    site:  PYTHONPATH=src uv run python -m app.core.site_builder --html
+
+Delete `scripts/generate_docs.py` and remove all references to it:
+- `Makefile` docs target invocation
+- `scripts/README.md` (remove the generate_docs.py section)
+- `src/README.md` (remove "scripts/generate_docs.py is a thin CLI wrapper"
+  from the site_builder.py bullet; replace with "Run via `make docs`.")
+- `src/app/core/site_builder.py` module docstring (line referencing
+  generate_docs.py) and the generated README content string that
+  mentions generate_docs.py
+- `.context/commands.md` Makefile table docs row and Scripts table row
+
+### Task 7 — Add make server target
+
+    server:
+        cd src/app && uv run uvicorn app:app --reload --port 8084
+
+Update `src/README.md` "Control Room & Server Commands" code block:
+replace the `cd src/app && uv run uvicorn ...` line with `make server`.
+
+### Task 8 — Add make init target
+
+    init:
+        @command -v uv >/dev/null 2>&1 || \
+            { echo "uv is not on PATH. Install from https://github.com/astral-sh/uv"; exit 1; }
+        uv venv --python 3.12
+        uv sync
+        $(MAKE) build
+
+### Task 9 — Reorder Makefile and help output
+
+New order for `.PHONY`, target definitions, and `make help` output:
+
+    init > build > server > audit > dark-matter > test > harden >
+    type-check > test-intensive > docs > site > pages > clean
+
+### Task 10 — Update root README.md Quickstart
+
+Replace the manual four-step block:
+
+    uv venv --python 3.12
+    uv sync
+    make build
+    cd src/app && uv run uvicorn app:app --reload --port 8084
+
+with:
+
+    make init
+    make server
+
+### Commit instructions for Addendum tasks
+
+Use prefix `[PROMPT_52 extra]`. Three logical commits:
+
+Commit 1 — Delete generate_docs.py and remove all references:
+  Stage: git rm scripts/generate_docs.py,
+         src/app/core/site_builder.py,
+         scripts/README.md
+  Partial stage (git add -p): hunks from .context/commands.md that
+    remove the generate_docs.py scripts-table row and update the docs
+    row in the Makefile table.
+
+Commit 2 — Add init/server targets and reorder Makefile:
+  Stage: Makefile
+  Partial stage (git add -p): remaining hunks in .context/commands.md
+    (new init/server rows, reordered table).
+
+Commit 3 — Update quickstart and server command in READMEs:
+  Stage: README.md, src/README.md
+
+Suggested subject lines:
+  [PROMPT_52 extra] Delete generate_docs.py shim and remove references
+  [PROMPT_52 extra] Add make init and make server, reorder Makefile targets
+  [PROMPT_52 extra] Update quickstart and server command in README files
