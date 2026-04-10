@@ -101,5 +101,5 @@ GitHub Pages from the `gh-pages` branch. The export is produced by
 `site/`, and copies the database into `site/db/atlas/` for
 `sql.js-httpvfs` HTTP range-request access.
 
-See [`docs/GH_PAGES.md`](../docs/GH_PAGES.md) for the full build and
+See [`GH_PAGES.md`](../GH_PAGES.md) for the full build and
 deploy workflow, local preview instructions, and troubleshooting.

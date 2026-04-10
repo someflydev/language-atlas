@@ -44,7 +44,7 @@ Open http://localhost:8084.
 
 <!-- TODO live URL -->
 A static export with a client-side SQLite database is published from
-the `gh-pages` branch. See [`docs/GH_PAGES.md`](docs/GH_PAGES.md) for
+the `gh-pages` branch. See [`GH_PAGES.md`](GH_PAGES.md) for
 the build and deploy workflow.
 
 ## License

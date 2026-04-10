@@ -40,7 +40,7 @@ The library uses HTTP range requests to fetch only the 4 KiB SQLite
 pages needed for each query, making the published site fast even for
 multi-megabyte databases. The database asset is copied to
 `site/db/atlas/db.sqlite3` by `scripts/prep_pages.py` as part of the
-`make pages` build step. See `docs/GH_PAGES.md` for the full deploy
+`make pages` build step. See `GH_PAGES.md` for the full deploy
 workflow.
 
 ## Key Design Choices
