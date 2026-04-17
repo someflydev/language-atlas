@@ -46,6 +46,10 @@ templates = Jinja2Templates(directory=templates_dir)
 # normal live-app behaviour.
 templates.env.globals["atlas_static_mode"] = lambda: os.environ.get("ATLAS_STATIC_MODE", "0") == "1"
 
+
+def atlas_static_mode() -> bool:
+    return os.environ.get("ATLAS_STATIC_MODE", "0") == "1"
+
 # Initialize data loader
 data_loader = DataLoader()
 
@@ -464,11 +468,17 @@ async def get_language_profile(request: Request, name: str) -> Response:
     
     # Generate Dynamic Heritage Journey
     auto_odyssey = data_loader.get_auto_odyssey(lang['name'])
-    
-    # Get ancestry and descendants
-    ancestors = data_loader.get_ancestors(lang['id'], max_depth=5)
-    descendants = data_loader.get_descendants(lang['id'], max_depth=5)
-    lang_rank = data_loader.get_language_ranking(lang['id'])
+
+    # Static export crawls every language page, so skip the expensive
+    # lineage view queries there and keep the live app unchanged.
+    if atlas_static_mode():
+        ancestors: list[dict[str, Any]] = []
+        descendants: list[dict[str, Any]] = []
+        lang_rank: dict[str, Any] | None = None
+    else:
+        ancestors = data_loader.get_ancestors(lang['id'], max_depth=5)
+        descendants = data_loader.get_descendants(lang['id'], max_depth=5)
+        lang_rank = data_loader.get_language_ranking(lang['id'])
     
     return templates.TemplateResponse(
         request=request,
