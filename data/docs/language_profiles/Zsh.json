@@ -1,0 +1,15 @@
+{
+  "title": "Zsh: The Power User's Shell",
+  "overview": "Zsh is a Bourne-style shell that keeps shell scripting compatibility while dramatically expanding the interactive command-line experience. It became the shell of choice for developers who wanted better completion, globbing, customization, and ergonomics without abandoning the Unix shell tradition.",
+  "historical_context": "Paul Falstad began Zsh in 1990 while at Princeton, positioning it as a more capable interactive shell in the Bourne-shell lineage that could unify ideas from Bash, KornShell, and tcsh. Its timing mattered: Unix workstations were becoming everyday developer environments, and command-line productivity started to matter as much as shell-language minimalism. Apple's 2019 switch from Bash to Zsh as the default macOS shell made that long-running power-user tool newly visible to mainstream developers, especially because Bash on macOS had been frozen on an older version for licensing reasons.",
+  "mental_model": "Treat Zsh as a Bourne-style shell that optimizes the human interface around shell work. The underlying language model is still pipelines, processes, expansions, and environment state, but the command line itself becomes programmable. In Zsh, completion logic understands command structure, glob patterns become a compact query language for files, and prompts can surface state that would otherwise require extra commands.",
+  "key_innovations": [
+    "Context-aware tab completion turned shell commands into partially self-describing interfaces.",
+    "Advanced globbing gave users a compact language for selecting files by pattern, qualifiers, and metadata.",
+    "Prompt theming and plugin ecosystems such as Oh My Zsh made shell customization a mainstream practice.",
+    "High compatibility with Bourne-style scripting let teams adopt Zsh interactively without rewriting every shell script."
+  ],
+  "tradeoffs": "- Zsh's interactive power comes with extra complexity, especially for users moving between POSIX `sh`, Bash, and Zsh-specific behavior.\n- Plugin-heavy configurations can become slow, opaque, and hard to debug.\n- Better defaults do not remove the underlying fragility of shell scripting around quoting, expansion, and text parsing.\n- Cross-platform scripts still need to target portable shell subsets, which limits how much Zsh-specific language design can be used in automation.",
+  "legacy": "Zsh's legacy is that it redefined what developers expect from a shell. Completion engines, themed prompts, and plugin-managed workflows are now baseline assumptions in modern terminal culture. Apple's adoption signaled that the shell was not just a scripting relic; it was still a primary interface for programming work.",
+  "ai_assisted_discovery_missions": "1. \"Compare Zsh completion and globbing to Bash equivalents, with examples that show where Zsh changed day-to-day command-line ergonomics.\"\n2. \"Explain why Apple's move to Zsh in 2019 mattered technically and culturally for macOS developers.\"\n3. \"Analyze a real `.zshrc` and separate portable shell patterns from Zsh-only features that would break under `/bin/sh` or older Bash.\""
+}
