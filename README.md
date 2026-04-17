@@ -1,6 +1,5 @@
 # Language Atlas
 
-<!-- TODO copy -->
 Language Atlas is a research platform for exploring the history,
 evolution, and intellectual lineage of programming languages. It ships
 as a FastAPI web app, a Typer CLI, and a Textual TUI, all backed by a
@@ -42,11 +41,6 @@ Open http://localhost:8084.
 
 ## Live demo
 
-<!-- TODO live URL -->
 A static export with a client-side SQLite database is published from
 the `gh-pages` branch. See [`GH_PAGES.md`](GH_PAGES.md) for
 the build and deploy workflow.
-
-## License
-
-<!-- TODO license -->

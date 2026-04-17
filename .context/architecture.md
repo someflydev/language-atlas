@@ -52,4 +52,4 @@ workflow.
 - Static export: `SiteCrawler` uses `TestClient` to mirror live FastAPI output into `site/`.
   The crawler sets `ATLAS_STATIC_MODE=1` before importing the app so templates inject a
   "static export" notice. Internal links are rewritten to relative paths by `_rewrite_links`.
-  `site/` is gitignored on `main`; the gh-pages branch workflow is handled in PROMPT_51.
+  `site/` is gitignored on `main`; the gh-pages branch deploy workflow is in `GH_PAGES.md`.

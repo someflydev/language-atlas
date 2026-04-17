@@ -34,7 +34,7 @@ ENTER: TUI | CTRL-I: Info | ESC: Exit
 A deep-scanner for validating JSON field completeness and value constraints.
 
 - **Purpose:** Surface missing data or inconsistent formatting in the core JSON before it is committed or ingested into the database.
-- **Usage:** `python3 scripts/check_integrity.py`
+- **Usage:** `uv run python scripts/check_integrity.py`
 - **Validation Rules:**
   - Checks for missing or empty mandatory fields (e.g., `philosophy`, `key_innovations`).
   - Validates that the `year` is within reasonable historical bounds (1800-Present).
@@ -56,7 +56,7 @@ Found 2 integrity issues:
 Provides high-level metrics and distributions across the dataset.
 
 - **Purpose:** Monitor dataset growth, balance across generations/clusters, and track Keystone Density.
-- **Usage:** `python3 scripts/data_stats.py`
+- **Usage:** `uv run python scripts/data_stats.py`
 - **Key Metrics:**
   - Total language count.
   - Keystone Density (percentage of languages marked as `is_keystone`).
@@ -81,7 +81,7 @@ early       | 34    | 30.9%
 The specialized "Dark Matter Audit" tool for identifying missing content profiles.
 
 - **Purpose:** Scan the entire Atlas to identify every referenced language, concept, organization, and person that lacks a deep-dive JSON profile.
-- **Usage:** `python3 scripts/dark_matter_audit.py`
+- **Usage:** `uv run python scripts/dark_matter_audit.py`
 - **Output:** Generates `generated-reports/dark_matter_todo.json`, the authoritative TODO list for implementation phases.
 - **Features:**
   - **Canonicalization:** Deduplicates variations in casing and punctuation.
@@ -103,7 +103,7 @@ The output file `generated-reports/dark_matter_todo.json` is committed to the re
 Validates the influence graph and identifies structural anomalies.
 
 - **Purpose:** Ensure the integrity of the influence network and find isolated entries.
-- **Usage:** `python3 scripts/audit_lineage.py`
+- **Usage:** `uv run python scripts/audit_lineage.py`
 - **Checks:**
   - **Broken References:** Identifies names in influence fields that do not exist as primary entries.
   - **Isolated Islands:** Finds languages with zero incoming and zero outgoing influences.
@@ -160,7 +160,7 @@ All outputs are written to `generated-reports/`. Re-run `uv run python scripts/g
 Generates tabular summaries of the dataset for external reporting or spreadsheets.
 
 - **Purpose:** Create portable summaries in CSV or Markdown formats.
-- **Usage:** `python3 scripts/export_summary.py --format md --output summary.md`
+- **Usage:** `uv run python scripts/export_summary.py --format md --output summary.md`
 - **Supported Formats:** CSV (default) and Markdown (`md`).
 
 **Example Output:**
@@ -178,7 +178,7 @@ Analytical Engine,1837,"Charles Babbage, Ada Lovelace",dawn,historical,Yes
 A lightweight CLI wrapper for ad-hoc SQL queries against the Language Atlas SQLite database.
 
 - **Purpose:** Query the "warehouse" directly without requiring the `sqlite3` binary installed on the system.
-- **Usage:** `python3 scripts/db_query.py "SELECT name, year FROM languages WHERE is_keystone = 1 LIMIT 3"`
+- **Usage:** `uv run python scripts/db_query.py "SELECT name, year FROM languages WHERE is_keystone = 1 LIMIT 3"`
 
 **Example Output:**
 ```text
@@ -198,7 +198,7 @@ Boolean Algebra   | 1847
 Provides a deep inspection of the SQLite schema and data samples for all tables.
 
 - **Purpose:** Debugging the database schema and verifying the results of the data pipeline.
-- **Usage:** `python3 scripts/inspect_sqlite.py`
+- **Usage:** `uv run python scripts/inspect_sqlite.py`
 
 **Example Output:**
 ```text

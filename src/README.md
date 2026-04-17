@@ -51,7 +51,7 @@ The `AtlasAuditor` class and the `scripts/dark_matter_audit.py` tool provide a r
 make audit
 
 # Identify "Dark Matter" (missing profiles referenced in the data)
-python3 scripts/dark_matter_audit.py
+uv run python scripts/dark_matter_audit.py
 ```
 
 ## Control Room & Server Commands
