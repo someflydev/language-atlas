@@ -1,0 +1,27 @@
+{
+  "title": "Xerox PARC: The Lab That Made Personal Computing Visible",
+  "founded": "1970 (as Palo Alto Research Center)",
+  "overview": "Xerox PARC was created to explore the future of office computing, but it ended up inventing much of the personal computing environment before that market fully existed. Its researchers turned graphical interaction, object-oriented programming, workstation networking, and laser printing into working systems rather than abstract proposals.",
+  "key_contributions": [
+    "**Smalltalk (1972 onward):** Alan Kay, Adele Goldberg, Dan Ingalls, and colleagues built the language and environment that made object-oriented programming concrete and explorable.",
+    "**Graphical user interface (1970s):** PARC refined overlapping windows, icons, menus, and pointer-driven interaction into a coherent desktop model.",
+    "**Alto workstation (1973):** The Alto demonstrated the first broadly recognized personal computer with a GUI, bitmap display, and mouse-centric workflow.",
+    "**Ethernet (1973):** Bob Metcalfe and colleagues developed local area networking that became the standard physical and logical basis for office networking.",
+    "**WYSIWYG editing and laser printing (1970s):** Systems like Bravo and PARC printers established document-centric interactive computing.",
+    "**Interpress (late 1970s):** PARC's page-description work helped set the stage for later PostScript-style publishing systems."
+  ],
+  "pivotal_people": [
+    "**Alan Kay:** Framed the Dynabook vision and drove Smalltalk as a medium for learning and personal computing.",
+    "**Adele Goldberg:** Led Smalltalk system development and helped articulate its programming and educational value.",
+    "**Dan Ingalls:** Implemented core Smalltalk systems and made object messaging and live programming environments feel practical.",
+    "**Butler Lampson and Charles Thacker:** Helped build the Alto and the workstation architecture that anchored PARC's experiments.",
+    "**Bob Metcalfe:** Created Ethernet, giving networked personal workstations a practical communications substrate.",
+    "**Bob Taylor:** Directed the laboratory and assembled the unusually strong research teams that made PARC productive."
+  ],
+  "legacy": "PARC's legacy is visible in nearly every desktop and laptop computing experience. The graphical desktop model migrated first imperfectly and then decisively into Apple and Microsoft products, making bitmap displays, windows, icons, and mouse input the default mode of personal interaction with computers. Smalltalk gave object-oriented programming its most vivid and influential realization, affecting later environments and languages including Objective-C, Ruby's culture of live object systems, and many IDE and GUI toolkit assumptions. Ethernet became the standard local networking technology for offices, campuses, and data centers. WYSIWYG editing and laser printing created the modern document workflow that underwrote desktop publishing. PARC's most famous business lesson is that invention and capture are different skills, but its deeper technical lesson is that software paradigms become durable when embodied in complete environments. PARC did not just propose objects, GUIs, or personal workstations. It showed them working together as one system, which made the rest of the industry legible to itself.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Xerox PARC turned object-oriented programming and the GUI from research ideas into complete working environments.'",
+    "2. 'Trace the path from the Alto and Smalltalk to Macintosh, Windows, and modern desktop computing conventions.'",
+    "3. 'Analyze why PARC influenced nearly every personal computing platform even though Xerox captured little of the commercial upside.'"
+  ]
+}
