@@ -1,0 +1,24 @@
+{
+  "title": "Stanford AI Lab: The West Coast Laboratory for Interactive AI and Lisp Systems",
+  "founded": "1963",
+  "overview": "The Stanford Artificial Intelligence Laboratory, usually called SAIL, became one of the major centers for AI-oriented programming systems after John McCarthy left MIT for Stanford. It fostered interactive computing, Lisp implementation work, and experimental language design in an environment closely tied to robotics, natural language, and machine intelligence research.",
+  "key_contributions": [
+    "**SAIL language (1960s):** Stanford researchers developed the SAIL language as an ALGOL-family system adapted to AI and symbolic processing needs.",
+    "**Lisp dialect and implementation work (1960s to 1970s):** SAIL helped sustain the broader Lisp research ecosystem through implementation and experimental AI programming practice.",
+    "**Interactive AI computing environments (1960s onward):** The lab treated computing as a live research medium for language, robotics, vision, and reasoning.",
+    "**Stanford networked systems culture (1970s):** SAIL contributed to the West Coast computing environment that later fed into distributed systems, workstations, and AI infrastructure.",
+    "**Pascal-era intellectual overlap (late 1960s to early 1970s):** Niklaus Wirth's Stanford years placed the lab within a wider programming-language conversation around structured programming and language design."
+  ],
+  "pivotal_people": [
+    "**John McCarthy:** Founded SAIL and carried Lisp-oriented symbolic AI thinking from MIT to Stanford.",
+    "**Les Earnest:** Helped build SAIL's technical and institutional foundations across AI systems work.",
+    "**Donald Knuth:** Participated in Stanford's early computing culture, linking language and algorithmic thought to the institution's research environment.",
+    "**Stanford AI researchers across robotics, language, and vision:** Turned the lab into a proving ground for interactive programming systems tied to ambitious AI problems."
+  ],
+  "legacy": "SAIL's importance comes less from a single mass-market product than from the research style it normalized. It helped establish the West Coast branch of symbolic AI and interactive language experimentation, reinforcing the idea that language design, operating environments, and AI research should evolve together. Stanford's Lisp and AI systems culture influenced generations of researchers who moved into expert systems, robotics, natural-language processing, and networked computing. The lab also contributed to the broader ecology that produced Stanford's later prominence in systems and startup culture, where experimentation on live machines mattered more than distant batch workflows. SAIL's own language work is historically narrower than Lisp, Scheme, or Smalltalk, but its role as an institutional bridge was substantial. It connected McCarthy's symbolic programming agenda to a new region, new researchers, and new machine environments, helping ensure that AI programming remained interactive, exploratory, and deeply tied to language implementation rather than purely theoretical speculation.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how SAIL extended John McCarthy's symbolic AI and Lisp agenda after his move from MIT to Stanford.'",
+    "2. 'Trace the role of Stanford AI Lab in building interactive programming environments for robotics, language, and vision research.'",
+    "3. 'Analyze why SAIL matters historically even though its influence is more diffuse than Bell Labs or Xerox PARC.'"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "title": "INRIA: France's Engine for ML-Lineage Languages and Formal Verification",
+  "founded": "1967",
+  "overview": "INRIA, France's national research institute for computer science and automation, became one of Europe's most influential homes for programming language research. Its work on the Caml family, OCaml, Coq, and verified compilation tied academic language theory directly to practical tools used in industry and formal methods.",
+  "key_contributions": [
+    "**Caml and the ML lineage (1980s):** INRIA researchers advanced strict functional programming and type inference through the Caml family.",
+    "**OCaml (1990s onward):** Xavier Leroy and collaborators created a practical industrial-strength descendant of Caml that blended functional, imperative, and object-oriented features.",
+    "**Coq proof assistant (1980s onward):** INRIA researchers helped build one of the most important environments for machine-checked proofs and verified software.",
+    "**CompCert (2000s):** Verified compilation research at INRIA demonstrated that a production-quality C compiler could come with machine-checked correctness guarantees.",
+    "**Formal methods ecosystem (ongoing):** INRIA sustained a research culture in which theorem proving, type systems, and verified systems engineering reinforced one another."
+  ],
+  "pivotal_people": [
+    "**Xavier Leroy:** Led the development of OCaml and later CompCert, showing that advanced language theory could yield practical industrial tools.",
+    "**Gerard Huet:** Helped shape INRIA's work in formal methods, theorem proving, and symbolic computation.",
+    "**Thierry Coquand:** Contributed foundational ideas connected to the proof-theoretic tradition that fed into Coq.",
+    "**Christine Paulin-Mohring:** Played a central role in the development of Coq and the practical realization of dependent type based proof systems.",
+    "**Alain Colmerauer:** Though strongly associated with Marseille, he forms part of the broader French logic-programming tradition linked to INRIA's research environment."
+  ],
+  "legacy": "INRIA's legacy is unusually visible in places where correctness matters more than fashion. OCaml became a durable language for compiler construction, static analysis, proof tooling, academic language research, and industrial systems at firms such as Jane Street. Coq became one of the defining proof assistants of the modern era, used for certified mathematics, programming-language metatheory, and mechanically verified software. CompCert showed that compiler correctness could move from aspiration to deployable artifact, changing how researchers and engineers think about trusted toolchains. More broadly, INRIA proved that the ML tradition could evolve into tools that were not just elegant in seminars but effective in production settings. Its work also shaped the environment from which formal verification became more central to systems safety, secure infrastructure, and language implementation. If Bell Labs defined one lineage of systems programming through C and Unix, INRIA helped define another lineage centered on types, proofs, and machine-checked trust.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace the line from Caml to OCaml and explain how INRIA turned ML-family ideas into practical engineering tools.'",
+    "2. 'Explain how Coq and CompCert changed the credibility of formal verification in real software systems.'",
+    "3. 'Compare INRIA's legacy in typed functional programming and proof systems with Bell Labs' legacy in Unix and C.'"
+  ]
+}

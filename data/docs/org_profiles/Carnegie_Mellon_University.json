@@ -1,0 +1,27 @@
+{
+  "title": "Carnegie Mellon University: A Center of Language Theory, AI, and Software Engineering",
+  "founded": "1900 (as Carnegie Technical Schools)",
+  "overview": "Carnegie Mellon University became one of the strongest academic centers for programming language theory, artificial intelligence, and disciplined software engineering. Its computer science culture linked formal reasoning to practical implementation, producing influential work in Lisp systems, ML-family languages, operating systems, and software process.",
+  "key_contributions": [
+    "**Common Lisp and CMUCL (1980s to 1990s):** Carnegie Mellon's Lisp work helped make industrial-strength Common Lisp implementations viable.",
+    "**Standard ML research and SML/NJ influence (1980s onward):** Faculty and collaborators such as David MacQueen and Robert Harper made CMU a major center for typed functional programming.",
+    "**Type theory and proof research (1980s onward):** Carnegie Mellon became a leading institution for formal reasoning about programs, modules, and proofs.",
+    "**Software Engineering Institute (1984):** The SEI formalized influential process models such as CMM and later CMMI for large software organizations.",
+    "**Mach microkernel (1980s):** CMU systems research produced an operating-system design that influenced later kernels, including parts of macOS's XNU lineage.",
+    "**AI research tradition (1950s onward):** Allen Newell and Herbert Simon helped make CMU foundational in artificial intelligence and cognitive modeling."
+  ],
+  "pivotal_people": [
+    "**Allen Newell:** Co-founded a style of AI research that connected cognition, problem solving, and computational models.",
+    "**Herbert Simon:** Brought rigorous interdisciplinary thinking to AI and decision processes, helping define CMU's research profile.",
+    "**Robert Harper:** Made CMU a global center for type theory, module systems, and proof-oriented language design.",
+    "**David MacQueen:** Contributed crucially to the Standard ML ecosystem and the practical realization of typed functional programming.",
+    "**Scott Fahlman:** Advanced Common Lisp and AI work within Carnegie Mellon's computing environment.",
+    "**Avie Tevanian:** Helped drive Mach, connecting Carnegie Mellon systems research to later commercial operating systems."
+  ],
+  "legacy": "Carnegie Mellon's legacy lies in showing that rigorous theory and practical systems work can reinforce each other instead of competing for attention. In programming languages, its influence runs through Standard ML, module-system research, type theory, proof assistants, and the broader culture of statically typed functional programming that later informed languages such as OCaml, Haskell, Rust, and research tooling around verification. In systems, Mach helped normalize microkernel ideas and shaped the history that ultimately fed into Apple's kernel architecture. In software process, the Software Engineering Institute affected how governments and large enterprises evaluated engineering maturity, even when those models became controversial. CMU's AI tradition likewise made it a foundational site for computational models of reasoning. The institution's durable contribution is methodological. It repeatedly treated language semantics, proof structure, compiler design, operating-system architecture, and engineering process as parts of the same problem: how to build complex software systems that people can reason about with confidence.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Carnegie Mellon linked type theory, ML-family languages, and proof-oriented programming research.'",
+    "2. 'Trace the influence of Mach from Carnegie Mellon systems research into later operating-system designs.'",
+    "3. 'Analyze how CMU combined AI, language theory, and software engineering into a single research identity.'"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "title": "MIT: The Academic Crucible for Lisp, Scheme, and Hacker Culture",
+  "founded": "1861 (MIT); Project MAC 1963; AI Lab roots in 1959",
+  "overview": "MIT provided the academic setting in which symbolic computation, interactive computing, and programming language pedagogy took on enduring form. Through Project MAC, the AI Lab, and adjacent groups, it became one of the main birthplaces of Lisp culture, Scheme, Multics-era systems thinking, and influential teaching about abstraction.",
+  "key_contributions": [
+    "**Lisp at MIT (late 1950s onward):** John McCarthy's language found one of its earliest and most influential homes in MIT's AI research culture.",
+    "**Project MAC and Multics (1960s):** MIT helped drive the large-scale time-sharing and operating-system ideas that later shaped Unix by contrast and inheritance.",
+    "**Scheme (1975):** Gerald Jay Sussman and Guy Steele created Scheme as a minimalist Lisp dialect that clarified lexical scope, first-class procedures, and metalinguistic abstraction.",
+    "**Emacs and hacker tooling (1970s):** Richard Stallman built Emacs in MIT's AI Lab culture, reinforcing programmable tools and user-extensible environments.",
+    "**SICP (1985):** Structure and Interpretation of Computer Programs shaped how generations of programmers learned abstraction, interpreters, and language design.",
+    "**Scratch (2003):** MIT Media Lab researchers created a programming language and environment that introduced millions of children to computational thinking."
+  ],
+  "pivotal_people": [
+    "**John McCarthy:** Brought Lisp and symbolic AI thinking into MIT's research orbit.",
+    "**Gerald Jay Sussman:** Co-created Scheme and helped define MIT's tradition of teaching computation through abstraction and interpreters.",
+    "**Guy Steele:** Co-created Scheme and linked MIT language research to later Common Lisp and systems work.",
+    "**Richard Stallman:** Embodied the AI Lab's programmable-tool ethos through Emacs and later free software advocacy.",
+    "**Hal Abelson:** Helped shape the pedagogical legacy of MIT through SICP and computational education.",
+    "**Marvin Minsky:** Built the AI Lab into a defining center of symbolic AI research and hacker culture."
+  ],
+  "legacy": "MIT's programming legacy is unusually broad because it spans languages, systems, pedagogy, and culture. Lisp research at MIT helped keep symbolic programming central to artificial intelligence, theorem proving, metaprogramming, and language experimentation. Scheme became one of the clearest demonstrations of lexical scoping, closures, continuations, and interpreter-oriented teaching, influencing language design well beyond the Lisp family. Multics supplied lessons about time-sharing, protection, and system structure that informed later operating systems both by inspiration and reaction. Emacs showed how a tool could become a programmable environment, a pattern echoed by extensible editors and modern development platforms. SICP shaped computer science education globally by teaching that languages are vehicles for mental models, not just syntax. Scratch extended that educational mission to children, proving that MIT's influence on programming did not stop with elite research languages. The institution's lasting impact is that it repeatedly treated programming as a way of thinking, then built systems and curricula that made those abstractions operational.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace MIT's line from Lisp and Project MAC to Scheme, SICP, and modern ideas about computation as abstraction.'",
+    "2. 'Explain how MIT's AI Lab culture shaped programmable tools like Emacs and the broader hacker tradition.'",
+    "3. 'Compare the pedagogical legacy of Scheme and SICP with the democratizing role later played by Scratch.'"
+  ]
+}

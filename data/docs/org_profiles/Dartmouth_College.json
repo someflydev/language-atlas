@@ -1,0 +1,23 @@
+{
+  "title": "Dartmouth College: The Campus Where Beginner Programming Became Mass-Market Computing",
+  "founded": "1769",
+  "overview": "Dartmouth College became a pivotal computing institution because it treated ordinary students, not just specialists, as legitimate programmers. Through BASIC and the Dartmouth Time Sharing System, it helped transform programming from a rarefied expert activity into an accessible, interactive educational practice.",
+  "key_contributions": [
+    "**BASIC (1964):** John G. Kemeny and Thomas E. Kurtz designed BASIC so beginners could learn programming quickly in an interactive setting.",
+    "**Dartmouth Time Sharing System (1960s):** DTSS made shared interactive computing practical for large numbers of non-expert users.",
+    "**Democratized campus computing (1960s onward):** Dartmouth treated undergraduates across disciplines as programming users rather than peripheral consumers of computation.",
+    "**Home computer influence (1970s to 1980s):** Dartmouth BASIC's descendants became the default first language on many microcomputers.",
+    "**Interactive education model (1960s):** Dartmouth helped establish the idea that programming should be learned through immediate feedback rather than batch processing."
+  ],
+  "pivotal_people": [
+    "**John G. Kemeny:** Co-created BASIC and championed broad access to computing in education.",
+    "**Thomas E. Kurtz:** Co-created BASIC and helped build the time-sharing environment that made beginner programming practical.",
+    "**Dartmouth computing staff and faculty teams:** Sustained the operational side of DTSS, proving that campus-wide interactive computing could work at scale."
+  ],
+  "legacy": "Dartmouth's influence is larger than the academic prestige of the institution might suggest because BASIC became the first programming language many people ever touched. Kemeny and Kurtz did not optimize for compiler elegance or machine-level power. They optimized for access, immediacy, and pedagogy. That design choice traveled into minicomputers, educational systems, and especially the 8-bit home computer era, where variants of BASIC shipped in ROM and invited users to type, run, and modify code immediately after turning on the machine. In that sense Dartmouth helped create the social expectation that computers should be interactive and programmable by ordinary people. DTSS also demonstrated that time-sharing could support this broader audience reliably enough to matter institutionally. Later languages often reacted against BASIC's technical limitations, but they inherited the central idea that programming could be a mass educational activity rather than a priesthood. Dartmouth's lasting contribution is the democratization of entry into programming.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain why Dartmouth's BASIC prioritized accessibility and how that choice changed who got to become a programmer.'",
+    "2. 'Trace the path from DTSS and Dartmouth BASIC to the 8-bit home computers that shipped with BASIC in ROM.'",
+    "3. 'Compare Dartmouth's educational model of interactive programming with the earlier batch-computing culture it displaced.'"
+  ]
+}
