@@ -1,0 +1,21 @@
+{
+  "title": "Xavier Leroy: The Implementer Who Made ML Practical and Verification Concrete",
+  "overview": "Xavier Leroy created OCaml at INRIA and later led CompCert, the formally verified C compiler. His career connects two ambitions that are often separated: making advanced type-theoretic language ideas practical for production use, and making compiler correctness itself something that can be mathematically justified. OCaml and CompCert together make Leroy one of the most important figures in the practical history of typed functional languages.",
+  "historical_context": "By the mid-1990s, the ML family had already shown the power of type inference, algebraic data types, and functional programming, but there was still a major question about practical reach. Could these ideas scale into industrial toolchains, large codebases, and performance-sensitive applications rather than staying within research and teaching environments? OCaml was one of the strongest positive answers. Leroy helped evolve the Caml tradition into a language with an efficient native compiler, strong module support, object features where useful, and a pragmatic balance between theory and engineering. Later, CompCert extended that practical rigor into compiler verification, demonstrating that the compilation of C could be specified and machine-checked at a level relevant to real systems concerns.",
+  "mental_model": "To think like Xavier Leroy is to believe that formal rigor becomes most valuable when it survives contact with production reality. Strong static types, algebraic modeling, and module systems are not academic ornaments. They are tools for writing large systems with fewer ambiguities. At the same time, trust in software should extend below the source language into the compiler itself. If a compiler is critical infrastructure, then proving its essential correctness is a legitimate engineering goal, not a purely theoretical exercise.",
+  "pivotal_works": [
+    "**OCaml (1996):** Created and led the evolution of a practical ML-family language with efficient compilation and strong abstraction mechanisms.",
+    "**CompCert:** Led the development of a formally verified C compiler that brought proof-oriented rigor into compiler engineering.",
+    "**Broader ML implementation work at INRIA:** Helped make typed functional programming viable for production and research-intensive environments."
+  ],
+  "affiliations": [
+    "**INRIA:** Principal institutional home for OCaml and Leroy's language and compiler research.",
+    "**Formal methods and typed functional programming communities:** Broader intellectual context for OCaml, Coq, and verified compilation."
+  ],
+  "legacy": "Leroy's legacy is twofold. Through OCaml, he helped make the ML tradition practical enough for real-world deployment in finance, proof assistants, and large industrial tooling. Through CompCert, he showed that compiler correctness could move from aspiration to artifact. The result is a body of work that links programming-language design, implementation efficiency, and formal verification more tightly than almost any other modern language designer's career.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Xavier Leroy made the ML family practical through OCaml's design and implementation choices.'",
+    "2. 'Compare OCaml's place in industry with other descendants of the typed functional programming tradition.'",
+    "3. 'Analyze why CompCert matters historically as a verified compiler rather than merely as another C compiler implementation.'"
+  ]
+}

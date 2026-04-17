@@ -1,0 +1,21 @@
+{
+  "title": "Andrew Kelley: The Systems Language Designer Who Made Explicitness the Feature",
+  "overview": "Andrew Kelley created Zig in 2016 as a systems programming language meant to sit at roughly C's level of abstraction while removing many of C's implicit hazards. Zig is defined by explicit allocators, compile-time execution, predictable control flow, and first-class cross-compilation. Kelley's central claim is that low-level programming does not need more hidden magic. It needs fewer surprises.",
+  "historical_context": "Zig emerged after decades of dissatisfaction with both traditional C-family systems programming and some of its would-be replacements. C remained unmatched in portability, tooling reach, and conceptual closeness to the machine, but it also left programmers exposed to undefined behavior, silent footguns, and APIs that hid resource assumptions. Meanwhile, newer systems languages often added significant abstraction layers, runtime complexity, or cultural expectations that not every low-level programmer wanted. Kelley designed Zig as a corrective. The language keeps manual control visible, integrates compile-time execution as a practical tool, and treats cross-compilation as a built-in capability rather than a specialist workflow. In that sense, Zig is less a rejection of C's problem domain than a redesign of its contract with the programmer.",
+  "mental_model": "To think like Andrew Kelley is to assume that C already identified an important abstraction level, but failed to make enough of its behavior explicit. Memory allocation should be passed openly, not hidden. Compile-time logic should be available directly, not through a maze of preprocessors and template tricks. Control flow should be readable from the source, not smuggled in through exceptions or other implicit mechanisms. A systems language becomes trustworthy when the cost model and the execution story stay visible.",
+  "pivotal_works": [
+    "**Zig (2016):** Created a systems programming language centered on explicitness, compile-time execution, and practical interoperability with C.",
+    "**`comptime` design:** Made compile-time execution a first-class language tool for specialization, metaprogramming, and low-level control.",
+    "**Explicit allocator model and cross-compilation tooling:** Helped define Zig's identity as a language that surfaces resource and target decisions directly."
+  ],
+  "affiliations": [
+    "**Zig project:** Primary creator and public design voice for the language.",
+    "**Open-source systems programming community:** Broader context in which Zig evolved as an alternative to C and other modern systems languages."
+  ],
+  "legacy": "Kelley's legacy is still unfolding, but Zig has already clarified a distinctive position in the systems-language landscape. It argues that modern low-level programming should be explicit without becoming archaic, ergonomic without becoming opaque, and portable without outsourcing essential tooling. Even outside Zig itself, Kelley's work has sharpened the conversation around hidden allocations, implicit control flow, and what low-level trustworthiness actually requires.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain Andrew Kelley's claim that C has the right abstraction level but the wrong amount of implicit behavior.'",
+    "2. 'Compare Zig's `comptime`, explicit allocators, and error-handling story with C, C++, and Rust.'",
+    "3. 'Analyze why cross-compilation is treated as a first-class language concern in Zig rather than as an external toolchain detail.'"
+  ]
+}

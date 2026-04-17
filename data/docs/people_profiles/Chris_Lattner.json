@@ -1,0 +1,23 @@
+{
+  "title": "Chris Lattner: The Compiler Architect Who Turned Infrastructure into a Platform",
+  "overview": "Chris Lattner is a language and compiler designer whose most transformative contribution is LLVM, the modular compiler infrastructure he began in 2000 as a PhD project at the University of Illinois. He later led the design of Swift at Apple, created MLIR, and moved on to Mojo at Modular, but the through-line in his career is the same: treat compiler infrastructure and intermediate representations as reusable products that let entire language ecosystems move faster.",
+  "historical_context": "Before LLVM, major compilers were often built as largely monolithic systems tied closely to a specific language and toolchain tradition. That made experimentation expensive and encouraged duplicated effort across language communities. Lattner's LLVM work broke that pattern by making optimization and code generation reusable across many front ends. Over time, LLVM became foundational to modern language implementation, serving as a backend for projects including Clang, Rust, Swift, Julia, and Kotlin's native tooling. Swift was therefore not a departure from Lattner's earlier work but a continuation of it. Swift showed what happens when someone who thinks in reusable compiler components also designs a language. MLIR extended the same philosophy further by making multi-level intermediate representations first-class tools for modern heterogeneous systems and machine learning compilers.",
+  "mental_model": "To think like Chris Lattner is to treat a compiler as a set of reusable libraries organized around well-designed intermediate representations. The real product is not only the surface language. It is the transformation pipeline underneath, where analysis, optimization, lowering, and tooling can be recombined across many domains. A good IR is therefore a strategic abstraction. It lets language designers separate syntax from semantics, high-level intent from low-level execution, and experimentation from reinvention.",
+  "pivotal_works": [
+    "**LLVM (2000):** Created the reusable compiler infrastructure that transformed the implementation strategy of modern languages and toolchains.",
+    "**Swift (2014):** Led the design of Apple's safe, modern systems-and-application language built on strong tooling and LLVM foundations.",
+    "**MLIR:** Extended the idea of compiler infrastructure with a richer framework for multi-level intermediate representations.",
+    "**Mojo:** Continued his work on language design aimed at high-performance and AI-adjacent computing domains."
+  ],
+  "affiliations": [
+    "**University of Illinois Urbana-Champaign:** Origin of LLVM as Lattner's doctoral research project.",
+    "**Apple:** Institutional home for Swift and broader tooling work.",
+    "**Modular:** Current context for Mojo and next-generation compiler infrastructure work."
+  ],
+  "legacy": "Lattner's legacy is that he changed what language implementers expect from compiler infrastructure. LLVM made it normal to build a new language atop a shared optimization and code-generation substrate rather than from scratch. Swift demonstrated that modern language design and best-in-class tooling could be developed together. MLIR pushed the same logic into newer hardware and compiler domains. Across all of this, Lattner helped establish that intermediate representations are not backstage plumbing. They are the durable architecture around which language ecosystems can scale.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain why LLVM, more than Swift, is Chris Lattner's most transformative contribution to programming language history.'",
+    "2. 'Compare monolithic compiler design with Lattner's reusable-library model for compilers and intermediate representations.'",
+    "3. 'Trace the line from LLVM to Swift to MLIR and explain the recurring design philosophy behind Chris Lattner's work.'"
+  ]
+}
