@@ -1,0 +1,21 @@
+{
+  "title": "Herman Hollerith: The Inventor of Data as Machine-Readable Form",
+  "overview": "Herman Hollerith was an American inventor whose punched-card tabulation systems transformed data processing decades before electronic computers appeared. His census machinery and business ventures created the physical and organizational model from which later commercial computing, and eventually IBM, emerged.",
+  "historical_context": "Herman Hollerith worked in the late nineteenth century, well before programming languages existed in recognizable form, yet his contribution is foundational because he mechanized information representation itself. The immediate practical challenge was the scale of the 1890 United States Census, whose manual processing threatened to become unmanageable. Hollerith's answer was to encode facts as punched holes on cards and then build electromechanical devices that could sense, sort, and count those patterns efficiently. This was a major conceptual shift. Data became a structured external artifact that a machine could ingest and act upon through a repeatable encoding scheme. That physical encoding logic belongs to the deep prehistory of binary abstraction and machine-readable records. Hollerith also founded the Tabulating Machine Company, one of the corporate ancestors of IBM, which ensured that punched-card processing became a durable industrial practice rather than a one-off invention. By the time languages like COBOL later emerged for business data processing, the commercial world had already been trained by Hollerith's systems to think of information as formally structured, machine-addressable, and economically valuable.",
+  "mental_model": "To think like Herman Hollerith is to begin by asking how a real-world fact can be encoded into a stable physical representation that a machine can sense and aggregate. You do not start with algorithms in the modern sense. You start with records, categories, and repeatable marks that make large populations tractable. The key abstraction is that information can be externalized into a format designed for mechanical reading. Once that move is made, counting, sorting, and summarizing become automatable. This way of thinking prefigures databases, file formats, record-oriented processing, and every later system in which data representation is inseparable from computational power.",
+  "pivotal_works": [
+    "**Punched-card tabulation system for the 1890 United States Census:** Mechanized large-scale statistical processing through encoded cards and electromechanical sensing.",
+    "**Tabulating Machine Company founding (late 19th century):** Turned data-processing machinery into a lasting commercial enterprise that fed into IBM's lineage.",
+    "**Electromechanical sorting and counting methods:** Established a practical model for record-based machine processing long before digital computers."
+  ],
+  "affiliations": [
+    "**United States Census work:** His tabulation machinery was developed in response to the census data-processing crisis.",
+    "**Tabulating Machine Company:** Founded the company that became part of the corporate lineage leading to IBM."
+  ],
+  "legacy": "Hollerith's legacy is visible wherever computing starts from structured records rather than pure arithmetic. Business data processing languages such as COBOL operate in a world Hollerith helped create: one of forms, fields, records, and machine-readable classifications. His punched-card model also shaped early twentieth-century computing culture at IBM, influencing how organizations thought about information systems before stored-program computers took over. Even though he predates languages like FORTRAN, SQL, and Python by generations, he established the principle that encoded data can be systematically processed by machines at scale.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Analyze how Hollerith's punched-card systems prefigured modern data processing and record-oriented programming.'",
+    "2. 'Trace the corporate line from the Tabulating Machine Company to IBM and the later rise of business languages such as COBOL.'",
+    "3. 'Study how physical data encoding in Hollerith's era anticipated later abstractions in databases and file formats.'"
+  ]
+}

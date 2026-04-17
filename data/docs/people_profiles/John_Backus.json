@@ -1,0 +1,21 @@
+{
+  "title": "John Backus: The Engineer Who Turned Formulae into Programs",
+  "overview": "John Backus was the IBM-led designer most closely associated with FORTRAN, the language that persuaded skeptics high-level programming could match serious machine performance. He later co-originated Backus-Naur Form and argued for function-level programming as a way to escape the limits of the von Neumann style.",
+  "historical_context": "John Backus worked at a moment when electronic computers were becoming valuable enough to justify broader access, but programming them remained painfully close to assembly language. At IBM in the 1950s, scientific and engineering users needed a notation that resembled mathematics while still producing efficient machine code. FORTRAN was novel not just because it introduced a higher-level syntax, but because Backus's team made optimization central to the language's credibility. If compiled code had been obviously inferior, high-level programming might have remained a niche experiment. Instead, FORTRAN showed that symbolic abstraction and performance could coexist. Backus's influence did not stop there. His role in formal notation fed into what became known as Backus-Naur Form, later refined with Peter Naur and closely tied to ALGOL 60. By the late 1970s, Backus had become one of the sharpest internal critics of mainstream imperative programming, arguing in his Turing Award lecture that the von Neumann model encouraged unnecessary complexity. Across these stages, he moved from practical compiler engineering to a more philosophical campaign for mathematical clarity in programming.",
+  "mental_model": "To think like John Backus is to distrust needless machine choreography. You want a program to state the relation being computed as directly as possible, whether that means a FORTRAN formula instead of hand-coded instruction sequences or a later functional composition instead of mutable state threaded through memory. The underlying question is always the same: can the structure of the computation be made visible without drowning it in operational detail? In Backus's strongest formulations, a language should help the programmer describe transformations over data, not rehearse every register-level motion. That instinct links his work on compiler design, syntax notation, and function-level programming into one coherent view.",
+  "pivotal_works": [
+    "**FORTRAN project leadership at IBM (1954-1957):** Proved that a compiled high-level language could serve demanding scientific workloads.",
+    "**Backus-Naur Form work culminating around ALGOL 60 (late 1950s):** Helped establish a precise notation for describing programming language syntax.",
+    "**Can Programming Be Liberated from the von Neumann Style? (1978):** Argued for function-level programming as an alternative to imperative state manipulation."
+  ],
+  "affiliations": [
+    "**IBM:** Led the FORTRAN effort and carried out much of his foundational compiler work there.",
+    "**ALGOL committees and international language design efforts:** Participated in the transnational work that shaped formal language description."
+  ],
+  "legacy": "Backus's legacy is visible whenever programmers trust a language to express mathematics directly and a compiler to recover efficient execution. FORTRAN influenced C, MATLAB, and much of scientific computing, while BNF became part of the standard toolkit for specifying grammars across ALGOL 60, parser generators, and language documentation more broadly. His later critique of the von Neumann style also anticipated the rise of functional programming ideas that became central in ML, Haskell, and modern multi-paradigm languages. He helped make syntax, semantics, and optimization feel like one connected design problem rather than separate specialties.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Examine how FORTRAN convinced engineers that high-level languages could outperform hand-written assembly in real workloads.'",
+    "2. 'Trace how Backus-Naur Form shaped the specification of ALGOL 60 and later language grammars.'",
+    "3. 'Compare Backus's function-level programming critique with the later design philosophies of ML and Haskell.'"
+  ]
+}

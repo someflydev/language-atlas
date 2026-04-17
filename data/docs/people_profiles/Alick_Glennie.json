@@ -1,0 +1,20 @@
+{
+  "title": "Alick Glennie: The Author of the First Working Compiled High-Level Language",
+  "overview": "Alick Glennie was a British computer scientist at Manchester who created Autocode, widely regarded as the first working compiled high-level language. His work translated mathematical notation into executable instructions for the Mark 1 and showed that programmers could work above assembly without surrendering usefulness.",
+  "historical_context": "Alick Glennie worked in the early 1950s at the University of Manchester, where the practical demands of scientific calculation were colliding with the severe difficulty of machine-level programming. In this environment, ballistic and mathematical work needed faster expression than raw binary or assembly could offer. Autocode, completed in 1952 for the Mark 1 context, was historically important because it crossed a threshold from symbolic convenience to genuinely compiled high-level language practice. Rather than merely interpreting formulas or naming low-level operations, Autocode provided a notation closer to the mathematics users already knew and then translated it into machine actions. Glennie's work sits between the earlier symbolic efforts of John Mauchly's Short Code and Kathleen Booth's assembly notation and the larger industrial success of John Backus's FORTRAN. That transitional position matters. It demonstrates that the compiler was not a sudden miracle of the late 1950s but an idea tested through several increasingly ambitious forms. In Glennie's hands, the central question became practical and pedagogical at once: how can the machine accept language that better matches the mathematician's habits of thought?",
+  "mental_model": "To think like Alick Glennie is to assume that notation should begin where the user already reasons. If scientists and mathematicians naturally form equations, indexed variables, and algebraic relations, then programming should meet them there instead of forcing a descent into low-level coding ceremony. The compiler exists to absorb that mismatch. It stands between a human mathematical model and the machine's execution rules. This mental model does not deny the machine, but it treats translation as an engineering problem that can be solved once so the user does not repeatedly solve it by hand. Much of later language design, especially in scientific computing, inherits exactly that posture.",
+  "pivotal_works": [
+    "**Autocode for the Manchester Mark 1 (1952):** Produced the first working compiled high-level language for practical machine use.",
+    "**Manchester programming work on scientific calculation:** Helped define the problem space that high-level compilation was meant to solve."
+  ],
+  "affiliations": [
+    "**University of Manchester:** Site of his Autocode work and early computing research.",
+    "**Manchester Mark 1 computing environment:** The machine context for which Autocode was designed."
+  ],
+  "legacy": "Glennie's legacy is clearest in the historical chain from Short Code and assembly-like symbolic systems to FORTRAN and later scientific languages. Autocode demonstrated that compilation could make mathematically legible source forms operational on real hardware, and that insight survives in everything from FORTRAN to MATLAB and Julia. Although Autocode itself did not become the universal standard, it proved a point the industry needed: translation from higher-level notation to machine code was not merely theoretical. It was practical, repeatable, and worth building.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Study why Autocode is considered the first working compiled high-level language and how it differed from Short Code.'",
+    "2. 'Compare Alick Glennie's user-facing mathematical notation with the later industrial design of FORTRAN.'",
+    "3. 'Investigate how the Manchester Mark 1 environment shaped the emergence of compiler technology in the early 1950s.'"
+  ]
+}

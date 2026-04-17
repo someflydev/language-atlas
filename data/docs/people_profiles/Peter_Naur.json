@@ -1,0 +1,21 @@
+{
+  "title": "Peter Naur: The Theorist of Language Description and Human Understanding",
+  "overview": "Peter Naur was a Danish computer scientist central to ALGOL 60 and to the refinement of Backus-Naur Form into its definitive notation. He later argued that programming is fundamentally theory building in the mind of the programmer, a view that made human understanding as important as formal specification.",
+  "historical_context": "Peter Naur entered programming language history at the point where the field needed both rigor and shared international notation. By the late 1950s, languages were no longer isolated local experiments. They were becoming common reference points for science, education, and machine-independent algorithm description. ALGOL 60 emerged from that context, and Naur's role was pivotal because he helped transform grammar notation associated with John Backus into the canonical form later called Backus-Naur Form. This was more than editorial polish. It offered a compact and precise way to specify syntax that could be shared across institutions and implementations. Naur's broader intellectual contribution came later, when he pushed against a purely formal conception of programming. In his essay 'Programming as Theory Building,' he argued that successful software development depends on the living understanding held by programmers, not only on text or proof artifacts. That position connects the early language-design world of ALGOL 60 to later debates about maintainability, tacit knowledge, and software engineering practice. Naur therefore sits at a critical junction: one foot in formal language specification, one foot in the human realities of programming work.",
+  "mental_model": "To think like Peter Naur is to hold two truths together at once. First, a language requires exact description, because syntax and structure must be shared if compilers and programmers are to coordinate their understanding. Second, no specification alone exhausts what a program is, because real programming involves building a coherent theory of the problem and the solution in human minds. You therefore care about notation, grammar, and semantics, but you do not confuse those with the whole of understanding. In this mental model, a program is both a formal artifact and a lived conceptual model. That is why language design, documentation, and maintainability are all facets of one discipline.",
+  "pivotal_works": [
+    "**ALGOL 60 report work (1960):** Helped define one of the most influential programming languages in the history of algorithmic notation.",
+    "**Refinement of Backus-Naur Form (late 1950s to 1960):** Gave language syntax description a durable and widely adopted formal notation.",
+    "**Programming as Theory Building (1985):** Reframed programming as a human knowledge practice, not merely a mechanical text-production activity."
+  ],
+  "affiliations": [
+    "**Regnecentralen and Danish computing circles:** Early environment for his contributions to computing and language work.",
+    "**ALGOL 60 international design community:** Major participant in the collaborative design and reporting process."
+  ],
+  "legacy": "Naur's legacy is unusually broad because it spans both formalism and software practice. BNF remains foundational in language specifications, parser construction, and compiler education, affecting everything from ALGOL 60 to modern parser generators used for C, Rust, and domain-specific languages. His theory-building view also continues to shape how programmers think about design, maintenance, and knowledge transfer. In that sense, Naur connects the clean formal syntax of language reports with the messier reality that code only lives when a community understands it. Few language thinkers influenced both areas so directly.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace how Peter Naur's work on ALGOL 60 and BNF shaped later language specification practices.'",
+    "2. 'Analyze the relationship between Naur's theory-building essay and modern concerns about software maintainability.'",
+    "3. 'Compare Peter Naur's human-centered view of programming with John Backus's push toward formal and mathematical clarity.'"
+  ]
+}

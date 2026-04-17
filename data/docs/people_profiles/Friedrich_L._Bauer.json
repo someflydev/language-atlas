@@ -1,0 +1,21 @@
+{
+  "title": "Friedrich L. Bauer: The Stack Thinker Behind Structured Execution",
+  "overview": "Friedrich L. Bauer was a German computer scientist who co-invented the stack with Klaus Samelson and helped shape ALGOL-era language design. His work on call discipline, recursion-enabling storage structures, and software engineering gave programming languages a practical mechanism for structured control.",
+  "historical_context": "Friedrich L. Bauer worked in the 1950s and 1960s as programming languages were shifting from ad hoc notation toward more disciplined structure. One of his most consequential contributions was the stack concept, developed with Klaus Samelson in the mid-1950s under the name Kellerautomat. This mattered because recursive procedures, nested calls, and orderly scope management required a runtime organization more systematic than arbitrary memory juggling. The stack gave that organization a simple and powerful form: last in, first out state management matched the nested logic of procedure invocation. Bauer was also involved in ALGOL 58 and the broader European current that helped lead to ALGOL 60, linking runtime structure to language structure. Over time he contributed to establishing software engineering as a recognizable discipline rather than an accidental byproduct of machine use. His importance therefore lies not only in one mechanism, but in a way of connecting abstract language design to implementable execution models. The call stack is easy to take for granted now, but in Bauer's era it helped transform recursion and block structure from elegant ideas into practical realities.",
+  "mental_model": "To think like Friedrich L. Bauer is to look for the runtime structure that mirrors the logical structure of the program. If a procedure calls another procedure, and that call may nest again, then memory should respect that nesting rather than fight it. The stack solves this by making execution follow a disciplined last in, first out pattern. More broadly, Bauer's mental habit is to seek systematic machinery underneath apparently abstract ideas. Recursion, scope, and procedure calls are not just semantic concepts. They require a storage discipline that makes them operationally sound. That way of thinking remains central to compiler construction, interpreters, and systems education.",
+  "pivotal_works": [
+    "**Stack invention with Klaus Samelson (circa 1955):** Introduced the runtime structure that made recursive procedure handling practical in modern languages.",
+    "**ALGOL 58 design work (late 1950s):** Helped shape the prehistory of ALGOL 60 and the formalization of algorithmic languages.",
+    "**Software engineering advocacy and scholarship (mid to late 20th century):** Contributed to recognizing software development as a disciplined field."
+  ],
+  "affiliations": [
+    "**Technical University of Munich and German computing research circles:** Major base for his academic and technical contributions.",
+    "**ALGOL design community:** Participated in the international work around algorithmic language design."
+  ],
+  "legacy": "Bauer's legacy is present in every language implementation that uses stack frames for calls, locals, and recursion, which means nearly all mainstream language runtimes at some level, including C, C++, Rust, Python implementations, and the descendants of ALGOL 60. His work helped align runtime memory organization with structured programming ideas, making lexical blocks and nested procedures practical rather than purely elegant. He also helped broaden the field's self-understanding toward software engineering, reinforcing that languages, compilers, and development methods belong to a single engineering continuum.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Study how Bauer and Samelson's stack concept made recursion practical in ALGOL-family languages and beyond.'",
+    "2. 'Trace the connection between ALGOL 58, ALGOL 60, and the emergence of structured runtime models.'",
+    "3. 'Analyze how Friedrich L. Bauer's work helped connect language theory with the later discipline of software engineering.'"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Alonzo Church: The Logician of Computation as Reduction",
+  "overview": "Alonzo Church was an American logician whose lambda calculus gave computation a rigorous mathematical language before electronic programming became mainstream. His work on effective calculability, type theory, and the Entscheidungsproblem helped establish the conceptual bedrock later shared with Alan Turing in the Church-Turing thesis.",
+  "historical_context": "Alonzo Church operated in the era when logic sought foundations strong enough to formalize mathematics itself. In the early 1930s, long before high-level languages like FORTRAN, COBOL, or ALGOL 60, he developed lambda calculus as a compact formal system for representing functions, substitution, and reduction. This mattered because the central question of the period was not yet how to write better software, but whether reasoning itself could be mechanized. Church's work addressed exactly that problem. In 1936 he showed, through formal methods distinct from Alan Turing's machine model, that the Entscheidungsproblem had no general solution. The novelty of Church's approach was its extreme abstraction: computation was not tied to gears, switches, or tape, but to the disciplined rewriting of expressions. His influence also extended into type theory through the simply typed lambda calculus, which helped show how constraints on expressions could shape valid computation. Church taught and supervised major figures, including Turing at Princeton, and his style of thought created a line from pure logic to the semantics of programming languages. Functional languages would later inherit not just his notation, but his premise that a program can be understood as a mathematical object subject to transformation.",
+  "mental_model": "To think like Alonzo Church is to treat computation as the controlled transformation of symbolic expressions by exact rules of application and substitution. You do not begin with hardware or instruction sequences. You begin with a function, an argument, and the reductions that follow from their combination. A program, in this view, is not primarily a machine procedure but a mathematical expression whose meaning emerges through normalization. That shift changes what counts as understanding. Instead of tracing registers and memory cells, you ask whether a form is reducible, whether a term is well-typed, and whether an equivalence can be proven. This mental habit later shapes the semantics of Lisp, ML, Haskell, and many type systems used across modern language design.",
+  "pivotal_works": [
+    "**Lambda calculus papers (1932-1936):** Established a formal system in which computation could be modeled as function abstraction and reduction.",
+    "**An Unsolvable Problem of Elementary Number Theory (1936):** Presented a negative solution to the Entscheidungsproblem through formal logic.",
+    "**Church-Turing thesis work with Alan Turing (1930s):** Helped crystallize the idea that multiple rigorous models captured the same class of effectively computable functions.",
+    "**Simply typed lambda calculus work (1940):** Advanced the connection between formal computation and type discipline."
+  ],
+  "affiliations": [
+    "**Princeton University:** Longtime professor and central figure in mathematical logic.",
+    "**University of California, Los Angeles:** Later academic home, where he continued teaching and research in logic."
+  ],
+  "legacy": "Church's legacy runs through the semantic core of modern programming languages. Lambda calculus became the conceptual ancestor of Lisp and a deep influence on ML, Haskell, Scheme, and typed functional programming more broadly. Ideas that begin with Church, such as substitution, variable binding, lexical scope, and type discipline, later become standard tools in the design and analysis of languages far outside the functional family, including JavaScript, Rust, and Python implementations. Together with Alan Turing, he gave computer science a shared definition of computation itself. That is why compiler theory, proof assistants, and language semantics still speak in a vocabulary Church helped define.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how lambda calculus moved from pure logic into the practical design of Lisp, ML, and Haskell.'",
+    "2. 'Analyze the relationship between Alonzo Church's proof of the Entscheidungsproblem and Alan Turing's machine-based proof.'",
+    "3. 'Investigate how simply typed lambda calculus shaped modern type systems and compiler theory.'"
+  ]
+}
