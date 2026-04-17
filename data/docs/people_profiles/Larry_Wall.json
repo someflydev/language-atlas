@@ -1,0 +1,22 @@
+{
+  "title": "Larry Wall: The Designer of Pragmatic Textual Freedom",
+  "overview": "Larry Wall created Perl in 1987 as a practical Unix language for sysadmins who needed one tool that could glue together files, processes, reports, and regular-expression-heavy text work. Perl became one of the defining scripting languages of the 1990s by arguing that programmer convenience and expressive flexibility mattered more than a single enforced style.",
+  "historical_context": "Wall's work emerged from late-1980s Unix culture, where shell scripts, `sed`, `awk`, C, and ad hoc text processing were powerful but fragmented. System administrators and tool builders needed something stronger than shell and less ceremonial than C. Perl answered that need by bundling string processing, regular expressions, file handling, and scripting pragmatism into one language. It spread rapidly through the early web, CGI programming, bioinformatics, and operations work. In that setting, Wall positioned Perl as a language for real workloads rather than for language-theory purity.",
+  "mental_model": "To think like Larry Wall is to treat programming as communication through text. A program is a story told to the computer, and natural language is a better model than rigid formal minimalism for many everyday tasks. This is why Perl embraces context, expressive punctuation, and TIMTOWTDI, or 'There's more than one way to do it.' Regular expressions are not a side feature in this worldview. They are a grammar for shaping and interpreting the textual world Unix programmers already inhabited.",
+  "pivotal_works": [
+    "**Perl (1987):** A glue language that unified text processing, scripting, and system administration into one widely adopted tool.",
+    "**Perl 5:** The version that made modules, references, and a large CPAN ecosystem central to Perl's long-term impact.",
+    "**TIMTOWTDI philosophy:** A design stance that explicitly rejected the stricter style discipline later associated with Python."
+  ],
+  "affiliations": [
+    "**Jet Propulsion Laboratory:** Early professional setting before Perl's creation.",
+    "**Unisys:** Workplace context in which Wall built Perl to solve practical Unix problems.",
+    "**The Perl community and CPAN ecosystem:** The social and technical network that turned Perl into a major internet-era language."
+  ],
+  "legacy": "Wall's legacy is the normalization of scripting languages as serious infrastructure tools. Perl helped define the idea that a language could be messy in surface form yet deeply useful in practice, especially for text-heavy automation. Its philosophy became the clearest counterpoint to Guido van Rossum's insistence on one obvious way to write code, and that contrast shaped how later scripting languages explained themselves.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Compare Larry Wall's TIMTOWTDI philosophy with Guido van Rossum's preference for one obvious way to do it.'",
+    "2. 'Explain how Perl unified shell scripting, `sed`, and `awk` style text work into one language.'",
+    "3. 'Trace why regular expressions became so central to Perl's identity and to internet-era system administration.'"
+  ]
+}

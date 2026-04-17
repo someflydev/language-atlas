@@ -1,0 +1,21 @@
+{
+  "title": "Rasmus Lerdorf: The Pragmatic Accidental Founder of PHP",
+  "overview": "Rasmus Lerdorf created the earliest form of PHP in 1994 as a small set of C-based tools for tracking traffic to his online resume. What began as 'Personal Home Page Tools' evolved into the dominant server-side web language of the early internet, largely because it made dynamic pages easy to ship before the web had settled on cleaner abstractions.",
+  "historical_context": "Lerdorf's work came from the chaotic first generation of web development, when people needed results faster than they needed elegant language theory. CGI scripts, ad hoc templates, and Unix tools were enough to get started, but building dynamic websites remained cumbersome. PHP spread because it let developers place executable logic directly inside HTML and deploy useful pages quickly. Its growth was famously unplanned, but that lack of purity matched the environment that adopted it: fast-moving web hosting, forums, content systems, and businesses that needed to iterate under constant backwards-compatibility pressure.",
+  "mental_model": "To think like Rasmus Lerdorf is to prioritize getting useful behavior onto the web over constructing a pristine language design. Practicality beats purity if the site works, can be deployed cheaply, and can evolve without breaking everything already in production. PHP's many irregularities are easier to understand once you see it not as a language designed from first principles, but as the accretion of solutions to immediate web problems under real compatibility constraints.",
+  "pivotal_works": [
+    "**Personal Home Page Tools (1994):** The original utility set that became PHP.",
+    "**PHP/FI and later PHP evolution:** The growth path from simple form handling to a full server-side language.",
+    "**Web ecosystem adoption:** Indirectly enabled major platforms such as WordPress and early Facebook-era PHP infrastructure."
+  ],
+  "affiliations": [
+    "**Open-source PHP community:** The distributed ecosystem that turned a personal tool into a web standard.",
+    "**Yahoo!:** A notable industry context later associated with Lerdorf's engineering career."
+  ],
+  "legacy": "Lerdorf's legacy is that the web's early center of gravity was set by tools that optimized for deployment speed and ubiquity more than for beauty. PHP powered a vast share of server-side websites and forced the rest of the industry to take web ergonomics seriously. It also became the enduring example of how backwards compatibility and installed base can outweigh architectural cleanliness.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how PHP's origin as Personal Home Page Tools shaped its strengths and weaknesses.'",
+    "2. 'Compare PHP's web-first pragmatism with Java's enterprise-first design and Ruby on Rails-era developer ergonomics.'",
+    "3. 'Trace how backwards compatibility pressures shaped PHP's long-term design more than any original master plan.'"
+  ]
+}
