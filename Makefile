@@ -30,7 +30,7 @@ build:
 
 server:
 	@echo "Starting FastAPI dev server on port 8084..."
-	cd src/app && uv run uvicorn app:app --reload --port 8084
+	PYTHONPATH=src uv run uvicorn app.app:app --reload --reload-dir src/app --port 8084
 
 audit:
 	@echo "Running Atlas Auditor..."
