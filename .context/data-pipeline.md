@@ -29,8 +29,9 @@
 ## Profile Filename Mapping
 - Profile filenames are derived from canonical entity names by replacing spaces with underscores.
 - Preserve punctuation that is part of the source-of-truth name instead of stripping it.
-- This is especially important for people profiles because the loader matches filename stems back to `data/people.json` names by turning underscores into spaces.
-- Example: `Guy L. Steele` -> `Guy_L._Steele.json`; `Ole-Johan Dahl` -> `Ole-Johan_Dahl.json`.
+- Transliterate non-ASCII letters to the closest reasonable ASCII form in the filename.
+- This is especially important for people profiles because filename stems are matched back to `data/people.json` names after underscore-to-space conversion and ASCII transliteration.
+- Example: `Guy L. Steele` -> `Guy_L._Steele.json`; `Ole-Johan Dahl` -> `Ole-Johan_Dahl.json`; `José Valim` -> `Jose_Valim.json`.
 
 ## Build Pipeline
 ```bash

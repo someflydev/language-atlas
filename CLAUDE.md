@@ -45,8 +45,9 @@ src/README.md               Architecture reference
 ```
 
 ## Profile Filename Rule
-- When a prompt says to create a profile file from an entity name, replace spaces with underscores but preserve punctuation that is part of the canonical name in source data.
-- For people in `data/people.json`, the filename stem must round-trip back to the exact person name when underscores are converted to spaces. Example: `Guy L. Steele` must be `Guy_L._Steele.json`, not `Guy_L_Steele.json`.
+- When a prompt says to create a profile file from an entity name, replace spaces with underscores and preserve punctuation that is part of the canonical name in source data.
+- For letters with diacritics or other non-ASCII forms, transliterate them to the closest reasonable ASCII equivalent in the filename. Example: `José Valim` must be `Jose_Valim.json`.
+- For people in `data/people.json`, the filename stem should map cleanly back to the canonical name after converting underscores to spaces and accounting for ASCII transliteration. Example: `Guy L. Steele` must be `Guy_L._Steele.json`, not `Guy_L_Steele.json`.
 
 ## Common Operations
 ```bash

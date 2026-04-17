@@ -2,6 +2,7 @@ import json
 import os
 import re
 import string
+import unicodedata
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Set, Tuple, Union
 
@@ -74,6 +75,7 @@ def is_person(name: str) -> bool:
 
 def canonicalize(name: Optional[str]) -> str:
     if not name: return ""
+    name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
     name = name.lower()
     if name.startswith("the "): name = name[4:].strip()
     name = name.replace("cpu and memory", "cpu_memory").replace("cpu/memory", "cpu_memory")

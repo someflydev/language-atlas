@@ -60,7 +60,7 @@ All names appear in `data/people.json`.
      behaviors (undefined behavior, hidden allocations) are the problem;
      Zig makes everything explicit
 
-6. **José Valim** (`José_Valim.json`)
+6. **José Valim** (`Jose_Valim.json`)
    - Created Elixir (2011): a Ruby-syntax language on the Erlang VM (BEAM);
      brought developer experience and productivity to the fault-tolerant
      actor model; created the Phoenix web framework ecosystem
