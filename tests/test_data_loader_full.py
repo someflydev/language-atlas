@@ -3,9 +3,10 @@ import os
 import json
 import sqlite3
 from pathlib import Path
+from pytest import MonkeyPatch
 from app.core.data_loader import DataLoader
 
-def test_dataloader_json_all_methods(tmp_path, monkeypatch):
+def test_dataloader_json_all_methods(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
     """Exhaustively test all DataLoader methods using JSON backend."""
     monkeypatch.setenv("USE_SQLITE", "0")
     
@@ -47,15 +48,31 @@ def test_dataloader_json_all_methods(tmp_path, monkeypatch):
     loader = DataLoader(data_dir=str(data_dir))
     
     # Test all the getters
-    assert loader.get_language("Python")["name"] == "Python"
-    assert loader.get_language_profile("Python")["title"] == "Python Profile"
-    assert loader.get_combined_language_data("Python")["title"] == "Python Profile"
-    assert loader.get_concept_profile("Garbage Collection")["title"] == "GC Profile"
-    assert loader.get_person("Guido van Rossum")["title"] == "Guido Profile"
-    assert loader.get_event("event1")["title"] == "Event 1"
-    assert loader.get_org("PSF")["title"] == "PSF Profile"
+    language = loader.get_language("Python")
+    assert language is not None
+    assert language["name"] == "Python"
+    language_profile = loader.get_language_profile("Python")
+    assert language_profile is not None
+    assert language_profile["title"] == "Python Profile"
+    combined = loader.get_combined_language_data("Python")
+    assert combined is not None
+    assert combined["title"] == "Python Profile"
+    concept_profile = loader.get_concept_profile("Garbage Collection")
+    assert concept_profile is not None
+    assert concept_profile["title"] == "GC Profile"
+    person = loader.get_person("Guido van Rossum")
+    assert person is not None
+    assert person["title"] == "Guido Profile"
+    event = loader.get_event("event1")
+    assert event is not None
+    assert event["title"] == "Event 1"
+    org = loader.get_org("PSF")
+    assert org is not None
+    assert org["title"] == "PSF Profile"
     assert len(loader.get_all_era_summaries()) == 1
-    assert loader.get_era_summary("early")["title"] == "Early Era"
+    era_summary = loader.get_era_summary("early")
+    assert era_summary is not None
+    assert era_summary["title"] == "Early Era"
     assert len(loader.get_crossroads()) == 1
     assert len(loader.get_modern_reactions()) == 1
     assert len(loader.get_timeline()) == 1
@@ -66,13 +83,19 @@ def test_dataloader_json_all_methods(tmp_path, monkeypatch):
     assert loader.get_cluster_info("scripting")["name"] == "scripting"
     assert len(loader.get_timeline_data()) == 1
     assert len(loader.get_influence_data()) == 0 # ABC not in languages
-    assert loader.get_learning_path("path1")["title"] == "Path 1"
-    assert loader.get_auto_odyssey("Python")["id"] == "auto_python"
+    learning_path = loader.get_learning_path("path1")
+    assert learning_path is not None
+    assert learning_path["title"] == "Path 1"
+    auto_odyssey = loader.get_auto_odyssey("Python")
+    assert auto_odyssey is not None
+    assert auto_odyssey["id"] == "auto_python"
 
-def test_dataloader_sqlite_extended_methods(mock_loader):
+def test_dataloader_sqlite_extended_methods(mock_loader: DataLoader) -> None:
     """Test the SQLite paths for all getter methods to ensure full coverage."""
     # 1. Core Lookups
-    assert mock_loader.get_language("Python")["name"] == "Python"
+    python_lang = mock_loader.get_language("Python")
+    assert python_lang is not None
+    assert python_lang["name"] == "Python"
     assert mock_loader.get_language("None") is None
     
     # 2. Profiles
@@ -161,6 +184,7 @@ def test_dataloader_sqlite_extended_methods(mock_loader):
     
     # 11. Influence & Odysseys
     infl = mock_loader.get_influences("Python")
+    assert infl is not None
     assert "influenced_by" in infl
     
     paths = mock_loader.get_learning_paths()
@@ -177,7 +201,7 @@ def test_dataloader_sqlite_extended_methods(mock_loader):
     comp = mock_loader.get_comparison_data(["Python", "Rust"])
     assert len(comp) >= 1
 
-def test_dataloader_edge_cases(tmp_path, monkeypatch):
+def test_dataloader_edge_cases(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
     """Test edge cases like missing files and empty directories."""
     monkeypatch.setenv("USE_SQLITE", "0")
     data_dir = tmp_path / "empty_data"
@@ -192,7 +216,7 @@ def test_dataloader_edge_cases(tmp_path, monkeypatch):
     assert loader.get_person("None") is None
 
 
-def test_new_site_builder_dataloader_methods(mock_loader):
+def test_new_site_builder_dataloader_methods(mock_loader: DataLoader) -> None:
     """One-line smoke tests for methods added to support SiteBuilder."""
     assert mock_loader.get_language_doc_info("Python") is not None
     first_concept = mock_loader.get_all_concepts()[0]["name"]

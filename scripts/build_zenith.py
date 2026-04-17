@@ -4,7 +4,7 @@ import sys
 import shutil
 from pathlib import Path
 
-def build():
+def build() -> None:
     root = Path(__file__).parent.parent
     dist_path = root / "dist"
     build_path = root / "build_temp"

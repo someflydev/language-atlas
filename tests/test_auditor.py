@@ -2,7 +2,7 @@ import pytest
 from pathlib import Path
 from app.core.auditor import AtlasAuditor
 
-def test_atlas_audit_integrity():
+def test_atlas_audit_integrity() -> None:
     """
     Runs the full AtlasAuditor suite to ensure JSON and SQLite 
     integrity, referential consistency, and FTS sync.
@@ -20,7 +20,7 @@ def test_atlas_audit_integrity():
         error_msg = "\n".join(errors)
         pytest.fail(f"Atlas Audit failed with errors:\n{error_msg}")
 
-def test_semantic_orphans_report():
+def test_semantic_orphans_report() -> None:
     """
     Check for semantic orphans and report them as warnings.
     """

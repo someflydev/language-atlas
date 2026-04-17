@@ -5,10 +5,10 @@ import sys
 import argparse
 from pathlib import Path
 
-def get_project_root():
+def get_project_root() -> Path:
     return Path(__file__).parent.parent
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Language Atlas: Export Summary")
     parser.add_argument("--data", type=str, help="Path to languages.json")
     parser.add_argument("--format", choices=["csv", "md"], default="csv", help="Output format (csv or md, default: csv)")

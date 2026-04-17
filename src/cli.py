@@ -19,7 +19,7 @@ from app.core.data_loader import DataLoader
 app = typer.Typer(help="Language Atlas CLI - Explore Programming Language History")
 console = Console(width=140, height=40)
 
-def get_loader():
+def get_loader() -> DataLoader:
     return DataLoader()
 
 def suggest_language(loader: DataLoader, query: str) -> Optional[str]:
@@ -33,7 +33,7 @@ def suggest_language(loader: DataLoader, query: str) -> Optional[str]:
     matches = difflib.get_close_matches(query, names, n=1, cutoff=0.6)
     return matches[0] if matches else None
 
-def handle_not_found(loader, language):
+def handle_not_found(loader: DataLoader, language: str) -> None:
     suggestion = suggest_language(loader, language)
     if suggestion:
         console.print(f"[red]Error: Language '{language}' not found.[/red] Did you mean [bold cyan]{suggestion}[/bold cyan]?")
@@ -41,7 +41,7 @@ def handle_not_found(loader, language):
         console.print(f"[red]Error: Language '{language}' not found.[/red]")
     raise typer.Exit(1)
 
-def output_result(data: Any, json_out: bool):
+def output_result(data: Any, json_out: bool) -> None:
     if json_out:
         console.print_json(data=data)
     else:
@@ -49,7 +49,7 @@ def output_result(data: Any, json_out: bool):
         pass
 
 @app.command()
-def dashboard(language: str, json_out: bool = typer.Option(False, "--json")):
+def dashboard(language: str, json_out: bool = typer.Option(False, "--json")) -> None:
     """
     The 'Impact Dashboard': Control Room style view for a language.
     """
@@ -58,6 +58,7 @@ def dashboard(language: str, json_out: bool = typer.Option(False, "--json")):
     
     if not lang:
         handle_not_found(loader, language)
+    assert lang is not None
     
     if json_out:
         console.print_json(data=lang)
@@ -65,6 +66,7 @@ def dashboard(language: str, json_out: bool = typer.Option(False, "--json")):
 
     # Fetch influences
     influences = loader.get_influences(language)
+    assert influences is not None
     
     layout = Layout()
     layout.split_column(
@@ -123,7 +125,7 @@ def dashboard(language: str, json_out: bool = typer.Option(False, "--json")):
     console.print(layout)
 
 @app.command()
-def report(subcommand: str = typer.Argument(..., help="Subcommand: summary"), json_out: bool = typer.Option(False, "--json")):
+def report(subcommand: str = typer.Argument(..., help="Subcommand: summary"), json_out: bool = typer.Option(False, "--json")) -> None:
     """
     Visual Reporting: Summary and analytical reports.
     """
@@ -143,7 +145,7 @@ def report(subcommand: str = typer.Argument(..., help="Subcommand: summary"), js
         console.print("[yellow]No year data available for summary.[/yellow]")
         return
 
-    decades = {}
+    decades: dict[int, int] = {}
     for year in years:
         decade = (year // 10) * 10
         decades[decade] = decades.get(decade, 0) + 1
@@ -166,7 +168,7 @@ def report(subcommand: str = typer.Argument(..., help="Subcommand: summary"), js
     console.print(table)
 
 @app.command()
-def info(language: str, json_out: bool = typer.Option(False, "--json"), pretty: bool = typer.Option(True, "--pretty")):
+def info(language: str, json_out: bool = typer.Option(False, "--json"), pretty: bool = typer.Option(True, "--pretty")) -> None:
     """
     Get detailed information on a language as a syntax-highlighted report.
     """
@@ -175,6 +177,7 @@ def info(language: str, json_out: bool = typer.Option(False, "--json"), pretty: 
     
     if not lang:
         handle_not_found(loader, language)
+    assert lang is not None
     
     if json_out:
         console.print_json(data=lang)
@@ -204,7 +207,7 @@ def info(language: str, json_out: bool = typer.Option(False, "--json"), pretty: 
     console.print(Panel(Markdown(md_content), border_style="cyan"))
 
 @app.command()
-def research(language: str, json_out: bool = typer.Option(False, "--json")):
+def research(language: str, json_out: bool = typer.Option(False, "--json")) -> None:
     """
     Generate a Research Brief for a language with discovery prompts.
     """
@@ -213,6 +216,7 @@ def research(language: str, json_out: bool = typer.Option(False, "--json")):
     
     if not lang:
         handle_not_found(loader, language)
+    assert lang is not None
 
     if json_out:
         console.print_json(data=lang) # Just return language data for now
@@ -236,7 +240,7 @@ def research(language: str, json_out: bool = typer.Option(False, "--json")):
     console.print(Panel(Markdown(md_content), border_style="magenta"))
 
 @app.command()
-def list_langs(generation: Optional[str] = None, cluster: Optional[str] = None, json_out: bool = typer.Option(False, "--json")):
+def list_langs(generation: Optional[str] = None, cluster: Optional[str] = None, json_out: bool = typer.Option(False, "--json")) -> None:
     """
     List all languages with optional filters.
     """
@@ -272,7 +276,7 @@ def list_langs(generation: Optional[str] = None, cluster: Optional[str] = None, 
     console.print(table)
 
 @app.command()
-def influences(language: str, json_out: bool = typer.Option(False, "--json")):
+def influences(language: str, json_out: bool = typer.Option(False, "--json")) -> None:
     """
     Explore lineage and influences for a specific language.
     """
@@ -281,6 +285,7 @@ def influences(language: str, json_out: bool = typer.Option(False, "--json")):
     
     if not infl:
         handle_not_found(loader, language)
+    assert infl is not None
         
     if json_out:
         console.print_json(data=infl)
@@ -296,7 +301,7 @@ def influences(language: str, json_out: bool = typer.Option(False, "--json")):
     console.print(table)
 
 @app.command()
-def search(term: str, json_out: bool = typer.Option(False, "--json")):
+def search(term: str, json_out: bool = typer.Option(False, "--json")) -> None:
     """
     Full-text search across languages and profiles.
     """
@@ -327,7 +332,7 @@ def search(term: str, json_out: bool = typer.Option(False, "--json")):
         console.print(panel)
 
 @app.command()
-def like(language: str, limit: int = 5, json_out: bool = typer.Option(False, "--json")):
+def like(language: str, limit: int = 5, json_out: bool = typer.Option(False, "--json")) -> None:
     """
     Find languages semantically similar to the reference language.
     """
@@ -339,6 +344,7 @@ def like(language: str, limit: int = 5, json_out: bool = typer.Option(False, "--
     lang = loader.get_language(language)
     if not lang:
         handle_not_found(loader, language)
+    assert lang is not None
 
     with loader._get_connection() as conn:
         query = """
@@ -392,7 +398,7 @@ def like(language: str, limit: int = 5, json_out: bool = typer.Option(False, "--
         console.print(table)
 
 @app.command()
-def cross_section(paradigm: str, era: str, json_out: bool = typer.Option(False, "--json")):
+def cross_section(paradigm: str, era: str, json_out: bool = typer.Option(False, "--json")) -> None:
     """
     Query cross-section of paradigms and eras.
     """
@@ -456,7 +462,7 @@ def cross_section(paradigm: str, era: str, json_out: bool = typer.Option(False, 
             console.print(table)
 
 @app.command()
-def auto_odyssey(language: str):
+def auto_odyssey(language: str) -> None:
     """
     Generate a dynamic, influence-based learning path for a given language.
     """
@@ -470,7 +476,7 @@ def auto_odyssey(language: str):
     _run_odyssey(loader, path)
 
 @app.command()
-def odyssey(path_id: Optional[str] = typer.Argument(None)):
+def odyssey(path_id: Optional[str] = typer.Argument(None)) -> None:
     """
     Interactive Odyssey Mode: Guided learning paths through programming history.
     """
@@ -498,7 +504,7 @@ def odyssey(path_id: Optional[str] = typer.Argument(None)):
 
     _run_odyssey(loader, path)
 
-def _run_odyssey(loader: DataLoader, path: Dict[str, Any]):
+def _run_odyssey(loader: DataLoader, path: Dict[str, Any]) -> None:
     console.print(Panel(f"[bold magenta]{path['title']}[/bold magenta]\n\n{path['description']}", border_style="bright_magenta"))
     
     for i, step in enumerate(path['steps']):
@@ -530,7 +536,7 @@ def _run_odyssey(loader: DataLoader, path: Dict[str, Any]):
     console.print("\n[bold green]Congratulations! You have completed the Odyssey: " + path['title'] + "[/bold green]")
 
 @app.command()
-def tui(language: Optional[str] = typer.Argument(None, help="Optional language to select on startup")):
+def tui(language: Optional[str] = typer.Argument(None, help="Optional language to select on startup")) -> None:
     """
     Launch the 'Living Atlas' TUI - Interactive historical exploration.
     """

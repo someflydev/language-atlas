@@ -1,8 +1,10 @@
 import json
 import os
 import re
+from pathlib import Path
+from typing import Any
 
-def ensure_dir(path):
+def ensure_dir(path: str | Path) -> None:
     if not os.path.exists(path):
         os.makedirs(path)
 
@@ -14,7 +16,7 @@ directories = [
 for d in directories:
     ensure_dir(d)
 
-def parse_concepts(filepath):
+def parse_concepts(filepath: str | Path) -> None:
     if not os.path.exists(filepath): return
     with open(filepath, 'r') as f:
         content = f.read()
@@ -25,7 +27,7 @@ def parse_concepts(filepath):
     intro_match = re.search(r'^# .*?\n\n(.*?)(?=\n##)', content, re.DOTALL)
     intro = intro_match.group(1).strip() if intro_match else ""
 
-    concepts = []
+    concepts: list[dict[str, Any]] = []
     sections = re.split(r'\n##\s+', content)
     for section in sections[1:]: # Skip the first part (title + intro)
         if section.startswith('Diagram'):
@@ -40,7 +42,7 @@ def parse_concepts(filepath):
         list_match = re.search(r'\n\* (.*)', body, re.DOTALL)
         if list_match:
             concept_intro = body[:list_match.start()].strip()
-            bullets = []
+            bullets: list[dict[str, str]] = []
             for m in re.finditer(r'\*\s+\*\*(.*?)\*\*(.*?)(?=\n\* |\Z)', list_match.group(), re.DOTALL):
                 bullets.append({"name": m.group(1).strip(), "description": m.group(2).strip()})
         else:
@@ -65,7 +67,7 @@ def parse_concepts(filepath):
     with open('data/docs/concepts/concepts_reference.json', 'w') as f:
         json.dump(data, f, indent=2)
 
-def main():
+def main() -> None:
     parse_concepts('docs/CONCEPTS.md')
 
 if __name__ == "__main__":

@@ -198,8 +198,8 @@ def audit() -> None:
 
     people_path = data_dir / "people.json"
     if people_path.exists():
-        with open(people_path, "r") as f:
-            for person in json.load(f):
+        with open(people_path, "r") as fh:
+            for person in json.load(fh):
                 name = person.get("name")
                 if name:
                     known_people.add(name.lower())
@@ -207,8 +207,8 @@ def audit() -> None:
 
     languages_path = data_dir / "languages.json"
     if languages_path.exists():
-        with open(languages_path, "r") as f:
-            for lang in json.load(f): 
+        with open(languages_path, "r") as fh:
+            for lang in json.load(fh): 
                 name = lang.get("name")
                 if name:
                     known_languages.add(canonicalize(name))
@@ -250,12 +250,12 @@ def audit() -> None:
                 current_target[canon] = n
 
     if people_path.exists():
-        with open(people_path, "r") as f:
-            for p in json.load(f):
+        with open(people_path, "r") as fh:
+            for p in json.load(fh):
                 for c in p.get("contributions", []): add_reference(c)
     if languages_path.exists():
-        with open(languages_path, "r") as f:
-            for l in json.load(f):
+        with open(languages_path, "r") as fh:
+            for l in json.load(fh):
                 add_reference(l.get("name"), referenced_languages)
                 for inf in l.get("influenced_by", []): add_reference(inf, referenced_languages)
                 for inf in l.get("influenced", []): add_reference(inf, referenced_languages)
@@ -272,8 +272,8 @@ def audit() -> None:
     
     concepts_path = data_dir / "concepts.json"
     if concepts_path.exists():
-        with open(concepts_path, "r") as f:
-            for c in json.load(f):
+        with open(concepts_path, "r") as fh:
+            for c in json.load(fh):
                 add_reference(c.get("name"))
                 bc, bo = extract_entities_from_text(c.get("description", ""))
                 for item in bc: add_reference(item)
@@ -282,8 +282,8 @@ def audit() -> None:
     # Unified Era and Crossroads Audit from eras.json
     eras_file = data_dir / "eras.json"
     if eras_file.exists():
-        with open(eras_file, "r") as f:
-            eras_data = json.load(f)
+        with open(eras_file, "r") as fh:
+            eras_data = json.load(fh)
             for era in eras_data:
                 add_reference(era.get("name"))
                 for driver in era.get("key_drivers", []): add_reference(driver.get("name"))
@@ -328,19 +328,19 @@ def audit() -> None:
         if p_dir.exists():
             for f_path in p_dir.glob("*.json"):
                 try:
-                    with open(f_path, "r") as f:
-                        c, o = scan_profile_data(json.load(f))
+                    with open(f_path, "r") as fh:
+                        c, o = scan_profile_data(json.load(fh))
                         for item in c: add_reference(item)
                         for item in o: add_reference(item, referenced_organizations)
                 except Exception: pass
 
     missing_paradigms: List[str] = []
     if Path("data/paradigms.json").exists():
-        with open("data/paradigms.json", "r") as f: 
-            known_paradigms: Set[str] = {canonicalize(p.get("name")) for p in json.load(f)}
+        with open("data/paradigms.json", "r") as fh: 
+            known_paradigms: Set[str] = {canonicalize(p.get("name")) for p in json.load(fh)}
         if Path("data/languages.json").exists():
-            with open("data/languages.json", "r") as f:
-                for lang in json.load(f):
+            with open("data/languages.json", "r") as fh:
+                for lang in json.load(fh):
                     for p in lang.get("paradigms", []):
                         if canonicalize(p) not in known_paradigms: missing_paradigms.append(p)
 
@@ -376,7 +376,7 @@ def audit() -> None:
         "ambiguous_references": []
     }
     reports_dir = Path("generated-reports"); reports_dir.mkdir(parents=True, exist_ok=True)
-    with open(reports_dir / "dark_matter_todo.json", "w") as f: json.dump(todo, f, indent=2)
+    with open(reports_dir / "dark_matter_todo.json", "w") as fh: json.dump(todo, fh, indent=2)
     print(f"Audit complete. Results written to {reports_dir / 'dark_matter_todo.json'}")
     print(f"Missing Languages: {len(todo['missing_language_profiles'])}")
     print(f"Missing Entities: {len(todo['missing_entities'])}")

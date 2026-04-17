@@ -1,17 +1,18 @@
 import pytest
-import os
 import json
+import sqlite3
 from pathlib import Path
+from typing import Any
 from app.core.insights import InsightGenerator, AtlasAnalytics
 
 class NoCloseConnection:
     """Wrapper for sqlite3.Connection that ignores close() calls."""
-    def __init__(self, conn): self._conn = conn
-    def __getattr__(self, name): return getattr(self._conn, name)
-    def close(self): pass
+    def __init__(self, conn: sqlite3.Connection) -> None: self._conn = conn
+    def __getattr__(self, name: str) -> Any: return getattr(self._conn, name)
+    def close(self) -> None: pass
 
 @pytest.mark.intensive
-def test_insight_generation(db_conn):
+def test_insight_generation(db_conn: sqlite3.Connection) -> None:
     """
     Tests that the InsightGenerator produces valid insights using complex SQL.
     """
@@ -37,7 +38,7 @@ def test_insight_generation(db_conn):
     assert "volatility_rank" in volatility[0]
     assert "decade" in volatility[0]
 
-def test_stamping_engine(db_conn, tmp_path):
+def test_stamping_engine(db_conn: sqlite3.Connection, tmp_path: Path) -> None:
     """
     Tests that the stamping engine correctly saves insights to JSON.
     """
@@ -54,7 +55,7 @@ def test_stamping_engine(db_conn, tmp_path):
         assert "influence_depth" in data
         assert "paradigm_volatility" in data
 
-def test_atlas_analytics(db_conn):
+def test_atlas_analytics(db_conn: sqlite3.Connection) -> None:
     """Tests all methods of the AtlasAnalytics class."""
     safe_conn = NoCloseConnection(db_conn)
     analytics = AtlasAnalytics(safe_conn)

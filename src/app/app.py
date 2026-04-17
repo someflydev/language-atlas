@@ -8,20 +8,20 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import networkx as nx
-from typing import List, Optional, Dict, Any, Union
+from typing import List, Optional, Dict, Any, Union, AsyncIterator
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException, Query, Response
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from core.data_loader import DataLoader
+from app.core.data_loader import DataLoader
 import uvicorn
 
 # Ensure SQLite mode is enabled for DataLoader
 os.environ['USE_SQLITE'] = '1'
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     # Establish a read-only SQLite connection on startup
     db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'language_atlas.sqlite'))
     if not os.path.exists(db_path):
@@ -238,7 +238,7 @@ async def api_viz_timeline() -> List[Dict[str, Any]]:
     return data_loader.get_timeline_data()
 
 @app.get("/api/viz/influence")
-async def api_viz_influence() -> List[Dict[str, str]]:
+async def api_viz_influence() -> Any:
     return data_loader.get_influence_data()
 
 @app.get("/", response_class=HTMLResponse)
@@ -910,7 +910,7 @@ async def get_insights(request: Request) -> Response:
         momentum_chart_html = "<p>No data available.</p>"
 
     # Group rankings by generation for the template
-    grouped_rankings = {}
+    grouped_rankings: dict[str, list[dict[str, Any]]] = {}
     for r in rankings:
         gen = r.get('generation')
         if not gen:
@@ -935,7 +935,7 @@ async def get_insights(request: Request) -> Response:
     )
 
 @app.get("/api/insights/momentum")
-async def api_insights_momentum() -> List[Dict[str, Any]]:
+async def api_insights_momentum() -> Any:
     return data_loader.get_paradigm_momentum_timeline()
 
 # --- SEMANTIC SEARCH API ---
@@ -982,7 +982,7 @@ async def api_list_languages(
     sort: str = "year",
     min_year: int = 1930,
     max_year: int = 2024
-) -> List[Dict[str, Any]]:
+) -> Any:
     """List languages with filters as JSON."""
     return data_loader.get_all_languages(
         filter_gen=generation, 
@@ -993,7 +993,7 @@ async def api_list_languages(
     )
 
 @app.get("/api/language/{name}")
-async def api_get_language(name: str) -> Dict[str, Any]:
+async def api_get_language(name: str) -> Any:
     """Get detailed language data as JSON."""
     lang = data_loader.get_combined_language_data(name)
     if not lang:
@@ -1001,22 +1001,22 @@ async def api_get_language(name: str) -> Dict[str, Any]:
     return lang
 
 @app.get("/api/paradigms")
-async def api_list_paradigms() -> List[str]:
+async def api_list_paradigms() -> Any:
     """List all paradigms."""
     return data_loader.get_all_paradigms()
 
 @app.get("/api/paradigm/{name}")
-async def api_get_paradigm(name: str) -> Dict[str, Any]:
+async def api_get_paradigm(name: str) -> Any:
     """Get paradigm detail."""
     return data_loader.get_paradigm_info(name)
 
 @app.get("/api/concepts")
-async def api_list_concepts() -> List[Dict[str, Any]]:
+async def api_list_concepts() -> Any:
     """List all concepts."""
     return data_loader.get_all_concepts()
 
 @app.get("/api/concept/{name}")
-async def api_get_concept(name: str) -> Dict[str, Any]:
+async def api_get_concept(name: str) -> Any:
     """Get concept detail."""
     concept = data_loader.get_concept_profile(name)
     if not concept:
@@ -1024,12 +1024,12 @@ async def api_get_concept(name: str) -> Dict[str, Any]:
     return concept
 
 @app.get("/api/eras")
-async def api_list_eras() -> List[Dict[str, Any]]:
+async def api_list_eras() -> Any:
     """List all era summaries."""
     return data_loader.get_all_era_summaries()
 
 @app.get("/api/era/{slug}")
-async def api_get_era(slug: str) -> Dict[str, Any]:
+async def api_get_era(slug: str) -> Any:
     """Get era summary detail."""
     era = data_loader.get_era_summary(slug)
     if not era:
@@ -1037,12 +1037,12 @@ async def api_get_era(slug: str) -> Dict[str, Any]:
     return era
 
 @app.get("/api/organizations")
-async def api_list_organizations() -> Dict[str, Any]:
+async def api_list_organizations() -> Any:
     """List all organization profiles."""
     return data_loader.get_org_profiles()
 
 @app.get("/api/org/{name}")
-async def api_get_org(name: str) -> Dict[str, Any]:
+async def api_get_org(name: str) -> Any:
     """Get organization detail."""
     org = data_loader.get_org(name)
     if not org:
@@ -1050,34 +1050,34 @@ async def api_get_org(name: str) -> Dict[str, Any]:
     return org
 
 @app.get("/api/odysseys")
-async def api_list_odysseys() -> List[Dict[str, Any]]:
+async def api_list_odysseys() -> Any:
     """List all guided learning paths."""
     return data_loader.get_learning_paths()
 
 @app.get("/api/people")
-async def api_list_people() -> Dict[str, Any]:
+async def api_list_people() -> Any:
     return data_loader.get_people_profiles()
 
 @app.get("/api/person/{name}")
-async def api_get_person(name: str) -> Dict[str, Any]:
+async def api_get_person(name: str) -> Any:
     person = data_loader.get_person(name)
     if not person:
         raise HTTPException(status_code=404, detail="Person not found")
     return person
 
 @app.get("/api/historical_events")
-async def api_list_historical_events() -> Dict[str, Any]:
+async def api_list_historical_events() -> Any:
     return data_loader.get_historical_events()
 
 @app.get("/api/event/{slug}")
-async def api_get_event(slug: str) -> Dict[str, Any]:
+async def api_get_event(slug: str) -> Any:
     event = data_loader.get_event(slug)
     if not event:
         raise HTTPException(status_code=404, detail="Event not found")
     return event
 
 @app.get("/api/odyssey/{path_id}")
-async def api_get_odyssey(path_id: str) -> Dict[str, Any]:
+async def api_get_odyssey(path_id: str) -> Any:
     """Get a specific odyssey path."""
     path_data = data_loader.get_learning_path(path_id)
     if not path_data:

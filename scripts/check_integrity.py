@@ -4,11 +4,12 @@ import sys
 import argparse
 import datetime
 from pathlib import Path
+from typing import Any
 
-def get_project_root():
+def get_project_root() -> Path:
     return Path(__file__).parent.parent
 
-def main():
+def main() -> None:
     current_year = datetime.datetime.now().year
     parser = argparse.ArgumentParser(description="Language Atlas: Data Integrity Check")
     parser.add_argument("--data", type=str, help="Path to languages.json")
@@ -33,7 +34,7 @@ def main():
     print(f"\n\033[1;32m=== Language Atlas: Integrity Check ===\033[0m")
     print(f"Scanning {len(languages)} entries...")
 
-    issues = []
+    issues: list[tuple[str, str]] = []
 
     fields_to_check = [
         "name", "year", "creators", "paradigms", "cluster", "generation",
@@ -64,7 +65,7 @@ def main():
     if issues:
         print(f"\n\033[1;31mFound {len(issues)} integrity issues:\033[0m")
         # Group by language for better output
-        grouped = {}
+        grouped: dict[str, list[str]] = {}
         for lang_name, issue in issues:
             if lang_name not in grouped:
                 grouped[lang_name] = []

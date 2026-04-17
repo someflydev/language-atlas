@@ -4,10 +4,10 @@ import sys
 import argparse
 from pathlib import Path
 
-def get_project_root():
+def get_project_root() -> Path:
     return Path(__file__).parent.parent
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Language Atlas: SQLite Query Tool")
     parser.add_argument("query", type=str, help="SQL query to execute")
     parser.add_argument("--db", type=str, help="Path to SQLite database")

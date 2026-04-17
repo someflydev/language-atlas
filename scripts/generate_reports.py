@@ -5,6 +5,7 @@ import os
 import argparse
 import sys
 from pathlib import Path
+from typing import Any
 
 # Add src to sys.path
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -12,7 +13,7 @@ sys.path.append(str(REPO_ROOT / "src"))
 
 from app.core.insights import AtlasAnalytics
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Atlas Analytics Reporting Suite")
     parser.add_argument(
         "--report", 
@@ -46,7 +47,7 @@ def main():
         
         print(f"Generating {report_key} report...")
         
-        data = None
+        data: dict[str, Any] | list[dict[str, Any]] | dict[str, list[str]] | None = None
         if report_key == "safety_complexity":
             data = analytics.generate_safety_complexity_trends()
             output_file = Path(args.output_dir) / "safety_complexity_trends.json"

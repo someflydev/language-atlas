@@ -2,10 +2,16 @@ import sqlite3
 import json
 import os
 from pathlib import Path
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Any, Protocol
+
+class _Connection(Protocol):
+    def execute(self, sql: str, params: Any = ...) -> Any: ...
+    def executemany(self, sql: str, seq: Any) -> Any: ...
+    def close(self) -> None: ...
+    def cursor(self) -> Any: ...
 
 class InsightGenerator:
-    def __init__(self, db_conn: sqlite3.Connection) -> None:
+    def __init__(self, db_conn: _Connection) -> None:
         self.conn = db_conn
 
     def calculate_influence_depth(self, keystone_language_name: str) -> List[Dict[str, Any]]:
@@ -104,7 +110,7 @@ class InsightGenerator:
         return insights
 
 class AtlasAnalytics:
-    def __init__(self, db_conn: sqlite3.Connection) -> None:
+    def __init__(self, db_conn: _Connection) -> None:
         self.conn = db_conn
 
     def generate_safety_complexity_trends(self) -> Dict[str, Dict[str, Any]]:

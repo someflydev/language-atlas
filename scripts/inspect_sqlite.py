@@ -3,6 +3,7 @@ import sqlite3
 import os
 import sys
 import json
+from typing import Any
 
 # Locate database
 DB_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'language_atlas.sqlite'))
@@ -10,10 +11,10 @@ if not os.path.exists(DB_PATH):
     print(f"Error: Database not found at {DB_PATH}")
     sys.exit(1)
 
-def print_separator(char='-', length=80):
+def print_separator(char: str = '-', length: int = 80) -> None:
     print(char * length)
 
-def main():
+def main() -> None:
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()

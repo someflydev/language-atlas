@@ -533,17 +533,16 @@ class SiteCrawler:
 
         try:
             # Lazy import so env vars are set before app module executes.
-            # app.py uses bare `from core.data_loader import ...` which
-            # requires src/app/ on sys.path.  We append (not insert at 0)
-            # so that the existing `src` entry that satisfies
-            # `from app.app import app` stays highest-priority.
+            # app.py imports from the `app.*` package, so keeping `src`
+            # on sys.path is sufficient. We append (not insert at 0) so
+            # the existing `src` entry stays highest-priority.
             import sys
             app_dir = str(Path(__file__).parent.parent)
             if app_dir not in sys.path:
                 sys.path.append(app_dir)
 
-            from starlette.testclient import TestClient  # type: ignore[import]
-            from app.app import app  # type: ignore[import]
+            from starlette.testclient import TestClient
+            from app.app import app
 
             self._out.mkdir(parents=True, exist_ok=True)
 

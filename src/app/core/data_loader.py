@@ -4,6 +4,8 @@ import sqlite3
 from typing import List, Optional, Dict, Any, Union, Set, Tuple, cast
 
 class DataLoader:
+    _eras_cache: List[Dict[str, Any]] | None = None
+
     def __init__(self, data_dir: Optional[str] = None) -> None:
         if data_dir is None:
             # Assume we are in src/app/core/data_loader.py
@@ -61,8 +63,10 @@ class DataLoader:
         file_path = os.path.join(self.data_dir, filename)
         if os.path.isfile(file_path):
             try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    result = json.load(f)
+                with open(file_path, 'r', encoding='utf-8') as fh:
+                    raw_data = json.load(fh)
+                    if isinstance(raw_data, list):
+                        result = cast(List[Dict[str, Any]], raw_data)
             except (json.JSONDecodeError, IOError):
                 pass
 
@@ -80,12 +84,16 @@ class DataLoader:
 
             for f_path in json_files:
                 try:
-                    with open(f_path, 'r', encoding='utf-8') as f:
-                        data = json.load(f)
+                    with open(f_path, 'r', encoding='utf-8') as fh:
+                        data = json.load(fh)
+                        if not isinstance(data, list):
+                            continue
                         if result is None:
-                            result = data
+                            result = cast(List[Dict[str, Any]], data)
                         else:
-                            result = self._merge_data(result, data)
+                            merged = self._merge_data(result, data)
+                            if isinstance(merged, list):
+                                result = cast(List[Dict[str, Any]], merged)
                 except (json.JSONDecodeError, IOError):
                     continue
 
@@ -255,9 +263,9 @@ class DataLoader:
         """Returns the profile data for a given organization name."""
         if not self.use_sqlite:
             profiles = self.get_org_profiles()
-            if name in profiles: return profiles[name]
+            if name in profiles: return cast(Dict[str, Any], profiles[name])
             norm_name = name.replace(' ', '_')
-            if norm_name in profiles: return profiles[norm_name]
+            if norm_name in profiles: return cast(Dict[str, Any], profiles[norm_name])
             return None
 
         conn = self._get_connection()
@@ -289,9 +297,9 @@ class DataLoader:
         """Returns the profile data for a given person name."""
         if not self.use_sqlite:
             profiles = self.get_people_profiles()
-            if name in profiles: return profiles[name]
+            if name in profiles: return cast(Dict[str, Any], profiles[name])
             norm_name = name.replace(' ', '_')
-            if norm_name in profiles: return profiles[norm_name]
+            if norm_name in profiles: return cast(Dict[str, Any], profiles[norm_name])
             return None
 
         conn = self._get_connection()
@@ -323,9 +331,9 @@ class DataLoader:
         """Returns the data for a given event slug."""
         if not self.use_sqlite:
             events = self.get_historical_events()
-            if slug in events: return events[slug]
+            if slug in events: return cast(Dict[str, Any], events[slug])
             for k, v in events.items():
-                if v.get('slug') == slug: return v
+                if v.get('slug') == slug: return cast(Dict[str, Any], v)
             return None
 
         conn = self._get_connection()
@@ -609,7 +617,7 @@ class DataLoader:
                 langs.sort(key=lambda x: x.get('year', 0))
             
             if paradigms and primary_paradigm_weighting:
-                def sort_by_primary(lang):
+                def sort_by_primary(lang: Dict[str, Any]) -> int:
                     lang_paradigms = lang.get('paradigms') or []
                     if lang_paradigms and lang_paradigms[0] in paradigms:
                         return 0
@@ -655,7 +663,7 @@ class DataLoader:
                 self._hydrate_language_json_compatibility(lang, conn)
 
             if paradigms and primary_paradigm_weighting:
-                def sort_by_primary(lang):
+                def sort_by_primary(lang: Dict[str, Any]) -> int:
                     lang_paradigms = lang.get('paradigms') or []
                     if lang_paradigms and lang_paradigms[0] in paradigms:
                         return 0
@@ -790,7 +798,7 @@ class DataLoader:
         """Returns the primary (most significant) paradigm for a language."""
         lang = self.get_language(lang_name)
         if lang and lang.get('paradigms'):
-            return lang['paradigms'][0]
+            return cast(str, lang['paradigms'][0])
         return None
 
     def get_language_profiles(self) -> Dict[str, Any]:
@@ -828,12 +836,12 @@ class DataLoader:
         if not self.use_sqlite:
             # 1. Try direct match
             if name in self.language_profiles:
-                return self.language_profiles[name]
+                return cast(Dict[str, Any], self.language_profiles[name])
 
             # 2. Try normalized match (underscore -> space)
             alt_name = name.replace('_', ' ')
             if alt_name in self.language_profiles:
-                return self.language_profiles[alt_name]
+                return cast(Dict[str, Any], self.language_profiles[alt_name])
             return None
 
         conn = self._get_connection()
@@ -898,12 +906,12 @@ class DataLoader:
         if not self.use_sqlite:
             # 1. Try direct match
             if name in self.concept_profiles:
-                return self.concept_profiles[name]
+                return cast(Dict[str, Any], self.concept_profiles[name])
 
             # 2. Try alternative match (space -> underscore)
             norm_name = name.replace(' ', '_')
             if norm_name in self.concept_profiles:
-                return self.concept_profiles[norm_name]
+                return cast(Dict[str, Any], self.concept_profiles[norm_name])
             return None
 
         conn = self._get_connection()
@@ -1009,9 +1017,9 @@ class DataLoader:
         if not self.use_sqlite:
             return self.eras
 
-        if not hasattr(self, '_eras_cache') or self._eras_cache is None:
+        if self._eras_cache is None:
             self._eras_cache = self._load_json('eras.json')
-        return cast(List[Dict[str, Any]], self._eras_cache)
+        return self._eras_cache
 
     def get_learning_paths(self) -> List[Dict[str, Any]]:
         """Returns all available learning paths (Odysseys)."""
@@ -1687,4 +1695,3 @@ class DataLoader:
             }
         finally:
             conn.close()
-

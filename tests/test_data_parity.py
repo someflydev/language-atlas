@@ -2,9 +2,10 @@ import pytest
 import os
 import json
 from pathlib import Path
+from pytest import MonkeyPatch
 from app.core.data_loader import DataLoader
 
-def test_dataloader_consistency(mock_loader, monkeypatch):
+def test_dataloader_consistency(mock_loader: DataLoader, monkeypatch: MonkeyPatch) -> None:
     """
     Verify DataLoader consistency between JSON and SQLite.
     When using the in-memory mirror, it should return data that matches 

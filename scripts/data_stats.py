@@ -4,11 +4,12 @@ import sys
 import argparse
 from pathlib import Path
 from collections import Counter
+from typing import Sequence
 
-def get_project_root():
+def get_project_root() -> Path:
     return Path(__file__).parent.parent
 
-def print_table(title, headers, rows):
+def print_table(title: str, headers: Sequence[str], rows: Sequence[Sequence[object]]) -> None:
     print(f"\n\033[1;34m{title}\033[0m")
     # Calculate column widths
     widths = [len(h) for h in headers]
@@ -25,7 +26,7 @@ def print_table(title, headers, rows):
     for row in rows:
         print(" | ".join(str(val).ljust(widths[i]) for i, val in enumerate(row)))
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Language Atlas: Data Statistics")
     parser.add_argument("--data", type=str, help="Path to languages.json")
     args = parser.parse_args()

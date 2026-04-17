@@ -1,8 +1,10 @@
 import pytest
 import json
+from pathlib import Path
+from pytest import MonkeyPatch
 from app.core.data_loader import DataLoader
 
-def test_get_primary_paradigm_json(tmp_path, monkeypatch):
+def test_get_primary_paradigm_json(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setenv("USE_SQLITE", "0")
     data_dir = tmp_path / "data"
     data_dir.mkdir()
@@ -20,7 +22,7 @@ def test_get_primary_paradigm_json(tmp_path, monkeypatch):
     assert loader.get_primary_paradigm("Missing") is None
     assert loader.get_primary_paradigm("Unknown") is None
 
-def test_get_all_languages_weighting_json(tmp_path, monkeypatch):
+def test_get_all_languages_weighting_json(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setenv("USE_SQLITE", "0")
     data_dir = tmp_path / "data"
     data_dir.mkdir()
@@ -43,12 +45,12 @@ def test_get_all_languages_weighting_json(tmp_path, monkeypatch):
     langs_weighted = loader.get_all_languages(paradigms=["Functional"], sort="year", primary_paradigm_weighting=True)
     assert [l["name"] for l in langs_weighted] == ["Haskell", "Erlang", "Scala"]
 
-def test_get_primary_paradigm_sqlite(mock_loader):
+def test_get_primary_paradigm_sqlite(mock_loader: DataLoader) -> None:
     scala_primary = mock_loader.get_primary_paradigm("Scala")
     assert scala_primary is not None
     assert isinstance(scala_primary, str)
 
-def test_get_all_languages_weighting_sqlite(mock_loader):
+def test_get_all_languages_weighting_sqlite(mock_loader: DataLoader) -> None:
     langs_weighted = mock_loader.get_all_languages(paradigms=["Functional"], primary_paradigm_weighting=True)
     langs_unweighted = mock_loader.get_all_languages(paradigms=["Functional"], primary_paradigm_weighting=False)
     

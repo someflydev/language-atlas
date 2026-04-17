@@ -111,11 +111,11 @@ class LivingAtlasApp(App):
         Binding("escape", "hide_search", "Clear Search", show=False),
     ]
 
-    selected_language = reactive(None)
-    search_query = reactive("")
-    odyssey_mode = reactive(False)
+    selected_language = reactive[str | None](None)
+    search_query = reactive[str]("")
+    odyssey_mode = reactive[bool](False)
 
-    def __init__(self, initial_language: Optional[str] = None):
+    def __init__(self, initial_language: Optional[str] = None) -> None:
         super().__init__()
         self.loader = DataLoader()
         self.initial_language = initial_language
@@ -146,15 +146,15 @@ class LivingAtlasApp(App):
         if self.initial_language:
             self.selected_language = self.initial_language
             self.select_in_tree(self.initial_language)
-        self.query_one("#search_input").focus()
+        self.query_one("#search_input", Input).focus()
 
     def populate_tree(self) -> None:
-        tree = self.query_one("#chronology_tree")
+        tree = self.query_one("#chronology_tree", Tree[dict[str, Any]])
         tree.root.expand()
         
         langs = self.loader.get_all_languages()
         # Group by generation
-        gens = {}
+        gens: dict[str, list[dict[str, Any]]] = {}
         for l in langs:
             g = l.get('generation', 'unknown').capitalize()
             if g not in gens:
@@ -167,7 +167,7 @@ class LivingAtlasApp(App):
                 gen_node.add_leaf(lang['name'], data=lang)
 
     def populate_odyssey_tree(self) -> None:
-        tree = self.query_one("#odyssey_tree")
+        tree = self.query_one("#odyssey_tree", Tree[dict[str, Any]])
         tree.root.expand()
         
         paths = self.loader.get_learning_paths()
@@ -195,13 +195,13 @@ class LivingAtlasApp(App):
             md += f"## Challenge\n> {challenge}\n\n"
             md += "---\n\n"
             md += self.generate_markdown(lang_data)
-            self.query_one("#reader").document.update(md)
+            self.query_one("#reader", MarkdownViewer).document.update(md)
             self.update_nexus(step_data['language'])
 
     def watch_odyssey_mode(self, val: bool) -> None:
-        label = self.query_one("#pane_label")
-        c_tree = self.query_one("#chronology_tree")
-        o_tree = self.query_one("#odyssey_tree")
+        label = self.query_one("#pane_label", Label)
+        c_tree = self.query_one("#chronology_tree", Tree[dict[str, Any]])
+        o_tree = self.query_one("#odyssey_tree", Tree[dict[str, Any]])
         
         if val:
             label.update("ODYSSEYS")
@@ -215,7 +215,7 @@ class LivingAtlasApp(App):
     def action_toggle_odyssey(self) -> None:
         self.odyssey_mode = not self.odyssey_mode
 
-    def watch_selected_language(self, old_val: str, new_val: str) -> None:
+    def watch_selected_language(self, old_val: str | None, new_val: str | None) -> None:
         if new_val:
             self.update_panes(new_val)
 
@@ -227,7 +227,7 @@ class LivingAtlasApp(App):
             # If there was a search query, we could highlight it, but MarkdownViewer
             # doesn't support easy highlighting of text nodes.
             # We'll just set the content for now.
-            self.query_one("#reader").document.update(md)
+            self.query_one("#reader", MarkdownViewer).document.update(md)
 
         # Update Nexus
         self.update_nexus(language_name)
@@ -256,7 +256,7 @@ class LivingAtlasApp(App):
         return md
 
     def update_nexus(self, language_name: str) -> None:
-        nexus_list = self.query_one("#nexus_list")
+        nexus_list = self.query_one("#nexus_list", ListView)
         nexus_list.clear()
 
         conn = self.loader._get_connection()
@@ -301,9 +301,9 @@ class LivingAtlasApp(App):
             self.action_hide_search()
 
     def select_in_tree(self, language_name: str) -> None:
-        tree = self.query_one("#chronology_tree")
+        tree = self.query_one("#chronology_tree", Tree[dict[str, Any]])
         # Recursively find the node
-        def find_node(node):
+        def find_node(node: Any) -> Any:
             if node.data and node.data.get('name') == language_name:
                 return node
             for child in node.children:
@@ -321,7 +321,7 @@ class LivingAtlasApp(App):
             self.perform_search(event.value)
 
     def perform_search(self, query: str) -> None:
-        results_list = self.query_one("#search_results")
+        results_list = self.query_one("#search_results", ListView)
         if not query or len(query) < 2:
             results_list.clear()
             results_list.remove_class("visible")
@@ -353,14 +353,14 @@ class LivingAtlasApp(App):
             conn.close()
 
     def action_focus_search(self) -> None:
-        self.query_one("#search_input").focus()
+        self.query_one("#search_input", Input).focus()
 
     def action_hide_search(self) -> None:
-        self.query_one("#search_input").value = ""
-        results_list = self.query_one("#search_results")
+        self.query_one("#search_input", Input).value = ""
+        results_list = self.query_one("#search_results", ListView)
         results_list.clear()
         results_list.remove_class("visible")
-        self.query_one("#chronology_tree").focus()
+        self.query_one("#chronology_tree", Tree[dict[str, Any]]).focus()
 
 if __name__ == "__main__":
     import sys

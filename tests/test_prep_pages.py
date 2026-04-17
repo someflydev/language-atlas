@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
-import sys
+from types import ModuleType
 from pathlib import Path
 
 import pytest
@@ -22,11 +22,13 @@ import pytest
 _SCRIPTS_DIR = Path(__file__).parent.parent / "scripts"
 
 
-def _load_prep_pages():
+def _load_prep_pages() -> ModuleType:
     """Load scripts/prep_pages.py as a module (not via sys.path import)."""
     spec = importlib.util.spec_from_file_location(
         "prep_pages", _SCRIPTS_DIR / "prep_pages.py"
     )
+    assert spec is not None
+    assert spec.loader is not None
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
@@ -47,7 +49,9 @@ def _make_fake_db(path: Path, size: int = 4096) -> None:
 # Tests
 # ---------------------------------------------------------------------------
 
-def test_prep_pages_refuses_on_main(monkeypatch, tmp_path, capsys):
+def test_prep_pages_refuses_on_main(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
     """main() must exit non-zero with a 'Refusing' message when on main."""
     mod = _load_prep_pages()
     monkeypatch.setattr(mod, "_current_branch", lambda: "main")
@@ -60,7 +64,7 @@ def test_prep_pages_refuses_on_main(monkeypatch, tmp_path, capsys):
     assert "Refusing" in captured.err
 
 
-def test_prep_pages_writes_redirect_html(monkeypatch, tmp_path):
+def test_prep_pages_writes_redirect_html(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     """main() must write index.html and .nojekyll at the repo root."""
     mod = _load_prep_pages()
     monkeypatch.setattr(mod, "_current_branch", lambda: "gh-pages")
@@ -83,7 +87,7 @@ def test_prep_pages_writes_redirect_html(monkeypatch, tmp_path):
     assert "site/" in html, "redirect target must point at site/"
 
 
-def test_prep_pages_chunks_database(monkeypatch, tmp_path):
+def test_prep_pages_chunks_database(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     """main() must copy the database into site/db/atlas/ with a valid config.json."""
     mod = _load_prep_pages()
     monkeypatch.setattr(mod, "_current_branch", lambda: "gh-pages")
