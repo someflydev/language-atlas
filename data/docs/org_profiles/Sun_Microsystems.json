@@ -1,0 +1,26 @@
+{
+  "title": "Sun Microsystems: The Workstation Company That Reframed Software Around Networks and Virtual Machines",
+  "founded": "1982",
+  "overview": "Sun Microsystems mattered because it built its identity around networked Unix workstations rather than isolated personal computers. That institutional bet pushed Sun toward portable runtimes, distributed systems infrastructure, and standards-oriented enterprise software. The company repeatedly asked how software should look in a world where machines talk to one another constantly, and its answers shaped Java, network filesystems, server-side middleware, and the broader web-era development stack.",
+  "key_contributions": [
+    "**Java (1995):** James Gosling and the Sun team created a language and runtime model that promised portability across hardware and operating systems.",
+    "**JVM and bytecode portability:** Sun made the virtual machine a mainstream deployment target, separating language semantics from immediate hardware dependence.",
+    "**NFS (1984):** Sun's Network File System made remote files feel local and helped normalize distributed Unix computing.",
+    "**SunOS and Solaris:** Sun's Unix platforms became influential environments for internet servers, enterprise software, and systems programming.",
+    "**JavaBeans, J2EE, and enterprise specifications:** Sun turned Java into a platform for large-scale business software, not just an application language.",
+    "**Open sourcing Java and OpenOffice-era standards work (2000s):** Sun used openness as a strategic tool against proprietary platform lock-in, even when the effort came late."
+  ],
+  "pivotal_people": [
+    "**James Gosling:** Led Java's design and gave Sun a language identified with portability and managed execution.",
+    "**Bill Joy:** Co-founded Sun, shaped its Unix systems strategy, and helped define its technical culture around networks and developer tools.",
+    "**Scott McNealy:** Drove Sun's commercial positioning and turned 'The network is the computer' into a strategic thesis.",
+    "**Andy Bechtolsheim and Vinod Khosla:** Helped build the workstation company whose hardware ambitions created the context for Sun's software agenda.",
+    "**Jonathan Schwartz:** Oversaw the later open-source push that attempted to reposition Sun's software assets in a changing market."
+  ],
+  "legacy": "Sun's legacy lives on in every managed-runtime ecosystem that treats portability as a first-class feature rather than a side effect. Java remains central in enterprise backends, Android history, financial infrastructure, and the JVM language family that later produced Scala, Clojure, and Kotlin. NFS normalized a practical model of distributed resource sharing that shaped Unix and enterprise network administration for decades. Solaris and SunOS influenced operational culture around serious internet-era servers. Just as importantly, Sun helped make developers comfortable with the idea that a language runtime, not the native instruction set, could be the stable platform worth targeting. That idea fed directly into .NET, WebAssembly arguments, and modern cloud abstractions. Sun did not win the workstation era forever, but it decisively changed the conceptual frame through which portable software was built.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Sun's network-workstation business model led naturally to NFS, Java, and the JVM.'",
+    "2. 'Trace the path from Sun's Unix and enterprise middleware strategy to today's JVM-centered software ecosystems.'",
+    "3. 'Analyze why Sun kept betting on portability and standards in markets that often rewarded lock-in.'"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "title": "W3C: The Standards Consortium That Made the Web a Programmable Public Platform",
+  "founded": "1994",
+  "overview": "The World Wide Web Consortium mattered because it institutionalized the web as a standards-governed platform rather than a single vendor's product. Its job was not to invent every important web language itself, but to provide the forum, process, and legitimacy through which markup, styling, document structure, accessibility, and browser-facing APIs could stabilize across competing implementations. That governance role was essential to turning the web into a reliable programming target.",
+  "key_contributions": [
+    "**HTML stewardship:** W3C played a central role in the standardization of HTML as the core document and application language of the web.",
+    "**CSS standardization:** The consortium helped turn Cascading Style Sheets from a proposal into a durable styling system for the entire web platform.",
+    "**XML (1998):** W3C standardized a general markup language that influenced publishing, configuration, data interchange, and a wide family of related tools.",
+    "**SVG, XPath, XSLT, and XQuery:** W3C hosted major standards for vector graphics, document selection, transformation, and XML querying.",
+    "**Web accessibility standards:** Through WCAG and related work, W3C made accessibility a formal part of web engineering rather than an optional afterthought.",
+    "**WebAssembly standardization participation:** W3C provided the formal standardization venue for a low-level compilation target that expanded what the web can run."
+  ],
+  "pivotal_people": [
+    "**Tim Berners-Lee:** Founded the W3C to keep the web open, interoperable, and governed by standards rather than unilateral product control.",
+    "**Hakon Wium Lie and Bert Bos:** Central figures in CSS, one of the web platform's most consequential language families.",
+    "**The many working-group editors and browser representatives:** Sustained the labor-intensive process of turning competing proposals into interoperable standards."
+  ],
+  "legacy": "W3C's legacy is less about single authorship than about institutional continuity. HTML, CSS, SVG, XML, XPath, XSLT, and accessibility guidance all became durable because there was a process for drafts, criticism, implementation feedback, and eventual standardization. Every modern browser, static site, design system, and web framework inherits that work. Even where governance later split or overlapped with bodies such as WHATWG, the W3C model established the principle that the web should remain a shared programming substrate with public specifications. Its limitations are part of the story too: standards bodies move slowly, and JavaScript itself remained outside W3C authority in ECMA TC39. But that boundary only clarifies W3C's actual importance. It made the surrounding web platform stable enough that languages, frameworks, and applications could flourish on top of it.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain why the W3C's governance role was essential even though it did not directly control JavaScript.'",
+    "2. 'Trace how HTML, CSS, XML, and accessibility standards together turned the web into a stable programming platform.'",
+    "3. 'Analyze the difference between inventing a language and standardizing the environment in which that language becomes broadly usable.'"
+  ]
+}

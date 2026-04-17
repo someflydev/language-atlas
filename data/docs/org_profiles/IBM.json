@@ -1,0 +1,28 @@
+{
+  "title": "IBM: The Corporate Laboratory That Turned Programming Into an Industrial Discipline",
+  "founded": "1911 (as Computing-Tabulating-Recording Company; renamed IBM in 1924)",
+  "overview": "IBM became one of the central institutions in the history of programming because it treated software as a necessary companion to large-scale computing hardware long before most of the industry did. Its business depended on making computers useful to governments, banks, manufacturers, and large enterprises, so IBM repeatedly funded languages, operating systems, database ideas, and architecture research that could make complex machines programmable by more than a small priesthood of specialists.",
+  "key_contributions": [
+    "**FORTRAN (1957):** John Backus and the IBM team created the first widely adopted high-level language and proved that compiled code could compete with hand-written assembly.",
+    "**PL/I (1964):** IBM attempted to unify scientific, business, and systems programming in one ambitious language for the System/360 era.",
+    "**SQL research (1970s):** Donald Chamberlin and Raymond Boyce, building on Edgar F. Codd's relational work at IBM, helped turn declarative database querying into a practical standard.",
+    "**APL at IBM (1960s onward):** IBM provided the institutional home in which Kenneth Iverson's notation became a usable programming system and an influential style of array thinking.",
+    "**OS/360 (1960s):** IBM's giant operating-system effort exposed the managerial and architectural difficulty of large software systems and shaped later software-engineering doctrine.",
+    "**IBM PC architecture (1981):** The open-enough architecture of the IBM PC accelerated the commodity software and tooling ecosystem that defined personal computing.",
+    "**801 and RISC influence (1970s):** IBM research helped establish reduced instruction set ideas that later spread across workstation, server, and mobile processor design."
+  ],
+  "pivotal_people": [
+    "**John Backus:** Led the FORTRAN project and later influenced formal notation through BNF and functional programming ideas.",
+    "**Edgar F. Codd:** Developed the relational model at IBM, creating the conceptual foundation on which SQL-based systems grew.",
+    "**Donald Chamberlin and Raymond Boyce:** Turned relational theory into SEQUEL and then SQL, making database querying accessible to working programmers.",
+    "**Kenneth Iverson:** Developed APL and showed how concise notation could reorganize thinking about arrays and whole-data operations.",
+    "**Frederick P. Brooks Jr.:** Ran the OS/360 effort and distilled its lessons into The Mythical Man-Month, one of software engineering's defining texts.",
+    "**John Cocke:** Drove IBM's compiler and architecture research in ways that materially shaped RISC design."
+  ],
+  "legacy": "IBM's legacy is visible anywhere software is treated as infrastructure rather than an accessory. FORTRAN established the commercial credibility of high-level languages, making later language adoption politically possible inside conservative engineering organizations. SQL remains the default lingua franca of relational data systems, from enterprise warehouses to embedded SQLite databases. The cautionary lessons of OS/360 still structure project management arguments about complexity, staffing, and conceptual integrity. IBM's hardware lineages also mattered: System/360 normalized compatible machine families, while the IBM PC created the platform on which Microsoft, Intel, and the wider personal-computing toolchain flourished. Even when IBM did not fully dominate the markets it helped create, it repeatedly supplied the intellectual and organizational scaffolding on which later languages, databases, and software ecosystems were built.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace how IBM moved from punched-card business machines to FORTRAN, SQL, and software engineering as a management discipline.'",
+    "2. 'Explain why IBM's commercial needs pushed it to invent both high-level programming tools and methods for controlling software complexity.'",
+    "3. 'Analyze how IBM's System/360, OS/360, and PC eras each changed the economics of programming in different ways.'"
+  ]
+}

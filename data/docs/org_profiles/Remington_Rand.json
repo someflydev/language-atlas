@@ -1,0 +1,22 @@
+{
+  "title": "Remington Rand: The Early Computer Manufacturer That Carried Programming From Experimental Hardware Into Commercial Use",
+  "founded": "1927",
+  "overview": "Remington Rand entered computing history through acquisition rather than original digital invention, but that move proved decisive. By acquiring the Eckert-Mauchly Computer Corporation, it became the industrial home of UNIVAC and part of the transition from one-off experimental machines to commercially sold computers. In that setting, programming ceased to be purely an academic or military curiosity and became a practical requirement for real customers, which in turn created space for early compilers and business-oriented software methods.",
+  "key_contributions": [
+    "**UNIVAC I (1951):** Through the Eckert-Mauchly acquisition, Remington Rand brought one of the first commercially available American computers to market.",
+    "**Grace Hopper's compiler work:** The company employed Hopper during the period in which A-0 and later FLOW-MATIC advanced the idea that symbolic programming systems could replace raw machine coding.",
+    "**Early business computing infrastructure:** Remington Rand helped establish the commercial context in which data processing, reporting, and later COBOL-style business programming became economically important.",
+    "**Bridge to Sperry Rand and later Unisys lineages:** Its computing business fed directly into later corporate continuities in mainframe and enterprise computing."
+  ],
+  "pivotal_people": [
+    "**Grace Hopper:** Developed foundational compiler ideas while working in the Remington Rand computing environment.",
+    "**J. Presper Eckert and John Mauchly:** Their machine designs and company became part of Remington Rand's computing identity after acquisition.",
+    "**The UNIVAC engineering and operations teams:** Turned early computers from bespoke projects into saleable systems with real institutional users."
+  ],
+  "legacy": "Remington Rand's legacy is that it provided one of the first industrial settings in which programming had to serve paying customers rather than only researchers or military planners. UNIVAC helped legitimize commercial computing in government and business, while Grace Hopper's work in that environment accelerated the movement toward compilers and business-readable programming notation. FLOW-MATIC fed into the broader lineage that culminated in COBOL and the enduring expectation that business software should be written in forms closer to human concepts than raw opcodes. The corporate name changed through Sperry Rand and eventually Unisys, but the underlying historical role remained the same: Remington Rand helped move programming into the commercial data-processing era.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace how Remington Rand's acquisition of Eckert-Mauchly changed the path from experimental computers to commercial programming.'",
+    "2. 'Explain why Grace Hopper's compiler work mattered more once it was attached to real business computing needs.'",
+    "3. 'Analyze Remington Rand as an industrial bridge between early hardware manufacturing and the later business-software world.'"
+  ]
+}

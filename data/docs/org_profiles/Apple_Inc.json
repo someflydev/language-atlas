@@ -1,0 +1,25 @@
+{
+  "title": "Apple Inc.: The Product Company That Made Language Design a First-Class Part of Platform Experience",
+  "founded": "1976",
+  "overview": "Apple influenced programming languages less through open-ended research than through tight control of end-to-end platforms. Because the company owns hardware, operating systems, developer tools, and distribution channels, it has repeatedly used language choices to shape the quality and style of software built for its devices. Objective-C and later Swift were not side projects; they were strategic tools for making Apple's platforms easier to program, safer to evolve, and more appealing to developers.",
+  "key_contributions": [
+    "**Objective-C adoption through NeXT and Apple (late 1980s onward):** The NeXT development model, inherited by Apple, made Objective-C the defining language of macOS and later iOS application development.",
+    "**Swift (2014):** Apple introduced a modern language focused on safety, performance, and ergonomics to replace Objective-C for most new application work.",
+    "**Xcode and integrated tooling:** Apple tied language adoption to a polished IDE, debugger, interface builder, and SDK pipeline.",
+    "**Swift Playgrounds:** Apple treated programming as a user-facing educational experience and used its platforms to teach code interactively.",
+    "**JavaScriptCore and WebKit performance competition:** Apple's browser engine work helped drive the broader evolution of high-performance JavaScript execution.",
+    "**Metal and OpenCL-era compute frameworks:** Apple shaped how developers express GPU and heterogeneous-compute workloads on its platforms."
+  ],
+  "pivotal_people": [
+    "**Steve Jobs:** Through NeXT and later Apple, he created the institutional path that made Objective-C central to Apple's developer story.",
+    "**Brad Cox and Tom Love:** Created Objective-C, the language Apple later turned into a long-lived platform standard.",
+    "**Chris Lattner:** Led Swift's creation and brought compiler sophistication directly into Apple's platform strategy.",
+    "**Apple's developer-tools teams:** Translated language design into a cohesive product experience through Xcode, Interface Builder, and SDK integration."
+  ],
+  "legacy": "Apple's legacy lies in proving that language design can be a platform-level product decision, not just a compiler-team concern. Objective-C shaped generations of Cocoa and Cocoa Touch developers and normalized message-passing, dynamic runtime features, and framework-heavy application design in the Apple world. Swift then showed how a major platform vendor could migrate an ecosystem toward memory safety, stronger static checking, and modern syntax without abandoning native performance. Swift remains central to iOS, macOS, watchOS, and server-side experiments, while Swift Playgrounds and related tooling reinforced Apple's view that programming environments are part of the broader user experience. Apple's JavaScript engine work also contributed to the competitive pressure that made browser scripting fast enough for modern applications. Its durable contribution is the integration of language, tooling, and platform policy into one coherent developer experience.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Apple's control of hardware, operating systems, and tooling gave it unusual leverage over programming-language adoption.'",
+    "2. 'Trace the transition from Objective-C to Swift and analyze what Apple was trying to fix at each stage.'",
+    "3. 'Compare Apple's language strategy with companies that influenced languages primarily through open ecosystems rather than vertically integrated platforms.'"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "title": "Mozilla: The Open Web Institution That Turned Browser Competition Into Language Innovation",
+  "founded": "1998 (Mozilla project); Mozilla Foundation established in 2003",
+  "overview": "Mozilla mattered because it treated the web as a public technical commons rather than a proprietary application platform. That mission pushed it to invest in browser engines, open standards, security, documentation, and eventually systems-language research. In practice, Mozilla became one of the rare institutions that could connect day-to-day browser implementation with deeper questions about memory safety, runtime performance, and the governance of web technologies.",
+  "key_contributions": [
+    "**SpiderMonkey (1995 onward in Netscape and Mozilla lineage):** The first JavaScript engine created the implementation bedrock of browser scripting.",
+    "**Firefox and browser competition:** Mozilla broke the stagnation of the Internet Explorer monoculture and forced faster progress on JavaScript engines and standards compliance.",
+    "**Rust (Mozilla era, 2009 onward):** Mozilla adopted and funded Rust as a safer systems language for performance-critical infrastructure.",
+    "**Servo:** Mozilla used an experimental browser engine in Rust to prove that memory safety and parallelism could matter in systems previously dominated by C and C++.",
+    "**WebAssembly standardization work:** Mozilla was one of the core organizations that helped turn a low-level browser target into a cross-vendor web standard.",
+    "**MDN Web Docs:** Mozilla built and sustained one of the web's most authoritative documentation resources for languages, APIs, and browser behavior."
+  ],
+  "pivotal_people": [
+    "**Brendan Eich:** Created JavaScript and became central to the browser-language story from the Netscape and early Mozilla lineage.",
+    "**Graydon Hoare:** Originated Rust, whose Mozilla adoption transformed it from a personal project into a major systems language.",
+    "**Andreas Gal and Mozilla platform leaders:** Helped drive JavaScript engine performance work and Mozilla's broader technical agenda.",
+    "**The Servo and Rust teams:** Demonstrated that an open-web institution could also be a serious incubator for systems-language innovation."
+  ],
+  "legacy": "Mozilla's legacy spans both the browser and systems layers of computing. Firefox preserved meaningful browser competition at a moment when the web risked becoming captive to one vendor's implementation choices. That competitive pressure accelerated JavaScript engine development, standards compliance, and the expectation that web applications could become serious software. Rust may prove even more historically significant: it is now used in browsers, operating systems, developer tooling, cloud infrastructure, and security-sensitive components precisely because Mozilla helped nurture it into a production-grade language with a clear mission around safety and performance. MDN remains a daily reference point for web developers worldwide. Mozilla's durable contribution is that it linked governance, documentation, implementation, and language design under the broader ideal of an open web.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace Mozilla's influence from SpiderMonkey and Firefox to Rust and WebAssembly.'",
+    "2. 'Explain why Mozilla's open-web mission made it care about both standards governance and systems-language safety.'",
+    "3. 'Analyze how browser competition changed the trajectory of JavaScript and web-platform programming.'"
+  ]
+}

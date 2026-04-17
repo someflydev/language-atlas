@@ -1,0 +1,24 @@
+{
+  "title": "Facebook: The Web Application Company That Turned Internal Developer Pain Into New Languages and Programming Models",
+  "founded": "2004 (as Facebook; renamed Meta Platforms in 2021)",
+  "overview": "Facebook influenced programming languages because it operated one of the world's largest dynamic web applications while trying to move fast under constant product pressure. That environment exposed scaling problems in PHP, JavaScript, front-end state management, API design, and mobile UI composition. The company's answer was often to create new tools and abstractions in public, turning internal engineering constraints into influential languages, type systems, and frameworks.",
+  "key_contributions": [
+    "**Hack (2014):** Facebook extended PHP with gradual typing and a faster runtime path to make a huge legacy codebase more analyzable.",
+    "**Flow (2014):** The company built one of the earliest widely discussed static type checkers for JavaScript at industrial scale.",
+    "**React (2013):** Facebook popularized component-driven, declarative UI programming and changed front-end architecture across the industry.",
+    "**GraphQL (internal from 2012; open-sourced 2015):** Facebook introduced a query language for APIs that reframed how clients ask for structured data.",
+    "**Infer:** The company released a static-analysis tool based on separation logic to catch classes of bugs in large codebases."
+  ],
+  "pivotal_people": [
+    "**Jordan Walke:** Created React and helped redefine how developers think about user interfaces as composable stateful components.",
+    "**Julien Verlaguet and the Hack team:** Reworked PHP for a large, fast-moving codebase that needed stronger guarantees without total rewrites.",
+    "**Facebook's GraphQL and mobile-infrastructure teams:** Built a data-fetching model shaped by the needs of many clients consuming one evolving backend.",
+    "**The Infer team and Facebook research engineers:** Showed that advanced static analysis could be deployed against production engineering problems."
+  ],
+  "legacy": "Facebook's legacy is strongest where software teams need to scale web application complexity without freezing product velocity. React became foundational to modern front-end development, influencing Vue, Svelte, Elm-inspired architecture discussions, React Native, and countless state-management patterns. GraphQL reshaped API design for organizations that needed flexible, client-driven data access. Hack showed one path for imposing stronger structure on an enormous dynamic-language codebase without discarding the existing ecosystem overnight. Flow's mindshare was later eclipsed by TypeScript, but it helped establish static typing for JavaScript as a mainstream expectation. Infer kept static analysis in the practical engineering conversation. Facebook's durable contribution is the public release of abstractions forged under extreme application-scale pressure.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace how Facebook's product velocity pressures produced Hack, React, GraphQL, and Infer.'",
+    "2. 'Explain why React changed front-end architecture even though it was released as a library rather than a full language.'",
+    "3. 'Compare Hack and Flow as different attempts to impose stronger reasoning on dynamic web-programming environments.'"
+  ]
+}

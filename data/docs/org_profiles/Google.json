@@ -1,0 +1,26 @@
+{
+  "title": "Google: The Internet Infrastructure Company That Built Languages for Scale, Performance, and Planet-Sized Deployment",
+  "founded": "1998",
+  "overview": "Google's programming-language influence grew out of operating software at enormous scale. Search, distributed systems, data centers, browsers, mobile devices, and machine learning all forced the company to ask whether existing tools were adequate for the workloads it faced. That pressure led Google to create or back languages, runtimes, compilers, and interchange formats optimized for large codebases, fast execution, maintainability, and cross-team coordination.",
+  "key_contributions": [
+    "**Go (2009):** Rob Pike, Ken Thompson, and Robert Griesemer designed a systems language for fast builds, simple concurrency, and large-team maintainability.",
+    "**Dart (2011):** Google funded a language and runtime strategy aimed at modern client development, later becoming central to Flutter.",
+    "**V8 (2008):** Google's JavaScript engine raised the performance ceiling for browser scripting and helped make Node.js practical.",
+    "**Protocol Buffers and gRPC:** Google standardized efficient schema-driven data interchange and service communication for distributed systems.",
+    "**Android's language platform:** Google helped shape Java's mobile afterlife and later accelerated Kotlin's rise as the preferred Android language.",
+    "**MLIR and compiler infrastructure:** Google-backed work around machine learning compilation expanded the idea of reusable intermediate representations.",
+    "**Carbon (2022):** Google engineers proposed an experimental language aimed at safer evolution paths for large C++ codebases."
+  ],
+  "pivotal_people": [
+    "**Rob Pike, Ken Thompson, and Robert Griesemer:** Designed Go around the operational realities of large software systems.",
+    "**Lars Bak and Kasper Lund:** Led core Dart work and brought virtual-machine expertise into Google's language strategy.",
+    "**The V8 team:** Reframed expectations for JavaScript performance in both browsers and server-side runtimes.",
+    "**Chris Lattner and MLIR collaborators:** Extended Google's compiler influence into machine learning and heterogeneous compute pipelines."
+  ],
+  "legacy": "Google's legacy is visible in cloud-native infrastructure, the browser runtime stack, mobile development, and modern machine-learning tooling. Go became a defining language of the cloud era because its concurrency model, static binaries, and operational simplicity fit containerized services, networking tools, and infrastructure software unusually well. V8 reshaped JavaScript performance expectations and indirectly enabled Node.js, which changed full-stack web development. Protocol Buffers and gRPC became standard building blocks for internal and cross-company service architectures. Dart and Flutter created a serious cross-platform UI ecosystem. MLIR influenced how compiler engineers think about reusable IR layers across domains. Google's contribution is not merely invention; it is the conversion of hyperscale operational pain into widely reusable programming tools.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Google's operational scale pushed it toward Go, Protocol Buffers, and other infrastructure-oriented language tools.'",
+    "2. 'Trace the connection between V8, browser performance, and the later emergence of Node.js as a major server runtime.'",
+    "3. 'Compare Google's language projects for infrastructure, UI, and machine learning to show how each reflects a different internal pressure.'"
+  ]
+}

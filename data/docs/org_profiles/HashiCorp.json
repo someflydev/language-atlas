@@ -1,0 +1,22 @@
+{
+  "title": "HashiCorp: The Infrastructure Company That Made Configuration Language a Core Part of Cloud Operations",
+  "founded": "2012",
+  "overview": "HashiCorp became influential because cloud computing created a new programming problem: operators needed ways to describe systems declaratively, review them as text, and apply them repeatedly across providers. HashiCorp responded by building tools whose real product was not only automation but legible infrastructure description. HCL emerged from that setting as a practical language for expressing desired state in a form humans and machines could both work with.",
+  "key_contributions": [
+    "**HCL (HashiCorp Configuration Language):** HashiCorp created a declarative configuration language that balanced machine structure with enough readability for daily operations work.",
+    "**Terraform:** The company turned infrastructure as code into a mainstream workflow and made HCL familiar across cloud teams.",
+    "**Vault, Consul, and Nomad configuration ecosystems:** HashiCorp reused HCL and adjacent declarative patterns across security, service discovery, and orchestration products.",
+    "**Infrastructure workflow standardization:** HashiCorp popularized a plan/apply review loop that shaped how teams reason about infrastructure change."
+  ],
+  "pivotal_people": [
+    "**Mitchell Hashimoto:** Co-founded the company and became a public face of its practical, operator-oriented tooling philosophy.",
+    "**Armon Dadgar:** Co-founded HashiCorp and helped define the infrastructure-product suite that gave HCL institutional reach.",
+    "**HashiCorp's Terraform and tooling teams:** Turned a configuration notation into a widely learned operational language."
+  ],
+  "legacy": "HashiCorp's legacy is visible in the everyday language of DevOps and cloud operations. Terraform made it normal for infrastructure definitions to live in version control, undergo code review, and be applied through reproducible workflows instead of point-and-click dashboards. HCL became one of the default grammars through which engineers describe cloud networks, secrets policies, service topologies, and deployment intent. Competing tools and later forks emerged, but they largely operated in a world HashiCorp helped define. The company's durable contribution is the legitimization of declarative infrastructure text as a serious programming medium, even when that medium looks different from traditional general-purpose languages.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain why cloud operations created demand for a language like HCL rather than only more imperative scripting.'",
+    "2. 'Trace how Terraform made infrastructure review, planning, and drift management feel more like software engineering.'",
+    "3. 'Compare HCL's role in DevOps with the role of SQL in databases as a domain-specific but widely learned language.'"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "title": "JetBrains: The Tooling Company That Grew a Language Out of Developer Ergonomics",
+  "founded": "2000",
+  "overview": "JetBrains approached programming languages from the vantage point of developer tooling rather than operating systems, hardware, or large consumer platforms. Because the company lived inside IDEs, refactoring engines, and language-support plugins, it had unusually direct visibility into where mainstream languages created friction. Kotlin emerged from that perspective: not as a speculative research language, but as a pragmatic attempt to improve the daily experience of writing JVM software while remaining interoperable with the ecosystem people already had.",
+  "key_contributions": [
+    "**IntelliJ IDEA:** JetBrains created one of the most influential IDE platforms in modern software development and shaped expectations for refactoring, code navigation, and language-aware tooling.",
+    "**Kotlin (2011):** JetBrains designed a concise, null-aware, interoperable language for the JVM that later expanded to JavaScript and native targets.",
+    "**Android Studio foundation:** JetBrains' IntelliJ platform became the basis for Google's primary Android IDE, amplifying JetBrains' tooling influence.",
+    "**MPS (Meta Programming System):** JetBrains built a language workbench that explored projectional editing and user-defined language construction.",
+    "**Kotlin Multiplatform:** The company extended Kotlin beyond the JVM into a broader cross-platform language strategy."
+  ],
+  "pivotal_people": [
+    "**Andrey Breslav:** Led Kotlin's design and gave JetBrains a language explicitly shaped by practical developer pain points.",
+    "**JetBrains IDE teams:** Built the toolsmith culture that made language ergonomics, refactoring, and static insight core product capabilities.",
+    "**The MPS team:** Explored language-oriented programming and demonstrated that JetBrains' interests extended beyond one production language."
+  ],
+  "legacy": "JetBrains' legacy lies in proving that a tooling company can become a serious language institution. Kotlin is now a major JVM language, the preferred language for Android development, and a growing option for server, multiplatform, and UI work through ecosystems such as Ktor and Compose Multiplatform. IntelliJ IDEA and its descendants shaped how millions of developers expect intelligent tooling to behave. MPS kept language workbench ideas alive in a commercially relevant setting. JetBrains' broader influence is methodological: it treated the editing, navigation, and refactoring experience as inseparable from language design itself. That perspective helped make Kotlin feel adoptable in organizations that could not afford ideological rewrites.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how JetBrains' IDE business gave it a distinctive vantage point for creating Kotlin.'",
+    "2. 'Trace the relationship between IntelliJ IDEA, Android Studio, and Kotlin's rise in mainstream development.'",
+    "3. 'Analyze why JetBrains could succeed with an interoperability-first language where more radical JVM replacements remained niche.'"
+  ]
+}

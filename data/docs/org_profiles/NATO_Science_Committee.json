@@ -1,0 +1,22 @@
+{
+  "title": "NATO Science Committee: The Sponsor That Turned the Software Crisis Into a Named International Problem",
+  "founded": "1958",
+  "overview": "The NATO Science Committee was not a software company or a language laboratory, but it played a pivotal institutional role in computing history by convening the meetings that made software engineering legible as a field. In the late 1960s, large software systems were becoming expensive, delayed, and unreliable, yet the profession lacked a common vocabulary for that failure. By organizing the Garmisch and Rome conferences, the committee created the stage on which the 'software crisis' could be named, debated, and framed as an engineering problem rather than a collection of isolated disappointments.",
+  "key_contributions": [
+    "**1968 Garmisch Conference on Software Engineering:** The committee sponsored the meeting that made 'software engineering' famous as both an aspiration and a provocation.",
+    "**1969 Rome Conference:** It supported the follow-up effort that continued formal discussion of software method, complexity, and discipline.",
+    "**Institutional legitimation of the software crisis:** The committee helped move concerns about large-system failure into international technical policy discourse.",
+    "**Cross-national convening power:** By bringing together figures such as Peter Naur, Brian Randell, and Friedrich Bauer, it created a durable reference point for later software-engineering history."
+  ],
+  "pivotal_people": [
+    "**Friedrich L. Bauer:** Associated with the deliberate use of the term 'software engineering' as a challenge to the field's existing informality.",
+    "**Peter Naur:** Co-edited the conference proceedings and helped preserve the intellectual record of the debate.",
+    "**Brian Randell:** Played a major role in documenting and interpreting the conferences and their significance."
+  ],
+  "legacy": "The NATO Science Committee's legacy is primarily conceptual and institutional. It did not invent a programming language, but it helped define the historical moment when software became widely understood as an engineering discipline with organizational, methodological, and economic stakes. The vocabulary of the software crisis still echoes in arguments about project overruns, verification, maintainability, and the limits of ad hoc development. Books, courses, standards, and professional identities in software engineering all trace some lineage to the visibility these conferences created. The committee's real contribution was to give a scattered anxiety a name, a forum, and a durable documentary record.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain why the NATO Science Committee matters to software history even though it did not directly create a programming language.'",
+    "2. 'Trace how the 1968 and 1969 NATO conferences shaped the concept of the software crisis.'",
+    "3. 'Analyze the phrase software engineering as a provocation and explain what problem the conference organizers were trying to force into view.'"
+  ]
+}
