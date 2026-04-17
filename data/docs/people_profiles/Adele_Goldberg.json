@@ -1,0 +1,21 @@
+{
+  "title": "Adele Goldberg: The Builder Who Made Smalltalk Teachable",
+  "overview": "Adele Goldberg is an American computer scientist who co-developed Smalltalk-80 at Xerox PARC, helped shape its integrated environment, and wrote the definitive reference that made the system legible to the wider world. Her work transformed Smalltalk from an internal research vision into a documented, teachable platform for object-oriented programming and personal computing.",
+  "historical_context": "Goldberg worked in the Xerox PARC environment where Alan Kay's broad vision for a personal dynamic medium was being turned into concrete software. Research systems can remain influential yet inaccessible if their ideas are not stabilized, documented, and distributed. Goldberg was central in solving that problem for Smalltalk. She helped refine the Smalltalk-80 system, articulate its model to outside readers, and later co-founded ParcPlace Systems to move the environment beyond the lab. This mattered because object-oriented programming did not spread by slogans alone. It spread because developers and educators could actually study, use, and learn from a coherent system.",
+  "mental_model": "To think like Adele Goldberg is to treat computing as something people must be able to explore directly, not merely admire from a distance. A language environment succeeds when its concepts, tools, and documentation reinforce each other. Objects, browsers, inspectors, and live interaction are valuable partly because they make the system understandable. Accessibility is not a compromise. It is how a powerful idea becomes durable.",
+  "pivotal_works": [
+    "**Smalltalk-80 development:** Co-developed the influential release that brought Smalltalk's ideas into wider circulation.",
+    "**Smalltalk-80: The Language and Its Implementation (the Blue Book):** Helped produce the canonical reference for the language and virtual machine.",
+    "**ParcPlace Systems:** Co-founded the company that carried Smalltalk into commercial practice."
+  ],
+  "affiliations": [
+    "**Xerox PARC:** Core contributor to the Smalltalk project and personal-computing research culture.",
+    "**ParcPlace Systems:** Helped move Smalltalk from research environment to broader industry use."
+  ],
+  "legacy": "Goldberg's legacy is inseparable from Smalltalk's transmission into the wider software world. Alan Kay supplied the sweeping object-oriented and Dynabook vision, but Goldberg helped make Smalltalk-80 concrete, teachable, and portable enough to influence later language designers and educators. Her work strengthened the path from Smalltalk into graphical IDEs, live object browsers, educational computing, and the object-oriented mainstream that later included Objective-C, C++, and Java.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Adele Goldberg helped turn Smalltalk from a research idea into a documented and teachable system.'",
+    "2. 'Compare the roles of Alan Kay and Adele Goldberg in the creation and spread of Smalltalk-80.'",
+    "3. 'Trace how Smalltalk's tooling and documentation culture influenced later IDEs and educational programming environments.'"
+  ]
+}

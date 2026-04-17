@@ -1,0 +1,21 @@
+{
+  "title": "Robert Kowalski: The Logician Who Made Prolog Executable",
+  "overview": "Robert Kowalski is the logician most closely associated with the procedural interpretation of Horn clauses that made Prolog practical. His formula \"Algorithm = Logic + Control\" captured the central compromise of logic programming: the program can remain declarative, but execution still depends on a disciplined search strategy.",
+  "historical_context": "Kowalski worked in the 1970s when theorem proving, automated reasoning, and programming languages were beginning to overlap in concrete ways. Pure logic offered expressive power, but it was not obvious how logical statements could become efficient executable programs. Kowalski's work on SLD resolution and Horn clauses provided the bridge. In collaboration with Alain Colmerauer's Prolog effort, he clarified how a restricted logical form could support both declarative meaning and procedural execution. This mattered because it let logic programming become something more than a philosophical aspiration. It became a language family with real operational content.",
+  "mental_model": "To think like Robert Kowalski is to separate the knowledge in a program from the control strategy used to exploit that knowledge. Logic describes what is true in the problem domain. Control determines how the machine searches through those truths to answer a query. Keeping those aspects conceptually distinct makes it possible to reason about programs at a higher level than ordinary step-by-step procedures, even though implementation still requires concrete resolution behavior.",
+  "pivotal_works": [
+    "**Procedural interpretation of Horn clauses:** Showed how a restricted logical form could support direct execution.",
+    "**SLD resolution:** Helped define the operational mechanism that made Prolog-style query evaluation practical.",
+    "**Algorithm = Logic + Control:** Captured the central design philosophy of logic programming in a widely cited formulation."
+  ],
+  "affiliations": [
+    "**University of Edinburgh:** Major center of logic programming and automated reasoning during Kowalski's career.",
+    "**Logic programming collaborations with Alain Colmerauer:** Helped connect theorem-proving formalisms to the Prolog language tradition."
+  ],
+  "legacy": "Kowalski's legacy lies in making declarative programming computationally concrete. Prolog could not have become a durable language tradition without Alain Colmerauer's language creation or Kowalski's operational clarification, and the two are best understood together. His logic-plus-control framework still shapes how people think about rule engines, deductive databases, query languages, and the boundary between specification and execution.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain SLD resolution and why it made Horn-clause logic executable.'",
+    "2. 'Analyze the meaning of Algorithm = Logic + Control with examples from Prolog.'",
+    "3. 'Compare Robert Kowalski's operational account of logic programming with Alain Colmerauer's original language and NLP motivations.'"
+  ]
+}

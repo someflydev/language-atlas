@@ -1,0 +1,21 @@
+{
+  "title": "Barbara Liskov: The Designer of Abstraction Boundaries",
+  "overview": "Barbara Liskov is an American computer scientist whose work on CLU, data abstraction, distributed systems, and subtype reasoning gave software engineering a rigorous account of representation and behavior. CLU introduced data abstraction, iterators, and structured exception handling as first-class language features, and her later substitution principle gave object-oriented subtyping a durable formal foundation.",
+  "historical_context": "Liskov's work emerged after early high-level languages had made programming more productive but before abstraction boundaries were well formalized. In the 1970s, large software systems needed ways to hide representation details without losing precision about how modules should behave. CLU answered this by making abstract data types central. Clients could depend on behavior while implementations remained replaceable behind clear interfaces. The language also treated iterators and exception handling as primary constructs rather than afterthoughts. This was not only a language-design achievement. It was an attempt to make software structure enforceable in code. Liskov later extended that concern into the Liskov Substitution Principle, clarifying when one type can safely stand in for another without violating client expectations.",
+  "mental_model": "To think like Barbara Liskov is to separate what a component promises from how it is built. Good software depends on behavioral contracts, not privileged access to representation. Once that boundary is respected, implementations can change, abstractions can scale, and reuse becomes safer. The key question is always whether a client can rely on the same observable behavior after substitution. If the answer is no, the abstraction is not sound yet.",
+  "pivotal_works": [
+    "**CLU (1974):** Introduced data abstraction, parameterized types, iterators, and exception handling in a unified language design.",
+    "**Abstract data type methodology:** Established representation hiding as a practical and teachable software-engineering discipline.",
+    "**Liskov Substitution Principle (1987):** Clarified the behavioral requirements for sound subtyping in object-oriented design.",
+    "**Distributed systems research:** Extended her abstraction-centered rigor into fault-tolerant and scalable system design."
+  ],
+  "affiliations": [
+    "**Massachusetts Institute of Technology:** Longtime academic base for CLU, abstraction research, and distributed systems work."
+  ],
+  "legacy": "Liskov's legacy is present in nearly every modern language and API design discipline. CLU influenced Ada, C++, Java, Python, and many module and iterator designs, while its exception-handling model helped normalize structured error handling. The Liskov Substitution Principle remains a core test for object-oriented design quality. Her work also forms a bridge between abstract data types and later object-oriented practice, complementing the object-model lineage that runs from Simula through Smalltalk to Java.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how CLU made data abstraction concrete and why that mattered for later language design.'",
+    "2. 'Analyze the Liskov Substitution Principle with examples from modern object-oriented languages.'",
+    "3. 'Compare CLU's abstraction model with Simula and Smalltalk's object-oriented approaches.'"
+  ]
+}

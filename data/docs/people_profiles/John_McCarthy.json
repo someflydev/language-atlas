@@ -1,0 +1,23 @@
+{
+  "title": "John McCarthy: The Designer of Symbolic Computation",
+  "overview": "John McCarthy was an American computer scientist who created Lisp in 1958 and helped define artificial intelligence as both a field and a programming problem. He introduced garbage collection, advanced time-sharing, popularized the REPL style of interactive computing, and showed that symbolic recursion could be practical rather than merely theoretical.",
+  "historical_context": "McCarthy worked in the period when computing was shifting from numerical calculation toward symbolic reasoning. FORTRAN had proven that high-level languages could serve scientists, but there was still no language designed for manipulating formulas, lists, proofs, and programs as data. Drawing on lambda calculus and symbolic logic, McCarthy built Lisp to make recursion, symbolic expressions, and metaprogramming central rather than peripheral. At MIT and later Stanford, he also pushed time-sharing because he believed computers should be interactive intellectual tools, not remote batch calculators. His coinage of the term artificial intelligence reflected the same ambition. Computation, in his view, should extend into reasoning, planning, and language, which required programming tools capable of operating on structured symbols instead of only numbers.",
+  "mental_model": "To think like John McCarthy is to treat a program as a symbolic system that can inspect, transform, and generate other symbolic systems. The core unit is the expression, not the instruction. Once code and data share the same form, recursion becomes natural, interpretation becomes programmable, and abstraction can move upward from machine steps to symbolic transformation. This mental model is why Lisp feels unusually reflective. It assumes the most powerful computer is one that can manipulate its own representations with the same ease that algebra manipulates formulas.",
+  "pivotal_works": [
+    "**Lisp (1958):** Created the foundational symbolic programming language and made recursion, list processing, and homoiconicity practical.",
+    "**Recursive Functions of Symbolic Expressions and Their Computation by Machine, Part I (1960):** Gave Lisp its canonical theoretical and practical formulation.",
+    "**Artificial intelligence research agenda (mid-1950s onward):** Coined the term \"artificial intelligence\" and framed reasoning as a computational problem.",
+    "**Time-sharing advocacy and systems work (late 1950s to 1960s):** Helped redefine computers as interactive shared resources rather than batch-only machines."
+  ],
+  "affiliations": [
+    "**Dartmouth Summer Research Project on Artificial Intelligence:** Co-organizer of the 1956 meeting that named the AI field.",
+    "**Massachusetts Institute of Technology:** Developed Lisp and early AI research culture there.",
+    "**Stanford University:** Built the Stanford AI Laboratory and continued work in AI, time-sharing, and formal reasoning."
+  ],
+  "legacy": "McCarthy's legacy runs through AI systems, language design, and modern runtime implementation. Lisp shaped Scheme through the later work of Gerald Jay Sussman and Guy L. Steele, influenced Smalltalk's interactive environment, and introduced garbage collection techniques later adopted across Java, C#, JavaScript, Go, and many managed runtimes. The REPL model became standard in Lisp systems, Smalltalk, Python, Ruby, and modern notebook workflows. More broadly, McCarthy made symbolic computation a first-class programming objective, which remains central to theorem provers, computer algebra systems, interpreters, and AI tooling.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Lisp turned lambda calculus and symbolic logic into a practical programming environment.'",
+    "2. 'Trace the path from McCarthy's garbage collection and REPL ideas to modern managed runtimes and interactive languages.'",
+    "3. 'Analyze how McCarthy's view of symbolic computation shaped the early ambitions of artificial intelligence.'"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Robin Milner: The Theorist Who Made Types Infer Themselves",
+  "overview": "Robin Milner was a British computer scientist whose work spans type inference, theorem proving, and models of concurrency. He created ML in 1973, helped develop the Hindley-Milner type system, and later introduced major process calculi such as CCS and the pi-calculus, making him one of the rare figures who reshaped multiple foundations of programming language theory.",
+  "historical_context": "Milner worked when programming languages were splitting into deeper theoretical branches. One branch asked how theorem provers and interactive proof assistants could be programmed safely without drowning users in type annotations. Another asked how communicating processes should be modeled once computation was no longer just a single sequential thread. ML emerged from the LCF theorem-proving environment as a metalanguage that could express tactics while preserving soundness. Its innovation was not only functional style but practical type inference, which let programs remain concise without abandoning rigor. Later, with CCS and the pi-calculus, Milner helped give concurrency a formal language comparable in importance to lambda calculus for functions.",
+  "mental_model": "To think like Robin Milner is to treat type structure as a source of deep truth about programs rather than as bureaucratic annotation. A language should infer as much as possible, reject impossible compositions, and let proofs about behavior emerge from the program's form. The same instinct extends to concurrency. If processes communicate and evolve, their interactions need algebraic structure, not just ad hoc scheduling. In both cases, the goal is the same: build formalism that programmers can actually use.",
+  "pivotal_works": [
+    "**ML and the LCF metalanguage (1973 onward):** Created the language family that combined functional programming with practical static typing.",
+    "**Hindley-Milner type inference formulation:** Helped make polymorphic type inference usable without explicit type declarations everywhere.",
+    "**Calculus of Communicating Systems (CCS):** Provided a rigorous algebra for concurrent processes.",
+    "**Pi-calculus:** Extended process theory to mobile communication by allowing channels and names to move through the system."
+  ],
+  "affiliations": [
+    "**University of Edinburgh:** Central site of the LCF project, ML, and early theorem-proving work.",
+    "**University of Cambridge:** Continued major work in concurrency theory and semantics there."
+  ],
+  "legacy": "Milner's legacy is unusually broad. ML directly shaped Standard ML, OCaml, and much of typed functional programming, while Hindley-Milner inference became a foundation for Haskell and influenced later languages that value expressive static typing, including Rust's type-inference style. His proof-oriented view of types also affected program verification and typed intermediate representations. In concurrency, CCS and the pi-calculus gave distributed and communicating systems a formal vocabulary comparable to what lambda calculus gave functional computation. Few language theorists have had durable impact on both sequential correctness and concurrent interaction at this scale.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how ML emerged from theorem proving and why Hindley-Milner inference was such a practical breakthrough.'",
+    "2. 'Trace the influence of Milner's type theory on Standard ML, OCaml, Haskell, and later statically typed languages such as Rust.'",
+    "3. 'Compare CCS and pi-calculus as models for concurrent computation and mobile communication.'"
+  ]
+}

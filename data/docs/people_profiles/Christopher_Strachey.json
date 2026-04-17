@@ -1,0 +1,22 @@
+{
+  "title": "Christopher Strachey: The Semanticist Who Asked What Programs Mean",
+  "overview": "Christopher Strachey was a British computer scientist whose work on programming language semantics, higher-order functions, and closures helped turn language design into a mathematically disciplined field. With Dana Scott, he founded denotational semantics and showed that the meaning of a program could be specified independently of the details of machine execution.",
+  "historical_context": "Strachey worked in the transition from early compiler engineering to programming language theory as a mature discipline. Languages such as FORTRAN, ALGOL, and CPL had made syntax and implementation central concerns, but their semantics were still often informal or operationally murky. Strachey saw that this was not enough. If languages were to be compared, reasoned about, and implemented rigorously, their constructs needed mathematical meaning. His work on higher-order functions and lexical closures also clarified ideas that later became crucial in Lisp, Scheme, ML, and functional programming more broadly. As leader of the Programming Research Group at Oxford, he helped make semantics a core research agenda rather than an afterthought to compilation.",
+  "mental_model": "To think like Christopher Strachey is to separate a program's meaning from the accidents of its execution. The important question is not merely what steps an implementation happens to take, but what mathematical object or transformation the program denotes. Once meaning is explicit, language constructs can be analyzed with precision, compared across implementations, and reasoned about without collapsing into machine-specific behavior. Semantics comes first because it tells you what a language feature actually is.",
+  "pivotal_works": [
+    "**Fundamental Concepts in Programming Languages (1967 lecture series):** Clarified concepts such as scope, binding, parameters, and abstraction with unusual precision.",
+    "**Denotational semantics work with Dana Scott (late 1960s to early 1970s):** Founded a mathematical method for assigning meanings to programs.",
+    "**CPL design work:** Contributed to the language lineage that fed into BCPL, B, and eventually C.",
+    "**Research on higher-order functions and closures:** Helped formalize lexical binding and function values as central language ideas."
+  ],
+  "affiliations": [
+    "**University of Oxford, Programming Research Group:** Built one of the key centers for programming language semantics.",
+    "**National Research Development Corporation and early British computing projects:** Participated in practical and theoretical language work before semantics became a separate specialty."
+  ],
+  "legacy": "Strachey's legacy is the assumption, now fundamental in language research, that a programming language deserves a precise semantic account. Denotational semantics influenced ML, Scheme, Haskell, compiler correctness work, and formal methods more broadly. His treatment of closures and higher-order functions also helped stabilize ideas later central to Lisp descendants, including the Scheme designed by Gerald Jay Sussman and Guy L. Steele. Even languages that are not taught through denotational semantics still inherit the discipline Strachey insisted on: syntax, scope, and meaning must line up cleanly.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how denotational semantics changed programming language theory from implementation craft into a mathematical discipline.'",
+    "2. 'Trace Strachey's influence on closures and higher-order functions in Scheme, ML, and modern functional languages.'",
+    "3. 'Analyze the connection between CPL, British language research, and the later C family.'"
+  ]
+}

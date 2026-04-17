@@ -1,0 +1,20 @@
+{
+  "title": "Noam Chomsky: The Linguist Whose Grammars Entered Every Compiler",
+  "overview": "Noam Chomsky is a linguist, not a programming language designer, but his 1956 hierarchy of formal grammars became foundational to compiler theory and language parsing. By classifying grammars according to their generative power, he gave computer science a framework for understanding what kinds of language structure can be recognized, parsed, and transformed mechanically.",
+  "historical_context": "Chomsky's work arose in theoretical linguistics, where the problem was to characterize the formal structure of natural language. Yet the abstractions he introduced proved equally useful for artificial languages. As programming languages became more sophisticated in the late 1950s and 1960s, compiler writers needed precise accounts of syntax rather than ad hoc parsing tricks. Context-free grammars, in particular, became central because they were expressive enough for most programming-language syntax while still compatible with practical parsing methods. Chomsky did not work in computer science departments when these ideas were formulated, but compiler theory quickly absorbed them. The result is one of the most important cases of a linguistic theory becoming core infrastructure for programming tools.",
+  "mental_model": "To think like Noam Chomsky in the programming-language context is to see syntax as a formally generative system. A language is not just a bag of valid strings. It is a structured set of productions that determines how expressions can be formed and nested. Once that structure is explicit, parsers, grammar transformations, and syntax-directed tooling become possible. For programming languages, the key lesson is that front-end design begins with formal grammar, not with informal examples.",
+  "pivotal_works": [
+    "**Three Models for the Description of Language (1956):** Introduced the hierarchy of formal grammars that later informed automata and parsing theory.",
+    "**Syntactic Structures (1957):** Popularized formal grammar as a disciplined way to analyze language structure.",
+    "**Broader generative grammar research:** Established the conceptual basis on which context-free grammar use in compilers became natural."
+  ],
+  "affiliations": [
+    "**Massachusetts Institute of Technology, Department of Linguistics and Philosophy:** Academic home of his major work in formal linguistics."
+  ],
+  "legacy": "Chomsky's legacy in computing lies in compiler front ends, parser generators, and formal language theory. Context-free grammars became the standard notation for describing programming-language syntax, complementing formal syntax work such as Backus-Naur Form. Every compiler course that teaches tokenization, parse trees, pushdown automata, or grammar classes is operating partly inside a framework Chomsky helped define. His influence is therefore indirect but foundational: not in the semantics of programs, but in the formal structure that makes programming languages machine-readable in the first place.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how the Chomsky hierarchy maps onto practical compiler construction and parser design.'",
+    "2. 'Compare context-free grammars with Backus-Naur Form as tools for specifying programming language syntax.'",
+    "3. 'Analyze why Chomsky's work mattered to compiler front ends even though it originated in linguistics rather than computer science.'"
+  ]
+}

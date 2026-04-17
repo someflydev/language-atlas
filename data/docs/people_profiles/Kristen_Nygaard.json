@@ -1,0 +1,21 @@
+{
+  "title": "Kristen Nygaard: The Modeler Who Saw Objects in the World",
+  "overview": "Kristen Nygaard was the Norwegian computer scientist and operations researcher who, with Ole-Johan Dahl, created Simula and introduced the conceptual basis of object-oriented programming. His original insight was that simulation demanded direct representations of real-world entities, and that programs should mirror those entities rather than flatten them into unrelated procedures.",
+  "historical_context": "Nygaard came from operations research and discrete-event simulation rather than pure language theory. In the early 1960s, complex systems such as shipping networks, industrial processes, and administrative workflows needed to be described in terms of actors, states, and events evolving over time. Existing languages did not map naturally onto that kind of reasoning. Simula's answer, developed with Ole-Johan Dahl at the Norwegian Computing Center, was to let programmers define classes of entities and create instances that interacted inside a simulation. That modeling move eventually escaped its original domain. What began as a simulation technique became a general way of organizing software around encapsulated state and behavior. Nygaard therefore sits at the point where domain modeling turned into language design.",
+  "mental_model": "To think like Kristen Nygaard is to begin with the world being modeled rather than the machine executing the program. You ask what the stable entities are, how they behave, how they change over time, and what events cause interaction. A good language, in this view, lets those entities appear directly in code. Objects are powerful because they preserve the conceptual vocabulary of the domain instead of forcing everything into detached subroutines and shared data tables.",
+  "pivotal_works": [
+    "**Simula I (1962):** Established the first simulation language framework that grew into object-oriented programming.",
+    "**Simula 67 (1967):** Helped define the class-object model and inheritance with Ole-Johan Dahl.",
+    "**Operations research and systems modeling work:** Supplied the real-world modeling pressures that gave Simula its distinctive shape."
+  ],
+  "affiliations": [
+    "**Norwegian Computing Center:** Co-created Simula with Ole-Johan Dahl in the context of simulation research.",
+    "**University of Oslo:** Continued academic work in computing and systems thinking."
+  ],
+  "legacy": "Nygaard's legacy is the idea that software can model domains through persistent interacting objects. That idea flowed from Simula into Alan Kay and Adele Goldberg's Smalltalk environment, then through C++ and Java into mainstream software engineering. The Simula to Smalltalk to C++ to Java chain is not just a sequence of syntax changes. It is the spread of Nygaard's belief that code should preserve the structure of the world it describes.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Nygaard's simulation background produced the conceptual foundation of object-oriented programming.'",
+    "2. 'Trace the lineage from Simula's world-modeling approach to Smalltalk, C++, and Java.'",
+    "3. 'Compare Kristen Nygaard's domain-modeling emphasis with Ole-Johan Dahl's implementation and language-structure contributions.'"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "title": "David Turner: The Pragmatist of Lazy Functional Programming",
+  "overview": "David Turner is the British computer scientist whose languages SASL, KRC, and Miranda turned lazy evaluation and purely functional programming into practical engineering tools. Long before Haskell unified the field, Turner demonstrated that non-strict semantics and functional purity could support real programming rather than only mathematical elegance.",
+  "historical_context": "Turner worked in the 1970s and 1980s when functional programming was still often regarded as theoretically interesting but operationally marginal. Lambda calculus and denotational semantics had provided a strong conceptual base, and ML had shown one path toward typed functional programming, but the practical status of lazy evaluation remained unsettled. Turner's languages explored a different answer. SASL, then KRC, and later Miranda treated laziness as a design principle that could support modularity, infinite data structures, and a cleaner separation between what is computed and when it is forced. Miranda in particular became a direct precursor to the Haskell community's later synthesis.",
+  "mental_model": "To think like David Turner is to see evaluation order as a design choice that should serve abstraction rather than dominate it. If an expression's value is not yet needed, the system should be free to defer work. Combined with pure functions, that makes programs easier to reason about because results depend on definitions, not on hidden update order. Laziness is therefore not just an optimization trick. It is a way to make declarative structure survive execution.",
+  "pivotal_works": [
+    "**SASL (1973):** Early purely functional language work that explored non-strict evaluation seriously.",
+    "**KRC (1981):** Continued development of lazy functional techniques in a practical language setting.",
+    "**Miranda (1985):** Became the clearest immediate precursor to Haskell and a major influence on lazy functional programming."
+  ],
+  "affiliations": [
+    "**University of St Andrews:** Longtime academic base for Turner's functional language work.",
+    "**University of Kent and broader British functional-programming circles:** Part of the research environment that advanced lazy evaluation."
+  ],
+  "legacy": "Turner's legacy is strongest in the path from Miranda to Haskell and in the normalization of laziness as a serious programming-language idea. He helped establish purely functional programming as a practical discipline rather than a theoretical curiosity. Later lazy languages, stream-processing techniques, and declarative library designs all benefit from the case he made: evaluation strategy is part of language meaning, and choosing laziness can improve compositional reasoning when paired with purity.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace the line from SASL and Miranda to Haskell and modern lazy functional programming.'",
+    "2. 'Explain why lazy evaluation changes the way programmers think about modularity and infinite data structures.'",
+    "3. 'Compare David Turner's practical functional languages with the type-inference tradition coming from ML.'"
+  ]
+}

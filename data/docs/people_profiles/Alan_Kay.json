@@ -1,0 +1,21 @@
+{
+  "title": "Alan Kay: The Visionary of Message-Passing Personal Computing",
+  "overview": "Alan Kay is the computer scientist who coined the term object-oriented programming, led the Smalltalk project at Xerox PARC, and proposed the Dynabook as a personal dynamic medium for learning and thought. Building on Simula, Sketchpad, and biological metaphors, he reimagined the computer as a meta-medium made from communicating objects.",
+  "historical_context": "Kay worked in the early 1970s at Xerox PARC, where the question was no longer only how to make computers run programs, but how to make them humane, interactive, and intellectually expansive. Simula had already shown that classes and objects could model systems, but Kay pushed the idea in a different direction. Inspired by Ole-Johan Dahl and Kristen Nygaard's work, by Ivan Sutherland's Sketchpad, and by cell biology, he imagined software components as autonomous entities that communicate only by messages. Smalltalk became the experimental environment for that vision. It united a pure object model, live programming, windows, graphics, and an educational interface into one coherent system. Adele Goldberg was central in developing and documenting Smalltalk-80, which turned the research system into something the wider world could study and adopt.",
+  "mental_model": "To think like Alan Kay is to see the computer as a dynamic medium whose power comes from many simple autonomous objects exchanging messages. The object is not mainly a data record with attached methods. It is a little computer with private state, local responsibility, and a communication interface. That makes programming less like issuing centralized commands and more like composing a society of active parts. Kay's broader mental model extends beyond software architecture. A personal computer should be a medium for exploration, literacy, and simulation, especially for children.",
+  "pivotal_works": [
+    "**Smalltalk (from 1972 onward):** Led the language and environment that crystallized object-oriented programming around message passing and live interaction.",
+    "**Dynabook concept (1972):** Proposed the portable personal computer as a medium for learning and creative thought.",
+    "**Xerox PARC research on graphical personal computing:** Helped define the broader context in which object-oriented environments became usable."
+  ],
+  "affiliations": [
+    "**Xerox PARC, Learning Research Group:** Led the Smalltalk effort and personal-computing vision there.",
+    "**University of Utah:** Earlier graduate work in the environment that also influenced interactive graphics research."
+  ],
+  "legacy": "Kay's legacy extends from Smalltalk's object model and integrated environment into graphical interfaces, live programming, educational computing, and mainstream OOP. Smalltalk developed with Adele Goldberg gave later programmers a concrete system to study, while its ideas influenced Objective-C, Ruby, Python frameworks, and Java's object-first culture, even when those languages softened Kay's message-passing purity. His reading of Simula also helped carry the object lineage from Dahl and Nygaard into the personal-computing era. The Dynabook vision, meanwhile, anticipated laptops, tablets, and software as a medium for thought.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Compare Alan Kay's message-passing view of objects with Simula's class-based simulation model.'",
+    "2. 'Explain how Smalltalk and the Dynabook vision shaped personal computing and educational software.'",
+    "3. 'Study Adele Goldberg's role in making Smalltalk-80 understandable and transferable beyond Xerox PARC.'"
+  ]
+}

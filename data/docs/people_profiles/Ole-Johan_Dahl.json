@@ -1,0 +1,21 @@
+{
+  "title": "Ole-Johan Dahl: The Implementer of Objects from Simulation",
+  "overview": "Ole-Johan Dahl was the Norwegian computer scientist who, with Kristen Nygaard, built Simula into the first language to offer classes, objects, inheritance, and coroutines in recognizable form. Where Nygaard supplied much of the modeling vision, Dahl supplied the language design and implementation discipline that made object-oriented programming real.",
+  "historical_context": "Dahl worked in the 1960s when programmers were trying to control growing system complexity without losing contact with real-world problems. At the Norwegian Computing Center, Simula began as a language for discrete-event simulation, where systems had to represent ships, customers, machines, and queues as interacting entities over time. The breakthrough was to make those modeled entities into language constructs rather than comments in a flowchart. Dahl helped turn that idea into a working language architecture with class definitions, subclassing, object instances, and coroutine-style process behavior. This mattered because it connected abstraction not just to algorithms, as in ALGOL, but to modeled worlds. Simula's techniques later flowed into Smalltalk, then into C++, Java, and most mainstream object-oriented languages.",
+  "mental_model": "To think like Ole-Johan Dahl is to ask how the structure of the problem can be preserved in the structure of the program. Objects are not decorative wrappers around procedures. They are the programmable stand-ins for persistent entities that have state, behavior, and relationships over time. Once that representation is stable, inheritance becomes a way to refine models without rewriting them, and coroutines become a way to let simulated actors take turns in a coherent world.",
+  "pivotal_works": [
+    "**Simula I (1962):** Early simulation language work with Kristen Nygaard that established the domain problem to be solved.",
+    "**Simula 67 (1967):** Helped define classes, objects, inheritance, and coroutines in the form that shaped later object-oriented languages.",
+    "**Structured programming and later language research:** Extended his concern for clarity, abstraction, and rigorous design beyond simulation."
+  ],
+  "affiliations": [
+    "**Norwegian Computing Center:** Co-developed Simula with Kristen Nygaard.",
+    "**University of Oslo:** Later academic base for programming methodology and language research."
+  ],
+  "legacy": "Dahl's legacy is visible in the inheritance line from Simula to Smalltalk, then to C++, Java, C#, and much of modern object-oriented design. Alan Kay explicitly learned from Simula while reinterpreting objects as message-passing cells in Smalltalk, and later mainstream languages adopted the class hierarchy mechanisms that Simula first made credible. Dahl also helped prove that language implementation and abstract modeling could reinforce each other instead of pulling in opposite directions.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace how Simula's class and inheritance model moved into Smalltalk, C++, and Java.'",
+    "2. 'Explain Ole-Johan Dahl's implementation role in turning simulation concepts into a general programming paradigm.'",
+    "3. 'Compare Simula's object model with Alan Kay's later message-oriented interpretation in Smalltalk.'"
+  ]
+}

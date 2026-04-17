@@ -1,0 +1,21 @@
+{
+  "title": "Alain Colmerauer: The Linguist of Logic Programming",
+  "overview": "Alain Colmerauer was the French computer scientist who created Prolog in 1972, motivated in part by natural language processing and formal language concerns. He helped show that programming could be framed as stating logical relations and letting the machine search for proofs through unification and resolution.",
+  "historical_context": "Colmerauer worked at a moment when formal linguistics, theorem proving, and programming language design were intersecting in new ways. At the University of Marseille, he was interested in natural language processing and in formalisms that could express relationships declaratively rather than procedurally. Prolog emerged from this context. Instead of writing explicit control flow to transform data step by step, the programmer states facts and rules, and computation proceeds by attempting to satisfy goals. The partnership with Robert Kowalski was crucial because Kowalski's procedural interpretation of Horn clauses helped connect the logical basis to an executable model. Prolog thus became both a language and a test case for whether logic itself could serve as programming notation.",
+  "mental_model": "To think like Alain Colmerauer is to treat a program as a theory about a domain. You describe relations, constraints, and admissible inferences. Execution is then proof search. The programmer's task shifts from scripting operations to shaping the logical space so the machine can resolve queries through unification and backtracking. This is why logic programming feels so different from imperative or object-oriented styles. The fundamental act is declaration, not command.",
+  "pivotal_works": [
+    "**Prolog (1972):** Created the foundational logic programming language at Marseille.",
+    "**Natural language processing research:** Helped motivate the need for relational and grammar-oriented computation.",
+    "**Constraint logic programming extensions:** Continued expanding logic programming beyond the first Prolog formulation."
+  ],
+  "affiliations": [
+    "**University of Marseille (Aix-Marseille):** Academic home of the original Prolog work.",
+    "**French logic and formal language research communities:** Context in which NLP and declarative computation converged."
+  ],
+  "legacy": "Colmerauer's legacy is the idea that executable logic can be a practical programming method. Prolog influenced AI, knowledge representation, expert systems, theorem proving, deductive databases, and constraint programming. Robert Kowalski's complementary work on Horn clauses and control made that vision operational, but Colmerauer supplied the decisive language creation and research direction. The language also offered a striking contrast to the object-oriented line from Simula to Smalltalk and the typed functional line from ML, proving that declarative programming could become its own major tradition.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Prolog emerged from natural language processing and formal grammar research.'",
+    "2. 'Compare Alain Colmerauer's logic-programming vision with Robert Kowalski's procedural interpretation of Horn clauses.'",
+    "3. 'Trace Prolog's influence on AI, theorem proving, and constraint programming.'"
+  ]
+}
