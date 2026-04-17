@@ -1,0 +1,22 @@
+{
+  "title": "Philip Wadler: The Type Theorist Who Made Haskell's Purity Usable",
+  "overview": "Philip Wadler is a programming language theorist and Haskell co-designer whose work repeatedly translated deep formal ideas into programming practice. He is especially known for making monads intelligible and useful in functional programming, for the phrase 'Theorems for free!', and for broader work that links parametricity, type systems, object calculi, and query languages.",
+  "historical_context": "Wadler's influence grew during the period when typed functional programming was moving from theory-rich niche into practical language design. The pure lazy setting of Haskell was conceptually attractive, but critics reasonably asked how a language without unrestricted side effects could handle I/O, state, and interaction. Building on Eugenio Moggi's categorical work, Wadler showed how monads could organize effects in a way programmers could actually use. That insight landed just as Haskell needed a disciplined operational story. In parallel, Simon Peyton Jones and the GHC effort were making the language implementable and teachable. Wadler also carried the same theory-to-practice style into later work on Java cores, XML query languages, and type-driven program reasoning.",
+  "mental_model": "To think like Philip Wadler is to treat types as a source of program law, not merely as declarations attached after the fact. Parametricity means that sufficiently general types constrain implementation so strongly that useful truths about programs fall out 'for free.' Effects can also be disciplined rather than denied. If a program performs I/O or stateful interaction, the type should reveal that structure explicitly. The language then becomes a place where reasoning and programming reinforce each other.",
+  "pivotal_works": [
+    "**Haskell design:** Co-designed the language with Simon Peyton Jones, Paul Hudak, and the wider committee that defined pure lazy functional programming.",
+    "**Monads in functional programming:** Adapted and explained Moggi's ideas so Haskell could treat effects in a principled, practical way.",
+    "**'Theorems for free!':** Popularized parametricity as a concrete tool for reasoning from types.",
+    "**Featherweight Java, XQuery, and XSLT work:** Extended his type-theoretic influence into object-oriented cores and data query languages."
+  ],
+  "affiliations": [
+    "**University of Glasgow:** Important site of his Haskell-era work.",
+    "**Bell Labs, Avaya Labs, and the University of Edinburgh:** Major research homes across programming languages and type theory."
+  ],
+  "legacy": "Wadler's legacy is the normalization of the idea that advanced type theory can improve everyday programming rather than merely describe it from afar. Haskell's practical treatment of purity owes much to his monadic framing, and his work on parametricity remains central to typed functional reasoning. Alongside Simon Peyton Jones, he helped define Haskell as both a research language and a generator of transferable ideas. Those ideas now appear across effect systems, generic programming, API design, and languages that treat type signatures as precise statements about program behavior.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Philip Wadler adapted monads from category theory into a practical model for Haskell I/O and effects.'",
+    "2. 'Analyze Theorems for free! with examples that show how parametricity yields useful guarantees from types alone.'",
+    "3. 'Compare Philip Wadler's theory-to-practice role in Haskell with Simon Peyton Jones's compiler and language-engineering role.'"
+  ]
+}

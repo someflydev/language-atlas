@@ -1,0 +1,21 @@
+{
+  "title": "Alfred Aho: The Compiler Engineer Who Made Language Translation Teachable",
+  "overview": "Alfred Aho is a computer scientist whose work spans compiler construction, string algorithms, and practical language tools. He is best known as a co-author of the Dragon Book, a co-designer of AWK with Brian Kernighan and Peter Weinberger, and a co-creator of the Aho-Corasick algorithm that became foundational in pattern matching.",
+  "historical_context": "Aho's influence grew as programming languages multiplied and the field needed systematic methods for parsing, translation, and optimization. Early compiler work had often been ingenious but ad hoc. By the 1970s and 1980s, universities and industry needed a shared conceptual toolkit for lexical analysis, parsing, syntax-directed translation, and code generation. Aho helped provide that toolkit in both algorithmic and pedagogical form. The Dragon Book turned compiler engineering into a teachable discipline, while AWK showed that formal language expertise could also produce a compact practical tool for Unix text processing. His work repeatedly linked theory about strings and trees to real software artifacts.",
+  "mental_model": "To think like Alfred Aho is to see programming language implementation as disciplined transformation over token streams, grammars, trees, and automata. Parsing is not magic. It is structured pattern recognition. Once syntax is formalized, translation can be decomposed into analyzable stages whose algorithms can be compared, optimized, and taught. This perspective makes compiler construction feel less like craft mystery and more like algorithmic engineering.",
+  "pivotal_works": [
+    "**Compilers: Principles, Techniques, and Tools:** Co-authored the Dragon Book, which became the canonical text for compiler education.",
+    "**AWK:** Co-designed with Brian Kernighan and Peter Weinberger, showing how pattern-action ideas could serve everyday Unix programming.",
+    "**Aho-Corasick algorithm:** Co-created a foundational multiple-pattern string-matching algorithm used in compilers, search, and security tooling."
+  ],
+  "affiliations": [
+    "**Bell Labs:** Site of his AWK work and broader language-tool activity.",
+    "**Columbia University:** Longtime academic home for compiler and algorithms teaching and research."
+  ],
+  "legacy": "Aho's legacy is visible in both the classroom and the toolchain. The Dragon Book trained generations of compiler engineers, AWK remains a canonical Unix language for text transformation, and the Aho-Corasick algorithm still appears wherever many patterns must be recognized efficiently. Unlike Dennis Ritchie or Bjarne Stroustrup, Aho is not primarily remembered for one dominant general-purpose language. His influence is deeper in another sense: he helped teach the profession how languages are implemented and how string and tree algorithms underpin that work.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain why the Dragon Book became so central to compiler education, and identify the mental model it gave students.'",
+    "2. 'Compare AWK's pattern-action design with other Unix tools, highlighting Alfred Aho's collaboration with Brian Kernighan and Peter Weinberger.'",
+    "3. 'Analyze how the Aho-Corasick algorithm fits the broader compiler mindset of transforming token and pattern streams.'"
+  ]
+}

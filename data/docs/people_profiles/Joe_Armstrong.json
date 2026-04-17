@@ -1,0 +1,20 @@
+{
+  "title": "Joe Armstrong: The Erlang Designer Who Turned Failure into a Programming Model",
+  "overview": "Joe Armstrong was the principal public architect of Erlang, co-created at Ericsson with Robert Virding and Mike Williams, and one of the key designers of OTP's fault-tolerant process model. He argued that reliable telecom software should assume failure, isolate components from one another, and recover through supervision rather than through heroic attempts to prevent every crash.",
+  "historical_context": "Armstrong's work emerged inside Ericsson in the 1980s, where telecom systems had requirements unlike most desktop or batch software. They had to run continuously, handle many concurrent activities, upgrade safely, and survive hardware and software faults without bringing the whole system down. Conventional shared-state techniques made that hard. Erlang approached the problem by combining functional programming with vast numbers of lightweight processes that share nothing and communicate only by message passing. Armstrong, Robert Virding, and Mike Williams turned that architecture into a practical language and runtime, then OTP made the approach operational by giving developers standard behaviors for servers, supervisors, and fault recovery trees.",
+  "mental_model": "To think like Joe Armstrong is to start from a blunt premise: failures are normal, so the system should be organized to contain and repair them. A process should do one job, hold its own state, communicate only by messages, and die without corrupting its neighbors. If it crashes, that is not the end of the story. A supervisor is responsible for noticing the failure and restarting the process or subtree. The famous 'Let It Crash' philosophy is therefore not carelessness. It is a systems design discipline built on isolation, supervision, and recovery.",
+  "pivotal_works": [
+    "**Erlang (1986 onward):** Co-created with Robert Virding and Mike Williams as a concurrent functional language for reliable telecom systems.",
+    "**OTP design:** Helped define the practical framework of behaviors and supervision trees that made Erlang deployable at scale.",
+    "**Concurrency and fault-tolerance writings:** Articulated the Let It Crash philosophy and the actor-like process model that made Erlang distinctive."
+  ],
+  "affiliations": [
+    "**Ericsson Computer Science Laboratory:** Industrial setting where Erlang and OTP were designed around telecom reliability needs."
+  ],
+  "legacy": "Armstrong's legacy extends well beyond Erlang itself. He made crash tolerance, message passing, and supervision trees feel like a coherent alternative to shared-memory reliability strategies. The Armstrong-Virding-Williams collaboration became a reference point for distributed systems engineering, and OTP remains one of the clearest examples of a language ecosystem encoding operational discipline directly into its abstractions. Erlang influenced Elixir, Akka, Orleans, and broader fault-tolerant distributed systems thinking, especially wherever uptime and graceful recovery matter more than local mutable convenience.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain the Let It Crash philosophy in Joe Armstrong's work, and distinguish it from simply ignoring errors.'",
+    "2. 'Analyze how Erlang's isolated lightweight processes differ from shared-memory concurrency in systems languages such as C++.'",
+    "3. 'Study how Joe Armstrong, Robert Virding, and Mike Williams turned telecom reliability requirements into a language and runtime design.'"
+  ]
+}

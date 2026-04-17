@@ -1,0 +1,20 @@
+{
+  "title": "Dennis Ritchie: The Systems Language Minimalist Behind C and Unix",
+  "overview": "Dennis Ritchie was the Bell Labs computer scientist who created C and, with Ken Thompson, built Unix into the most influential systems software environment in modern computing. C gave programmers a small, portable language that mapped directly onto machine realities, while Unix showed how that language could support a whole ecosystem of tools, compilers, and operating systems.",
+  "historical_context": "Ritchie's work emerged at Bell Labs in the late 1960s and early 1970s, after Multics had shown both the ambition and the complexity of large operating systems. Ken Thompson's early Unix work established a smaller operating system model, but it still needed a practical implementation language that was more expressive than assembly and more grounded than earlier high level experiments for systems work. Martin Richards's BCPL had already influenced Thompson's B, and Ritchie pushed that lineage into C by restoring types and enough low level control to write kernels, compilers, and utilities portably. The result mattered far beyond Bell Labs. Once Unix was rewritten in C, operating systems became easier to move across hardware, and C became the default language for systems programming.",
+  "mental_model": "To think like Dennis Ritchie is to assume the machine exposes a flat address space, bytes are the primitive reality, and the programmer should be trusted to manage the consequences. A language should provide arrays, pointers, control flow, and a small number of data abstractions, then stay out of the way. The ideal system is not one that prevents every mistake. It is one that keeps the path from source code to hardware behavior legible enough that skilled programmers can reason about cost, layout, and execution directly.",
+  "pivotal_works": [
+    "**C (1972 onward):** Created the language that became the dominant portable systems language and the model for later languages from C++ to Go.",
+    "**Unix at Bell Labs:** Co-created and evolved Unix with Ken Thompson, proving that an operating system written largely in C could be portable and durable.",
+    "**The C Programming Language (1978):** Co-authored with Brian Kernighan the book that taught generations of programmers how to think in C."
+  ],
+  "affiliations": [
+    "**Bell Labs:** Base for C, Unix, and the broader systems culture that shaped modern operating systems and language design."
+  ],
+  "legacy": "Ritchie's legacy is inseparable from the infrastructure of modern computing. C became the ancestor or reference point for C++, Objective-C, Java, C#, Go, Rust, and many operating system interfaces, while Unix defined a tool-oriented software culture that spread through BSD, Linux, macOS, and much of internet server infrastructure. His partnership with Ken Thompson is one of the foundational collaborations in computing history, and Brian Kernighan helped make their work legible to the wider profession through K&R. Ritchie did not sell abstraction as safety or ornament. He made a language that let programmers speak in terms close to the machine without giving up portability.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace the lineage from BCPL to B to C, and explain what Dennis Ritchie changed at each step to make C practical for systems work.'",
+    "2. 'Analyze how Unix being rewritten in C changed the economics of operating system portability and software tooling.'",
+    "3. 'Compare Dennis Ritchie's trust-the-programmer philosophy with the later zero-overhead abstraction argument in C++.'"
+  ]
+}

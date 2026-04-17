@@ -1,0 +1,21 @@
+{
+  "title": "Simon Peyton Jones: The Builder of Practical Haskell",
+  "overview": "Simon Peyton Jones is the programming language researcher most associated with turning Haskell from a committee language into a durable practical system through the Glasgow Haskell Compiler. As a principal Haskell designer alongside Philip Wadler, Paul Hudak, and others, he helped make lazy evaluation, type classes, and monadic I/O usable in real software rather than only in theory papers.",
+  "historical_context": "Peyton Jones worked in the late 1980s and 1990s, when typed functional programming had deep theoretical momentum but uneven practical uptake. ML had already shown that functional languages with strong static typing could be viable, yet lazy evaluation and purity still seemed difficult to scale into full programming environments. Haskell began as a committee effort to unify non-strict functional language research. That gave it intellectual range but also implementation pressure. Peyton Jones helped solve that pressure through GHC, which became the serious optimizing compiler and research vehicle that let Haskell evolve without remaining merely aspirational. In parallel, Philip Wadler and others clarified how monads could structure I/O and effects within a pure language, making Haskell's type discipline much more practical.",
+  "mental_model": "To think like Simon Peyton Jones is to assume that purity should be the default and that side effects must be visible in the type structure rather than hidden in execution order. Computation can remain compositional if impure interactions are tracked explicitly. Laziness then becomes a semantic tool that lets programmers define pipelines, infinite structures, and modular control flow without immediate evaluation pressure. The challenge is not just to prove those ideas elegant. It is to engineer a compiler and runtime that make them practical enough to matter.",
+  "pivotal_works": [
+    "**Haskell design (from 1987):** Principal contributor to the language that became the flagship of pure lazy functional programming.",
+    "**Glasgow Haskell Compiler (GHC):** Led the compiler effort that made Haskell a real platform for research, teaching, and production work.",
+    "**Work on lazy implementation, type classes, and monadic I/O:** Helped connect advanced type theory and effect management to everyday Haskell programming."
+  ],
+  "affiliations": [
+    "**University of Glasgow:** Home of GHC and much of Peyton Jones's Haskell implementation work.",
+    "**Microsoft Research Cambridge:** Later base for major language research and Haskell advocacy."
+  ],
+  "legacy": "Peyton Jones's legacy is that Haskell became a living language rather than a frozen manifesto. GHC gave the language a center of gravity, while his research made advanced ideas such as laziness, type classes, and controlled effects concrete enough for generations of programmers to explore. His work sits in productive tension with Philip Wadler's more explicitly theory-to-practice contributions: together they helped make Haskell the modern reference point for pure functional programming. The language's influence reaches into Rust traits, Scala type classes, effect systems, streaming architectures, and the general expectation that strong types can guide design rather than merely reject mistakes.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how GHC changed Haskell from a committee language into a practical research and production platform.'",
+    "2. 'Compare Simon Peyton Jones's implementation-centered role in Haskell with Philip Wadler's role in making monads and type theory usable.'",
+    "3. 'Analyze how laziness, purity, and monadic I/O fit together in Peyton Jones's mental model of Haskell programming.'"
+  ]
+}

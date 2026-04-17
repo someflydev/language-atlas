@@ -1,0 +1,21 @@
+{
+  "title": "Kenneth E. Iverson: The Notation Radical Who Made Arrays Executable",
+  "overview": "Kenneth E. Iverson created APL and later J, arguing that a mathematical notation should not only describe algorithms but serve directly as an executable language. His work put arrays at the center of computation and treated operators as transformations that lift naturally over whole collections.",
+  "historical_context": "Iverson's work began before most programming languages had settled on text-friendly syntax or mainstream expectations about readability. In the early 1960s, scientific and mathematical computing still lacked expressive notations for whole-array operations, and much programming described low-level loops more readily than high-level structure. APL responded with a dense symbolic vocabulary that let users express vector and matrix transformations with exceptional brevity. That density was polarizing, but it was also the point. Iverson believed notation shapes thought, and his 1979 Turing Award lecture 'Notation as a Tool of Thought' made the argument explicit. Later, with Roger Hui, J preserved the array and operator ideas while moving away from APL's special symbol set.",
+  "mental_model": "To think like Kenneth E. Iverson is to see arrays as the natural substance of computation and notation as an active instrument of reasoning. A good language should let operations apply across whole collections without forcing the programmer to spell out every elementwise loop. Concision is not a vice if it reveals mathematical structure. In this view, the notation is part of the algorithm, because the form of the expression determines what patterns the mind can hold at once.",
+  "pivotal_works": [
+    "**APL (1962):** Created the array language that made concise whole-array programming a first-class style.",
+    "**'Notation as a Tool of Thought' (1979):** Presented his clearest statement that expressive notation improves reasoning itself.",
+    "**J (1990):** Co-created a successor language that retained the array calculus while using ASCII notation."
+  ],
+  "affiliations": [
+    "**IBM:** Institutional base for much of APL's development and dissemination.",
+    "**I. P. Sharp Associates and J Software:** Later homes for evolving the array-language tradition."
+  ],
+  "legacy": "Iverson's legacy runs through array programming, data analysis, and the continuing argument that syntax influences thought quality. APL directly inspired J and, more broadly, later array-oriented systems in numerical computing and analytics. Even languages that reject APL's notation often borrow its core insight that whole-array operations are a better abstraction than hand-written loops. His work sits somewhat apart from the C, Unix, and Haskell lines, but it speaks to the same deeper issue: the best languages are not only mechanisms for execution, they are conceptual lenses.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain Kenneth E. Iverson's claim that notation is a tool of thought, using APL or J examples to show the argument concretely.'",
+    "2. 'Compare Iverson's array-centric model with loop-centric systems languages such as C and with modern numerical tools such as NumPy.'",
+    "3. 'Trace the design lineage from APL to J, and explain what changed when the notation moved into ASCII.'"
+  ]
+}

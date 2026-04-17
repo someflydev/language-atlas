@@ -1,0 +1,21 @@
+{
+  "title": "Bjarne Stroustrup: The Designer of Zero-Overhead Abstraction in C++",
+  "overview": "Bjarne Stroustrup created C++, originally called C with Classes, at Bell Labs by combining the efficiency of C with ideas about user-defined types and abstraction drawn from Simula and, more indirectly, the object-oriented climate shaped by Alan Kay's Smalltalk. His core claim was practical and durable: abstraction is worth having only if it does not impose unavoidable runtime cost.",
+  "historical_context": "Stroustrup worked in the late 1970s and early 1980s, when systems programmers needed better ways to manage growing software complexity without surrendering machine control. C was already the language of Unix and of serious systems work, but it offered little built-in help for large program structure. Simula had shown how classes and inheritance could model complex systems, while Alan Kay's Smalltalk environment pushed object-oriented ideas toward message passing and a highly dynamic runtime. Stroustrup wanted some of that expressive power, but not the runtime model or cost structure. At Bell Labs he extended C so that classes, constructors, operator overloading, templates, and later generic programming could serve systems programmers who still cared about layout, determinism, and interoperability with existing C code.",
+  "mental_model": "To think like Bjarne Stroustrup is to treat abstraction as a tool for better engineering, not as permission to hide performance reality. User-defined types should let programmers model concepts directly, but the generated code should be as efficient as hand-written lower-level alternatives whenever possible. If you do not use a feature, you should not pay for it. If you do use it, the cost should be visible and justifiable. C++ therefore aims to let high-level structure and low-level efficiency occupy the same language rather than forcing a choice between them.",
+  "pivotal_works": [
+    "**C with Classes to C++ (1979-1983):** Introduced class-based abstraction into the C lineage without abandoning systems-level control.",
+    "**The C++ Programming Language:** Documented the evolving language and articulated the zero-overhead design argument.",
+    "**Generic programming and templates:** Extended C++ beyond object orientation into a broader abstraction toolkit that still targeted efficient code."
+  ],
+  "affiliations": [
+    "**Bell Labs:** Institutional setting where C++ was created in direct conversation with the Unix and C tradition.",
+    "**Texas A&M University and Columbia University:** Later academic homes associated with C++ advocacy and language evolution."
+  ],
+  "legacy": "Stroustrup's legacy is the normalization of high-level abstraction in performance-critical software. C++ became central in operating systems components, game engines, finance, graphics, browsers, and infrastructure where C alone was too spartan but higher-level runtimes were often too costly or opaque. Its design kept C as a substrate while adapting lessons from Simula and reacting selectively against the more dynamic world represented by Alan Kay's Smalltalk. The resulting language is complicated, but its central bargain has shaped later work on zero-cost abstractions, generic programming, and systems languages such as Rust.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Compare Simula's class model, Smalltalk's object world, and Bjarne Stroustrup's C++ design to show what C++ borrowed and what it rejected.'",
+    "2. 'Explain the zero-overhead principle with concrete C++ examples such as templates, RAII, and user-defined types.'",
+    "3. 'Trace how C++ extends the C lineage from Dennis Ritchie while changing the abstraction story for large systems.'"
+  ]
+}

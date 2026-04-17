@@ -1,0 +1,20 @@
+{
+  "title": "Martin Richards: The Portable Systems Language Pioneer Behind BCPL",
+  "overview": "Martin Richards created BCPL in 1967 at Cambridge and, with it, established one of the key ideas behind modern systems programming: portable software written in a small language and retargeted across machines. BCPL directly influenced Ken Thompson's B and, through B, Dennis Ritchie's C.",
+  "historical_context": "Richards worked when systems software was still heavily entangled with particular machines. Compilers and operating systems were often rewritten for each architecture, and language design for low-level work had not yet settled on a practical portability story. BCPL answered that problem with unusual economy. It was typeless in the modern sense, centered on words, scalars, and pointers, and designed to compile through an intermediate OCODE representation that could be adapted to different hardware back ends. That made it attractive for systems work in universities and research settings. Thompson's B carried BCPL's stripped-down style into Bell Labs, and C later restored explicit types and a more disciplined data model without abandoning the low-level directness that BCPL had normalized.",
+  "mental_model": "To think like Martin Richards is to assume a systems language should offer only the minimum primitives needed to express storage, control flow, and access to machine words. Structure beyond that can be convention rather than built-in policy. Portability does not require heavy abstraction. It requires a thin language core and a compiler path that can retarget code from one machine to another with as little conceptual overhead as possible.",
+  "pivotal_works": [
+    "**BCPL (1967):** Created the language that became the direct ancestor of B and C in the systems-language lineage.",
+    "**OCODE portability strategy:** Helped establish the idea that systems software could be retargeted by compiling through an intermediate representation.",
+    "**Portable systems programming research at Cambridge:** Demonstrated that compact language design could travel across architectures."
+  ],
+  "affiliations": [
+    "**University of Cambridge:** Primary institutional home of BCPL and Richards's work on portable systems software."
+  ],
+  "legacy": "Richards is one of the most important upstream figures in systems language history. BCPL itself is less widely used today than its descendants, but its influence on B and C is foundational, and with that lineage it shaped Unix, C++, and much of later infrastructure software. His work also anticipated recurring arguments in compiler design about intermediate representations and portability layers. Richards showed that portability could come from a disciplined compiler pipeline as much as from rich language features.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace how BCPL's design moved into B and then into C, identifying what was preserved and what was added at each stage.'",
+    "2. 'Explain how BCPL's OCODE approach prefigured later ideas about intermediate representations and portable systems software.'",
+    "3. 'Compare Martin Richards's minimal systems language philosophy with Dennis Ritchie's typed refinement in C.'"
+  ]
+}

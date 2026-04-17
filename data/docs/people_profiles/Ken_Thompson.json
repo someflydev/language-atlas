@@ -1,0 +1,22 @@
+{
+  "title": "Ken Thompson: The Systems Builder Who Kept Computing Small Enough to Understand",
+  "overview": "Ken Thompson is the systems programmer most closely associated with the original Unix, the language B, major work that fed into C, Plan 9, UTF-8, and later the Go language with Rob Pike and Robert Griesemer. His style favors radical simplicity: a system should be small enough that one person can understand its core behavior completely.",
+  "historical_context": "Thompson emerged from Bell Labs during the collapse of the Multics collaboration, when large systems ambitions had started to look unwieldy. Instead of doubling down on complexity, he and Dennis Ritchie built Unix as a compact operating system with a small kernel and sharp tool boundaries. Thompson first created B as a lightweight descendant of Martin Richards's BCPL, then worked with Ritchie as C replaced B for more serious typed systems programming. That same instinct for economy appeared later in Plan 9, where Bell Labs revisited operating system design around clean interfaces, and in UTF-8, which solved Unicode encoding with unusual elegance. Across decades, Thompson repeatedly chose mechanisms that were easier to hold in one mind than feature-rich alternatives.",
+  "mental_model": "To think like Ken Thompson is to assume that every unnecessary feature becomes a maintenance burden and a source of conceptual fog. A kernel should be compact. Interfaces should be simple enough to memorize. Text streams and small tools compose better than monoliths. When a system is comprehensible, it can be trusted, repaired, and extended. When it grows beyond understanding, quality decays no matter how sophisticated the architecture looks on paper.",
+  "pivotal_works": [
+    "**Unix (1969 onward):** Co-created the operating system with Dennis Ritchie and defined the small-tools, file-oriented systems tradition.",
+    "**B and the prehistory of C:** Built the immediate predecessor language that led toward C's design at Bell Labs.",
+    "**Plan 9 and UTF-8:** Helped redesign core system ideas and created an encoding scheme that made Unicode practical on existing systems.",
+    "**Go (2007 onward):** Co-created with Rob Pike and Robert Griesemer, carrying forward the Bell Labs preference for simple systems software."
+  ],
+  "affiliations": [
+    "**Bell Labs:** Home of Unix, B, Plan 9, and much of Thompson's foundational systems work.",
+    "**Google:** Later site of Go's development and another chapter in his systems influence."
+  ],
+  "legacy": "Thompson's legacy runs through operating systems, languages, encodings, and software engineering taste. Unix remains the ambient architecture of modern infrastructure, C inherited part of its early language lineage from B, Plan 9 shaped later thinking about namespaces and distributed system boundaries, and UTF-8 became the default text encoding of the web. His collaboration with Dennis Ritchie defined Bell Labs systems culture, and the pair shared the 1983 Turing Award for that achievement. If Ritchie gave systems programming its dominant language, Thompson helped define the standard for how systems themselves should feel: spare, legible, and built from parts that compose cleanly.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Ken Thompson's reaction against Multics shaped Unix's small-kernel and small-tools philosophy.'",
+    "2. 'Trace the lineage from BCPL to B to C, emphasizing Thompson's role in the transition before Dennis Ritchie stabilized C.'",
+    "3. 'Compare Thompson's simplicity-first systems style across Unix, Plan 9, UTF-8, and Go.'"
+  ]
+}

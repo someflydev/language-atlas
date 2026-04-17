@@ -1,0 +1,23 @@
+{
+  "title": "Luca Cardelli: The Type System Designer Who Framed Programs as Logic",
+  "overview": "Luca Cardelli is a programming language theorist and designer whose work spans early ML implementations, polymorphic lambda calculus, module systems, and Modula-3. Across Bell Labs, DEC SRC, and Microsoft Research, he helped shape the modern understanding that type systems are not decoration but the logical structure that separates valid programs from invalid ones.",
+  "historical_context": "Cardelli worked during the period when language design was absorbing deeper formal tools from lambda calculus and type theory. Languages such as ML and Modula-2 had already shown that strong static typing could be practical, but the field was still clarifying how polymorphism, modules, and safe systems programming should fit together. Cardelli's work on System F, later module calculi such as F-ing Modules, and the Modula-3 design effort all sit at that boundary between theory and engineering. Modula-3 in particular tried to preserve much of the systems utility of Modula-2 while improving safety, abstraction, and concurrent programming support. Cardelli helped give these debates a crisp mathematical language.",
+  "mental_model": "To think like Luca Cardelli is to ask whether the structure of a program's types faithfully captures the structure of its permissible behavior. A good type system should reject bad compositions without making good ones awkward. Polymorphism, abstraction, and modules are therefore not optional conveniences. They are ways to state generality and boundaries precisely. Programming languages improve when their type discipline says more about what a program means and less about incidental syntax.",
+  "pivotal_works": [
+    "**System F and polymorphic type theory work:** Helped define the formal foundations of parametric polymorphism and typed abstraction.",
+    "**Modula-3:** Contributed to a language that balanced systems programming needs with stronger safety and modularity.",
+    "**F-ing Modules and related module theory:** Clarified how large-scale abstraction mechanisms could be given precise type-theoretic meaning.",
+    "**Early ML and typed language implementation research:** Bridged foundational type ideas into practical language systems."
+  ],
+  "affiliations": [
+    "**Bell Labs:** Early site of major programming language theory work.",
+    "**DEC Systems Research Center:** Home of Modula-3 and systems-oriented language design.",
+    "**Microsoft Research:** Later base for influential work on types, calculi, and programming models."
+  ],
+  "legacy": "Cardelli's legacy is visible less in a single mass-market language than in the intellectual grammar of modern type systems. He helped make polymorphism, module structure, and type safety feel like connected parts of one design problem. Modula-3 influenced later safe systems languages, while his formal work shaped how researchers and implementers talk about genericity, abstraction boundaries, and typed calculi. He stands in the same broad tradition as Robin Milner and Philip Wadler, but with a distinctive focus on types as the logic that keeps large software honest.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain Luca Cardelli's role in connecting System F style polymorphism to practical language design and implementation.'",
+    "2. 'Compare Modula-3's safety and module story with C++, ML, and other languages from the same era.'",
+    "3. 'Analyze how Cardelli's view of type systems complements the work of Robin Milner, Philip Wadler, and other typed functional language designers.'"
+  ]
+}
