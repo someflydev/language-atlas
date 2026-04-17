@@ -1,0 +1,22 @@
+{
+  "title": "Brendan Eich: The Designer Who Put a Dynamic Language Inside the Browser",
+  "overview": "Brendan Eich created JavaScript at Netscape in May 1995 in an extraordinarily compressed design window. The result was a language built under marketing pressure to look adjacent to Java while carrying important ideas from Scheme and Self, especially first-class functions and prototype-based object sharing.",
+  "historical_context": "Eich's work arrived during the first browser wars, when Netscape wanted the web page itself to become a programmable medium. Java was being marketed aggressively as the serious language of the internet, but the browser also needed a lightweight language embedded directly into documents. Eich produced that language in roughly ten days. Its surface syntax leaned toward C and Java for business reasons, but under the surface it reflected Scheme's functional inheritance and Self's prototype model more than Java's class system. That compromise shaped the modern web, because the browser became not just a document viewer but an application platform.",
+  "mental_model": "To think like Brendan Eich's original JavaScript design is to assume that behavior lives in the page and that the browser is the platform. Functions should be first-class values because web interfaces are event-driven and compositional. Objects do not need a rigid class taxonomy if prototype chains can express reuse more fluidly. The design is therefore not a miniature Java. It is a dynamic language wearing familiar syntax so that the web could become programmable quickly.",
+  "pivotal_works": [
+    "**JavaScript (1995):** The language that made client-side web behavior universal.",
+    "**Mozilla co-founding work:** Helped turn browser scripting into a broader open-web platform effort after Netscape.",
+    "**Brave:** Later browser work that reflects Eich's long-running concern with web-platform governance and user agency."
+  ],
+  "affiliations": [
+    "**Netscape:** Where JavaScript was created under browser-war urgency.",
+    "**Mozilla:** Organizational setting for Eich's later open-web leadership.",
+    "**Brave Software:** Later company associated with Eich's browser and web-policy work."
+  ],
+  "legacy": "Eich's legacy is that the web's universal application runtime is built around a language that was never meant to be a clone of Java, despite the branding pressure. JavaScript absorbed ideas from Scheme, Self, and the browser DOM into one awkward but world-defining platform language. Every modern frontend stack, and increasingly backend development through Node.js, inherits that decision.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Compare the Scheme, Self, and Java influences inside Brendan Eich's original JavaScript design.'",
+    "2. 'Explain why browser embedding mattered more than formal elegance in JavaScript's early success.'",
+    "3. 'Trace how the browser became a full application platform once JavaScript made page behavior programmable.'"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Anders Hejlsberg: The Pragmatist Behind Four Language Generations",
+  "overview": "Anders Hejlsberg is one of the rare designers who led major successful languages across multiple eras and companies: Turbo Pascal, Delphi, C#, and TypeScript. His career shows a consistent pattern of treating language design as toolmaking, where compilation speed, developer ergonomics, type systems, and deployment constraints are balanced against the practical needs of the moment.",
+  "historical_context": "Hejlsberg first became prominent through Turbo Pascal in the 1980s, when fast compilation and accessible tooling mattered to personal-computer software development. At Borland he then extended that line into Delphi, which paired Pascal's clarity with rapid application development for GUI software. At Microsoft he became central to C#, a managed language shaped partly in response to Java and the .NET runtime's safety and tooling ambitions. He later led TypeScript, which treated JavaScript not as something to replace but as the platform to scale through optional static types and tooling. Across all four cases, the design problem changed, but the method stayed pragmatic.",
+  "mental_model": "To think like Anders Hejlsberg is to treat a programming language as a precision tool rather than as an ideological manifesto. Turbo Pascal optimized fast feedback. Delphi optimized productive component-based application building at Borland. C# optimized type safety and modern tooling in a managed runtime while answering Java's rise. TypeScript optimized large-scale JavaScript development without abandoning the JavaScript ecosystem. Static typing and performance are therefore not enemies in this worldview. They are design levers that should serve the task developers actually face.",
+  "pivotal_works": [
+    "**Turbo Pascal:** A breakthrough in fast compilation and approachable compiled-language tooling for the personal-computer era.",
+    "**Delphi:** Borland's visual rapid-application-development environment built on a Pascal lineage.",
+    "**C#:** Microsoft's managed language that competed directly with Java inside the .NET ecosystem.",
+    "**TypeScript:** A typed layer over JavaScript that made large application development and refactoring more tractable."
+  ],
+  "affiliations": [
+    "**Borland:** The company context for Turbo Pascal and Delphi.",
+    "**Microsoft:** The company context for C# and TypeScript."
+  ],
+  "legacy": "Hejlsberg's legacy is that practical language evolution can win repeatedly if it meets developers where they already are. Turbo Pascal shaped compiler expectations, Delphi influenced rapid tooling culture, C# became one of the defining managed languages after Java, and TypeScript changed how the JavaScript world thinks about scale. Few designers have moved so effectively from native tooling to managed runtimes to the web platform.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Compare how Anders Hejlsberg solved different problems in Turbo Pascal, Delphi, C#, and TypeScript.'",
+    "2. 'Explain how C# answered Java's enterprise strengths while fitting Microsoft's .NET runtime model.'",
+    "3. 'Trace how TypeScript extends JavaScript rather than replacing it, and why that mattered for adoption.'"
+  ]
+}
