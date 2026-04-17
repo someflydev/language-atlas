@@ -94,6 +94,27 @@ def canonicalize(name: Optional[str]) -> str:
     }
     return replacements.get(name, name)
 
+LANGUAGE_PROFILE_ALIASES = {
+    "bourne_shell": {
+        "bourne_shell",
+        "shell",
+        "sh",
+        "sh_bourne_shell",
+        "sh_(bourne_shell)"
+    },
+    "python": {
+        "python",
+        "python_current_state",
+        "python_(current_state)"
+    },
+    "javascript": {
+        "javascript",
+        "javascript_node.js_2009",
+        "javascript_(node.js_2009)",
+        "javascript_(node.js_-_2009)"
+    }
+}
+
 def canonicalize_event(name: Optional[str]) -> str:
     if not name:
         return ""
@@ -226,7 +247,11 @@ def audit() -> None:
                 if cat == "historical_events":
                     existing_profiles[cat].update(event_profile_canons(f))
                 else:
-                    existing_profiles[cat].add(canonicalize(f.stem))
+                    canon = canonicalize(f.stem)
+                    existing_profiles[cat].add(canon)
+                    if cat == "languages":
+                        for alias in LANGUAGE_PROFILE_ALIASES.get(canon, set()):
+                            existing_profiles[cat].add(alias)
 
     referenced_languages: Dict[str, str] = {}
     referenced_entities: Dict[str, str] = {}
