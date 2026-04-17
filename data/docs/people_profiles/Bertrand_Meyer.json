@@ -1,0 +1,21 @@
+{
+  "title": "Bertrand Meyer: The Language Designer Who Treated Correctness as a Construction Principle",
+  "overview": "Bertrand Meyer created Eiffel and introduced Design by Contract as a first-class language discipline built around preconditions, postconditions, and invariants. Across both language design and software engineering writing, especially in 'Object-Oriented Software Construction,' Meyer argued that correctness should be expressed directly in the structure of programs rather than treated as an afterthought discovered only by testing.",
+  "historical_context": "Eiffel emerged in the 1980s during the consolidation of object-oriented programming, when languages and methodologies were still sorting out what disciplined software construction should look like. Many systems emphasized classes and reuse, but fewer provided a direct language mechanism for stating what routines required and guaranteed. Meyer's response was to make those obligations explicit. Design by Contract turned software components into parties with formally described responsibilities. That idea outlived Eiffel itself. Even as other ecosystems became more commercially dominant, Meyer's formulation influenced later thinking around assertions, API contracts, generics, and correctness-oriented language design in Java, .NET, Kotlin, and beyond.",
+  "mental_model": "To think like Bertrand Meyer is to treat software as a set of promises that can be stated precisely. A routine should declare what must already be true when it is called, what it guarantees when it returns, and what invariants its surrounding object must always preserve. Correctness is not a vague aspiration outside the code. It should be written into the code's interface and structure. Programs become more reliable when obligations are explicit and machine-checkable.",
+  "pivotal_works": [
+    "**Eiffel:** Created a language centered on disciplined object-oriented design and explicit correctness contracts.",
+    "**Design by Contract:** Introduced preconditions, postconditions, and invariants as a coherent software-construction methodology.",
+    "**'Object-Oriented Software Construction':** Wrote one of the foundational texts in object-oriented design and software engineering."
+  ],
+  "affiliations": [
+    "**Eiffel Software:** Major organizational home for Eiffel and Meyer's broader software-methodology work.",
+    "**Academic software engineering community:** Long-running context for Meyer's influence on object-oriented method and correctness discourse."
+  ],
+  "legacy": "Meyer's legacy is that he reframed software engineering around explicit obligations. Design by Contract remains one of the clearest formulations of correctness by construction, and Eiffel gave that philosophy a concrete language embodiment. Even where developers have never used Eiffel, they often work inside conceptual territory Meyer helped define: interfaces as promises, invariants as design commitments, and correctness as something to build in from the start rather than retrofit later.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain Bertrand Meyer's Design by Contract model using preconditions, postconditions, and invariants.'",
+    "2. 'Compare Eiffel's correctness philosophy with testing-centered and type-centered approaches to software reliability.'",
+    "3. 'Analyze how Meyer's ideas influenced later contract systems, API design, and mainstream object-oriented languages.'"
+  ]
+}
