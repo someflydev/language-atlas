@@ -94,6 +94,27 @@ def canonicalize(name: Optional[str]) -> str:
     }
     return replacements.get(name, name)
 
+def canonicalize_event(name: Optional[str]) -> str:
+    if not name:
+        return ""
+    name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
+    name = name.strip()
+    name = re.sub(r'^\d{4}\s+', '', name)
+    name = re.sub(r'\((?:\d{4}\s+)?([^()]*)\)$', r'\1', name).strip()
+    name = re.sub(r'^The\s+', '', name, flags=re.I)
+    name = name.lower().replace("-", "_").replace(" ", "_")
+    name = re.sub(r'[^a-z0-9_]', '', name)
+    name = re.sub(r'_+', '_', name).strip('_')
+    event_aliases = {
+        "garmisch_conference_on_software_engineering": "garmisch_conference",
+        "birth_of_software_engineering": "garmisch_conference",
+        "birth_of_software_engineering_garmisch_conference": "garmisch_conference",
+        "macro_expansion_debugging_crisis": "macro_debugging_crisis",
+        "rome_conference": "rome_conference",
+        "software_crisis": "software_crisis",
+    }
+    return event_aliases.get(name, name)
+
 def strip_years(name: str) -> str:
     """Utility to aggressively strip years and metadata from strings."""
     if not name: return ""
@@ -164,6 +185,19 @@ def is_historical_event(name: str) -> bool:
     event_keywords = ["Conference", "War", "Revolution", "Crisis", "Birth", "Founding", "Agreement", "Treaty"]
     return any(k in name for k in event_keywords)
 
+def event_profile_canons(file_path: Path) -> Set[str]:
+    canons: Set[str] = {canonicalize_event(file_path.stem)}
+    try:
+        with open(file_path, "r") as fh:
+            data = json.load(fh)
+        for key in ["slug", "title"]:
+            value = data.get(key)
+            if isinstance(value, str) and value.strip():
+                canons.add(canonicalize_event(value))
+    except Exception:
+        pass
+    return {canon for canon in canons if canon}
+
 def audit() -> None:
     meta_concepts = {
         "The Pedagogical Engine", "Zenith State", "Guided Odyssey", "Influence Graph", 
@@ -188,7 +222,11 @@ def audit() -> None:
     existing_profiles: Dict[str, Set[str]] = {cat: set() for cat in profiles_dirs}
     for cat, p_dir in profiles_dirs.items():
         if p_dir.exists():
-            for f in p_dir.glob("*.json"): existing_profiles[cat].add(canonicalize(f.stem))
+            for f in p_dir.glob("*.json"):
+                if cat == "historical_events":
+                    existing_profiles[cat].update(event_profile_canons(f))
+                else:
+                    existing_profiles[cat].add(canonicalize(f.stem))
 
     referenced_languages: Dict[str, str] = {}
     referenced_entities: Dict[str, str] = {}
@@ -235,13 +273,15 @@ def audit() -> None:
                 if n: n = n[0].upper() + n[1:]
             if len(n) > 60 or len(n.split()) > 10: continue
             if re.search(r'^\d{4}\s+Surge', n) or re.match(r'^\d{4}$', n): continue
-            canon = canonicalize(n)
-            if not canon or canon in meta_canons: continue
             current_target = target_map
             if current_target is None:
                 if is_historical_event(n): current_target = referenced_historical_events
                 elif is_organization(n): current_target = referenced_organizations
                 else: current_target = referenced_entities
+            canon = canonicalize_event(n) if current_target is referenced_historical_events else canonicalize(n)
+            if current_target is referenced_historical_events:
+                canon = canonicalize_event(n)
+            if not canon or canon in meta_canons: continue
             if current_target is referenced_entities and n.lower() in known_people:
                 if canon in existing_profiles["people"]: return
             version_match = re.match(r'^([a-z_]+)_(\d{2,4})$', canon)
