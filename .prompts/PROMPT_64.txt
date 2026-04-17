@@ -1,0 +1,203 @@
+# PROMPT_64: Missing Language Profiles — Web, Shell & Infrastructure Languages
+
+## Objective
+
+Create language profiles for the web, shell, and infrastructure languages
+in `dark_matter_todo.json` that have real significance to the programming
+language ecosystem. These are often dismissed as "not real languages" but
+CSS, HTML, GraphQL, WebAssembly, and shell languages have profound design
+histories worth documenting. Also add supplementary profiles for modern
+surge-era aspects of established languages (Node.js as a JavaScript runtime
+context; TypeScript's emergence; Python's current-state narrative).
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Read one existing language profile for style reference.
+5. Read `generated-reports/dark_matter_todo.json` — confirm current
+   `missing_language_profiles` list.
+6. Create `tmp/PROMPT_64_checklist.md` with a checkbox per profile.
+7. Check off each item immediately after completing it.
+
+## Important Scoping Decision
+
+Several items in `missing_language_profiles` are aspects or eras of languages
+that already have profiles (e.g., "JavaScript (Node.js - 2009)",
+"TypeScript (2012/2015 Surge)", "Python (Current State)"). Do not create
+separate language records in `languages.json` for these. Instead, create
+supplementary profiles that will render if a matching languages.json entry
+already exists, or note they're supplementary context if not.
+
+The files below follow this naming convention:
+- `JavaScript_Node.json` — Node.js era of JavaScript
+- `TypeScript_Surge.json` — TypeScript's mainstream adoption arc
+- `Python_Modern.json` — Python 3.x/AI/ML era
+
+These won't link automatically unless `languages.json` has matching entries.
+Check what's in `languages.json` first and adapt filenames accordingly.
+
+## Languages to Profile
+
+### Shell Languages
+
+1. **Shell / sh / Bash** — single profile covering the family:
+   `data/docs/language_profiles/Shell.json`
+
+   - Ken Thompson's original sh (1971, Unix v1); Bourne shell (1979, Steve
+     Bourne); bash (Brian Fox, 1989, GNU Project)
+   - The universal glue language: almost every Unix system runs shell scripts
+   - Design: text streams as the universal data type; pipes compose programs
+   - Mental model: everything is a file; programs are filters; the pipeline
+     IS the program
+   - Tradeoffs: whitespace-sensitive in surprising ways; quoting rules are
+     arcane; no data types; performance is process-spawning overhead
+   - Legacy: bash is the default shell on Linux and macOS; every Makefile,
+     CI/CD pipeline, and deployment script uses it
+
+2. **Zsh** (`data/docs/language_profiles/Zsh.json`)
+   - Paul Falstad, 1990 (Princeton); became macOS default shell in 2019
+   - Extended bash: better tab completion, globbing, spelling correction,
+     themes (Oh My Zsh ecosystem)
+   - Note: profile can be shorter since it is a derivative of sh/bash;
+     focus on what zsh added and why Apple's choice matters
+
+### Markup / Data Languages
+
+3. **HTML** (`data/docs/language_profiles/HTML.json`)
+   - Tim Berners-Lee, 1991 (at CERN); formalized by W3C and WHATWG
+   - Not Turing-complete; a declarative document structure language
+   - Frame the design history: early HTML was minimal; the Browser Wars
+     drove proprietary extensions; HTML5 standardized semantic elements
+   - Mental model: a document is a tree of nested elements; the browser
+     renders the tree; CSS and JS are layered on top
+   - Legacy: HTML is the most deployed "language" in history; every web
+     page is HTML; its evolution drove CSS, JavaScript, and XML
+
+4. **CSS** (`data/docs/language_profiles/CSS.json`)
+   - Hakon Wium Lie (CERN/W3C) and Bert Bos, 1996
+   - Separates presentation from structure (HTML); cascade + specificity
+     as the core resolution algorithm; box model
+   - The "cascade" and "specificity" are CSS's novel contributions to
+     language design: a priority system for conflicting rules
+   - Mental model: every element is a box; cascade resolves conflicts by
+     specificity and source order; the layout engine computes the visual tree
+   - Modern evolution: Flexbox (2012), Grid (2017) transformed CSS from
+     a layout hack-fest into a capable layout language
+
+5. **XML** (`data/docs/language_profiles/XML.json`)
+   - W3C, 1998 (Tim Bray, Jean Paoli, C. M. Sperberg-McQueen)
+   - Simplification of SGML for the web; universal document/data format
+   - Spawned: XPath, XSLT, XQuery, XML Schema, SOAP, SVG, RSS, Atom
+   - Tradeoffs: verbose; namespace confusion; the "angle bracket tax"
+   - Legacy: preceded JSON as the web's data interchange format; still
+     dominant in enterprise (Maven, Spring, Android layouts); SVG and XSLT
+     are XML languages still in active use
+
+### API Languages
+
+6. **GraphQL** (`data/docs/language_profiles/GraphQL.json`)
+   - Facebook, 2012 (internal); open-sourced 2015; Lee Byron lead designer
+   - A query language for APIs: clients declare exactly what data they need;
+     server responds with exactly that structure; no over-fetching
+   - Mental model: describe the shape of the data you want as a typed graph
+     query; mutations are explicitly named; the schema is the contract
+   - Key innovation: introspection (the API describes itself); type system
+     that generates documentation automatically
+   - Tradeoffs: N+1 query problem; caching harder than REST; schema design
+     is non-trivial
+   - Legacy: adopted by GitHub, Twitter, Shopify, Airbnb; influenced API
+     design thinking; enables flexible client-driven data access
+
+### Binary / Compilation Target Languages
+
+7. **WebAssembly / WASM** (`data/docs/language_profiles/WebAssembly.json`)
+   - W3C working group (Apple, Google, Microsoft, Mozilla), 2017-2019
+   - A binary instruction format for a stack-based virtual machine;
+     designed as a compilation target for C, C++, Rust, Go, etc.
+   - Mental model: WASM is a portable, sandboxed ISA; programs compile
+     to it like targeting ARM or x86; the browser (or any WASM runtime)
+     executes it near-native speed
+   - Key innovations: sandboxed execution by design; language-agnostic
+     (any language that compiles to WASM runs in the browser);
+     linear memory model; structured control flow (no arbitrary jumps)
+   - Extends beyond browsers: WASI (WebAssembly System Interface) makes
+     WASM a universal portable binary format (Docker comparison is apt)
+   - Legacy: enables Figma (C++ in browser), SQLite in browser (via sql.js),
+     Python/Ruby in browser (via Emscripten/Wasm); Cloudflare Workers
+
+### Modern Language Era Supplements
+
+8. **JavaScript (Node.js Era)** — check if a `Node.json` or
+   `JavaScript_Node.json` entry exists in `languages.json`; if not,
+   create `data/docs/language_profiles/JavaScript_NodeJS.json` as a
+   supplementary profile:
+   - Ryan Dahl, 2009; V8 engine + libuv event loop
+   - Took JavaScript from browser-only to server-side; npm ecosystem
+   - Event-loop concurrency model: non-blocking I/O via callbacks,
+     then Promises, then async/await
+   - Impact: made JavaScript the first language used for both client AND
+     server; enabled full-stack JavaScript (MEAN/MERN stacks)
+
+9. **TypeScript (Mainstream Era)** — check `languages.json` for TypeScript;
+   if TypeScript already has a profile, SKIP this. If not:
+   `data/docs/language_profiles/TypeScript_Modern.json`
+   - Anders Hejlsberg / Microsoft, 2012; became mainstream 2015-2018
+   - Gradual typing retrofitted onto JavaScript: structural types,
+     generics, union types, intersection types
+   - Angular (2016) adopting TypeScript as its mandatory language was
+     the mainstream inflection point; React + TypeScript followed
+   - Mental model: TypeScript types are erased at runtime; types describe
+     the shape of values; the compiler is the test suite for your types
+
+10. **Python (AI/ML Era)** — check if Python's profile exists and has
+    adequate coverage of the modern era; if the existing profile ends before
+    the AI/ML era, create `data/docs/language_profiles/Python_Modern.json`:
+    - 2012-present: NumPy/SciPy/Matplotlib → scikit-learn → TensorFlow
+      (2015) → PyTorch (2016) → transformers (2020+)
+    - Python's "two-language problem": slow Python calls fast C/CUDA;
+      ctypes, CFFI, Cython as bridges; Mojo as future solution
+    - Python 3 transition (2008-2020): the painful decade of coexistence
+    - Python's typing journey: PEP 484 (2014), mypy, pyright, Pysa
+
+## Required JSON Schema
+
+Same as PROMPT_63:
+`title`, `overview`, `historical_context`, `mental_model`, `key_innovations`,
+`tradeoffs`, `legacy`, `ai_assisted_discovery_missions`.
+
+For HTML and CSS specifically: the `mental_model` section is critical —
+these are declarative languages and the mental model is very different from
+imperative/procedural languages. Emphasize the tree/cascade model.
+
+## Framing Guidance
+
+Resist the temptation to dismiss HTML, CSS, and shell as "not real languages."
+The Atlas includes the Jacquard Loom (1804). Design languages — languages that
+express structure, presentation, or intent declaratively — deserve the same
+rigorous historical treatment as procedural languages. Document their design
+decisions as decisions, with tradeoffs.
+
+## Verification
+
+1. `make build` — must succeed.
+2. `make audit` — must pass.
+3. Visit profiles in server for any that link to existing `languages.json` entries.
+4. Run `make dark-matter` — `missing_language_profiles` should decrease
+   substantially from previous sessions.
+
+## Commit
+
+```bash
+git add data/docs/language_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_64] Add language profiles: web, shell, and infrastructure languages
+
+Create profiles for Shell/Bash, Zsh, HTML, CSS, XML, GraphQL, WebAssembly,
+and supplementary modern-era profiles for JavaScript (Node.js), TypeScript,
+and Python (AI/ML era). Treats declarative and configuration languages as
+first-class entries in the language lineage with rigorous design histories.
+EOF
+)"
+```

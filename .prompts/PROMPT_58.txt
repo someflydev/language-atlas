@@ -1,0 +1,143 @@
+# PROMPT_58: People Profiles — Modern Language Creators (1985-2010)
+
+## Objective
+
+Create profiles for the designers who built the mainstream languages of the
+1990s and 2000s — the languages that dominate web, enterprise, and
+scripting workloads today. These figures took theory into widespread practice.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Create `tmp/PROMPT_58_checklist.md` with a checkbox per profile.
+5. Check off each item immediately after completing it.
+6. Confirm `data/docs/people_profiles/Guido_van_Rossum.json` already exists
+   (PROMPT_58 does NOT recreate it).
+
+## People to Profile
+
+All names appear in `data/people.json`. Guido van Rossum is already done.
+
+1. **Bjarne Stroustrup** — check if already created in PROMPT_57.
+   If not, create it here; if yes, skip.
+
+2. **Larry Wall** (`Larry_Wall.json`)
+   - Created Perl (1987) as a Unix sysadmin tool; pragmatic glue language
+   - "There's more than one way to do it" (TIMTOWTDI) — the explicit
+     anti-Pythonic philosophy
+   - Mental model: natural language is the model; a program is a text
+     that tells the computer a story; regular expressions are a grammar
+     for that story
+
+3. **James Gosling** (`James_Gosling.json`)
+   - Created Java (1995) at Sun Microsystems; designed the JVM bytecode
+     model and the "Write Once, Run Anywhere" portability thesis
+   - Previously: Oak (embedded systems), NeWS (network PostScript)
+   - Mental model: portability through a virtual machine layer;
+     memory safety via garbage collection and no pointer arithmetic
+
+4. **Brendan Eich** (`Brendan_Eich.json`)
+   - Created JavaScript in 10 days (May 1995) at Netscape; designed as
+     a Scheme-in-C-clothing under marketing pressure to resemble Java
+   - Co-founded Mozilla; later created Brave browser
+   - Mental model (original): functions as first-class values; prototypal
+     inheritance; the browser IS the platform — behavior lives in the page
+
+5. **Anders Hejlsberg** (`Anders_Hejlsberg.json`)
+   - Designed Turbo Pascal (1983), Delphi (1995), C# (2000),
+     TypeScript (2012) — four major language successes at three companies
+     (Borland, Borland, Microsoft, Microsoft)
+   - Each language was a pragmatic response to the needs of its era:
+     fast compilation, RAD, .NET safety, JavaScript scale
+   - Mental model: a language is a tool; the tool must fit the task;
+     static types and performance are not in opposition
+
+6. **Yukihiro Matsumoto** (`Yukihiro_Matsumoto.json`)
+   - Created Ruby (1995) in Japan; "programming should make programmers
+     happy"; Principle of Least Astonishment (POLA)
+   - Synthesized features from Perl, Smalltalk, Lisp, and Eiffel into a
+     pure object model where everything is an object, including integers
+   - Mental model: the language should model the programmer's mental model,
+     not the machine's; eliminate friction between intent and expression
+
+7. **Martin Odersky** (`Martin_Odersky.json`)
+   - Created Scala (2003): fused object-oriented and functional programming
+     on the JVM; earlier designed Pizza (generics for Java) and the
+     GJ/javac generic compiler adopted into Java 5
+   - Mental model: objects and functions are the same abstraction viewed
+     from different angles; a unified type system can express both
+
+8. **Rich Hickey** (`Rich_Hickey.json`)
+   - Created Clojure (2007): a pragmatic Lisp on the JVM with persistent
+     immutable data structures, software transactional memory (STM),
+     and the core.async CSP library
+   - Keynotes: "Simple Made Easy", "The Value of Values", "Hammock-Driven
+     Development" — a body of philosophy, not just code
+   - Mental model: complexity is the enemy; simplicity is the absence of
+     interleaving; immutable values and pure functions are simple;
+     identity and state must be explicitly managed
+
+9. **John Ousterhout** (`John_Ousterhout.json`)
+   - Created Tcl (1988) and Tk widget toolkit; earlier designed Magic
+     (VLSI design tool) and Sprite OS
+   - Proposed "scripting language" as a distinct category vs. system
+     languages; Tcl/Tk pioneered embeddable scripting in C applications
+
+10. **Rasmus Lerdorf** (`Rasmus_Lerdorf.json`)
+    - Created PHP (1994) as "Personal Home Page Tools" — a set of C
+      macros for tracking visits to his online resume
+    - PHP became the dominant server-side web language (WordPress, Facebook)
+      despite being famously unplanned
+    - Mental model: practical beats pure; get it on the web; iterate;
+      backwards compatibility matters more than elegance
+
+11. **Don Syme** (`Don_Syme.json`)
+    - Created F# (2005) at Microsoft Research; led the design of generics
+      for .NET/C# (before Java had them); championed async/await in F#
+      (which influenced C# 5.0 and then every modern language)
+    - Mental model: functional programming with escape hatches is more
+      practical than pure FP; types should guide, not obstruct
+
+12. **Rob Pike** (`Rob_Pike.json`)
+    - Co-created Go (2009) at Google with Thompson and Griesemer; earlier
+      co-designed Plan 9 OS, UTF-8 encoding, and the Acme editor at Bell Labs
+    - Go's design thesis: large-scale software needs readable code more
+      than expressive power; fast compilation is a feature
+
+## Required JSON Schema
+
+All 8 keys required:
+`title`, `overview`, `historical_context`, `mental_model`, `pivotal_works`,
+`affiliations`, `legacy`, `ai_assisted_discovery_missions`.
+
+## Cross-Reference Requirements
+
+- Eich: reference Scheme, Self (prototypes), Java (marketing pressure)
+- Hejlsberg: link TypeScript → JavaScript; Delphi → Borland; C# → Java
+- Odersky: reference Haskell, ML, Java generics, and JVM ecosystem
+- Hickey: reference Lisp, John McCarthy, Clojure's concurrency model
+- Don Syme: reference C#, async/await propagation to JavaScript/Python
+- Rob Pike: reference Ken Thompson (Go), Plan 9, Bell Labs
+
+## Verification
+
+1. `make build` and `make audit` — must pass.
+2. Spot-check `/person/Rich_Hickey`, `/person/Anders_Hejlsberg`.
+3. Confirm Guido van Rossum is not duplicated.
+
+## Commit
+
+```bash
+git add data/docs/people_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_58] Add people profiles: modern mainstream language creators
+
+Profiles for Wall (Perl), Gosling (Java), Eich (JavaScript), Hejlsberg
+(TypeScript/C#/Delphi), Matsumoto (Ruby), Odersky (Scala), Hickey (Clojure),
+Ousterhout (Tcl/Tk), Lerdorf (PHP), Syme (F#), and Pike (Go). Covers the
+language generation that dominates web and enterprise workloads.
+EOF
+)"
+```

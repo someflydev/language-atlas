@@ -1,0 +1,205 @@
+# PROMPT_60: Organization Profiles — Research Labs & Universities
+
+## Objective
+
+Create the first batch of organization profiles covering the research
+institutions and universities that were the birthplaces of foundational
+programming languages and paradigms. Organizations do NOT require an entry
+in a separate JSON file — the build pipeline creates the `organizations`
+table row from the profile's `title` field if the org is not already present.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md` (especially the org_profiles section).
+3. Load `.context/architecture.md`.
+4. Create `tmp/PROMPT_60_checklist.md` with a checkbox per profile.
+5. Check off each item immediately after completing it.
+6. Confirm `data/docs/org_profiles/` exists and is empty (or note what's there).
+
+## How Organization Profiles Work
+
+Files go in `data/docs/org_profiles/`. The filename is the organization
+name with spaces replaced by underscores (e.g., `Bell_Labs.json`).
+
+The build pipeline (`build_sqlite.py`) extracts the org name from `title`
+(splitting on the first colon) and inserts a row into `organizations` if
+one does not already exist. The `founded` field populates `organizations.founded`.
+
+## Organizations to Profile
+
+### 1. Bell Labs (`Bell_Labs.json`)
+
+The single most productive research institution in computing history.
+
+- **Founded:** 1925 (Bell Telephone Laboratories)
+- **Key contributions:**
+  - Transistor (1947, Shockley/Bardeen/Brattain) — without which no computers
+  - Unix operating system (1969, Ritchie and Thompson)
+  - C programming language (1972, Ritchie)
+  - B language (Thompson), BCPL influence
+  - Plan 9 (successor to Unix, 1987)
+  - C++ was designed here by Stroustrup (while at Bell Labs)
+  - AWK (Aho, Weinberger, Kernighan)
+  - S language (statistical computing, ancestor of R)
+  - AMPL (mathematical programming language)
+  - Shannon's Information Theory (1948) — mathematical foundation of all digital communication
+- **Key people:** Dennis Ritchie, Ken Thompson, Brian Kernighan, Rob Pike,
+  Alfred Aho, Doug McIlroy, Joe Ossanna (troff), Bjarne Stroustrup
+- **Legacy:** The "Bell Labs model" — deep research with long time horizons
+  and no pressure to ship products — produced more foundational technology
+  per researcher than any institution before or since
+
+### 2. Xerox PARC (`Xerox_PARC.json`)
+
+- **Founded:** 1970 (Palo Alto Research Center)
+- **Key contributions:**
+  - Smalltalk (1972, Alan Kay, Adele Goldberg, Dan Ingalls)
+  - Graphical user interface (overlapping windows, icons, menus, pointer)
+  - Ethernet networking (1973, Bob Metcalfe)
+  - Laser printing
+  - WYSIWYG text editing (Bravo editor)
+  - Alto workstation — the first personal computer with a GUI
+  - PostScript language precursor (Interpress)
+  - Object-oriented programming as a paradigm (from Simula, realized in Smalltalk)
+- **Key people:** Alan Kay, Adele Goldberg, Dan Ingalls, Butler Lampson,
+  Charles Thacker, Bob Taylor
+- **Legacy:** Steve Jobs famously visited in 1979 and took the GUI back to
+  Apple. The tragedy of PARC is that Xerox failed to capitalize on its own
+  inventions, but those inventions became the foundation of the personal
+  computing era.
+
+### 3. MIT (Massachusetts Institute of Technology) — AI Lab & Project MAC
+   (`MIT.json`)
+
+- **Founded:** 1861 (MIT); Project MAC 1963; AI Lab 1959 (as part of RLE)
+- **Key contributions:**
+  - LISP (1958, John McCarthy)
+  - Scheme (1975, Sussman and Steele)
+  - MULTICS (1969) — precursor concept to Unix
+  - SICP (Structure and Interpretation of Computer Programs, 1985)
+  - Emacs (Richard Stallman, 1976)
+  - Scratch (programming language for children, 2003)
+  - Dylan (Apple+CMU+MIT collaboration, dynamic OOP)
+  - Influential research: type theory, program verification, distributed
+    systems (Lamport was at MIT before DEC SRC)
+- **Key people:** John McCarthy, Gerald Jay Sussman, Guy Steele,
+  Richard Stallman, Hal Abelson
+
+### 4. Carnegie Mellon University (`Carnegie_Mellon_University.json`)
+
+- **Founded:** 1900 (as Carnegie Technical Schools); CS dept from 1960s
+- **Key contributions:**
+  - ML language family influence (Robin Milner visited/collaborated)
+  - Standard ML of New Jersey (SML/NJ, David MacQueen, Robert Harper)
+  - Common Lisp development (Scott Fahlman, CMU Common Lisp)
+  - Ada compiler work
+  - Software Engineering Institute (SEI) — CMMI, process models
+  - Research: type theory (Bob Harper), proof assistants, formal verification
+  - Mach OS (microkernel, influenced macOS XNU kernel)
+- **Key people:** Allen Newell, Herbert Simon (Nobel — AI research),
+  Robert Harper, David MacQueen, Scott Fahlman
+
+### 5. Dartmouth College (`Dartmouth_College.json`)
+
+- **Founded:** 1769; CS connection from 1950s
+- **Key contributions:**
+  - BASIC (1964, Kemeny and Kurtz) — designed for beginner programmers
+    on the GE-225 timesharing system
+  - Time-sharing computing as a concept for general users (not just experts)
+  - DTSS (Dartmouth Time Sharing System) — one of the first usable
+    interactive computing environments
+- **Key people:** John G. Kemeny, Thomas E. Kurtz
+- **Legacy:** BASIC's democratizing effect on computing is enormous.
+  Every 8-bit home computer of the 1980s shipped with BASIC in ROM,
+  introducing a generation to programming.
+
+### 6. Stanford AI Lab (`Stanford_AI_Lab.json`)
+
+Also known as SAIL (Stanford Artificial Intelligence Laboratory).
+
+- **Founded:** 1963 (John McCarthy, after leaving MIT)
+- **Key contributions:**
+  - LISP implementations and dialects (MacLisp, Interlisp)
+  - SAIL programming language (an ALGOL dialect with pattern matching)
+  - Early work on natural language processing, robotics, vision
+  - Pascal (Niklaus Wirth visited Stanford; his Pascal work overlapped
+    with his Stanford years)
+  - Fundamental AI research that shaped Prolog, expert systems, logic
+    programming
+- **Key people:** John McCarthy, Donald Knuth (in early years),
+  Les Earnest, various AI researchers
+
+### 7. INRIA (Institut National de Recherche en Informatique et en Automatique)
+   (`INRIA.json`)
+
+- **Founded:** 1967 (France)
+- **Key contributions:**
+  - Prolog (Alain Colmerauer, University of Marseille/INRIA affiliation)
+  - OCaml (Xavier Leroy, Caml Light lineage from LCF-ML)
+  - Coq proof assistant (Thierry Coquand, Christine Paulin, INRIA)
+  - Caml and its ML lineage
+  - Formal verification research that produced CompCert
+- **Key people:** Alain Colmerauer, Xavier Leroy, Gérard Huet
+- **Legacy:** France's INRIA is responsible for OCaml and Coq — two tools
+  that underpin modern formal verification, Jane Street's trading
+  infrastructure, and the Rust compiler's formal safety proofs.
+
+## Required JSON Schema
+
+Per AGENT.md, org profiles require:
+
+```json
+{
+  "title": "Organization Name: Short Descriptor",
+  "founded": "Year or 'Year (as ...)'",
+  "overview": "2-3 sentence summary of the org's mission and primary
+    computing contributions.",
+  "key_contributions": [
+    "**Contribution name (year):** One-sentence impact.",
+    "..."
+  ],
+  "pivotal_people": [
+    "**Name:** Role and contribution.",
+    "..."
+  ],
+  "legacy": "150+ words on lasting impact on programming languages, paradigms,
+    or computing infrastructure. Be specific about what living systems
+    trace their lineage here.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Quoted research prompt.'",
+    "2. '...'",
+    "3. '...'"
+  ]
+}
+```
+
+Do not add fields beyond those listed. The `key_contributions` and
+`pivotal_people` fields accept arrays of formatted strings (same pattern
+as `pivotal_works` in people profiles).
+
+## Verification
+
+1. `make build` — must succeed; org profiles are ingested into
+   `organization_profiles` and `organization_profile_sections` tables.
+2. `make audit` — must pass.
+3. Start server and visit `/org/Bell_Labs`, `/org/Xerox_PARC` to confirm
+   profiles render correctly.
+4. If an org name has a space in it that differs from the filename, check
+   `build_sqlite.py`'s org resolution logic (it strips underscores and
+   tries both forms).
+
+## Commit
+
+```bash
+git add data/docs/org_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_60] Add org profiles: research labs and universities
+
+Create profiles for Bell Labs, Xerox PARC, MIT, Carnegie Mellon, Dartmouth,
+Stanford AI Lab, and INRIA. These seven institutions are directly responsible
+for Unix/C, Smalltalk/GUI, Lisp/Scheme, ML/OCaml, BASIC, and logic
+programming. Each profile documents key contributions, people, and legacy.
+EOF
+)"
+```

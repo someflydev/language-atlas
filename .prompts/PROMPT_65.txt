@@ -1,0 +1,221 @@
+# PROMPT_65: Concept Combos & Dark Matter Reconciliation
+
+## Objective
+
+Two tasks in one session:
+
+**Part A**: Create concept combo profiles for the high-value multi-concept
+entries in `dark_matter_todo.json` (`missing_concept_combos`). These are
+narrative documents explaining the intersection or evolution of two or more
+related concepts.
+
+**Part B**: Run the full dark matter audit, triage remaining items, and
+update the Atlas's cross-reference quality by patching any broken or
+ambiguous references in existing profiles.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Run `make dark-matter` and read `generated-reports/dark_matter_todo.json`
+   to get the current baseline after PROMPT_55-64.
+5. Create `tmp/PROMPT_65_checklist.md` with checkboxes.
+6. Check off each item immediately after completing it.
+
+## Part A: Concept Combo Profiles
+
+Concept combo files go in `data/docs/concept_combos/`. The filename is a
+snake_case version of the concept name. Read one existing combo profile
+(if any exist in `data/docs/concept_combos/`) for structure reference.
+
+If no combos exist yet, use this schema (analogous to concept profiles):
+
+```json
+{
+  "title": "Concept A and Concept B: A Shared Narrative",
+  "overview": "2-3 sentences: what these concepts are and why they
+    appear together.",
+  "historical_context": "200+ words. When did these concepts emerge?
+    Which languages introduced them together? What problem did their
+    combination solve?",
+  "key_aspects": [
+    "**Aspect name:** Explanation.",
+    "..."
+  ],
+  "technical_implications": "150+ words. How does the intersection
+    of these concepts affect language design, compiler implementation,
+    or programmer experience?",
+  "legacy": "100+ words. Which modern languages embody both concepts?
+    How did the combination propagate?",
+  "ai_assisted_discovery_missions": [
+    "1. 'Quoted prompt.'",
+    "2. '...'",
+    "3. '...'"
+  ]
+}
+```
+
+### High-Priority Combo Profiles to Create
+
+Select the 8-10 most significant from the `missing_concept_combos` list.
+Prioritize concepts that appear frequently in existing language profiles:
+
+1. **Ownership & Borrowing** (`ownership_and_borrowing.json`)
+   - Rust's core memory model: every value has exactly one owner;
+     borrowing is a checked, time-limited reference
+   - Connect to: Cyclone's regions, linear types in type theory,
+     affine types, region-based memory management
+   - Distinguish from: garbage collection (GC trades control for safety),
+     manual management (C/C++ trades safety for control)
+
+2. **Async/Await** (`async_await.json`)
+   - The modern async concurrency model: syntactic sugar over futures/promises
+   - History: F# async workflows (Don Syme, 2007) → C# async/await (2012)
+     → Python asyncio (2014) → JavaScript async/await (ES2017, 2017)
+     → Rust async/await (2019)
+   - Technical: built on the state-machine transformation; each await point
+     is a suspension point; the runtime re-schedules coroutines
+
+3. **AOT and JIT Compilation** (`aot_and_jit_compilation.json`)
+   - Ahead-of-Time (AOT): compile at build time to native code (C, Rust, Go)
+   - Just-in-Time (JIT): compile at runtime, with profiling feedback
+     (Java HotSpot, V8, LuaJIT, PyPy)
+   - Tradeoffs: AOT = fast startup, predictable performance; JIT = slow
+     startup, potentially faster peak via adaptive optimization
+   - Modern synthesis: AOT + PGO (Profile-Guided Optimization); LLVM GDB
+
+4. **Macros and Metaprogramming** (`macros_and_metaprogramming.json`)
+   - The spectrum: text macros (C preprocessor) → syntactic macros
+     (Lisp, Scheme hygienic macros) → procedural macros (Rust)
+     → compile-time execution (Zig comptime, D templates)
+   - The hygiene problem: why Lisp macros needed to evolve
+   - Modern forms: Rust's macro_rules! vs. proc macros; Zig comptime;
+     C++ templates (accidental Turing-completeness)
+
+5. **Context-Free and Context-Sensitive Grammars** (`formal_grammars.json`)
+   - Chomsky Hierarchy: Type 0 (unrestricted) → Type 1 (CS) → Type 2 (CF)
+     → Type 3 (regular)
+   - Almost all programming languages are defined by CFGs (LL(k), LR(k),
+     PEG grammars)
+   - C and C++ are famously NOT context-free (the "typedef problem" in C;
+     template ambiguities in C++)
+   - Tools: yacc/bison, ANTLR, Menhir, recursive descent
+
+6. **Records and Structural Typing** (`records_and_structural_typing.json`)
+   - Records/structs as value types vs. objects
+   - Structural typing: TypeScript, Go interfaces, OCaml object system —
+     type compatibility by shape, not by name
+   - Nominal typing: Java, C#, Rust — type compatibility by declared ancestry
+   - Tradeoffs: structural = flexible, duck-typed; nominal = explicit,
+     refactorable
+
+7. **First-Class Functions and Closures** (`first_class_functions.json`)
+   - What "first-class" means: functions as values, passed/returned freely
+   - Closures: a function that captures its enclosing scope
+   - History: Lambda calculus → Lisp (1958) → ML → JavaScript (1995, Scheme
+     influence) → Python (2000) → every modern language
+   - The practical consequence: higher-order functions (map/filter/reduce);
+     callbacks; async patterns
+
+8. **Separation of Storage and Processing** (`von_neumann_model.json`)
+   - Also known as the "von Neumann bottleneck" — CPU and memory are
+     separate; data must travel across a bus
+   - Alternative models: dataflow architectures, Harvard architecture,
+     SIMD/SIMT (GPUs)
+   - Language implications: languages designed for von Neumann machines
+     (imperative, sequential) vs. languages designed for parallelism
+     (functional, dataflow, array languages like APL)
+   - "Can Programming Be Liberated from the von Neumann Style?" (Backus, 1978)
+
+9. **Swift and Kotlin: Convergent Evolution** (`swift_and_kotlin.json`)
+   - Two languages designed independently (Swift 2014, Kotlin 2011) that
+     arrived at remarkably similar features: optionals, data classes/value
+     types, extension functions, null safety, coroutines
+   - Both replaced the same incumbents (Objective-C and Java) for the same
+     reason (verbosity and footguns)
+   - Demonstrates: the design space for modern OOP/FP hybrid languages
+     converges given similar constraints
+
+10. **Shared Memory for Data and Instructions** (`stored_program.json`)
+    - The stored-program concept: program code and data live in the same
+      memory (von Neumann/EDVAC design, 1945)
+    - Why it matters: programs can modify themselves (self-modifying code,
+      JIT compilation); data and code are interchangeable (Lisp's insight)
+    - Alternative: Harvard architecture (separate code and data memory;
+      still used in microcontrollers and CPUs' L1 cache split)
+
+## Part B: Dark Matter Reconciliation
+
+After creating the combo profiles, run:
+```bash
+make dark-matter
+```
+
+Review the updated `generated-reports/dark_matter_todo.json`. For each
+remaining category:
+
+### `missing_entities` Triage
+
+The 1812 missing entities are largely noise — individual phrases extracted
+from profile text that don't need standalone profiles. However, some high-value
+ones should be noted for future work. After the run:
+
+1. Count how many remain in each category.
+2. Identify any entities that appear 10+ times across profiles (these are
+   likely worth profiling eventually).
+3. Write a brief triage note to `tmp/dark_matter_triage.md` (do NOT commit
+   this file — it is for planning only):
+   - Top 10 entities by reference count
+   - Top 5 language profiles still missing that are genuinely important
+   - Recommendation for PROMPT_66 if needed
+
+### Cross-Reference Patches
+
+Look at 3-5 existing profiles (choose languages with many cross-references,
+e.g., C, Python, Rust) and verify that entity references in their text
+use exact names that match `languages.json`, `people.json`, etc.
+
+If you find name mismatches (e.g., a profile says "Jon Backus" instead of
+"John Backus"), patch those specific files. Stage patches in a separate
+commit from the combo profiles.
+
+## Verification
+
+1. `make build` and `make audit` after Part A.
+2. `make dark-matter` after Part A to update the report.
+3. Visit a few concept combo pages at `/concept/<name>` — or if combos
+   render differently, check the narrative hub at `/narrative/concepts`.
+4. Confirm `generated-reports/dark_matter_todo.json` reflects the reduction.
+
+## Commits
+
+Two commits:
+
+```bash
+# Commit 1: Concept combos
+git add data/docs/concept_combos/ generated-reports/dark_matter_todo.json
+git commit -m "$(cat <<'EOF'
+[PROMPT_65] Add concept combo profiles and run dark matter audit
+
+Create 10 concept combo profiles: Ownership & Borrowing, Async/Await,
+AOT/JIT compilation, Macros & Metaprogramming, Formal Grammars,
+Records & Structural Typing, First-Class Functions, von Neumann model,
+Swift/Kotlin convergence, and the Stored Program concept. Update
+dark_matter_todo.json to reflect content added in PROMPT_55-65.
+EOF
+)"
+```
+
+```bash
+# Commit 2: Cross-reference patches (only if any patches were made)
+git add data/docs/  # only the specific patched files
+git commit -m "$(cat <<'EOF'
+[PROMPT_65] Patch cross-reference name mismatches in existing profiles
+
+Fix entity name mismatches identified during dark matter reconciliation:
+ensure people, language, and org references in profile text match the
+canonical names in people.json and languages.json.
+EOF
+)"
+```

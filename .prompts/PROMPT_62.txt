@@ -1,0 +1,208 @@
+# PROMPT_62: Historical Events — Complete the Event Timeline
+
+## Objective
+
+Create rich historical event profiles for all 11 events identified in
+`dark_matter_todo.json` under `missing_historical_events`. One event
+(`software_crisis.json`) already exists — check its structure first for
+style consistency. Several events in the missing list are duplicates or
+near-duplicates (e.g., "Garmisch Conference" and "Birth of Software
+Engineering" are the same event); consolidate intelligently.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Read `data/docs/historical_events/software_crisis.json` to understand
+   existing style, depth, and schema.
+5. Create `tmp/PROMPT_62_checklist.md` with a checkbox per event file.
+6. Check off each item immediately after completing it.
+
+## Missing Events (from dark_matter_todo.json)
+
+```
+Birth of Software Engineering (1968 Garmisch Conference)
+Compiler Revolution
+Garmisch Conference
+Macro-Expansion Debugging Crisis
+Memory Safety Crisis
+Multicore Crisis
+PC Revolution
+Security Crisis
+Software Crisis        ← ALREADY EXISTS as software_crisis.json
+Structured Revolution
+War Effort
+```
+
+## Consolidation Plan
+
+Several of these refer to the same event with different names. Use this
+mapping:
+
+- **"Garmisch Conference"** and **"Birth of Software Engineering"** →
+  single file: `garmisch_conference.json` (slug: `garmisch_conference`)
+  Reference both names in the content. The existing `software_crisis.json`
+  should reference this event; do not modify `software_crisis.json`.
+
+- **"Structured Revolution"** → `structured_revolution.json`
+  (the Dijkstra/Wirth/Hoare response to the software crisis)
+
+- **"Compiler Revolution"** → `compiler_revolution.json`
+  (FORTRAN, COBOL, ALGOL — the transition from assembly to HLL)
+
+- **"Macro-Expansion Debugging Crisis"** → `macro_debugging_crisis.json`
+  (late 1960s/1970s crisis with macro-heavy LISP/COBOL code)
+
+- **"Memory Safety Crisis"** → `memory_safety_crisis.json`
+  (2000s-2010s buffer overflow epidemic; CVE culture; Rust's context)
+
+- **"Multicore Crisis"** → `multicore_crisis.json`
+  (2005+: CPU clock speeds stopped scaling; concurrency became mandatory)
+
+- **"PC Revolution"** → `pc_revolution.json`
+  (1975-1985: Altair, Apple II, IBM PC, BASIC democratization)
+
+- **"Security Crisis"** → `security_crisis.json`
+  (2000s: SQL injection, XSS, buffer overflows as systemic vulnerabilities)
+
+- **"War Effort"** → `war_effort.json`
+  (WWII computing: Colossus, ENIAC, Turing's Bombe — war as accelerant)
+
+That is 9 new files (the 10th, Software Crisis, exists; the 11th is merged).
+
+## Required JSON Schema
+
+Match the existing `software_crisis.json` structure exactly:
+
+```json
+{
+  "slug": "snake_case_slug",
+  "title": "Human-Readable Title",
+  "date": "Year or decade, e.g. '1968' or '1975-1985'",
+  "overview": "3-4 sentence summary of the event, what it was, and why
+    it mattered to programming language history.",
+  "impact_on_computing": "200+ words. Explain the technical and cultural
+    impact. Which languages emerged from or in response to this event?
+    Which paradigms shifted? What problems did it reveal?",
+  "key_figures": [
+    "**Name (role):** One-sentence contribution to this event.",
+    "..."
+  ],
+  "legacy": "150+ words on lasting impact. What does modern programming
+    owe to this event? Name specific languages, tools, or practices.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Quoted research prompt.'",
+    "2. '...'",
+    "3. '...'"
+  ]
+}
+```
+
+## Content Guidance per Event
+
+### `garmisch_conference.json`
+- Date: 1968 (October 7-11, Garmisch, West Germany)
+- Organized by NATO Science Committee; Peter Naur and Brian Randell
+  edited the proceedings
+- Named the discipline "software engineering" as a deliberate analogy
+  to civil and mechanical engineering — implying rigor was possible
+- Key figures: Peter Naur, Friedrich Bauer, Brian Randell, Edsger Dijkstra
+- Directly produced: structured programming movement, formal methods push
+
+### `compiler_revolution.json`
+- Date: 1952-1964
+- Arc: Autocode (Glennie, 1952) → A-0 (Hopper, 1952) → FORTRAN (Backus, 1957)
+  → COBOL (1959) → ALGOL 60 (1960) → PL/I (1964)
+- The core debate: can a compiler produce code as efficient as a human
+  assembly programmer? FORTRAN proved it could (Backus's optimizer)
+- Impact: programmers could now think in algorithms, not registers
+
+### `structured_revolution.json`
+- Date: 1968-1980
+- Dijkstra's "Go To Statement Considered Harmful" (1968 CACM letter)
+- Wirth's stepwise refinement; Hoare's axiomatic semantics
+- Pascal (1970) as the practical vehicle for structured programming
+- Result: loops, functions, blocks replaced unconditional jumps as
+  the primitive control structure
+
+### `macro_debugging_crisis.json`
+- Date: Late 1960s-1970s
+- Macro systems in LISP, assembly, and early PL/I created programs
+  where the source text bore little resemblance to what executed
+- Motivated: hygienic macros (later Scheme), structured modules,
+  encapsulation as a response to macro chaos
+- Connects to the Software Crisis
+
+### `memory_safety_crisis.json`
+- Date: 1988-present (peak: 2000-2015)
+- Morris Worm (1988): first internet worm exploiting a buffer overflow
+- Timeline: buffer overflow → stack smashing → heap corruption → use-after-free
+- Response: GC languages (Java, C#), Valgrind, AddressSanitizer,
+  and ultimately Rust's ownership model
+- 70% of CVEs at Microsoft and Google traced to memory safety bugs
+
+### `multicore_crisis.json`
+- Date: 2005-2015
+- Intel's 4GHz wall hit in 2004; clock speeds plateaued
+- "The Free Lunch Is Over" (Herb Sutter, 2005)
+- Response: Erlang resurgence, Go's goroutines, Rust's fearless
+  concurrency, async/await patterns, ReactiveX, actor model revival
+- Key tension: shared mutable state becomes the enemy; functional
+  programming concepts mainstreamed
+
+### `pc_revolution.json`
+- Date: 1975-1985
+- Altair 8800 (1975), Apple II (1977), VisiCalc (1979),
+  IBM PC (1981), Macintosh (1984)
+- BASIC shipped in ROM on every 8-bit computer; a generation learned
+  to program without a CS degree
+- Impact on languages: demand for interpreted, interactive, forgiving
+  languages; logo for children; HyperCard for non-programmers
+
+### `security_crisis.json`
+- Date: 1998-2015
+- SQL injection, cross-site scripting, buffer overflows as mass-scale
+  attack vectors; Code Red worm (2001), Heartbleed (2014)
+- OWASP Top 10 (2003) codified common vulnerabilities
+- Response: injection-safe query frameworks (prepared statements),
+  sandboxing, memory-safe languages, security-conscious language
+  design (Rust, Go's stdlib)
+
+### `war_effort.json`
+- Date: 1939-1945
+- Colossus (1943, UK, Bletchley Park): first programmable electronic
+  computer, breaking Lorenz cipher
+- Turing's Bombe: electromechanical, not electronic, but theoretically
+  foundational; Turing's work on Enigma
+- ENIAC (1945, US): electronic, general-purpose (though programmed by
+  plugboard/switches, not stored program)
+- Konrad Zuse's Z3 (1941, Germany): first Turing-complete programmable
+  computer (electromechanical)
+- Impact: accelerated computing by decades; brought state funding and
+  urgency to a previously academic field
+
+## Verification
+
+1. `make build` — must succeed.
+2. `make audit` — no new failures.
+3. Start server; visit `/event/garmisch_conference`, `/event/multicore_crisis`,
+   `/event/memory_safety_crisis` to confirm rendering.
+4. Run `make dark-matter` — `missing_historical_events` count should drop
+   to near zero.
+
+## Commit
+
+```bash
+git add data/docs/historical_events/
+git commit -m "$(cat <<'EOF'
+[PROMPT_62] Add historical event profiles: 9 pivotal computing moments
+
+Create events: Garmisch Conference (software engineering named), Compiler
+Revolution, Structured Revolution, Macro Debugging Crisis, Memory Safety
+Crisis, Multicore Crisis, PC Revolution, Security Crisis, and War Effort.
+Consolidates duplicate event names from the dark matter audit. Provides
+temporal anchors for the Atlas narrative timeline.
+EOF
+)"
+```

@@ -1,0 +1,140 @@
+# PROMPT_59: People Profiles — Contemporary Language Designers (2000-present)
+
+## Objective
+
+Create profiles for the designers of languages built after 2000, with a
+focus on safety, expressivity, and new computational models. This batch
+completes the people profiles for the Atlas's contemporary era.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Create `tmp/PROMPT_59_checklist.md` with a checkbox per profile.
+5. Check off each item immediately after completing it.
+6. List existing files in `data/docs/people_profiles/` to avoid duplicates.
+
+## People to Profile
+
+All names appear in `data/people.json`.
+
+1. **Graydon Hoare** (`Graydon_Hoare.json`)
+   - Original creator of Rust (2006, at Mozilla); designed the ownership
+     and borrowing system as the core memory-safety mechanism
+   - Left the project in 2013; the community and Mozilla took it to 1.0
+   - Mental model: every value has exactly one owner; borrowing is a
+     time-limited, checked loan; the borrow checker IS the safety guarantee
+
+2. **Chris Lattner** (`Chris_Lattner.json`)
+   - Created LLVM (2000, PhD project at Illinois); designed Swift (2014)
+     at Apple; created MLIR; now working on Mojo at Modular
+   - LLVM transformed the compiler ecosystem: every modern language
+     (Rust, Swift, Julia, Kotlin/Native) uses it as a backend
+   - Mental model: a compiler should be a reusable library, not a
+     monolithic program; intermediate representations are the real product
+
+3. **Evan Czaplicki** (`Evan_Czaplicki.json`)
+   - Created Elm (2012, Harvard undergrad thesis); introduced
+     The Elm Architecture (TEA) — Model/Update/View — which became
+     the template for Redux, Vuex, and most modern front-end state management
+   - Goal: make web programming approachable for beginners via helpful
+     compiler errors and no runtime exceptions
+
+4. **Jeff Bezanson, Stefan Karpinski, and Viral B. Shah** — three files:
+   `Jeff_Bezanson.json`, `Stefan_Karpinski.json`, `Viral_B_Shah.json`
+   - Co-created Julia (2012): high-performance dynamic language for
+     scientific computing; multiple dispatch as the central abstraction;
+     LLVM-JIT compiled to native performance
+   - Blog post: "Why We Created Julia" (2012) — "We want something as
+     fast as C, as dynamic as Ruby, as general as Python..."
+   - Each profile should focus on the individual's contribution:
+     Bezanson (core language/JIT), Karpinski (package ecosystem/design),
+     Shah (scientific computing and numerical libraries focus)
+
+5. **Andrew Kelley** (`Andrew_Kelley.json`)
+   - Created Zig (2016): a systems language intended to replace C;
+     comptime (compile-time execution), explicit allocators, no hidden
+     control flow, cross-compilation as a first-class feature
+   - Mental model: C is the right level of abstraction; but C's implicit
+     behaviors (undefined behavior, hidden allocations) are the problem;
+     Zig makes everything explicit
+
+6. **José Valim** (`José_Valim.json`)
+   - Created Elixir (2011): a Ruby-syntax language on the Erlang VM (BEAM);
+     brought developer experience and productivity to the fault-tolerant
+     actor model; created the Phoenix web framework ecosystem
+   - Previously: a core Rails contributor; designed Elixir to bring
+     Erlang's concurrency model to the wider web developer community
+
+7. **Evan Czaplicki cross-check**: already listed above.
+
+8. **Andreas Rumpf** (`Andreas_Rumpf.json`)
+   - Created Nim (2008): statically typed compiled language with Python-like
+     syntax; macro system for zero-cost abstractions; compiles to C, C++,
+     or JavaScript; designed for embedded and systems work
+
+9. **Bertrand Meyer** (`Bertrand_Meyer.json`)
+   - Created Eiffel (1986): introduced Design by Contract (preconditions,
+     postconditions, invariants) as a first-class language feature
+   - "Object-Oriented Software Construction" — one of the foundational
+     OOP textbooks; influenced Java generics, .NET contracts, Kotlin contracts
+   - Mental model: correctness by construction; every routine specifies
+     what it requires (precondition) and what it guarantees (postcondition)
+
+10. **Scott Fahlman** (`Scott_Fahlman.json`)
+    - Created Common Lisp Object System (CLOS) with the MOP; invented
+      emoticons :-) as a seriousness marker (1982 CMU BBS post);
+      contributed to CMU Common Lisp
+    - CLOS introduced multimethods/multiple dispatch before it was
+      fashionable; influenced Dylan, Julia, and Clojure protocols
+
+11. **Luca Cardelli** — check if already created in PROMPT_57.
+    If not, create it here. (Modula-3, System F, type theory)
+
+12. **Xavier Leroy** (`Xavier_Leroy.json`)
+    - Created OCaml (1996) at INRIA; lead developer of CompCert
+      (a formally verified C compiler); instrumental in making ML
+      practical for production systems
+    - OCaml is the implementation language for Coq proof assistant,
+      Jane Street's financial infrastructure, and Flow/Hack at Meta
+
+13. **Martin Odersky** — check if already created in PROMPT_58.
+    If yes, skip.
+
+## Required JSON Schema
+
+All 8 keys required:
+`title`, `overview`, `historical_context`, `mental_model`, `pivotal_works`,
+`affiliations`, `legacy`, `ai_assisted_discovery_missions`.
+
+## Important Notes
+
+- For the Julia trio (Bezanson, Karpinski, Shah), each profile should stand
+  alone but cross-reference the others. Do not write three identical profiles.
+- For Graydon Hoare: acknowledge that he left Rust before 1.0 without
+  framing it negatively; his contribution was the foundational design.
+- For Chris Lattner: LLVM is his most transformative contribution, not Swift.
+  Structure the profile to reflect this.
+
+## Verification
+
+1. `make build` and `make audit` — must pass.
+2. Run `make dark-matter` — count of missing people profiles should be
+   significantly lower than the baseline.
+3. Spot-check `/person/Graydon_Hoare`, `/person/Chris_Lattner`.
+
+## Commit
+
+```bash
+git add data/docs/people_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_59] Add people profiles: contemporary language designers (2000-present)
+
+Profiles for Hoare (Rust, ownership model), Lattner (LLVM, Swift), Czaplicki
+(Elm, TEA), Bezanson/Karpinski/Shah (Julia), Kelley (Zig), Valim (Elixir),
+Rumpf (Nim), Meyer (Eiffel, DbC), Fahlman (CLOS), Leroy (OCaml, CompCert).
+Completes the Atlas's coverage of the contemporary language generation.
+EOF
+)"
+```

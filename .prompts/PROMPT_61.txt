@@ -1,0 +1,224 @@
+# PROMPT_61: Organization Profiles — Industry & Standards Bodies
+
+## Objective
+
+Create narrative profiles for the commercial companies and standards bodies
+that shaped modern programming languages through product releases, open-source
+projects, and standardization efforts. This completes the organization
+profiles backlog (all 20 missing orgs from `dark_matter_todo.json`).
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. List files currently in `data/docs/org_profiles/` (PROMPT_60 should have
+   created 7 files; confirm they exist before proceeding).
+5. Create `tmp/PROMPT_61_checklist.md` with a checkbox per profile.
+6. Check off each item immediately after completing it.
+
+## Organizations to Profile
+
+### 1. IBM (`IBM.json`)
+
+- **Founded:** 1911 (as Computing-Tabulating-Recording Company; renamed 1924)
+- **Key contributions:**
+  - FORTRAN (1957, John Backus and team at IBM) — first widely used HLL
+  - PL/I (1964) — ambitious general-purpose language
+  - SQL (1974, Chamberlin and Boyce at IBM San Jose Research)
+  - APL implementation and promotion (Kenneth Iverson was at IBM)
+  - OS/360 — Frederick Brooks's "No Silver Bullet" experience
+  - PC architecture (1981) that defined the commodity computer platform
+  - RISC architecture influence (801 project, 1975)
+
+### 2. Sun Microsystems (`Sun_Microsystems.json`)
+
+- **Founded:** 1982; acquired by Oracle 2010
+- **Key contributions:**
+  - Java (1995, James Gosling and team)
+  - JVM (Java Virtual Machine) and bytecode portability model
+  - NFS (Network File System, 1984)
+  - Solaris and SunOS (Unix derivatives)
+  - OpenDocument and open-source Java (2006-2010)
+  - JavaBeans, Java EE specifications
+  - Network Computing thesis: "The network is the computer"
+
+### 3. Microsoft (`Microsoft.json`)
+
+- **Founded:** 1975 (Bill Gates and Paul Allen; Altair BASIC)
+- **Key contributions:**
+  - Altair BASIC (1975) — Microsoft's founding product
+  - QuickBASIC, GW-BASIC — popularized BASIC on PCs
+  - Visual Basic (1991) — RAD GUI programming for Windows
+  - C# (2000, Anders Hejlsberg) — .NET's primary language
+  - TypeScript (2012, Anders Hejlsberg) — typed JavaScript superset
+  - .NET Framework and CLR (Common Language Runtime)
+  - PowerShell (2006, Jeffrey Snover) — object-oriented shell
+  - F# (.NET functional language, Don Syme at Microsoft Research)
+
+### 4. Microsoft Research (`Microsoft_Research.json`)
+
+- **Founded:** 1991 (separate from Microsoft product divisions)
+- **Key contributions:**
+  - F# (Don Syme, 2005)
+  - Koka language (algebraic effects, Daan Leijen)
+  - Lean proof assistant (collaboration)
+  - Dafny (verification-aware language)
+  - Pex and Code Contracts (program verification tools)
+  - Research in type theory, dependent types, program synthesis
+- **Note:** Distinguish from Microsoft's product divisions — MSR is
+  a pure research lab in the Bell Labs tradition.
+
+### 5. Apple Inc (`Apple_Inc.json`)
+
+- **Founded:** 1976
+- **Key contributions:**
+  - Objective-C adoption (1986, from NeXT purchase): primary language
+    for macOS and iOS development for 25 years
+  - Swift (2014, Chris Lattner): modern systems language replacing Obj-C
+  - Swift Playgrounds: educational programming environment
+  - WebKit's JavaScript engine (JavaScriptCore, influences V8 competition)
+  - OpenCL and Metal GPU compute frameworks
+
+### 6. Mozilla (`Mozilla.json`)
+
+- **Founded:** 1998 (Mozilla project); Mozilla Foundation 2003
+- **Key contributions:**
+  - Rust (2006-2015, from Graydon Hoare's project, adopted by Mozilla)
+  - SpiderMonkey — first JavaScript engine
+  - Firefox — broke IE's monoculture; browser competition drove JS standards
+  - WebAssembly (co-designed with Google, Apple, Microsoft: W3C 2019)
+  - Servo — experimental browser engine written in Rust (proof of Rust's viability)
+  - MDN Web Docs — the authoritative web technology documentation
+
+### 7. Google (`Google.json`)
+
+- **Founded:** 1998
+- **Key contributions:**
+  - Go (2009, Thompson, Pike, Griesemer) — systems language for cloud infra
+  - Dart (2011, Lars Bak and Kasper Lund) — web/mobile language, Flutter
+  - Carbon (2022) — experimental C++ successor/interop
+  - V8 JavaScript engine (2008) — enabled Node.js; set performance bar
+  - Protocol Buffers and gRPC — data interchange infrastructure
+  - Android SDK (Java-based; later Kotlin-first)
+  - MLIR (Chris Lattner, 2019) — multi-level intermediate representation
+
+### 8. Facebook / Meta (`Facebook.json`)
+
+- **Founded:** 2004 (Facebook); Meta 2021
+- **Key contributions:**
+  - Hack (2014) — PHP superset with gradual typing
+  - Flow (2014) — static type checker for JavaScript
+  - React (2013, Jordan Walke) — UI library that popularized declarative
+    component models; influenced Elm, Vue, Svelte architectures
+  - GraphQL (2012, internal; open-sourced 2015) — API query language
+  - Infer (static analysis tool, based on separation logic)
+
+### 9. JetBrains (`JetBrains.json`)
+
+- **Founded:** 2000 (Prague)
+- **Key contributions:**
+  - Kotlin (2011, JetBrains team led by Andrey Breslav)
+  - IntelliJ IDEA — IDE platform that became the basis for Android Studio
+  - MPS (Meta Programming System) — language workbench
+  - Kotlin became Google's preferred language for Android (2017)
+  - Kotlin Multiplatform — shared code across JVM, JS, native
+
+### 10. W3C (World Wide Web Consortium) (`W3C.json`)
+
+- **Founded:** 1994 (Tim Berners-Lee, MIT)
+- **Key contributions:**
+  - HTML standards (HTML2, HTML4, HTML5 co-spec)
+  - CSS standards (Cascading Style Sheets, Hakon Wium Lie)
+  - XML (1998) — general markup standard
+  - SVG, XPath, XSLT, XQuery — the XML family of standards
+  - WebAssembly (2019, with WHATWG)
+  - Web Accessibility standards (WCAG)
+  - Note: NOT responsible for JavaScript (that's ECMA TC39)
+
+### 11. HashiCorp (`HashiCorp.json`)
+
+- **Founded:** 2012
+- **Key contributions:**
+  - HCL (HashiCorp Configuration Language) — declarative infrastructure
+    language used in Terraform, Vault, Consul, Nomad
+  - Terraform — infrastructure-as-code tool that made HCL ubiquitous
+    in DevOps; became a lingua franca for cloud provisioning
+  - Note: HCL appears in `dark_matter_todo.json` as a missing language
+    profile; this org profile provides institutional context
+
+### 12. Modular Inc (`Modular_Inc.json`)
+
+- **Founded:** 2022 (Chris Lattner, after Google Brain)
+- **Key contributions:**
+  - Mojo (2023) — Python superset for AI/ML; aims to be 35,000x faster
+    than Python for numerical workloads by compiling via MLIR
+  - Designed to solve the "two-language problem" in AI (Python for
+    research, C++/CUDA for production)
+  - Note: very young company; profile should acknowledge the early stage
+
+### 13. NATO Science Committee (`NATO_Science_Committee.json`)
+
+- **Founded:** 1958 (science advisory body within NATO)
+- **Key contributions:**
+  - Organized the 1968 Garmisch Conference on Software Engineering
+    (named the discipline; defined the "software crisis")
+  - Organized the 1969 Rome Conference (follow-up)
+  - Created the term "software engineering" as a deliberate provocation
+    to apply engineering rigor to an ad-hoc craft
+  - Key figures: Peter Naur (co-edited conference proceedings),
+    Brian Randell, Friedrich Bauer
+
+### 14. Remington Rand (`Remington_Rand.json`)
+
+- **Founded:** 1927 (as a typewriter company; acquired Eckert-Mauchly
+  Computer Corporation in 1950)
+- **Key contributions:**
+  - UNIVAC I (1951) — first commercially available computer in the US
+  - Employed Grace Hopper, who developed the first compiler (A-0) here
+  - Manufactured the hardware that made FLOW-MATIC and early COBOL work
+  - Note: became Sperry Rand in 1955, then Unisys in 1986
+
+## Omit from this prompt
+
+"Proprietary Software", "Think in Systems", "Iverson Software" appear in
+`dark_matter_todo.json` but are not real named organizations worth profiling
+in this context. They are reference artifacts from profile text. Skip them.
+
+## Required JSON Schema
+
+Same as PROMPT_60:
+`title`, `founded`, `overview`, `key_contributions`, `pivotal_people`,
+`legacy`, `ai_assisted_discovery_missions`.
+
+## Quality Bar
+
+- Each org profile should explain WHY the org produced what it did, not
+  just WHAT it produced. Bell Labs had 50-year research horizons. Sun's
+  Java was driven by the set-top box market before the web. Connect
+  institutional incentives to technical outputs.
+- `legacy` sections should cite specific living software, languages, or
+  frameworks that trace their lineage to the org.
+
+## Verification
+
+1. `make build` — must succeed.
+2. `make audit` — must pass.
+3. Visit `/org/Google`, `/org/Mozilla`, `/org/W3C` in the running server.
+4. Run `make dark-matter` — `missing_org_profiles` count should drop to
+   near zero (the omitted non-orgs may still appear).
+
+## Commit
+
+```bash
+git add data/docs/org_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_61] Add org profiles: industry companies and standards bodies
+
+Create profiles for IBM, Sun, Microsoft, Microsoft Research, Apple, Mozilla,
+Google, Meta/Facebook, JetBrains, W3C, HashiCorp, Modular, NATO Science
+Committee, and Remington Rand. Completes the organization backlog identified
+by the dark matter audit.
+EOF
+)"
+```

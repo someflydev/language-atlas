@@ -1,0 +1,151 @@
+# PROMPT_56: People Profiles — Structure, Logic & Object Orientation (1955-1980)
+
+## Objective
+
+Create narrative JSON profiles for the theorists and language designers who
+defined structured programming, formal semantics, logic programming, and
+early object-oriented thinking. This batch covers the era when programming
+language theory became a rigorous discipline.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Create `tmp/PROMPT_56_checklist.md` with a checkbox per profile.
+5. Check off each item immediately after completing it.
+
+## People to Profile
+
+All names appear in `data/people.json`. Create one JSON file per person in
+`data/docs/people_profiles/`.
+
+1. **John McCarthy** (`John_McCarthy.json`)
+   - Invented Lisp (1958), coined "artificial intelligence", invented
+     garbage collection, time-sharing, and the REPL
+   - Proposed recursion via λ-calculus in a practical language
+   - Mental model: programs are symbolic expressions that can manipulate
+     other symbolic expressions; computation is symbol transformation
+
+2. **Ole-Johan Dahl & Kristen Nygaard** — two files:
+   `Ole-Johan_Dahl.json` and `Kristen_Nygaard.json`
+   - Co-created Simula (1967): first language with classes, objects,
+     inheritance, and coroutines
+   - Nygaard: domain modeler and concept originator; Dahl: implementer
+   - Their insight: model the real world directly in code via discrete
+     event simulation; objects mirror entities
+
+3. **Christopher Strachey** (`Christopher_Strachey.json`)
+   - Founded denotational semantics (with Dana Scott), invented
+     higher-order functions and closures, CPL (ancestor of C)
+   - Ran the Programming Research Group at Oxford
+   - Mental model: a program has a precise mathematical meaning
+     (its denotation) independent of how it runs; semantics first
+
+4. **Robin Milner** (`Robin_Milner.json`)
+   - Created ML (1973) and its Hindley-Milner type inference, invented
+     the pi-calculus (a model of concurrent computation), CCS
+   - Three Turing Awards' worth of contributions — type theory,
+     verification, concurrency
+   - Mental model: types are proofs; well-typed programs cannot go wrong;
+     concurrency is mobile processes exchanging names
+
+5. **Niklaus Wirth** (`Niklaus_Wirth.json`)
+   - Designed Pascal (1970), Modula-2 (1978), Oberon (1987)
+   - Coined "Wirth's Law" (software bloat); championed simplicity,
+     structured programming, and stepwise refinement
+   - Mental model: a language should be as simple as possible and no
+     simpler; algorithmic thinking precedes coding
+
+6. **Barbara Liskov** (`Barbara_Liskov.json`)
+   - Designed CLU (1974): first language with data abstraction,
+     iterators, and exception handling as first-class features
+   - Liskov Substitution Principle (1987): formal foundation of OOP
+     subtyping; 2008 Turing Award
+   - Mental model: separate what an object does from how it does it;
+     clients depend on behavior, not representation
+
+7. **Alan Kay** (`Alan_Kay.json`)
+   - Invented Smalltalk (1972) at Xerox PARC, coined "object-oriented
+     programming", proposed the Dynabook (laptop computer concept, 1972)
+   - Influenced by Simula, Sketchpad, and biological cell metaphor
+   - Mental model: objects are like biological cells — autonomous,
+     communicate only by message; the computer is a meta-medium
+
+8. **Adele Goldberg** (`Adele_Goldberg.json`)
+   - Co-developed Smalltalk-80 at Xerox PARC, wrote the definitive
+     Smalltalk reference (the "Blue Book"), co-founded ParcPlace Systems
+   - Key role in making Smalltalk accessible and documented; championed
+     computers as personal tools for learning
+
+9. **Alain Colmerauer** (`Alain_Colmerauer.json`)
+   - Created Prolog (1972) at the University of Marseille with
+     Robert Kowalski; natural language processing motivations
+   - Mental model: a program is a set of logical clauses; computation
+     is proof search by resolution
+
+10. **Robert Kowalski** (`Robert_Kowalski.json`)
+    - Provided the procedural interpretation of Horn clauses that made
+      Prolog practical; "Algorithm = Logic + Control"
+    - Developed SLD resolution; unified logic and computation theory
+
+11. **Gerald Jay Sussman & Guy L. Steele** — two files:
+    `Gerald_Jay_Sussman.json` and `Guy_L_Steele.json`
+    - Co-created Scheme (1975): minimal Lisp with lexical scoping,
+      tail-call optimization, and first-class continuations
+    - Scheme's influence: SICP (the most influential CS textbook),
+      R5RS standard; both later shaped Java (Steele) and Python (Steele)
+
+12. **David Turner** (`David_Turner.json`)
+    - Designed SASL (1973), KRC (1981), Miranda (1985) — the direct
+      precursors to Haskell
+    - Pioneered lazy evaluation and purely functional programming as a
+      practical discipline, not just theory
+
+13. **Noam Chomsky** (`Noam_Chomsky.json`)
+    - Developed the Chomsky Hierarchy of formal grammars (1956);
+      context-free grammars underlie every modern language parser
+    - Not a programmer — a linguist — but his grammar theory IS the
+      theoretical foundation of compiler front-ends
+    - Note: affiliations are academic linguistics, not CS departments
+
+## Required JSON Schema
+
+Same schema as PROMPT_55. All 8 keys required:
+`title`, `overview`, `historical_context`, `mental_model`, `pivotal_works`,
+`affiliations`, `legacy`, `ai_assisted_discovery_missions`.
+
+For Chomsky, `mental_model` should focus on how formal grammar theory
+applies to programming languages (even though his work was in linguistics).
+
+## Cross-Reference Requirements
+
+- Smalltalk: link Alan Kay and Adele Goldberg to each other
+- Prolog: link Colmerauer and Kowalski
+- Scheme: link Sussman and Steele
+- Reference ML's type inference as the foundation for later languages
+  (Haskell, OCaml, Rust) in Milner's legacy
+- Reference Simula → Smalltalk → C++ → Java inheritance chain in Dahl/Nygaard profiles
+
+## Verification
+
+1. `make build` — must succeed.
+2. `make audit` — no new failures.
+3. Spot-check `/person/Alan_Kay`, `/person/Robin_Milner`,
+   `/person/Noam_Chomsky` in the running server.
+
+## Commit
+
+```bash
+git add data/docs/people_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_56] Add people profiles: structure, logic & OOP pioneers (1955-1980)
+
+Create 14 profiles covering McCarthy (Lisp, GC), Dahl/Nygaard (Simula, OOP),
+Strachey (denotational semantics), Milner (ML, type inference), Wirth
+(Pascal, simplicity), Liskov (CLU, LSP), Kay/Goldberg (Smalltalk), Prolog
+creators, Scheme creators, Turner (lazy evaluation), and Chomsky (formal
+grammars). Connects the theoretical foundations to their language descendants.
+EOF
+)"
+```

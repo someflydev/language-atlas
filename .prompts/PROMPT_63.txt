@@ -1,0 +1,190 @@
+# PROMPT_63: Missing Language Profiles — Classic and Academic Languages
+
+## Objective
+
+Create language profiles for historically significant languages that appear
+in `dark_matter_todo.json` under `missing_language_profiles` but represent
+genuine, important entries in the language lineage — languages that are
+actually taught, studied, or have real legacy. Skip references that are
+not standalone languages (BNF, BSON, Compression Algorithms, JVM, etc.).
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md` (profile field requirements for language profiles).
+3. Load `.context/architecture.md`.
+4. Read `generated-reports/dark_matter_todo.json` to confirm the current
+   `missing_language_profiles` list.
+5. Read one existing language profile (e.g., `data/docs/language_profiles/C.json`)
+   for style and depth reference.
+6. Create `tmp/PROMPT_63_checklist.md` with a checkbox per profile.
+7. Check off each item immediately after completing it.
+
+## Important: These are profiles only
+
+These languages likely already have entries in `data/languages.json` or are
+referenced FROM existing profiles. Do NOT add new rows to `data/languages.json`
+in this session. The profile files in `data/docs/language_profiles/` provide
+narrative depth for whatever records already exist.
+
+If a language is in `missing_language_profiles` but NOT in `data/languages.json`,
+it means it was referenced in another profile's text but has no core record.
+In that case, the profile you create will not be linked in the DB (it won't
+display at `/language/<name>`). Note these cases in the checklist but still
+create the file for future use when a languages.json entry is added.
+
+## Languages to Profile
+
+### Tier 1: Must-Have (these are well-defined, important languages)
+
+1. **Visual Basic** (`data/docs/language_profiles/Visual_Basic.json`)
+   - Microsoft, 1991; RAD GUI programming for Windows
+   - Forms-based development; hugely successful for business applications
+   - The "Hello World" for a generation of Windows developers
+   - Influenced: PowerShell's script-ability, VBA (Office automation)
+   - Successor: Visual Basic .NET (2002), eventually deprecated in favor of C#
+
+2. **Delphi** (`data/docs/language_profiles/Delphi.json`)
+   - Borland, 1995 (Anders Hejlsberg lead designer); Object Pascal dialect
+   - Fused Pascal's clarity with RAD GUI tooling (VCL component model)
+   - Massive in Eastern Europe and enterprise Windows development
+   - Influenced: C# (Hejlsberg went to Microsoft; Delphi → C# lineage is direct)
+
+3. **D** (`data/docs/language_profiles/D.json`)
+   - Walter Bright (Digital Mars), 2001; also known as Dlang
+   - "C++ done right": systems language with GC, templates, contracts,
+     built-in unit tests, and module system
+   - Never achieved mainstream adoption despite technical quality;
+     lessons absorbed by Rust and Go designers
+   - Influences: D's template system influenced C++11, D's ranges influenced
+     C++ ranges
+
+4. **Groovy** (`data/docs/language_profiles/Groovy.json`)
+   - James Strachan (2003), ASF (Apache), now Pivotal
+   - Dynamic JVM language; Groovy-first language of Gradle (the build tool
+     used by Android and Java projects everywhere)
+   - Influenced Kotlin's design; provided JVM scripting before Kotlin/Scala
+   - Key use: Groovy DSL powers all Gradle build files
+
+5. **CoffeeScript** (`data/docs/language_profiles/CoffeeScript.json`)
+   - Jeremy Ashkenas, 2009
+   - Compiles to JavaScript; introduced: fat arrow (=>) syntax (adopted by
+     ES6), destructuring (adopted by ES6), list comprehensions
+   - Historical importance: proved that "compiles-to-JS" was viable;
+     paved the road for TypeScript, Elm, and ClojureScript
+   - Now largely superseded by ES6+ but its innovations are in every codebase
+
+6. **Datalog** (`data/docs/language_profiles/Datalog.json`)
+   - Subset of Prolog; formalized in 1970s-80s; still actively used
+   - Declarative query language for deductive databases
+   - Modern relevance: Datomic uses Datalog; souffle (program analysis),
+     Google's Yedalog, Bazel's Starlark has Datalog roots
+   - Mental model: facts + rules → derived facts; computation is proof
+
+7. **Occam** (`data/docs/language_profiles/Occam.json`)
+   - INMOS/David May, 1983; named after William of Occam
+   - Based on Tony Hoare's CSP (Communicating Sequential Processes)
+   - Designed for the Transputer parallel processor
+   - First language to make concurrency a first-class design principle
+     (before Erlang, before Go); influenced Erlang, Go channels
+
+8. **ALGOL 58** (`data/docs/language_profiles/ALGOL_58.json`)
+   - 1958 joint ACM/GAMM project; Zurich meeting
+   - Predecessor to ALGOL 60; introduced the concept of a language
+     designed by committee for universal scientific computation
+   - Contributed: block structure concept, begin/end delimiters
+
+9. **Cyclone** (`data/docs/language_profiles/Cyclone.json`)
+   - AT&T Labs / Cornell, 2001-2006; Greg Morrisett and team
+   - "Safe C": C dialect with region-based memory management, tagged unions,
+     and never-null pointers — all enforced at compile time
+   - Direct ancestor of Rust's ownership model; Graydon Hoare read the
+     Cyclone papers while designing Rust
+   - Mental model: memory safety without garbage collection via regions
+     and linear types
+
+10. **PureScript** (`data/docs/language_profiles/PureScript.json`)
+    - Phil Freeman, 2013
+    - Haskell-inspired strictly typed functional language compiling to JS
+    - Stricter than Elm; uses effect rows (algebraic effects) for side effects
+    - Important: demonstrates that Haskell's type-class model can work in
+      the browser; influenced Effect library design in ReScript/ReasonML
+
+11. **Haxe** (`data/docs/language_profiles/Haxe.json`)
+    - Nicolas Cannasse, 2005
+    - Multi-target language: compiles to JS, Java, C++, PHP, C#, Python,
+      Lua, HashLink bytecode, and more
+    - Used in games (HaxeFlixel, OpenFL), cross-platform apps
+    - Demonstrates the "universal cross-compiler" design space
+
+### Tier 2: Important Derivatives (create if time permits)
+
+12. **Lambda Calculus (1930s)** (`data/docs/language_profiles/Lambda_Calculus.json`)
+    - Not a practical language — a mathematical formalism; include profile
+      because it is foundational to every functional language
+    - Note clearly in overview: "Lambda calculus is a formal system, not
+      an implemented language; this profile covers its role as the
+      theoretical foundation of functional programming."
+    - Alonzo Church, 1932-1936; Church-Turing equivalence
+    - Legacy: Lisp, ML, Haskell, Scheme are all lambda calculus with
+      syntactic sugar and pragmatic additions
+
+13. **SASL** (`data/docs/language_profiles/SASL.json`)
+    - David Turner, 1972 (St. Andrews Static Language)
+    - First purely functional language with lazy evaluation
+    - Direct ancestor of Miranda and Haskell; the proof that lazy FP
+      was practical
+
+## Required JSON Schema
+
+Per AGENT.md, language profiles require:
+
+```json
+{
+  "title": "Language Name: Short Descriptor",
+  "overview": "2-3 sentence description: what it is, who made it, when.",
+  "historical_context": "200+ words. The era, the problem it solved,
+    why it was created, what existed before it.",
+  "mental_model": "100+ words. How does a programmer think in this language?
+    What is the core abstraction? Write in second-person.",
+  "key_innovations": [
+    "**Innovation name:** One-sentence explanation.",
+    "..."
+  ],
+  "tradeoffs": "100+ words. What did the language sacrifice or compromise?
+    Where does it struggle? Be honest.",
+  "legacy": "100+ words. What languages, tools, or paradigms does it
+    directly influence? Name specifics.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Quoted research prompt.'",
+    "2. '...'",
+    "3. '...'"
+  ]
+}
+```
+
+## Verification
+
+1. `make build` — must succeed. Note: profiles for languages NOT in
+   `languages.json` will be silently skipped by the build (no DB entry
+   to link to). This is expected and not an error.
+2. `make audit` — must pass.
+3. For profiles that DO link (e.g., if "Groovy" is in `languages.json`),
+   visit `/language/Groovy` in the running server to confirm.
+4. Run `make dark-matter` — note reduction in `missing_language_profiles`.
+
+## Commit
+
+```bash
+git add data/docs/language_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_63] Add language profiles: classic and academic languages
+
+Create profiles for Visual Basic, Delphi, D, Groovy, CoffeeScript, Datalog,
+Occam, ALGOL 58, Cyclone, PureScript, Haxe, Lambda Calculus, and SASL.
+Covers historically significant languages from the dark matter backlog:
+RAD tools, CSP-based parallelism, safe-C research, JS compilation targets,
+and foundational formalisms.
+EOF
+)"
+```

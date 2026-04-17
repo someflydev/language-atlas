@@ -1,0 +1,147 @@
+# PROMPT_57: People Profiles — Systems Languages & Modern Foundations (1967-1995)
+
+## Objective
+
+Create narrative profiles for the designers of the systems-level and typed
+functional languages that dominate modern computing infrastructure: C, Unix,
+C++, Haskell, Erlang, and their principal creators. This batch bridges the
+gap between the academic theory era and the modern language landscape.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Create `tmp/PROMPT_57_checklist.md` with a checkbox per profile.
+5. Check off each item immediately after completing it.
+
+## People to Profile
+
+All names appear in `data/people.json`.
+
+1. **Dennis Ritchie** (`Dennis_Ritchie.json`)
+   - Created C (1972) and co-created Unix at Bell Labs with Thompson
+   - C's design philosophy: trust the programmer; provide minimal
+     abstraction over the hardware; everything is a byte stream
+   - Mental model: the machine has a flat memory; the programmer manages
+     it; the language stays out of the way
+   - "The C Programming Language" (K&R) is the most influential
+     technical book in computing history
+
+2. **Ken Thompson** (`Ken_Thompson.json`)
+   - Co-created Unix, C (with Ritchie), B (predecessor to C), Plan 9,
+     UTF-8 encoding, and Go (with Pike and Griesemer)
+   - Turing Award 1983 (shared with Ritchie)
+   - Mental model: simplicity over features; an OS kernel should be
+     small enough for one person to understand completely
+
+3. **Brian Kernighan** (`Brian_Kernighan.json`)
+   - Co-authored K&R "The C Programming Language", designed AWK
+     (with Aho and Weinberger), wrote influential books (UNIX
+     Programming Environment, Software Tools)
+   - Not a language designer per se — a clarifier; his books defined
+     how a generation understood Unix programming
+
+4. **Martin Richards** (`Martin_Richards.json`)
+   - Created BCPL (1967) at Cambridge — the direct ancestor of B and C
+   - BCPL introduced the concept of portable system software: one source
+     compiled for any machine via an intermediate OCODE
+   - Mental model: a systems language needs only scalars and pointers;
+     all other structure is programmer convention
+
+5. **Bjarne Stroustrup** (`Bjarne_Stroustrup.json`)
+   - Created C++ (originally "C with Classes", 1979-1983) at Bell Labs
+   - Design goal: zero-overhead abstractions — you pay only for what you
+     use; OOP without sacrificing systems-level efficiency
+   - Mental model: classes are user-defined types that fit into C's type
+     system; abstraction must be free at runtime
+
+6. **Joe Armstrong** (`Joe_Armstrong.json`)
+   - Co-created Erlang (1986) at Ericsson with Robert Virding and
+     Mike Williams, designed OTP (the behavioral framework)
+   - Erlang's thesis: fault-tolerant telecom systems need isolated,
+     supervisable lightweight processes — share nothing, message everything
+   - Mental model: let it crash; a supervisor knows how to restart a
+     failed process; reliability comes from isolation, not prevention
+
+7. **Robert Virding** (`Robert_Virding.json`)
+   - Co-created Erlang; lead author of the original Erlang compiler
+     and runtime; designed key OTP behaviors (gen_server, supervisor)
+   - Provides the technical counterpart to Armstrong's conceptual framing
+
+8. **Simon Peyton Jones** (`Simon_Peyton_Jones.json`)
+   - Principal designer of Haskell (1987, with Wadler, Hudak, and others),
+     lead developer of GHC (Glasgow Haskell Compiler)
+   - Made lazy evaluation and monadic I/O practical; defined the modern
+     purely functional language
+   - Mental model: functions have no side effects by default; impure
+     effects are tracked in types via monads; laziness enables
+     infinite data structures
+
+9. **Philip Wadler** (`Philip_Wadler.json`)
+   - Co-designed Haskell; invented monads-for-FP (adapting Moggi's
+     category theory to practical I/O), proposed Featherweight Java,
+     designed the core of XQuery and XSLT
+   - "Theorems for free!" — parametricity gives you proofs from types
+   - Crucial link between type theory and programming language practice
+
+10. **Luca Cardelli** (`Luca_Cardelli.json`)
+    - Designed Modula-3, co-developed System F (polymorphic lambda
+      calculus foundations), F-ing Modules, and early ML implementations
+    - Worked at Bell Labs, DEC SRC, Microsoft Research
+    - Mental model: type systems are the logic of programs; a good type
+      system rejects bad programs and accepts good ones
+
+11. **Kenneth E. Iverson** (`Kenneth_E_Iverson.json`)
+    - Created APL (1962) — a notation for expressing algorithms using
+      array operations with a concise symbol vocabulary; later J (1990)
+    - 1979 Turing Award; "Notation as a Tool of Thought" lecture
+    - Mental model: mathematical notation should be executable; arrays
+      are the fundamental data structure; operators lift over collections
+
+12. **Alfred Aho** (`Alfred_Aho.json`)
+    - Co-authored "Compilers: Principles, Techniques, and Tools" (the
+      Dragon Book — the compiler engineering bible), designed AWK with
+      Kernighan and Weinberger, co-created the Aho-Corasick algorithm
+    - 2020 Turing Award (with Jeff Ullman)
+    - Mental model: parsing is pattern matching on token streams;
+      algorithms on strings and trees are the compiler's raw material
+
+## Required JSON Schema
+
+All 8 keys required:
+`title`, `overview`, `historical_context`, `mental_model`, `pivotal_works`,
+`affiliations`, `legacy`, `ai_assisted_discovery_missions`.
+
+## Cross-Reference Requirements
+
+- Ritchie and Thompson: reference each other; reference Bell Labs (org)
+- Stroustrup: reference C, Simula, and Alan Kay's Smalltalk influence
+- Armstrong/Virding/Williams: reference Joe Armstrong and Erlang as a unit;
+  cite the "Let It Crash" philosophy explicitly
+- Peyton Jones and Wadler: reference each other and Haskell as a shared project
+- Kernighan: reference AWK, Dennis Ritchie, Ken Thompson
+- Richards: reference C, B, and Martin Richards's BCPL in those languages'
+  profiles (note the connection but don't edit those files now)
+
+## Verification
+
+1. `make build` and `make audit` — must pass.
+2. Spot-check `/person/Dennis_Ritchie`, `/person/Simon_Peyton_Jones`.
+3. Confirm no duplicate file names; check that `Joe_Armstrong.json` does
+   not already exist in `data/docs/people_profiles/`.
+
+## Commit
+
+```bash
+git add data/docs/people_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_57] Add people profiles: systems languages & functional foundations
+
+Profiles for Ritchie and Thompson (C, Unix), Kernighan (K&R, AWK), Richards
+(BCPL), Stroustrup (C++), Armstrong and Virding (Erlang, OTP), Peyton Jones
+and Wadler (Haskell), Cardelli (ML, Modula-3), Iverson (APL), and Aho
+(compilers). Bridges the systems and typed-functional traditions.
+EOF
+)"
+```

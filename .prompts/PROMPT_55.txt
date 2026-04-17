@@ -1,0 +1,176 @@
+# PROMPT_55: People Profiles — Foundational Pioneers (Pre-1960)
+
+## Objective
+
+Create rich narrative JSON profiles for the earliest pioneers in computing and
+programming language history. These are the figures whose mathematical and
+mechanical work laid the intellectual foundation before modern programming
+languages existed. After this session, `data/docs/people_profiles/` will
+contain 10-11 detailed profiles covering the dawn era.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md` (profile directory layout and required fields).
+3. Load `.context/architecture.md` (how data flows from JSON to SQLite).
+4. Create `tmp/PROMPT_55_checklist.md` with checkboxes for each profile below.
+5. Check off each item immediately after completing it.
+
+## People to Profile
+
+Create one JSON file per person in `data/docs/people_profiles/`. Use the
+person's name with spaces replaced by underscores (e.g., `Alan_Turing.json`).
+All names below appear in `data/people.json` — do not invent new records.
+
+### Batch (in this order)
+
+1. **Alan Turing** (`Alan_Turing.json`)
+   - Turing machine, computability, Entscheidungsproblem, Turing test
+   - Bombe machine (WWII), ACE design, contributions to morphogenesis
+   - Mental model: universal computation; any computable function can be
+     reduced to a tape-head operating over an infinite symbol strip
+
+2. **Alonzo Church** (`Alonzo_Church.json`)
+   - Lambda calculus (1932-1936), Church-Turing thesis
+   - Simply typed lambda calculus, formal proof of Entscheidungsproblem
+   - Mental model: computation as function application and reduction;
+     programs ARE mathematical expressions
+
+3. **Grace Hopper** (`Grace_Hopper.json`)
+   - COBOL co-creator, A-0 compiler (first working compiler), FLOW-MATIC
+   - Coined "debugging" (the moth), championed machine-independent code
+   - Affiliation: US Navy, Remington Rand, Sperry Corporation
+   - Mental model: a computer should understand human language, not just
+     binary; the compiler is a translator, not magic
+
+4. **John Backus** (`John_Backus.json`)
+   - FORTRAN lead designer (IBM, 1957), Backus-Naur Form (BNF)
+   - 1978 Turing Award lecture: "Can Programming Be Liberated from the
+     von Neumann Style?" — introduced function-level programming (FP)
+   - Mental model: programs should express mathematical relations, not
+     imperatively step a machine through memory
+
+5. **Kathleen Booth** (`Kathleen_Booth.json`)
+   - Designed the first assembly language (1947) for the ARC/APE(X)C machines
+     at Birkbeck College, University of London
+   - Co-developed early magnetic drum memory with Andrew Booth
+   - Mental model: a symbolic notation above raw binary frees programmers
+     to think in operations, not bit patterns
+
+6. **Konrad Zuse** (`Konrad_Zuse.json`)
+   - Built Z1/Z2/Z3 (world's first programmable electromechanical computer),
+     designed Plankalkül (1942-1945) — the first high-level programming language
+   - Plankalkül anticipated assignments, conditionals, loops, arrays, and
+     subroutines years before FORTRAN
+   - Mental model: build notation that expresses algorithms as mathematical
+     calculi, independent of physical machine
+
+7. **John Mauchly** (`John_Mauchly.json`)
+   - ENIAC co-inventor, UNIVAC, Short Code (first interpreted HLL, 1950)
+   - BINAC, founding role in ACM
+   - Mental model: hardware must be paired with software abstractions; the
+     machine's power is unlocked by its instruction vocabulary
+
+8. **Herman Hollerith** (`Herman_Hollerith.json`)
+   - Invented electromechanical punched-card tabulation for the 1890 US Census
+   - Founded the Tabulating Machine Company, precursor to IBM
+   - Mental model: encode data as physical holes; machine reads by sensing
+     contact — the binary abstraction long before electronics
+
+9. **Alick Glennie** (`Alick_Glennie.json`)
+   - Wrote Autocode (1952) at Manchester University — the first working
+     compiled high-level language (compiling to Mark 1)
+   - Context: worked on ballistic trajectory calculations; needed notation
+     closer to mathematics than assembly
+   - Mental model: give the mathematician a notation he already knows;
+     let the machine translate
+
+10. **Peter Naur** (`Peter_Naur.json`)
+    - ALGOL 60 chief designer, refined Backus-Naur Form (BNF) into its
+      definitive form, 2005 Turing Award
+    - "Programming as Theory Building" (1985 essay) — programming is about
+      building mental models, not just writing code
+    - Mental model: a language spec is a theory; the compiler is its model;
+      program correctness follows from the theory
+
+11. **Friedrich L. Bauer** (`Friedrich_L_Bauer.json`)
+    - Co-invented the stack (Kellerautomaten) with Klaus Samelson (1955),
+      enabling recursive procedure calls in all modern languages
+    - Co-designed ALGOL 58, helped establish software engineering as a discipline
+    - Mental model: computation as systematic reduction via a LIFO mechanism;
+      the call stack mirrors mathematical induction
+
+## Required JSON Schema
+
+Each file MUST contain exactly these top-level keys (per AGENT.md mandate):
+
+```json
+{
+  "title": "Name: Memorable Subtitle (e.g., 'The Architect of Computability')",
+  "overview": "2-3 sentence biography and primary contribution",
+  "historical_context": "The era, the problem they were solving, and why their
+    approach was novel. Minimum 150 words. Situate them in their time.",
+  "mental_model": "How did they think? What was their core abstraction or
+    insight? Write this in second-person ('To think like X is to...').
+    Minimum 100 words.",
+  "pivotal_works": [
+    "**Work Title (Year):** One-sentence impact statement.",
+    "..."
+  ],
+  "affiliations": [
+    "**Organization:** Role and era.",
+    "..."
+  ],
+  "legacy": "How their work directly flows into modern programming languages
+    and systems. Cite specific living languages or paradigms. Min 80 words.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Quoted research prompt exploring an aspect of their work.'",
+    "2. '...'",
+    "3. '...'"
+  ]
+}
+```
+
+- The `mental_model` field is optional per AGENT.md for people who pioneered
+  a specific mental model. For this batch, include it for every person since
+  they all introduced foundational abstractions.
+- `ai_assisted_discovery_missions` must have exactly 3 entries.
+- Do not add extra top-level keys beyond those listed above.
+
+## Cross-Reference Requirements
+
+- Reference specific languages from `data/languages.json` by exact name
+  where applicable (e.g., "FORTRAN", "COBOL", "Plankalkül").
+- Reference other people in this batch by name where historically connected
+  (e.g., Church and Turing co-proved the Church-Turing thesis).
+- Do not invent affiliations or dates; flag uncertainty with "circa" or
+  approximate language.
+
+## Verification
+
+After creating all files:
+1. Run `make build` — the SQLite build must succeed with no errors.
+2. Run `make audit` — the auditor must report no new failures.
+3. Start the server (`make server`) and spot-check two profiles at
+   `/person/Alan_Turing` and `/person/Grace_Hopper` to confirm rendering.
+4. Run `make dark-matter` and confirm the count of missing people profiles
+   has decreased.
+
+## Commit
+
+Stage and commit only the new profile files:
+
+```bash
+git add data/docs/people_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_55] Add people profiles: foundational pioneers (pre-1960)
+
+Create 11 narrative profiles for the dawn-era figures whose mathematical
+and mechanical work preceded modern programming languages: Turing, Church,
+Hopper, Backus, Booth, Zuse, Mauchly, Hollerith, Glennie, Naur, Bauer.
+
+Each profile covers historical context, mental model, pivotal works,
+affiliations, legacy, and AI discovery missions.
+EOF
+)"
+```
