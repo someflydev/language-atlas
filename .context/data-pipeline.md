@@ -26,6 +26,12 @@
 | `era_summaries/` | Hub narratives for each era; link out to detailed profiles |
 | `crossroads/` | Pivotal decision-point narratives; link out to detailed profiles |
 
+## Profile Filename Mapping
+- Profile filenames are derived from canonical entity names by replacing spaces with underscores.
+- Preserve punctuation that is part of the source-of-truth name instead of stripping it.
+- This is especially important for people profiles because the loader matches filename stems back to `data/people.json` names by turning underscores into spaces.
+- Example: `Guy L. Steele` -> `Guy_L._Steele.json`; `Ole-Johan Dahl` -> `Ole-Johan_Dahl.json`.
+
 ## Build Pipeline
 ```bash
 make build   # runs: python3 src/app/core/build_sqlite.py
