@@ -1,0 +1,15 @@
+{
+  "title": "XML: Structured Markup for the Enterprise Web",
+  "overview": "XML is a metalanguage for defining structured markup vocabularies. It was designed as a simpler web-era subset of SGML, giving developers a common way to represent documents and data with explicit nesting, tags, and namespaces.",
+  "historical_context": "Standardized by the W3C in 1998, XML was driven by figures including Tim Bray, Jean Paoli, and C. M. Sperberg-McQueen. It arrived when the web needed a stricter, interoperable alternative to the browser-specific chaos of HTML and the full complexity of SGML. XML quickly became the universal interchange format for enterprise systems, publishing pipelines, configuration files, and web services. Entire families of standards grew around it, including XPath, XSLT, XQuery, XML Schema, SOAP, SVG, RSS, and Atom.",
+  "mental_model": "XML asks you to think in labeled trees with explicit boundaries. Every document is a hierarchy of elements and attributes whose meaning comes from an agreed vocabulary or schema. Unlike HTML, XML does not define built-in rendering behavior; it defines a disciplined syntax for carrying structured meaning between systems. Namespaces matter because multiple vocabularies can coexist in one document, and validation matters because the document is often a contract rather than a forgiving web page.",
+  "key_innovations": [
+    "A simplified SGML-derived syntax made self-describing structured data practical for general software systems.",
+    "Namespaces provided a formal way to combine independently designed vocabularies without tag collisions.",
+    "Schema and validation ecosystems treated markup as a machine-checkable contract, not just human-authored text.",
+    "XML spawned a broad family of query, transformation, and service standards that shaped enterprise integration."
+  ],
+  "tradeoffs": "- XML is verbose, and the angle-bracket overhead makes simple payloads larger and harder to scan than lighter formats.\n- Namespace handling is conceptually elegant but often confusing in real tooling and hand-authored documents.\n- The surrounding ecosystem grew complex, especially with SOAP, XML Schema, and enterprise service stacks.\n- JSON displaced XML for many web APIs because simpler object-shaped data did not need XML's document-centric machinery.",
+  "legacy": "XML defined the pre-JSON web and still anchors major infrastructure. Maven POM files, Ant builds, Android layouts, Office document formats, SVG, and many publishing pipelines remain XML-based. Its broader legacy is that it normalized the idea that data interchange should be self-describing, schema-aware, and transformable by generic tooling.",
+  "ai_assisted_discovery_missions": "1. \"Explain how XML simplified SGML while still enabling complex vocabularies such as SVG and SOAP envelopes.\"\n2. \"Compare XML namespaces, schemas, and validation to JSON Schema and show where XML remains stronger or more cumbersome.\"\n3. \"Trace a real XML workflow that uses XPath or XSLT to transform one document vocabulary into another.\""
+}
