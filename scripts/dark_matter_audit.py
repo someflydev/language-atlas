@@ -79,6 +79,7 @@ def canonicalize(name: Optional[str]) -> str:
     name = name.lower()
     if name.startswith("the "): name = name[4:].strip()
     name = name.replace("cpu and memory", "cpu_memory").replace("cpu/memory", "cpu_memory")
+    name = name.replace("&", " and ").replace("/", "_")
     name = re.sub(r'\b(inc|corp|corporation|ltd|limited|llc|plc|foundation|labs|software)(\.?)(\b|$)', '', name).strip()
     name = re.sub(r'\(\d{4}(?:–|-|/)(?:\d{4}|present)\)', '', name, flags=re.I)
     name = re.sub(r'\(\d{4}\)', '', name)
@@ -249,6 +250,15 @@ def audit() -> None:
                 else:
                     canon = canonicalize(f.stem)
                     existing_profiles[cat].add(canon)
+                    if cat == "concept_combos":
+                        try:
+                            payload = json.loads(f.read_text(encoding="utf-8"))
+                        except (json.JSONDecodeError, OSError):
+                            payload = {}
+                        title = payload.get("title") if isinstance(payload, dict) else None
+                        if isinstance(title, str) and title.strip():
+                            existing_profiles[cat].add(canonicalize(title))
+                            existing_profiles[cat].add(canonicalize(title.split(":", 1)[0].strip()))
                     if cat == "languages":
                         for alias in LANGUAGE_PROFILE_ALIASES.get(canon, set()):
                             existing_profiles[cat].add(alias)
@@ -278,7 +288,7 @@ def audit() -> None:
                 if name:
                     known_languages.add(canonicalize(name))
 
-    def add_reference(name: Optional[str], target_map: Optional[Dict[str, str]] = None) -> None:
+    def add_reference(name: Optional[str], target_map: Optional[Dict[str, str]] = None, *, allow_combo: bool = True) -> None:
         if not name or name == "Various": return
         if re.search(r'^[A-Z]+\s+\(\d{4}-\d{4}\)$', name): return
         
@@ -286,7 +296,7 @@ def audit() -> None:
         name_no_year = strip_years(name)
         
         names = split_entities(name)
-        if any(sep in name_no_year for sep in [" and ", " & ", " / "]) or (len(names) > 1):
+        if allow_combo and (any(sep in name_no_year for sep in [" and ", " & ", " / "]) or (len(names) > 1)):
             combo_clean = clean_name(name_no_year); canon_combo = canonicalize(combo_clean)
             if canon_combo and canon_combo not in meta_canons:
                 if canon_combo not in existing_profiles["concept_combos"]: referenced_combos[canon_combo] = combo_clean
@@ -329,8 +339,8 @@ def audit() -> None:
                 for field in ["primary_use_cases", "key_innovations"]:
                     for val in l.get(field, []):
                         c, o = extract_entities_from_text(val)
-                        for item in c: add_reference(item)
-                        for item in o: add_reference(item, referenced_organizations)
+                        for item in c: add_reference(item, allow_combo=(cat != "concept_combos"))
+                        for item in o: add_reference(item, referenced_organizations, allow_combo=(cat != "concept_combos"))
                         if not c: add_reference(val)
                 for paradigm in l.get("paradigms", []): add_reference(paradigm)
                 for creator in l.get("creators", []):
@@ -391,7 +401,7 @@ def audit() -> None:
         return found_concepts, found_orgs
 
     for cat, p_dir in profiles_dirs.items():
-        if cat == "atlas_meta": continue
+        if cat in {"atlas_meta", "concept_combos"}: continue
         if p_dir.exists():
             for f_path in p_dir.glob("*.json"):
                 try:
