@@ -5,6 +5,9 @@
   "Assembly": {
     "type": "language"
   },
+  "Bash": {
+    "type": "language"
+  },
   "Bjarne Stroustrup": {
     "type": "person"
   },
@@ -21,6 +24,9 @@
     "type": "person"
   },
   "Erlang": {
+    "type": "language"
+  },
+  "Forth": {
     "type": "language"
   },
   "Friedrich L. Bauer": {
@@ -53,6 +59,12 @@
   "Lambda Calculus": {
     "type": "language"
   },
+  "Lua": {
+    "type": "language"
+  },
+  "MATLAB": {
+    "type": "language"
+  },
   "Mojo": {
     "type": "language"
   },
@@ -62,7 +74,16 @@
   "OCaml": {
     "type": "language"
   },
+  "Objective-C": {
+    "type": "language"
+  },
+  "PowerShell": {
+    "type": "language"
+  },
   "Python": {
+    "type": "language"
+  },
+  "R": {
     "type": "language"
   },
   "ReScript": {
@@ -72,6 +93,9 @@
     "type": "person"
   },
   "Rust": {
+    "type": "language"
+  },
+  "Self": {
     "type": "language"
   },
   "Short Code": {
@@ -84,6 +108,9 @@
     "type": "language"
   },
   "TypeScript": {
+    "type": "language"
+  },
+  "K": {
     "type": "language"
   },
   "WebAssembly": {

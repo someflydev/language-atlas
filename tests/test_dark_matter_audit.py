@@ -71,7 +71,16 @@ def test_alias_resolution_reviewed_language_variants() -> None:
 
     cases = {
         "Assembly (Early 1940s)": "Assembly",
+        "Erlang (1980s)": "Erlang",
+        "Forth (late 1960s onward)": "Forth",
+        "K (1990s)": "K",
+        "Lua (1993 onward)": "Lua",
+        "MATLAB (late 1970s onward)": "MATLAB",
+        "Objective-C (early 1980s)": "Objective-C",
+        "PowerShell (2006 onward)": "PowerShell",
+        "R (1990s)": "R",
         "Rust (Mozilla era, 2009 onward)": "Rust",
+        "Self (late 1980s)": "Self",
         "TypeScript (2012/2015 Surge)": "TypeScript",
     }
 
