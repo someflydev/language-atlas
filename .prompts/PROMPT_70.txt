@@ -1,0 +1,128 @@
+# PROMPT_70: Missing Language Profiles — Formalisms, Machines, and Compiler Infrastructure
+
+## Objective
+
+Create narrative language profiles for the highest-priority remaining dark
+matter entries that sit at major branch points in programming language
+history: early machines, formal notations, classic AI/database languages, and
+compiler/runtime infrastructure. These are more valuable than the remaining
+long tail because they explain large portions of the Atlas graph.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json` and confirm these entries
+   still appear in `missing_language_profiles`.
+6. Read one existing language profile for tone and structure reference.
+7. Create `tmp/PROMPT_70_checklist.md` with a checkbox per profile below.
+8. Check off each item immediately after completing it.
+
+## Languages to Profile
+
+Create one file per entry in `data/docs/language_profiles/`.
+
+1. **ENIAC** (`ENIAC.json`)
+   - Frame as an early programming system / machine-language environment
+   - Connect wiring, stored-program transition pressures, and later assembly
+
+2. **BNF** (`BNF.json`)
+   - Backus-Naur Form as a language-specification formalism
+   - Be explicit that this is notation, not an executable language
+
+3. **PL/I** (`PL:I.json`)
+   - Preserve punctuation from the canonical name in the filename
+   - IBM's attempt to unify scientific, business, and systems programming
+
+4. **Maclisp** (`Maclisp.json`)
+   - MIT AI Lab Lisp lineage; dynamic language pragmatism; influence on
+     Common Lisp, Scheme, and symbolic AI tooling
+
+5. **Planner** (`Planner.json`)
+   - Carl Hewitt's goal-directed AI language; control structures for search
+   - Connect to Prolog, actor ideas, and AI reasoning systems
+
+6. **QUEL** (`QUEL.json`)
+   - Database query language from Ingres
+   - Contrast with SQL and explain why QUEL lost despite strong ideas
+
+7. **JVM** (`JVM.json`)
+   - Java Virtual Machine as a bytecode platform, not just a Java detail
+   - Connect to Java, Scala, Kotlin, Clojure, and portability/runtime design
+
+8. **GCC** (`GCC.json`)
+   - Compiler collection and the free software toolchain
+   - Connect GNU, C/C++, portability, optimization, and backend architecture
+
+9. **Clang** (`Clang.json`)
+   - LLVM-based C/C++ frontend emphasizing diagnostics, tooling, and modular
+     compiler infrastructure
+   - Contrast with GCC where useful
+
+## Required JSON Schema
+
+Per AGENT.md, language profiles require:
+
+```json
+{
+  "title": "Language Name: Short Descriptor",
+  "overview": "2-3 sentence description",
+  "historical_context": "Minimum 200 words",
+  "mental_model": "Minimum 100 words in second person",
+  "key_innovations": [
+    "**Innovation name:** One-sentence explanation."
+  ],
+  "tradeoffs": "Minimum 100 words",
+  "legacy": "Minimum 100 words",
+  "ai_assisted_discovery_missions": [
+    "1. 'Quoted research prompt.'",
+    "2. '...'",
+    "3. '...'"
+  ]
+}
+```
+
+- For ENIAC and BNF, state clearly in `overview` and `historical_context`
+  that they are atypical Atlas "language" entries: a programmable machine
+  environment and a formal syntax notation, respectively.
+- Keep the narrative rigorous; do not treat GCC or Clang as mere software
+  package summaries. Write them as language-infrastructure turning points.
+
+## Cross-Reference Requirements
+
+- BNF: connect John Backus, Peter Naur, ALGOL 60, and compiler front-end
+  design.
+- PL/I: connect IBM, FORTRAN, COBOL, C, Pascal, and Ada.
+- Maclisp / Planner: connect MIT AI Lab, John McCarthy, symbolic AI, and
+  Prolog / Common Lisp / Scheme where relevant.
+- JVM: connect Java, Java bytecode portability, and later JVM languages.
+- GCC / Clang: connect Unix/C lineage, LLVM, and modern compiler ecosystems.
+
+## Verification
+
+1. Run `make build`.
+2. Run `make audit`.
+3. Spot-check `/language/PL:I`, `/language/JVM`, and `/language/Clang` if
+   routes link cleanly; if not, verify the files render through the docs flow.
+4. Run `make dark-matter` and note the reduction in high-signal missing
+   language profiles.
+
+## Commit
+
+```bash
+git add data/docs/language_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_70] Add language profiles for formalisms and compiler infrastructure
+
+Create profiles for ENIAC, BNF, PL/I, Maclisp, Planner, QUEL, JVM,
+GCC, and Clang.
+
+This batch covers foundational dark matter still missing from the Atlas:
+early programmable-machine context, syntax formalisms, classic AI and
+database languages, and the compiler/runtime platforms that structure
+modern language ecosystems.
+EOF
+)"
+```

@@ -1,0 +1,121 @@
+# PROMPT_71: Missing Language Profiles — Numerical, Reactive, and Modern Platform Languages
+
+## Objective
+
+Create narrative language profiles for the next highest-value remaining dark
+matter entries centered on numerical computing, reactive/frontend platforms,
+and modern concurrency/runtime design. This batch should favor entries that
+still appear repeatedly across Atlas narratives or explain major modern
+ecosystem branches.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json` and confirm these entries
+   still appear in `missing_language_profiles`.
+6. Create `tmp/PROMPT_71_checklist.md` with a checkbox per profile below.
+7. Check off each item immediately after completing it.
+
+## Languages to Profile
+
+Create one file per entry in `data/docs/language_profiles/`.
+
+1. **Mathematica** (`Mathematica.json`)
+   - Wolfram symbolic computation platform
+   - Connect notebook computing, symbolic math, and language-as-knowledge-base
+
+2. **GNU Octave** (`GNU_Octave.json`)
+   - Open MATLAB-like numerical language
+   - Focus on scientific computing accessibility and compatibility
+
+3. **Numpy** (`Numpy.json`)
+   - Treat as an array programming language layer inside Python, not just a
+     library summary
+   - Connect APL/MATLAB lineage, vectorization, and numerical performance
+
+4. **React** (`React.json`)
+   - Component model, virtual DOM, declarative UI, and the post-jQuery shift
+   - Connect to JSX and state-management descendants
+
+5. **Redux** (`Redux.json`)
+   - State container architecture inspired by Elm / Flux
+   - Explain why unidirectional state and reducers mattered
+
+6. **SwiftUI** (`SwiftUI.json`)
+   - Declarative Apple UI framework / DSL
+   - Connect Swift, reactive updates, and value-oriented interface design
+
+7. **Akka** (`Akka.json`)
+   - Actor-model runtime and concurrency toolkit on the JVM
+   - Connect Erlang ideas to Scala/JVM systems
+
+8. **Cloud Haskell** (`Cloud_Haskell.json`)
+   - Distributed-process model bringing Erlang-like semantics to Haskell
+   - Connect actor/distributed ideas to typed functional programming
+
+9. **Mercury** (`Mercury.json`)
+   - Logic/functional language emphasizing purity, types, and performance
+   - Connect Prolog lineage to stronger static guarantees
+
+10. **Carbon** (`Carbon.json`)
+    - Experimental C++ successor path from Google
+    - Focus on interoperability, tooling, and large-codebase migration goals
+
+11. **Fish** (`Fish.json`)
+    - Friendly Interactive Shell
+    - Contrast with Bourne/Bash compatibility and usability tradeoffs
+
+## Required JSON Schema
+
+Same language-profile schema as PROMPT_70:
+`title`, `overview`, `historical_context`, `mental_model`,
+`key_innovations`, `tradeoffs`, `legacy`, `ai_assisted_discovery_missions`.
+
+## Framing Guidance
+
+- For NumPy, React, Redux, SwiftUI, and Akka, resist writing "just a library"
+  profiles. The Atlas already treats declarative and execution-model languages
+  as first-class historical objects. Explain the programming model each entry
+  imposes and why it belongs in the language lineage.
+- For Carbon, make the provisional status clear. Write it as a serious design
+  effort and migration thesis, not as a finished mainstream language.
+- For Fish, focus on shell usability and interactive design rather than trying
+  to force it into a giant Unix history recap already covered elsewhere.
+
+## Cross-Reference Requirements
+
+- Numerical lineage: connect Mathematica, GNU Octave, and NumPy to MATLAB,
+  APL, array programming, and scientific computing.
+- Reactive/frontend lineage: connect React, Redux, and SwiftUI to Elm,
+  JavaScript/TypeScript, and declarative UI mental models.
+- Concurrency lineage: connect Akka and Cloud Haskell to Erlang and actor
+  systems; connect Mercury to Prolog and typed functional traditions.
+- Shell lineage: connect Fish to Thompson shell, Bourne shell, Bash, and zsh.
+
+## Verification
+
+1. Run `make build` and `make audit`.
+2. Spot-check `/language/React`, `/language/Numpy`, and `/language/Akka` if
+   routes link; otherwise confirm the new files are valid JSON and build cleanly.
+3. Run `make dark-matter` and note the reduction in modern-platform and
+   numerical missing language entries.
+
+## Commit
+
+```bash
+git add data/docs/language_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_71] Add language profiles for numerical and reactive platforms
+
+Create profiles for Mathematica, GNU Octave, Numpy, React, Redux,
+SwiftUI, Akka, Cloud Haskell, Mercury, Carbon, and Fish.
+
+This batch covers the remaining high-value dark matter around symbolic
+and numerical computing, declarative UI and state systems, actor-based
+runtime design, typed logic programming, and modern shell usability.
+EOF
+)"
+```

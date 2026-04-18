@@ -1,0 +1,132 @@
+# PROMPT_69: People Profiles — Missing Builders of Shells, Web Platforms, and Numerical Computing
+
+## Objective
+
+Create narrative JSON profiles for the remaining high-signal people whose work
+shaped shells, web platforms, numerical computing, data languages, and modern
+developer tooling. This batch should favor people with direct influence on
+still-missing dark matter language entries or major Atlas narrative hubs.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json`.
+6. List files in `data/docs/people_profiles/` and confirm these profiles do
+   not already exist.
+7. Create `tmp/PROMPT_69_checklist.md` with a checkbox per profile below.
+8. Check off each item immediately after completing it.
+
+## People to Profile
+
+All names below appear in `data/people.json`. Create one JSON file per person
+in `data/docs/people_profiles/`.
+
+1. **Brian Fox** (`Brian_Fox.json`)
+   - GNU Bash creator; shell usability and GNU tooling context
+   - Connect Thompson shell, Bourne shell, Bash, and later zsh/fish lineage
+
+2. **Douglas Crockford** (`Douglas_Crockford.json`)
+   - JSON popularizer and JavaScript steward
+   - Focus on JSON's simplification versus XML, and Crockford's role in the
+     JavaScript standards and style discourse
+
+3. **Cleve Moler** (`Cleve_Moler.json`)
+   - MATLAB creator; LINPACK and EISPACK context; numerical computing
+   - Connect scientific computing, matrix-first design, and later NumPy
+
+4. **Robert Griesemer** (`Robert_Griesemer.json`)
+   - Go co-designer; V8 engine contributor
+   - Connect compiler/runtime pragmatism to Go's simplicity and performance
+
+5. **Rich Harris** (`Rich_Harris.json`)
+   - Svelte and Rollup creator
+   - Focus on compilation-first UI frameworks and the pushback against
+     virtual-DOM-heavy architectures
+
+6. **Jeffrey Snover** (`Jeffrey_Snover.json`)
+   - PowerShell creator
+   - Emphasize object pipelines versus text pipelines; shell evolution
+
+7. **Roberto Ierusalimschy** (`Roberto_Ierusalimschy.json`)
+   - Lua co-creator and steward
+   - Connect embeddable language design, portability, and language minimalism
+
+8. **Robert Gentleman** (`Robert_Gentleman.json`)
+   - R co-creator with Ross Ihaka
+   - Focus on statistical computing as language design rather than just a
+     package ecosystem
+
+9. **Ross Ihaka** (`Ross_Ihaka.json`)
+   - R co-creator with Robert Gentleman
+   - Connect S lineage, statistical graphics, and data-analysis language use
+
+10. **John G. Kemeny** (`John_G._Kemeny.json`)
+    - BASIC co-creator with Thomas E. Kurtz
+    - Emphasize educational computing, time-sharing, and accessibility
+
+11. **Thomas E. Kurtz** (`Thomas_E._Kurtz.json`)
+    - BASIC co-creator with John G. Kemeny
+    - Connect Dartmouth time-sharing to democratized programming education
+
+12. **Charles Geschke** (`Charles_Geschke.json`)
+    - Adobe co-founder; PostScript/PDF publishing platform context
+    - Write him as one half of the Adobe document-language story
+
+13. **John Warnock** (`John_Warnock.json`)
+    - Adobe co-founder; PostScript and PDF lineage
+    - Connect page description languages to printing, publishing, and PDF
+
+## Required JSON Schema
+
+Same schema as PROMPT_55-59:
+`title`, `overview`, `historical_context`, `mental_model`, `pivotal_works`,
+`affiliations`, `legacy`, `ai_assisted_discovery_missions`.
+
+- Include `mental_model` for every person in this batch.
+- Use exact canonical names from `data/people.json`.
+- Preserve punctuation in filenames where present in the name.
+
+## Cross-Reference Requirements
+
+- Shell lineage: connect Brian Fox to Ken Thompson, Steve Bourne, Bash, and
+  later shell descendants.
+- Web/data lineage: connect Crockford to JavaScript, JSON, and XML/PDF
+  contrasts where relevant.
+- Numerical lineage: connect Moler to MATLAB, LINPACK, EISPACK, and NumPy.
+- Go lineage: connect Griesemer to Rob Pike and Ken Thompson.
+- UI lineage: connect Rich Harris to Svelte, React, and modern frontend
+  compilation tradeoffs.
+- R lineage: connect Ihaka and Gentleman to each other and the earlier S
+  tradition.
+- Adobe lineage: connect Geschke and Warnock to each other and to PostScript
+  / PDF as publishing languages.
+
+## Verification
+
+1. Run `make build` and `make audit`.
+2. Spot-check `/person/Brian_Fox`, `/person/Cleve_Moler`,
+   `/person/John_Warnock`, and `/person/Ross_Ihaka`.
+3. Run `make dark-matter` and note the reduction in outstanding direct
+   people-profile completeness gaps.
+
+## Commit
+
+```bash
+git add data/docs/people_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_69] Add people profiles for shells, web platforms, and numerics
+
+Create 13 people profiles covering Brian Fox, Douglas Crockford,
+Cleve Moler, Robert Griesemer, Rich Harris, Jeffrey Snover,
+Roberto Ierusalimschy, Robert Gentleman, Ross Ihaka, Kemeny,
+Kurtz, Geschke, and Warnock.
+
+This batch fills major remaining gaps around shell evolution, JSON and
+JavaScript stewardship, statistical computing, Go, Svelte, PowerShell,
+Lua, and the PostScript/PDF publishing lineage.
+EOF
+)"
+```

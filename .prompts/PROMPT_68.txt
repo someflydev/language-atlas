@@ -1,0 +1,151 @@
+# PROMPT_68: People Profiles — Missing Architects of Objects, Ada, and Language Semantics
+
+## Objective
+
+Create narrative JSON profiles for the highest-value people still missing from
+`data/docs/people_profiles/` whose work shaped object systems, language
+semantics, Ada, Erlang, and array/concatenative traditions. This batch should
+close a large share of the remaining direct `people.json` completeness gap
+with a coherent, historically dense set of profiles.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json` for current context.
+6. List files in `data/docs/people_profiles/` to avoid duplicates.
+7. Create `tmp/PROMPT_68_checklist.md` with a checkbox per profile below.
+8. Check off each item immediately after completing it.
+
+## People to Profile
+
+All names below appear in `data/people.json`. Create one JSON file per person
+in `data/docs/people_profiles/`.
+
+1. **Adriaan van Wijngaarden** (`Adriaan_van_Wijngaarden.json`)
+   - ALGOL 68 leader; van Wijngaarden grammars; key figure in formal syntax
+   - Connect ALGOL 60 to ALGOL 68 and the limits of grammar formalisms
+   - Mental model: language definition should be rigorous enough to generate
+     both syntax and context conditions from one formal system
+
+2. **Jean Ichbiah** (`Jean_Ichbiah.json`)
+   - Led the design of Ada for the French side of the CII Honeywell Bull team
+   - Emphasize strong typing, modularity, and reliability in defense systems
+   - Connect to the software crisis, NATO, and language design by committee
+
+3. **S. Tucker Taft** (`S._Tucker_Taft.json`)
+   - Principal architect of Ada 95 and later language evolution
+   - Connect generic programming, concurrency, and long-lived industrial
+     language stewardship
+   - Mental model: a serious systems language must evolve without losing its
+     safety and specification discipline
+
+4. **Dan Ingalls** (`Dan_Ingalls.json`)
+   - Smalltalk implementation leader; BitBlt; later Squeak
+   - Focus on object systems, graphical environments, and live computing
+   - Connect to Alan Kay, Adele Goldberg, and Xerox PARC
+
+5. **David Ungar** (`David_Ungar.json`)
+   - Self creator; prototype-based object systems; adaptive optimization
+   - Connect Self to JavaScript and modern JIT compiler work
+   - Mental model: objects should be cloned and specialized, not forced into
+     class hierarchies
+
+6. **Brad Cox** (`Brad_Cox.json`)
+   - Objective-C co-creator; software components and message passing in C
+   - Connect Smalltalk influence to NeXT, Apple, and early iOS/macOS lineage
+   - Mental model: reuse should come from components that communicate by
+     messages, not giant procedural codebases
+
+7. **David MacQueen** (`David_MacQueen.json`)
+   - Standard ML modules; type-safe large-scale program structure
+   - Connect ML theory to practical modular language design
+   - Emphasize why modules matter for compilers, large systems, and OCaml
+
+8. **Mike Williams** (`Mike_Williams.json`)
+   - Erlang co-creator with Armstrong and Virding
+   - Focus on telecom reliability, OTP, and the team nature of Erlang
+   - Ensure profile complements existing Armstrong and Virding profiles
+
+9. **Charles H. Moore** (`Charles_H._Moore.json`)
+   - Forth creator; concatenative programming; threaded interpretation
+   - Emphasize extreme minimalism, extensibility, and stack-based thinking
+
+10. **Roger Hui** (`Roger_Hui.json`)
+    - J co-creator with Kenneth Iverson
+    - Connect APL's array ideas to ASCII notation and executable mathematical
+      thought without special glyphs
+
+11. **Arthur Whitney** (`Arthur_Whitney.json`)
+    - K and q designer; terse vector languages for finance and data systems
+    - Connect APL/J lineage to modern columnar, high-throughput data work
+
+## Required JSON Schema
+
+Same schema as PROMPT_55-59. Each file must contain:
+
+```json
+{
+  "title": "Name: Memorable Subtitle",
+  "overview": "2-3 sentence biography and primary contribution",
+  "historical_context": "Minimum 150 words",
+  "mental_model": "Minimum 100 words in second person",
+  "pivotal_works": [
+    "**Work Title (Year):** One-sentence impact statement."
+  ],
+  "affiliations": [
+    "**Organization:** Role and era."
+  ],
+  "legacy": "Minimum 80 words",
+  "ai_assisted_discovery_missions": [
+    "1. 'Quoted research prompt.'",
+    "2. '...'",
+    "3. '...'"
+  ]
+}
+```
+
+- Include `mental_model` for every person in this batch.
+- `ai_assisted_discovery_missions` must have exactly 3 entries.
+- Do not add extra top-level keys.
+
+## Cross-Reference Requirements
+
+- Ada lineage: connect Ichbiah and Taft to each other, Ada, and the software
+  crisis / reliability tradition.
+- Smalltalk lineage: connect Ingalls to Alan Kay and Adele Goldberg.
+- Self and JavaScript lineage: connect Ungar to Self and Douglas Crockford /
+  JavaScript where historically appropriate.
+- Erlang lineage: connect Mike Williams to Joe Armstrong and Robert Virding.
+- Array language lineage: connect Roger Hui and Arthur Whitney back to
+  Kenneth E. Iverson and APL/J.
+- Formal semantics lineage: connect van Wijngaarden to ALGOL 68 and grammar
+  formalism rather than reducing him to a committee biography.
+
+## Verification
+
+1. Run `make build` and ensure the SQLite build succeeds.
+2. Run `make audit` and confirm there are no new failures.
+3. Spot-check `/person/Adriaan_van_Wijngaarden`,
+   `/person/Dan_Ingalls`, and `/person/Arthur_Whitney`.
+4. Run `make dark-matter` and note the reduction in missing people profiles
+   from `data/people.json` coverage.
+
+## Commit
+
+```bash
+git add data/docs/people_profiles/
+git commit -m "$(cat <<'EOF'
+[PROMPT_68] Add people profiles for Ada, objects, and language semantics
+
+Create 11 people profiles covering van Wijngaarden, Ichbiah, Taft,
+Ingalls, Ungar, Cox, MacQueen, Williams, Moore, Hui, and Whitney.
+
+This batch fills high-value gaps in the Atlas's coverage of Ada,
+Smalltalk and Self, Erlang, formal grammar work, and array-language
+descendants still missing from people profile completeness.
+EOF
+)"
+```
