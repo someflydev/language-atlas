@@ -85,7 +85,23 @@ The specialized "Dark Matter Audit" tool for identifying missing content profile
 - **Output:** Generates `generated-reports/dark_matter_todo.json`, the authoritative TODO list for implementation phases.
 - **Features:**
   - **Canonicalization:** Deduplicates variations in casing and punctuation.
+  - **LLM-managed semantic alias layer:** Loads reviewed mappings from
+    `data/.dark_matter_aliases.json` and
+    `data/.dark_matter_canonicals.json`.
   - **Entity Detection:** Identifies missing profiles for organizations, historical events, and people.
+
+Mechanical normalization such as punctuation cleanup, year stripping, and
+event slugging stays in Python inside `scripts/dark_matter_audit.py`.
+Semantic merges belong in the hidden JSON files:
+
+- `data/.dark_matter_aliases.json`: human-readable alias term to reviewed
+  canonical display term.
+- `data/.dark_matter_canonicals.json`: canonical display term to declared
+  type, plus optional `profile_key` for profile-stem matching.
+
+When future prompt sessions decide two terms should be treated as the same
+dark matter entry, extend these hidden JSON files instead of adding new
+hardcoded semantic alias logic to the audit script.
 
 **Example Output:**
 ```text

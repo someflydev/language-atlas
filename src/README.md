@@ -54,6 +54,20 @@ make audit
 uv run python scripts/dark_matter_audit.py
 ```
 
+The dark matter audit now uses a reviewed alias layer stored in hidden
+JSON metadata under `data/`:
+
+- `data/.dark_matter_aliases.json`: maps noisy or variant references to
+  one reviewed canonical display term.
+- `data/.dark_matter_canonicals.json`: defines each canonical display
+  term, its entity type, and an optional `profile_key` when the profile
+  stem differs from the human-readable term.
+
+Mechanical normalization still lives in Python inside
+`scripts/dark_matter_audit.py`. Semantic normalization now belongs in the
+hidden JSON files so future merges stay deterministic, reviewable, and
+out of hardcoded alias blocks.
+
 ## Control Room & Server Commands
 
 ```bash
@@ -77,6 +91,9 @@ make docs
 *   **server**: Starts the FastAPI dev server on port 8084.
 *   **audit**: Runs the Atlas Auditor and consistency checks.
 *   **dark-matter**: Finds missing profiles; writes `generated-reports/dark_matter_todo.json`.
+    Semantic merges for this audit belong in
+    `data/.dark_matter_aliases.json` and
+    `data/.dark_matter_canonicals.json`, not new hardcoded Python maps.
 *   **test**: Runs fast unit and consistency checks.
 *   **harden**: Full reliability suite: type-check, audit, test.
 *   **type-check**: Runs mypy type checking.
