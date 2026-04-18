@@ -1,0 +1,21 @@
+{
+  "title": "Rich Harris: The Frontend Designer Who Moved Work Back to the Compiler",
+  "overview": "Rich Harris created Rollup and Svelte, two influential projects that argued modern frontend systems should do more work at build time and less in the browser runtime. His work became a major counterpoint to virtual-DOM-heavy React-era architecture by pushing compilation-first UI design, smaller bundles, and simpler reactive output.",
+  "historical_context": "Harris's importance appears in the phase of web development when large JavaScript applications had become common and frontend tooling was growing into a substantial engineering discipline of its own. React and related ecosystems had normalized the idea that sophisticated client-side runtimes, component diffing, and virtual DOM layers were acceptable costs for building dynamic interfaces. At the same time, bundling and module tooling had become essential, but often fragmented and slow. Rollup responded to one side of that problem by championing ES module-aware bundling and tree-shaking in a cleaner, more optimization-friendly form. Svelte responded to the other side by challenging the assumption that a big runtime framework had to sit in the browser. Harris argued that if the compiler already knows the component structure and reactive dependencies, much of the update logic can be compiled away ahead of time. This changed the tradeoff. Instead of paying at runtime for abstractions created during development, developers could pay more during compilation and ship leaner output. Harris therefore sits in the lineage of frontend work that treats the compiler, not the browser runtime, as the main leverage point.",
+  "mental_model": "To think like Rich Harris, you ask which parts of framework machinery are truly necessary in the running program and which parts exist only because the tooling failed to exploit information available at build time. If a component's structure and dependencies are already known, the compiler should specialize the output rather than ship a general-purpose runtime to rediscover them in the browser. This leads you to prefer compilation-first architectures, small payloads, and reactivity that becomes direct code instead of an interpreted abstraction layer. The result is not anti-framework. It is a different theory of where frontend complexity should live.",
+  "pivotal_works": [
+    "**Rollup:** Created the JavaScript bundler that helped normalize module-aware tree-shaking and cleaner build output.",
+    "**Svelte:** Designed the UI framework that moved much reactive update work from runtime machinery into the compiler.",
+    "**Compilation-first frontend advocacy:** Made a durable case against assuming that React-style virtual DOM architectures are the inevitable center of web UI design."
+  ],
+  "affiliations": [
+    "**The Guardian and later frontend platform teams:** Professional contexts that informed Harris's focus on practical web performance and tooling.",
+    "**Svelte ecosystem:** Community and framework lineage built around compilation-first UI architecture."
+  ],
+  "legacy": "Harris's legacy is that frontend engineers now have a mainstream alternative mental model to runtime-heavy framework design. Rollup influenced the modern JavaScript build pipeline, and Svelte helped reopen the question of how much machinery a UI framework should ship at all. Even teams that do not use Svelte have absorbed the broader lesson that compile-time knowledge is valuable and that reactivity can be expressed more directly than a universal diffing runtime suggests. In the post-React era, Harris is one of the clearest champions of moving complexity back into the compiler.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Rich Harris used Rollup and Svelte to argue for compilation-first frontend architecture rather than virtual-DOM-heavy runtime design.'",
+    "2. 'Compare Svelte's compile-time specialization with React's runtime diffing model and identify the tradeoffs each approach accepts.'",
+    "3. 'Study why tree-shaking, module-aware bundling, and compiler intelligence became central to modern frontend performance work.'"
+  ]
+}

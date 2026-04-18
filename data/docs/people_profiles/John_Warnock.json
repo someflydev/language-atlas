@@ -1,0 +1,21 @@
+{
+  "title": "John Warnock: The Designer Who Gave Publishing a Page Description Language",
+  "overview": "John Warnock co-founded Adobe with Charles Geschke and was one of the central technical architects behind PostScript and the later PDF lineage. His work connected programming-language ideas to printing and publishing by treating a page as something that could be described precisely and rendered consistently across devices.",
+  "historical_context": "Warnock's place in computing history is at the intersection of graphics, typography, and language design. In the late 1970s and early 1980s, high-quality digital publishing faced a serious portability problem: document appearance was often entangled with the output device and the local software environment. A page description language offered a radically cleaner model. Instead of sending device-specific instructions, software could emit a program-like description of the page, and the printer or renderer could interpret that description independently. Warnock and Charles Geschke built Adobe around this insight, and PostScript became the language that drove the desktop-publishing revolution. Its significance extends beyond printers. Once the world accepted that document layout could be expressed as a device-independent program, the path to PDF became clearer. PDF retained the ambition of preserving appearance across contexts while shifting toward exchange, viewing, and archival stability. Warnock therefore belongs in the same broader language history as domain-specific systems that shape an industry by describing a medium precisely. PostScript and PDF are document languages, but their practical impact rivals that of many mainstream programming languages because they changed how information was produced, distributed, and trusted.",
+  "mental_model": "To think like John Warnock, you model the page as an abstract object whose geometry, text, and graphics can be described rigorously enough to survive movement across machines. The output device should implement the description, not dictate it. That pushes you toward a language view of publishing in which precision, device independence, and reproducibility are central values. The key idea is that visual fidelity is not merely a rendering concern. It is something that should be encoded into a portable formal description, so creation and display become loosely coupled without losing trust in the result.",
+  "pivotal_works": [
+    "**PostScript:** Helped design and champion the page description language that transformed digital printing and desktop publishing.",
+    "**Adobe Systems (1982):** Co-founded with Charles Geschke to commercialize document-language infrastructure.",
+    "**PDF lineage:** Helped extend the PostScript vision into a portable, viewable, and archivable document format for the digital era."
+  ],
+  "affiliations": [
+    "**Adobe Systems:** Company through which Warnock and Charles Geschke built the PostScript and PDF platform.",
+    "**Graphics and publishing technology circles:** Broader technical environment connecting rendering, fonts, printing, and document exchange."
+  ],
+  "legacy": "Warnock's legacy is that the page became a portable computational object. PostScript made document rendering programmable and device-independent, and PDF carried that same impulse into the dominant format for digital documents. Together with Charles Geschke, Warnock helped build one of the most consequential language-adjacent platforms in computing history. Their work changed publishing, office workflows, legal document exchange, and the broader expectation that a document can preserve its intended form across systems.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how John Warnock and Charles Geschke turned page description into a language platform through PostScript and later PDF.'",
+    "2. 'Compare PostScript and PDF as two stages of Adobe's document-language lineage, focusing on printing, portability, and archival goals.'",
+    "3. 'Study why device-independent page description was a breakthrough for desktop publishing and digital document trust.'"
+  ]
+}

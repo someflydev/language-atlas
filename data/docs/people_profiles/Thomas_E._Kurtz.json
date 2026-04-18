@@ -1,0 +1,21 @@
+{
+  "title": "Thomas E. Kurtz: The Time-Sharing Architect Behind BASIC's Reach",
+  "overview": "Thomas E. Kurtz co-created BASIC with John G. Kemeny and was a key architect of the Dartmouth time-sharing environment that made the language practical at educational scale. His work connected language simplicity to shared-computing infrastructure, helping make programming a routine activity for students rather than a rare institutional privilege.",
+  "historical_context": "Kurtz's significance lies in the infrastructure side of the BASIC story. It is easy to treat BASIC as simply a beginner's language, but that misses the larger Dartmouth vision. In the early 1960s, access to computers was limited and often mediated by batch processing, operators, and specialized staff. Kurtz and John G. Kemeny wanted a radically different arrangement: students across disciplines should be able to sit at terminals, type programs, receive feedback immediately, and treat computing as part of ordinary academic work. BASIC served that goal because it was easy to learn, but the Dartmouth Time-Sharing System was what made the experience socially scalable. Kurtz was central to that systems effort. The historical result was profound. Before microcomputers spread BASIC everywhere, Dartmouth had already demonstrated that shared interactive programming could democratize access to computation. Kurtz therefore belongs not just to the language's creation story, but to the broader history of time-sharing as an educational and social technology. In that lineage, BASIC is inseparable from the systems architecture that allowed thousands of students to use it conversationally.",
+  "mental_model": "To think like Thomas E. Kurtz, you do not separate language design from delivery infrastructure. A simple language is only educationally powerful if learners can actually use it interactively, frequently, and without institutional friction. That means terminals, shared compute access, and fast feedback loops are part of the pedagogical design, not background logistics. You therefore treat time-sharing as a companion idea to BASIC rather than as a separate systems concern. The point is to make programming feel available and normal, because availability is what turns a technical skill into a broadly teachable practice.",
+  "pivotal_works": [
+    "**BASIC (1964):** Co-created with John G. Kemeny as a beginner-oriented interactive language for broad academic use.",
+    "**Dartmouth Time-Sharing System:** Helped design the shared-computing infrastructure that made conversational programming widely accessible to students.",
+    "**Educational computing systems leadership:** Advanced the operational side of democratized programming instruction."
+  ],
+  "affiliations": [
+    "**Dartmouth College:** Core institutional setting for BASIC and the time-sharing project.",
+    "**Academic computing infrastructure efforts:** Context for Kurtz's emphasis on making programming accessible through shared systems."
+  ],
+  "legacy": "Kurtz's legacy is that programming access became a systems design problem with an educational answer. BASIC's diffusion into later personal-computer culture is important, but the deeper achievement at Dartmouth was proving that interactive time-sharing could make computing part of general education. Kurtz, alongside John G. Kemeny, helped establish the expectation that students should not have to belong to a specialist priesthood to write and run programs. That expectation shaped how later generations imagined computing literacy.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain Thomas E. Kurtz's role in Dartmouth time-sharing and why BASIC depended on that infrastructure to achieve its educational mission.'",
+    "2. 'Compare Kurtz's systems-oriented contribution with John G. Kemeny's curricular and language-access emphasis in the BASIC story.'",
+    "3. 'Study how time-sharing changed the social meaning of programming before personal computers arrived.'"
+  ]
+}

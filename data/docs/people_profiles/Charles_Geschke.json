@@ -1,0 +1,21 @@
+{
+  "title": "Charles Geschke: The Adobe Co-Founder Who Helped Make Documents Programmable",
+  "overview": "Charles Geschke co-founded Adobe with John Warnock and helped build the PostScript and PDF lineage that turned document description into a software platform. He should be understood as one half of the Adobe story in which programmable page description languages reshaped printing, publishing, and digital document exchange.",
+  "historical_context": "Geschke's importance lies in the moment when computing, graphics, and publishing began to converge into a shared digital workflow. Before Adobe, producing high-quality printed output across devices was difficult because document appearance depended heavily on specific hardware and local software assumptions. PostScript changed that by acting as a page description language: a program for describing how a page should be rendered, independent of any single printer model. Geschke and John Warnock built Adobe around that idea, turning a technical insight into an industry platform. This mattered because page-description languages occupy a distinctive place in language history. They are not general-purpose languages in the usual sense, yet they define a programmable medium with enormous practical consequences. PostScript became the foundation of desktop publishing, and PDF later carried part of that lineage into a more stable document-exchange form for screens, archives, and the web era. Geschke's role is therefore not merely executive. He belongs in the story of how document languages became infrastructure for publishing, printing, and portable digital reading.",
+  "mental_model": "To think like Charles Geschke, you treat a document not as a passive file but as a precise, programmable description of intended output. The value of such a system lies in device independence, reproducibility, and the ability to preserve layout logic across many environments. This means the document language has to be expressive enough to describe pages rigorously while remaining stable enough to become infrastructure. You are not primarily optimizing for casual text editing. You are designing a representation that lets publishing move from craft-specific hardware workflows into a portable software platform.",
+  "pivotal_works": [
+    "**Adobe founding (1982):** Co-founded the company with John Warnock that turned document description into a major software platform.",
+    "**PostScript commercialization:** Helped make the page-description language a practical standard for desktop publishing and printing.",
+    "**PDF lineage at Adobe:** Contributed to the institutional story that carried device-independent document description into portable digital document exchange."
+  ],
+  "affiliations": [
+    "**Adobe Systems:** Co-founder and central leader in the document-language and publishing-platform story.",
+    "**Xerox PARC alumni lineage:** Part of the research-to-industry transition that moved graphics and publishing ideas into commercial infrastructure."
+  ],
+  "legacy": "Geschke's legacy is that documents became programmable artifacts with durable behavior across devices and workflows. Together with John Warnock, he helped Adobe turn PostScript into a printing revolution and PDF into a standard for portable digital documents. That lineage shaped publishing, enterprise document exchange, and the everyday assumption that a rendered document can preserve its intended layout nearly everywhere. In the Atlas, Geschke belongs beside Warnock as a co-architect of one of the most important nontraditional language platforms in modern computing.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain Charles Geschke's role alongside John Warnock in building Adobe's PostScript and PDF document-language platform.'",
+    "2. 'Study PostScript as a page description language and compare its role to more general programming languages and to later document formats such as PDF.'",
+    "3. 'Trace how Adobe turned programmable document description into the infrastructure of desktop publishing and portable digital exchange.'"
+  ]
+}
