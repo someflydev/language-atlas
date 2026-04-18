@@ -1,0 +1,497 @@
+# PROMPT_67: Expand Dark Matter Source Coverage
+
+## Objective
+
+Expand `scripts/dark_matter_audit.py` so it discovers dark matter from more
+of the Atlas source-of-truth JSON and doc directories, rather than relying on
+the current narrow subset of fields.
+
+This prompt is a direct follow-on to `PROMPT_66`.
+
+Assume that by the time this prompt runs, `PROMPT_66` has already been
+completed and the repo already contains:
+
+- `data/.dark_matter_aliases.json`
+- `data/.dark_matter_canonicals.json`
+- a refactored dark matter audit that uses those hidden files
+
+This prompt is **not** about adding more semantic alias rules. It is about
+improving source coverage so the audit notices important references that are
+currently invisible or only partially visible.
+
+The goal is simple:
+
+- scan more of the real data corpus
+- preserve deterministic behavior
+- reduce false negatives
+- avoid a flood of low-value garbage by expanding coverage in a ranked,
+  deliberate way
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `scripts/dark_matter_audit.py` in full.
+6. Read `PROMPT_66.txt` so you understand the hidden alias/canonical layer
+   that should already exist by this point.
+7. Run `make dark-matter` and read `generated-reports/dark_matter_todo.json`
+   to capture the current baseline before making changes.
+8. Create `tmp/PROMPT_67_checklist.md` with checkboxes for each ranked task.
+9. Check off each item immediately after completing it.
+
+## Context and Problem Statement
+
+The current audit finds a lot of useful dark matter, but it still misses
+important references because it only scans a narrow subset of the Atlas data.
+
+Examples of current limitations:
+
+- `data/concepts.json` is scanned only for `name` and `description`, but not
+  `responsible`.
+- `data/paradigms.json` is used only for `missing_paradigms`, not as a source
+  of dark matter references.
+- `data/eras.json` is only partially scanned; major narrative fields are
+  ignored.
+- `data/learning_paths.json` is not scanned at all.
+- `data/docs/era_summaries/` is not scanned at all.
+- `data/influences.json` is not scanned at all.
+
+The result is that the audit currently under-reports some real missing
+profiles while over-relying on prose from other places.
+
+This prompt should correct that by expanding coverage in a controlled order.
+
+## Design Principle
+
+Follow this order of trust:
+
+1. Structured source-of-truth JSON fields
+2. Structured narrative JSON in `data/docs/`
+3. Heuristic extraction from prose
+4. Hidden alias/canonical consolidation from `PROMPT_66`
+
+Do **not** compensate for missing field coverage by adding more alias entries.
+The problem here is that the audit is not reading enough of the corpus.
+
+## Ranked Coverage Checklist
+
+Implement these in priority order. Keep the ranking visible in the checklist
+file and in your own execution order.
+
+### Priority 1: High-Signal Structured Fields
+
+These are the best improvements and should be done first.
+
+#### 1. `data/concepts.json`
+
+Add dark matter scanning for:
+
+- `responsible[]`
+
+Why:
+
+- This field directly names people or organizations associated with concepts.
+- It is high signal and low noise.
+- It is currently a clear blind spot.
+
+Implementation notes:
+
+- Each `responsible` item should be passed through the same reference-routing
+  path used elsewhere.
+- Respect the hidden alias/canonical layer from `PROMPT_66`.
+
+#### 2. `data/eras.json`
+
+Add dark matter scanning for:
+
+- `description`
+- `catalyst`
+- `key_innovations[]`
+- `timeline_events[].description`
+- `modern_reactions[]`
+
+Why:
+
+- These fields contain some of the Atlas's richest historical narrative.
+- They frequently mention people, events, concepts, and organizations that
+  should be discoverable.
+- Current coverage is too narrow and misses important references.
+
+Implementation notes:
+
+- Reuse existing extraction helpers where appropriate.
+- Keep current scanning of `key_drivers`, `pivotal_languages`,
+  `reactions_and_legacy`, and embedded `crossroads`.
+- Avoid double-counting in a way that changes report semantics; deduplication
+  should still happen through canonicalization and set-like maps.
+
+#### 3. `data/docs/era_summaries/`
+
+Add this directory to the profile-scan set.
+
+Why:
+
+- Era summaries are hub narratives and can mention significant entities not
+  surfaced elsewhere.
+- `AGENT.md` explicitly treats era summaries as important narrative files.
+
+Implementation notes:
+
+- Treat them similarly to other narrative JSON docs.
+- Do not scan `atlas_meta`; that exclusion should remain intact.
+
+### Priority 2: High-Value Semi-Structured Sources
+
+These should be added after Priority 1.
+
+#### 4. `data/paradigms.json`
+
+Add dark matter scanning for:
+
+- `description`
+- `motivation`
+- `languages[]`
+- `connected_paradigms[]`
+- `key_features`
+
+Why:
+
+- Paradigms contain real historical and conceptual references.
+- `languages[]` is especially important as a structured reference source.
+- `motivation` often contains named people and crises.
+
+Implementation notes:
+
+- Keep the existing `missing_paradigms` check.
+- This prompt is about **additional** dark matter coverage, not replacing the
+  current paradigm consistency logic.
+- If `key_features` is a dict, scan its string values recursively.
+
+#### 5. `data/learning_paths.json`
+
+Add dark matter scanning for:
+
+- `title`
+- `description`
+- `steps[].language`
+- `steps[].milestone`
+- `steps[].rationale`
+- `steps[].challenge`
+
+Why:
+
+- Learning paths are curated Atlas content and often encode meaningful
+  language and concept references.
+- They are currently invisible to the audit.
+
+Implementation notes:
+
+- `steps[].language` should likely route directly as a language reference.
+- The narrative fields should go through normal extraction.
+- Be careful not to interpret every generic teaching phrase as dark matter.
+
+### Priority 3: Lower-Risk Supplemental Sources
+
+Add these only after the above are working and validated.
+
+#### 6. `data/influences.json`
+
+Consider whether this file should contribute dark matter references from:
+
+- `from`
+- `to`
+
+Why:
+
+- If this file contains edges not fully mirrored in `languages.json`, the
+  audit should not ignore them.
+
+Implementation notes:
+
+- First confirm whether `influences.json` adds unique information or is fully
+  redundant with `languages.json`.
+- If redundant, document that and either skip it or include it harmlessly.
+- Do not create noisy duplicate reporting if it adds no net value.
+
+#### 7. `data/core_concepts.json`
+
+Investigate this file and determine whether it should contribute references.
+
+Why:
+
+- It exists in `data/` and may be part of the source corpus, but it is not
+  currently involved in the audit.
+
+Implementation notes:
+
+- If it is empty, obsolete, or not part of current Atlas runtime behavior,
+  document that decision and do not force it into the audit.
+- If it contains real canonical data, integrate it carefully.
+
+## Exact Audit Behavior Requirements
+
+### 1. Keep Existing Coverage
+
+Do not regress current scanning of:
+
+- `people.json`
+- `languages.json`
+- `concepts.json`
+- `eras.json`
+- narrative docs already in `profiles_dirs`
+
+### 2. Use the PROMPT_66 Normalization Layer
+
+Assume the alias/canonical resolution layer already exists.
+
+Every newly added source must flow through the same normalization pipeline:
+
+1. mechanical cleanup
+2. alias resolution
+3. canonical resolution
+4. category bucketing
+
+Do not reintroduce special-case semantic alias maps in Python.
+
+### 3. Preserve Category Semantics
+
+When scanning newly added fields:
+
+- structured language fields should prefer language bucketing
+- structured person/org fields should use normal routing and canonical rules
+- prose fields should still use heuristics, but only after structured signals
+
+If a field is obviously typed by schema, use that knowledge.
+
+Examples:
+
+- `learning_paths.steps[].language` is a language reference
+- `concepts.responsible[]` is usually person or organization
+- `paradigms.languages[]` is a language reference
+
+### 4. Do Not Let Coverage Expansion Become Noise Explosion
+
+This prompt is successful only if it improves recall without causing the
+report to fill with junk.
+
+Before keeping a new field in the audit, evaluate:
+
+- does it add real missing entities?
+- does it mostly add generic prose fragments?
+- can the existing extraction helpers handle it acceptably?
+
+If a field proves too noisy, document the issue and either:
+
+- tighten extraction for that field, or
+- defer it explicitly in comments and in the final response
+
+Do not silently ship obviously bad recall/precision tradeoffs.
+
+## Recommended Implementation Strategy
+
+### Phase 1: Add Structured Sources First
+
+Implement:
+
+- `concepts.responsible`
+- `eras.description`
+- `eras.catalyst`
+- `eras.key_innovations`
+- `eras.timeline_events[].description`
+- `eras.modern_reactions`
+- `era_summaries/`
+
+Run `make dark-matter` after this phase and inspect the delta.
+
+### Phase 2: Add Paradigms and Learning Paths
+
+Implement:
+
+- `paradigms.json` fields
+- `learning_paths.json` fields
+
+Run `make dark-matter` again and inspect the delta.
+
+### Phase 3: Evaluate Supplemental Sources
+
+Investigate:
+
+- `influences.json`
+- `core_concepts.json`
+
+Only integrate them if they add real value.
+
+## Testing Requirements
+
+Create or extend focused audit tests.
+
+If `PROMPT_66` already created `tests/test_dark_matter_audit.py`, extend it.
+Otherwise create it now.
+
+Add tests covering at minimum:
+
+1. `concepts.responsible` contributes a referenced entity.
+2. `eras.description` contributes references from narrative text.
+3. `eras.timeline_events[].description` contributes references.
+4. `paradigms.languages[]` contributes language references.
+5. `learning_paths.steps[].language` contributes language references.
+6. `era_summaries/` files are scanned.
+7. `atlas_meta/` remains excluded.
+
+Do not make the tests depend on the exact entire contents of
+`generated-reports/dark_matter_todo.json`.
+Test specific coverage behaviors.
+
+## Documentation Requirements
+
+Update the docs to reflect broader audit coverage.
+
+At minimum update:
+
+- `src/README.md`
+- `scripts/README.md`
+
+Document:
+
+1. that dark matter now scans more than just the original narrow field set
+2. which data files are treated as source inputs
+3. that the audit uses both structured schema-aware fields and heuristic prose
+   extraction
+4. that semantic consolidation is still handled separately via the hidden
+   files introduced in `PROMPT_66`
+
+## Verification
+
+Run all of the following:
+
+1. `make dark-matter`
+2. `make audit`
+3. `make build`
+4. `uv run pytest tests/test_dark_matter_audit.py`
+
+If `make test` is reasonably fast, run it too.
+
+Then inspect `generated-reports/dark_matter_todo.json` and look for signs
+that the new coverage is working.
+
+Specifically verify that:
+
+- people named only in `concepts.responsible` can now surface
+- references from `eras.description` and `eras.timeline_events` can now
+  surface
+- paradigm-linked languages and conceptual references now affect the report
+- learning-path references now affect the report
+- the report quality remains intelligible and not dominated by junk phrases
+
+## Investigation Notes to Keep in Mind
+
+These observations motivated this prompt:
+
+- `Edsger Dijkstra` was not actually absent from dark matter; he was present
+  multiple times under `missing_entities` in noisy forms
+- the more serious issue is under-coverage of structured fields and some
+  narrative sources
+- `data/people.json` currently has many entries without people profiles, but
+  the audit's ability to surface related names depends heavily on where it
+  scans
+
+This prompt should improve recall first. Name consolidation should remain the
+job of the `PROMPT_66` hidden alias/canonical layer.
+
+## Non-Goals
+
+Do not do these in this prompt:
+
+- do not redesign the alias/canonical file format from `PROMPT_66`
+- do not add a UI for editing dark matter mappings
+- do not create large batches of new people or concept profiles
+- do not treat every generic phrase in narrative prose as a candidate entity
+- do not remove the existing `atlas_meta` exclusion
+
+## Deliverables
+
+By the end of the prompt, the repo should contain:
+
+1. updated `scripts/dark_matter_audit.py`
+2. updated docs in `src/README.md` and `scripts/README.md`
+3. updated dark matter audit tests
+4. regenerated `generated-reports/dark_matter_todo.json`
+
+## Commits
+
+Use grouped Tim Pope style commits. Commit the regenerated dark matter report
+last.
+
+Suggested commit grouping:
+
+### Commit 1: Coverage expansion and tests
+
+Stage:
+
+- `scripts/dark_matter_audit.py`
+- `tests/test_dark_matter_audit.py`
+
+Commit:
+
+```bash
+git add scripts/dark_matter_audit.py tests/test_dark_matter_audit.py
+git commit -m "$(cat <<'EOF'
+[PROMPT_67] Expand dark matter source coverage
+
+Teach the dark matter audit to scan additional structured Atlas data and
+narrative sources, including concept responsibility, era narrative
+fields, paradigms, and learning paths. Add focused tests so coverage
+expansion improves recall without silently regressing audit behavior.
+EOF
+)"
+```
+
+### Commit 2: Documentation
+
+Stage:
+
+- `src/README.md`
+- `scripts/README.md`
+
+Commit:
+
+```bash
+git add src/README.md scripts/README.md
+git commit -m "$(cat <<'EOF'
+[PROMPT_67] Document broader dark matter scan coverage
+
+Update the repository documentation to explain which Atlas data files
+and fields now feed the dark matter audit. Clarify that structured
+coverage expansion complements the alias and canonical layer added
+earlier.
+EOF
+)"
+```
+
+### Commit 3: Regenerated report
+
+Stage last:
+
+- `generated-reports/dark_matter_todo.json`
+
+Commit:
+
+```bash
+git add generated-reports/dark_matter_todo.json
+git commit -m "$(cat <<'EOF'
+[PROMPT_67] Regenerate dark matter report after coverage expansion
+
+Update the authoritative dark matter report after broadening the audit's
+source coverage. This keeps the generated backlog aligned with the
+actual Atlas fields and narrative sources now being scanned.
+EOF
+)"
+```
+
+## Final Note
+
+A good implementation of this prompt should make the dark matter audit feel
+less arbitrary. The report should better reflect the full Atlas corpus, not
+just the handful of fields the tool happened to scan first.

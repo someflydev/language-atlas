@@ -1,0 +1,463 @@
+# PROMPT_66: LLM-Managed Dark Matter Alias & Canonical Layer
+
+## Objective
+
+Implement a durable, LLM-managed normalization layer for
+`scripts/dark_matter_audit.py` so the dark matter audit can consolidate
+semantically equivalent terms without hardcoding every case in Python.
+
+The current audit already does useful mechanical normalization
+(punctuation/casing cleanup, year stripping, etc.), but it still treats many
+LLM-discernible variants as separate missing items. We now want a reviewed,
+repo-managed alias system that stays deterministic at runtime while allowing
+future prompt sessions to extend the mapping safely.
+
+This session must introduce two hidden data files under `data/`:
+
+- `data/.dark_matter_aliases.json`
+- `data/.dark_matter_canonicals.json`
+
+These files are not narrative content. They are implementation metadata used
+by the dark matter audit only.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `scripts/dark_matter_audit.py` in full.
+6. Read the dark matter sections in `src/README.md` and `scripts/README.md`.
+7. Run `make dark-matter` and read `generated-reports/dark_matter_todo.json`
+   to capture the current baseline before making changes.
+8. Create `tmp/PROMPT_66_checklist.md` with checkboxes for each major task.
+9. Check off each item immediately after completing it.
+
+## High-Level Design
+
+The audit should remain deterministic and code-driven, but semantic
+equivalence decisions should move out of Python code and into reviewed data.
+
+Split the concerns into two files:
+
+### 1. `data/.dark_matter_aliases.json`
+
+Purpose: map noisy or variant references to one reviewed canonical term,
+regardless of category.
+
+This file answers:
+
+- "When the audit sees this phrase, what term should it really mean?"
+
+### 2. `data/.dark_matter_canonicals.json`
+
+Purpose: define the reviewed canonical term and what type of entity it is.
+
+This file answers:
+
+- "What is the normalized term?"
+- "Which dark matter category should it belong to?"
+- "If needed, which profile/file key should it compare against?"
+
+Do **not** continue expanding the hardcoded alias map in Python except for
+strictly mechanical rules. The goal of this prompt is to make the semantic
+layer data-driven.
+
+## Required File Locations
+
+Create these exact hidden files:
+
+- `data/.dark_matter_aliases.json`
+- `data/.dark_matter_canonicals.json`
+
+Do not put them under `data/docs/`.
+Do not put them under `data/docs/atlas_meta/`.
+Do not create Markdown files for this feature.
+
+## Required JSON Shapes
+
+### `data/.dark_matter_aliases.json`
+
+Use a flat object mapping variant term to canonical term.
+
+Example shape:
+
+```json
+{
+  "shell": "Bourne Shell",
+  "sh": "Bourne Shell",
+  "sh (Bourne shell)": "Bourne Shell",
+  "python (current state)": "Python",
+  "javascript (node.js - 2009)": "JavaScript"
+}
+```
+
+Rules:
+
+- Keys are aliases or noisy terms as human-readable strings.
+- Values are canonical display terms as human-readable strings.
+- The loader should normalize keys and values internally using the audit's
+  normalization pipeline; the file itself should stay readable.
+- Alias keys must be unique after normalization.
+- An alias must not point to another alias indirectly. Resolve it to the
+  final canonical term directly.
+
+### `data/.dark_matter_canonicals.json`
+
+Use a top-level object keyed by canonical display term.
+
+Required per-entry field:
+
+- `type`
+
+Optional per-entry field:
+
+- `profile_key`
+
+Example shape:
+
+```json
+{
+  "Bourne Shell": {
+    "type": "language"
+  },
+  "Python": {
+    "type": "language"
+  },
+  "JavaScript": {
+    "type": "language"
+  },
+  "Garmisch Conference": {
+    "type": "historical_event",
+    "profile_key": "garmisch_conference"
+  }
+}
+```
+
+Type must be one of:
+
+- `language`
+- `concept`
+- `organization`
+- `historical_event`
+- `concept_combo`
+- `person`
+
+Notes:
+
+- `profile_key` exists for cases where the canonical display term and the
+  profile filename stem differ meaningfully.
+- If `profile_key` is omitted, the audit should fall back to the existing
+  normalization logic for comparing against files or known entities.
+- Do not invent extra fields unless they are clearly needed by the final
+  implementation.
+
+## Initial Seed Data
+
+Seed both files with safe, high-confidence entries that are already causing
+dark matter duplication today.
+
+At minimum include:
+
+- `shell` → `Bourne Shell`
+- `sh` → `Bourne Shell`
+- `sh (Bourne shell)` → `Bourne Shell`
+- `python (current state)` → `Python`
+- `javascript (node.js - 2009)` → `JavaScript`
+
+And canonical entries for:
+
+- `Bourne Shell` (`language`)
+- `Python` (`language`)
+- `JavaScript` (`language`)
+
+Use restraint. Do **not** add a giant speculative alias corpus in this
+session. The point is to establish the system and seed it with cases that are
+already clearly correct.
+
+## Implementation Requirements
+
+### Part A: Refactor the Audit to Load Both Hidden Files
+
+Update `scripts/dark_matter_audit.py` so it:
+
+1. Loads `data/.dark_matter_aliases.json` if present.
+2. Loads `data/.dark_matter_canonicals.json` if present.
+3. Treats missing files as empty mappings, not fatal runtime errors.
+4. Validates both files before proceeding with the audit.
+5. Uses the loaded data during dark matter term resolution.
+
+Do not bury this in ad hoc global variables if a small helper or lightweight
+resolver object would make the logic clearer.
+
+### Part B: Add Validation Rules
+
+The audit should fail fast with a clear error message if any of the following
+are true:
+
+1. `data/.dark_matter_aliases.json` is invalid JSON.
+2. `data/.dark_matter_canonicals.json` is invalid JSON.
+3. An alias target does not exist as a canonical entry.
+4. Two alias keys collide after normalization.
+5. Two canonical keys collide after normalization.
+6. A canonical entry has an unsupported `type`.
+7. A `profile_key` is present but is not a string.
+
+Make these validation failures explicit and readable. This feature is meant
+to help future LLM sessions maintain the files safely.
+
+### Part C: Introduce a Resolution Layer
+
+Before bucketing a discovered term into `referenced_languages`,
+`referenced_entities`, `referenced_organizations`,
+`referenced_historical_events`, or `referenced_combos`, resolve it through
+the new alias and canonical system.
+
+The intended order is:
+
+1. Existing mechanical cleanup:
+   `strip_years`, `clean_name`, `canonicalize`, `canonicalize_event`, etc.
+2. Alias lookup:
+   if a noisy term maps to a canonical term, rewrite it.
+3. Canonical lookup:
+   if the canonical term is registered, use its declared `type`.
+4. Bucketing:
+   place the resolved term into the correct target map using the canonical
+   display term in the report.
+
+Important:
+
+- The canonical file should override heuristic bucketing when there is a
+  match.
+- If there is no canonical entry, the existing heuristic logic should still
+  work as fallback.
+- Do not regress the current ability to infer organizations, historical
+  events, or people heuristically.
+
+### Part D: Compare Existing Profiles Against Canonical Terms
+
+The audit currently compares references against existing profile files and
+known data entities. Extend that logic so canonical entries can match existing
+profiles correctly.
+
+Rules:
+
+1. If a canonical entry includes `profile_key`, compare against that.
+2. Otherwise compare against the normalized canonical display term.
+3. Keep the report human-readable:
+   output the canonical display term, not the noisy alias that triggered it.
+
+This is especially important for cases like:
+
+- `Bourne Shell` represented by `Bourne_Shell.json`
+- future historical events whose canonical display term differs from slug
+
+### Part E: Remove the Current Hardcoded Semantic Alias Logic
+
+Migrate the existing `LANGUAGE_PROFILE_ALIASES` behavior into the hidden
+JSON files and remove or simplify that hardcoded Python alias block.
+
+Mechanical normalization helpers can stay in Python.
+Semantic equivalence mappings should live in the hidden data files.
+
+If a tiny compatibility shim remains necessary, keep it minimal and document
+why.
+
+## Scope Guardrails
+
+### Do Merge
+
+These are the kinds of cases this system is for:
+
+- era labels that obviously refer to an already-profiled canonical language
+- shell-name variants that refer to one specific historically reviewed term
+- exact duplicate spellings or punctuation variants
+
+### Do Not Merge Automatically
+
+Do not over-collapse broad or ambiguous terms just because an LLM can invent
+a plausible relation.
+
+Examples of terms that should stay unresolved unless explicitly reviewed:
+
+- `AI`
+- `Cloud`
+- `Security`
+- `Shell` if the team has not decided it should always mean `Bourne Shell`
+  in a given context
+
+For this prompt specifically, `Shell` **is** an approved alias to
+`Bourne Shell` because that policy decision has already been made in the repo
+discussion. Do not generalize that permissiveness to every broad term.
+
+## Documentation Requirements
+
+Update the docs so future contributors understand the new system.
+
+At minimum update:
+
+- `src/README.md`
+- `scripts/README.md`
+
+Document:
+
+1. That dark matter now has an LLM-managed alias layer.
+2. The purpose of `data/.dark_matter_aliases.json`.
+3. The purpose of `data/.dark_matter_canonicals.json`.
+4. The distinction between mechanical normalization in Python and semantic
+   normalization in data.
+5. The rule that new semantic merges should be added to the hidden JSON files,
+   not hardcoded into the audit script.
+
+## Testing Requirements
+
+There are currently no focused dark matter audit tests. Add them.
+
+Create a focused test module, e.g.:
+
+- `tests/test_dark_matter_audit.py`
+
+The tests should cover at minimum:
+
+1. Alias resolution:
+   `python (current state)` resolves to canonical `Python`
+2. Alias resolution:
+   `javascript (node.js - 2009)` resolves to canonical `JavaScript`
+3. Alias resolution:
+   `sh` and `Shell` resolve to `Bourne Shell`
+4. Type override:
+   a canonical term with `type: language` lands in the language bucket
+5. Validation failure:
+   alias target missing from canonical file raises a clear error
+6. Validation failure:
+   normalized alias collision raises a clear error
+7. Profile-key comparison:
+   a canonical term with a `profile_key` can match an existing profile stem
+
+Do not write brittle tests that depend on the exact full dark matter report
+line-for-line. Test the resolver behavior and the high-value audit outcomes.
+
+## Verification
+
+Run all of the following:
+
+1. `make dark-matter`
+2. `make audit`
+3. `make build`
+4. `uv run pytest tests/test_dark_matter_audit.py`
+
+If `make test` is reasonably fast in this repo state, run it too.
+
+Read the regenerated `generated-reports/dark_matter_todo.json` and verify:
+
+- `Python (Current State)` no longer appears separately if `Python` is the
+  canonical term
+- `JavaScript (Node.js - 2009)` no longer appears separately if `JavaScript`
+  is the canonical term
+- `Shell`, `sh`, and `sh (Bourne shell)` no longer appear as distinct missing
+  language-profile items if `Bourne Shell` is covered
+
+The report should become cleaner without hiding genuinely missing work.
+
+## Non-Goals
+
+Do not do these in this prompt:
+
+- Do not create large new profile content files unrelated to the alias layer
+- Do not add a web UI for managing aliases
+- Do not move the hidden files into SQLite
+- Do not turn this into an LLM-at-runtime feature
+- Do not attempt to resolve every noisy dark matter entity in one session
+
+This is an infrastructure prompt, not a content-expansion prompt.
+
+## Deliverables
+
+By the end of the prompt, the repo should contain:
+
+1. `data/.dark_matter_aliases.json`
+2. `data/.dark_matter_canonicals.json`
+3. Updated `scripts/dark_matter_audit.py`
+4. Updated docs in `src/README.md` and `scripts/README.md`
+5. New targeted audit tests
+6. Regenerated `generated-reports/dark_matter_todo.json`
+
+## Commits
+
+Use grouped Tim Pope style commits. Commit the regenerated dark matter report
+last.
+
+Suggested commit grouping:
+
+### Commit 1: Alias-layer implementation
+
+Stage:
+
+- `scripts/dark_matter_audit.py`
+- `data/.dark_matter_aliases.json`
+- `data/.dark_matter_canonicals.json`
+- `tests/test_dark_matter_audit.py`
+
+Commit:
+
+```bash
+git add scripts/dark_matter_audit.py \
+  data/.dark_matter_aliases.json \
+  data/.dark_matter_canonicals.json \
+  tests/test_dark_matter_audit.py
+git commit -m "$(cat <<'EOF'
+[PROMPT_66] Add LLM-managed dark matter alias layer
+
+Move semantic dark matter normalization out of hardcoded Python aliases
+and into hidden reviewed JSON files under data/. Add validation and test
+coverage so future sessions can extend the alias layer safely.
+EOF
+)"
+```
+
+### Commit 2: Documentation
+
+Stage:
+
+- `src/README.md`
+- `scripts/README.md`
+
+Commit:
+
+```bash
+git add src/README.md scripts/README.md
+git commit -m "$(cat <<'EOF'
+[PROMPT_66] Document dark matter alias and canonical files
+
+Explain the new hidden alias and canonical metadata files used by the
+dark matter audit. Clarify that mechanical normalization stays in code
+while semantic consolidation is now managed through reviewed JSON data.
+EOF
+)"
+```
+
+### Commit 3: Regenerated report
+
+Stage last:
+
+- `generated-reports/dark_matter_todo.json`
+
+Commit:
+
+```bash
+git add generated-reports/dark_matter_todo.json
+git commit -m "$(cat <<'EOF'
+[PROMPT_66] Regenerate dark matter report after alias refactor
+
+Update the authoritative dark matter report after introducing the new
+alias and canonical resolution layer. This keeps the generated backlog
+aligned with the repo's reviewed normalization policy.
+EOF
+)"
+```
+
+## Final Note
+
+This prompt is successful if the audit becomes more semantically coherent
+without becoming magical. The implementation should make future LLM-driven
+cleanup easier, but it must remain explicit, reviewable, and deterministic.
