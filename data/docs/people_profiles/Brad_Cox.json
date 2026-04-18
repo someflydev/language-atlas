@@ -1,0 +1,21 @@
+{
+  "title": "Brad Cox: The Objective-C Co-Creator Who Smuggled Messages into C",
+  "overview": "Brad Cox co-created Objective-C with Tom Love, combining C's systems-level reach with Smalltalk-style message passing and object ideas. He argued that software should be assembled from reusable components that communicate by messages, a view that later became historically important through NeXT and then Apple's macOS and iOS lineage.",
+  "historical_context": "Cox worked in the period when object-oriented programming was spreading out of research settings but had not yet settled into a single industrial form. Smalltalk showed a powerful object world, but many organizations were already deeply invested in C and reluctant to adopt an entirely new runtime culture. Objective-C answered that constraint by layering object messaging onto C rather than replacing C wholesale. This made the language a bridge technology. It carried forward part of the Smalltalk tradition, especially the idea that sending messages to objects could structure software more flexibly than procedural call graphs, while remaining close enough to existing systems practice to be adopted in product work. The language later found its decisive institutional home at NeXT, where it became central to application frameworks and development tools. When Apple acquired NeXT, Objective-C became one of the core languages behind Mac OS X and then early iPhone software. Cox's thinking about software components also matters in its own right. He framed reuse as an organizational and economic problem, not merely a syntax feature, and saw message-oriented components as a way to escape giant, brittle procedural codebases.",
+  "mental_model": "To think like Brad Cox, you assume that large software systems fail when every program is rebuilt from bespoke procedures tangled too tightly together. The better answer is to define components that hide their internals, communicate through messages, and can be reused across projects. That is why putting object messaging into C matters. You are not trying to import every part of the Smalltalk environment. You are trying to preserve the message-passing idea in a language ecosystem that industry will actually use. The mental model is pragmatic object orientation: keep the component boundary strong, keep the communication model flexible, and let reuse emerge from decoupled parts rather than monolithic codebases.",
+  "pivotal_works": [
+    "**Objective-C (early 1980s):** Co-created with Tom Love as a C extension centered on Smalltalk-inspired message passing and objects.",
+    "**Object-oriented programming and software component advocacy:** Argued that reusable software components were a practical answer to large-scale code complexity.",
+    "**Conceptual bridge from Smalltalk to NeXT and Apple frameworks:** Helped establish the language later used for Cocoa, macOS, and early iOS development."
+  ],
+  "affiliations": [
+    "**Productivity Products International:** Early organizational setting for Objective-C's commercial development with Tom Love.",
+    "**Broader NeXT and Apple ecosystem influence:** The language's later institutional impact came through frameworks built after its original creation."
+  ],
+  "legacy": "Cox's legacy is larger than Objective-C's current market share. He showed one influential way to transport Smalltalk's message-passing sensibility into mainstream systems programming, and that path became historically decisive once NeXT and Apple made Objective-C the language of major application frameworks. The result shaped generations of macOS and early iOS developers. His component argument also anticipated later software engineering obsessions with modular reuse, framework boundaries, and communication between independently evolving parts.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Brad Cox adapted Smalltalk-style message passing to C in Objective-C, and why that bridge mattered historically.'",
+    "2. 'Trace the lineage from Objective-C to NeXT, Cocoa, macOS, and early iOS development.'",
+    "3. 'Study Brad Cox's component-software philosophy and compare it with class-centric object-oriented narratives from Smalltalk, C++, and Java.'"
+  ]
+}

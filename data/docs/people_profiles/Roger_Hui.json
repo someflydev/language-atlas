@@ -1,0 +1,21 @@
+{
+  "title": "Roger Hui: The Co-Designer Who Brought Iverson's Array Ideas into ASCII",
+  "overview": "Roger Hui co-created J with Kenneth E. Iverson, helping carry the array-programming tradition of APL into an ASCII-based notation that worked on ordinary keyboards. His work preserved the idea of executable mathematical thought while making the language more portable, more text-friendly, and easier to integrate into conventional computing environments.",
+  "historical_context": "Hui's place in language history becomes clear once you see both the strength and the limitation of APL. Kenneth E. Iverson had shown that arrays and operators could support a strikingly concise computational notation, but APL's special symbol set remained a practical barrier in many settings. J answered that problem without abandoning the deeper array worldview. Created by Iverson and Hui around 1990, J translated the operator-rich array tradition into ASCII, allowing the language to live on ordinary systems and text tooling. Hui's contribution matters because this was not a superficial transliteration. The challenge was to preserve the executable mathematics, tacit style, and array-first programming model while changing the notation medium itself. That made J an important evolutionary step between classic APL and later environments where array thinking would surface in more mainstream scientific and data work. Hui is also linked to Iverson's intellectual program more broadly. If Iverson argued that notation is a tool of thought, Hui helped prove that the tool could survive a radical change in symbol technology and still remain distinctive.",
+  "mental_model": "To think like Roger Hui, you treat notation as an engineering constraint as well as a conceptual instrument. The power of an array language should not depend entirely on special glyph hardware if the deeper ideas can be preserved in a disciplined ASCII vocabulary. You therefore ask which parts of the notation are essential to the programmer's way of thinking and which parts are accidents of a particular era's devices. This leads you to preserve array-first reasoning, operator composition, and executable mathematical brevity while redesigning the written surface. The goal is not to dilute the idea. It is to make the idea more transmissible.",
+  "pivotal_works": [
+    "**J (1990):** Co-created with Kenneth E. Iverson as an ASCII-based successor to APL that preserved array-first programming.",
+    "**A Programming Language and related J exposition work:** Helped document and communicate the executable mathematics of the J tradition.",
+    "**Array-language design in text-first computing environments:** Demonstrated that Iverson-style notation could survive beyond specialized glyph systems."
+  ],
+  "affiliations": [
+    "**J Software and the J language community:** Core institutional home for the language's development and dissemination.",
+    "**Collaboration with Kenneth E. Iverson:** Central intellectual partnership linking APL's heritage to J's redesign."
+  ],
+  "legacy": "Hui's legacy is the successful migration of the Iversonian array tradition into ordinary textual computing culture. J never became a mainstream general-purpose language, but it preserved and sharpened ideas about tacit programming, whole-array transformation, and notation as executable reasoning. That work also helped keep the APL-to-J lineage visible for later programmers interested in high-density mathematical expression without depending on special character sets. In the history of array languages, Hui is the figure who proved that portability and conceptual rigor did not have to be opposites.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Roger Hui and Kenneth E. Iverson transformed APL's array ideas into J's ASCII notation without abandoning the underlying mental model.'",
+    "2. 'Compare APL and J as notational systems, focusing on portability, readability, and executable mathematical thought.'",
+    "3. 'Study why array-first programming remained compelling in J even after its notation moved away from APL's special glyphs.'"
+  ]
+}

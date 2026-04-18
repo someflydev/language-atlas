@@ -1,0 +1,21 @@
+{
+  "title": "David MacQueen: The Module Designer Who Scaled ML Beyond Toy Programs",
+  "overview": "David MacQueen is a major figure in the Standard ML world, best known for shaping the module system that gave ML a disciplined way to structure large programs. His work connected type theory to practical compiler and system construction, showing that functional languages needed first-class support for abstraction at scale, not just elegant core calculi.",
+  "historical_context": "MacQueen's importance appears once ML moved beyond its original role as a theorem-proving metalanguage and became a candidate for real software systems. Robin Milner's work had already established the power of type inference and statically typed functional programming, but large programs need more than expressive expressions and polymorphic functions. They need namespacing, encapsulation, parameterization, and ways to state that one implementation satisfies a particular interface. Standard ML's module system, with structures, signatures, and functors, became one of the most sophisticated answers to that problem, and MacQueen was central to its formulation. This mattered because the functional-programming tradition often risked looking strongest on small elegant examples while industrial languages won on organization. By making module boundaries part of the language's type-disciplined architecture, MacQueen helped show that ML ideas could scale to compilers and complex systems. The influence carried forward into the SML/NJ ecosystem and into later module thinking in languages such as OCaml, even when those descendants adjusted the exact design. In that sense, MacQueen translated theory into large-program structure.",
+  "mental_model": "To think like David MacQueen, you assume that abstraction is not finished once you have higher-order functions and a strong type system. Large systems also need explicit boundaries between components, clear interfaces, and principled ways to parameterize one subsystem over another. You therefore want modules to participate in static reasoning rather than remain external build-system accidents. A signature is not just documentation; it is a contract the language can understand. A functor is not just a preprocessor macro; it is a typed abstraction over implementations. This mindset treats large-scale program structure as a language-design problem, not as something to patch afterward.",
+  "pivotal_works": [
+    "**Standard ML module system:** Helped define structures, signatures, and functors as a rigorous framework for large-scale typed program organization.",
+    "**SML/NJ work:** Contributed to the implementation tradition that made Standard ML practical for research and compiler construction.",
+    "**ML family language design for scale:** Connected Robin Milner's type-theoretic foundations to reusable modular engineering patterns later echoed in OCaml."
+  ],
+  "affiliations": [
+    "**AT&T Bell Laboratories:** Important institutional site for Standard ML design and language research.",
+    "**Standard ML of New Jersey community:** Central ecosystem for implementation, teaching, and compiler-oriented use of ML modules."
+  ],
+  "legacy": "MacQueen's legacy is the insistence that module systems matter as much as expression languages. His work helped make Standard ML credible for compilers and substantial software, not just for elegant demonstrations of type inference. The structure-signature-functor model remains one of the deepest explorations of typed modularity in mainstream language design, and its influence continues through OCaml and other descendants that care about separate interfaces, large-system organization, and static guarantees across component boundaries.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain David MacQueen's role in the Standard ML module system, and why modules matter for scaling a typed functional language.'",
+    "2. 'Compare Standard ML modules with OCaml modules and with namespace systems in more mainstream languages.'",
+    "3. 'Study how structures, signatures, and functors help compilers and other large systems preserve abstraction without losing static guarantees.'"
+  ]
+}

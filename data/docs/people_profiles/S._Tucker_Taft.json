@@ -1,0 +1,21 @@
+{
+  "title": "S. Tucker Taft: The Steward Who Modernized Ada Without Diluting It",
+  "overview": "S. Tucker Taft is the programming language designer most associated with Ada 95 and the long-term technical stewardship of the Ada line after its first standardization. He helped evolve Ada into a more expressive and modern systems language while preserving its core commitments to safety, generic programming, concurrency, and specification discipline.",
+  "historical_context": "Taft's importance emerges after Ada's initial design under Jean Ichbiah. By the late 1980s and early 1990s, Ada had proven itself in serious domains, but it also faced the familiar problem of long-lived languages: how to evolve without losing identity. Systems programmers wanted better abstraction tools, more mature object-oriented support, and stronger generic mechanisms, yet the language could not simply imitate trendier competitors if it was to remain credible in safety-critical settings. Ada 95 became the answer. Taft served as its principal architect, guiding a revision that added protected objects, hierarchical libraries, improved generics, and object-oriented features while maintaining Ada's original seriousness about contracts between modules and behavior under concurrency. This work mattered because industrial languages do not survive on purity alone. They survive when someone can modernize them without turning them into an incoherent accumulation of fashion. Taft therefore represents language stewardship as a technical craft: preserving the reliability-first lineage established by Ichbiah while keeping Ada relevant for embedded, defense, and real-time software over decades.",
+  "mental_model": "To think like S. Tucker Taft, you treat language evolution as an engineering responsibility rather than a branding exercise. A mature systems language must gain expressive power where users genuinely need it, but every addition has to respect the language's original safety model, compilation discipline, and specification quality. You care about generic programming because reusable abstractions reduce duplication without surrendering type guarantees. You care about concurrency because real systems are concurrent whether the language admits it cleanly or not. Most of all, you assume that a language used in aircraft, defense systems, and infrastructure cannot afford whimsical redesign. It has to grow in ways that remain teachable, analyzable, and trustworthy.",
+  "pivotal_works": [
+    "**Ada 95 architecture:** Served as principal architect for the revision that modernized Ada with better abstraction, concurrency, and object-oriented facilities.",
+    "**Protected objects and concurrency design:** Helped refine Ada's approach to safe concurrent programming for long-lived real-time systems.",
+    "**Generic programming and ongoing Ada evolution:** Advanced reusable, strongly typed abstraction without abandoning the language's specification discipline."
+  ],
+  "affiliations": [
+    "**Ada 9X and Ada standards process:** Principal language architect for the revision that became Ada 95.",
+    "**Intermetrics and later AdaCore-related stewardship circles:** Long-running institutional involvement in Ada implementation and language guidance."
+  ],
+  "legacy": "Taft's legacy is proof that industrial language evolution can be principled. Ada 95 kept Ada from freezing as a historical artifact while preserving the reliability tradition that Jean Ichbiah established in response to the software crisis. Its treatment of generics, modularity, and concurrency remains respected even by programmers who never use Ada directly. More broadly, Taft exemplifies a rare kind of language designer: one whose achievement lies not in inventing a language ex nihilo, but in governing a serious one across decades without sacrificing coherence.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how S. Tucker Taft evolved Ada after Jean Ichbiah's original design, and why Ada 95 mattered for the language's survival.'",
+    "2. 'Compare Ada 95's generics, concurrency, and modularity with contemporary systems-language approaches from C++ and Java.'",
+    "3. 'Study protected objects and other Ada 95 features as examples of language evolution under strong safety constraints.'"
+  ]
+}
