@@ -1,0 +1,9 @@
+- [ ] Read mandate and context files
+- [ ] Run `make dark-matter`
+- [ ] Review current hidden alias and canonical files
+- [ ] Review conservative candidate aliases
+- [ ] Update `data/.dark_matter_aliases.json`
+- [ ] Update `data/.dark_matter_canonicals.json`
+- [ ] Extend `tests/test_dark_matter_audit.py`
+- [ ] Re-run audit and inspect report delta
+- [ ] Run verification commands
