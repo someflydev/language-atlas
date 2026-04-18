@@ -66,6 +66,36 @@ def test_alias_resolution_shell_variants() -> None:
         assert resolved.bucket == "languages"
 
 
+def test_alias_resolution_reviewed_language_variants() -> None:
+    resolver = DarkMatterResolver.from_data_dir(REPO_ROOT / "data")
+
+    cases = {
+        "Assembly (Early 1940s)": "Assembly",
+        "Rust (Mozilla era, 2009 onward)": "Rust",
+        "TypeScript (2012/2015 Surge)": "TypeScript",
+    }
+
+    for term, expected in cases.items():
+        resolved = resolver.resolve(term, "entities")
+        assert resolved.display_term == expected
+        assert resolved.bucket == "languages"
+
+
+def test_alias_resolution_reviewed_person_variants() -> None:
+    resolver = DarkMatterResolver.from_data_dir(REPO_ROOT / "data")
+
+    cases = {
+        "Alick Glennie (Autocode pioneer)": "Alick Glennie",
+        "Bjarne Stroustrup (C++ designer)": "Bjarne Stroustrup",
+        "John McCarthy (LISP originator)": "John McCarthy",
+    }
+
+    for term, expected in cases.items():
+        resolved = resolver.resolve(term, "entities")
+        assert resolved.display_term == expected
+        assert resolved.bucket == "entities"
+
+
 def test_type_override_routes_canonical_term_to_language_bucket(tmp_path: Path) -> None:
     data_dir = tmp_path / "data"
     write_json(
