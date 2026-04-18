@@ -136,6 +136,25 @@ Missing Events: 12
 
 The output file `generated-reports/dark_matter_todo.json` is committed to the repository so the TODO list is visible in git history as the data corpus grows.
 
+### dark_matter_alias_candidates.py
+
+Suggests conservative alias candidates for the hidden dark matter
+normalization layer by reading the current report and matching noisy terms
+back to known Atlas entities.
+
+- **Purpose:** Speed up review of safe additions to
+  `data/.dark_matter_aliases.json` and
+  `data/.dark_matter_canonicals.json`.
+- **Usage:** `uv run python scripts/dark_matter_alias_candidates.py`
+- **Alternate Output:** `uv run python scripts/dark_matter_alias_candidates.py --format json`
+- **Behavior:**
+  - Reads `generated-reports/dark_matter_todo.json`
+  - Proposes only conservative parenthetical/year-style normalizations
+  - Matches against known languages, people, concepts, organization
+    profiles, and historical-event profiles
+  - Produces suggestions for human review; it does not edit the hidden
+    files automatically
+
 ### audit_lineage.py
 
 Validates the influence graph and identifies structural anomalies.

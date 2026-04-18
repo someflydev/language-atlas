@@ -4,6 +4,7 @@
 - **Load First:** Always read `AGENT.md` before executing any instructions from `.prompts/PROMPT_XX.txt` or any other directive. This ensures all architectural and stylistic mandates are followed.
 - **Ignore human-notes.md:** Do not read or attempt to process `human-notes.md`. This file is reserved for the human user's personal tracking and notes; it is not intended for agent consumption.
 - **Contextual Awareness:** Maintain awareness of previous prompt executions and their side effects on the codebase while adhering to the self-contained nature of new prompt files.
+- **Use neutral playbooks when relevant:** Check `.context/agent-playbooks/` for reusable, agent-agnostic workflows before inventing a new process for dark matter curation or content-completeness prompt planning.
 
 ## Session Assumption
 - Each file in `.prompts/PROMPT_XX.txt` is intended to be executed in a **fresh coding assistant session** (e.g., Gemini, Codex, Claude).

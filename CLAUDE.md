@@ -17,6 +17,16 @@ Always read `AGENT.md` before executing any `.prompts/PROMPT_XX.txt` file.
 | `.context/commands.md` | Running the server, tests, CLI, scripts |
 | `.context/workflow.md` | Starting a prompt session, committing, handoffs |
 
+## Agent Playbooks
+
+Use the neutral playbooks under `.context/agent-playbooks/` when the task
+matches one of these repeatable workflows:
+
+| Playbook | Load when... |
+|---|---|
+| `.context/agent-playbooks/dark-matter-curation/PLAYBOOK.md` | Curating `data/.dark_matter_aliases.json` / `data/.dark_matter_canonicals.json`, reviewing dark matter duplicates, or planning semantic normalization passes |
+| `.context/agent-playbooks/content-completeness-planning/PLAYBOOK.md` | Designing the next `.prompts/PROMPT_XX.txt` series for high-priority content completeness work |
+
 ## Session Checklist
 When starting a new PROMPT session:
 1. Load relevant context files above
