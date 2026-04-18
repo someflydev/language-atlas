@@ -90,6 +90,28 @@ The specialized "Dark Matter Audit" tool for identifying missing content profile
     `data/.dark_matter_canonicals.json`.
   - **Entity Detection:** Identifies missing profiles for organizations, historical events, and people.
 
+Dark matter coverage is now intentionally split between schema-aware
+structured inputs and heuristic prose extraction. The audit reads from:
+
+- `data/languages.json`
+- `data/people.json`
+- `data/concepts.json`, including `responsible[]`
+- `data/eras.json`, including richer narrative fields and timeline-event
+  descriptions
+- `data/paradigms.json`
+- `data/learning_paths.json`
+- `data/influences.json`
+- narrative JSON docs in `data/docs/`, including `era_summaries/` when
+  present
+
+Structured fields such as `paradigms.languages[]` and
+`learning_paths.steps[].language` are routed with schema knowledge before
+falling back to prose heuristics. Semantic consolidation still happens
+separately through `data/.dark_matter_aliases.json` and
+`data/.dark_matter_canonicals.json`. The audit continues to skip
+`data/docs/atlas_meta/` so internal Atlas architecture docs do not pollute
+the backlog.
+
 Mechanical normalization such as punctuation cleanup, year stripping, and
 event slugging stays in Python inside `scripts/dark_matter_audit.py`.
 Semantic merges belong in the hidden JSON files:

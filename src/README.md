@@ -68,6 +68,28 @@ Mechanical normalization still lives in Python inside
 hidden JSON files so future merges stay deterministic, reviewable, and
 out of hardcoded alias blocks.
 
+The audit now scans a broader slice of Atlas source inputs instead of a
+small original field subset. High-signal structured inputs include:
+
+- `data/languages.json`
+- `data/people.json`
+- `data/concepts.json`, including `responsible[]`
+- `data/eras.json`, including narrative fields such as `description`,
+  `catalyst`, `key_innovations[]`, `timeline_events[].description`, and
+  `modern_reactions[]`
+- `data/paradigms.json`, including `description`, `motivation`,
+  `languages[]`, `connected_paradigms[]`, and recursive string values in
+  `key_features`
+- `data/learning_paths.json`, including path titles, descriptions, and
+  step language and narrative fields
+- `data/influences.json` as a harmless redundant language-edge input that
+  protects coverage if it drifts from `languages.json`
+
+Narrative coverage still comes from JSON docs under `data/docs/`,
+including language, concept, organization, people, and historical-event
+profiles plus `era_summaries/` when that directory exists. The audit
+continues to exclude `data/docs/atlas_meta/` from dark matter discovery.
+
 ## Control Room & Server Commands
 
 ```bash
