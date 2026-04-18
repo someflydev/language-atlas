@@ -435,12 +435,10 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         profiles = loader.get_language_profiles()
         for key, profile in profiles.items():
             lang_id_found: Optional[int] = None
-            if key in lang_map:
-                lang_id_found = lang_map[key]
-            else:
-                space_key = key.replace('_', ' ')
-                if space_key in lang_map:
-                    lang_id_found = lang_map[space_key]
+            for candidate in DataLoader._language_profile_lookup_candidates(key):
+                if candidate in lang_map:
+                    lang_id_found = lang_map[candidate]
+                    break
             
             if lang_id_found:
                 cursor.execute("INSERT INTO language_profiles (language_id, title, overview) VALUES (?, ?, ?)", 

@@ -6,6 +6,19 @@ from typing import List, Optional, Dict, Any, Union, Set, Tuple, cast
 class DataLoader:
     _eras_cache: List[Dict[str, Any]] | None = None
 
+    @staticmethod
+    def _language_profile_lookup_candidates(name: str) -> List[str]:
+        candidates: List[str] = []
+        for candidate in [
+            name,
+            name.replace('_', ' '),
+            name.replace(':', '/'),
+            name.replace(':', '/').replace('_', ' '),
+        ]:
+            if candidate not in candidates:
+                candidates.append(candidate)
+        return candidates
+
     def __init__(self, data_dir: Optional[str] = None) -> None:
         if data_dir is None:
             # Assume we are in src/app/core/data_loader.py
@@ -841,26 +854,21 @@ class DataLoader:
         Returns the profile data for a given language name.
         """
         if not self.use_sqlite:
-            # 1. Try direct match
-            if name in self.language_profiles:
-                return cast(Dict[str, Any], self.language_profiles[name])
-
-            # 2. Try normalized match (underscore -> space)
-            alt_name = name.replace('_', ' ')
-            if alt_name in self.language_profiles:
-                return cast(Dict[str, Any], self.language_profiles[alt_name])
+            for candidate in self._language_profile_lookup_candidates(name):
+                if candidate in self.language_profiles:
+                    return cast(Dict[str, Any], self.language_profiles[candidate])
             return None
 
         conn = self._get_connection()
         try:
-            # Try both direct and alternative names in SQL
-            alt_name = name.replace('_', ' ')
+            candidates = self._language_profile_lookup_candidates(name)
+            placeholders = ", ".join("?" for _ in candidates)
             cursor = conn.execute("""
                 SELECT lp.* 
                 FROM language_profiles lp 
                 JOIN languages l ON l.id = lp.language_id 
-                WHERE lower(l.name) = ? OR lower(l.name) = ?
-            """, (name.lower(), alt_name.lower()))
+                WHERE lower(l.name) IN (""" + placeholders + """)
+            """, tuple(candidate.lower() for candidate in candidates))
 
             row = cursor.fetchone()
             if not row:
