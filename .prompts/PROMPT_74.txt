@@ -1,0 +1,154 @@
+# PROMPT_74: Concepts and Paradigms — Reactive UI, State Flow, and Host-Language DSLs
+
+## Objective
+
+Expand the Atlas's concept and paradigm coverage for the ideas behind modern
+reactive UI systems, especially the React, Redux, Elm, SwiftUI, and Svelte
+lineages. This batch should capture the historical shift from imperative DOM
+and widget mutation toward component models, state flow, host-language UI
+DSLs, and compilation-first interface systems.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json`.
+6. Read `data/concepts.json`, `data/paradigms.json`, and `data/languages.json`.
+7. List files in `data/docs/concept_profiles/` to avoid duplicates.
+8. Read the language profiles for `Elm`, `JavaScript`, `TypeScript`, `React`,
+   `Redux`, `SwiftUI`, and `Svelte`.
+9. Create `tmp/PROMPT_74_checklist.md` with a checkbox per concept,
+   paradigm, verification step, and dark-matter rerun.
+10. Check off each item immediately after completing it.
+
+## Canonicalization Rule
+
+Dark matter in this area often appears as architectural claims rather than
+clean noun phrases. Canonicalize to standard concept names, but explicitly
+absorb the phrasing that already appears in Atlas narratives.
+
+Examples for this batch:
+
+- `The component model gave frontend teams a durable unit for composition`
+  -> `Component Model`
+- `Reducers turned state change into a pure function` -> `Reducers`
+- `Protocols with default implementations` should be explained inside
+  `Protocol-Oriented Design`
+
+## Concepts to Add
+
+Add these records to `data/concepts.json` and create one concept profile JSON
+file per entry in `data/docs/concept_profiles/`.
+
+1. **Virtual DOM** (`Virtual_DOM.json`)
+   - Connect React's reconciliation model to the post-jQuery architecture shift
+
+2. **Component Model** (`Component_Model.json`)
+   - Connect Smalltalk/UI composition heritage to React and modern frontend UI
+
+3. **Unidirectional Data Flow** (`Unidirectional_Data_Flow.json`)
+   - Connect Elm, Flux, Redux, and predictable interface state
+
+4. **Reducers** (`Reducers.json`)
+   - Treat reducers as the explicit state-transition function pattern, not
+     just a Redux API detail
+
+5. **Direct Manipulation UI** (`Direct_Manipulation_UI.json`)
+   - Connect GUI traditions to declarative reactions against imperative widget
+     plumbing
+
+6. **State-Based Transitions** (`State_Based_Transitions.json`)
+   - Connect finite-state reasoning, TEA, and modern view recomposition
+
+7. **Protocol-Oriented Design** (`Protocol_Oriented_Design.json`)
+   - Connect Swift, SwiftUI, protocol composition, and capability-first design
+
+8. **DSL-Style APIs** (`DSL_Style_APIs.json`)
+   - Connect JSX, SwiftUI builders, and host-language interface grammars
+
+9. **No Virtual DOM** (`No_Virtual_DOM.json`)
+   - Explain the Svelte and compile-time reaction against VDOM runtimes
+
+10. **Live Previews** (`Live_Previews.json`)
+    - Connect SwiftUI and modern interface tooling to immediate feedback loops
+
+## Paradigms to Add
+
+Add these paradigm records to `data/paradigms.json` and update affected
+languages in `data/languages.json`.
+
+1. **State-driven UI**
+   - Candidate languages to update: Elm, React, Redux, SwiftUI, Svelte where
+     historically appropriate
+
+2. **UI DSL**
+   - Candidate languages to update: React, SwiftUI, Svelte, and other entries
+     whose interface model is best understood as a host-language DSL
+
+## Concept Profile Schema
+
+Use the same schema as PROMPT_72:
+`title`, `overview`, `historical_context`, `key_aspects`,
+`technical_implications`, `legacy`, `ai_assisted_discovery_missions`.
+
+Additional requirements:
+
+- The historical context must explain why these concepts emerged as a
+  reaction to jQuery-era DOM mutation, callback sprawl, and GUI boilerplate.
+- The technical implications should make clear what becomes easier or harder
+  in state-driven UI systems.
+
+## Paradigm Record Requirements
+
+Use the same `data/paradigms.json` record shape already present in the repo.
+
+Additional requirements:
+
+- `State-driven UI` must be written as a real programming paradigm for
+  interface construction, not as product-marketing language.
+- `UI DSL` must explain host-language embedded interface notation as a
+  language-design move, not just as a pretty syntax layer.
+
+## Cross-Reference Requirements
+
+- Connect `Virtual DOM`, `Component Model`, `Unidirectional Data Flow`, and
+  `Reducers` across React, Redux, and Elm.
+- Connect `Protocol-Oriented Design`, `DSL-Style APIs`, and `Live Previews`
+  to Swift and SwiftUI.
+- Use `No Virtual DOM` to explain Svelte's compiler-first reaction.
+- Make sure `State-Based Transitions` is linked to predictable UI logic and
+  not reduced to a generic state-machine buzzword.
+
+## Verification
+
+1. Run `make build`.
+2. Run `make audit`.
+3. Spot-check `/concept/Virtual_DOM`, `/concept/Reducers`, and
+   `/concept/Protocol_Oriented_Design`.
+4. Spot-check `/paradigm/State-driven UI` and `/paradigm/UI DSL`.
+5. Run `make dark-matter` and note the reduction in reactive UI and frontend
+   architecture references.
+
+## Commit
+
+```bash
+git add data/concepts.json \
+        data/paradigms.json \
+        data/languages.json \
+        data/docs/concept_profiles/ \
+        generated-reports/dark_matter_todo.json
+git commit -m "$(cat <<'EOF'
+[PROMPT_74] Add concepts for reactive UI and state flow
+
+Expand Atlas concept coverage for virtual DOM systems, components,
+reducers, protocol-oriented design, UI DSLs, and state-based
+interface architecture.
+
+This batch also adds state-driven UI and UI DSL paradigms so modern
+frontend and Apple interface models are captured as language history,
+not reduced to library trivia.
+EOF
+)"
+```

@@ -1,0 +1,197 @@
+# PROMPT_72: Concepts and Paradigms — Types, Modules, and Declarative Logic
+
+## Objective
+
+Expand the Atlas's concept and paradigm coverage for the highest-value
+missing ideas around type systems, modularity, and logic programming.
+This batch should convert repeated dark-matter references into canonical
+concept records in `data/concepts.json`, corresponding concept profiles in
+`data/docs/concept_profiles/`, and a small set of new paradigm records in
+`data/paradigms.json` plus matching `data/languages.json` updates where
+appropriate.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json`.
+6. Read `data/concepts.json`, `data/paradigms.json`, and `data/languages.json`.
+7. List files in `data/docs/concept_profiles/` to avoid duplicates.
+8. Read 2-3 existing concept profiles for style reference.
+9. Note that the active runtime narrative path is `data/docs/concept_profiles/`.
+   Do not invent a new schema under `data/docs/concepts/` unless you confirm
+   it is already consumed by the app.
+10. Create `tmp/PROMPT_72_checklist.md` with a checkbox per concept,
+    paradigm, verification step, and dark-matter rerun.
+11. Check off each item immediately after completing it.
+
+## Canonicalization Rule
+
+The dark-matter report often surfaces concept phrases in prose form.
+Canonicalize them into the most standard concise concept name, but make sure
+the profile prose explicitly absorbs the current dark-matter wording.
+
+Examples for this batch:
+
+- `Algebraic Data Types (ADTs)` -> `Algebraic Data Types`
+- `Module system (Functors)` -> split into `Module System` and `Functors`
+- `Implicit Interfaces (Structural Typing)` -> `Structural Typing`
+- `Algorithm = Logic + Control` should be explained inside `Unification`,
+  `Pattern Matching`, and `Type Inference` lineage where relevant, even if it
+  is not itself a top-level concept file in this prompt
+
+## Concepts to Add
+
+Add these records to `data/concepts.json` and create one concept profile JSON
+file per entry in `data/docs/concept_profiles/`.
+
+1. **Algebraic Data Types** (`Algebraic_Data_Types.json`)
+   - Connect ML, Haskell, Rust enums, and modern typed API design
+   - Absorb dark-matter variants `Algebraic Data Types (ADTs)`
+
+2. **Type Inference** (`Type_Inference.json`)
+   - Connect Hindley-Milner, ML, Haskell, Rust inference, and developer UX
+
+3. **Type Classes** (`Type_Classes.json`)
+   - Connect Haskell ad-hoc polymorphism, Scala implicits/givens, and modern
+     trait/protocol discourse where historically appropriate
+
+4. **Structural Typing** (`Structural_Typing.json`)
+   - Canonicalize `Implicit Interfaces (Structural Typing)` and contrast with
+     TypeScript and Go interfaces
+
+5. **Nominal Typing** (`Nominal_Typing.json`)
+   - Pair explicitly with Structural Typing and connect to Java, C#, Swift
+
+6. **Gradual Typing** (`Gradual_Typing.json`)
+   - Connect optional static typing in TypeScript, Python typing, and the
+     migration path from dynamic to stricter codebases
+
+7. **Module System** (`Module_System.json`)
+   - Connect Standard ML, OCaml, Modula, and large-scale program structure
+
+8. **Functors** (`Functors.json`)
+   - Treat as the module-system notion from ML lineage, not the generic
+     category-theory catch-all
+
+9. **Pattern Matching** (`Pattern_Matching.json`)
+   - Connect ML, Haskell, Rust, Erlang, and functional-declarative design
+
+10. **Unification** (`Unification.json`)
+    - Connect Prolog, logic programming, type inference, and theorem proving
+
+## Paradigms to Add
+
+Add these paradigm records to `data/paradigms.json` and update affected
+languages in `data/languages.json` so the new paradigms are actually used.
+
+1. **Type-driven**
+   - Motivation: use the type system as a design surface, not just a checker
+   - Candidate languages to update: Haskell, OCaml, Rust, Swift, TypeScript,
+     Elm, Mercury
+
+2. **Rule-based**
+   - Motivation: encode behavior as rewrite rules, matching, or inference
+   - Candidate languages to update: Prolog, Mercury, Mathematica, CycL if
+     present, and other clearly rule-centric systems
+
+3. **Query-oriented**
+   - Motivation: describe data retrieval and relation logic declaratively
+   - Candidate languages to update: SQL, GraphQL if present, CycL if present,
+     and other clearly query-centric entries already in `data/languages.json`
+
+## Concept Profile Schema
+
+Each new file in `data/docs/concept_profiles/` must contain:
+
+```json
+{
+  "title": "Concept: Memorable Subtitle",
+  "overview": "2-3 sentences",
+  "historical_context": "Minimum 140 words",
+  "key_aspects": [
+    "**Aspect:** Explanation."
+  ],
+  "technical_implications": "Minimum 100 words",
+  "legacy": "Minimum 80 words",
+  "ai_assisted_discovery_missions": [
+    "1. \"Quoted research prompt.\"",
+    "2. \"...\"",
+    "3. \"...\""
+  ]
+}
+```
+
+- Use exactly these top-level keys.
+- `ai_assisted_discovery_missions` must have exactly 3 entries.
+- Do not add `mental_model`, `challenge`, or other extra keys in this batch.
+
+## Paradigm Record Requirements
+
+Each new paradigm record in `data/paradigms.json` must include:
+
+- `name`
+- `description`
+- `year_introduced`
+- `motivation`
+- `languages`
+- `connected_paradigms`
+- `key_features`
+
+Additional requirements:
+
+- `motivation` should describe the historical pressure that produced the
+  paradigm, not generic praise.
+- `languages` must list only canonical names that already exist in
+  `data/languages.json`.
+- `connected_paradigms` must reference existing or newly added paradigm names.
+- `key_features` should use the same dict shape already present elsewhere in
+  `data/paradigms.json`.
+
+## Cross-Reference Requirements
+
+- Pair `Structural Typing` and `Nominal Typing` explicitly.
+- Connect `Type Inference`, `Unification`, and `Pattern Matching` to each
+  other where historically justified.
+- Connect `Module System` and `Functors` to Standard ML and OCaml.
+- Make `Type Classes` historically distinct from OOP interfaces and Rust
+  traits, while still explaining the lineage.
+- Ensure `Type-driven` is written as a serious paradigm of software design,
+  not just a synonym for strong typing.
+- Ensure `Rule-based` and `Query-oriented` are historically grounded in
+  Prolog, SQL, Mathematica, and adjacent systems rather than framed as
+  generic buzzwords.
+
+## Verification
+
+1. Run `make build`.
+2. Run `make audit`.
+3. Spot-check `/concept/Algebraic_Data_Types`,
+   `/concept/Module_System`, and `/concept/Unification`.
+4. Spot-check `/paradigm/Type-driven`, `/paradigm/Rule-based`, and
+   `/paradigm/Query-oriented`.
+5. Run `make dark-matter` and note the reduction in missing type-system and
+   declarative-logic references.
+
+## Commit
+
+```bash
+git add data/concepts.json \
+        data/paradigms.json \
+        data/languages.json \
+        data/docs/concept_profiles/ \
+        generated-reports/dark_matter_todo.json
+git commit -m "$(cat <<'EOF'
+[PROMPT_72] Add concepts for types, modules, and declarative logic
+
+Expand Atlas concept coverage for algebraic data types, inference,
+type classes, module systems, pattern matching, and unification.
+
+This batch also adds type-driven, rule-based, and query-oriented
+paradigms so the data model better captures typed design and
+declarative reasoning traditions already visible across the Atlas.
+EOF
+)"
+```

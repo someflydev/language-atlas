@@ -1,0 +1,158 @@
+# PROMPT_75: Concepts and Paradigms — Pipelines, Processes, and Shell-Centric Runtime Design
+
+## Objective
+
+Expand the Atlas's concept and paradigm coverage for the ideas behind shell
+composition, process isolation, asynchronous runtime design, and the
+usability-focused evolution from Bourne-style shells to Bash, Fish, and
+PowerShell-like object pipelines. This batch should also capture the
+conceptual bridge between shell process composition and actor/runtime
+isolation in systems such as Erlang, Akka, and Cloud Haskell.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json`.
+6. Read `data/concepts.json`, `data/paradigms.json`, and `data/languages.json`.
+7. List files in `data/docs/concept_profiles/` to avoid duplicates.
+8. Read the language profiles for `Bash`, `Fish`, `Erlang`, `Akka`,
+   `Cloud Haskell`, and `PowerShell` if present.
+9. Create `tmp/PROMPT_75_checklist.md` with a checkbox per concept,
+   paradigm, verification step, and dark-matter rerun.
+10. Check off each item immediately after completing it.
+
+## Canonicalization Rule
+
+Dark matter in this area mixes shell ergonomics, process models, and runtime
+fault tolerance. Normalize to concise canonical concept names while absorbing
+the exact Atlas phrasing into descriptions and profiles.
+
+Examples for this batch:
+
+- `Object-based pipeline (passing objects instead of text)` -> `Object Pipelines`
+- `Abhor Shared State` and `No Shared State` should be unified under
+  `No Shared State`
+- `Actor Model (Lightweight Processes)` should be treated as a dark-matter
+  variant of existing actor-model coverage, not as a duplicate new concept
+  record in this prompt
+
+## Concepts to Add
+
+Add these records to `data/concepts.json` and create one concept profile JSON
+file per entry in `data/docs/concept_profiles/`.
+
+1. **Pipelines** (`Pipelines.json`)
+   - Treat pipelines as a composition model, not just a shell character
+
+2. **Pipeline Architecture** (`Pipeline_Architecture.json`)
+   - Focus on small tools composed into larger workflows
+
+3. **Object Pipelines** (`Object_Pipelines.json`)
+   - Contrast PowerShell-style object passing with text-stream shells
+
+4. **Autosuggestions** (`Autosuggestions.json`)
+   - Connect Fish and modern shell usability expectations
+
+5. **Job Control** (`Job_Control.json`)
+   - Connect interactive shells, process suspension, and operator workflow
+
+6. **Environment-Driven Execution** (`Environment_Driven_Execution.json`)
+   - Explain environment variables, process state, and path-based execution as
+     part of the shell language model
+
+7. **Asynchronous Message Passing** (`Asynchronous_Message_Passing.json`)
+   - Connect actor systems, shell/event models, and distributed runtimes
+
+8. **No Shared State** (`No_Shared_State.json`)
+   - Connect Erlang, Akka, Cloud Haskell, and concurrency safety
+
+9. **Let It Crash** (`Let_It_Crash.json`)
+   - Treat as a first-class runtime philosophy with operational consequences
+
+10. **Isolated Processes** (`Isolated_Processes.json`)
+    - Connect shell processes, BEAM processes, and failure containment
+
+## Paradigms to Add
+
+Add these paradigm records to `data/paradigms.json` and update affected
+languages in `data/languages.json`.
+
+1. **Pipeline-oriented**
+   - Candidate languages to update: Bash, Fish, PowerShell, Nushell if
+     present, and other clear pipeline-centric shell entries
+
+2. **Process-oriented**
+   - Candidate languages to update: Bash, Erlang, Akka, Cloud Haskell, and
+     other entries where process composition is central to the mental model
+
+## Concept Profile Schema
+
+Use the same schema as PROMPT_72:
+`title`, `overview`, `historical_context`, `key_aspects`,
+`technical_implications`, `legacy`, `ai_assisted_discovery_missions`.
+
+Additional requirements:
+
+- The historical context should connect Unix shell traditions to later actor
+  and distributed-runtime thinking where that comparison is genuinely useful.
+- The technical implications must explain the tradeoffs of text streams,
+  object pipelines, and isolated-process models.
+
+## Paradigm Record Requirements
+
+Use the same `data/paradigms.json` record shape already present in the repo.
+
+Additional requirements:
+
+- `Pipeline-oriented` must distinguish pipeline composition from generic
+  scripting or process spawning.
+- `Process-oriented` must focus on programs built as communicating or composed
+  processes, not on the trivial fact that every OS runs processes.
+
+## Cross-Reference Requirements
+
+- Connect `Pipelines`, `Pipeline Architecture`, `Job Control`, and
+  `Environment-Driven Execution` across Thompson shell, Bourne shell, Bash,
+  Fish, and PowerShell where useful.
+- Connect `Asynchronous Message Passing`, `No Shared State`,
+  `Let It Crash`, and `Isolated Processes` across Erlang, Akka, and Cloud
+  Haskell.
+- Use `Object Pipelines` to explain the break between text-stream Unix
+  composition and PowerShell-like pipeline semantics.
+- Keep shell usability and actor runtime design historically distinct even
+  when drawing analogies between them.
+
+## Verification
+
+1. Run `make build`.
+2. Run `make audit`.
+3. Spot-check `/concept/Pipelines`, `/concept/Object_Pipelines`, and
+   `/concept/Let_It_Crash`.
+4. Spot-check `/paradigm/Pipeline-oriented` and `/paradigm/Process-oriented`.
+5. Run `make dark-matter` and note the reduction in shell, process, and
+   runtime-isolation references.
+
+## Commit
+
+```bash
+git add data/concepts.json \
+        data/paradigms.json \
+        data/languages.json \
+        data/docs/concept_profiles/ \
+        generated-reports/dark_matter_todo.json
+git commit -m "$(cat <<'EOF'
+[PROMPT_75] Add concepts for pipelines and process runtimes
+
+Expand Atlas concept coverage for pipelines, object pipelines,
+environment-driven execution, isolated processes, and the let-it-crash
+runtime philosophy.
+
+This batch also adds pipeline-oriented and process-oriented paradigms
+so shell composition and actor-style runtime design are represented
+more clearly in the structured Atlas data.
+EOF
+)"
+```

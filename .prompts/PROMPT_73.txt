@@ -1,0 +1,156 @@
+# PROMPT_73: Concepts and Paradigms — Array, Symbolic, and Notebook Computing
+
+## Objective
+
+Expand the Atlas's concept coverage for the numerical, symbolic, and
+notebook-centric computing ideas that now appear repeatedly across recent
+language profiles and dark-matter references. This batch should strengthen
+the historical bridge from APL and MATLAB through Mathematica, GNU Octave,
+NumPy, and adjacent technical-computing traditions.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json`.
+6. Read `data/concepts.json`, `data/paradigms.json`, and `data/languages.json`.
+7. List files in `data/docs/concept_profiles/` to avoid duplicates.
+8. Read the existing profiles for `APL`, `MATLAB`, `Mathematica`,
+   `GNU Octave`, and `Numpy` plus 2-3 existing concept profiles.
+9. Create `tmp/PROMPT_73_checklist.md` with a checkbox per concept,
+   paradigm, verification step, and dark-matter rerun.
+10. Check off each item immediately after completing it.
+
+## Canonicalization Rule
+
+Normalize the prose-y dark-matter phrases into concise standard concept names.
+Make the canonical name clean, but absorb the current wording into the
+profile narrative and `description`.
+
+Examples for this batch:
+
+- `Broadcasting generalized scalar` -> `Broadcasting`
+- `Integrated plotting and analysis tools` -> `Integrated Plotting and Analysis`
+- `ASCII-Based Array Syntax` stays explicit because it identifies the J
+  reaction to APL glyph dependence
+
+## Concepts to Add
+
+Add these records to `data/concepts.json` and create one concept profile JSON
+file per entry in `data/docs/concept_profiles/`.
+
+1. **Array-First Programming** (`Array_First_Programming.json`)
+   - Connect APL, J, K, NumPy, MATLAB, and data-parallel reasoning
+
+2. **Arrays as First-Class Citizens** (`Arrays_as_First_Class_Citizens.json`)
+   - Focus on language design where arrays are the primary semantic unit
+
+3. **Broadcasting** (`Broadcasting.json`)
+   - Explain generalized scalar-shape interaction in NumPy-style systems
+
+4. **Arbitrary-Precision Arithmetic** (`Arbitrary_Precision_Arithmetic.json`)
+   - Connect symbolic systems, CAS tools, and exact math workflows
+
+5. **Algebraic Expression Evaluation** (`Algebraic_Expression_Evaluation.json`)
+   - Connect symbolic engines, computer algebra, and executable mathematics
+
+6. **Notebook Computing** (`Notebook_Computing.json`)
+   - Connect Mathematica notebooks, later Jupyter practice, and literate
+     technical exploration
+
+7. **Symbolic Pattern Recognition** (`Symbolic_Pattern_Recognition.json`)
+   - Focus on pattern-directed symbolic rewriting and expression matching
+
+8. **Interactive Numerical Exploration** (`Interactive_Numerical_Exploration.json`)
+   - Connect command-driven scientific work, reproducibility, and pedagogy
+
+9. **Integrated Plotting and Analysis** (`Integrated_Plotting_and_Analysis.json`)
+   - Explain why visualization inside the language environment mattered
+
+10. **ASCII-Based Array Syntax** (`ASCII_Based_Array_Syntax.json`)
+    - Connect J, array-language portability, and life after APL glyphs
+
+## Paradigms to Add
+
+Add these paradigm records to `data/paradigms.json` and update affected
+languages in `data/languages.json`.
+
+1. **Matrix-oriented**
+   - Candidate languages to update: MATLAB, GNU Octave, Julia where clearly
+     appropriate, and other matrix-first systems already in the dataset
+
+2. **Notebook-oriented**
+   - Candidate languages to update: Mathematica and any other language entry
+     whose identity is tightly bound to notebook computing rather than merely
+     supporting notebooks as tooling
+
+## Concept Profile Schema
+
+Use the same schema as PROMPT_72:
+`title`, `overview`, `historical_context`, `key_aspects`,
+`technical_implications`, `legacy`, `ai_assisted_discovery_missions`.
+
+Additional requirements:
+
+- `historical_context` must trace the lineage from mathematical notation or
+  early scientific computing into modern technical-computing environments.
+- `technical_implications` should explain how the concept changes what kinds
+  of programs are easy to express and optimize.
+
+## Paradigm Record Requirements
+
+Use the same `data/paradigms.json` record shape already present in the repo.
+
+Additional requirements:
+
+- `Matrix-oriented` must not collapse into the already existing broad array
+  paradigms; explain why matrix-first scientific environments deserve a more
+  specific historical framing.
+- `Notebook-oriented` must be written as a computing style centered on
+  interactive document-computation fusion, not as a generic IDE feature.
+
+## Cross-Reference Requirements
+
+- Connect `Array-First Programming`, `Arrays as First-Class Citizens`, and
+  `Broadcasting` to APL, MATLAB, GNU Octave, NumPy, and Julia where useful.
+- Connect `Algebraic Expression Evaluation`, `Arbitrary-Precision Arithmetic`,
+  and `Symbolic Pattern Recognition` to Mathematica, Maple, and MACSYMA
+  lineage where historically appropriate.
+- Connect `Notebook Computing` and `Integrated Plotting and Analysis` to the
+  lived workflow of technical computing, not just to UI decoration.
+- Use `ASCII-Based Array Syntax` to explain J's reaction to APL's custom
+  symbol set.
+
+## Verification
+
+1. Run `make build`.
+2. Run `make audit`.
+3. Spot-check `/concept/Array_First_Programming`,
+   `/concept/Notebook_Computing`, and `/concept/Broadcasting`.
+4. Spot-check `/paradigm/Matrix-oriented` and `/paradigm/Notebook-oriented`.
+5. Run `make dark-matter` and note the reduction in numerical and symbolic
+   computing references.
+
+## Commit
+
+```bash
+git add data/concepts.json \
+        data/paradigms.json \
+        data/languages.json \
+        data/docs/concept_profiles/ \
+        generated-reports/dark_matter_todo.json
+git commit -m "$(cat <<'EOF'
+[PROMPT_73] Add concepts for array, symbolic, and notebook computing
+
+Expand Atlas concept coverage for array-first reasoning, broadcasting,
+symbolic evaluation, notebook computing, and integrated technical
+analysis environments.
+
+This batch also adds matrix-oriented and notebook-oriented paradigms
+so numerical and symbolic systems have clearer historical framing in
+the structured data model.
+EOF
+)"
+```
