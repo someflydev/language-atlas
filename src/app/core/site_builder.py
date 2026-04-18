@@ -59,6 +59,11 @@ class SiteBuilder:
         for sub in ("languages", "eras", "paradigms", "concepts"):
             (self._out / sub).mkdir(parents=True, exist_ok=True)
 
+    @staticmethod
+    def _safe_doc_name(name: str) -> str:
+        """Keep generated Markdown filenames stable without collapsing slashes."""
+        return name.replace("/", "_slash_").replace(" ", "_")
+
     # ------------------------------------------------------------------
     # Language profiles
     # ------------------------------------------------------------------
@@ -89,7 +94,7 @@ class SiteBuilder:
                 "safety_model": info.get('safety_model'),
             }
 
-            safe_name = info['name'].replace(" ", "_").replace("/", "_")
+            safe_name = self._safe_doc_name(info['name'])
             file_path = self._out / "languages" / f"{safe_name}.md"
 
             influenced_by: List[str] = info.get('influenced_by') or []
@@ -144,7 +149,7 @@ class SiteBuilder:
             profile_title: str = info.get('profile_title') or info['name']
             sections: List[Dict[str, Any]] = info.get('sections') or []
 
-            safe_name = info['name'].replace(" ", "_").replace("/", "_")
+            safe_name = self._safe_doc_name(info['name'])
             file_path = self._out / "concepts" / f"{safe_name}.md"
 
             with open(file_path, "w", encoding="utf-8") as f:
@@ -177,7 +182,7 @@ class SiteBuilder:
                 lang_list: List[Dict[str, Any]] = p.get('lang_list') or []
                 if lang_list:
                     for lang in lang_list:
-                        safe_name = lang['name'].replace(" ", "_").replace("/", "_")
+                        safe_name = self._safe_doc_name(lang['name'])
                         f.write(
                             f"- [{lang['display_name']}]"
                             f"(languages/{safe_name}.md)\n"
@@ -218,7 +223,7 @@ class SiteBuilder:
                     gen_map[gen], key=lambda l: l.get('year') or 0
                 )
                 for lang in langs_in_gen:
-                    safe_name = lang['name'].replace(" ", "_").replace("/", "_")
+                    safe_name = self._safe_doc_name(lang['name'])
                     display = lang.get('display_name') or lang['name']
                     f.write(
                         f"- [{display}](languages/{safe_name}.md)"
@@ -315,7 +320,7 @@ class SiteBuilder:
         with open(self._out / "CONCEPTS.md", "w", encoding="utf-8") as f:
             f.write("# Core Concepts: The Soul of Computation\n\n")
             for c in concepts:
-                safe_name = c['name'].replace(" ", "_").replace("/", "_")
+                safe_name = self._safe_doc_name(c['name'])
                 f.write(f"## [{c['name']}](concepts/{safe_name}.md)\n")
                 f.write(f"{c.get('description', '')}\n\n")
 
@@ -403,7 +408,7 @@ class SiteBuilder:
             for lang in top_langs:
                 name = lang['name']
                 display = lang.get('display_name') or name
-                safe_name = name.replace(" ", "_").replace("/", "_")
+                safe_name = self._safe_doc_name(name)
                 f.write(f"- [{display}](languages/{safe_name}.md)\n")
             f.write("\n")
 
