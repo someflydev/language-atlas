@@ -124,12 +124,9 @@ class DataLoader:
 
         return profiles
 
-    def _load_concept_profiles(self) -> Dict[str, Any]:
-        """
-        Loads extended concept profile JSON files from data/docs/concept_profiles/
-        Returns a dictionary mapping normalized concept names to their profile data.
-        """
-        profiles_dir = os.path.join(self.data_dir, 'docs', 'concept_profiles')
+    def _load_profile_dir(self, *parts: str) -> Dict[str, Any]:
+        """Load JSON profile files from a docs subdirectory keyed by filename stem."""
+        profiles_dir = os.path.join(self.data_dir, 'docs', *parts)
         profiles: Dict[str, Any] = {}
 
         if not os.path.isdir(profiles_dir):
@@ -141,12 +138,22 @@ class DataLoader:
                 try:
                     with open(file_path, 'r', encoding='utf-8') as f:
                         data = json.load(f)
-                        # Use filename without extension as the key
                         key = filename[:-5]
                         profiles[key] = data
                 except (json.JSONDecodeError, IOError):
                     continue
 
+        return profiles
+
+    def _load_concept_profiles(self) -> Dict[str, Any]:
+        """
+        Loads concept narratives from both concept_profiles/ and concept_combos/.
+        Returns a dictionary mapping filename stems to their profile data.
+        """
+        profiles = self._load_profile_dir('concept_profiles')
+        # Concept combos are rendered through the normal concept route once
+        # build_sqlite materializes them into the concepts and concept_profiles tables.
+        profiles.update(self._load_profile_dir('concept_combos'))
         return profiles
 
     def _load_people_profiles(self) -> Dict[str, Any]:
