@@ -1,11 +1,92 @@
 {
+  "Alick Glennie": {
+    "type": "person"
+  },
+  "Assembly": {
+    "type": "language"
+  },
+  "Bjarne Stroustrup": {
+    "type": "person"
+  },
   "Bourne Shell": {
+    "type": "language"
+  },
+  "C": {
+    "type": "language"
+  },
+  "C++": {
+    "type": "language"
+  },
+  "Dennis Ritchie": {
+    "type": "person"
+  },
+  "Erlang": {
+    "type": "language"
+  },
+  "Friedrich L. Bauer": {
+    "type": "person"
+  },
+  "Go": {
+    "type": "language"
+  },
+  "Grace Hopper": {
+    "type": "person"
+  },
+  "Graydon Hoare": {
+    "type": "person"
+  },
+  "JavaScript": {
+    "type": "language"
+  },
+  "Joe Armstrong": {
+    "type": "person"
+  },
+  "John Backus": {
+    "type": "person"
+  },
+  "John McCarthy": {
+    "type": "person"
+  },
+  "Konrad Zuse": {
+    "type": "person"
+  },
+  "Lambda Calculus": {
+    "type": "language"
+  },
+  "Mojo": {
+    "type": "language"
+  },
+  "Niklaus Wirth": {
+    "type": "person"
+  },
+  "OCaml": {
     "type": "language"
   },
   "Python": {
     "type": "language"
   },
-  "JavaScript": {
+  "ReScript": {
+    "type": "language"
+  },
+  "Rob Pike": {
+    "type": "person"
+  },
+  "Rust": {
+    "type": "language"
+  },
+  "Short Code": {
+    "type": "language"
+  },
+  "Smalltalk": {
+    "type": "language"
+  },
+  "Svelte": {
+    "type": "language"
+  },
+  "TypeScript": {
+    "type": "language"
+  },
+  "WebAssembly": {
     "type": "language"
   }
 }
