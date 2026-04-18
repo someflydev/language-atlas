@@ -302,7 +302,7 @@ def canonicalize(name: Optional[str]) -> str:
     if name.startswith("the "):
         name = name[4:].strip()
     name = name.replace("cpu and memory", "cpu_memory").replace("cpu/memory", "cpu_memory")
-    name = name.replace("&", " and ").replace("/", "_")
+    name = name.replace("&", " and ").replace("/", "_").replace(":", "_")
     name = re.sub(r"\b(inc|corp|corporation|ltd|limited|llc|plc|foundation|labs|software)(\.?)(\b|$)", "", name).strip()
     name = re.sub(r"\(\d{4}(?:–|-|/)(?:\d{4}|present)\)", "", name, flags=re.I)
     name = re.sub(r"\(\d{4}\)", "", name)
