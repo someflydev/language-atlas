@@ -21,6 +21,30 @@ def write_json(path: Path, payload: object) -> None:
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
 
 
+def write_minimal_dark_matter_fixture(data_dir: Path) -> None:
+    docs_dir = data_dir / "docs"
+    for directory in [
+        "language_profiles",
+        "concept_profiles",
+        "org_profiles",
+        "historical_events",
+        "people_profiles",
+        "atlas_meta",
+        "concept_combos",
+    ]:
+        (docs_dir / directory).mkdir(parents=True, exist_ok=True)
+
+    write_json(data_dir / ".dark_matter_aliases.json", {})
+    write_json(data_dir / ".dark_matter_canonicals.json", {})
+    write_json(data_dir / "people.json", [])
+    write_json(data_dir / "languages.json", [])
+    write_json(data_dir / "concepts.json", [])
+    write_json(data_dir / "eras.json", [])
+    write_json(data_dir / "paradigms.json", [])
+    write_json(data_dir / "learning_paths.json", [])
+    write_json(data_dir / "influences.json", [])
+
+
 def test_alias_resolution_python_and_javascript() -> None:
     resolver = DarkMatterResolver.from_data_dir(REPO_ROOT / "data")
 
@@ -149,3 +173,126 @@ def test_profile_key_matches_existing_profile_stem(tmp_path: Path) -> None:
     todo = collect_dark_matter(data_dir)
 
     assert "Garmisch Conference" not in todo["missing_historical_events"]
+
+
+def test_concepts_responsible_contributes_referenced_entity(tmp_path: Path) -> None:
+    data_dir = tmp_path / "data"
+    write_minimal_dark_matter_fixture(data_dir)
+    write_json(
+        data_dir / "concepts.json",
+        [
+            {
+                "name": "Immutability",
+                "description": "Concept text.",
+                "responsible": ["John McCarthy"],
+            }
+        ],
+    )
+
+    todo = collect_dark_matter(data_dir)
+
+    assert "John McCarthy" in todo["missing_entities"]
+
+
+def test_era_narrative_fields_contribute_references(tmp_path: Path) -> None:
+    data_dir = tmp_path / "data"
+    write_minimal_dark_matter_fixture(data_dir)
+    write_json(
+        data_dir / "eras.json",
+        [
+            {
+                "name": "The Dawn of Computation",
+                "description": "**Ada Lovelace** framed the Analytical Engine.",
+                "catalyst": "WWII accelerated computing demand.",
+                "key_innovations": ["Stored Program"],
+                "timeline_events": [
+                    {"description": "**Alan Turing** formalized the machine model."}
+                ],
+                "modern_reactions": ["Functional Revival"],
+                "key_drivers": [],
+                "pivotal_languages": [],
+                "reactions_and_legacy": "",
+                "crossroads": [],
+            }
+        ],
+    )
+
+    todo = collect_dark_matter(data_dir)
+
+    assert "Ada Lovelace" in todo["missing_entities"]
+    assert "Alan Turing" in todo["missing_entities"]
+    assert "Stored Program" in todo["missing_entities"]
+
+
+def test_paradigm_languages_contribute_language_references(tmp_path: Path) -> None:
+    data_dir = tmp_path / "data"
+    write_minimal_dark_matter_fixture(data_dir)
+    write_json(
+        data_dir / "paradigms.json",
+        [
+            {
+                "name": "Actor-model",
+                "description": "Concurrent model.",
+                "motivation": "Carl Hewitt responded to coordination failures.",
+                "languages": ["Erlang"],
+                "connected_paradigms": ["Reactive"],
+                "key_features": {"The Reaction": "Asynchronous Message Passing"},
+            }
+        ],
+    )
+
+    todo = collect_dark_matter(data_dir)
+
+    assert "Erlang" in todo["missing_language_profiles"]
+
+
+def test_learning_paths_languages_contribute_language_references(tmp_path: Path) -> None:
+    data_dir = tmp_path / "data"
+    write_minimal_dark_matter_fixture(data_dir)
+    write_json(
+        data_dir / "learning_paths.json",
+        [
+            {
+                "id": "path",
+                "title": "The Systems Descent",
+                "description": "Trace memory safety.",
+                "steps": [
+                    {
+                        "language": "Rust",
+                        "milestone": "The Safety Revolution",
+                        "rationale": "The Borrow Checker reshapes systems work.",
+                        "challenge": "Refactor pointers.",
+                    }
+                ],
+            }
+        ],
+    )
+
+    todo = collect_dark_matter(data_dir)
+
+    assert "Rust" in todo["missing_language_profiles"]
+
+
+def test_era_summaries_are_scanned_but_atlas_meta_is_excluded(tmp_path: Path) -> None:
+    data_dir = tmp_path / "data"
+    write_minimal_dark_matter_fixture(data_dir)
+    write_json(
+        data_dir / "docs" / "era_summaries" / "early.json",
+        {
+            "slug": "early",
+            "title": "Early Era",
+            "overview": "**Grace Hopper** pushed compilers toward practicality.",
+        },
+    )
+    write_json(
+        data_dir / "docs" / "atlas_meta" / "Guided_Odyssey.json",
+        {
+            "title": "Guided Odyssey",
+            "overview": "**Atlas Meta Person** should remain excluded.",
+        },
+    )
+
+    todo = collect_dark_matter(data_dir)
+
+    assert "Grace Hopper" in todo["missing_entities"]
+    assert "Atlas Meta Person" not in todo["missing_entities"]

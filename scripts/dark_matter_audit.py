@@ -774,7 +774,7 @@ def collect_dark_matter(data_dir: Path = Path("data")) -> Dict[str, Any]:
                 known_languages.add(canonicalize(name))
 
     def add_reference(name: Optional[str], bucket_hint: Optional[str] = None, *, allow_combo: bool = True) -> None:
-        if not name or name == "Various":
+        if not isinstance(name, str) or not name or name == "Various":
             return
         if re.search(r"^[A-Z]+\s+\(\d{4}-\d{4}\)$", name):
             return
@@ -824,6 +824,23 @@ def collect_dark_matter(data_dir: Path = Path("data")) -> Dict[str, Any]:
             if existing is None or (resolved.display_term and resolved.display_term[0].isupper() and not existing.display_term[0].isupper()):
                 bucket_map[resolved.normalized_term] = resolved
 
+    def add_references_from_text(text: Optional[str]) -> None:
+        concepts, orgs = extract_entities_from_text(text)
+        for item in concepts:
+            add_reference(item)
+        for item in orgs:
+            add_reference(item, "organizations")
+
+    def add_references_from_value(value: Any) -> None:
+        if isinstance(value, str):
+            add_references_from_text(value)
+        elif isinstance(value, list):
+            for item in value:
+                add_references_from_value(item)
+        elif isinstance(value, dict):
+            for nested in value.values():
+                add_references_from_value(nested)
+
     if people_path.exists():
         for person in json.loads(people_path.read_text(encoding="utf-8")):
             for contribution in person.get("contributions", []):
@@ -856,25 +873,30 @@ def collect_dark_matter(data_dir: Path = Path("data")) -> Dict[str, Any]:
     if concepts_path.exists():
         for concept in json.loads(concepts_path.read_text(encoding="utf-8")):
             add_reference(concept.get("name"))
-            concepts, orgs = extract_entities_from_text(concept.get("description", ""))
-            for item in concepts:
-                add_reference(item)
-            for item in orgs:
-                add_reference(item, "organizations")
+            add_references_from_text(concept.get("description", ""))
+            for responsible in concept.get("responsible", []):
+                if is_organization(responsible):
+                    add_reference(responsible, "organizations")
+                else:
+                    add_reference(responsible)
 
     eras_file = data_dir / "eras.json"
     if eras_file.exists():
         for era in json.loads(eras_file.read_text(encoding="utf-8")):
             add_reference(era.get("name"))
+            add_references_from_text(era.get("description", ""))
+            add_references_from_text(era.get("catalyst", ""))
+            for innovation in era.get("key_innovations", []):
+                add_reference(innovation)
+            for event in era.get("timeline_events", []):
+                add_references_from_text(event.get("description", ""))
             for driver in era.get("key_drivers", []):
                 add_reference(driver.get("name"))
             for pivotal_language in era.get("pivotal_languages", []):
                 add_reference(pivotal_language.get("name", ""), "languages")
-            concepts, orgs = extract_entities_from_text(era.get("reactions_and_legacy", ""))
-            for item in concepts:
-                add_reference(item)
-            for item in orgs:
-                add_reference(item, "organizations")
+            add_references_from_text(era.get("reactions_and_legacy", ""))
+            for reaction in era.get("modern_reactions", []):
+                add_references_from_value(reaction)
 
             for crossroad in era.get("crossroads", []):
                 add_reference(crossroad.get("title"))
@@ -882,11 +904,31 @@ def collect_dark_matter(data_dir: Path = Path("data")) -> Dict[str, Any]:
                     add_reference(player)
                 for related_language in crossroad.get("related_languages", []):
                     add_reference(related_language, "languages")
-                concepts, orgs = extract_entities_from_text(crossroad.get("explanation", ""))
-                for item in concepts:
-                    add_reference(item)
-                for item in orgs:
-                    add_reference(item, "organizations")
+                add_references_from_text(crossroad.get("explanation", ""))
+
+    paradigms_path = data_dir / "paradigms.json"
+    if paradigms_path.exists():
+        paradigms = json.loads(paradigms_path.read_text(encoding="utf-8"))
+        for paradigm in paradigms:
+            add_reference(paradigm.get("name"))
+            add_references_from_text(paradigm.get("description", ""))
+            add_references_from_text(paradigm.get("motivation", ""))
+            for language_name in paradigm.get("languages", []):
+                add_reference(language_name, "languages")
+            for connected in paradigm.get("connected_paradigms", []):
+                add_reference(connected)
+            add_references_from_value(paradigm.get("key_features", {}))
+
+    learning_paths_path = data_dir / "learning_paths.json"
+    if learning_paths_path.exists():
+        for learning_path in json.loads(learning_paths_path.read_text(encoding="utf-8")):
+            add_references_from_text(learning_path.get("title", ""))
+            add_references_from_text(learning_path.get("description", ""))
+            for step in learning_path.get("steps", []):
+                add_reference(step.get("language"), "languages")
+                add_references_from_text(step.get("milestone", ""))
+                add_references_from_text(step.get("rationale", ""))
+                add_references_from_text(step.get("challenge", ""))
 
     profile_dirs = {
         "languages": docs_dir / "language_profiles",
@@ -894,6 +936,7 @@ def collect_dark_matter(data_dir: Path = Path("data")) -> Dict[str, Any]:
         "organizations": docs_dir / "org_profiles",
         "historical_events": docs_dir / "historical_events",
         "people": docs_dir / "people_profiles",
+        "era_summaries": docs_dir / "era_summaries",
     }
     for category, profile_dir in profile_dirs.items():
         if not profile_dir.exists():
@@ -910,17 +953,24 @@ def collect_dark_matter(data_dir: Path = Path("data")) -> Dict[str, Any]:
                 add_reference(item, "organizations")
 
     missing_paradigms: List[str] = []
-    paradigms_path = data_dir / "paradigms.json"
     if paradigms_path.exists():
         known_paradigms = {
             canonicalize(paradigm.get("name"))
-            for paradigm in json.loads(paradigms_path.read_text(encoding="utf-8"))
+            for paradigm in paradigms
         }
         if languages_path.exists():
             for language in json.loads(languages_path.read_text(encoding="utf-8")):
                 for paradigm in language.get("paradigms", []):
                     if canonicalize(paradigm) not in known_paradigms:
                         missing_paradigms.append(paradigm)
+
+    influences_path = data_dir / "influences.json"
+    if influences_path.exists():
+        for influence in json.loads(influences_path.read_text(encoding="utf-8")):
+            # This file is currently redundant with language influence edges, but
+            # scanning it is harmless and preserves coverage if the datasets drift.
+            add_reference(influence.get("from") or influence.get("source"), "languages")
+            add_reference(influence.get("to") or influence.get("target"), "languages")
 
     missing_languages = [
         ref.display_term
