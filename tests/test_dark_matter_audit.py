@@ -71,8 +71,11 @@ def test_alias_resolution_reviewed_language_variants() -> None:
 
     cases = {
         "Assembly (Early 1940s)": "Assembly",
+        "Crystal (The Reactions to the New Complexity)": "Crystal",
         "Erlang (1980s)": "Erlang",
         "Forth (late 1960s onward)": "Forth",
+        "GraphQL (internal from 2012; open-sourced 2015)": "GraphQL",
+        "HCL (HashiCorp Configuration Language)": "HCL",
         "K (1990s)": "K",
         "Lua (1993 onward)": "Lua",
         "MATLAB (late 1970s onward)": "MATLAB",
@@ -90,13 +93,26 @@ def test_alias_resolution_reviewed_language_variants() -> None:
         assert resolved.bucket == "languages"
 
 
+def test_alias_resolution_reviewed_organization_variants() -> None:
+    resolver = DarkMatterResolver.from_data_dir(REPO_ROOT / "data")
+
+    resolved = resolver.resolve("Google (industrial reformers)", "entities")
+
+    assert resolved.display_term == "Google"
+    assert resolved.bucket == "organizations"
+
+
 def test_alias_resolution_reviewed_person_variants() -> None:
     resolver = DarkMatterResolver.from_data_dir(REPO_ROOT / "data")
 
     cases = {
         "Alick Glennie (Autocode pioneer)": "Alick Glennie",
         "Bjarne Stroustrup (C++ designer)": "Bjarne Stroustrup",
+        "Guy Steele": "Guy L. Steele",
         "John McCarthy (LISP originator)": "John McCarthy",
+        "John W. Mauchly": "John Mauchly",
+        "Kenneth Iverson": "Kenneth E. Iverson",
+        "Kristen Nygaard (abstraction innovators)": "Kristen Nygaard",
     }
 
     for term, expected in cases.items():

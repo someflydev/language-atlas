@@ -20,6 +20,9 @@
   "C++": {
     "type": "language"
   },
+  "Crystal": {
+    "type": "language"
+  },
   "Dennis Ritchie": {
     "type": "person"
   },
@@ -35,11 +38,23 @@
   "Go": {
     "type": "language"
   },
+  "Google": {
+    "type": "organization"
+  },
   "Grace Hopper": {
     "type": "person"
   },
+  "GraphQL": {
+    "type": "language"
+  },
   "Graydon Hoare": {
     "type": "person"
+  },
+  "Guy L. Steele": {
+    "type": "person"
+  },
+  "HCL": {
+    "type": "language"
   },
   "JavaScript": {
     "type": "language"
@@ -50,10 +65,19 @@
   "John Backus": {
     "type": "person"
   },
+  "John Mauchly": {
+    "type": "person"
+  },
   "John McCarthy": {
     "type": "person"
   },
+  "Kenneth E. Iverson": {
+    "type": "person"
+  },
   "Konrad Zuse": {
+    "type": "person"
+  },
+  "Kristen Nygaard": {
     "type": "person"
   },
   "Lambda Calculus": {
