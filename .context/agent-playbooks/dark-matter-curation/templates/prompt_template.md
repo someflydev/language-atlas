@@ -25,7 +25,9 @@ high-confidence semantic merges already supported by Atlas source data.
 ## Task
 
 - review one narrow family of conservative alias candidates
-- add safe aliases and matching canonical entries
+- if conservative candidates are exhausted, review one narrow family of
+  judgment-heavy candidates with explicit repo evidence
+- add reviewed aliases and matching canonical entries
 - extend focused tests
 - re-run the audit and inspect the delta
 - repeat the pass until the next candidates become ambiguous or low-value
