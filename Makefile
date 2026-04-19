@@ -38,7 +38,7 @@ audit:
 
 dark-matter:
 	@echo "Auditing for Dark Matter..."
-	python3 scripts/dark_matter_audit.py
+	uv run python scripts/dark_matter_audit.py
 
 test:
 	@echo "Running tests..."
@@ -65,7 +65,7 @@ site:
 
 pages: build site
 	@echo "Preparing GitHub Pages artifacts..."
-	python3 scripts/prep_pages.py
+	uv run python scripts/prep_pages.py
 
 clean:
 	@echo "Cleaning up generated documentation and build artifacts..."

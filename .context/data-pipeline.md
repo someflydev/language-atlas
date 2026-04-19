@@ -35,7 +35,7 @@
 
 ## Build Pipeline
 ```bash
-make build   # runs: python3 src/app/core/build_sqlite.py
+make build   # runs: uv run python -m app.core.build_sqlite
 ```
 - Sets `USE_SQLITE=0` internally to force JSON reading
 - Drops and recreates `language_atlas.sqlite` at repo root
