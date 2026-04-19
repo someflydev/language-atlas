@@ -1,0 +1,22 @@
+{
+  "title": "Ingy döt Net: The Steward Who Lived With YAML's Human-Friendly Ambitions",
+  "overview": "Ingy döt Net is a programmer, language-tooling contributor, and one of YAML's three co-creators. His significance in the YAML lineage lies not only in co-authorship but in stewardship: carrying the format through implementations, community practice, and the recurring tension between a pleasant human-facing syntax and the reality of parser complexity.",
+  "historical_context": "By the time YAML emerged in the early 2000s, developers already had structured formats, but many felt those formats were either too document-oriented, too noisy, or too mechanical for configuration and hand-edited data. Clark Evans, Oren Ben-Kiki, and Ingy döt Net responded with YAML, a collaborative attempt to make structured data feel lighter and more readable. Ingy's role matters especially on the implementation and stewardship side. A data format is not finished when its syntax looks elegant on paper. It survives only if parsers, libraries, and user expectations can stay aligned over time. YAML's later history exposed the strain in that arrangement. Features intended to reduce visual clutter, such as implicit typing and flexible structure, often made parsing and interoperability harder than the surface suggested. Ingy therefore belongs to the story of YAML not just as a creator, but as someone close to the practical costs of maintaining a human-friendly notation in a large ecosystem.",
+  "mental_model": "To think like Ingy döt Net is to hold two truths at once. First, syntax matters because developers repeatedly read and edit configuration by hand, often under pressure. Second, readable notation that is underspecified or overly clever can become a burden on every parser and every downstream tool. YAML's design ideal only works if stewardship keeps the ecosystem from drifting into incompatible interpretations. That makes implementation culture part of the language story. The grammar on paper and the libraries in practice are inseparable.",
+  "pivotal_works": [
+    "**YAML co-creation:** Shared authorship with Clark Evans and Oren Ben-Kiki on a format designed for human-readable structured data.",
+    "**YAML implementation and stewardship work:** Helped carry the format from design intent into parser culture and real-world developer use.",
+    "**Broader language-tooling contributions:** Brought a practitioner's perspective to how syntax, parsers, and community norms interact."
+  ],
+  "affiliations": [
+    "**YAML collaboration with Clark Evans and Oren Ben-Kiki:** Foundational authorship and stewardship lineage.",
+    "**Open-source implementation communities:** Settings where YAML's practical interoperability issues became concrete rather than theoretical.",
+    "**Developer tooling and configuration ecosystems:** Real-world contexts where YAML's readability and complexity tradeoffs were repeatedly tested."
+  ],
+  "legacy": "Ingy's legacy in the Atlas is the reminder that human-readable formats are social and tooling systems, not just pretty syntaxes. YAML became central to infrastructure automation, configuration management, and developer workflows because it was inviting to read and edit. It also became infamous for parser divergence, implicit-type surprises, and complexity that many users only discovered after adoption. Ingy's place in that story makes the tradeoff visible: stewarding a human-friendly format means living with the implementation burden it creates.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Ingy döt Net's YAML stewardship highlights the difference between a readable syntax design and a reliably implemented ecosystem.'",
+    "2. 'Compare YAML's human-friendly ambitions with the parser and schema complexity that accumulated around the format over time.'",
+    "3. 'Study the shared YAML lineage of Clark Evans, Oren Ben-Kiki, and Ingy döt Net, focusing on co-authorship, implementation culture, and long-term tradeoffs.'"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Clark Evans: The Co-Creator Who Framed YAML as Human-Readable Infrastructure",
+  "overview": "Clark Evans is one of YAML's three co-creators and an important early voice in data serialization for humans who still need machine portability. His role in the YAML story is to help articulate why configuration and interchange formats should be easy to read and edit directly, especially when developers and operators are collaborating outside of fully custom tooling.",
+  "historical_context": "Evans' work on YAML came at a time when XML had become the dominant cross-platform markup and data interchange format, but many programmers experienced it as too verbose and document-centric for everyday configuration and lightweight structured data. Around 2001, Evans, Oren Ben-Kiki, and Ingy döt Net developed YAML as a collaborative answer to that frustration. The design borrowed from indentation-sensitive and data-structure-oriented traditions, aiming to make nested data visible without the markup-heavy feel of XML. Evans matters in this lineage because he helped define YAML's ambition as more than syntactic minimalism. It was a claim about who should be able to work with configuration and interchange artifacts. A format should be pleasant enough for humans to inspect and edit, yet stable enough for tooling to consume. The difficulty, which YAML would carry for decades, is that human-friendly surface design can hide significant parser and schema complexity underneath.",
+  "mental_model": "To think like Clark Evans is to begin from the idea that data notation is part of interface design. A configuration file or serialized document is often read in code review, pasted into documentation, edited during an outage, and shared across teams. That means syntax should reveal structure without surrounding every idea in markup noise. The challenge is to gain readability without losing portability. YAML embodies that aspiration, but Evans' story also teaches that a notation optimized for human comfort can still impose deep costs on specification, parser behavior, and interoperability if the surface simplicity outruns the underlying formal discipline.",
+  "pivotal_works": [
+    "**YAML co-creation:** Helped design a human-readable serialization language intended as a lighter alternative to markup-heavy XML workflows.",
+    "**Early YAML specification work:** Contributed to the collaborative effort that turned YAML from a design instinct into a portable, documented format.",
+    "**Advocacy for readable configuration and interchange:** Framed notation design as a practical concern for developers, operators, and collaborative software teams."
+  ],
+  "affiliations": [
+    "**YAML collaboration with Oren Ben-Kiki and Ingy döt Net:** Core authorship group that shaped YAML as a genuinely shared design effort.",
+    "**Serialization and configuration communities:** Broader technical context in which YAML became a common answer to XML fatigue.",
+    "**Developer-operations tooling culture:** The world in which human-edited configuration made YAML especially influential."
+  ],
+  "legacy": "Evans' legacy is inseparable from YAML's success and its ambiguities. YAML became one of the most widely used human-edited configuration notations in modern infrastructure, documentation, and automation. At the same time, the format's long-running parser disagreements and schema surprises demonstrate the cost of making a format feel lighter than it is. Evans therefore belongs in a history not only of YAML's adoption, but of the enduring tension between humane notation and strict interoperability.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace Clark Evans's role in YAML and explain why developers wanted an alternative to XML for configuration and lightweight structured data.'",
+    "2. 'Compare Clark Evans, Oren Ben-Kiki, and Ingy döt Net as co-creators of YAML rather than telling the format as a one-person authorship story.'",
+    "3. 'Analyze how YAML's human-readable design goals created both adoption advantages and long-term parser complexity tradeoffs.'"
+  ]
+}

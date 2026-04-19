@@ -1,0 +1,22 @@
+{
+  "title": "Oren Ben-Kiki: The Collaborative Spec Author in YAML's Shared Lineage",
+  "overview": "Oren Ben-Kiki is one of YAML's three co-creators and a key figure in turning the format from an intuition about readability into a collaborative specification. His place in computing history comes from standards-minded authorship: helping define a notation that sought to be friendlier than XML while still portable enough for broad software use.",
+  "historical_context": "Ben-Kiki's importance appears most clearly when YAML is understood as collaborative design rather than personal branding. In the early 2000s, many teams needed a structured format for configuration, metadata, and interchange that did not look like a full document language. Clark Evans, Oren Ben-Kiki, and Ingy döt Net worked together on YAML in response to that need, drawing on prior languages and practical experience with developer-facing data formats. Ben-Kiki helped with the hard middle layer between aspiration and implementation: making human-readable ideas concrete enough to specify, share, and sustain. That role matters because data notation becomes infrastructure only when many tools can agree on its meaning. YAML's history also shows how difficult that can be. The same flexibility that made the format attractive to humans left room for parser disagreements, implicit typing surprises, and long-term ecosystem friction.",
+  "mental_model": "To think like Oren Ben-Kiki is to take specification work seriously as part of language design. Human-readable syntax alone is not enough. A format meant for broad reuse needs a shared contract that tools can implement consistently. YAML therefore represents both the appeal and the burden of practical standards work. Make the notation too rigid and it loses the friendliness that attracted users. Make it too accommodating and the ecosystem pays later through ambiguity. Ben-Kiki's role highlights that collaborative format design lives in that uncomfortable middle ground.",
+  "pivotal_works": [
+    "**YAML co-creation:** Helped build YAML with Clark Evans and Ingy döt Net as a shared serialization design project.",
+    "**YAML specification authorship:** Worked on the formal and explanatory material needed to make a human-readable notation portable across implementations.",
+    "**Readable-data advocacy through standards work:** Represented the practical side of making developer-friendly notation durable enough for long-term use."
+  ],
+  "affiliations": [
+    "**YAML core collaboration:** Shared authorship group with Clark Evans and Ingy döt Net.",
+    "**Specification and interoperability communities:** The broader standards-adjacent setting in which serialization formats become common infrastructure.",
+    "**Developer tooling ecosystems using YAML:** Real-world environment where the success and costs of the format became visible."
+  ],
+  "legacy": "Ben-Kiki's legacy lies in YAML's endurance as both a beloved and contested format. He helped create one of the dominant notations for configuration and automation in contemporary software practice. He also stands for the underappreciated labor of turning readable notation into something many tools can implement. YAML's parser tensions and implicit-typing problems do not diminish that contribution. They clarify it, because they show how difficult collaborative standards work becomes when a format is meant to satisfy both human readability and machine determinism.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain Oren Ben-Kiki's role in YAML as collaborative specification work rather than as a lone-inventor story.'",
+    "2. 'Compare YAML's standardization challenges with formats that are simpler for parsers but less comfortable for direct human editing.'",
+    "3. 'Study how Ben-Kiki, Clark Evans, and Ingy döt Net balanced readability, portability, and long-term interoperability in YAML.'"
+  ]
+}
