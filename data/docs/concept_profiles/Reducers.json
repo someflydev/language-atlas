@@ -1,0 +1,18 @@
+{
+  "title": "Reducers: State Change as an Explicit Transition Function",
+  "overview": "Reducers express state change as a pure transition function that takes the current state plus an action or message and returns the next state. They became famous through Redux, but the deeper concept belongs to the broader effort to make interface logic replayable, testable, and predictable.",
+  "historical_context": "Reducers emerged as a practical answer to UI logic that had become smeared across event handlers, widget callbacks, and hidden mutable objects. In the jQuery era, much of frontend behavior lived in imperative snippets that updated pieces of the page in place, which made it hard to reconstruct the logic of a screen after the fact. Elm's update function showed that state transition logic could be centralized and expressed as a deterministic mapping from message to next model. Redux carried that insight into mainstream JavaScript by naming the function a reducer and surrounding it with action logs, stores, and replayable tooling. Historically, the concept mattered because it turned state evolution into a first-class program object rather than an incidental side effect of UI code.",
+  "key_aspects": [
+    "**Pure transition function:** The next state is computed from the previous state and an explicit event description.",
+    "**Replayability:** Reducers support action logs, deterministic tests, and time-oriented debugging.",
+    "**Elm and Redux connection:** The concept links TEA's update discipline with Redux architecture.",
+    "**Separation from view mutation:** State logic moves out of the DOM and into a testable function layer."
+  ],
+  "technical_implications": "Reducers make predictable UI logic easier by isolating state transitions, encouraging immutable updates, and supporting exhaustive reasoning about major state cases. They are especially useful when complex views need to be driven by explicit events instead of scattered mutation. The cost is that every state change must be modeled and routed deliberately. Simple screens can feel over-architected, reducer code can grow into giant switch statements, and side effects still need a disciplined boundary around the pure transition core.",
+  "legacy": "Reducers helped move frontend engineering away from implicit mutation and toward explicit state semantics. Redux made the term ubiquitous, but the idea has spread into component-local reducer hooks, event-sourced UI thinking, and many post-Redux architectures. Its legacy is the conviction that application behavior becomes easier to trust when state transitions are named, centralized, and replayable.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain reducers as a general state-transition pattern, not only as a Redux API detail.\"",
+    "2. \"Compare Elm's update function and Redux reducers as approaches to explicit UI state change.\"",
+    "3. \"Analyze when reducers improve architecture and when they create unnecessary ceremony in small interfaces.\""
+  ]
+}

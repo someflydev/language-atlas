@@ -352,5 +352,90 @@
       "Kenneth E. Iverson",
       "Roger Hui"
     ]
+  },
+  {
+    "name": "Virtual DOM",
+    "description": "Representing the UI as an in-memory tree that can be reconciled against the previous render so declarative views do not require manual DOM patching.",
+    "year": 2013,
+    "responsible": [
+      "Jordan Walke"
+    ]
+  },
+  {
+    "name": "Component Model",
+    "description": "Treating interfaces as compositions of reusable units with local structure, boundaries, and explicit data flow instead of one monolithic mutable surface.",
+    "year": 1979,
+    "responsible": [
+      "Alan Kay",
+      "Jordan Walke"
+    ]
+  },
+  {
+    "name": "Unidirectional Data Flow",
+    "description": "Organizing interface updates so state moves predictably through one main direction, making cause and effect easier to trace across complex applications.",
+    "year": 2012,
+    "responsible": [
+      "Evan Czaplicki",
+      "Jordan Walke"
+    ]
+  },
+  {
+    "name": "Reducers",
+    "description": "Encoding state change as an explicit transition function that computes the next state from the current state and an event or action.",
+    "year": 2012,
+    "responsible": [
+      "Evan Czaplicki"
+    ]
+  },
+  {
+    "name": "Direct Manipulation UI",
+    "description": "Designing interfaces around visible objects and immediate user feedback, a tradition that later pushed programmers to seek higher-level models than imperative widget mutation.",
+    "year": 1979,
+    "responsible": [
+      "Alan Kay"
+    ]
+  },
+  {
+    "name": "State-Based Transitions",
+    "description": "Reasoning about program behavior as movement between explicit states, making UI logic describable as controlled transitions rather than scattered callbacks.",
+    "year": 1936,
+    "responsible": [
+      "Alan Turing",
+      "Evan Czaplicki"
+    ]
+  },
+  {
+    "name": "Protocol-Oriented Design",
+    "description": "Building systems around capabilities and protocol composition so behavior is described by contracts and defaults rather than deep class hierarchies.",
+    "year": 2014,
+    "responsible": [
+      "Chris Lattner"
+    ]
+  },
+  {
+    "name": "DSL-Style APIs",
+    "description": "Shaping APIs so host-language code reads like a domain-specific grammar, allowing interface trees and configuration to be expressed as language-like notation.",
+    "year": 2013,
+    "responsible": [
+      "Jordan Walke",
+      "Chris Lattner",
+      "Rich Harris"
+    ]
+  },
+  {
+    "name": "No Virtual DOM",
+    "description": "A compiler-first UI strategy that rejects a generic reconciliation tree at runtime and instead emits targeted updates ahead of time.",
+    "year": 2016,
+    "responsible": [
+      "Rich Harris"
+    ]
+  },
+  {
+    "name": "Live Previews",
+    "description": "Keeping a running visual rendering of interface code during editing so design and code iteration happen in the same immediate feedback loop.",
+    "year": 2019,
+    "responsible": [
+      "Chris Lattner"
+    ]
   }
 ]

@@ -1,0 +1,18 @@
+{
+  "title": "DSL-Style APIs: Letting the Host Language Speak Interface Grammar",
+  "overview": "DSL-style APIs shape a host language so code reads like a small domain-specific language for a particular task. In modern UI history, they became crucial when frameworks such as React, SwiftUI, and Svelte turned interface construction into something closer to language design than to ordinary library calls.",
+  "historical_context": "Earlier UI systems often split interface work across builder files, markup sidecars, and imperative code that instantiated widgets one call at a time. On the web, jQuery and template-era systems still left structure, event wiring, and mutation logic separated in awkward ways. React shifted expectations by popularizing JSX, an embedded interface notation inside JavaScript. SwiftUI then used Swift's type system, builders, and modifiers to make UI code read like a native grammar, while Svelte made component files feel like a fused language for markup, logic, and styling. Historically, DSL-style APIs mattered because they treated interface expression as a language problem: how can the code surface itself communicate hierarchy, modifiers, and bindings clearly enough that developers stop drowning in boilerplate?",
+  "key_aspects": [
+    "**Host-language embedding:** The DSL lives inside the host language rather than beside it as a totally separate system.",
+    "**UI as notation:** Component trees, modifiers, and bindings become part of the visible code grammar.",
+    "**React, SwiftUI, and Svelte lineage:** The concept links JSX, builders, and single-file component syntax.",
+    "**Reaction against boilerplate:** It counters verbose widget construction and split-template architectures."
+  ],
+  "technical_implications": "DSL-style APIs can make intent clearer, improve autocomplete and refactoring support, and reduce the friction between interface description and ordinary program logic. They also support strong compiler participation in layout, modifiers, and composition rules. The downside is that these systems often depend on transforms, compiler magic, or framework-specific type machinery that can be difficult to explain when errors surface. The closer an API gets to feeling like syntax, the more its users expect language-grade tooling and clarity.",
+  "legacy": "DSL-style APIs helped redefine what a mainstream language ecosystem could expect from UI code. React normalized the idea that view trees could be written as if they belonged to the language, SwiftUI extended that logic into the Apple world, and Svelte showed the same instinct through a compilation-first model. The concept's broader legacy is that interface frameworks increasingly compete on language feel, not only on runtime behavior.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Compare JSX, SwiftUI builders, and Svelte component syntax as examples of DSL-style APIs for interface construction.\"",
+    "2. \"Explain why UI DSLs emerged as a reaction to imperative widget code, template sprawl, and builder boilerplate.\"",
+    "3. \"Analyze the tooling and compiler tradeoffs that appear when an API starts behaving like a language.\""
+  ]
+}

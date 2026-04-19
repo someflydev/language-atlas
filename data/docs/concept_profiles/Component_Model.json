@@ -1,0 +1,18 @@
+{
+  "title": "Component Model: The Durable Unit of Interface Composition",
+  "overview": "The component model treats an interface as a composition of reusable units with their own structure, boundaries, and inputs instead of one giant mutable surface. In modern frontend history, it became the organizing answer to the chaos of page-wide DOM scripting and ad hoc widget glue.",
+  "historical_context": "The idea reaches back to object and interface composition traditions in systems such as Smalltalk, where user interfaces and software objects were already being treated as structured, composable units. What changed in the web era was scale and urgency. jQuery-era applications often mixed templates, selectors, event wiring, and local mutations across the same files, which made ownership boundaries blurry as applications grew. React reframed the problem by making components the primary unit of UI composition, while Elm, SwiftUI, and Svelte each adapted that idea to their own rendering and state models. Historically, the component model mattered because it gave frontend teams a durable boundary for reuse, testing, and reasoning at the exact moment browser code stopped being a little enhancement layer and became full application architecture.",
+  "key_aspects": [
+    "**Compositional unit:** Components provide a stable boundary for structure, behavior, and reuse.",
+    "**Hierarchy and nesting:** Large interfaces can be assembled from smaller pieces rather than managed as one DOM script.",
+    "**Ownership boundaries:** Inputs, outputs, and local concerns become easier to isolate.",
+    "**Bridge from GUI heritage to web apps:** The concept links Smalltalk-style composition to React, SwiftUI, and Svelte."
+  ],
+  "technical_implications": "A strong component model makes it easier to split work across teams, localize changes, test view logic in isolation, and reason about interface structure at multiple scales. It also supports patterns such as composition over inheritance, design systems, and reusable view primitives. The harder side is that components do not eliminate complexity, they relocate it. State ownership, effect boundaries, prop drilling, abstraction leaks, and over-factored component trees can all become new sources of friction if the model is applied mechanically.",
+  "legacy": "The component model became the shared grammar of modern UI systems. React made components the default language of the web, SwiftUI treated them as value-oriented view compositions, and Svelte kept the same organizing unit while rejecting some runtime costs. Even systems that differ sharply on rendering strategy still inherit the component question: what is the right unit of interface composition, and how should data move through it?",
+  "ai_assisted_discovery_missions": [
+    "1. \"Trace the component model from Smalltalk-style composition to React, SwiftUI, and Svelte.\"",
+    "2. \"Explain why component boundaries helped large frontend teams escape page-wide jQuery scripting.\"",
+    "3. \"Analyze the tradeoffs between component reuse, state ownership, and abstraction complexity in modern UI systems.\""
+  ]
+}

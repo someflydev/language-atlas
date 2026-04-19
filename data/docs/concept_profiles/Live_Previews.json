@@ -1,0 +1,18 @@
+{
+  "title": "Live Previews: Interface Feedback Inside the Edit Loop",
+  "overview": "Live previews keep a running visual rendering of interface code available while the developer edits it. In the era of declarative UI and host-language DSLs, they turned interface construction into a much tighter feedback loop between code, state, and visible result.",
+  "historical_context": "Interface tooling has long tried to shorten the gap between design intent and executable result, from visual builders to hot-reload workflows. What changed in the modern reactive UI era was the combination of declarative rendering, structured state, and stronger compiler participation. SwiftUI made live previews especially visible by placing immediate visual feedback beside value-oriented view code inside the Apple toolchain. That experience resonated because older UI work often involved constant rebuilds, simulator loops, or hand-maintained interface files that drifted from code. In historical terms, live previews mattered because they completed the host-language UI turn: once interface code began to look like a DSL, developers expected language-grade immediacy while editing it.",
+  "key_aspects": [
+    "**Immediate visual loop:** Developers can inspect interface output while editing the source.",
+    "**SwiftUI visibility:** The concept became culturally prominent through SwiftUI and Apple's tooling story.",
+    "**Dependence on declarative UI:** Previews work best when a view can be rendered from explicit state and composition.",
+    "**Bridging design and code:** The concept reduces the distance between authoring an interface and evaluating it."
+  ],
+  "technical_implications": "Live previews make iteration faster, support exploratory design, and encourage smaller composable view units that can be rendered independently. They also raise the bar for compiler speed, dependency tracking, and deterministic rendering because the tooling must keep pace with edits. The hard part is that previews can diverge from full runtime behavior when networking, navigation, platform state, or complex side effects enter the picture. Teams still need discipline around what a preview truly guarantees.",
+  "legacy": "Live previews became part of the expected ergonomics of modern UI systems, especially where declarative views and DSL-style APIs made interface code more self-contained. SwiftUI made the idea highly visible, but the larger legacy is the assumption that interface programming should provide immediate feedback instead of long compile-run cycles. The concept now sits at the intersection of language tooling, design workflow, and reactive UI architecture.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain why live previews became more effective once UI systems moved toward declarative rendering and host-language DSLs.\"",
+    "2. \"Compare SwiftUI previews with older visual builders, hot reload loops, and browser-based immediate feedback tools.\"",
+    "3. \"Analyze what live previews can validate well and what still requires full runtime testing in modern interface systems.\""
+  ]
+}

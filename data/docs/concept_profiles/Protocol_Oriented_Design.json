@@ -1,0 +1,18 @@
+{
+  "title": "Protocol-Oriented Design: Composition by Capability",
+  "overview": "Protocol-oriented design builds software around capabilities described by protocols and composed through conformance, defaults, and generic constraints rather than through deep inheritance trees. It became especially prominent in Swift and later shaped how SwiftUI expresses interface behavior and composition.",
+  "historical_context": "Object-oriented GUI frameworks long relied on subclassing hierarchies, delegates, and mutable objects to extend behavior. That style was powerful, but it could become rigid and boilerplate-heavy as frameworks accumulated edge cases. Swift arrived with a stronger emphasis on value types, generics, and protocols with default implementations, offering a different route to composition. In the same period, the industry was already moving away from imperative UI wiring and toward declarative interface systems. SwiftUI combined those trends by expressing many UI capabilities through protocol conformance and composable value-oriented view types. Historically, protocol-oriented design mattered because it reframed interface architecture around explicit capabilities and composition just as developers were trying to escape callback sprawl and class-hierarchy fatigue.",
+  "key_aspects": [
+    "**Capability-first modeling:** Behavior is described through protocols rather than inherited from one base class.",
+    "**Composition over deep hierarchies:** Systems can combine smaller conformances instead of relying on inheritance chains.",
+    "**Swift and SwiftUI connection:** The concept became a visible part of Apple's modern language and UI story.",
+    "**Default implementations and generics:** Shared behavior can be reused without collapsing everything into one superclass."
+  ],
+  "technical_implications": "Protocol-oriented design can make APIs more flexible, testable, and composable because callers depend on capabilities instead of concrete class ancestry. It works especially well with value semantics and DSL-style APIs where many lightweight types participate in a larger system. The harder side is that protocol-heavy designs can become abstract quickly, and generated or inferred behavior may feel opaque when compiler errors or specialization details leak through. Teams must balance flexibility with readability.",
+  "legacy": "Protocol-oriented design helped define Swift's identity and gave SwiftUI a language-level foundation distinct from classic object-oriented widget toolkits. More broadly, it reinforced the modern preference for composition and explicit capabilities over inheritance-heavy architecture. Its legacy is visible wherever API designers try to preserve flexibility without returning to sprawling class trees.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain protocol-oriented design in Swift and how it differs from classic inheritance-centered object-oriented frameworks.\"",
+    "2. \"Analyze how SwiftUI uses protocol-oriented design together with value semantics and declarative UI.\"",
+    "3. \"Compare protocol-oriented composition with interface- or trait-based design in other modern languages.\""
+  ]
+}
