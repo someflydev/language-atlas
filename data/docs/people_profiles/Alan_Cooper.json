@@ -1,0 +1,23 @@
+{
+  "title": "Alan Cooper: The Designer Who Reframed Software Around User Intent",
+  "overview": "Alan Cooper is a software designer, developer, and author whose work helped shift personal-computing culture from tool construction for experts toward interface design for ordinary users. Best known both for work associated with Visual Basic and for later influence in interaction design, Cooper argued that software quality depends on how well the system fits human goals and workflows, not only on how elegantly its internals are engineered.",
+  "historical_context": "Cooper emerged during the transition from command-driven and programmer-centered systems to mass-market personal computing. In the 1980s and 1990s, graphical interfaces, desktop applications, and rapid application development environments were expanding the range of people who could build and use software. Visual Basic mattered in that transition because it lowered the cost of assembling event-driven GUI applications, connecting interface widgets, business logic, and data-access routines into something mainstream developers could ship quickly. Cooper's significance is not just that he participated in a successful product lineage. It is that he helped articulate why GUI software required a different design discipline. Earlier programming culture often treated the interface as a thin surface wrapped around internal logic. Cooper instead argued that the structure of the program should start from what users are trying to accomplish. That view became increasingly important as software moved from back-office automation into everyday work, where friction in the interface directly shaped whether the system was useful at all.",
+  "mental_model": "To think like Alan Cooper is to assume that the most important architecture in an application may be the architecture of attention, goals, and workflow. The question is not merely whether the code can express a feature. The question is whether the interface helps a person complete a task without forcing them to think like the implementer. That leads to a design process centered on user intent, representative personas, and task flow rather than raw feature checklists. In this model, a GUI toolkit or rapid application environment such as Visual Basic is valuable not because buttons are easy to draw, but because it lets more developers shape software around human action instead of around machine procedure alone.",
+  "pivotal_works": [
+    "**Visual Basic lineage and GUI tooling influence:** Helped define the rapid-application-development culture that made event-driven graphical software accessible to mainstream developers.",
+    "**About Face:** Established interaction design as a serious discipline concerned with how software should behave for real users, not just how features are implemented.",
+    "**The Inmates Are Running the Asylum (1999):** Argued that many software failures come from products being shaped by implementer priorities rather than user goals.",
+    "**Goal-directed design advocacy:** Promoted personas and workflow-centered design as practical methods for building humane software systems."
+  ],
+  "affiliations": [
+    "**Cooper Software / Cooper:** Design practice through which Cooper's interaction-design methods reached product teams and design education.",
+    "**Microsoft and the Visual Basic ecosystem:** The commercial context in which rapid GUI assembly became a mainstream software-development pattern.",
+    "**Interaction-design community:** Broader field that adopted Cooper as one of the central voices for human-centered product behavior."
+  ],
+  "legacy": "Cooper's legacy is visible wherever software teams treat interaction design as a first-class engineering concern. The move from internal logic-first thinking toward workflow-aware product design reshaped desktop software, enterprise tools, and later web and mobile applications. Visual Basic demonstrated that easier GUI construction changes who can build software; Cooper's design writing explained that easier construction is not enough unless the interface matches human intent. Modern UX practice, product design, and developer-facing design systems all inherit some part of that argument.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace how Visual Basic and rapid application development changed what ordinary developers could build compared with earlier GUI programming.'",
+    "2. 'Explain Alan Cooper's goal-directed design and compare it with software teams that optimize primarily for implementer convenience.'",
+    "3. 'Analyze why interface and workflow design became a primary software concern as personal computing moved beyond specialist users.'"
+  ]
+}

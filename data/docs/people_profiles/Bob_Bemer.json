@@ -1,0 +1,23 @@
+{
+  "title": "Bob Bemer: The Standards Advocate Who Treated Shared Notation as Infrastructure",
+  "overview": "Bob Bemer was an American computer scientist and standards advocate remembered for major work around ASCII, COBOL-era portability, and the introduction of the escape character. He belongs to the history of computing not because he created a single dominant language, but because he recognized that interoperable systems require shared notations and control conventions before software ecosystems can scale.",
+  "historical_context": "Bemer worked in an era when computing was fragmenting across incompatible machines, character sets, and vendor-specific software practices. During the late 1950s and 1960s, as business computing expanded and languages such as COBOL pushed toward portability across manufacturers, the industry faced a practical problem: even when programs or data structures were conceptually similar, they could still fail to travel cleanly because the underlying symbols and control codes were inconsistent. Bemer became one of the strongest public advocates for standard character encoding and related conventions, helping shape the path toward ASCII. His work on the escape character reflected the same worldview. A communication channel needs stable ways to shift meaning, represent control, and preserve intent across devices. In that sense Bemer's story sits between language history and infrastructure history. He helped make machine-to-machine communication more predictable at a moment when software was becoming an ecosystem rather than a collection of isolated installations.",
+  "mental_model": "To think like Bob Bemer is to assume that notation standards are not paperwork surrounding real engineering. They are real engineering. Shared character codes, control characters, and portable representational rules decide whether programs, files, terminals, printers, and organizations can coordinate without constant bespoke translation. This mindset values boring-looking agreements because they unlock large-scale interoperability. The work is partly technical and partly diplomatic, but the aim is concrete: make symbols portable enough that ecosystems can form on top of them.",
+  "pivotal_works": [
+    "**ASCII advocacy and standardization work:** Helped drive adoption of a common character set that made text exchange and device interoperability more realistic across vendors.",
+    "**ESCAPE character proposal and influence:** Advanced control-code conventions that let systems signal shifts in interpretation without redefining the whole channel.",
+    "**COBOL-era standards participation:** Contributed to the broader movement that treated machine-independent business computing as a standards problem, not just a compiler problem.",
+    "**Public writing on interoperability:** Repeatedly argued that shared notation and compatibility work were foundational to computing's growth."
+  ],
+  "affiliations": [
+    "**IBM and later standards work:** Professional settings in which Bemer developed and advocated for interoperability-minded computing practices.",
+    "**Standards communities around ASCII and business computing:** Forums where Bemer's influence extended beyond any single employer or product.",
+    "**COBOL-adjacent portability movement:** Broader cross-vendor effort to make software and data survive hardware boundaries."
+  ],
+  "legacy": "Bemer's legacy is easiest to miss precisely because standard notation disappears into infrastructure once it succeeds. ASCII, escape-sequence conventions, and portability-minded standardization became part of the background assumptions of terminals, files, protocols, and programming tools. He helped show that the health of a software ecosystem depends not only on clever languages or hardware advances, but also on agreement about the symbols systems exchange and the control codes that govern them.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Trace Bob Bemer's role in ASCII and explain why common character encoding was essential for cross-system software interoperability.'",
+    "2. 'Study the escape character as a design solution for machine communication channels that need to shift interpretation safely.'",
+    "3. 'Compare COBOL-era portability goals with ASCII standardization to show how both depended on shared notation rather than vendor-specific convention.'"
+  ]
+}

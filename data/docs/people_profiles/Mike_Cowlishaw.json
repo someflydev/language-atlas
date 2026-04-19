@@ -1,0 +1,23 @@
+{
+  "title": "Mike Cowlishaw: The Language Designer Who Treated Readability as a Serious Engineering Constraint",
+  "overview": "Mike Cowlishaw is a British computer scientist best known for creating REXX, later helping shape NetRexx, and contributing influential work on decimal arithmetic. He argued that programming languages for real operators, administrators, and business users should be readable and forgiving without sacrificing computational seriousness.",
+  "historical_context": "Cowlishaw's work emerged in the late 1970s and 1980s, when many practical scripting and systems languages were effective but syntactically irregular, environment-specific, or hostile to newcomers. IBM environments needed automation tools that real users could read, modify, and trust, not only languages optimized for compiler elegance or academic prestige. REXX answered that need by emphasizing straightforward syntax, permissive string handling, and a style closer to clear procedural prose than to terse symbolic programming. Later, NetRexx carried related goals into the Java era, while Cowlishaw's decimal arithmetic work addressed a different but complementary problem: computers used heavily for business and finance needed number systems that matched human and institutional expectations, not just binary floating-point convenience. Across these efforts, Cowlishaw consistently treated language design as an interface problem. A notation that ordinary people can read and debug is more useful in many settings than one that merely impresses language theorists.",
+  "mental_model": "To think like Mike Cowlishaw is to assume that readability, practicality, and mathematical rigor can coexist. A language should help users state what they mean clearly, especially in scripting and business contexts where maintenance and operational clarity matter more than theoretical minimalism. At the same time, convenience cannot excuse numerical sloppiness when domains such as finance depend on exact decimal behavior. The result is a design stance that privileges human legibility, direct expression, and dependable arithmetic over syntactic cleverness.",
+  "pivotal_works": [
+    "**REXX (1979):** Created a scripting language designed to be readable, pragmatic, and accessible to real operators in IBM computing environments.",
+    "**NetRexx:** Extended REXX-like readability into the Java ecosystem while preserving the emphasis on practical developer ergonomics.",
+    "**Decimal arithmetic and IEEE decimal work:** Helped establish exact decimal computation as a serious systems concern rather than a niche accounting requirement.",
+    "**Writing on human-oriented language design:** Articulated why approachable syntax and semantics matter in production automation and business software."
+  ],
+  "affiliations": [
+    "**IBM:** Primary institutional context for Cowlishaw's work on REXX, decimal arithmetic, and business-oriented computing tools.",
+    "**REXX and NetRexx communities:** Ecosystems that carried Cowlishaw's language philosophy into scripting, automation, and JVM-adjacent settings.",
+    "**Decimal arithmetic standards work:** Broader technical community focused on exactness in financial and business computation."
+  ],
+  "legacy": "Cowlishaw's legacy runs through every later attempt to make scripting readable without making it trivial. REXX demonstrated that a language could welcome ordinary users yet remain powerful for automation, text handling, and systems integration. His decimal-arithmetic influence also persists wherever software must represent money and formal quantities without the surprises of binary floating point. Together those contributions make him an important figure in the history of human-centered programming for practical domains.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Mike Cowlishaw designed REXX for readability and compare it with more cryptic scripting traditions in Unix and mainframe environments.'",
+    "2. 'Trace the line from REXX to NetRexx and identify what stayed constant in Cowlishaw's philosophy of practical language design.'",
+    "3. 'Analyze why decimal arithmetic mattered to Cowlishaw's worldview and how it complements REXX's business-computing orientation.'"
+  ]
+}
