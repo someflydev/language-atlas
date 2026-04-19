@@ -305,6 +305,14 @@
     ]
   },
   {
+    "name": "Doug McIlroy",
+    "contributions": [
+      "Unix pipes",
+      "Unix philosophy",
+      "Macro processors"
+    ]
+  },
+  {
     "name": "Douglas Crockford",
     "contributions": [
       "JSON",

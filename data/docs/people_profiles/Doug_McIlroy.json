@@ -1,0 +1,22 @@
+{
+  "title": "Doug McIlroy: The Bell Labs Composer of Small Tools and Clean Interfaces",
+  "overview": "Doug McIlroy is the Bell Labs computer scientist most closely associated with Unix pipes, component-style software, macro processors, and the broader philosophy that software gains power from clean composition. He helped articulate a world in which programs do one thing well and become more valuable when they can be joined into larger flows.",
+  "historical_context": "McIlroy's historical importance sits at the intersection of systems culture and language design. Bell Labs in the Unix era was not only producing operating systems and languages such as C. It was also refining a style of computing built around text streams, filters, shell composition, and practical reuse. McIlroy was central to that style. His advocacy for pipelines turned the shell from a command launcher into a medium for program composition, where the output of one tool became the input of another without bespoke glue code. That idea shaped the Thompson shell, the Bourne shell, and later Bash, while also providing a contrast point for more object-heavy or remoting-oriented shell environments such as PowerShell. His earlier macro-processor work reflected the same concern for software components that can be assembled rather than rewritten. McIlroy therefore should not be reduced to the inventor of pipes alone. He helped define the small-tools worldview in which interfaces, conventions, and reusable parts matter more than monolithic all-in-one systems.",
+  "mental_model": "To think like Doug McIlroy is to ask how a problem can be solved by a set of sharply bounded components with interfaces simple enough to connect mechanically. You look for streams, filters, transforms, and conventions that let one tool's output become another tool's input. Complexity should be distributed across composable parts, not buried inside giant programs that cannot be rearranged or inspected.",
+  "pivotal_works": [
+    "**Unix pipes:** Helped establish the pipeline model that made shell composition a central Unix programming habit.",
+    "**Macro processors and component-software advocacy:** Advanced the idea that reusable program parts and interface discipline are strategic sources of software leverage.",
+    "**Bell Labs Unix tools culture:** Shaped the environment in which small, sharp tools became a durable systems-programming philosophy.",
+    "**Influence on shell lineage and tool composition:** His ideas echo through the Thompson shell, Bourne shell, Bash, and later command-line data workflows."
+  ],
+  "affiliations": [
+    "**Bell Labs:** Institutional home for his work on Unix, macro processors, and software-components thinking.",
+    "**Unix tool and shell tradition:** A central figure in the culture that linked systems design to composable command-line practice."
+  ],
+  "legacy": "McIlroy's legacy appears anywhere programmers reach for composable utilities instead of a bespoke monolith. Unix pipelines, shell scripts, AWK-driven data processing, and many modern developer workflows all reflect his belief that interface cleanliness is a source of power. Peter Weinberger, Alfred Aho, Brian Kernighan, Ken Thompson, and later Rob Pike all inhabit adjacent parts of this Bell Labs tradition, but McIlroy stands out for making composition itself the organizing principle. Even when newer environments depart from pure text streams, they still answer the same question he made famous: should software be a sealed application, or a set of parts that cooperate through clean boundaries?",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Doug McIlroy's pipeline philosophy shaped the Thompson shell, Bourne shell, Bash, and Unix command-line culture more broadly.'",
+    "2. 'Compare McIlroy's small-tools composition worldview with PowerShell's object pipeline and identify what each model optimizes for.'",
+    "3. 'Trace the relationship between McIlroy, AWK, and Bell Labs text-processing culture, showing why composition mattered as much as any single language.'"
+  ]
+}
