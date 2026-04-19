@@ -68,7 +68,7 @@
   {
     "name": "Macros",
     "description": "A system for defining code transformations that are expanded by the compiler or preprocessor.",
-    "year": 1958,
+    "year": 1963,
     "responsible": [
       "Timothy Hart"
     ]
@@ -226,10 +226,10 @@
   {
     "name": "Gradual Typing",
     "description": "Combining dynamic and static typing so codebases can move between looser and stricter checking over time.",
-    "year": 2012,
+    "year": 2006,
     "responsible": [
-      "Anders Hejlsberg",
-      "Guido van Rossum"
+      "Jeremy Siek",
+      "Walid Taha"
     ]
   },
   {

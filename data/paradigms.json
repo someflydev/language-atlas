@@ -778,8 +778,8 @@
   {
     "name": "Notebook-oriented",
     "description": "A paradigm centered on interactive computational documents where narrative, code, formulas, graphics, and results are fused into one working medium.",
-    "year_introduced": 1988,
-    "motivation": "Historical Crisis: Technical work was split across source files, terminals, plotting tools, and publication systems, making it hard to preserve both the reasoning process and the executable artifact in one place.\nContext: Mathematica's notebook model established a language experience built around document-computation fusion, and adjacent systems such as Maple worksheets showed how scientific programming could revolve around interactive computational documents rather than only files or shells.",
+    "year_introduced": 1982,
+    "motivation": "Historical Crisis: Technical work was split across source files, terminals, plotting tools, and publication systems, making it hard to preserve both the reasoning process and the executable artifact in one place.\nContext: Maple's interactive worksheet model (1982) pioneered the document-computation fusion idea, and Mathematica's notebook interface (1988) popularized it further, showing how scientific programming could revolve around interactive computational documents rather than only files or shells.",
     "languages": [
       "Maple"
     ],
