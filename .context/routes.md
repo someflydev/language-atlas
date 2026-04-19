@@ -3,13 +3,31 @@
 **Server:** `src/app/app.py` — FastAPI, port 8084
 **HTMX partials:** requests with `HX-Request` header return partial templates
 
+## Static Export Behavior
+
+`SiteCrawler` fetches every crawlable route via `TestClient` and writes the
+rendered HTML to `site/`. The crawl always runs without query parameters, so
+exported pages reflect the default (unfiltered) server state.
+
+At runtime in the browser, `src/app/static/atlas-static.js` loads the
+SQLite database client-side (via sql.js-httpvfs) and wires two behaviors:
+
+- **Filter form** (`form[hx-get]`): `change` events run live SQL queries and
+  re-render the language grid, replacing the HTMX mechanism entirely.
+- **Search box**: input triggers a client-side FTS5 query instead of hitting
+  the server.
+
+So "filter form inert" in the table below means the crawled HTML is the
+unfiltered state; it does not mean filters are broken in the deployed site.
+Routes marked **skipped** are not exported at all.
+
 ## Web Routes (HTML)
 
 "Static export" column: **crawled** = emitted by `SiteCrawler` into `site/`; **skipped** = not exported (POST, cookie mutator, HTMX partial, or JSON-only).
 
 | Route | Template | Notes | Static export |
 |---|---|---|---|
-| `GET /` | `index.html` / `partials/language_grid.html` | Filter by cluster, paradigms, year; HTMX partial | crawled (full grid, filter form inert) |
+| `GET /` | `index.html` / `partials/language_grid.html` | Filter by cluster, paradigms, year; HTMX partial replaced by atlas-static.js at runtime | crawled (unfiltered state; filters functional via client-side SQL) |
 | `GET /compare` | `compare.html` | lang, lang1, lang2 params | crawled (empty state) |
 | `GET /compare/add` | `partials/comparison_tray_content.html` | Sets cookie | skipped |
 | `GET /compare/remove` | `partials/comparison_tray_content.html` | Modifies cookie | skipped |

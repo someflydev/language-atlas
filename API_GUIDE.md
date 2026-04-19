@@ -5,9 +5,37 @@ The Language Atlas provides a RESTful API for programmatic access to programming
 ## Base URL
 The API is exposed via the FastAPI web interface (default: `http://localhost:8084/api`).
 
+## Interactive Documentation
+
+FastAPI exposes two auto-generated documentation UIs at the following URLs
+while the server is running:
+
+- `http://localhost:8084/docs` — Swagger UI (try endpoints in-browser)
+- `http://localhost:8084/redoc` — ReDoc (clean reference view)
+- `http://localhost:8084/openapi.json` — raw OpenAPI 3 schema
+
 ---
 
 ## Endpoints
+
+### 0. API Index
+
+A machine-readable directory of all available endpoints.
+
+- **URL:** `/api`
+- **Method:** `GET`
+- **Response:**
+  ```json
+  {
+    "title": "Language Atlas API",
+    "description": "Programmatic access to the Language Atlas database.",
+    "endpoints": {
+      "/api/search?q={term}": "Semantic search (min 2 chars)",
+      "/api/languages": "List all languages (with filters)",
+      "/api/language/{name}": "Detailed language profile data"
+    }
+  }
+  ```
 
 ### 1. Semantic Search
 Perform a full-text search across languages, profiles, and concepts using FTS5 ranking.
