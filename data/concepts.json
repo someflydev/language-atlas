@@ -437,5 +437,55 @@
     "responsible": [
       "Chris Lattner"
     ]
+  },
+  {
+    "name": "Pipelines",
+    "description": "A composition model where the output of one program or stage becomes the input of the next, allowing larger workflows to be built from smaller tools.",
+    "year": 1973,
+    "responsible": [
+      "Doug McIlroy",
+      "Ken Thompson"
+    ]
+  },
+  {
+    "name": "Pipeline Architecture",
+    "description": "Designing software as chains of focused stages so complex work emerges from composable transformations rather than one monolithic program.",
+    "year": 1973,
+    "responsible": [
+      "Doug McIlroy"
+    ]
+  },
+  {
+    "name": "Object Pipelines",
+    "description": "Passing structured objects between commands instead of raw text so downstream stages can work with typed fields and methods directly.",
+    "year": 2006,
+    "responsible": [
+      "Jeffrey Snover"
+    ]
+  },
+  {
+    "name": "Autosuggestions",
+    "description": "Shell assistance that predicts likely commands or arguments from history and context, reducing recall burden during interactive work.",
+    "year": 2005,
+    "responsible": [
+      "Axel Liljencrantz"
+    ]
+  },
+  {
+    "name": "Job Control",
+    "description": "Interactive shell control over foreground and background processes, including suspension, resumption, and signal-driven workflow management.",
+    "year": 1978,
+    "responsible": [
+      "Bill Joy"
+    ]
+  },
+  {
+    "name": "Environment-Driven Execution",
+    "description": "A runtime model where inherited environment variables, current working directory, and path lookup shape how programs find configuration, tools, and execution context.",
+    "year": 1979,
+    "responsible": [
+      "Stephen Bourne",
+      "Dennis Ritchie"
+    ]
   }
 ]

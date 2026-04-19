@@ -1,0 +1,23 @@
+{
+  "title": "Environment-Driven Execution",
+  "overview": "Environment-Driven Execution is the model in which a program runs inside inherited process context such as environment variables, current working directory, executable search path, and shell state. In shell-centric systems, that context is not incidental; it is part of the language model for how commands find tools, configuration, and meaning.",
+  "historical_context": "Unix shells normalized the idea that execution happens inside an inherited environment rather than a blank slate. The Bourne shell, Bash, and later command-line systems made variables such as `PATH`, `HOME`, and many domain-specific settings part of normal program composition. This model helped make shells extraordinarily flexible as orchestration layers, but it also meant that invisible surrounding state could become part of program behavior in ways that are convenient for operators and hazardous for reproducibility.",
+  "key_aspects": [
+    "Execution depends on inherited process state, not only on the literal command text the user types.",
+    "Environment variables act as a lightweight configuration channel between shells, programs, and child processes.",
+    "Path-based execution makes command discovery and substitution fluid, which is powerful for composition and customization.",
+    "The current working directory, shell options, and exported variables all participate in what a command means at runtime."
+  ],
+  "technical_implications": [
+    "Environment-driven execution makes automation flexible because tools can be reconfigured without rewriting code or command syntax.",
+    "The same flexibility creates hidden dependencies, since a script can behave differently across machines or sessions based on surrounding state.",
+    "Path lookup and variable inheritance are central to shell ergonomics, but they also introduce security and debugging concerns when unexpected executables or values are picked up.",
+    "This model differs sharply from more hermetic runtime designs that prefer explicit configuration objects or tightly controlled process environments."
+  ],
+  "legacy": "Environment-Driven Execution remains one of the defining assumptions of shell languages and command-line tooling. It shaped how generations of developers think about deployment, configuration, and automation, and it explains both the shell's extraordinary leverage and much of its historical brittleness.",
+  "ai_assisted_discovery_missions": [
+    "Explain why `PATH`, exported variables, and working directory are part of the shell language model rather than merely OS trivia.",
+    "Compare environment-driven execution with more hermetic build or runtime systems that try to eliminate ambient state.",
+    "Analyze a shell script whose behavior changes across environments and identify which hidden assumptions come from inherited process context."
+  ]
+}

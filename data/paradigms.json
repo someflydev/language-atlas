@@ -790,5 +790,24 @@
       "The Reaction": "Make the primary workspace a live document where code cells, explanation, equations, plots, and outputs remain in context together during exploration and presentation.",
       "Tradeoffs": "This is excellent for research, pedagogy, and exploratory analysis, but hidden state and execution-order drift can make notebook-centric work less disciplined than file-centric program structure."
     }
+  },
+  {
+    "name": "Pipeline-oriented",
+    "description": "Programming organized around chaining small stages so data, objects, or streams move through a composition pipeline instead of one large control-flow block.",
+    "year_introduced": 1973,
+    "motivation": "Historical Crisis: Operators needed a practical way to solve open-ended systems tasks without rebuilding a bespoke tool for every workflow.\nContext: Unix shells and command-line tools made composition itself the language feature, and later shells such as PowerShell reinterpreted the same idea with structured objects instead of text streams.",
+    "languages": [
+      "Bash",
+      "PowerShell"
+    ],
+    "connected_paradigms": [
+      "Scripting",
+      "Procedural",
+      "Object-Oriented"
+    ],
+    "key_features": {
+      "The Reaction": "Treat programs as composable stages that can be chained quickly, with the pipeline itself acting as the primary unit of workflow design.",
+      "Tradeoffs": "Pipelines are excellent for incremental composition and operator leverage, but text pipelines can be brittle, object pipelines can be verbose, and both can hide complexity when workflows sprawl across too many stages."
+    }
   }
 ]

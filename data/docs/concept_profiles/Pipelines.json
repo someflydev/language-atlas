@@ -1,0 +1,23 @@
+{
+  "title": "Pipelines",
+  "overview": "Pipelines are a composition model in which the output of one stage becomes the input of the next, allowing programmers and operators to build substantial workflows from small, focused parts. In the shell tradition, this often means chaining programs through text streams, but the deeper idea is that composition itself becomes the main programming surface.",
+  "historical_context": "Pipelines emerged from the Unix tradition in the early 1970s, especially the Doug McIlroy vision that software should consist of small tools that work well together. The shell turned that vision into an everyday programming practice by making process composition immediate and cheap. Later systems such as PowerShell preserved the pipeline idea while changing the payload from text to structured objects, and actor-oriented runtimes echoed the same compositional instinct by treating systems as networks of communicating units rather than one giant procedure.",
+  "key_aspects": [
+    "Pipelines make composition the primary act, so building workflows often means rearranging and combining existing stages rather than writing everything from scratch.",
+    "They encourage small, single-purpose tools because each tool becomes more valuable when it can plug into a larger chain.",
+    "A pipeline can carry text, structured objects, events, or messages; the key concept is staged composition, not one specific serialization format.",
+    "Pipelines create a mental model of flow, where a programmer reasons about transformation boundaries and handoff points instead of one monolithic control block."
+  ],
+  "technical_implications": [
+    "Text pipelines are highly interoperable and easy to improvise, but they are vulnerable to quoting issues, ad hoc parsing, and format drift.",
+    "Structured pipelines can preserve richer semantics across stages, yet they usually depend on a shared runtime or object model and can become more verbose.",
+    "Pipeline-heavy systems are often easy to extend locally because new stages can be inserted without rewriting the whole workflow.",
+    "Debugging can become harder when behavior is distributed across many tiny stages and failures surface far from the original source of bad data."
+  ],
+  "legacy": "Pipelines became one of the most durable ideas in software composition. They shaped Unix shell practice, influenced PowerShell and Nushell-style rethinks of command-line design, and helped normalize the broader systems idea that complex behavior should emerge from explicit chains of communicating parts.",
+  "ai_assisted_discovery_missions": [
+    "Compare Unix text pipelines with PowerShell object pipelines and explain what changes in ergonomics, correctness, and composability.",
+    "Trace how the pipeline idea moved from Unix shell practice into later dataflow, ETL, and distributed-processing systems.",
+    "Analyze a real shell workflow and identify where the power comes from staged composition versus where brittleness comes from text parsing."
+  ]
+}

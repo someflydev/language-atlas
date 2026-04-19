@@ -1,0 +1,23 @@
+{
+  "title": "Object Pipelines",
+  "overview": "Object Pipelines pass structured values between commands instead of plain text. The key promise is that downstream stages receive fields, types, and methods directly, reducing the need for fragile string parsing and making system automation more semantically explicit.",
+  "historical_context": "Object Pipelines became prominent with PowerShell in the 2000s, when Microsoft reinterpreted the Unix pipeline idea for an environment centered on APIs, management objects, and the .NET runtime. Traditional Unix shells assumed text was the universal interchange format, which made composition broadly interoperable but often brittle. PowerShell argued that administrative workflows on modern systems were increasingly object-rich and that the shell should preserve structure instead of flattening everything into strings.",
+  "key_aspects": [
+    "The pipeline carries structured values, not just serialized text, so stages can select properties and invoke behavior directly.",
+    "Command design becomes more contract-oriented because producers and consumers rely on shared object shapes.",
+    "Object pipelines reduce the need for ad hoc parsing, regular expressions, and delimiter conventions in many automation tasks.",
+    "They shift shell composition closer to runtime integration and farther from the Unix ideal of loosely coupled text filters."
+  ],
+  "technical_implications": [
+    "Structured pipelines can be more reliable than text pipelines when workflows depend on typed fields and stable schemas.",
+    "They are usually less universal than text streams because they depend on a shared runtime, object system, or serialization agreement.",
+    "Object pipelines often improve discoverability by exposing properties and metadata, which helps interactive tooling and documentation.",
+    "The tradeoff is that commands can become more verbose and more tied to platform-specific abstractions than classic shell filters."
+  ],
+  "legacy": "Object Pipelines became the defining conceptual break between PowerShell-style shell design and the older Unix text-stream tradition. They influenced later debates about whether shells should remain text-first or evolve toward richer structured data models such as those seen in Nushell and modern automation ecosystems.",
+  "ai_assisted_discovery_missions": [
+    "Compare a Unix text pipeline and a PowerShell object pipeline that solve the same administration task.",
+    "Explain why structured pipelines improve some workflows while reducing the universality that made Unix composition so flexible.",
+    "Trace how object pipelines changed the mental model of shell scripting from filtering strings to navigating system objects."
+  ]
+}

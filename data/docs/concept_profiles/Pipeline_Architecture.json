@@ -1,0 +1,23 @@
+{
+  "title": "Pipeline Architecture",
+  "overview": "Pipeline Architecture is the design discipline of breaking work into small stages that can be composed into larger workflows. Instead of building one all-knowing program, the architect defines a flow of specialized steps, each responsible for a narrow transformation or decision.",
+  "historical_context": "The idea took recognizable form in Unix, where pipes and composable filters turned software assembly into an everyday activity rather than a rare systems-design pattern. Shells such as Thompson shell, Bourne shell, and later Bash made stage-by-stage composition practical for operators, while later systems engineering reused the same pattern for data processing, CI workflows, and distributed message-driven services. The shell lineage showed that pipeline architecture was not only an implementation detail but a language-level philosophy about how software should be assembled.",
+  "key_aspects": [
+    "Each stage should have a focused responsibility so it can be reasoned about, tested, and replaced independently.",
+    "Interfaces between stages matter as much as the logic inside a stage because the architecture depends on stable handoff boundaries.",
+    "The architecture favors recombination, allowing the same stage to participate in multiple workflows.",
+    "A good pipeline architecture treats failure boundaries explicitly so one stage can fail, retry, or be replaced without collapsing the entire system."
+  ],
+  "technical_implications": [
+    "Text-stream pipeline architectures maximize interoperability across unrelated tools, but they often move complexity into parsing and validation.",
+    "Object or message pipeline architectures can express richer contracts between stages, though they usually tie the pipeline to one runtime ecosystem.",
+    "Stage boundaries improve modularity and operational flexibility, especially when separate teams own separate steps.",
+    "Over-decomposition can turn a simple task into a fragile maze of tiny stages with too much serialization, buffering, or orchestration overhead."
+  ],
+  "legacy": "Pipeline Architecture remains a foundational way to think about shell workflows, data engineering, build systems, and service composition. Its enduring lesson is that software can scale through disciplined composition of small stages, not only through ever-larger abstractions inside one process.",
+  "ai_assisted_discovery_missions": [
+    "Explain how Unix shell pipelines embody a full architectural style rather than just a convenient command-line feature.",
+    "Compare pipeline architecture with monolithic command design in terms of extensibility, observability, and fault isolation.",
+    "Analyze where pipeline architecture breaks down because the overhead of stage boundaries exceeds the benefit of composition."
+  ]
+}

@@ -2554,7 +2554,8 @@
       "Brian Fox"
     ],
     "paradigms": [
-      "Procedural"
+      "Procedural",
+      "Pipeline-oriented"
     ],
     "cluster": "scripting",
     "generation": "web1",
@@ -2564,8 +2565,8 @@
       "Glue code"
     ],
     "key_innovations": [
-      "Pipeline architecture",
-      "Job control",
+      "Pipeline Architecture",
+      "Job Control",
       "Command substitution"
     ],
     "influenced_by": [
@@ -3611,7 +3612,8 @@
     "paradigms": [
       "Scripting",
       "Functional",
-      "Object-Oriented"
+      "Object-Oriented",
+      "Pipeline-oriented"
     ],
     "cluster": "systems",
     "generation": "cloud",
@@ -3621,7 +3623,7 @@
       "Configuration management"
     ],
     "key_innovations": [
-      "Object-based pipeline (passing objects instead of text)",
+      "Object Pipelines",
       "Deep .NET integration",
       "Verb-Noun command structure"
     ],

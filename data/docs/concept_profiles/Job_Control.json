@@ -1,0 +1,23 @@
+{
+  "title": "Job Control",
+  "overview": "Job Control is the interactive shell capability for suspending, resuming, foregrounding, and backgrounding processes. It lets operators manage multiple running programs from one terminal session without treating each command as an isolated one-shot event.",
+  "historical_context": "Early Unix shells made process creation and command composition practical, but interactive operators still needed better control over long-running or blocking commands. C shell and later shells such as Bash turned job control into a normal part of command-line work, making process suspension and signal management part of everyday operator literacy. This strengthened the idea that the shell is not just a script runner but a live process-management environment.",
+  "key_aspects": [
+    "Job control exposes foreground and background execution as an explicit part of interactive workflow.",
+    "It relies on terminal signals and process groups, connecting shell semantics to operating-system process management.",
+    "The feature supports multitasking inside one shell session, especially for editors, builds, servers, and diagnostics.",
+    "It reinforces the shell mental model that a session is a living collection of processes rather than a linear transcript of commands."
+  ],
+  "technical_implications": [
+    "Job control improves operator productivity by allowing work to be paused and resumed instead of restarted.",
+    "Because it depends on signals, terminals, and process groups, behavior can be subtle across shells, platforms, and remote sessions.",
+    "The feature is powerful interactively but much less central in non-interactive scripts, where explicit process orchestration is usually clearer.",
+    "It teaches process awareness, which becomes a conceptual bridge toward later runtime ideas about lifecycle management and failure boundaries."
+  ],
+  "legacy": "Job Control helped make Bash and related shells feel like full operator environments instead of batch interpreters with nicer syntax. It remains one of the clearest examples of shell design as runtime interaction design, where language features and operating-system process behavior meet directly.",
+  "ai_assisted_discovery_missions": [
+    "Explain how job control depends on Unix signals, process groups, and terminal ownership.",
+    "Compare the role of job control in Bash with the more usability-focused interactive features emphasized by Fish.",
+    "Analyze why interactive process suspension is a shell-language concern rather than merely an operating-system implementation detail."
+  ]
+}

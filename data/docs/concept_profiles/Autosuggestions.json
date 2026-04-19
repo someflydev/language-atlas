@@ -1,0 +1,23 @@
+{
+  "title": "Autosuggestions",
+  "overview": "Autosuggestions are interactive shell hints that propose likely commands, arguments, or continuations as the user types. They turn the shell from a passive parser into an active guide, reducing memory load and making command-line work more discoverable.",
+  "historical_context": "Classic Unix shells prioritized scriptability, composition, and compatibility over interactive guidance. By the time Fish appeared in the 2000s, many users had decades of shell power available to them but still faced a steep recall burden, especially around flags, subcommands, and obscure syntax. Fish treated that friction as a design problem worth solving directly, helping establish a usability-first shell tradition in which suggestions, completions, and discoverability were first-class features rather than optional bolt-ons.",
+  "key_aspects": [
+    "Autosuggestions surface likely next actions from history and context, reducing the need to memorize full commands.",
+    "They make shell expertise more incremental because users can recognize good options before they can fully recall them.",
+    "Suggestions work best when paired with rich completions, syntax awareness, and sensible defaults.",
+    "The feature reflects a broader belief that shell usability is part of language design, not just interface polish."
+  ],
+  "technical_implications": [
+    "Autosuggestions speed up interactive work and lower the activation energy for complex commands.",
+    "They help prevent minor command-entry mistakes, but they can also encourage over-trust if users accept suggestions without understanding them.",
+    "Interactive assistance is valuable for human operators yet largely irrelevant to non-interactive scripts, which is why usability-focused shells often diverge from portability-focused ones.",
+    "Implementing good suggestions requires indexing history, understanding context, and balancing helpfulness against visual noise."
+  ],
+  "legacy": "Autosuggestions helped define the modern usability baseline for shells after Fish. Even users who remain in Bash or Zsh increasingly expect proactive completion, history-informed hints, and more legible interactive behavior, which shows how ergonomic ideas can reshape a language family without becoming its universal scripting substrate.",
+  "ai_assisted_discovery_missions": [
+    "Explain why autosuggestions mattered historically in shells even though they do not change the core process-and-pipeline semantics.",
+    "Compare Fish's usability philosophy with Bash's compatibility-first mission and show where autosuggestions fit into that split.",
+    "Analyze how interactive shell assistance changes what beginners can do before they fully understand the command-line model."
+  ]
+}
