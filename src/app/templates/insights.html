@@ -64,6 +64,42 @@
     </div>
 
     <!-- Creator Impact -->
+    <!-- Cluster Genealogy -->
+    {% if cluster_genealogy %}
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50">
+            <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Cluster Genealogy</h2>
+            <p class="text-sm text-slate-400 font-bold mt-1">Internal vs. external influence per language cluster (% internal = influences staying within the same cluster)</p>
+        </div>
+        <div class="p-8 bg-slate-50/50">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-200">
+                            <th class="text-left py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Cluster</th>
+                            <th class="text-right py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Internal</th>
+                            <th class="text-right py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">External</th>
+                            <th class="text-right py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Total</th>
+                            <th class="text-right py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">% Internal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in cluster_genealogy %}
+                        <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                            <td class="py-3 px-4 font-semibold text-slate-800">{{ row.cluster }}</td>
+                            <td class="py-3 px-4 text-right text-slate-500">{{ row.internal }}</td>
+                            <td class="py-3 px-4 text-right text-slate-500">{{ row.external }}</td>
+                            <td class="py-3 px-4 text-right text-slate-500">{{ row.total }}</td>
+                            <td class="py-3 px-4 text-right font-bold text-blue-600">{{ row.ratio }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
     {% if creator_impact %}
     <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
         <div class="p-8 border-b border-slate-50">

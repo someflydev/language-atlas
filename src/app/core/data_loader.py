@@ -1841,6 +1841,30 @@ class DataLoader:
         finally:
             conn.close()
 
+    def get_cluster_genealogy(self) -> List[Dict[str, Any]]:
+        """Returns per-cluster internal vs. external influence counts and ratio."""
+        if not self.use_sqlite:
+            return []
+
+        conn = self._get_connection()
+        try:
+            from app.core.insights import AtlasAnalytics
+            analytics = AtlasAnalytics(conn)
+            matrix = analytics.generate_cluster_genealogy()
+            rows = []
+            for cluster, stats in sorted(matrix.items()):
+                total = stats["internal"] + stats["external"]
+                rows.append({
+                    "cluster": cluster,
+                    "internal": stats["internal"],
+                    "external": stats["external"],
+                    "total": total,
+                    "ratio": round(stats["ratio"] * 100, 1),
+                })
+            return sorted(rows, key=lambda r: r["total"], reverse=True)
+        finally:
+            conn.close()
+
     def get_safety_complexity_trends(self) -> List[Dict[str, Any]]:
         """Returns per-decade average complexity_bias score and safety model distribution."""
         if not self.use_sqlite:
