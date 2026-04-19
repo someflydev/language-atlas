@@ -644,7 +644,6 @@ def load_existing_profiles(docs_dir: Path) -> Dict[str, Set[str]]:
         "concepts": docs_dir / "concept_profiles",
         "organizations": docs_dir / "org_profiles",
         "historical_events": docs_dir / "historical_events",
-        "atlas_meta": docs_dir / "atlas_meta",
         "concept_combos": docs_dir / "concept_combos",
         "people": docs_dir / "people_profiles",
     }
@@ -997,7 +996,7 @@ def collect_dark_matter(data_dir: Path = Path("data")) -> Dict[str, Any]:
     missing_org_canons = {canonicalize(name) for name in missing_orgs}
     missing_event_canons = {canonicalize_event(name) for name in missing_events}
     missing_combo_canons = {canonicalize(name) for name in missing_combos}
-    entity_canons_existing = existing_profiles["concepts"].union(existing_profiles["people"]).union(existing_profiles["atlas_meta"])
+    entity_canons_existing = existing_profiles["concepts"].union(existing_profiles["people"])
 
     missing_entities: List[str] = []
     for ref in references["entities"].values():

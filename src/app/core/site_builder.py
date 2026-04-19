@@ -438,25 +438,9 @@ class SiteBuilder:
             )
 
     def _get_project_tagline(self) -> str:
-        """Return a one-paragraph tagline from atlas_meta, or a placeholder."""
-        meta_dir = Path(self._loader.data_dir) / "docs" / "atlas_meta"
-        candidates = [
-            meta_dir / "language_atlas.json",
-            meta_dir / "atlas_overview.json",
-        ]
-        for candidate in candidates:
-            if candidate.exists():
-                try:
-                    data = json.loads(candidate.read_text(encoding="utf-8"))
-                    if data.get("overview"):
-                        return str(data["overview"])
-                except Exception:
-                    pass
-
         return (
             "Language Atlas is a data-driven research platform for exploring"
             " the history and evolution of programming languages."
-            " <!-- TODO copy -->"
         )
 
 

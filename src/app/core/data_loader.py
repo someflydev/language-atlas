@@ -816,15 +816,19 @@ class DataLoader:
         if 'key_innovations' not in lang: lang['key_innovations'] = []
 
     def get_language(self, name: str) -> Optional[Dict[str, Any]]:
+        alt_name = name.replace('_', ' ')
         if not self.use_sqlite:
             for lang in self.languages:
-                if lang['name'].lower() == name.lower():
+                if lang['name'].lower() in (name.lower(), alt_name.lower()):
                     return lang
             return None
 
         conn = self._get_connection()
         try:
-            cursor = conn.execute("SELECT * FROM languages WHERE lower(name) = ?", (name.lower(),))
+            cursor = conn.execute(
+                "SELECT * FROM languages WHERE lower(name) = ? OR lower(name) = ?",
+                (name.lower(), alt_name.lower()),
+            )
             row = cursor.fetchone()
             if not row:
                 return None
@@ -1194,15 +1198,10 @@ class DataLoader:
 
     def get_concepts_reference(self) -> Dict[str, Any]:
         """Returns the concepts reference metadata."""
-        # Check common locations
-        paths = [
-            os.path.join(self.data_dir, 'docs', 'atlas_meta', 'concepts_reference.json'),
-            os.path.join(self.data_dir, 'docs', 'concepts', 'concepts_reference.json')
-        ]
-        for p in paths:
-            if os.path.exists(p):
-                with open(p, 'r', encoding='utf-8') as f:
-                    return cast(Dict[str, Any], json.load(f))
+        p = os.path.join(self.data_dir, 'docs', 'concepts', 'concepts_reference.json')
+        if os.path.exists(p):
+            with open(p, 'r', encoding='utf-8') as f:
+                return cast(Dict[str, Any], json.load(f))
         return {"concepts": []}
 
     def get_all_people(self) -> List[Dict[str, Any]]:
