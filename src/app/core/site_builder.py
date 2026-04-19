@@ -46,6 +46,12 @@ class SiteBuilder:
         self.emit_concept_profiles()
         print("Generating era summaries...")
         self.emit_era_summaries()
+        print("Generating people profiles...")
+        self.emit_people_profiles()
+        print("Generating organization profiles...")
+        self.emit_org_profiles()
+        print("Generating historical event profiles...")
+        self.emit_event_profiles()
         print("Generating thematic documents...")
         self.emit_thematic_docs()
         print("Generating index files...")
@@ -56,7 +62,7 @@ class SiteBuilder:
         self.emit_homepage_index()
 
     def _setup_dirs(self) -> None:
-        for sub in ("languages", "eras", "paradigms", "concepts"):
+        for sub in ("languages", "eras", "paradigms", "concepts", "people", "orgs", "events"):
             (self._out / sub).mkdir(parents=True, exist_ok=True)
 
     @staticmethod
@@ -263,17 +269,109 @@ class SiteBuilder:
                     f.write(f"## Diagram Concept\n{era['diagram']}\n\n")
 
     # ------------------------------------------------------------------
+    # People profiles
+    # ------------------------------------------------------------------
+
+    def emit_people_profiles(self) -> None:
+        """Write one Markdown file per person with a profile into people/."""
+        for person_stub in self._loader.get_people_list():
+            name = person_stub['name']
+            profile = self._loader.get_person(name)
+            if profile is None:
+                continue
+
+            safe_name = self._safe_doc_name(name)
+            file_path = self._out / "people" / f"{safe_name}.md"
+
+            with open(file_path, "w", encoding="utf-8") as f:
+                title = profile.get('title') or name
+                f.write(f"# {title}\n\n")
+
+                if profile.get('overview'):
+                    f.write(f"{profile['overview']}\n\n")
+
+                for sec_key in ('historical_context', 'pivotal_works', 'affiliations', 'legacy'):
+                    val = profile.get(sec_key)
+                    if val:
+                        heading = sec_key.replace('_', ' ').title()
+                        f.write(f"## {heading}\n{val}\n\n")
+
+    # ------------------------------------------------------------------
+    # Organization profiles
+    # ------------------------------------------------------------------
+
+    def emit_org_profiles(self) -> None:
+        """Write one Markdown file per organization with a profile into orgs/."""
+        for org_stub in self._loader.get_orgs_list():
+            name = org_stub['name']
+            profile = self._loader.get_org(name)
+            if profile is None:
+                continue
+
+            safe_name = self._safe_doc_name(name)
+            file_path = self._out / "orgs" / f"{safe_name}.md"
+
+            with open(file_path, "w", encoding="utf-8") as f:
+                title = profile.get('title') or name
+                founded = org_stub.get('founded') or profile.get('founded')
+                f.write(f"# {title}\n\n")
+                if founded:
+                    f.write(f"**Founded:** {founded}\n\n")
+
+                if profile.get('overview'):
+                    f.write(f"{profile['overview']}\n\n")
+
+                for sec_key in ('key_contributions', 'pivotal_people', 'legacy'):
+                    val = profile.get(sec_key)
+                    if val:
+                        heading = sec_key.replace('_', ' ').title()
+                        f.write(f"## {heading}\n{val}\n\n")
+
+    # ------------------------------------------------------------------
+    # Historical event profiles
+    # ------------------------------------------------------------------
+
+    def emit_event_profiles(self) -> None:
+        """Write one Markdown file per historical event into events/."""
+        for event_stub in self._loader.get_events_list():
+            slug = event_stub['slug']
+            event = self._loader.get_event(slug)
+            if event is None:
+                continue
+
+            file_path = self._out / "events" / f"{slug}.md"
+
+            with open(file_path, "w", encoding="utf-8") as f:
+                title = event.get('title') or slug
+                date = event.get('date') or ''
+                f.write(f"# {title}\n\n")
+                if date:
+                    f.write(f"**Date:** {date}\n\n")
+
+                if event.get('overview'):
+                    f.write(f"{event['overview']}\n\n")
+
+                for sec_key in ('impact_on_computing', 'key_figures', 'legacy'):
+                    val = event.get(sec_key)
+                    if val:
+                        heading = sec_key.replace('_', ' ').title()
+                        f.write(f"## {heading}\n{val}\n\n")
+
+    # ------------------------------------------------------------------
     # Thematic documents
     # ------------------------------------------------------------------
 
     def emit_thematic_docs(self) -> None:
         """Write CROSSROADS.md, MODERN_REACTIONS.md, PARADIGM_MATRIX.md,
-        TIMELINE.md, and CONCEPTS.md."""
+        TIMELINE.md, CONCEPTS.md, PEOPLE.md, ORGS.md, and EVENTS.md."""
         self._emit_crossroads()
         self._emit_modern_reactions()
         self._emit_paradigm_matrix()
         self._emit_timeline()
         self._emit_concepts_summary()
+        self._emit_people_index()
+        self._emit_orgs_index()
+        self._emit_events_index()
 
     def _emit_crossroads(self) -> None:
         crossroads = self._loader.get_crossroads()
@@ -323,6 +421,55 @@ class SiteBuilder:
                 safe_name = self._safe_doc_name(c['name'])
                 f.write(f"## [{c['name']}](concepts/{safe_name}.md)\n")
                 f.write(f"{c.get('description', '')}\n\n")
+
+    def _emit_people_index(self) -> None:
+        people = self._loader.get_people_list()
+        with open(self._out / "PEOPLE.md", "w", encoding="utf-8") as f:
+            f.write("# Pioneers and Creators\n\n")
+            for person in people:
+                name = person['name']
+                safe_name = self._safe_doc_name(name)
+                f.write(f"## [{name}](people/{safe_name}.md)\n")
+                overview = person.get('overview') or ''
+                if overview:
+                    first_line = overview.split('\n')[0][:200]
+                    f.write(f"{first_line}\n\n")
+                else:
+                    f.write("\n")
+
+    def _emit_orgs_index(self) -> None:
+        orgs = self._loader.get_orgs_list()
+        with open(self._out / "ORGS.md", "w", encoding="utf-8") as f:
+            f.write("# Organizations and Institutions\n\n")
+            for org in orgs:
+                name = org['name']
+                safe_name = self._safe_doc_name(name)
+                founded = org.get('founded') or ''
+                heading = f"{name} ({founded})" if founded else name
+                f.write(f"## [{heading}](orgs/{safe_name}.md)\n")
+                overview = org.get('overview') or ''
+                if overview:
+                    first_line = overview.split('\n')[0][:200]
+                    f.write(f"{first_line}\n\n")
+                else:
+                    f.write("\n")
+
+    def _emit_events_index(self) -> None:
+        events = self._loader.get_events_list()
+        with open(self._out / "EVENTS.md", "w", encoding="utf-8") as f:
+            f.write("# Historical Events\n\n")
+            for event in events:
+                slug = event['slug']
+                title = event.get('title') or slug
+                date = event.get('date') or ''
+                heading = f"{title} ({date})" if date else title
+                f.write(f"## [{heading}](events/{slug}.md)\n")
+                overview = event.get('overview') or ''
+                if overview:
+                    first_line = overview.split('\n')[0][:200]
+                    f.write(f"{first_line}\n\n")
+                else:
+                    f.write("\n")
 
     # ------------------------------------------------------------------
     # Narrative overview (generated-docs/README.md)
@@ -395,6 +542,9 @@ class SiteBuilder:
                 ("Eras", "eras.md"),
                 ("Paradigms", "paradigms.md"),
                 ("Concepts", "CONCEPTS.md"),
+                ("People", "PEOPLE.md"),
+                ("Organizations", "ORGS.md"),
+                ("Historical Events", "EVENTS.md"),
                 ("Crossroads", "CROSSROADS.md"),
                 ("Modern Reactions", "MODERN_REACTIONS.md"),
                 ("Paradigm Matrix", "PARADIGM_MATRIX.md"),
@@ -610,6 +760,9 @@ class SiteCrawler:
             "/narrative/reactions",
             "/narrative/timeline",
             "/narrative/concepts",
+            "/people",
+            "/orgs",
+            "/events",
         ]:
             add(route)
 
