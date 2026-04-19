@@ -3,132 +3,268 @@
     "name": "Immutability",
     "description": "The philosophy that data cannot be modified after its creation, eliminating shared mutable state bugs.",
     "year": 1958,
-    "responsible": ["John McCarthy"]
+    "responsible": [
+      "John McCarthy"
+    ]
   },
   {
     "name": "The Actor Model",
     "description": "A model of concurrent computation where isolated entities communicate exclusively via message passing.",
     "year": 1973,
-    "responsible": ["Carl Hewitt"]
+    "responsible": [
+      "Carl Hewitt"
+    ]
   },
   {
     "name": "CSP - Communicating Sequential Processes",
     "description": "A formal language for describing patterns of interaction in concurrent systems via channels.",
     "year": 1978,
-    "responsible": ["Tony Hoare"]
+    "responsible": [
+      "Tony Hoare"
+    ]
   },
   {
     "name": "Async/Await",
     "description": "A syntactic feature that allows asynchronous code to be written in a structured, synchronous-like style.",
     "year": 2012,
-    "responsible": ["Microsoft"]
+    "responsible": [
+      "Microsoft"
+    ]
   },
   {
     "name": "Hindley-Milner Type System",
     "description": "A formal type system that provides automatic type inference for strictly typed languages.",
     "year": 1969,
-    "responsible": ["Roger Hindley", "Robin Milner"]
+    "responsible": [
+      "Roger Hindley",
+      "Robin Milner"
+    ]
   },
   {
     "name": "Garbage Collection",
     "description": "Automatic memory management that identifies and reclaims memory no longer in use by the program.",
     "year": 1959,
-    "responsible": ["John McCarthy"]
+    "responsible": [
+      "John McCarthy"
+    ]
   },
   {
     "name": "RAII - Resource Acquisition Is Initialization",
     "description": "A programming idiom where resource lifecycle is tied to object scope and destructors.",
     "year": 1985,
-    "responsible": ["Bjarne Stroustrup"]
+    "responsible": [
+      "Bjarne Stroustrup"
+    ]
   },
   {
     "name": "Ownership & Borrowing",
     "description": "A memory management system that uses compile-time rules to ensure safety without a garbage collector.",
     "year": 2010,
-    "responsible": ["Graydon Hoare", "Mozilla"]
+    "responsible": [
+      "Graydon Hoare",
+      "Mozilla"
+    ]
   },
   {
     "name": "Macros",
     "description": "A system for defining code transformations that are expanded by the compiler or preprocessor.",
     "year": 1958,
-    "responsible": ["Timothy Hart"]
+    "responsible": [
+      "Timothy Hart"
+    ]
   },
   {
     "name": "Homoiconicity",
     "description": "A property where the program's structure is itself a data structure of the language.",
     "year": 1958,
-    "responsible": ["John McCarthy"]
+    "responsible": [
+      "John McCarthy"
+    ]
   },
   {
     "name": "The Software Crisis",
     "description": "The historical realization that software complexity often outpaces our tools and methodologies.",
     "year": 1968,
-    "responsible": ["NATO Science Committee"]
+    "responsible": [
+      "NATO Science Committee"
+    ]
   },
   {
     "name": "Semantic Search",
     "description": "Information retrieval that focuses on the conceptual intent of a query rather than literal keywords.",
     "year": 2013,
-    "responsible": ["Google"]
+    "responsible": [
+      "Google"
+    ]
   },
   {
     "name": "Borrow Checking",
     "description": "The compile-time analysis used to enforce ownership and reference validity rules.",
     "year": 2012,
-    "responsible": ["Niko Matsakis"]
+    "responsible": [
+      "Niko Matsakis"
+    ]
   },
   {
     "name": "Block structure",
     "description": "A lexical scoping mechanism where code is organized into nested blocks with their own scope.",
     "year": 1958,
-    "responsible": ["ALGOL 58 Team"]
+    "responsible": [
+      "ALGOL 58 Team"
+    ]
   },
   {
     "name": "Design by Contract",
     "description": "A formal approach to software design using preconditions, postconditions, and invariants.",
     "year": 1986,
-    "responsible": ["Bertrand Meyer"]
+    "responsible": [
+      "Bertrand Meyer"
+    ]
   },
   {
     "name": "Event Loop",
     "description": "A programming construct that waits for and dispatches events or messages in a program.",
     "year": 1970,
-    "responsible": ["Xerox PARC"]
+    "responsible": [
+      "Xerox PARC"
+    ]
   },
   {
     "name": "Multiple Inheritance",
     "description": "A feature where a class can inherit behaviors and features from more than one parent class.",
     "year": 1967,
-    "responsible": ["Ole-Johan Dahl", "Kristen Nygaard"]
+    "responsible": [
+      "Ole-Johan Dahl",
+      "Kristen Nygaard"
+    ]
   },
   {
     "name": "Nominal vs Structural Typing",
     "description": "The distinction between typing based on explicit names versus typing based on data shape.",
     "year": 1980,
-    "responsible": ["Luca Cardelli"]
+    "responsible": [
+      "Luca Cardelli"
+    ]
   },
   {
     "name": "Object-Oriented Design",
     "description": "A design philosophy centered on objects, encapsulation, inheritance, and polymorphism.",
     "year": 1967,
-    "responsible": ["Ole-Johan Dahl", "Kristen Nygaard"]
+    "responsible": [
+      "Ole-Johan Dahl",
+      "Kristen Nygaard"
+    ]
   },
   {
     "name": "Relational Model",
     "description": "A model for database management based on first-order predicate logic and set theory.",
     "year": 1970,
-    "responsible": ["Edgar F. Codd"]
+    "responsible": [
+      "Edgar F. Codd"
+    ]
   },
   {
     "name": "Static vs Dynamic Typing",
     "description": "The fundamental divide between compile-time and runtime type checking.",
     "year": 1958,
-    "responsible": ["John McCarthy", "FORTRAN Team"]
+    "responsible": [
+      "John McCarthy",
+      "FORTRAN Team"
+    ]
   },
   {
     "name": "Church-Turing Thesis",
     "description": "The hypothesis that every effectively calculable function is computable by a Turing machine.",
     "year": 1936,
-    "responsible": ["Alonzo Church", "Alan Turing"]
+    "responsible": [
+      "Alonzo Church",
+      "Alan Turing"
+    ]
+  },
+  {
+    "name": "Algebraic Data Types",
+    "description": "Composing data from sums and products so programs can model closed sets of cases precisely.",
+    "year": 1973,
+    "responsible": [
+      "Robin Milner",
+      "David Turner"
+    ]
+  },
+  {
+    "name": "Type Inference",
+    "description": "Automatically deducing program types from how values are defined and used.",
+    "year": 1973,
+    "responsible": [
+      "Robin Milner"
+    ]
+  },
+  {
+    "name": "Type Classes",
+    "description": "A disciplined form of ad-hoc polymorphism that attaches behavior to families of types through explicit constraints.",
+    "year": 1989,
+    "responsible": [
+      "Philip Wadler",
+      "Simon Peyton Jones"
+    ]
+  },
+  {
+    "name": "Structural Typing",
+    "description": "Type compatibility based on shape and available operations rather than declared identity.",
+    "year": 1988,
+    "responsible": [
+      "Luca Cardelli"
+    ]
+  },
+  {
+    "name": "Nominal Typing",
+    "description": "Type compatibility based on explicit declarations, names, and lineage rather than object shape alone.",
+    "year": 1988,
+    "responsible": [
+      "Luca Cardelli"
+    ]
+  },
+  {
+    "name": "Gradual Typing",
+    "description": "Combining dynamic and static typing so codebases can move between looser and stricter checking over time.",
+    "year": 2012,
+    "responsible": [
+      "Anders Hejlsberg",
+      "Guido van Rossum"
+    ]
+  },
+  {
+    "name": "Module System",
+    "description": "A language-level mechanism for organizing code into named units with explicit interfaces and composition rules.",
+    "year": 1978,
+    "responsible": [
+      "Niklaus Wirth",
+      "David MacQueen"
+    ]
+  },
+  {
+    "name": "Functors",
+    "description": "Parameterized modules in the ML tradition that compute new modules from other modules.",
+    "year": 1984,
+    "responsible": [
+      "David MacQueen"
+    ]
+  },
+  {
+    "name": "Pattern Matching",
+    "description": "Destructuring and branching on data shape directly in the language, often alongside algebraic types.",
+    "year": 1973,
+    "responsible": [
+      "Robin Milner",
+      "David Turner"
+    ]
+  },
+  {
+    "name": "Unification",
+    "description": "Solving symbolic constraints by finding substitutions that make expressions structurally consistent.",
+    "year": 1972,
+    "responsible": [
+      "Alain Colmerauer",
+      "Robert Kowalski"
+    ]
   }
 ]

@@ -1,0 +1,18 @@
+{
+  "title": "Nominal Typing: Compatibility by Declared Identity",
+  "overview": "Nominal typing treats type identity as something declared and named, not merely inferred from shape. If two structures look the same but originate from different declarations, a nominal system can still treat them as distinct for safety and intent.",
+  "historical_context": "Nominal typing grew alongside the rise of class-based and interface-heavy software engineering, where explicit declarations served as both technical contracts and social coordination points. In languages such as Java and later C#, a type was not only a bag of fields. It was a named entity in a hierarchy, associated with design intent, reuse boundaries, and controlled substitution rules. Swift inherited much of that concern for explicit identity even while mixing in protocols and value types. The historical appeal of nominal typing was straightforward: large systems needed guardrails against accidental interchangeability. A `UserId` and an `OrderId` might both be strings or integers at runtime, yet treating them as the same concept would be a design bug. Nominal systems therefore place weight on declarations, inheritance, protocol conformance, and explicit wrappers. This tradition stands in productive tension with structural typing. The question is not which is universally better. It is which kind of compatibility a language wants to privilege in the face of evolving software ecosystems.",
+  "key_aspects": [
+    "**Declared identity:** A type is what its declaration says it is, even when another type has the same internal shape.",
+    "**Intent preservation:** Nominal systems protect distinctions that matter semantically but may not appear structurally.",
+    "**Explicit conformance:** Interfaces, protocols, and inheritance usually require deliberate declarations.",
+    "**Counterpart to structural typing:** The contrast clarifies whether a language values pedigree, shape, or a blend of both."
+  ],
+  "technical_implications": "Nominal typing helps large teams maintain conceptual boundaries. Library authors can expose stable interfaces, version contracts carefully, and prevent unrelated data structures from flowing together simply because they happen to line up field for field. This is especially useful in domain-heavy systems, public SDKs, and security-sensitive code where identity carries meaning beyond structure. The tradeoff is ceremony and reduced incidental reuse. Two libraries may define effectively identical concepts but still require adapters because their nominal identities differ. That friction is not always wasteful. In many cases it forces a deliberate translation layer, which can reveal assumptions and preserve domain clarity that a purely structural system would blur.",
+  "legacy": "Nominal typing remains the dominant instinct in mainstream software engineering because it encodes intent as part of the program surface. Java, C#, and Swift all demonstrate how valuable that can be for frameworks, APIs, and long-lived codebases. At the same time, its contrast with structural typing has become a foundational teaching tool for understanding modern type systems. The enduring legacy is not only the nominal approach itself, but the way it frames the wider debate about what a type should mean: name, shape, capability, or some mix of all three.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Compare nominal typing in Java, C#, and Swift with structural typing in Go and TypeScript.\"",
+    "2. \"Explain why domain identifiers with the same runtime representation often benefit from nominal distinction.\"",
+    "3. \"Analyze how explicit protocol or interface conformance changes library design and API evolution in nominal systems.\""
+  ]
+}
