@@ -2647,7 +2647,8 @@
     ],
     "paradigms": [
       "Functional",
-      "Type-driven"
+      "Type-driven",
+      "State-driven UI"
     ],
     "cluster": "academic",
     "generation": "web1",
@@ -4194,7 +4195,9 @@
       "Reactive",
       "Metaprogramming",
       "Protocol-oriented",
-      "Type-driven"
+      "Type-driven",
+      "State-driven UI",
+      "UI DSL"
     ],
     "cluster": "systems",
     "generation": "renaissance",
@@ -4349,7 +4352,9 @@
     ],
     "paradigms": [
       "Declarative",
-      "Component-based"
+      "Component-based",
+      "State-driven UI",
+      "UI DSL"
     ],
     "cluster": "frontend",
     "generation": "renaissance",

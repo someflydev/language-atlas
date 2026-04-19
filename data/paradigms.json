@@ -646,6 +646,26 @@
     "key_features": {}
   },
   {
+    "name": "State-driven UI",
+    "description": "Constructing interfaces as renderings of explicit application state, with updates flowing through controlled transitions rather than direct widget mutation.",
+    "year_introduced": 2012,
+    "motivation": "Historical Crisis: jQuery-era interfaces and classic widget toolkits spread UI behavior across event handlers, mutable DOM nodes, delegates, and ad hoc callbacks, making large applications difficult to reason about.\nContext: Elm, React-era architecture, Redux, SwiftUI, and Svelte converged on the idea that interface code should describe views from state and make transitions explicit enough to debug, replay, and test.",
+    "languages": [
+      "Elm",
+      "Svelte",
+      "Swift"
+    ],
+    "connected_paradigms": [
+      "Declarative",
+      "Reactive",
+      "Event-Driven"
+    ],
+    "key_features": {
+      "The Reaction": "Model the UI as a function of state and route updates through messages, actions, bindings, or other explicit transitions instead of mutating interface objects from many directions.",
+      "Tradeoffs": "This makes complex interface behavior more predictable and testable, but it shifts difficulty into state modeling, effect management, recomposition costs, and the discipline required to keep transitions explicit."
+    }
+  },
+  {
     "name": "Symbolic",
     "description": "A paradigm that manipulates symbols and mathematical expressions as first-class data.",
     "year_introduced": 1958,
@@ -679,6 +699,25 @@
     "key_features": {
       "The Reaction": "Use types to encode domain structure, impossible states, protocol boundaries, and composition rules before execution begins.",
       "Tradeoffs": "This yields clearer APIs and stronger guarantees, but it can increase modeling overhead and push teams toward more abstract designs than they can comfortably maintain."
+    }
+  },
+  {
+    "name": "UI DSL",
+    "description": "Expressing interface structure through a host-language embedded domain-specific language so UI code reads as a declarative grammar rather than a sequence of imperative widget calls.",
+    "year_introduced": 2013,
+    "motivation": "Historical Crisis: Traditional UI frameworks often required verbose builder patterns, XML side files, or imperative widget mutation that split layout intent from program logic.\nContext: JSX in React, SwiftUI builders in Swift, and Svelte's component syntax reframed interface construction as a language-design problem, embedding UI notation directly into the host language and its tooling.",
+    "languages": [
+      "Svelte",
+      "Swift"
+    ],
+    "connected_paradigms": [
+      "Declarative",
+      "Component-based",
+      "State-driven UI"
+    ],
+    "key_features": {
+      "The Reaction": "Design the surface syntax so component trees, modifiers, bindings, and layout structure are written as if the host language had native notation for interface construction.",
+      "Tradeoffs": "This can make UI intent dramatically clearer and improve tooling, but it blurs the boundary between language and framework, increases compiler or transform complexity, and can feel magical when generated behavior is hard to trace."
     }
   },
   {
