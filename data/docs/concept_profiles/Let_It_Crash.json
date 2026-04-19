@@ -1,0 +1,23 @@
+{
+  "title": "Let It Crash",
+  "overview": "Let It Crash is a runtime philosophy that treats failure as normal and designs the system to recover through isolation, supervision, and restart rather than heroic defensive handling at every local call site. The goal is not carelessness; it is to put fault tolerance in the system architecture instead of scattering it into every function.",
+  "historical_context": "The phrase is most closely associated with Erlang and OTP, where telecom systems had to remain available despite software faults, hardware faults, and partial network failure. In that setting, trying to predict and suppress every possible error inside each process was less effective than isolating failures and giving supervisors the power to restart cleanly. Later actor-oriented platforms such as Akka and the Cloud Haskell conversation spread the idea beyond the BEAM, even when they could not reproduce every operational advantage of Erlang's runtime.",
+  "key_aspects": [
+    "Failure is expected, so the design emphasizes containment and recovery instead of universal defensive coding.",
+    "Processes must be isolated enough that a crash is local and does not corrupt the rest of the system.",
+    "Supervision becomes a primary architectural mechanism because some component must observe failures and decide how to recover.",
+    "The philosophy works best when state is either reconstructable or safely externalized rather than trapped inside one irreplaceable process."
+  ],
+  "technical_implications": [
+    "Let It Crash can simplify local code by moving recovery policy into supervision structure and restart strategy.",
+    "It depends on strong isolation, good observability, and carefully designed restart semantics; without those, crashes just become outages.",
+    "The approach contrasts with shell pipelines, where failing a stage often terminates the workflow unless the operator or script adds explicit recovery logic.",
+    "It also differs from object-pipeline scripting because the key concern is not typed transport but fault containment and lifecycle management."
+  ],
+  "legacy": "Let It Crash became one of the signature ideas of Erlang's influence on distributed systems. Even outside BEAM ecosystems, it changed how engineers think about reliability by emphasizing supervision, crash-only components, and architecture-level recovery as a serious alternative to defensive complexity everywhere.",
+  "ai_assisted_discovery_missions": [
+    "Explain why let-it-crash is not the same as ignoring errors and show what runtime support makes the philosophy viable.",
+    "Compare Erlang's let-it-crash culture with failure handling in Akka and in more traditional exception-heavy systems.",
+    "Analyze where restart-oriented design is appropriate and where it becomes dangerous because the lost state is too expensive or opaque."
+  ]
+}

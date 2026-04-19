@@ -809,5 +809,26 @@
       "The Reaction": "Treat programs as composable stages that can be chained quickly, with the pipeline itself acting as the primary unit of workflow design.",
       "Tradeoffs": "Pipelines are excellent for incremental composition and operator leverage, but text pipelines can be brittle, object pipelines can be verbose, and both can hide complexity when workflows sprawl across too many stages."
     }
+  },
+  {
+    "name": "Process-oriented",
+    "description": "Programming organized around communicating or composed processes whose boundaries, lifecycles, and failure behavior are central to the design.",
+    "year_introduced": 1973,
+    "motivation": "Historical Crisis: Shared-memory concurrency and monolithic process designs made it hard to scale, supervise, and recover complex systems under real failure conditions.\nContext: Unix shells treated programs as process compositions, while actor and distributed-process systems such as Erlang and its descendants treated isolated runtime processes as the core architectural unit.",
+    "languages": [
+      "Bash",
+      "Erlang",
+      "Elixir",
+      "Gleam"
+    ],
+    "connected_paradigms": [
+      "Concurrent",
+      "Actor-model",
+      "Scripting"
+    ],
+    "key_features": {
+      "The Reaction": "Build systems out of explicit process boundaries, message paths, pipelines, and supervision relationships rather than hiding everything inside one shared heap or call stack.",
+      "Tradeoffs": "Strong isolation and recoverability improve robustness, but processes introduce coordination overhead, asynchronous reasoning costs, and more pressure on protocol design and observability."
+    }
   }
 ]

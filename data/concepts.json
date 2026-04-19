@@ -487,5 +487,42 @@
       "Stephen Bourne",
       "Dennis Ritchie"
     ]
+  },
+  {
+    "name": "Asynchronous Message Passing",
+    "description": "Coordinating concurrent components by sending messages that can be received later, decoupling senders from immediate synchronous execution.",
+    "year": 1973,
+    "responsible": [
+      "Carl Hewitt",
+      "Joe Armstrong"
+    ]
+  },
+  {
+    "name": "No Shared State",
+    "description": "A concurrency discipline where components do not directly mutate the same memory, reducing coordination hazards by forcing communication through messages or transfers.",
+    "year": 1973,
+    "responsible": [
+      "Carl Hewitt",
+      "Tony Hoare",
+      "Joe Armstrong"
+    ]
+  },
+  {
+    "name": "Let It Crash",
+    "description": "A runtime philosophy that treats failure as inevitable and focuses on isolation, supervision, and recovery instead of defensive error suppression everywhere.",
+    "year": 1986,
+    "responsible": [
+      "Joe Armstrong"
+    ]
+  },
+  {
+    "name": "Isolated Processes",
+    "description": "Structuring computation as independent processes with private state and explicit boundaries so faults and side effects stay contained.",
+    "year": 1973,
+    "responsible": [
+      "Ken Thompson",
+      "Carl Hewitt",
+      "Joe Armstrong"
+    ]
   }
 ]

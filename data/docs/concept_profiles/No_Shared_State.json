@@ -1,0 +1,23 @@
+{
+  "title": "No Shared State",
+  "overview": "No Shared State is the concurrency discipline of preventing components from directly mutating the same memory. Instead of coordinating through shared mutable data, systems communicate through messages, copies, ownership transfer, or other explicit boundaries.",
+  "historical_context": "The concept appears in multiple concurrency traditions, including actor systems and CSP, but it became culturally central through Erlang's runtime philosophy and later systems such as Akka and Cloud Haskell. These environments reacted against the fragility of lock-heavy shared-memory concurrency, where race conditions, deadlocks, and hidden coupling made reliable systems difficult to build and reason about at scale.",
+  "key_aspects": [
+    "Each process or actor owns its own state, which reduces interference from unrelated parts of the system.",
+    "Communication must be explicit, usually through messages or transferred values, which makes coordination visible in the architecture.",
+    "The model improves local reasoning because a component can change only through its own logic and received inputs.",
+    "No shared state is a design discipline, not a claim that the machine literally contains no shared resources anywhere."
+  ],
+  "technical_implications": [
+    "The model eliminates many race conditions and reduces the need for locks, mutexes, and other fragile synchronization tools.",
+    "It often increases copying, serialization, or coordination overhead compared with direct shared-memory access.",
+    "The approach works especially well in runtimes built around isolated processes, mailboxes, or supervision trees.",
+    "Compared with shell pipelines, which also isolate processes strongly, actor and distributed-process systems usually add richer semantics for state ownership, messaging, and recovery."
+  ],
+  "legacy": "No Shared State became one of the most influential counterarguments to thread-centric shared-memory programming. It shaped Erlang's reputation for reliability, influenced Akka and Cloud Haskell, and reinforced a broader shift toward architectures where communication boundaries are treated as a source of safety rather than inconvenience.",
+  "ai_assisted_discovery_missions": [
+    "Explain why no-shared-state design reduces race conditions but does not eliminate the broader difficulty of distributed coordination.",
+    "Compare how Erlang, Akka, and Cloud Haskell each enforce or encourage no-shared-state discipline.",
+    "Analyze where shell process composition already embodies no-shared-state thinking and where it lacks the richer runtime guarantees of actor systems."
+  ]
+}

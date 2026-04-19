@@ -1,0 +1,23 @@
+{
+  "title": "Asynchronous Message Passing",
+  "overview": "Asynchronous Message Passing is a coordination model in which components communicate by sending messages without requiring the receiver to be ready in the same instant. It decouples senders from immediate execution order and makes communication boundaries explicit.",
+  "historical_context": "The idea gained formal and practical force in actor-oriented systems, especially from Carl Hewitt's actor model and later Erlang's runtime design for fault-tolerant telecommunications. It also resonates with shell and event-driven traditions, where work is often initiated and handed off across process or callback boundaries rather than completed in one synchronous stack. The comparison is useful because all of these systems treat handoff and decoupling as primary design concerns, even though their runtimes and guarantees differ.",
+  "key_aspects": [
+    "Senders and receivers are decoupled in time, which reduces the need for direct blocking synchronization.",
+    "Messages create explicit communication boundaries, making protocol design a first-class part of architecture.",
+    "The model works especially well with isolated processes or actors that own their own local state.",
+    "Asynchrony shifts reasoning away from linear call stacks and toward mailboxes, queues, retries, and eventual response patterns."
+  ],
+  "technical_implications": [
+    "Asynchronous messaging improves scalability and fault isolation because components can proceed independently and recover on separate timelines.",
+    "The tradeoff is that ordering, delivery guarantees, retries, and timeout behavior become design problems that synchronous calls often hide.",
+    "Compared with text-shell pipelines, message passing usually carries richer protocol intent but requires more explicit runtime machinery.",
+    "Compared with object pipelines, actor-style messaging is more about independent lifecycles and failure boundaries than about passing typed records through one operator chain."
+  ],
+  "legacy": "Asynchronous Message Passing became a core pillar of actor systems, distributed runtimes, and many event-driven architectures. It helped establish the broader systems lesson that scalability and resilience often depend on explicit communication boundaries rather than shared mutable state or synchronous coupling everywhere.",
+  "ai_assisted_discovery_missions": [
+    "Compare asynchronous message passing in Erlang with synchronous channels in CSP and with shell-style process pipelines.",
+    "Explain why asynchronous communication improves fault isolation while making debugging and protocol design harder.",
+    "Trace how message-passing ideas moved from actor theory into practical runtimes such as Erlang, Akka, and Cloud Haskell."
+  ]
+}

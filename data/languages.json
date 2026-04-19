@@ -2261,7 +2261,8 @@
       "Actor-model",
       "Functional",
       "Event-Driven",
-      "Reactive"
+      "Reactive",
+      "Process-oriented"
     ],
     "cluster": "cloud",
     "generation": "web1",
@@ -2271,8 +2272,9 @@
       "Distributed systems"
     ],
     "key_innovations": [
-      "Lightweight processes",
-      "Fault tolerance (Let it crash)",
+      "Isolated Processes",
+      "Let It Crash",
+      "Asynchronous Message Passing",
       "Hot code swapping"
     ],
     "influenced_by": [
@@ -2555,7 +2557,8 @@
     ],
     "paradigms": [
       "Procedural",
-      "Pipeline-oriented"
+      "Pipeline-oriented",
+      "Process-oriented"
     ],
     "cluster": "scripting",
     "generation": "web1",
@@ -3885,7 +3888,8 @@
       "Concurrent",
       "Event-Driven",
       "Reactive",
-      "Metaprogramming"
+      "Metaprogramming",
+      "Process-oriented"
     ],
     "cluster": "cloud",
     "generation": "cloud",
@@ -4241,7 +4245,8 @@
       "Louis Pilchard"
     ],
     "paradigms": [
-      "Functional"
+      "Functional",
+      "Process-oriented"
     ],
     "cluster": "web",
     "generation": "renaissance",

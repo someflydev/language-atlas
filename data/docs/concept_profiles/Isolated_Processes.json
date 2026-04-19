@@ -1,0 +1,23 @@
+{
+  "title": "Isolated Processes",
+  "overview": "Isolated Processes are execution units with private state and explicit boundaries, designed so one process can fail, block, or be replaced without directly corrupting another. The concept appears in both operating-system process composition and actor-style runtimes, though the granularity and runtime semantics differ substantially.",
+  "historical_context": "Unix shells taught generations of programmers to think in terms of separate processes connected by pipes and signals. Later, Erlang pushed the isolation idea much further by making lightweight runtime processes the central abstraction for fault-tolerant system design, while Akka and Cloud Haskell explored similar architectural territory in other ecosystems. The historical bridge matters because shell composition and actor runtimes both value boundaries, but they apply that value at different scales and with different operational goals.",
+  "key_aspects": [
+    "Each process owns its local state and exposes interaction through explicit channels such as pipes, signals, or messages.",
+    "Isolation creates failure boundaries, limiting the blast radius of crashes or stalled work.",
+    "The concept can refer to heavyweight OS processes or lightweight runtime processes, depending on the language and platform.",
+    "Strong process isolation changes the programmer's mental model from shared in-memory coordination to explicit inter-process communication."
+  ],
+  "technical_implications": [
+    "OS process isolation is excellent for shell composition and system safety, but process creation and communication can be heavier than in specialized runtimes.",
+    "Runtime processes such as BEAM actors are much lighter and better suited to millions of concurrent units, but they require a purpose-built virtual machine.",
+    "Isolation improves fault containment and local reasoning, though it increases the importance of protocol design, serialization cost, and lifecycle supervision.",
+    "The tradeoff across shells, actor systems, and distributed runtimes is always the same: stronger boundaries improve safety and recoverability while making coordination more explicit and sometimes more expensive."
+  ],
+  "legacy": "Isolated Processes became a recurring design answer to the reliability problems of shared mutable state and monolithic runtimes. From shell pipelines to Erlang supervision trees, the idea helped establish boundaries and communication paths as first-class architecture rather than incidental implementation detail.",
+  "ai_assisted_discovery_missions": [
+    "Compare Unix process isolation with Erlang's lightweight process isolation and explain why the analogy is useful but incomplete.",
+    "Explain how isolated processes support failure containment in shells, actor runtimes, and distributed systems.",
+    "Analyze when process isolation is worth the coordination overhead compared with threads or direct shared-memory access."
+  ]
+}
