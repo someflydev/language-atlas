@@ -1,10 +1,16 @@
 import json
 import os
 import sqlite3
+import unicodedata
 from typing import List, Optional, Dict, Any, Union, Set, Tuple, cast
 
 class DataLoader:
     _eras_cache: List[Dict[str, Any]] | None = None
+
+    @staticmethod
+    def _ascii_normalize_name(name: str) -> str:
+        normalized = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
+        return " ".join(normalized.replace("_", " ").replace("-", " ").split()).lower()
 
     @staticmethod
     def _language_profile_lookup_candidates(name: str) -> List[str]:
@@ -315,11 +321,16 @@ class DataLoader:
 
     def get_person(self, name: str) -> Optional[Dict[str, Any]]:
         """Returns the profile data for a given person name."""
+        normalized_lookup = self._ascii_normalize_name(name)
+
         if not self.use_sqlite:
             profiles = self.get_people_profiles()
             if name in profiles: return cast(Dict[str, Any], profiles[name])
             norm_name = name.replace(' ', '_')
             if norm_name in profiles: return cast(Dict[str, Any], profiles[norm_name])
+            for person_name, profile in profiles.items():
+                if self._ascii_normalize_name(person_name) == normalized_lookup:
+                    return cast(Dict[str, Any], profile)
             return None
 
         conn = self._get_connection()
@@ -333,6 +344,16 @@ class DataLoader:
             """, (name.lower(), alt_name.lower()))
 
             row = cursor.fetchone()
+            if not row:
+                cursor = conn.execute("""
+                    SELECT pp.*, p.name
+                    FROM people_profiles pp
+                    JOIN people p ON p.id = pp.person_id
+                """)
+                for candidate in cursor.fetchall():
+                    if self._ascii_normalize_name(candidate['name']) == normalized_lookup:
+                        row = candidate
+                        break
             if not row:
                 return None
 
