@@ -2,7 +2,7 @@
 import sqlite3
 import os
 import sys
-from typing import Optional, Dict, List, Set, Tuple, Any
+from typing import Optional, Dict, List, Tuple, Any
 
 # Ensure we can import from src
 # This script is in src/app/core/build_sqlite.py
@@ -61,7 +61,9 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             typing_discipline TEXT,
             memory_management TEXT,
             is_keystone BOOLEAN,
-            influence_score INTEGER DEFAULT 0
+            influence_score INTEGER DEFAULT 0,
+            primary_use_cases TEXT,
+            key_innovations TEXT
         );
 
         CREATE TABLE paradigms (
@@ -77,12 +79,14 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
 
         CREATE TABLE people (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL UNIQUE
+            name TEXT NOT NULL UNIQUE,
+            contributions TEXT
         );
 
         CREATE TABLE influences (
             source_id INTEGER NOT NULL,
             target_id INTEGER NOT NULL,
+            influence_type TEXT,
             PRIMARY KEY (source_id, target_id),
             FOREIGN KEY (source_id) REFERENCES languages(id) ON DELETE CASCADE,
             FOREIGN KEY (target_id) REFERENCES languages(id) ON DELETE CASCADE
@@ -331,7 +335,11 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         people_map: Dict[str, int] = {} # name -> id
         for p in loader.people:
             if p['name'] not in people_map:
-                cursor.execute("INSERT INTO people (name) VALUES (?)", (p['name'],))
+                contributions = p.get('contributions')
+                cursor.execute(
+                    "INSERT INTO people (name, contributions) VALUES (?, ?)",
+                    (p['name'], json.dumps(contributions) if isinstance(contributions, list) else contributions),
+                )
                 if cursor.lastrowid is not None:
                     people_map[p['name']] = cursor.lastrowid
 
@@ -356,10 +364,11 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             # Insert language
             cursor.execute("""
                 INSERT INTO languages (
-                    name, display_name, year, cluster, generation, 
-                    philosophy, description, mental_model, complexity_bias, safety_model, 
-                    typing_discipline, memory_management, is_keystone
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    name, display_name, year, cluster, generation,
+                    philosophy, description, mental_model, complexity_bias, safety_model,
+                    typing_discipline, memory_management, is_keystone,
+                    primary_use_cases, key_innovations
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 lang['name'],
                 lang.get('display_name'),
@@ -367,13 +376,15 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
                 lang.get('cluster'),
                 lang.get('generation'),
                 lang.get('philosophy'),
-                lang.get('philosophy'), # description mapping
+                lang.get('philosophy'),
                 lang.get('mental_model'),
                 lang.get('complexity_bias'),
                 lang.get('safety_model'),
                 lang.get('typing_discipline'),
                 lang.get('memory_management'),
-                lang.get('is_keystone', False)
+                lang.get('is_keystone', False),
+                json.dumps(lang.get('primary_use_cases', [])),
+                json.dumps(lang.get('key_innovations', [])),
             ))
             if cursor.lastrowid is not None:
                 lang_id = cursor.lastrowid
@@ -396,29 +407,35 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
                     cursor.execute("INSERT OR IGNORE INTO language_people (language_id, person_id, role) VALUES (?, ?, ?)", 
                                 (lang_id, people_map[person_name], 'Creator'))
 
-        # Influences
-        all_influences: Set[Tuple[int, int]] = set()
-        
-        # From influences.json
+        # Influences: dict maps (src_id, tgt_id) -> influence_type (influences.json type wins)
+        all_influences: Dict[Tuple[int, int], Optional[str]] = {}
+
+        # From influences.json (typed)
         for inf in loader.influences:
             src_name = inf['from']
             tgt_name = inf['to']
             if src_name in lang_map and tgt_name in lang_map:
-                all_influences.add((lang_map[src_name], lang_map[tgt_name]))
-                
-        # From languages.json
+                key = (lang_map[src_name], lang_map[tgt_name])
+                all_influences[key] = inf.get('type')
+
+        # From languages.json (untyped; don't override explicit type above)
         for lang in loader.languages:
             if lang['name'] in lang_map:
                 lang_id = lang_map[lang['name']]
                 for other_name in lang.get('influenced_by', []):
                     if other_name in lang_map:
-                        all_influences.add((lang_map[other_name], lang_id))
+                        key = (lang_map[other_name], lang_id)
+                        all_influences.setdefault(key, None)
                 for other_name in lang.get('influenced', []):
                     if other_name in lang_map:
-                        all_influences.add((lang_id, lang_map[other_name]))
+                        key = (lang_id, lang_map[other_name])
+                        all_influences.setdefault(key, None)
 
-        for src_id, tgt_id in all_influences:
-            cursor.execute("INSERT OR IGNORE INTO influences (source_id, target_id) VALUES (?, ?)", (src_id, tgt_id))
+        for (src_id, tgt_id), itype in all_influences.items():
+            cursor.execute(
+                "INSERT OR IGNORE INTO influences (source_id, target_id, influence_type) VALUES (?, ?, ?)",
+                (src_id, tgt_id, itype),
+            )
 
         # Calculate influence_score
         print("Calculating influence scores...")
