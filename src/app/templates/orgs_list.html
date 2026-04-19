@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-12">
+    <div class="mb-12">
+        <h1 class="text-5xl font-extrabold text-slate-900 mb-8">Organizations and Institutions</h1>
+        <p class="text-xl text-slate-600 max-w-3xl leading-relaxed">
+            The labs, corporations, standards bodies, and academic institutions that drove language design
+            and shaped the computing landscape.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for org in orgs %}
+        <div class="group bg-white border border-slate-100 rounded-3xl p-8 hover:shadow-xl transition-all border-b-4 border-b-slate-100 hover:border-b-emerald-500">
+            {% if org.founded %}
+            <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full mb-4 inline-block">Founded {{ org.founded }}</span>
+            {% endif %}
+            <h3 class="text-xl font-bold text-slate-900 mb-3">{{ org.name }}</h3>
+            {% if org.overview %}
+            <p class="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-3">{{ org.overview }}</p>
+            {% endif %}
+            <a href="/org/{{ org.name.replace(' ', '_') }}" class="text-sm font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-2 group-hover:gap-3 transition-all">
+                Full Profile
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

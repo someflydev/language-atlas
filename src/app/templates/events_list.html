@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="py-12">
+    <div class="mb-12">
+        <h1 class="text-5xl font-extrabold text-slate-900 mb-8">Historical Events</h1>
+        <p class="text-xl text-slate-600 max-w-3xl leading-relaxed">
+            Defining moments in computing history: standards meetings, paradigm shifts, landmark publications,
+            and the key decisions that changed the course of language design.
+        </p>
+    </div>
+
+    <div class="space-y-6">
+        {% for event in events %}
+        <a href="/event/{{ event.slug }}" class="group flex gap-8 bg-white border border-slate-100 rounded-3xl p-8 hover:shadow-xl transition-all hover:border-amber-200">
+            {% if event.date %}
+            <div class="flex-shrink-0 w-24 text-right">
+                <span class="text-lg font-black text-amber-600">{{ event.date }}</span>
+            </div>
+            {% endif %}
+            <div class="flex-grow">
+                <h3 class="text-xl font-bold text-slate-900 mb-2 group-hover:text-amber-600 transition-colors">{{ event.title }}</h3>
+                {% if event.overview %}
+                <p class="text-slate-600 text-sm leading-relaxed line-clamp-2">{{ event.overview }}</p>
+                {% endif %}
+            </div>
+            <div class="flex-shrink-0 self-center text-slate-300 group-hover:text-amber-500 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

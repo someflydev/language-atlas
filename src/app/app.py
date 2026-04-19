@@ -884,6 +884,33 @@ async def get_lineage_visualization(request: Request, language_id: int) -> Respo
     '''
     return HTMLResponse(content=page_html)
 
+@app.get("/people", response_class=HTMLResponse)
+async def list_people_view(request: Request) -> Response:
+    people = data_loader.get_people_list()
+    return templates.TemplateResponse(
+        request=request,
+        name="people_list.html",
+        context={"people": people}
+    )
+
+@app.get("/orgs", response_class=HTMLResponse)
+async def list_orgs_view(request: Request) -> Response:
+    orgs = data_loader.get_orgs_list()
+    return templates.TemplateResponse(
+        request=request,
+        name="orgs_list.html",
+        context={"orgs": orgs}
+    )
+
+@app.get("/events", response_class=HTMLResponse)
+async def list_events_view(request: Request) -> Response:
+    events = data_loader.get_events_list()
+    return templates.TemplateResponse(
+        request=request,
+        name="events_list.html",
+        context={"events": events}
+    )
+
 @app.get("/insights", response_class=HTMLResponse)
 async def get_insights(request: Request) -> Response:
     rankings = data_loader.get_top_languages_by_era()
