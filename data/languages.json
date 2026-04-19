@@ -470,7 +470,7 @@
       "Imperative"
     ],
     "cluster": "historical",
-    "generation": "dawn",
+    "generation": "early",
     "primary_use_cases": [
       "Mathematical calculations"
     ],
@@ -504,7 +504,7 @@
       "Imperative"
     ],
     "cluster": "historical",
-    "generation": "dawn",
+    "generation": "early",
     "primary_use_cases": [
       "Scientific computation"
     ],
@@ -569,7 +569,7 @@
       "Logic"
     ],
     "cluster": "historical",
-    "generation": "dawn",
+    "generation": "early",
     "primary_use_cases": [
       "Formal grammar theory",
       "Compiler design"
@@ -1673,7 +1673,7 @@
       "Modular"
     ],
     "cluster": "systems",
-    "generation": "early",
+    "generation": "web1",
     "primary_use_cases": [
       "Systems programming at Xerox PARC",
       "Operating systems (Pilot)"
@@ -1713,7 +1713,7 @@
       "Goal-directed"
     ],
     "cluster": "historical",
-    "generation": "early",
+    "generation": "web1",
     "primary_use_cases": [
       "Text processing",
       "String manipulation"
@@ -1752,7 +1752,7 @@
       "Data-driven"
     ],
     "cluster": "scripting",
-    "generation": "early",
+    "generation": "web1",
     "primary_use_cases": [
       "Text processing",
       "Report generation",
@@ -1792,7 +1792,7 @@
       "Modular"
     ],
     "cluster": "systems",
-    "generation": "early",
+    "generation": "web1",
     "primary_use_cases": [
       "Systems programming",
       "Embedded systems",
@@ -1832,7 +1832,7 @@
       "Procedural"
     ],
     "cluster": "scripting",
-    "generation": "early",
+    "generation": "web1",
     "primary_use_cases": [
       "Mainframe scripting",
       "Macro programming",
@@ -1959,7 +1959,7 @@
       "Concatenative"
     ],
     "cluster": "historical",
-    "generation": "early",
+    "generation": "web1",
     "primary_use_cases": [
       "Desktop publishing",
       "Laser printing",
@@ -2179,7 +2179,7 @@
       "Object-Oriented"
     ],
     "cluster": "systems",
-    "generation": "early",
+    "generation": "web1",
     "primary_use_cases": [
       "Enterprise software",
       "Critical systems"
@@ -2303,7 +2303,7 @@
       "Procedural"
     ],
     "cluster": "systems",
-    "generation": "early",
+    "generation": "web1",
     "primary_use_cases": [
       "Systems programming",
       "Operating systems"
@@ -2647,8 +2647,7 @@
     ],
     "paradigms": [
       "Functional",
-      "Type-driven",
-      "State-driven UI"
+      "Type-driven"
     ],
     "cluster": "academic",
     "generation": "web1",
@@ -3439,7 +3438,7 @@
       "Object-Oriented"
     ],
     "cluster": "systems",
-    "generation": "cloud",
+    "generation": "web1",
     "primary_use_cases": [
       "Systems programming",
       "Metaprogramming"
@@ -3871,7 +3870,7 @@
   },
   {
     "name": "Elixir",
-    "year": 2011,
+    "year": 2012,
     "creators": [
       "José Valim"
     ],
