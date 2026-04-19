@@ -918,6 +918,8 @@ class DataLoader:
         """
         Returns the profile data for a given concept name.
         """
+        normalized_lookup = " ".join(name.replace('_', ' ').replace('-', ' ').split()).lower()
+
         if not self.use_sqlite:
             # 1. Try direct match
             if name in self.concept_profiles:
@@ -927,18 +929,30 @@ class DataLoader:
             norm_name = name.replace(' ', '_')
             if norm_name in self.concept_profiles:
                 return cast(Dict[str, Any], self.concept_profiles[norm_name])
+
+            # 3. Try punctuation-tolerant title match for hyphenated concept names
+            for profile in self.concept_profiles.values():
+                title = profile.get('title')
+                if not isinstance(title, str):
+                    continue
+                title_key = title.split(':')[0].strip()
+                normalized_title = " ".join(title_key.replace('_', ' ').replace('-', ' ').split()).lower()
+                if normalized_title == normalized_lookup:
+                    return cast(Dict[str, Any], profile)
             return None
 
         conn = self._get_connection()
         try:
-            # Try both direct and alternative names in SQL
+            # Try both direct and punctuation-tolerant names in SQL
             alt_name = name.replace('_', ' ')
             cursor = conn.execute("""
                 SELECT cp.*, c.name, c.year as origin_year
                 FROM concept_profiles cp 
                 JOIN concepts c ON c.id = cp.concept_id 
-                WHERE lower(c.name) = ? OR lower(c.name) = ?
-            """, (name.lower(), alt_name.lower()))
+                WHERE lower(c.name) = ?
+                   OR lower(c.name) = ?
+                   OR lower(replace(c.name, '-', ' ')) = ?
+            """, (name.lower(), alt_name.lower(), normalized_lookup))
 
             row = cursor.fetchone()
             if not row:
