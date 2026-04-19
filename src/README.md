@@ -1,144 +1,152 @@
-# Atlas Control Center: Zenith Platform & Semantic Schema
+# src/ — Codebase Architecture
 
-Welcome to the **Zenith** state of the Language Atlas—a professional-grade research platform for exploring the evolution of programming languages through guided mastery and semantic discovery.
+Language Atlas is a data-driven research platform for exploring the
+history, evolution, and intellectual lineage of programming languages.
+This document describes the source layout, modules, and operational
+commands for contributors working in this directory.
 
-## Architecture Overview
+## Module Overview
 
-The Language Atlas is a data-driven platform where JSON is the single source of truth, integrated across four primary layers:
+### Core logic (`src/app/core/`)
 
-1.  **Core Logic & Audit (src/app/core/)**:
-    *   `data_loader.py`: Unified data access layer with transparent SQLite/JSON switching.
-    *   `auditor.py`: **Atlas Auditor (Validation 2.0)**. Provides JSON schema validation and referential integrity checks.
-    *   `build_sqlite.py`: Transforms the JSON data lake into a structured, indexed relational database.
-    *   `site_builder.py`: **Site Builder**. Contains two output modes:
-        *   `SiteBuilder` generates the `generated-docs/` Markdown tree (language profiles, concept profiles, era summaries, thematic documents, homepage INDEX.md, and project README.md) by calling DataLoader methods. Run via `make docs`.
-        *   `SiteCrawler` (HTML export) spins up the real FastAPI app via `fastapi.testclient.TestClient` and walks every exported GET route. Each response is written to `site/<path>/index.html`. After fetching, `_rewrite_links` converts absolute internal URLs into relative paths correct for the file's depth in the tree. Static assets under `src/app/static/` are mirrored verbatim into `site/static/`. HTMX-driven pages are exported in their fully-rendered, unfiltered server state; the filter form is preserved but an `ATLAS_STATIC_MODE` notice is injected near the top of each page. Run via `make site`.
-2.  **The Pedagogical Engine: Interactive Odysseys**:
-    *   **Guided Paths**: Curated learning paths (e.g., "The Systems Renaissance") that pull narrative challenges directly from language profiles.
-    *   **Auto-Odyssey**: A dynamic, recursive engine that generates lineage-based learning paths on the fly using SQLite Recursive CTEs to find influential descendants.
-3.  **Discovery Interfaces**:
-    *   **CLI (src/cli.py)**: High-density "Control Room" for analytical reports, guided Odysseys, and the new `auto-odyssey` command.
-    *   **Living Atlas TUI (src/tui.py)**: Immersive three-pane explorer with real-time FTS5 search and narrative Odyssey mode (toggle with `o`).
-    *   **Web UI & API (src/app/app.py)**: FastAPI server providing a rich visual timeline, interactive Odysseys, and a comprehensive **Semantic Search API**.
-    *   **Data Visualizations (Plotly + Polars)**: Interactive, high-fidelity visualizations of the Atlas timeline and influence network, powered by **Polars** for high-performance data processing.
-4.  **Distribution (Zenith Build)**:
-    *   A self-contained executable binary that bundles the entire platform, including the database and dependencies.
+- **`data_loader.py`** — Unified data access layer. Reads from
+  `language_atlas.sqlite` in normal operation (`USE_SQLITE=1`) and
+  falls back to JSON files during the build step (`USE_SQLITE=0`).
+  All routes and commands go through DataLoader; no module issues raw
+  SQL except DataLoader and InsightGenerator.
+- **`build_sqlite.py`** — Transforms the JSON source files into
+  `language_atlas.sqlite`. Calculates `influence_score`, builds the
+  FTS5 `search_index` virtual table, and creates analytical views.
+  Run via `make build`.
+- **`auditor.py`** — `AtlasAuditor`: validates JSON schema and
+  referential integrity across all data files. Run via `make audit`.
+- **`insights.py`** — `InsightGenerator`: window-function and
+  recursive CTE queries used by the insights dashboard.
+- **`site_builder.py`** — Two output modes:
+  - `SiteBuilder`: generates the `generated-docs/` Markdown tree
+    from DataLoader data. Run via `make docs`.
+  - `SiteCrawler`: spins up the FastAPI app via `TestClient`, walks
+    every exported GET route, and writes fully-rendered HTML to
+    `site/`. Rewrites internal links to relative paths. Sets
+    `ATLAS_STATIC_MODE=1` so templates inject a static-export notice.
+    Run via `make site`.
+- **`docs_parser.py`** — Legacy one-shot script that parsed a
+  now-deleted `docs/CONCEPTS.md` into `data/core_concepts.json`.
+  Not imported by any live module; safe to ignore.
 
-## Semantic Search & Visualization API
+### Web server (`src/app/app.py`)
 
-The Atlas exposes a high-performance JSON and Visualization API for external tools and programmatic research. The base URL `/api` provides interactive documentation.
+FastAPI application serving all HTML and JSON routes on port 8084.
+See `API_GUIDE.md` for the full endpoint reference and `.context/routes.md`
+for the complete route-to-template map.
 
-*   **API Base**: `GET /api` (Living documentation of all endpoints)
-*   **Search**: `GET /api/search?q=concurrency` (FTS5 BM25 ranked across languages, profiles, and concepts)
-*   **Visualizations**: `GET /visualizations` (Interactive Plotly dashboard)
-*   **Viz Data**: `GET /api/viz/timeline` and `GET /api/viz/influence` (Raw data for visualization layers)
-*   **Odysseys**: `GET /api/odysseys` (List all guided paths)
-*   **Language Profiles**: `GET /api/language/Rust` (Combined core + deep profile data)
+### CLI (`src/cli.py`)
 
-## Data Architecture & Performance
+Typer CLI exposing `atlas dashboard`, `atlas odyssey <id>`, and
+`atlas auto-odyssey <language>`. Run with `uv run atlas --help`.
 
-The platform utilizes a hybrid data processing strategy:
-- **Primary Engine**: **Polars** is used for high-performance backend data transformation, sorting, and analytical calculations.
-- **Relational Layer**: **SQLite (FTS5)** provides indexed full-text search and complex relational queries.
-- **Visualization Layer**: **Plotly Express** handles rendering, utilizing a **Pandas/PyArrow** compatibility bridge for seamless data handover between Polars and the UI.
+### TUI (`src/tui.py`)
 
-## Atlas Auditor: Validation 2.0
+Textual three-pane browser with real-time FTS5 search and an Odyssey
+mode (toggle with `o`). Run with `uv run atlas tui`.
 
-The `AtlasAuditor` class and the `scripts/dark_matter_audit.py` tool provide a rigorous quality gate:
+## Guided and Auto-generated Learning Paths (Odysseys)
+
+Two kinds of learning paths exist:
+
+- **Guided paths** (`data/learning_paths.json`): hand-curated sequences
+  of languages with milestones and challenges (e.g., "The Systems
+  Renaissance").
+- **Auto-Odyssey**: generated at request time via a recursive CTE that
+  walks the influence graph to find influential descendants of a
+  starting language. Available at `/odyssey/auto` and via
+  `atlas auto-odyssey`.
+
+## JSON API
+
+The server exposes a JSON API at `/api`. See `API_GUIDE.md` for all
+endpoints. Interactive documentation is available at `/docs` (Swagger)
+and `/redoc` while the server is running.
+
+Notable endpoints:
+- `GET /api/search?q=concurrency` — FTS5 BM25 ranked results
+- `GET /api/language/Rust` — combined core + profile data
+- `GET /api/odysseys` — list all guided paths
+- `GET /visualizations` — Plotly timeline and influence network
+
+## Data Architecture
+
+- **Polars** handles backend data transformation, sorting, and
+  aggregation before results are passed to routes.
+- **SQLite (FTS5)** provides indexed full-text search and the
+  relational query layer for all analytical features.
+- **Plotly Express** renders visualizations, using a Pandas/PyArrow
+  bridge to consume Polars DataFrames.
+
+## Data Quality
 
 ```bash
-# Run the auditor and integrity checks
-make audit
-
-# Identify "Dark Matter" (missing profiles referenced in the data)
-uv run python scripts/dark_matter_audit.py
+make audit        # AtlasAuditor: schema + referential integrity
+make dark-matter  # Missing-profile audit; writes generated-reports/dark_matter_todo.json
+make harden       # type-check + audit + test in one step
 ```
 
-The dark matter audit now uses a reviewed alias layer stored in hidden
-JSON metadata under `data/`:
+The dark matter audit reads all source JSON and narrative profile dirs
+under `data/docs/`. It uses a reviewed alias layer in two hidden files:
 
-- `data/.dark_matter_aliases.json`: maps noisy or variant references to
-  one reviewed canonical display term.
-- `data/.dark_matter_canonicals.json`: defines each canonical display
-  term, its entity type, and an optional `profile_key` when the profile
-  stem differs from the human-readable term.
+- `data/.dark_matter_aliases.json` — variant references to canonical terms
+- `data/.dark_matter_canonicals.json` — canonical terms, entity types,
+  and optional profile-stem overrides
 
-Mechanical normalization still lives in Python inside
-`scripts/dark_matter_audit.py`. Semantic normalization now belongs in the
-hidden JSON files so future merges stay deterministic, reviewable, and
-out of hardcoded alias blocks.
-
-The audit now scans a broader slice of Atlas source inputs instead of a
-small original field subset. High-signal structured inputs include:
-
-- `data/languages.json`
-- `data/people.json`
-- `data/concepts.json`, including `responsible[]`
-- `data/eras.json`, including narrative fields such as `description`,
-  `catalyst`, `key_innovations[]`, `timeline_events[].description`, and
-  `modern_reactions[]`
-- `data/paradigms.json`, including `description`, `motivation`,
-  `languages[]`, `connected_paradigms[]`, and recursive string values in
-  `key_features`
-- `data/learning_paths.json`, including path titles, descriptions, and
-  step language and narrative fields
-- `data/influences.json` as a harmless redundant language-edge input that
-  protects coverage if it drifts from `languages.json`
-
-Narrative coverage still comes from JSON docs under `data/docs/`,
-including language, concept, organization, people, and historical-event
-profiles. The audit
-continues to exclude `data/docs/atlas_meta/` from dark matter discovery.
-
-## Control Room & Server Commands
+## Common Commands
 
 ```bash
-# Start a Guided Odyssey in the CLI
-uv run atlas odyssey systems_renaissance
-
-# Generate a Dynamic Odyssey based on influence
-uv run atlas auto-odyssey "C"
-
-# Launch the FastAPI Web Server & API
+# Start the web server
 make server
 
-# Regenerate all Markdown documentation from JSON/SQLite sources
+# Start a guided Odyssey in the CLI
+uv run atlas odyssey systems_renaissance
+
+# Generate an auto-Odyssey from C's influence graph
+uv run atlas auto-odyssey "C"
+
+# Rebuild the database after editing JSON source files
+make build
+
+# Regenerate Markdown documentation
 make docs
 ```
 
 ## Makefile Targets
 
-*   **init**: Sets up the virtualenv, installs dependencies, and builds the database.
-*   **build**: Rebuilds the SQLite database from JSON sources.
-*   **server**: Starts the FastAPI dev server on port 8084.
-*   **audit**: Runs the Atlas Auditor and consistency checks.
-*   **dark-matter**: Finds missing profiles; writes `generated-reports/dark_matter_todo.json`.
-    Semantic merges for this audit belong in
-    `data/.dark_matter_aliases.json` and
-    `data/.dark_matter_canonicals.json`, not new hardcoded Python maps.
-*   **test**: Runs fast unit and consistency checks.
-*   **harden**: Full reliability suite: type-check, audit, test.
-*   **type-check**: Runs mypy type checking.
-*   **test-intensive**: Runs long-running analytical tests.
-*   **docs**: Regenerates all Markdown documentation in `generated-docs/` from the SQLite database.
-*   **site**: Exports fully-rendered static HTML into `site/`.
-*   **pages**: Prepares gh-pages artifacts (run on gh-pages branch only).
-*   **clean**: Removes generated artifacts and temporary files.
+| Target | Description |
+|---|---|
+| `make init` | Set up virtualenv, install deps, build database |
+| `make build` | Rebuild SQLite from JSON sources |
+| `make server` | Start FastAPI dev server on port 8084 |
+| `make audit` | Run AtlasAuditor |
+| `make dark-matter` | Run missing-profile audit |
+| `make test` | Run test suite |
+| `make harden` | type-check + audit + test |
+| `make type-check` | mypy |
+| `make test-intensive` | Long-running analytical tests |
+| `make docs` | Regenerate `generated-docs/` Markdown tree |
+| `make site` | Export static HTML into `site/` |
+| `make pages` | Prepare gh-pages artifacts (gh-pages branch only) |
+| `make clean` | Remove generated artifacts |
 
 ## Setup and Run
 
-1.  **Bootstrap**: `make init`
-2.  **Start server**: `make server`
-3.  **Regenerate Docs**: `make docs`
-4.  **Explore**: Use `atlas --help` or visit `http://localhost:8084/api`.
+1. `make init` — bootstrap virtualenv and build database
+2. `make server` — start the server; open http://localhost:8084
+3. `make docs` — regenerate Markdown docs
+4. `atlas --help` — explore CLI commands
 
 ## GitHub Pages Deployment
 
 A static export with a client-side SQLite database can be published to
-GitHub Pages from the `gh-pages` branch. The export is produced by
-`make pages`, which rebuilds the database, runs `SiteCrawler` to write
-`site/`, and copies the database into `site/db/atlas/` for
-`sql.js-httpvfs` HTTP range-request access.
+GitHub Pages from the `gh-pages` branch. `make pages` rebuilds the
+database, runs `SiteCrawler` to write `site/`, and copies the database
+into `site/db/atlas/` for sql.js-httpvfs range-request access.
 
-See [`GH_PAGES.md`](../GH_PAGES.md) for the full build and
-deploy workflow, local preview instructions, and troubleshooting.
+See [`GH_PAGES.md`](../GH_PAGES.md) for the full workflow.
