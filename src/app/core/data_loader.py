@@ -771,49 +771,52 @@ class DataLoader:
 
         # Creators (People)
         cursor = conn.execute("""
-            SELECT p.name 
-            FROM people p 
-            JOIN language_people lp ON p.id = lp.person_id 
+            SELECT p.name
+            FROM people p
+            JOIN language_people lp ON p.id = lp.person_id
             WHERE lp.language_id = ?
         """, (lang_id,))
         lang['creators'] = [r['name'] for r in cursor.fetchall()]
 
         # Influences
         cursor = conn.execute("""
-            SELECT l.name 
-            FROM languages l 
-            JOIN influences i ON l.id = i.source_id 
+            SELECT l.name
+            FROM languages l
+            JOIN influences i ON l.id = i.source_id
             WHERE i.target_id = ?
         """, (lang_id,))
         lang['influenced_by'] = [r['name'] for r in cursor.fetchall()]
 
         cursor = conn.execute("""
-            SELECT l.name 
-            FROM languages l 
-            JOIN influences i ON l.id = i.target_id 
+            SELECT l.name
+            FROM languages l
+            JOIN influences i ON l.id = i.target_id
             WHERE i.source_id = ?
         """, (lang_id,))
         lang['influenced'] = [r['name'] for r in cursor.fetchall()]
 
-        # Primary Use Cases & Key Innovations (from profile sections if available)
+        # primary_use_cases / key_innovations: start from direct JSON columns,
+        # then let profile_sections override if richer content exists there.
+        for col in ('primary_use_cases', 'key_innovations'):
+            raw = lang.get(col)
+            if isinstance(raw, str):
+                try:
+                    lang[col] = json.loads(raw)
+                except (json.JSONDecodeError, ValueError):
+                    lang[col] = []
+            elif not isinstance(raw, list):
+                lang[col] = []
+
         cursor = conn.execute("""
-            SELECT ps.section_name, ps.content 
-            FROM profile_sections ps 
-            JOIN language_profiles lp ON ps.profile_id = lp.id 
+            SELECT ps.section_name, ps.content
+            FROM profile_sections ps
+            JOIN language_profiles lp ON ps.profile_id = lp.id
             WHERE lp.language_id = ? AND ps.section_name IN ('primary_use_cases', 'key_innovations')
         """, (lang_id,))
         for row in cursor.fetchall():
             section = row['section_name']
             content = row['content']
-            if content:
-                # If it's a list stored as newline-separated string
-                lang[section] = content.split('\n')
-            else:
-                lang[section] = []
-
-        # Ensure they exist even if empty
-        if 'primary_use_cases' not in lang: lang['primary_use_cases'] = []
-        if 'key_innovations' not in lang: lang['key_innovations'] = []
+            lang[section] = content.split('\n') if content else []
 
     def get_language(self, name: str) -> Optional[Dict[str, Any]]:
         alt_name = name.replace('_', ' ')
@@ -1293,7 +1296,7 @@ class DataLoader:
         conn = self._get_connection()
         try:
             cursor = conn.execute("""
-                SELECT l1.name as 'from', l2.name as 'to'
+                SELECT l1.name as 'from', l2.name as 'to', i.influence_type as 'type'
                 FROM influences i
                 JOIN languages l1 ON i.source_id = l1.id
                 JOIN languages l2 ON i.target_id = l2.id
@@ -1742,5 +1745,124 @@ class DataLoader:
                 'people': _count('people'),
                 'profiles': _count('language_profiles'),
             }
+        finally:
+            conn.close()
+
+    def get_people_list(self) -> List[Dict[str, Any]]:
+        """Returns name + overview for all people who have a profile."""
+        if not self.use_sqlite:
+            profiles = self.get_people_profiles()
+            return [
+                {'name': k.replace('_', ' '), 'overview': v.get('overview', '')}
+                for k, v in sorted(profiles.items())
+            ]
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("""
+                SELECT p.name, pp.overview
+                FROM people p
+                JOIN people_profiles pp ON p.id = pp.person_id
+                ORDER BY p.name
+            """)
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_orgs_list(self) -> List[Dict[str, Any]]:
+        """Returns name + founded + overview for all organizations with a profile."""
+        if not self.use_sqlite:
+            profiles = self.get_org_profiles()
+            return [
+                {
+                    'name': k.replace('_', ' '),
+                    'founded': v.get('founded', ''),
+                    'overview': v.get('overview', ''),
+                }
+                for k, v in sorted(profiles.items())
+            ]
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("""
+                SELECT o.name, o.founded, op.overview
+                FROM organizations o
+                JOIN organization_profiles op ON o.id = op.org_id
+                ORDER BY o.name
+            """)
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_events_list(self) -> List[Dict[str, Any]]:
+        """Returns slug + title + date + overview for all historical events."""
+        if not self.use_sqlite:
+            events = self.get_historical_events()
+            return [
+                {
+                    'slug': k,
+                    'title': v.get('title', k),
+                    'date': v.get('date', ''),
+                    'overview': v.get('overview', ''),
+                }
+                for k, v in sorted(events.items(), key=lambda x: x[1].get('date', ''))
+            ]
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute(
+                "SELECT slug, title, date, overview FROM historical_events ORDER BY date, title"
+            )
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_creator_impact(self) -> List[Dict[str, Any]]:
+        """Returns creator-impact ranking: each person's total influence score and languages."""
+        if not self.use_sqlite:
+            return []
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("""
+                SELECT
+                    p.name,
+                    SUM(l.influence_score) as total_impact,
+                    COUNT(l.id) as language_count,
+                    GROUP_CONCAT(l.display_name, ', ') as languages
+                FROM people p
+                JOIN language_people lp ON p.id = lp.person_id
+                JOIN languages l ON lp.language_id = l.id
+                GROUP BY p.name
+                ORDER BY total_impact DESC
+                LIMIT 20
+            """)
+            return [self._row_to_dict(r) for r in cursor.fetchall()]
+        finally:
+            conn.close()
+
+    def get_safety_complexity_trends(self) -> List[Dict[str, Any]]:
+        """Returns per-decade average complexity_bias score and safety model distribution."""
+        if not self.use_sqlite:
+            return []
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("""
+                SELECT
+                    (year / 10) * 10 as decade,
+                    AVG(CASE
+                        WHEN LOWER(complexity_bias) = 'low' THEN 1.0
+                        WHEN LOWER(complexity_bias) = 'medium' THEN 2.0
+                        WHEN LOWER(complexity_bias) = 'high' THEN 3.0
+                        ELSE NULL
+                    END) as avg_complexity,
+                    COUNT(*) as lang_count
+                FROM languages
+                WHERE year IS NOT NULL
+                GROUP BY decade
+                ORDER BY decade ASC
+            """)
+            return [self._row_to_dict(r) for r in cursor.fetchall()]
         finally:
             conn.close()
