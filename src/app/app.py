@@ -915,16 +915,13 @@ async def list_events_view(request: Request) -> Response:
 async def get_insights(request: Request) -> Response:
     rankings = data_loader.get_top_languages_by_era()
     momentum = data_loader.get_paradigm_momentum_timeline()
-    
-    # Generate the momentum chart using Plotly
-    import pandas as pd
-    import plotly.express as px
-    
+    creator_impact = data_loader.get_creator_impact()
+    safety_trends = data_loader.get_safety_complexity_trends()
+
     if momentum:
         df_momentum = pd.DataFrame(momentum)
-        # Sort values
         df_momentum = df_momentum.sort_values(['year', 'paradigm_name'])
-        
+
         fig_momentum = px.line(
             df_momentum,
             x="year",
@@ -934,17 +931,37 @@ async def get_insights(request: Request) -> Response:
             template="plotly_white",
             labels={"year": "Year", "cumulative_languages": "Cumulative Languages", "paradigm_name": "Paradigm"}
         )
-        
         fig_momentum.update_layout(
             font_family="Inter, sans-serif",
             title_font_size=24,
             margin=dict(l=40, r=40, t=80, b=40),
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
         )
-        
         momentum_chart_html = fig_momentum.to_html(full_html=False, include_plotlyjs='cdn')
     else:
         momentum_chart_html = "<p>No data available.</p>"
+
+    if safety_trends:
+        df_safety = pd.DataFrame(safety_trends)
+        fig_safety = px.bar(
+            df_safety,
+            x="decade",
+            y="avg_complexity",
+            title="Average Complexity Bias by Decade",
+            template="plotly_white",
+            labels={"decade": "Decade", "avg_complexity": "Avg Complexity (1=low, 3=high)"},
+            color="avg_complexity",
+            color_continuous_scale="Blues",
+        )
+        fig_safety.update_layout(
+            font_family="Inter, sans-serif",
+            title_font_size=24,
+            margin=dict(l=40, r=40, t=80, b=40),
+            coloraxis_showscale=False,
+        )
+        safety_chart_html = fig_safety.to_html(full_html=False, include_plotlyjs='cdn')
+    else:
+        safety_chart_html = "<p>No data available.</p>"
 
     # Group rankings by generation for the template
     grouped_rankings: dict[str, list[dict[str, Any]]] = {}
@@ -954,11 +971,9 @@ async def get_insights(request: Request) -> Response:
             continue
         if gen not in grouped_rankings:
             grouped_rankings[gen] = []
-        # only keep top 5 per generation
         if r.get('generation_rank', 99) <= 5:
             grouped_rankings[gen].append(r)
 
-    # sort the lists by generation_rank
     for gen in grouped_rankings:
         grouped_rankings[gen].sort(key=lambda x: x.get('generation_rank', 99))
 
@@ -967,7 +982,9 @@ async def get_insights(request: Request) -> Response:
         name="insights.html",
         context={
             "grouped_rankings": grouped_rankings,
-            "momentum_chart": momentum_chart_html
+            "momentum_chart": momentum_chart_html,
+            "safety_chart": safety_chart_html,
+            "creator_impact": creator_impact[:15],
         }
     )
 

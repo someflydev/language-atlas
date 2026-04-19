@@ -4,18 +4,16 @@
 <div class="mb-12">
     <h1 class="text-4xl font-black text-slate-900 tracking-tight mb-4">Advanced Analytics Insights</h1>
     <p class="text-xl text-slate-500 max-w-2xl leading-relaxed">
-        Deep dive into the data powered by SQLite Window Functions.
+        Deep dive into the data powered by SQLite Window Functions and recursive CTEs.
     </p>
 </div>
 
 <div class="grid grid-cols-1 gap-12 mb-20">
     <!-- Momentum Chart -->
     <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-        <div class="p-8 border-b border-slate-50 flex items-center justify-between">
-            <div>
-                <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Rolling Momentum of Paradigms</h2>
-                <p class="text-sm text-slate-400 font-bold mt-1">Cumulative languages adopting each paradigm over time</p>
-            </div>
+        <div class="p-8 border-b border-slate-50">
+            <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Rolling Momentum of Paradigms</h2>
+            <p class="text-sm text-slate-400 font-bold mt-1">Cumulative languages adopting each paradigm over time</p>
         </div>
         <div class="p-4 bg-slate-50/50">
             <div id="momentum-chart" class="w-full h-[600px] flex items-center justify-center">
@@ -24,13 +22,24 @@
         </div>
     </div>
 
+    <!-- Safety/Complexity Trends -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50">
+            <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Complexity Bias Across Decades</h2>
+            <p class="text-sm text-slate-400 font-bold mt-1">Average design complexity of new languages per decade (1=low, 2=medium, 3=high)</p>
+        </div>
+        <div class="p-4 bg-slate-50/50">
+            <div id="safety-chart" class="w-full h-[400px] flex items-center justify-center">
+                {{ safety_chart | safe }}
+            </div>
+        </div>
+    </div>
+
     <!-- Rankings -->
     <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-        <div class="p-8 border-b border-slate-50 flex items-center justify-between">
-            <div>
-                <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Top Languages by Decade</h2>
-                <p class="text-sm text-slate-400 font-bold mt-1">The most influential languages in each generation</p>
-            </div>
+        <div class="p-8 border-b border-slate-50">
+            <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Top Languages by Generation</h2>
+            <p class="text-sm text-slate-400 font-bold mt-1">The most influential languages ranked within each generation</p>
         </div>
         <div class="p-8 bg-slate-50/50">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -53,10 +62,47 @@
             </div>
         </div>
     </div>
+
+    <!-- Creator Impact -->
+    {% if creator_impact %}
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50">
+            <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Creator Impact Rankings</h2>
+            <p class="text-sm text-slate-400 font-bold mt-1">Ranked by cumulative influence score across all credited languages</p>
+        </div>
+        <div class="p-8 bg-slate-50/50">
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-200">
+                            <th class="text-left py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Rank</th>
+                            <th class="text-left py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Creator</th>
+                            <th class="text-right py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Impact Score</th>
+                            <th class="text-right py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Languages</th>
+                            <th class="text-left py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Credited Languages</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for creator in creator_impact %}
+                        <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                            <td class="py-3 px-4 text-slate-400 font-bold">#{{ loop.index }}</td>
+                            <td class="py-3 px-4">
+                                <a href="/person/{{ creator.name.replace(' ', '_') }}" class="font-semibold text-slate-800 hover:text-blue-600">{{ creator.name }}</a>
+                            </td>
+                            <td class="py-3 px-4 text-right font-bold text-blue-600">{{ creator.total_impact }}</td>
+                            <td class="py-3 px-4 text-right text-slate-500">{{ creator.language_count }}</td>
+                            <td class="py-3 px-4 text-slate-500 text-xs">{{ creator.languages }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 
 <style>
-    /* Ensure Plotly graphs are responsive */
     .js-plotly-plot {
         width: 100% !important;
     }
