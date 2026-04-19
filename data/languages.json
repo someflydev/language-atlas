@@ -1867,8 +1867,7 @@
     "name": "Ada",
     "year": 1980,
     "creators": [
-      "Jean Ichbiah",
-      "S. Tucker Taft"
+      "Jean Ichbiah"
     ],
     "paradigms": [
       "Procedural",
@@ -4242,7 +4241,7 @@
     "name": "Gleam",
     "year": 2016,
     "creators": [
-      "Louis Pilchard"
+      "Louis Pilfold"
     ],
     "paradigms": [
       "Functional",

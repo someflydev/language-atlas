@@ -1,6 +1,6 @@
 {
   "title": "Gleam: The Type-Safe BEAM Language",
-  "overview": "Gleam is a statically typed, functional programming language designed by Louis Pilchard for the Erlang virtual machine (BEAM). It features a powerful type system, clean syntax, and seamless interoperability with Erlang and Elixir.",
+  "overview": "Gleam is a statically typed, functional programming language designed by Louis Pilfold for the Erlang virtual machine (BEAM). It features a powerful type system, clean syntax, and seamless interoperability with Erlang and Elixir.",
   "historical_context": "Created in the late 2010s, Gleam was designed to address the challenges of building and maintaining large-scale, fault-tolerant software systems on the BEAM. It was intended to provide the benefits of static typing (like those in Elm or Rust) to the Erlang ecosystem, making it easier to build reliable and maintainable distributed systems.",
   "mental_model": "Think in terms of pure functions and immutable data. A program is a set of transformations on data structures, all governed by a strict and predictable type system.\n\nYour brain must be wired to:\n1. **Value Type Safety:** Rely on the compiler to ensure that your code is correct and that all interactions between components are well-defined.\n2. **Transform Immutable Data:** Build complex transformations using pure functions and immutable data structures, which provide a powerful and flexible way to represent and process data.\n3. **Think Distributed:** Consider how your code interacts with the underlying BEAM virtual machine and its model of isolated processes and message passing.",
   "key_innovations": [
@@ -13,7 +13,7 @@
   "legacy": "Gleam's concepts of type-safe BEAM integration and its clean and consistent syntax have had a lasting impact on the Erlang and Elixir ecosystems and have influenced the design of many other modern distributed languages.",
   "ai_assisted_discovery_missions": [
     "1. 'Explore the impact of Gleam's static typing on the development of fault-tolerant and reliable distributed systems on the BEAM.'",
-    "2. 'Analyze Louis Pilchard's vision for 'Type-Safe Distributed Programming' as expressed in his design of the Gleam language.'",
+    "2. 'Analyze Louis Pilfold's vision for 'Type-Safe Distributed Programming' as expressed in his design of the Gleam language.'",
     "3. 'Discuss the unique relationship between the Gleam language and the Erlang and Elixir ecosystems, and their combined impact on modern cloud and web development.'"
   ]
 }
