@@ -341,7 +341,6 @@
       "ENIAC"
     ],
     "influenced": [
-      "Machine Code",
       "Assembly",
       "FORTRAN",
       "C"
@@ -1302,8 +1301,7 @@
       "Go",
       "Odin",
       "Nim",
-      "C#",
-      "PL/I"
+      "C#"
     ],
     "philosophy": "Discipline is the path to correctness. Pascal was designed to force programmers to express their intent clearly through strict typing and structured control flow. Note: Historically characterized by Static/Strong typing and Manual memory management.",
     "mental_model": "Think in terms of records and procedures. A program is a carefully orchestrated sequence of steps operating on well-defined data structures, where every type has its place.",
@@ -1352,8 +1350,7 @@
       "Perl",
       "LLVM",
       "Objective-C",
-      "PHP",
-      "PL/I"
+      "PHP"
     ],
     "philosophy": "Trust the programmer. C provides a thin abstraction over hardware, offering maximum control and efficiency with minimal runtime overhead. Note: Historically characterized by Static/Weak typing and Manual memory management.",
     "mental_model": "Think in terms of memory addresses and bytes. The program is a series of manipulations on a flat linear memory space.",
@@ -2878,11 +2875,11 @@
     ],
     "influenced_by": [
       "APL",
+      "J",
       "Lisp"
     ],
     "influenced": [
-      "Q",
-      "J"
+      "Q"
     ],
     "philosophy": "Maximum density, maximum speed. K was designed to fit entire complex financial systems on a single screen and run them in cache.",
     "mental_model": "Everything is an array. Operations are symbols that transform arrays. Code is read like a mathematical formula.",
@@ -2928,8 +2925,7 @@
     "influenced": [
       "JavaScript",
       "Squirrel",
-      "MoonScript",
-      "Self"
+      "MoonScript"
     ],
     "philosophy": "Simplicity is the ultimate sophistication. Lua provides a minimal, fast, and highly embeddable engine that can be extended to fit any environment. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of tables and metatables. Everything is a hash map, and you can redefine the behavior of any operation by attaching metadata to your data structures.",
@@ -3298,7 +3294,6 @@
       "Pascal"
     ],
     "influenced": [
-      "Java",
       "Swift",
       "Kotlin",
       "TypeScript",
@@ -3548,7 +3543,6 @@
       "ML"
     ],
     "influenced": [
-      "Java",
       "Kotlin",
       "Swift",
       "Rust"
@@ -3954,9 +3948,7 @@
       "Groovy",
       "Python"
     ],
-    "influenced": [
-      "Java"
-    ],
+    "influenced": [],
     "philosophy": "Pragmatic and concise. Kotlin aims to be a better Java, providing modern features and industrial-grade safety while maintaining 100% interoperability with the Java ecosystem. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of safe, concise Java. You are working within the JVM ecosystem but with a language that eliminates verbosity and null-pointer exceptions by default.",
     "complexity_bias": "medium",
