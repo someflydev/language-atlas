@@ -101,8 +101,7 @@ structured inputs and heuristic prose extraction. The audit reads from:
 - `data/paradigms.json`
 - `data/learning_paths.json`
 - `data/influences.json`
-- narrative JSON docs in `data/docs/`, including `era_summaries/` when
-  present
+- narrative JSON docs in `data/docs/`
 
 Structured fields such as `paradigms.languages[]` and
 `learning_paths.steps[].language` are routed with schema knowledge before

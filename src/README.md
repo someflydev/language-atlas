@@ -87,7 +87,7 @@ small original field subset. High-signal structured inputs include:
 
 Narrative coverage still comes from JSON docs under `data/docs/`,
 including language, concept, organization, people, and historical-event
-profiles plus `era_summaries/` when that directory exists. The audit
+profiles. The audit
 continues to exclude `data/docs/atlas_meta/` from dark matter discovery.
 
 ## Control Room & Server Commands

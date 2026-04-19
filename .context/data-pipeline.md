@@ -21,10 +21,7 @@
 | `historical_events/` | title, date, overview, impact_on_computing, key_figures, legacy, ai_assisted_discovery_missions |
 | `concept_combos/` | Multi-concept narrative docs |
 | `concepts/` | Additional concept doc files |
-| `paradigms/` | Paradigm narrative docs |
 | `atlas_meta/` | Internal architecture profiles (Pedagogical Engine, Zenith State) |
-| `era_summaries/` | Hub narratives for each era; link out to detailed profiles |
-| `crossroads/` | Pivotal decision-point narratives; link out to detailed profiles |
 
 ## Profile Filename Mapping
 - Profile filenames are derived from canonical entity names by replacing spaces with underscores.

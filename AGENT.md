@@ -26,7 +26,6 @@
     - **Filename mapping:** Replace spaces with underscores, preserve punctuation from the canonical person name, and transliterate non-ASCII letters to the closest reasonable ASCII form. The filename stem must map back to the canonical `data/people.json` name after underscore-to-space conversion and ASCII transliteration. Examples: `Friedrich L. Bauer` -> `Friedrich_L._Bauer.json`; `José Valim` -> `Jose_Valim.json`.
   - **Organization Profiles:** Major organizations MUST have a profile in `data/docs/org_profiles/`. Required fields: `title`, `founded`, `overview`, `key_contributions`, `pivotal_people`, `legacy`, `ai_assisted_discovery_missions`.
   - **Atlas Meta Profiles:** Profiles describing the internal architecture of the Language Atlas itself (e.g., The Pedagogical Engine, Zenith State) MUST have a profile in `data/docs/atlas_meta/`.
-  - **Era Summaries & Crossroads:** These narrative files in `data/docs/era_summaries/` and `data/docs/crossroads/` act as hubs. They must link to the detailed profiles mentioned above.
 - **Visual Hygiene:** Do not use emojis in section titles or documentation headers.
 - **Typography:** Avoid using em dashes (—) or regular dashes (-) in place of em dashes in documentation. Use standard punctuation or clear sentence structures instead.
 - **Actionable Examples:** Prefer `uv run` in documentation examples to ensure consistent environment execution.

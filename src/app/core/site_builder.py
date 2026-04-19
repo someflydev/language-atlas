@@ -351,7 +351,7 @@ class SiteBuilder:
             )
             f.write(
                 "- `data/docs/` - narrative profile JSON files"
-                " (language_profiles/, concept_profiles/, era_summaries/, etc.)\n"
+                " (language_profiles/, concept_profiles/, etc.)\n"
             )
             f.write(
                 "- `src/app/core/` - build_sqlite.py, data_loader.py,"
