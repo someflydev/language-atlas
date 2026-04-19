@@ -57,7 +57,7 @@
     ],
     "influenced": [
       "Turing Machine",
-      "Plankalk\u00fcl"
+      "Plankalkül"
     ],
     "philosophy": "A mechanical machine capable of performing any mathematical operation, controlled by an external program. It is the theoretical ancestor of the general-purpose computer.",
     "mental_model": "Think in terms of gears, levers, and punched cards. Data is stored in the 'Store' and moved to the 'Mill' for processing, governed by the instructions on the cards.",
@@ -285,7 +285,7 @@
     "display_name": "Machine Code"
   },
   {
-    "name": "Plankalk\u00fcl",
+    "name": "Plankalkül",
     "year": 1945,
     "creators": [
       "Konrad Zuse"
@@ -315,7 +315,7 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": true,
-    "display_name": "Plankalk\u00fcl"
+    "display_name": "Plankalkül"
   },
   {
     "name": "Von Neumann Architecture",
@@ -1373,7 +1373,8 @@
     ],
     "paradigms": [
       "Logic",
-      "Constraint"
+      "Constraint",
+      "Rule-based"
     ],
     "cluster": "AI",
     "generation": "early",
@@ -1461,7 +1462,8 @@
     ],
     "paradigms": [
       "Functional",
-      "Generic"
+      "Generic",
+      "Type-driven"
     ],
     "cluster": "systems",
     "generation": "early",
@@ -1508,7 +1510,8 @@
       "Array",
       "Array-oriented",
       "Array/Vector",
-      "Constraint"
+      "Constraint",
+      "Query-oriented"
     ],
     "cluster": "backend",
     "generation": "early",
@@ -1653,7 +1656,7 @@
       "Lua",
       "R"
     ],
-    "philosophy": "Small is beautiful. Scheme's minimalist design proves that a few powerful building blocks\u2014lexical scoping and first-class continuations\u2014are sufficient to build any abstraction. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "philosophy": "Small is beautiful. Scheme's minimalist design proves that a few powerful building blocks—lexical scoping and first-class continuations—are sufficient to build any abstraction. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of pure lambda calculus. Every control structure is just a variation of a function call, and the environment is a first-class participant in the computation.",
     "complexity_bias": "high",
     "safety_model": "runtime",
@@ -1968,7 +1971,7 @@
     "key_innovations": [
       "Device-independent graphics",
       "Stack-based execution",
-      "B\u00e9zier curves"
+      "Bézier curves"
     ],
     "influenced_by": [
       "Forth"
@@ -2593,7 +2596,8 @@
       "Functional",
       "Generic",
       "Reactive",
-      "Metaprogramming"
+      "Metaprogramming",
+      "Type-driven"
     ],
     "cluster": "academic",
     "generation": "web1",
@@ -2640,7 +2644,8 @@
       "David MacQueen"
     ],
     "paradigms": [
-      "Functional"
+      "Functional",
+      "Type-driven"
     ],
     "cluster": "academic",
     "generation": "web1",
@@ -2754,7 +2759,7 @@
       "Kotlin",
       "YAML"
     ],
-    "philosophy": "There should be one\u2014and preferably only one\u2014obvious way to do it. Readability counts. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (with RC) memory management.",
+    "philosophy": "There should be one—and preferably only one—obvious way to do it. Readability counts. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (with RC) memory management.",
     "mental_model": "Think in terms of clear, executable pseudocode. You describe what you want the computer to do in a way that is almost as readable as English.",
     "complexity_bias": "low",
     "safety_model": "runtime",
@@ -3176,7 +3181,8 @@
       "Object-Oriented",
       "Procedural",
       "Generic",
-      "Imperative"
+      "Imperative",
+      "Type-driven"
     ],
     "cluster": "systems",
     "generation": "web1",
@@ -3344,7 +3350,7 @@
     "year": 2001,
     "creators": [
       "Clark Evans",
-      "Ingy d\u00f6t Net",
+      "Ingy döt Net",
       "Oren Ben-Kiki"
     ],
     "paradigms": [
@@ -3779,7 +3785,8 @@
       "Object-Oriented",
       "Actor-model",
       "Event-Driven",
-      "Metaprogramming"
+      "Metaprogramming",
+      "Type-driven"
     ],
     "cluster": "systems",
     "generation": "cloud",
@@ -3865,7 +3872,7 @@
     "name": "Elixir",
     "year": 2011,
     "creators": [
-      "Jos\u00e9 Valim"
+      "José Valim"
     ],
     "paradigms": [
       "Actor-model",
@@ -3958,7 +3965,8 @@
       "Evan Czaplicki"
     ],
     "paradigms": [
-      "Functional"
+      "Functional",
+      "Type-driven"
     ],
     "cluster": "frontend",
     "generation": "cloud",
@@ -4057,7 +4065,8 @@
       "Event-Driven",
       "Generic",
       "Reactive",
-      "Metaprogramming"
+      "Metaprogramming",
+      "Type-driven"
     ],
     "cluster": "frontend",
     "generation": "cloud",
@@ -4181,7 +4190,8 @@
       "Generic",
       "Reactive",
       "Metaprogramming",
-      "Protocol-oriented"
+      "Protocol-oriented",
+      "Type-driven"
     ],
     "cluster": "systems",
     "generation": "renaissance",

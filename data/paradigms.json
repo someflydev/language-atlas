@@ -422,7 +422,7 @@
     "name": "Object-Oriented",
     "description": "Organizing code into objects that encapsulate data and behavior.",
     "year_introduced": 1967,
-    "motivation": "Historical Crisis: The \"Software Crisis\" of the late 60s and 70s\u2014systems became too complex to model using only procedures.\nContext: Simulation (SIMULA 67) and the need for graphical user interfaces (Smalltalk) required a way to model \"entities\" that have both state and behavior.",
+    "motivation": "Historical Crisis: The \"Software Crisis\" of the late 60s and 70s—systems became too complex to model using only procedures.\nContext: Simulation (SIMULA 67) and the need for graphical user interfaces (Smalltalk) required a way to model \"entities\" that have both state and behavior.",
     "languages": [
       "Ada",
       "C#",
@@ -656,5 +656,65 @@
       "Functional"
     ],
     "key_features": {}
+  },
+  {
+    "name": "Type-driven",
+    "description": "Designing programs around types as a primary medium for modeling invariants, composition, and API boundaries.",
+    "year_introduced": 1973,
+    "motivation": "Historical Crisis: Large software systems needed stronger ways to state intent and preserve invariants as codebases grew in size and abstraction.\nContext: ML, Standard ML, Haskell, and later Rust and Swift turned the type system from a passive checker into an active design surface for architecture, correctness, and evolution.",
+    "languages": [
+      "ML",
+      "Standard ML",
+      "Haskell",
+      "OCaml",
+      "Rust",
+      "Elm",
+      "TypeScript",
+      "Swift"
+    ],
+    "connected_paradigms": [
+      "Functional",
+      "Generic"
+    ],
+    "key_features": {
+      "The Reaction": "Use types to encode domain structure, impossible states, protocol boundaries, and composition rules before execution begins.",
+      "Tradeoffs": "This yields clearer APIs and stronger guarantees, but it can increase modeling overhead and push teams toward more abstract designs than they can comfortably maintain."
+    }
+  },
+  {
+    "name": "Rule-based",
+    "description": "Expressing behavior as facts, rules, rewrites, or inference steps that the runtime or solver applies to reach conclusions.",
+    "year_introduced": 1972,
+    "motivation": "Historical Crisis: Search, theorem proving, and expert systems were difficult to express as fixed control-flow procedures because the important structure lived in relations and derivation rules.\nContext: Prolog and adjacent logic systems treated computation as inference over rules, allowing developers to state what follows from a knowledge base rather than hand-script every path.",
+    "languages": [
+      "Prolog"
+    ],
+    "connected_paradigms": [
+      "Logic",
+      "Declarative",
+      "Constraint"
+    ],
+    "key_features": {
+      "The Reaction": "Encode knowledge as clauses, rewrites, or inference rules and let matching plus search determine which consequences can be derived.",
+      "Tradeoffs": "This can make symbolic domains concise and extensible, but performance, termination, and debugging depend heavily on the underlying search strategy."
+    }
+  },
+  {
+    "name": "Query-oriented",
+    "description": "Centering computation on asking structured questions over data and relations rather than manually traversing storage and control flow.",
+    "year_introduced": 1974,
+    "motivation": "Historical Crisis: Programmers were spending too much effort navigating physical storage structures and hand-coding data access paths instead of describing the information they needed.\nContext: SQL established the enduring pattern of declarative retrieval over sets and relations, separating the statement of a query from the optimizer strategy used to execute it.",
+    "languages": [
+      "SQL"
+    ],
+    "connected_paradigms": [
+      "Declarative",
+      "Data-driven",
+      "Logic"
+    ],
+    "key_features": {
+      "The Reaction": "Describe the desired relation, subset, or aggregation and let the engine choose the access plan, join order, and evaluation strategy.",
+      "Tradeoffs": "This raises the abstraction level dramatically, but it can hide cost models and make performance opaque until users understand the optimizer and data distribution."
+    }
   }
 ]
