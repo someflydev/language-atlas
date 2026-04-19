@@ -415,8 +415,8 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             src_name = inf['from']
             tgt_name = inf['to']
             if src_name in lang_map and tgt_name in lang_map:
-                key = (lang_map[src_name], lang_map[tgt_name])
-                all_influences[key] = inf.get('type')
+                inf_key = (lang_map[src_name], lang_map[tgt_name])
+                all_influences[inf_key] = inf.get('type')
 
         # From languages.json (untyped; don't override explicit type above)
         for lang in loader.languages:
@@ -424,12 +424,12 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
                 lang_id = lang_map[lang['name']]
                 for other_name in lang.get('influenced_by', []):
                     if other_name in lang_map:
-                        key = (lang_map[other_name], lang_id)
-                        all_influences.setdefault(key, None)
+                        inf_key = (lang_map[other_name], lang_id)
+                        all_influences.setdefault(inf_key, None)
                 for other_name in lang.get('influenced', []):
                     if other_name in lang_map:
-                        key = (lang_id, lang_map[other_name])
-                        all_influences.setdefault(key, None)
+                        inf_key = (lang_id, lang_map[other_name])
+                        all_influences.setdefault(inf_key, None)
 
         for (src_id, tgt_id), itype in all_influences.items():
             cursor.execute(

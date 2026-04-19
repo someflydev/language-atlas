@@ -598,13 +598,13 @@ class DarkMatterResolver:
                 )
 
         for candidate in self._ordered_candidates(cleaned, bucket_hint):
-            entry = self.canonicals.get(candidate)
-            if entry:
+            entry_opt = self.canonicals.get(candidate)
+            if entry_opt:
                 return ResolvedTerm(
-                    display_term=entry.display_term,
-                    bucket=entry.bucket,
-                    normalized_term=entry.normalized_term,
-                    profile_lookup_key=entry.normalized_profile_key or entry.normalized_term,
+                    display_term=entry_opt.display_term,
+                    bucket=entry_opt.bucket,
+                    normalized_term=entry_opt.normalized_term,
+                    profile_lookup_key=entry_opt.normalized_profile_key or entry_opt.normalized_term,
                     matched_canonical=True,
                 )
 
