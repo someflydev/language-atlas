@@ -1,0 +1,18 @@
+{
+  "title": "Algebraic Expression Evaluation: Executable Mathematics",
+  "overview": "Algebraic Expression Evaluation is the practice of treating formulas as structured symbolic objects that a system can simplify, transform, differentiate, integrate, solve, and otherwise manipulate computationally. It turns mathematics from static notation into an executable symbolic medium.",
+  "historical_context": "The idea grows out of mathematical notation, formal algebra, and the early computer-algebra movement. Systems such as MACSYMA showed that a machine could reason over expressions as expressions rather than immediately collapsing everything into approximate numbers. Maple and Mathematica broadened that vision into more complete technical-computing environments, where exact algebra and symbolic transformation could live alongside numerical methods, plotting, and interactive documents. Historically, this marked a shift from programming as numerical procedure toward programming as computational mathematics.",
+  "key_aspects": [
+    "**Expressions as structured data:** Formulas are represented internally as trees or symbolic terms rather than opaque text.",
+    "**Transformation before approximation:** Systems can simplify or rearrange mathematics before choosing a numerical path.",
+    "**Bridge between CAS and programming languages:** Symbolic evaluation becomes part of everyday computational workflow.",
+    "**Executable mathematical reasoning:** Differentiation, integration, equation solving, and rule-based simplification become programmable acts."
+  ],
+  "technical_implications": "This concept makes it easy to write programs for theorem-oriented experimentation, symbolic derivation, code generation, educational mathematics, and hybrid workflows that move from exact expressions to numerical evaluation. It also changes optimization because runtimes can choose representations and transformations that preserve algebraic structure longer, potentially enabling simplification before expensive numeric work. The cost is added semantic complexity. Evaluation order, simplification rules, and exact-versus-approximate transitions become language-design issues that can be powerful but also opaque.",
+  "legacy": "Algebraic Expression Evaluation helped define computer algebra as a major branch of programming language practice. MACSYMA, Maple, and Mathematica each demonstrated that expression trees could be a core programming substrate, not merely an academic curiosity. Its legacy survives in symbolic engines, notebook systems, theorem tools, and compiler pipelines that manipulate program structure symbolically.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Trace the lineage from MACSYMA to Maple and Mathematica in the history of algebraic expression evaluation.\"",
+    "2. \"Explain how symbolic expression trees differ from ordinary numerical variables in technical-computing systems.\"",
+    "3. \"Analyze a workflow that starts with exact symbolic derivation and ends with numerical evaluation or code generation.\""
+  ]
+}

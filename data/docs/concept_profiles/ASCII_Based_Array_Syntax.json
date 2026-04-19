@@ -1,0 +1,18 @@
+{
+  "title": "ASCII-Based Array Syntax: Array Thinking Without Custom Glyphs",
+  "overview": "ASCII-Based Array Syntax is the attempt to preserve array-language power while expressing it through portable text characters instead of specialized symbol sets. It is most closely associated with J's response to APL's dependence on a custom mathematical alphabet.",
+  "historical_context": "APL proved that symbolic notation could compress array ideas with extraordinary density, but its specialized glyphs also created practical barriers around keyboards, terminals, fonts, and portability. As text-first computing environments standardized around ASCII, that barrier became harder to ignore. J, designed by Kenneth Iverson and Roger Hui, reacted by rebuilding the array-language tradition in a portable character set while preserving much of the deeper mathematical and compositional worldview. Historically, this was not a retreat from array programming. It was an adaptation that let the tradition survive in mainstream text environments and influence later systems more easily.",
+  "key_aspects": [
+    "**Portability reaction:** The concept addresses the deployment and accessibility limits created by APL's custom symbols.",
+    "**Preserved array semantics:** The goal is to keep array-first reasoning, not to abandon it.",
+    "**Text-first compatibility:** Standard keyboards, files, terminals, and tooling become viable for array programming.",
+    "**J lineage:** J is the clearest historical embodiment of the idea."
+  ],
+  "technical_implications": "ASCII-based syntax makes array languages easier to share, edit, version, and transmit across ordinary software infrastructure. That lowers friction for adoption and integration into broader development workflows. It also changes readability tradeoffs: while portable text solves practical barriers, dense ASCII operator vocabularies can still remain challenging for newcomers. On the implementation side, the concept keeps the benefits of array semantics while widening the set of environments in which those semantics can realistically live.",
+  "legacy": "ASCII-Based Array Syntax preserved the viability of the APL tradition in a world dominated by standard text systems. J demonstrated that life after APL glyph dependence was possible without abandoning array-first language design. Its legacy reaches into later technical-computing cultures that benefited from portable, text-native representations of powerful array ideas.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain why J adopted ASCII-based array syntax and how that decision reacted to APL's custom symbol set.\"",
+    "2. \"Compare the portability and readability tradeoffs of APL glyphs versus J's ASCII operator vocabulary.\"",
+    "3. \"Trace how text-first environments shaped the survival and diffusion of array-language ideas after APL.\""
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "title": "Interactive Numerical Exploration: Conversing with Models in Real Time",
+  "overview": "Interactive Numerical Exploration is the workflow of iteratively testing numerical ideas in a live computational environment, adjusting formulas, parameters, data, and plots as results appear. It turns technical computing into a conversation rather than a strict batch pipeline.",
+  "historical_context": "Scientific computing began in a more batch-oriented world, often mediated through low-level languages and libraries. Over time, engineers and researchers needed environments where they could probe data, tune algorithms, and inspect outputs without constantly rebuilding full programs. MATLAB helped define this mode by making matrix calculations, scripts, and plots feel immediate. GNU Octave extended the same model into open settings, while NumPy and later notebook practices brought interactive numerical reasoning into mainstream open-source workflows. The history matters because it shows a shift in what counted as productive computing: not only final compiled programs, but also live exploratory sessions that sharpen understanding.",
+  "key_aspects": [
+    "**Command-driven iteration:** Users can vary inputs, inspect outputs, and refine models in rapid cycles.",
+    "**Close coupling to numerical methods:** Linear algebra, optimization, simulation, and data fitting benefit especially from immediate feedback.",
+    "**Pedagogical value:** Students can see mathematics become behavior without waiting for heavyweight build processes.",
+    "**Workflow continuity:** Exploration, prototyping, and reproducibility often share the same environment."
+  ],
+  "technical_implications": "Interactive exploration makes it easier to express experiments, parameter sweeps, quick diagnostics, and teaching-oriented examples because the environment supports immediate execution and feedback. It also pushes runtimes and ecosystems toward strong REPLs, efficient array kernels, persistent workspace state, and integrated plotting. The tradeoff is that exploratory sessions can produce fragile or stateful workflows unless users capture their work carefully in scripts, notebooks, or reusable functions.",
+  "legacy": "The concept helped define the everyday practice of technical computing. MATLAB and GNU Octave made it routine for generations of scientists and engineers, and NumPy plus notebook ecosystems later widened the same habit across open-source data science. Its legacy is as much cultural as technical: it normalized the idea that exploration is a first-class phase of programming.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Compare interactive numerical exploration in MATLAB, GNU Octave, and NumPy-centered notebook workflows.\"",
+    "2. \"Explain why immediate feedback matters for teaching numerical methods and scientific modeling.\"",
+    "3. \"Analyze the tension between exploratory sessions and reproducible technical workflows.\""
+  ]
+}

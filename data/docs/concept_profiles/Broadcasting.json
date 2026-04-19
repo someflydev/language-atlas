@@ -1,0 +1,18 @@
+{
+  "title": "Broadcasting: Generalizing Scalars Across Shapes",
+  "overview": "Broadcasting is the rule system that lets array expressions combine operands of different shapes without explicit replication code. It generalizes the idea that a scalar can interact with a vector or matrix, then extends that convenience to compatible higher-dimensional shapes.",
+  "historical_context": "The intuition behind broadcasting comes from scientific computing's long desire to write formulas at the same level of abstraction as the underlying mathematics. Matrix environments such as MATLAB normalized scalar expansion and array-friendly operators, while APL-derived systems had already shown that whole-array semantics could replace many loops. NumPy made broadcasting into a widely taught modern concept by defining predictable rules for shape compatibility across ndarrays. That move mattered because Python users could now inhabit a true array-programming model inside a mainstream language. Julia and other technical-computing systems later reinforced the same idea with their own mechanisms for elementwise behavior over structured data.",
+  "key_aspects": [
+    "**Shape compatibility rules:** Arrays need not be identical in shape if dimensions can be aligned under consistent expansion rules.",
+    "**Scalar generalization:** Scalars act naturally across larger arrays without manual looping or materialized repetition.",
+    "**Higher-dimensional usefulness:** Broadcasting is especially valuable once programs move beyond simple vectors into matrices and tensors.",
+    "**NumPy-style literacy:** Understanding broadcasting became a core part of modern scientific-programming fluency."
+  ],
+  "technical_implications": "Broadcasting makes numerical code shorter and often faster because programmers can express elementwise transformations directly while runtimes or libraries handle shape alignment internally. It enables concise feature scaling, coordinate transforms, tensor arithmetic, and many data-science workflows that would otherwise require verbose indexing logic. It also gives implementation layers opportunities to avoid needless temporary arrays and route work into optimized kernels. The tradeoff is opacity: when shapes are not obvious, broadcasting mistakes can silently produce the wrong result or make performance harder to predict.",
+  "legacy": "Broadcasting became one of the signature ideas of modern array programming. Although its roots lie in older matrix and array traditions, NumPy popularized it for a broad open-source audience, and Julia plus other array systems helped normalize it further. Today it is a standard expectation in technical computing, machine learning, and tensor frameworks.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain broadcasting with concrete examples that move from scalar-vector operations to higher-dimensional array cases.\"",
+    "2. \"Compare MATLAB-style scalar expansion, NumPy broadcasting, and Julia's elementwise array conventions.\"",
+    "3. \"Analyze a subtle broadcasting bug and show how shape reasoning prevents it.\""
+  ]
+}

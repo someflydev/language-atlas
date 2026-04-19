@@ -266,5 +266,91 @@
       "Alain Colmerauer",
       "Robert Kowalski"
     ]
+  },
+  {
+    "name": "Array-First Programming",
+    "description": "A style of computing that treats whole arrays as the primary semantic unit, making data-parallel transformation more central than scalar control flow.",
+    "year": 1962,
+    "responsible": [
+      "Kenneth E. Iverson"
+    ]
+  },
+  {
+    "name": "Arrays as First-Class Citizens",
+    "description": "Designing a language so arrays are native values with rich operators, not just containers wrapped around scalar code.",
+    "year": 1962,
+    "responsible": [
+      "Kenneth E. Iverson"
+    ]
+  },
+  {
+    "name": "Broadcasting",
+    "description": "Generalized scalar-shape interaction that lets array expressions combine values of different shapes without writing explicit replication loops.",
+    "year": 2005,
+    "responsible": [
+      "Travis Oliphant",
+      "NumPy Community"
+    ]
+  },
+  {
+    "name": "Arbitrary-Precision Arithmetic",
+    "description": "Computing with exact or expansible numeric precision so symbolic systems and technical tools are not forced into fixed-width approximations.",
+    "year": 1960,
+    "responsible": [
+      "John McCarthy",
+      "MACSYMA Team"
+    ]
+  },
+  {
+    "name": "Algebraic Expression Evaluation",
+    "description": "Treating formulas as executable symbolic structures that can be simplified, transformed, differentiated, and solved inside the programming environment.",
+    "year": 1968,
+    "responsible": [
+      "MACSYMA Team"
+    ]
+  },
+  {
+    "name": "Notebook Computing",
+    "description": "An interactive document-computation model where code, prose, formulas, graphics, and results live together in one technical workspace.",
+    "year": 1988,
+    "responsible": [
+      "Stephen Wolfram"
+    ]
+  },
+  {
+    "name": "Symbolic Pattern Recognition",
+    "description": "Pattern-directed matching over symbolic expressions so rewriting systems can recognize algebraic structure instead of only concrete values.",
+    "year": 1988,
+    "responsible": [
+      "Stephen Wolfram",
+      "MACSYMA Team"
+    ]
+  },
+  {
+    "name": "Interactive Numerical Exploration",
+    "description": "Using a command-driven numerical environment to iterate on models, data, and visual output in immediate conversation with the machine.",
+    "year": 1979,
+    "responsible": [
+      "Cleve Moler",
+      "John W. Eaton"
+    ]
+  },
+  {
+    "name": "Integrated Plotting and Analysis",
+    "description": "A technical-computing workflow where data analysis, plotting, and iterative model refinement happen inside the same language environment.",
+    "year": 1984,
+    "responsible": [
+      "Cleve Moler",
+      "MathWorks"
+    ]
+  },
+  {
+    "name": "ASCII-Based Array Syntax",
+    "description": "Expressing array-language ideas with portable ASCII notation instead of specialized glyph sets, preserving array semantics in text-first environments.",
+    "year": 1990,
+    "responsible": [
+      "Kenneth E. Iverson",
+      "Roger Hui"
+    ]
   }
 ]

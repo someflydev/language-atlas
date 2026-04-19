@@ -1918,6 +1918,7 @@
       "Symbolic Computation Group (University of Waterloo)"
     ],
     "paradigms": [
+      "Notebook-oriented",
       "Symbolic",
       "Functional",
       "Procedural"
@@ -1996,6 +1997,7 @@
       "Cleve Moler"
     ],
     "paradigms": [
+      "Matrix-oriented",
       "Array-oriented",
       "Object-Oriented",
       "Procedural"
@@ -4012,6 +4014,7 @@
       "Array",
       "Functional",
       "Array-oriented",
+      "Matrix-oriented",
       "Array/Vector",
       "Object-Oriented",
       "Procedural",

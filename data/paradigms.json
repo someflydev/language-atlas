@@ -716,5 +716,40 @@
       "The Reaction": "Describe the desired relation, subset, or aggregation and let the engine choose the access plan, join order, and evaluation strategy.",
       "Tradeoffs": "This raises the abstraction level dramatically, but it can hide cost models and make performance opaque until users understand the optimizer and data distribution."
     }
+  },
+  {
+    "name": "Matrix-oriented",
+    "description": "A scientific-computing paradigm that treats matrices and linear algebra workflows as the central organizing model of the language environment.",
+    "year_introduced": 1984,
+    "motivation": "Historical Crisis: Scientists and engineers could access serious numerical algorithms, but expressing matrix-heavy work through low-level scalar code and library wrappers was slow, error-prone, and far from the mathematics they actually used.\nContext: MATLAB popularized the matrix laboratory as a practical language style, and later systems such as GNU Octave and Julia carried that matrix-first scientific framing into broader technical-computing communities.",
+    "languages": [
+      "MATLAB",
+      "Julia"
+    ],
+    "connected_paradigms": [
+      "Array",
+      "Array-oriented",
+      "Procedural"
+    ],
+    "key_features": {
+      "The Reaction": "Treat matrices, factorizations, and vectorized numerical operations as the natural surface of programming so engineers can move from linear algebra notation directly into executable workflows.",
+      "Tradeoffs": "This makes scientific and engineering problems far easier to express and optimize, but it can overfit language design to dense numerical domains and feel awkward for software outside the technical-computing core."
+    }
+  },
+  {
+    "name": "Notebook-oriented",
+    "description": "A paradigm centered on interactive computational documents where narrative, code, formulas, graphics, and results are fused into one working medium.",
+    "year_introduced": 1988,
+    "motivation": "Historical Crisis: Technical work was split across source files, terminals, plotting tools, and publication systems, making it hard to preserve both the reasoning process and the executable artifact in one place.\nContext: Mathematica's notebook model established a language experience built around document-computation fusion, and adjacent systems such as Maple worksheets showed how scientific programming could revolve around interactive computational documents rather than only files or shells.",
+    "languages": [
+      "Maple"
+    ],
+    "connected_paradigms": [
+      "Symbolic"
+    ],
+    "key_features": {
+      "The Reaction": "Make the primary workspace a live document where code cells, explanation, equations, plots, and outputs remain in context together during exploration and presentation.",
+      "Tradeoffs": "This is excellent for research, pedagogy, and exploratory analysis, but hidden state and execution-order drift can make notebook-centric work less disciplined than file-centric program structure."
+    }
   }
 ]

@@ -1,0 +1,18 @@
+{
+  "title": "Notebook Computing: Fusing Documents and Execution",
+  "overview": "Notebook Computing is a style of technical work in which code, prose, mathematical notation, graphics, and output coexist inside one interactive document. The notebook is not just an editor window. It is the computational workspace itself, joining exploration, explanation, and presentation.",
+  "historical_context": "The lineage begins with the broader scientific desire to keep reasoning, formulas, and results close together instead of scattering them across separate tools. Computer algebra and technical-computing environments intensified that pressure because users often needed derivations, narrative explanation, plots, and experiments in one place. Mathematica made this worldview especially visible in 1988 by treating the notebook as a native medium for symbolic and numerical work. Later open systems, especially Jupyter, popularized the format across languages and disciplines, but the deeper historical move was already established: technical exploration could happen inside a living document rather than only in source files or terminal sessions.",
+  "key_aspects": [
+    "**Document-computation fusion:** Narrative, code, formulas, and output live together in a single artifact.",
+    "**Interactive iteration:** Users can execute cells incrementally while preserving explanatory context.",
+    "**Research and pedagogy alignment:** The same medium supports experimentation, teaching, reporting, and reproducibility.",
+    "**Environment identity:** In notebook-oriented systems, the notebook is central to the way the language is experienced."
+  ],
+  "technical_implications": "Notebook computing changes what programs are easy to express by making exploratory workflows, literate analysis, tutorial-style computation, and mixed media reporting natural parts of the environment. It also changes optimization and tooling priorities: state management, incremental execution, embedded visual output, and reproducible document histories become important engineering concerns. The tradeoff is that notebooks can blur the line between clean program structure and ad hoc exploratory state unless users or platforms impose discipline around reproducibility and execution order.",
+  "legacy": "Notebook Computing reshaped expectations for technical software. Mathematica showed how deeply symbolic and numerical work could be embedded in a document interface, and later notebook systems made the model widespread across scientific Python, data science, and education. Its legacy is not merely visual. It changed how people learn, explain, and validate computational work.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Trace the path from Mathematica notebooks to Jupyter and explain what changed versus what stayed conceptually the same.\"",
+    "2. \"Analyze notebook computing as a workflow model for research, teaching, and reproducible technical exploration.\"",
+    "3. \"Compare notebook-centric programming with file-centric programming in terms of state, narrative, and collaboration.\""
+  ]
+}
