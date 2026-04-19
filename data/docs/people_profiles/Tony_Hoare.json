@@ -1,0 +1,23 @@
+{
+  "title": "Tony Hoare: The Formalist Who Sought Programs That Could Be Stated and Proved",
+  "overview": "Tony Hoare, also known in formal publications as C. A. R. Hoare, is a foundational computer scientist whose work spans Hoare logic, Quicksort, axiomatic semantics, and Communicating Sequential Processes. He helped define a view of programming in which correctness claims should be expressible with precision rather than defended only by testing and intuition.",
+  "historical_context": "Hoare's influence grew during the same historical period that made structured programming and software engineering urgent, but his role was distinct from Dijkstra's. Where Dijkstra often appeared as the methodological critic of uncontrolled complexity, Hoare became one of the field's clearest builders of formal reasoning tools. His axiomatic approach to program correctness helped turn the structured-programming era into more than a style campaign. If programs were built from disciplined control structures, they could also be described with assertions, preconditions, postconditions, and invariants. This made correctness something that could be stated and debated precisely. Hoare's work on Communicating Sequential Processes later extended that formal concern into concurrency. CSP supplied a model in which independent processes interact through communication rather than shared-state improvisation, and that model strongly shaped Occam and later influenced the channels-and-goroutines rhetoric surrounding Go. Across sorting, semantics, and concurrency, Hoare kept asking the same question: what program structure makes rigorous reasoning possible?",
+  "mental_model": "To think like Tony Hoare is to treat program structure as the scaffolding for explicit claims. A good program is not merely one that seems to work. It is one whose assumptions, invariants, and communication patterns can be stated cleanly enough that another expert could inspect the argument. This pushes you toward disciplined control flow, explicit contracts, and concurrency models whose behavior can be described without hand-waving about interleavings and accidents.",
+  "pivotal_works": [
+    "**Quicksort (1960):** A landmark algorithm whose elegance and practical impact made Hoare widely known beyond the formal-methods community.",
+    "**Hoare logic and axiomatic semantics (late 1960s):** Established a durable framework for reasoning about program correctness with assertions and proof rules.",
+    "**Communicating Sequential Processes (1978):** Provided a formal model of concurrency centered on communicating processes rather than shared-state mutation.",
+    "**Influence on Occam and later CSP-style language design:** Helped shape the lineage from formal concurrency theory to practical languages and systems."
+  ],
+  "affiliations": [
+    "**Oxford University:** Major academic base for his work in programming research and formal methods.",
+    "**ALGOL and programming-language research communities:** Participated in the wider effort to connect language design, semantics, and engineering discipline.",
+    "**Formal methods and concurrency theory traditions:** A defining figure in proving that semantics and software practice could inform each other."
+  ],
+  "legacy": "Hoare's legacy is strongest wherever programmers insist that correctness should be articulated, not merely hoped for. Hoare logic remains one of the standard entry points into formal verification, and Quicksort remains a canonical example of elegant algorithm design. CSP's afterlife is especially important for language history because it connects Hoare to Occam's process-and-channel model and, more indirectly, to later concurrency thinking in Go. His contribution is therefore broader than a single theorem or notation. He helped make programming language design answerable to semantics, proof, and disciplined concurrency rather than only to convenience.",
+  "ai_assisted_discovery_missions": [
+    "1. 'Explain how Hoare logic turned structured programs into objects that could be reasoned about with precise correctness claims.'",
+    "2. 'Trace the path from Hoare's CSP to Occam and then to the parts of Go's concurrency story that borrow from communicating-process thinking.'",
+    "3. 'Compare Tony Hoare's formalist approach to Dijkstra's methodological critique of complexity, focusing on where their views diverge and reinforce each other.'"
+  ]
+}

@@ -290,6 +290,14 @@
     ]
   },
   {
+    "name": "Donald Knuth",
+    "contributions": [
+      "Algorithm analysis",
+      "The Art of Computer Programming",
+      "TeX"
+    ]
+  },
+  {
     "name": "Donald D. Chamberlin",
     "contributions": [
       "SQL",
@@ -307,6 +315,14 @@
     "name": "Evan Czaplicki",
     "contributions": [
       "Elm"
+    ]
+  },
+  {
+    "name": "Edsger W. Dijkstra",
+    "contributions": [
+      "Structured programming",
+      "Semaphores",
+      "Weakest preconditions"
     ]
   },
   {
@@ -873,6 +889,14 @@
     "name": "Thomas E. Kurtz",
     "contributions": [
       "BASIC"
+    ]
+  },
+  {
+    "name": "Tony Hoare",
+    "contributions": [
+      "Hoare logic",
+      "Communicating Sequential Processes (CSP)",
+      "Quicksort"
     ]
   },
   {
