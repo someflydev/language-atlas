@@ -1,7 +1,7 @@
 [project]
 name = "language-atlas"
 version = "0.1.0"
-description = "Add your description here"
+description = "A research platform for exploring the history, evolution, and intellectual lineage of programming languages"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

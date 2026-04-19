@@ -79,4 +79,4 @@ make dark-matter  # Find missing profiles
 ## Commit Style (Tim Pope, heredoc)
 - Prefix: `[PROMPT_XX]`; body at 72-80 chars; no co-author
 - Never `git add .` — stage files explicitly
-- See `context/workflow.md` for full rules
+- See `.context/workflow.md` for full rules
