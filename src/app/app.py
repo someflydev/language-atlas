@@ -504,6 +504,7 @@ async def get_person_profile(request: Request, name: str) -> Response:
     content += f"{person.get('overview', '')}\n\n"
     
     sections = [
+        ('contributions', 'Contributions'),
         ('historical_context', 'Historical Context'),
         ('mental_model', 'Mental Model'),
         ('pivotal_works', 'Pivotal Works'),
@@ -511,7 +512,7 @@ async def get_person_profile(request: Request, name: str) -> Response:
         ('legacy', 'Legacy'),
         ('ai_assisted_discovery_missions', 'AI Discovery Missions')
     ]
-    
+
     for key, title in sections:
         val = person.get(key)
         if val:
@@ -917,6 +918,7 @@ async def get_insights(request: Request) -> Response:
     momentum = data_loader.get_paradigm_momentum_timeline()
     creator_impact = data_loader.get_creator_impact()
     safety_trends = data_loader.get_safety_complexity_trends()
+    cluster_genealogy = data_loader.get_cluster_genealogy()
 
     if momentum:
         df_momentum = pd.DataFrame(momentum)
@@ -985,6 +987,7 @@ async def get_insights(request: Request) -> Response:
             "momentum_chart": momentum_chart_html,
             "safety_chart": safety_chart_html,
             "creator_impact": creator_impact[:15],
+            "cluster_genealogy": cluster_genealogy,
         }
     )
 
