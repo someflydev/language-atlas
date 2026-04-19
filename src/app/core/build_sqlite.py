@@ -695,8 +695,9 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         # Languages
         cursor.execute("""
             INSERT INTO search_index (entity_type, entity_id, title, content)
-            SELECT 'language', name, name || COALESCE(' - ' || display_name, ''), 
+            SELECT 'language', name, name || COALESCE(' - ' || display_name, ''),
                    COALESCE(description, '') || ' ' || COALESCE(philosophy, '') || ' ' || COALESCE(mental_model, '')
+                   || ' ' || COALESCE(primary_use_cases, '') || ' ' || COALESCE(key_innovations, '')
             FROM languages;
         """)
         cursor.execute("""
