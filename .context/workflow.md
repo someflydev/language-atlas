@@ -49,7 +49,8 @@ tmp/HANDOFF.md
 - **Prefixes:**
   - `[PROMPT_XX]` — primary work for that prompt file
   - `[PROMPT_XX extra]` — handoff/follow-up work before next planned prompt
-  - `[Add CLAUDE.md]`, `[PRE-FLIGHT {CATEGORY}]` — meta commits
+  - `[PRE-FLIGHT {CATEGORY}]` — architectural or pre-run meta work
+  - `[DOC-AUDIT]`, `[ACCURACY-FIXES]`, `[Add CLAUDE.md]` — non-prompt housekeeping
 
 ## Staging Rules
 - NEVER `git add .` or `git add -A`
