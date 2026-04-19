@@ -24,15 +24,17 @@ class SearchResultItem(ListItem):
         yield Static(Text.from_markup(self.snippet), classes="search_snippet")
 
 class NexusItem(ListItem):
-    def __init__(self, language_name: str, score: int, direction: str):
+    def __init__(self, language_name: str, score: int, direction: str, influence_type: Optional[str] = None):
         super().__init__()
         self.language_name = language_name
         self.score = score
         self.direction = direction
+        self.influence_type = influence_type
 
     def compose(self) -> ComposeResult:
         icon = "←" if self.direction == "from" else "→"
-        yield Label(f"{icon} {self.language_name} (Score: {self.score})")
+        type_tag = f" [{self.influence_type}]" if self.influence_type else ""
+        yield Label(f"{icon} {self.language_name}{type_tag} (Score: {self.score})")
 
 class LivingAtlasApp(App):
     CSS = """
@@ -270,23 +272,23 @@ class LivingAtlasApp(App):
 
         # Influenced By
         cursor = conn.execute("""
-            SELECT l.name, l.influence_score
+            SELECT l.name, l.influence_score, i.influence_type
             FROM languages l
             JOIN influences i ON l.id = i.source_id
             WHERE i.target_id = ?
         """, (lang_id,))
         for r in cursor.fetchall():
-            nexus_list.append(NexusItem(r['name'], r['influence_score'], "from"))
+            nexus_list.append(NexusItem(r['name'], r['influence_score'], "from", r['influence_type']))
 
         # Influenced
         cursor = conn.execute("""
-            SELECT l.name, l.influence_score
+            SELECT l.name, l.influence_score, i.influence_type
             FROM languages l
             JOIN influences i ON l.id = i.target_id
             WHERE i.source_id = ?
         """, (lang_id,))
         for r in cursor.fetchall():
-            nexus_list.append(NexusItem(r['name'], r['influence_score'], "to"))
+            nexus_list.append(NexusItem(r['name'], r['influence_score'], "to", r['influence_type']))
 
         conn.close()
 
