@@ -10,6 +10,7 @@
 | `influences.json` | Influence edges: [{source, target}] |
 | `eras.json` | Era records (slug, title, etc.) |
 | `learning_paths.json` | Odyssey definitions (id, title, steps[]) — loaded by DataLoader even in SQLite mode |
+| `core_concepts.json` | Legacy output of `src/app/core/docs_parser.py`. Not read by `build_sqlite.py` or `data_loader.py`. Safe to ignore. |
 
 ## Narrative Profile Directories (`data/docs/`)
 | Directory | Profile fields required |

@@ -12,13 +12,27 @@
 ```
 data/           JSON source of truth (languages, paradigms, people, etc.)
 data/docs/      Rich narrative profiles (language_profiles/, concept_profiles/, etc.)
-src/app/core/   build_sqlite.py | data_loader.py | auditor.py | insights.py
-                site_builder.py  (SiteBuilder: Markdown for generated-docs/;
-                                  SiteCrawler: static HTML export to site/)
+src/app/core/   build_sqlite.py   — JSON → SQLite pipeline
+                data_loader.py    — unified SQLite/JSON access layer
+                auditor.py        — AtlasAuditor (schema + referential integrity)
+                insights.py       — InsightGenerator (window-function CTEs)
+                site_builder.py   — SiteBuilder (Markdown → generated-docs/);
+                                    SiteCrawler (static HTML export → site/)
+                docs_parser.py    — legacy one-shot script; parses a now-deleted
+                                    CONCEPTS.md into data/core_concepts.json.
+                                    Not imported by any live module.
 src/app/app.py  FastAPI routes + Jinja2 templates
 src/app/templates/  Jinja2 HTML templates
 src/cli.py      Typer CLI (atlas dashboard, odyssey, auto-odyssey)
 src/tui.py      Textual TUI (LivingAtlasApp)
+```
+
+## Generated and Legacy Artifacts
+```
+generated-docs/     Markdown tree produced by `make docs` (SiteBuilder).
+                    Gitignored; rebuilt on demand. Not read by the live app.
+data/core_concepts.json  Output of docs_parser.py (legacy). Not loaded by
+                         build_sqlite.py or data_loader.py. Safe to ignore.
 ```
 
 ## Data Flow
