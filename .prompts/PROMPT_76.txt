@@ -1,0 +1,198 @@
+# PROMPT_76: People Profiles — Dijkstra, Knuth, Hoare, Unix Composition, and SQL
+
+## Objective
+
+Expand the Atlas's people coverage for several historically central figures
+who are currently underrepresented or missing entirely from
+`data/people.json` and `data/docs/people_profiles/`. This batch should close
+major narrative holes around structured programming, algorithms and
+programming methodology, Unix composition, and the relational/query lineage.
+
+This prompt is intentionally split between:
+
+- source-of-truth additions to `data/people.json` for major figures who are
+  currently only appearing as dark matter or inline references
+- narrative profile creation in `data/docs/people_profiles/` for both those
+  new records and a small number of already-listed high-value people who
+  still lack profiles
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json`.
+6. Read `data/people.json`.
+7. List files in `data/docs/people_profiles/` to avoid duplicates.
+8. Read the language profiles and historical-event files that already mention
+   these people where present, especially `BASIC`, `Occam`, and the
+   structured-programming / software-crisis event narratives.
+9. Create `tmp/PROMPT_76_checklist.md` with a checkbox per person, each
+   verification step, and the dark-matter rerun.
+10. Check off each item immediately after completing it.
+
+## Scope Rule
+
+This batch is not "profiles only." Some of the highest-value figures named
+below are not yet present in `data/people.json`, so this prompt must first
+add canonical person records and then create matching people profiles.
+
+Use exact canonical names below in both `data/people.json` and profile
+content. Filenames must follow the repo's filename-mapping rule.
+
+## People to Add to `data/people.json` and Profile
+
+Create new records in `data/people.json` and matching JSON profiles in
+`data/docs/people_profiles/` for these historically central figures:
+
+1. **Edsger W. Dijkstra** (`Edsger_W._Dijkstra.json`)
+   - Structured programming, software methodology, intellectual
+     manageability, semaphores, weakest preconditions
+   - Connect software crisis, structured programming, Pascal-era pedagogy,
+     and criticism of uncontrolled complexity
+   - Mental model: clarity and disciplined structure are prerequisites for
+     reasoning, not optional polish
+
+2. **Donald Knuth** (`Donald_Knuth.json`)
+   - Algorithm analysis, literate programming, TeX, The Art of Computer
+     Programming
+   - Connect mathematical rigor, craftsmanship, performance analysis, and the
+     relationship between programming and scientific exposition
+   - Mental model: serious programming requires exactness, measurement, and
+     communication quality
+
+3. **Tony Hoare** (`Tony_Hoare.json`)
+   - Hoare logic, Communicating Sequential Processes, Quicksort, formal
+     reasoning
+   - Connect formal methods, structured programming, Occam, Go/CSP lineage,
+     and language design for provability
+   - Mental model: programs should be structured so correctness claims can be
+     stated and defended precisely
+
+4. **Doug McIlroy** (`Doug_McIlroy.json`)
+   - Unix pipes, component-style software tools, macro processors, Bell Labs
+   - Connect Thompson shell, Bourne shell, Bash, PowerShell contrasts, and
+     the small-tools pipeline worldview
+   - Mental model: software power comes from composable tools and clean
+     interfaces rather than monoliths
+
+## People Already in `data/people.json` but Still Missing Profiles
+
+Create people-profile JSON files for these existing `data/people.json`
+entries. Do not rename their canonical records unless the repo data truly
+requires it.
+
+5. **Peter Weinberger** (`Peter_Weinberger.json`)
+   - AWK, Bell Labs, Unix text-processing lineage
+   - Connect McIlroy, Aho, Kernighan, and shell-oriented data processing
+
+6. **Donald D. Chamberlin** (`Donald_D._Chamberlin.json`)
+   - SQL co-creator, relational query languages, IBM
+   - Connect relational model, database ergonomics, and declarative querying
+
+7. **Raymond F. Boyce** (`Raymond_F._Boyce.json`)
+   - SQL co-creator with Chamberlin
+   - Emphasize the collaborative origins of SQL and the bridge from theory to
+     practical data systems
+
+## Required `data/people.json` Record Shape
+
+For new people added in this prompt, follow the existing repo shape:
+
+```json
+{
+  "name": "Canonical Name",
+  "contributions": [
+    "Contribution 1",
+    "Contribution 2"
+  ]
+}
+```
+
+Additional requirements:
+
+- Keep contributions concise, canonical, and historically durable.
+- Prefer concepts, languages, methods, or systems already used elsewhere in
+  the Atlas.
+- Do not add speculative or overly broad contribution phrases.
+
+## Required Profile JSON Schema
+
+Each people profile must use the established schema:
+
+`title`, `overview`, `historical_context`, `mental_model`, `pivotal_works`,
+`affiliations`, `legacy`, `ai_assisted_discovery_missions`
+
+Additional requirements:
+
+- Include `mental_model` for every person in this batch.
+- `historical_context` should be substantial and historically connective, not
+  a compressed encyclopedia paragraph.
+- For Dijkstra, Hoare, Knuth, and McIlroy, make the profile dense enough to
+  function as a hub for many existing Atlas references.
+- `ai_assisted_discovery_missions` must have exactly 3 entries.
+- Do not add extra top-level keys.
+
+## Cross-Reference Requirements
+
+- Connect **Dijkstra** to `The Software Crisis`, block structure, structured
+  programming, Pascal-era clarity, and the critique of `goto`-heavy code.
+- Connect **Knuth** to algorithms as a language-history force, literate
+  programming, TeX, and the methodological side of serious software work.
+- Connect **Hoare** to Hoare logic, `CSP - Communicating Sequential
+  Processes`, Occam, and later concurrency reasoning in Go.
+- Connect **McIlroy** and **Weinberger** to Unix composition, AWK, shell
+  pipelines, and Bell Labs.
+- Connect **Chamberlin** and **Boyce** to the relational model, SQL, and the
+  practical rise of query-oriented computing.
+- Make sure **Dijkstra** and **Hoare** are historically distinct: Dijkstra as
+  methodological critic and structure advocate, Hoare as formalist and
+  semantics/concurrency theorist.
+- Make sure **McIlroy** is not reduced to "the inventor of pipes" only; his
+  profile should explain the broader small-tools composition philosophy.
+
+## Source Notes and Canonicalization Guidance
+
+- Use **`Edsger W. Dijkstra`** as the canonical Atlas person name, absorbing
+  dark-matter variants such as `Edsger Dijkstra`,
+  `Edsger W. Dijkstra (complexity critic)`, and
+  `Edsger W. Dijkstra (methodological critic)` into the profile content.
+- Use **`Tony Hoare`** as the canonical Atlas person name for this prompt,
+  while explicitly addressing `C. A. R. Hoare` as the same person in the
+  narrative.
+- Use **`Doug McIlroy`** as the canonical Atlas person name for this prompt.
+- Chamberlin and Boyce should be written as collaborators, not as isolated
+  solo biographies with no cross-reference to each other.
+
+## Verification
+
+1. Run `make build`.
+2. Run `make audit`.
+3. Spot-check `/person/Edsger_W._Dijkstra`,
+   `/person/Donald_Knuth`,
+   `/person/Tony_Hoare`, and
+   `/person/Doug_McIlroy`.
+4. Run `make dark-matter` and note the reduction in direct people-profile
+   gaps and named references for Dijkstra, Knuth, Hoare, McIlroy, and SQL
+   co-creator coverage.
+
+## Commit
+
+```bash
+git add data/people.json \
+        data/docs/people_profiles/ \
+        generated-reports/dark_matter_todo.json
+git commit -m "$(cat <<'EOF'
+[PROMPT_76] Add people profiles for methods, Unix, and SQL
+
+Add new Atlas people records and narrative profiles for Edsger W.
+Dijkstra, Donald Knuth, Tony Hoare, and Doug McIlroy, then close
+remaining profile gaps for Peter Weinberger and SQL's co-creators.
+
+This batch strengthens the Atlas's coverage of structured programming,
+formal reasoning, algorithmic methodology, Unix composition, and the
+rise of declarative query languages.
+EOF
+)"
+```

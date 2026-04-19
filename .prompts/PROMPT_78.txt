@@ -1,0 +1,175 @@
+# PROMPT_78: People Profiles — Type Theory, Functional Implementations, and Runtime Engineering
+
+## Objective
+
+Create narrative JSON profiles for the next coherent batch of high-value
+people already present in `data/people.json` but still missing from
+`data/docs/people_profiles/`. This batch should strengthen the Atlas's
+coverage of type theory as language design, functional-language
+implementation, optimizing runtime systems, and modern compiler / VM
+engineering.
+
+This prompt is profile creation only. Do not expand `data/people.json` unless
+you discover a genuine canonicalization error in an existing person record.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json`.
+6. Read `data/people.json`.
+7. List files in `data/docs/people_profiles/` and confirm the profiles below
+   do not already exist.
+8. Read relevant language and concept profiles where present, especially
+   `Standard ML`, `Haskell`, `OCaml`, `LLVM`, `Dart`, `Self`, `Factor`, and
+   type-system / compiler-adjacent concept profiles.
+9. Create `tmp/PROMPT_78_checklist.md` with a checkbox per profile, each
+   verification step, and the dark-matter rerun.
+10. Check off each item immediately after completing it.
+
+## People to Profile
+
+All names below already appear in `data/people.json`. Create one JSON file
+per person in `data/docs/people_profiles/`.
+
+1. **Mads Tofte** (`Mads_Tofte.json`)
+   - Standard ML, region-based memory management
+   - Connect ML family rigor, module-driven large-scale structure, and memory
+     management research that tried to reconcile functional abstractions with
+     predictable performance
+   - Mental model: high-level language design should preserve formal clarity
+     while still confronting real runtime costs
+
+2. **Robert Harper** (`Robert_Harper.json`)
+   - Standard ML, type theory
+   - Connect proof-oriented language semantics, module systems, and the idea
+     that type systems are architectural tools rather than decorative checks
+   - Mental model: language design should make invariants explicit enough to
+     reason about programs mathematically
+
+3. **Lennart Augustsson** (`Lennart_Augustsson.json`)
+   - Haskell
+   - Connect lazy functional programming, implementation craft, and the
+     practical side of turning advanced type- and purity-centered ideas into
+     usable compilers and systems
+   - Mental model: elegant semantics only matter historically when someone can
+     implement them into real tooling
+
+4. **Lars Bak** (`Lars_Bak.json`)
+   - Dart, V8 engine, Self
+   - Connect Self's runtime lessons to modern JIT compilation, VM design, and
+     the performance culture behind dynamic language platforms
+   - Mental model: runtime architecture is a language-defining force, not an
+     afterthought hidden beneath syntax
+
+5. **Kasper Lund** (`Kasper_Lund.json`)
+   - Dart, V8 engine
+   - Connect VM engineering, adaptive optimization, and the translation of
+     dynamic-language ambitions into industrial performance work
+   - Mental model: a language platform succeeds when execution machinery makes
+     the high-level model viable at scale
+
+6. **Vikram Adve** (`Vikram_Adve.json`)
+   - LLVM
+   - Connect compiler infrastructure, reusable IR design, and the shift from
+     monolithic language compilers toward shared optimization platforms
+   - Mental model: compiler architecture should make optimization and reuse
+     composable across many languages
+
+7. **Hongbo Zhang** (`Hongbo_Zhang.json`)
+   - ReScript, OCaml
+   - Connect typed functional compilation to practical JavaScript generation,
+     syntax/tooling tradeoffs, and the adaptation of ML ideas for production
+     frontend ecosystems
+   - Mental model: strong typing and industrial pragmatism are compatible if
+     the toolchain serves the target platform honestly
+
+8. **Slava Pestov** (`Slava_Pestov.json`)
+   - Factor
+   - Connect concatenative language design, stack-based extensibility, and
+     runtime/compiler ambitions in a modern niche language
+   - Mental model: unusual language models deserve serious implementation work
+     rather than being treated as historical curiosities only
+
+## Required Profile JSON Schema
+
+Use the established people-profile schema:
+
+`title`, `overview`, `historical_context`, `mental_model`, `pivotal_works`,
+`affiliations`, `legacy`, `ai_assisted_discovery_missions`
+
+Additional requirements:
+
+- Include `mental_model` for every person in this batch.
+- `historical_context` should be substantial and historically connective, not
+  just a compressed biography.
+- `ai_assisted_discovery_missions` must have exactly 3 entries.
+- Do not add extra top-level keys.
+
+## Cross-Reference Requirements
+
+- Connect **Mads Tofte** and **Robert Harper** to the Standard ML lineage,
+  module systems, and the broader idea that language semantics can structure
+  large-scale software, not just proofs.
+- Connect **Lennart Augustsson** to Haskell as an implementation and language
+  ecosystem story, not only a committee or theory story.
+- Connect **Lars Bak** and **Kasper Lund** to each other, to Self where
+  historically appropriate, and to the runtime/JIT tradition behind V8 and
+  Dart.
+- Connect **Vikram Adve** to LLVM as infrastructure that changed how later
+  languages such as Swift, Rust, and others could be built.
+- Connect **Hongbo Zhang** to OCaml/ML ancestry while being explicit about the
+  industrial JavaScript-targeting goals of ReScript rather than writing it as
+  pure theory export.
+- Connect **Slava Pestov** to the concatenative / stack-based tradition while
+  showing that modern language history also includes serious work on niche but
+  conceptually rich paradigms.
+- Keep type theory, compiler infrastructure, and VM engineering historically
+  distinct even where they overlap. This batch should show how languages are
+  shaped by both formal semantics and execution machinery.
+
+## Writing Guidance
+
+- These profiles should emphasize how ideas move from theory into toolchains
+  and runtimes.
+- Avoid treating compiler/runtime people as invisible support staff behind
+  "real" language history. Their work is part of language history.
+- For the Standard ML figures, foreground modules, semantics, and the effort
+  to make type-theoretic rigor useful in large systems.
+- For Bak and Lund, explain why VM and JIT work changed what dynamic
+  languages could achieve in practice.
+- For Adve, make LLVM's importance concrete: reusable compiler infrastructure
+  changed the economics and architecture of language implementation.
+
+## Verification
+
+1. Run `make build`.
+2. Run `make audit`.
+3. Spot-check `/person/Mads_Tofte`,
+   `/person/Lars_Bak`,
+   `/person/Vikram_Adve`, and
+   `/person/Slava_Pestov`.
+4. Run `make dark-matter` and note the reduction in direct people-profile gaps
+   plus any reduction in type-theory, compiler, and runtime-engineering
+   person references.
+
+## Commit
+
+```bash
+git add data/docs/people_profiles/ \
+        generated-reports/dark_matter_todo.json
+git commit -m "$(cat <<'EOF'
+[PROMPT_78] Add people profiles for theory and runtimes
+
+Create 8 people profiles covering Mads Tofte, Robert Harper,
+Lennart Augustsson, Lars Bak, Kasper Lund, Vikram Adve,
+Hongbo Zhang, and Slava Pestov.
+
+This batch strengthens the Atlas's coverage of type theory,
+functional-language implementation, compiler infrastructure,
+and runtime engineering as core parts of language history.
+EOF
+)"
+```

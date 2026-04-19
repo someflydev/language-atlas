@@ -1,0 +1,166 @@
+# PROMPT_77: People Profiles — Human-Centered Interfaces, Readable Notation, and Practical Standards
+
+## Objective
+
+Create narrative JSON profiles for the next coherent batch of high-value
+people already present in `data/people.json` but still missing from
+`data/docs/people_profiles/`. This batch should strengthen the Atlas's
+coverage of human-centered interface design, readable data and document
+notation, practical standards work, and modern UI/API ergonomics.
+
+Unlike PROMPT_76, this batch should be profile creation only. Do not expand
+`data/people.json` unless you discover a genuine canonicalization mistake in
+an existing person record.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md`.
+3. Load `.context/architecture.md`.
+4. Load `.context/commands.md`.
+5. Read `generated-reports/dark_matter_todo.json`.
+6. Read `data/people.json`.
+7. List files in `data/docs/people_profiles/` and confirm the profiles below
+   do not already exist.
+8. Read relevant language, concept, and organization profiles where present,
+   especially `COBOL`, `React`, `ReasonML`, `YAML`, `REXX`, `ABC`, and W3C-
+   or standards-adjacent narratives if present.
+9. Create `tmp/PROMPT_77_checklist.md` with a checkbox per profile, each
+   verification step, and the dark-matter rerun.
+10. Check off each item immediately after completing it.
+
+## People to Profile
+
+All names below already appear in `data/people.json`. Create one JSON file
+per person in `data/docs/people_profiles/`.
+
+1. **Alan Cooper** (`Alan_Cooper.json`)
+   - Visual Basic and interaction-design pioneer
+   - Connect rapid application development, GUI tooling, and the shift toward
+     software designed around user workflows rather than only internal logic
+   - Mental model: interfaces should be shaped by human tasks and intent, not
+     by what is easiest for the implementer
+
+2. **Jordan Walke** (`Jordan_Walke.json`)
+   - React and ReasonML
+   - Connect component thinking, UI composition, host-language interface DSLs,
+     and the move from imperative DOM work to declarative UI architecture
+   - Mental model: complex interfaces become tractable when state and
+     component boundaries are made explicit
+
+3. **Bob Bemer** (`Bob_Bemer.json`)
+   - ASCII, COBOL, ESCAPE character
+   - Connect standards work, character encoding, portability, and early
+     attempts to make machine communication interoperable across systems
+   - Mental model: shared notation standards are infrastructure for software
+     ecosystems, not bureaucratic side detail
+
+4. **Mike Cowlishaw** (`Mike_Cowlishaw.json`)
+   - REXX, NetRexx, decimal arithmetic
+   - Connect scripting ergonomics, business computing, and human-readable
+     language design aimed at practical users rather than compiler purists
+   - Mental model: a language can be readable, pragmatic, and mathematically
+     serious at the same time
+
+5. **Clark Evans** (`Clark_Evans.json`)
+   - YAML
+   - Connect data serialization, configuration ergonomics, and the reaction
+     against markup-heavy or machine-first representation styles
+
+6. **Oren Ben-Kiki** (`Oren_Ben-Kiki.json`)
+   - YAML
+   - Emphasize YAML as a collaborative design effort and not only a one-person
+     authorship story
+
+7. **Ingy döt Net** (`Ingy_dot_Net.json`)
+   - YAML
+   - Connect YAML stewardship, implementation culture, and the tension between
+     human readability and parser complexity
+
+8. **Steven Pemberton** (`Steven_Pemberton.json`)
+   - ABC, XHTML, XForms
+   - Connect end-user-friendly language design, web standards, and the search
+     for document and UI models that remain structured without becoming
+     hostile to humans
+
+## Required Profile JSON Schema
+
+Use the established people-profile schema:
+
+`title`, `overview`, `historical_context`, `mental_model`, `pivotal_works`,
+`affiliations`, `legacy`, `ai_assisted_discovery_missions`
+
+Additional requirements:
+
+- Include `mental_model` for every person in this batch.
+- `historical_context` should be substantial and historically connective, not
+  just a compressed biography.
+- `ai_assisted_discovery_missions` must have exactly 3 entries.
+- Do not add extra top-level keys.
+- Preserve punctuation in filenames where it exists in the canonical name, and
+  transliterate non-ASCII letters to ASCII in the filename only.
+
+## Cross-Reference Requirements
+
+- Connect **Alan Cooper** to Visual Basic, rapid application development, and
+  the broader turn toward interface and workflow design as a primary software
+  concern.
+- Connect **Jordan Walke** to React, component models, UI DSLs, and the
+  state-flow / declarative UI story already present elsewhere in the Atlas.
+- Connect **Bob Bemer** to ASCII, COBOL-era standardization, and machine-to-
+  machine interoperability through shared notation.
+- Connect **Mike Cowlishaw** to REXX and the tradition of readable scripting
+  for real operators, not only academic language-design ideals.
+- Treat **Clark Evans**, **Oren Ben-Kiki**, and **Ingy döt Net** as a
+  genuinely collaborative YAML lineage. Their profiles should cross-reference
+  one another and explain both YAML's human-readable ambition and its long-
+  term parsing/complexity tradeoffs.
+- Connect **Steven Pemberton** to ABC's influence on later readable-language
+  work and to standards efforts such as XHTML/XForms without flattening that
+  story into generic "web inventor" language.
+- Keep **React** and **YAML** historically distinct: one is a UI architecture
+  lineage, the other a data-notation/configuration lineage, even though both
+  are partly driven by readability and developer ergonomics.
+
+## Writing Guidance
+
+- These profiles should emphasize design philosophy and historical leverage,
+  not just chronology.
+- Avoid turning standards figures into committee trivia. Explain what problem
+  their notation or interface choices solved, and what tradeoffs they locked
+  in for later generations.
+- For the YAML trio, be explicit about the recurring tension between
+  "pleasant for humans to read" and "hard for tooling to specify and parse."
+- For Cooper and Walke, focus on how interface architecture changes what kinds
+  of software ordinary developers can build and maintain.
+
+## Verification
+
+1. Run `make build`.
+2. Run `make audit`.
+3. Spot-check `/person/Alan_Cooper`,
+   `/person/Jordan_Walke`,
+   `/person/Bob_Bemer`, and
+   `/person/Ingy_dot_Net`.
+4. Run `make dark-matter` and note the reduction in direct people-profile gaps
+   plus any reduction in YAML, standards, and UI-architecture person
+   references.
+
+## Commit
+
+```bash
+git add data/docs/people_profiles/ \
+        generated-reports/dark_matter_todo.json
+git commit -m "$(cat <<'EOF'
+[PROMPT_77] Add people profiles for interfaces and notation
+
+Create 8 people profiles covering Alan Cooper, Jordan Walke,
+Bob Bemer, Mike Cowlishaw, the YAML co-creators, and
+Steven Pemberton.
+
+This batch strengthens the Atlas's coverage of human-centered
+interface design, practical standards work, readable scripting,
+and the tradeoffs behind human-readable data notation.
+EOF
+)"
+```
