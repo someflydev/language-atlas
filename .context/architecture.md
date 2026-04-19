@@ -36,13 +36,33 @@ data/core_concepts.json  Output of docs_parser.py (legacy). Not loaded by
 ```
 
 ## Data Flow
+
+Build time:
 ```
 JSON + data/docs/ → build_sqlite.py → language_atlas.sqlite
-                                            ↓
-                               DataLoader (USE_SQLITE=1)
-                                            ↓
-               FastAPI /routes  |  CLI commands  |  TUI panels
 ```
+
+Runtime (per HTTP request):
+```
+HTTP request
+    ↓
+FastAPI route handler (app.py)
+    ↓
+DataLoader method (data_loader.py)
+    ↓
+SQLite query (language_atlas.sqlite)
+    ↓
+auto_link_content()          ← wraps entity names in HTML <a> tags
+    ↓
+Jinja2 template render
+    ↓
+HTTP response
+```
+
+For JSON API routes (`/api/*`) the Jinja2 step is skipped; the
+DataLoader result is returned directly as JSON. For analytics routes
+(`/insights`, `/visualizations`) the DataLoader result passes through
+InsightGenerator or Polars before rendering.
 
 ## Client-Side SQLite Layer
 

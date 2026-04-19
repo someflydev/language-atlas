@@ -174,7 +174,7 @@ Retrieve detailed profile information for a specific person.
 
 - **URL:** `/api/person/{name}`
 - **Method:** `GET`
-- **Note:** Names containing spaces must be URL-encoded (e.g., `/api/person/John%20Backus`). The API also accepts underscores as a substitute for spaces (e.g., `/api/person/John_Backus`).
+- **Note:** Names containing spaces may be URL-encoded (`John%20Backus`) or use underscores (`John_Backus`). See "Name Lookup and URL Encoding" below.
 - **Response:** Detailed JSON object for the requested person.
 
 ### 16. List Historical Events
@@ -209,6 +209,45 @@ Retrieve processed data for timeline and influence visualizations.
 - **Response:** Array of source/target influence relationships.
 
 ---
+
+## Name Lookup and URL Encoding
+
+All `{name}` path parameters accept either URL-encoded spaces
+(`John%20Backus`) or underscores as a substitute for spaces
+(`John_Backus`). Both forms work for every name-based endpoint:
+`/api/language/{name}`, `/api/person/{name}`, `/api/org/{name}`,
+`/api/concept/{name}`.
+
+Slugs (`{slug}` for eras and events) do not use this substitution;
+they must match the slug exactly as stored.
+
+## Error Responses
+
+All error responses use standard HTTP status codes.
+
+**404 Not Found** — returned when a named entity does not exist. Note
+that 404 responses are rendered as an HTML page (the server's global
+exception handler renders `errors/404.html` for all 404s, including
+`/api/*` routes). Clients that need to detect a missing entity should
+check the HTTP status code, not the response content type.
+
+```
+HTTP/1.1 404 Not Found
+Content-Type: text/html
+```
+
+**Exception:** `GET /api/paradigm/{name}` never returns 404. If the
+paradigm is not found, it returns HTTP 200 with a stub object:
+```json
+{"name": "{requested_name}", "description": "A core model or style of computer programming."}
+```
+
+**Other errors** — non-404 HTTP exceptions return JSON:
+```json
+{"detail": "error message"}
+```
+
+The API has no authentication or rate limiting.
 
 ## Visualizations
 The Web UI provides interactive visualizations at `/visualizations`.
