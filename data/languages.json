@@ -3630,10 +3630,6 @@
     ],
     "influenced": [
       "JSON",
-      "SVG",
-      "RSS",
-      "Atom",
-      "SOAP",
       "YAML"
     ],
     "philosophy": "A metalanguage for defining structured markup vocabularies through a simplified web-era subset of SGML.",
@@ -6365,5 +6361,509 @@
     "is_keystone": true,
     "display_name": "HTML",
     "entity_type": "artifact"
+  },
+  {
+    "name": "ed",
+    "year": 1969,
+    "creators": [
+      "Ken Thompson"
+    ],
+    "paradigms": [
+      "Line-oriented"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "ed",
+    "influenced_by": [
+      "QED"
+    ],
+    "influenced": [
+      "Sed",
+      "vi",
+      "grep"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Text editing",
+      "Scripting"
+    ],
+    "key_innovations": [
+      "Regular expressions in Unix",
+      "Line-based editing model"
+    ],
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "SGML",
+    "year": 1986,
+    "creators": [
+      "Charles Goldfarb"
+    ],
+    "paradigms": [
+      "Markup"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "foundation",
+    "display_name": "SGML",
+    "influenced_by": [
+      "GML"
+    ],
+    "influenced": [
+      "HTML",
+      "XML"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Document markup",
+      "Data exchange"
+    ],
+    "key_innovations": [
+      "Generalized markup language",
+      "Metalanguage for defining DTDs"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "ALPHA",
+    "year": 1971,
+    "creators": [
+      "Edgar F. Codd"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Relational"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "foundation",
+    "display_name": "Codd's Alpha",
+    "influenced_by": [
+      "Relational algebra"
+    ],
+    "influenced": [
+      "QUEL"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Database theory",
+      "Relational query design"
+    ],
+    "key_innovations": [
+      "Relational calculus for database sublanguages",
+      "Declarative data access"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "PWB shell",
+    "year": 1975,
+    "creators": [
+      "John Mashey"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "Mashey Shell",
+    "influenced_by": [
+      "Thompson shell"
+    ],
+    "influenced": [
+      "Bourne Shell"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Unix automation",
+      "Programmer workbench"
+    ],
+    "key_innovations": [
+      "Shell programming constructs",
+      "Execution of scripts as binaries"
+    ],
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "First-order logic",
+    "year": 1879,
+    "creators": [
+      "Gottlob Frege",
+      "David Hilbert"
+    ],
+    "paradigms": [
+      "Logic",
+      "Formal logic"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "entity_type": "foundation",
+    "display_name": "First-order logic",
+    "influenced_by": [
+      "Boolean Algebra"
+    ],
+    "influenced": [
+      "Prolog",
+      "Datalog",
+      "Planner"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Mathematical logic",
+      "Formal verification"
+    ],
+    "key_innovations": [
+      "Quantification",
+      "Formalization of deduction"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "MACSYMA",
+    "year": 1968,
+    "creators": [
+      "Project MAC (MIT)"
+    ],
+    "paradigms": [
+      "Symbolic manipulation"
+    ],
+    "cluster": "scientific",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "MACSYMA",
+    "influenced_by": [
+      "Lisp"
+    ],
+    "influenced": [
+      "Mathematica",
+      "Maple"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Symbolic mathematics",
+      "Computer algebra"
+    ],
+    "key_innovations": [
+      "General-purpose computer algebra system",
+      "Symbolic integration and differentiation"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "CSP",
+    "year": 1978,
+    "creators": [
+      "Tony Hoare"
+    ],
+    "paradigms": [
+      "Process calculus",
+      "Concurrent"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "entity_type": "foundation",
+    "display_name": "CSP",
+    "influenced_by": [],
+    "influenced": [
+      "Occam",
+      "Go"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Concurrency theory",
+      "Formal specification"
+    ],
+    "key_innovations": [
+      "Synchronous channel communication",
+      "Process composition operators"
+    ],
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "Relational algebra",
+    "year": 1970,
+    "creators": [
+      "Edgar F. Codd"
+    ],
+    "paradigms": [
+      "Relational",
+      "Mathematical"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "entity_type": "foundation",
+    "display_name": "Relational algebra",
+    "influenced_by": [
+      "Set theory"
+    ],
+    "influenced": [
+      "SQL",
+      "QUEL",
+      "ALPHA"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Database theory",
+      "Query optimization"
+    ],
+    "key_innovations": [
+      "Set-theoretic basis for data manipulation",
+      "Relational operators (select, project, join)"
+    ],
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "QED",
+    "year": 1966,
+    "creators": [
+      "Butler Lampson",
+      "Peter Deutsch",
+      "Ken Thompson"
+    ],
+    "paradigms": [
+      "Line-oriented"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "QED",
+    "influenced_by": [],
+    "influenced": [
+      "ed"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Text editing",
+      "Time-sharing systems"
+    ],
+    "key_innovations": [
+      "First implementation of regular expressions in an editor",
+      "Programmable text substitution"
+    ],
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "vi",
+    "year": 1976,
+    "creators": [
+      "Bill Joy"
+    ],
+    "paradigms": [
+      "Modal",
+      "Visual-oriented"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "vi",
+    "influenced_by": [
+      "ed",
+      "ex"
+    ],
+    "influenced": [
+      "Vim"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Text editing",
+      "Source code editing"
+    ],
+    "key_innovations": [
+      "Modal editing model",
+      "Screen-oriented visual editing"
+    ],
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "grep",
+    "year": 1973,
+    "creators": [
+      "Ken Thompson"
+    ],
+    "paradigms": [
+      "Pattern-matching",
+      "Stream-oriented"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "grep",
+    "influenced_by": [
+      "ed"
+    ],
+    "influenced": [],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Text searching",
+      "Log analysis"
+    ],
+    "key_innovations": [
+      "Standalone regular expression search tool",
+      "Implementation of Thompson's construction algorithm"
+    ],
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "GML",
+    "year": 1969,
+    "creators": [
+      "Charles Goldfarb",
+      "Edward Mosher",
+      "Raymond Lorie"
+    ],
+    "paradigms": [
+      "Markup"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "foundation",
+    "display_name": "GML",
+    "influenced_by": [],
+    "influenced": [
+      "SGML"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Document markup",
+      "Information retrieval"
+    ],
+    "key_innovations": [
+      "Descriptive markup (separation of structure from style)",
+      "Standardized tag-based format"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "Thompson shell",
+    "year": 1971,
+    "creators": [
+      "Ken Thompson"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Pipeline-oriented"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "Thompson Shell",
+    "influenced_by": [],
+    "influenced": [
+      "PWB shell",
+      "Bourne Shell"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Unix command interpretation",
+      "Scripting"
+    ],
+    "key_innovations": [
+      "Introduction of the pipe (|) operator",
+      "I/O redirection primitives"
+    ],
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "Set theory",
+    "year": 1874,
+    "creators": [
+      "Georg Cantor"
+    ],
+    "paradigms": [
+      "Mathematical"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "entity_type": "foundation",
+    "display_name": "Set theory",
+    "influenced_by": [],
+    "influenced": [
+      "Relational algebra",
+      "SQL",
+      "Pascal"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Foundations of mathematics",
+      "Data modeling"
+    ],
+    "key_innovations": [
+      "Formalization of sets and membership",
+      "Basis for relational data model"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
   }
 ]
