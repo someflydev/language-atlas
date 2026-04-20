@@ -165,23 +165,30 @@ async def get_visualizations(request: Request) -> Response:
     influence_data = data_loader.get_influence_data()
     G = nx.DiGraph()
     for edge in influence_data:
-        G.add_edge(edge['source'], edge['target'])
+        G.add_edge(edge['source'], edge['target'], influence_type=edge.get('type'))
     
     # Layout the graph
     pos = nx.spring_layout(G, k=0.5, iterations=50)
     
     edge_x: List[Optional[float]] = []
     edge_y: List[Optional[float]] = []
-    for edge in G.edges():
-        x0, y0 = pos[edge[0]]
-        x1, y1 = pos[edge[1]]
+    edge_text: List[Optional[str]] = []
+    for edge in G.edges(data=True):
+        source, target, attrs = edge
+        x0, y0 = pos[source]
+        x1, y1 = pos[target]
         edge_x.extend([x0, x1, None])
         edge_y.extend([y0, y1, None])
+        label = f"{source} -> {target}"
+        if attrs.get('influence_type'):
+            label += f" [{attrs['influence_type']}]"
+        edge_text.extend([label, label, None])
 
     edge_trace = go.Scatter(
         x=edge_x, y=edge_y,
         line=dict(width=0.5, color='#cbd5e1'),
-        hoverinfo='none',
+        text=edge_text,
+        hoverinfo='text',
         mode='lines')
 
     node_x: List[float] = []
@@ -863,20 +870,28 @@ async def get_lineage_visualization(request: Request, language_id: int) -> Respo
         conn.close()
 
     G.add_node(root_name)
+    typed_edges = {
+        (edge['source'], edge['target']): edge.get('type')
+        for edge in data_loader.get_influence_data()
+    }
     
     # Process ancestors (they point towards root or its parents)
     for anc in ancestors:
         path = anc['path']
         parts = path.split(' <- ')
         for i in range(len(parts) - 1):
-            G.add_edge(parts[i+1], parts[i])
+            source = parts[i+1]
+            target = parts[i]
+            G.add_edge(source, target, influence_type=typed_edges.get((source, target)))
             
     # Process descendants
     for desc in descendants:
         path = desc['path']
         parts = path.split(' -> ')
         for i in range(len(parts) - 1):
-            G.add_edge(parts[i], parts[i+1])
+            source = parts[i]
+            target = parts[i+1]
+            G.add_edge(source, target, influence_type=typed_edges.get((source, target)))
 
     if not G.nodes or len(G.nodes) == 1:
         return HTMLResponse("No lineage data found for this language.")
@@ -885,16 +900,23 @@ async def get_lineage_visualization(request: Request, language_id: int) -> Respo
     
     edge_x: List[Optional[float]] = []
     edge_y: List[Optional[float]] = []
-    for edge in G.edges():
-        x0, y0 = pos[edge[0]]
-        x1, y1 = pos[edge[1]]
+    edge_text: List[Optional[str]] = []
+    for edge in G.edges(data=True):
+        source, target, attrs = edge
+        x0, y0 = pos[source]
+        x1, y1 = pos[target]
         edge_x.extend([x0, x1, None])
         edge_y.extend([y0, y1, None])
+        label = f"{source} -> {target}"
+        if attrs.get('influence_type'):
+            label += f" [{attrs['influence_type']}]"
+        edge_text.extend([label, label, None])
 
     edge_trace = go.Scatter(
         x=edge_x, y=edge_y,
         line=dict(width=1, color='#cbd5e1'),
-        hoverinfo='none',
+        text=edge_text,
+        hoverinfo='text',
         mode='lines')
 
     node_x: List[float] = []

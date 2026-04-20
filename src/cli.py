@@ -310,10 +310,19 @@ def influences(language: str, json_out: bool = typer.Option(False, "--json")) ->
     
     table = Table(title=f"Lineage: {language}", border_style="green")
     table.add_column("Direction", style="bold")
-    table.add_column("Languages", style="cyan")
-    
-    table.add_row("← Influenced By", ", ".join(infl.get('influenced_by', [])))
-    table.add_row("→ Influenced", ", ".join(infl.get('influenced', [])))
+    table.add_column("Language", style="cyan")
+    table.add_column("Type", style="magenta")
+
+    influenced_by_details = infl.get('influenced_by_details', [])
+    influenced_details = infl.get('influenced_details', [])
+
+    if not influenced_by_details and not influenced_details:
+        table.add_row("·", "No lineage recorded", "")
+    else:
+        for item in influenced_by_details:
+            table.add_row("← Influenced By", item['name'], item.get('type') or "")
+        for item in influenced_details:
+            table.add_row("→ Influenced", item['name'], item.get('type') or "")
     
     console.print(table)
 
