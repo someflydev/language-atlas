@@ -21,7 +21,8 @@
     ],
     "influenced_by": [],
     "influenced": [
-      "Analytical Engine"
+      "Analytical Engine",
+      "Hollerith Tabulator"
     ],
     "philosophy": "Mechanical automation of complex patterns through a series of binary instructions encoded on punched cards.",
     "mental_model": "Think in terms of binary states (hole/no hole) controlling physical mechanisms. It is the first time a machine's behavior was decoupled from its physical construction.",
@@ -54,11 +55,13 @@
       "Conditional branching"
     ],
     "influenced_by": [
-      "Mathematical Notation"
+      "Mathematical Notation",
+      "Jacquard Loom"
     ],
     "influenced": [
       "Turing Machine",
-      "Plankalk\u00fcl"
+      "Plankalkül",
+      "ENIAC"
     ],
     "philosophy": "A mechanical machine capable of performing any mathematical operation, controlled by an external program. It is the theoretical ancestor of the general-purpose computer.",
     "mental_model": "Think in terms of gears, levers, and punched cards. Data is stored in the 'Store' and moved to the 'Mill' for processing, governed by the instructions on the cards.",
@@ -96,7 +99,9 @@
     "influenced": [
       "Machine Code",
       "Prolog",
-      "SQL"
+      "SQL",
+      "First-order logic",
+      "Information Theory"
     ],
     "philosophy": "Reducing human thought and logic to a simple algebraic system based on two values: True and False. It is the logical heart of all digital computing.",
     "mental_model": "Think in terms of truth tables and logic gates. Complex decisions are built from simple binary operations that combine to form high-level logic.",
@@ -207,7 +212,8 @@
     ],
     "influenced": [
       "COBOL",
-      "SQL"
+      "SQL",
+      "ENIAC"
     ],
     "philosophy": "Processing large volumes of data by electromechanically sensing patterns on cards, transforming data into actionable statistics.",
     "mental_model": "Think in terms of rows and columns of data being physically counted and sorted. It is the origin of automated data processing.",
@@ -246,7 +252,14 @@
       "Lisp",
       "Haskell",
       "J",
-      "K"
+      "K",
+      "ALGOL 58",
+      "Analytical Engine",
+      "BNF",
+      "Boolean Algebra",
+      "Chomsky Hierarchy",
+      "Information Theory",
+      "Turing Machine"
     ],
     "philosophy": "Expressing universal truths through a dense, unambiguous symbolic language that transcends natural language and physical implementation.",
     "mental_model": "Think in terms of transformations and relationships. Symbols represent operations on abstract values, forming a logical landscape independent of time or machine.",
@@ -282,7 +295,10 @@
     "influenced": [
       "Lisp",
       "Haskell",
-      "ML"
+      "ML",
+      "ISWIM",
+      "KRC",
+      "SASL"
     ],
     "philosophy": "Computation is function application. Note: Historically characterized by Untyped typing and N/A memory management.",
     "mental_model": "Functions are the only primitive.",
@@ -314,12 +330,14 @@
       "State-based transitions"
     ],
     "influenced_by": [
-      "Mathematical Notation"
+      "Mathematical Notation",
+      "Analytical Engine"
     ],
     "influenced": [
       "Machine Code",
       "Assembly",
-      "C"
+      "C",
+      "Von Neumann Architecture"
     ],
     "philosophy": "A theoretical model defining what it means to compute. If it can be done on a Turing Machine, it can be done on any computer.",
     "mental_model": "Think in terms of a head moving along a tape, reading and writing symbols while switching between states. It is the mechanical heart of all computation.",
@@ -350,7 +368,11 @@
       "Binary representation of instructions",
       "Direct memory addressing"
     ],
-    "influenced_by": [],
+    "influenced_by": [
+      "Boolean Algebra",
+      "ENIAC",
+      "Turing Machine"
+    ],
     "influenced": [
       "Assembly",
       "FORTRAN",
@@ -367,7 +389,7 @@
     "entity_type": "foundation"
   },
   {
-    "name": "Plankalk\u00fcl",
+    "name": "Plankalkül",
     "year": 1945,
     "creators": [
       "Konrad Zuse"
@@ -386,7 +408,9 @@
       "Nested data structures",
       "Conditional statements"
     ],
-    "influenced_by": [],
+    "influenced_by": [
+      "Analytical Engine"
+    ],
     "influenced": [
       "ALGOL 58"
     ],
@@ -397,7 +421,7 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": true,
-    "display_name": "Plankalk\u00fcl",
+    "display_name": "Plankalkül",
     "entity_type": "language"
   },
   {
@@ -497,7 +521,9 @@
       "Mnemonic representation of machine code"
     ],
     "influenced_by": [
-      "Machine Code"
+      "Machine Code",
+      "Turing Machine",
+      "Von Neumann Architecture"
     ],
     "influenced": [
       "FORTRAN",
@@ -574,7 +600,8 @@
     ],
     "influenced_by": [],
     "influenced": [
-      "Autocode"
+      "Autocode",
+      "A-0"
     ],
     "philosophy": "Bridge the gap between mathematical notation and machine code. Short Code allowed formulas to be represented more naturally.",
     "mental_model": "Represent algebraic equations as a series of codes that the machine interprets. It's an algebraic interpreter.",
@@ -709,7 +736,8 @@
       "Universal grammar theory"
     ],
     "influenced_by": [
-      "Mathematical Notation"
+      "Mathematical Notation",
+      "BNF"
     ],
     "influenced": [
       "ALGOL 60",
@@ -814,14 +842,21 @@
       "Expression evaluation"
     ],
     "influenced_by": [
-      "Assembly"
+      "Assembly",
+      "Autocode",
+      "Machine Code",
+      "Von Neumann Architecture"
     ],
     "influenced": [
       "ALGOL 60",
       "BASIC",
       "C",
       "PL/I",
-      "MATLAB"
+      "MATLAB",
+      "ALGOL 58",
+      "COMTRAN",
+      "GNU Octave",
+      "S"
     ],
     "philosophy": "Efficiency above all. FORTRAN's design prioritizes performance in numerical computations, often mirroring the underlying machine's arithmetic capabilities. Note: Historically characterized by Static/Strong typing and Static-Allocation memory management.",
     "mental_model": "Think in terms of mathematical formulae and memory blocks. Data flows through DO-loops and arithmetic expressions directly into registers.",
@@ -862,7 +897,9 @@
       "Dynamic typing"
     ],
     "influenced_by": [
-      "Lambda Calculus"
+      "Lambda Calculus",
+      "Chomsky Hierarchy",
+      "Mathematical Notation"
     ],
     "influenced": [
       "Smalltalk",
@@ -874,7 +911,21 @@
       "Julia",
       "Prolog",
       "Forth",
-      "Maple"
+      "Maple",
+      "Common Lisp",
+      "Dylan",
+      "Factor",
+      "ISWIM",
+      "K",
+      "MACSYMA",
+      "ML",
+      "Maclisp",
+      "Mathematica",
+      "Planner",
+      "Ruby",
+      "S",
+      "SASL",
+      "Tcl"
     ],
     "philosophy": "Computing is symbolic manipulation. Everything is a list, and code is just data waiting to be evaluated. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of S-expressions. The boundary between the program and the data it processes is non-existent; you are building a language to solve your problem.",
@@ -913,10 +964,12 @@
     ],
     "influenced_by": [
       "FORTRAN",
-      "Mathematical Notation"
+      "Mathematical Notation",
+      "Plankalkül"
     ],
     "influenced": [
-      "ALGOL 60"
+      "ALGOL 60",
+      "BNF"
     ],
     "philosophy": "Programming languages should describe algorithms in a portable, publication-quality form rather than mirror one machine's quirks.",
     "mental_model": "Think in nested algorithmic structure and named intermediate values, with code serving as a disciplined description of procedure rather than raw machine control.",
@@ -952,7 +1005,8 @@
     ],
     "influenced_by": [
       "ALGOL 58",
-      "Mathematical Notation"
+      "Mathematical Notation",
+      "Chomsky Hierarchy"
     ],
     "influenced": [
       "ALGOL 60",
@@ -995,7 +1049,9 @@
     ],
     "influenced_by": [
       "FLOW-MATIC",
-      "COMTRAN"
+      "COMTRAN",
+      "A-0",
+      "Hollerith Tabulator"
     ],
     "influenced": [
       "PL/I"
@@ -1034,7 +1090,10 @@
       "BNF notation"
     ],
     "influenced_by": [
-      "FORTRAN"
+      "FORTRAN",
+      "ALGOL 58",
+      "BNF",
+      "Chomsky Hierarchy"
     ],
     "influenced": [
       "C",
@@ -1042,7 +1101,13 @@
       "SIMULA 67",
       "Scheme",
       "BASIC",
-      "PL/I"
+      "PL/I",
+      "ALGOL 68",
+      "CLU",
+      "CPL",
+      "ISWIM",
+      "REXX",
+      "SETL"
     ],
     "philosophy": "The universal language for algorithms. ALGOL focused on structural elegance and logical consistency over specific machine implementation. Note: Historically characterized by Static/Strong typing and Stack-Only memory management.",
     "mental_model": "Think in nested scopes. A program is a hierarchy of blocks, each with its own local state, forming a tree-like structure of execution.",
@@ -1201,7 +1266,8 @@
     "influenced": [
       "C",
       "Pascal",
-      "Ada"
+      "Ada",
+      "REXX"
     ],
     "philosophy": "The universal language for everything. IBM designed PL/I to combine the scientific power of FORTRAN with the business capabilities of COBOL and the structure of ALGOL. Note: Historically characterized by Static/Weak typing and Static/Manual/Automatic memory management.",
     "mental_model": "Think in terms of a massive toolkit. It is a comprehensive language that tries to provide every feature a programmer might need, from bit manipulation to complex record structures.",
@@ -1286,7 +1352,10 @@
       "J",
       "K",
       "MATLAB",
-      "Numpy"
+      "Numpy",
+      "Mathematica",
+      "Q",
+      "S"
     ],
     "philosophy": "Notation as a tool of thought. APL uses a concise symbolic language to express complex mathematical and data-processing operations in a single line. Note: Historically characterized by Dynamic/Strong typing and Managed-Store memory management.",
     "mental_model": "Think in terms of multi-dimensional array transformations. You apply operations to entire sets of data at once, using a symbolic alphabet that maps directly to mathematical concepts.",
@@ -1397,7 +1466,8 @@
       "Bracket-based block structure"
     ],
     "influenced_by": [
-      "CPL"
+      "CPL",
+      "Assembly"
     ],
     "influenced": [
       "B",
@@ -1442,7 +1512,9 @@
     "influenced": [
       "Smalltalk",
       "C++",
-      "Java"
+      "Java",
+      "CLU",
+      "Eiffel"
     ],
     "philosophy": "The world is a system of interacting entities. Simulation requires modeling real-world objects as software abstractions. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of independent actors with their own state and behavior. A program is a simulated world where entities coexist and interact.",
@@ -1486,7 +1558,11 @@
       "C",
       "Pascal",
       "Ada",
-      "C++"
+      "C++",
+      "Bourne Shell",
+      "Eiffel",
+      "Mesa",
+      "Occam"
     ],
     "philosophy": "Maximum orthogonality. Every language feature should be composable with every other, leading to a consistent and powerful system.",
     "mental_model": "A world of expressions and 'modes'. Everything is an expression, and types (modes) define how data can be composed.",
@@ -1789,7 +1865,10 @@
       "Records and sets"
     ],
     "influenced_by": [
-      "ALGOL 60"
+      "ALGOL 60",
+      "ALGOL 68",
+      "PL/I",
+      "Set theory"
     ],
     "influenced": [
       "Ada",
@@ -1799,7 +1878,8 @@
       "Go",
       "Odin",
       "Nim",
-      "CSharp"
+      "CSharp",
+      "Mesa"
     ],
     "philosophy": "Discipline is the path to correctness. Pascal was designed to force programmers to express their intent clearly through strict typing and structured control flow. Note: Historically characterized by Static/Strong typing and Manual memory management.",
     "mental_model": "Think in terms of records and procedures. A program is a carefully orchestrated sequence of steps operating on well-defined data structures, where every type has its place.",
@@ -1924,7 +2004,8 @@
     "name": "C",
     "year": 1972,
     "creators": [
-      "Dennis Ritchie"
+      "Dennis Ritchie",
+      "Ken Thompson"
     ],
     "paradigms": [
       "Procedural",
@@ -1944,7 +2025,15 @@
     ],
     "influenced_by": [
       "B",
-      "ALGOL 60"
+      "ALGOL 60",
+      "ALGOL 68",
+      "Assembly",
+      "BCPL",
+      "FORTRAN",
+      "Machine Code",
+      "PL/I",
+      "Turing Machine",
+      "Von Neumann Architecture"
     ],
     "influenced": [
       "C++",
@@ -1958,7 +2047,13 @@
       "Perl",
       "LLVM",
       "Objective-C",
-      "PHP"
+      "PHP",
+      "AWK",
+      "Cyclone",
+      "D",
+      "GCC",
+      "Tcl",
+      "YAML"
     ],
     "philosophy": "Trust the programmer. C provides a thin abstraction over hardware, offering maximum control and efficiency with minimal runtime overhead. Note: Historically characterized by Static/Weak typing and Manual memory management.",
     "mental_model": "Think in terms of memory addresses and bytes. The program is a series of manipulations on a flat linear memory space.",
@@ -1996,7 +2091,10 @@
     ],
     "influenced_by": [
       "Planner",
-      "Lisp"
+      "Lisp",
+      "BNF",
+      "Boolean Algebra",
+      "First-order logic"
     ],
     "influenced": [
       "Erlang",
@@ -2050,7 +2148,11 @@
       "Objective-C",
       "JavaScript",
       "Self",
-      "Dart"
+      "Dart",
+      "Dylan",
+      "Erlang",
+      "Groovy",
+      "JVM"
     ],
     "philosophy": "Computers as personal dynamic media. Programming is the act of sending messages between biological-like cells (objects). Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of a living organism. You don't call functions; you send messages to objects, and they decide how to respond in their own context.",
@@ -2130,7 +2232,8 @@
     ],
     "influenced_by": [
       "Lisp",
-      "ISWIM"
+      "ISWIM",
+      "Lambda Calculus"
     ],
     "influenced": [
       "Haskell",
@@ -2138,7 +2241,12 @@
       "Rust",
       "Swift",
       "Scala",
-      "Elm"
+      "Elm",
+      "Cyclone",
+      "Mercury",
+      "Miranda",
+      "PureScript",
+      "Standard ML"
     ],
     "philosophy": "Correctness through types. ML proved that you can have strong, static safety without sacrificing the expressiveness of functional programming. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of mathematical proofs and transformations. Types are constraints that the compiler uses to ensure your logic is sound.",
@@ -2211,10 +2319,16 @@
       "Transaction ACID properties"
     ],
     "influenced_by": [
-      "QUEL"
+      "QUEL",
+      "Boolean Algebra",
+      "Hollerith Tabulator",
+      "Information Theory",
+      "Relational algebra",
+      "Set theory"
     ],
     "influenced": [
-      "GraphQL"
+      "GraphQL",
+      "Datalog"
     ],
     "philosophy": "Describe WHAT you want, not HOW to get it. SQL abstracts the physical storage of data, allowing the user to focus on logical relationships. Note: Historically characterized by Static/Strong typing and Managed-Store memory management.",
     "mental_model": "Think in terms of sets and relationships. You are asking questions about a collection of data and defining how tables relate to one another.",
@@ -2376,7 +2490,9 @@
     ],
     "influenced_by": [
       "Lisp",
-      "ALGOL 60"
+      "ALGOL 60",
+      "Maclisp",
+      "Planner"
     ],
     "influenced": [
       "Common Lisp",
@@ -2384,9 +2500,10 @@
       "JavaScript",
       "Clojure",
       "Lua",
-      "R"
+      "R",
+      "Dylan"
     ],
-    "philosophy": "Small is beautiful. Scheme's minimalist design proves that a few powerful building blocks\u2014lexical scoping and first-class continuations\u2014are sufficient to build any abstraction. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "philosophy": "Small is beautiful. Scheme's minimalist design proves that a few powerful building blocks—lexical scoping and first-class continuations—are sufficient to build any abstraction. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of pure lambda calculus. Every control structure is just a variation of a function call, and the environment is a first-class participant in the computation.",
     "complexity_bias": "high",
     "safety_model": "runtime",
@@ -2461,7 +2578,8 @@
     ],
     "influenced": [
       "R",
-      "GNU Octave"
+      "GNU Octave",
+      "MATLAB"
     ],
     "philosophy": "",
     "mental_model": "",
@@ -2502,7 +2620,8 @@
     "influenced": [
       "Modula-2",
       "Java",
-      "CSharp"
+      "CSharp",
+      "Modula-3"
     ],
     "philosophy": "Systems programming requires a high-level language with strong typing and modularity to manage the complexity of large software systems.",
     "mental_model": "Think in terms of strictly defined modules and interfaces. Safety and correctness are ensured through a robust type system and structured error handling.",
@@ -2700,7 +2819,8 @@
     "influenced": [
       "Oberon",
       "Ada",
-      "Python"
+      "Python",
+      "Modula-3"
     ],
     "philosophy": "Modularity and type safety for systems programming. Modula-2 refined Pascal to make it suitable for large-scale software engineering.",
     "mental_model": "Software is a collection of modules with clear interfaces. Separation of definition and implementation is paramount.",
@@ -2812,12 +2932,14 @@
     ],
     "influenced_by": [
       "ALGOL 68",
-      "PWB shell"
+      "PWB shell",
+      "Thompson shell"
     ],
     "influenced": [
       "Bash",
       "Zsh",
-      "Fish"
+      "Fish",
+      "Perl"
     ],
     "philosophy": "A shell should be a portable control language for orchestrating Unix programs, files, and streams rather than only an interactive command prompt.",
     "mental_model": "Think in terms of connecting processes through redirection, pipelines, environment state, and exit codes to execute an operational plan.",
@@ -2859,7 +2981,10 @@
     ],
     "influenced_by": [
       "Pascal",
-      "ALGOL 68"
+      "ALGOL 68",
+      "CLU",
+      "Modula-2",
+      "PL/I"
     ],
     "influenced": [
       "C++",
@@ -2940,7 +3065,9 @@
       "Interactive worksheets"
     ],
     "influenced_by": [
-      "Lisp"
+      "Lisp",
+      "MACSYMA",
+      "Mathematica"
     ],
     "influenced": [
       "Mathematica"
@@ -2976,12 +3103,14 @@
     "key_innovations": [
       "Device-independent graphics",
       "Stack-based execution",
-      "B\u00e9zier curves"
+      "Bézier curves"
     ],
     "influenced_by": [
       "Forth"
     ],
-    "influenced": [],
+    "influenced": [
+      "CSS"
+    ],
     "philosophy": "Graphics as code. Represent images and text as a series of program instructions rather than a bitmap.",
     "mental_model": "Think in terms of a global stack and a coordinate system. Push data, call operators, and draw on a virtual canvas.",
     "complexity_bias": "medium",
@@ -3114,7 +3243,8 @@
     ],
     "influenced": [
       "Clojure",
-      "Julia"
+      "Julia",
+      "R"
     ],
     "philosophy": "A comprehensive and standardized Lisp dialect designed for industrial-strength application development and research.",
     "mental_model": "Think in terms of a massive, multi-paradigm toolkit. It is a programmable programming language that provides everything needed for symbolic and object-oriented computing.",
@@ -3198,7 +3328,8 @@
       "C",
       "SIMULA 67",
       "ALGOL 68",
-      "Ada"
+      "Ada",
+      "CLU"
     ],
     "influenced": [
       "Java",
@@ -3207,7 +3338,9 @@
       "Rust",
       "Zig",
       "Julia",
-      "PHP"
+      "PHP",
+      "Carbon",
+      "Mojo"
     ],
     "philosophy": "You don't pay for what you don't use. C++ aims to provide high-level abstractions without sacrificing the performance of C. Note: Historically characterized by Static/Weak typing and Manual/RAII memory management.",
     "mental_model": "Think in terms of resource ownership and object lifecycles. You are managing both the logic of the application and the lifetime of the hardware resources it uses.",
@@ -3327,12 +3460,14 @@
     ],
     "influenced_by": [
       "Prolog",
-      "Smalltalk"
+      "Smalltalk",
+      "Occam"
     ],
     "influenced": [
       "Elixir",
       "Akka",
-      "Cloud Haskell"
+      "Cloud Haskell",
+      "Gleam"
     ],
     "philosophy": "Build systems that never stop. Erlang assumes failure is inevitable and provides the tools to isolate and recover from it without downtime. Note: Historically characterized by Dynamic/Strong typing and Per-Process GC memory management.",
     "mental_model": "Think in terms of a swarm of isolated processes communicating via mailboxes. If one fails, the supervisor restarts it; the system as a whole remains healthy.",
@@ -3408,7 +3543,8 @@
     "influenced": [
       "Go",
       "Java",
-      "CSharp"
+      "CSharp",
+      "Odin"
     ],
     "philosophy": "Make it as simple as possible, but no simpler. Oberon stripped away everything non-essential from Modula-2, adding only type extension.",
     "mental_model": "Simplicity is the ultimate sophistication. A tiny core that can build entire operating systems through simple extensions.",
@@ -3451,14 +3587,17 @@
       "C",
       "Bourne Shell",
       "AWK",
-      "Sed"
+      "Sed",
+      "SNOBOL"
     ],
     "influenced": [
       "Ruby",
       "PHP",
       "Python",
       "JavaScript",
-      "YAML"
+      "YAML",
+      "Fish",
+      "PowerShell"
     ],
     "philosophy": "There's more than one way to do it. Perl was built to be the 'Swiss Army Chainsaw' of the internet, handling text and systems with linguistic flexibility. Note: Historically characterized by Dynamic/Weak typing and Reference Counting memory management.",
     "mental_model": "Think in terms of context and pattern matching. The meaning of your code changes based on where it is used, allowing for extremely dense and expressive scripts.",
@@ -3536,7 +3675,8 @@
     "influenced": [
       "JavaScript",
       "Lua",
-      "Dart"
+      "Dart",
+      "Factor"
     ],
     "philosophy": "The power of simplicity. Self takes the ideas of Smalltalk to their logical conclusion, replacing classes with prototypal inheritance and uniform object access. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of cloning and refining. There are no blueprints; you create an object and then modify it to suit your needs, inheriting behavior directly from your 'parents'.",
@@ -3612,12 +3752,14 @@
     ],
     "influenced_by": [
       "Lisp",
-      "C"
+      "C",
+      "AWK"
     ],
     "influenced": [
       "Python",
       "JavaScript",
-      "Lua"
+      "Lua",
+      "PHP"
     ],
     "philosophy": "Glue it all together. Tcl was designed to be easily embedded and to provide a simple string-based interface to C components.",
     "mental_model": "Everything is a command and every argument is a string. Commands can be redefined at runtime, making it highly flexible.",
@@ -3664,7 +3806,8 @@
     "influenced": [
       "Java",
       "Python",
-      "CSharp"
+      "CSharp",
+      "Nim"
     ],
     "philosophy": "Combine the modularity and type safety of Wirth's languages with modern features like objects, threads, and garbage collection.",
     "mental_model": "Think in terms of safe, modular components. You are building complex systems where state and concurrency are managed through clear interfaces and language-level safety.",
@@ -3702,7 +3845,8 @@
     ],
     "influenced_by": [
       "MATLAB",
-      "FORTRAN"
+      "FORTRAN",
+      "S"
     ],
     "influenced": [
       "Numpy"
@@ -3790,7 +3934,8 @@
     ],
     "influenced": [
       "Zsh",
-      "Fish"
+      "Fish",
+      "PowerShell"
     ],
     "philosophy": "The command line is the interface. Bash provides the tools to connect disparate programs into a powerful, automated workflow. Note: Historically characterized by Untyped/String typing and Manual/Process-based memory management.",
     "mental_model": "Think in terms of streams of text. A program is a filter that takes an input stream and produces an output stream, which can be piped to the next tool.",
@@ -3832,7 +3977,13 @@
     "influenced_by": [
       "ML",
       "Miranda",
-      "Scheme"
+      "Scheme",
+      "ISWIM",
+      "KRC",
+      "Lambda Calculus",
+      "Lisp",
+      "Mathematical Notation",
+      "SASL"
     ],
     "influenced": [
       "Rust",
@@ -3841,7 +3992,12 @@
       "PureScript",
       "FSharp",
       "Clojure",
-      "Elm"
+      "Elm",
+      "Cloud Haskell",
+      "CoffeeScript",
+      "Hack",
+      "Mercury",
+      "Redux"
     ],
     "philosophy": "Pure computation. Haskell enforces a strict separation between pure logic and impure side effects, ensuring mathematical predictability. Note: Historically characterized by Static/Strong typing and Tracing GC (Lazy) memory management.",
     "mental_model": "Think in terms of transformations of immutable data. You don't change state; you define how one value is computed from another, using the type system to track effectful operations.",
@@ -3920,7 +4076,8 @@
       "Function rank"
     ],
     "influenced_by": [
-      "APL"
+      "APL",
+      "Mathematical Notation"
     ],
     "influenced": [
       "K"
@@ -3960,7 +4117,8 @@
       "Bourne-style compatibility with a richer interactive shell"
     ],
     "influenced_by": [
-      "Bash"
+      "Bash",
+      "Bourne Shell"
     ],
     "influenced": [
       "Fish"
@@ -4009,7 +4167,13 @@
       "C",
       "Modula-3",
       "Perl",
-      "BASIC"
+      "BASIC",
+      "CLU",
+      "Icon",
+      "Modula-2",
+      "REXX",
+      "SETL",
+      "Tcl"
     ],
     "influenced": [
       "Ruby",
@@ -4018,9 +4182,15 @@
       "FSharp",
       "Julia",
       "Kotlin",
-      "YAML"
+      "YAML",
+      "CoffeeScript",
+      "D",
+      "Groovy",
+      "Mojo",
+      "Nim",
+      "Numpy"
     ],
-    "philosophy": "There should be one\u2014and preferably only one\u2014obvious way to do it. Readability counts. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (with RC) memory management.",
+    "philosophy": "There should be one—and preferably only one—obvious way to do it. Readability counts. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (with RC) memory management.",
     "mental_model": "Think in terms of clear, executable pseudocode. You describe what you want the computer to do in a way that is almost as readable as English.",
     "complexity_bias": "low",
     "safety_model": "runtime",
@@ -4055,7 +4225,8 @@
       "Drag-and-drop programming"
     ],
     "influenced_by": [
-      "BASIC"
+      "BASIC",
+      "Visual Basic"
     ],
     "influenced": [
       "VB.NET"
@@ -4096,7 +4267,6 @@
       "COM and Office automation reach"
     ],
     "influenced_by": [
-      "BASIC",
       "BASIC"
     ],
     "influenced": [
@@ -4139,12 +4309,14 @@
       "Stable substrate for CSS and JavaScript"
     ],
     "influenced_by": [
-      "XML"
+      "XML",
+      "SGML"
     ],
     "influenced": [
       "CSS",
       "JavaScript",
-      "Svelte"
+      "Svelte",
+      "XML"
     ],
     "philosophy": "Documents on the web should be represented as resilient, semantic structure that browsers and other systems can interpret consistently.",
     "mental_model": "Think of a document as a tree of nested elements that defines meaning and structure, with browsers parsing that tree into a manipulable document model.",
@@ -4220,7 +4392,8 @@
     "influenced_by": [
       "APL",
       "J",
-      "Lisp"
+      "Lisp",
+      "Mathematical Notation"
     ],
     "influenced": [
       "Q"
@@ -4263,7 +4436,9 @@
     ],
     "influenced_by": [
       "Scheme",
-      "SNOBOL"
+      "SNOBOL",
+      "Self",
+      "Tcl"
     ],
     "influenced": [
       "JavaScript"
@@ -4355,7 +4530,14 @@
       "Smalltalk",
       "Objective-C",
       "Pascal",
-      "Ada"
+      "Ada",
+      "C",
+      "CLU",
+      "Eiffel",
+      "Mesa",
+      "Modula-3",
+      "Oberon",
+      "SIMULA 67"
     ],
     "influenced": [
       "CSharp",
@@ -4364,7 +4546,13 @@
       "TypeScript",
       "Clojure",
       "Dart",
-      "PHP"
+      "PHP",
+      "ActionScript",
+      "D",
+      "Groovy",
+      "JVM",
+      "JavaScript",
+      "VB.NET"
     ],
     "philosophy": "Simplicity and portability. Java removed the 'dangerous' parts of C++ to create a safe, scalable environment for large-scale development. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of blueprints and hierarchies. Everything is a class, and your program is a collection of interacting class instances running on a virtual sandbox.",
@@ -4451,7 +4639,12 @@
       "Scheme",
       "Java",
       "Perl",
-      "Lua"
+      "Lua",
+      "CoffeeScript",
+      "HTML",
+      "Lisp",
+      "Smalltalk",
+      "Tcl"
     ],
     "influenced": [
       "TypeScript",
@@ -4461,7 +4654,9 @@
       "Svelte",
       "ReasonML",
       "ReScript",
-      "JSON"
+      "JSON",
+      "Haxe",
+      "React"
     ],
     "philosophy": "The glue of the web. JavaScript was designed to be easy for non-programmers to add interactivity to web pages, evolving into a robust application platform. Note: Historically characterized by Dynamic/Weak typing and Tracing GC memory management.",
     "mental_model": "Think in terms of responses to actions. The program is a set of callbacks triggered by events, operating on a dynamic, mutable tree of objects.",
@@ -4544,13 +4739,16 @@
       "Smalltalk",
       "Perl",
       "Lisp",
-      "Python"
+      "Python",
+      "CLU",
+      "Eiffel"
     ],
     "influenced": [
       "Elixir",
       "CoffeeScript",
       "Crystal",
-      "Swift"
+      "Swift",
+      "Groovy"
     ],
     "philosophy": "Designed for programmer happiness. Ruby prioritizes the human experience of writing code over the machine's experience of executing it. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of natural language and expressiveness. Code is a medium of creative expression, and the language should get out of your way.",
@@ -4587,7 +4785,8 @@
       "Fast native compilation"
     ],
     "influenced_by": [
-      "Pascal"
+      "Pascal",
+      "Visual Basic"
     ],
     "influenced": [
       "CSharp"
@@ -4761,7 +4960,8 @@
     ],
     "influenced": [
       "TypeScript",
-      "Dart"
+      "Dart",
+      "Haxe"
     ],
     "philosophy": "Bringing interactivity and programmatic control to the world of web animation and rich media.",
     "mental_model": "Think in terms of timelines and movie clips. You attach code to visual objects that respond to user input and time-based events.",
@@ -4801,11 +5001,13 @@
     ],
     "influenced_by": [
       "SGML",
-      "HTML"
+      "HTML",
+      "BNF"
     ],
     "influenced": [
       "JSON",
-      "YAML"
+      "YAML",
+      "HTML"
     ],
     "philosophy": "A metalanguage for defining structured markup vocabularies through a simplified web-era subset of SGML.",
     "mental_model": "Think in labeled trees with explicit boundaries, where every document is a hierarchy of elements and attributes.",
@@ -4850,14 +5052,20 @@
       "C++",
       "Delphi",
       "Modula-3",
-      "Pascal"
+      "Pascal",
+      "Eiffel",
+      "FSharp",
+      "Mesa",
+      "Oberon"
     ],
     "influenced": [
       "Swift",
       "Kotlin",
       "TypeScript",
       "Dart",
-      "FSharp"
+      "FSharp",
+      "PowerShell",
+      "VB.NET"
     ],
     "philosophy": "A versatile, component-oriented language. C# balances the power of C++ with the safety of Java, evolving rapidly to embrace functional and asynchronous patterns. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of properties, events, and data streams. It is a highly structured environment where language features like LINQ allow you to treat data as a first-class citizen.",
@@ -4890,11 +5098,14 @@
       "Strict, minimal specification"
     ],
     "influenced_by": [
-      "JavaScript"
+      "JavaScript",
+      "Information Theory",
+      "XML"
     ],
     "influenced": [
       "YAML",
-      "HCL"
+      "HCL",
+      "GraphQL"
     ],
     "philosophy": "The simplest possible data format. JSON provides a language-independent way to represent data that is easy for both humans to read and machines to parse. Note: Historically characterized by Dynamic/Weak typing and Managed-Store memory management.",
     "mental_model": "Think in terms of a universal dictionary. It is the common tongue of the web, representing everything as simple strings, numbers, booleans, arrays, and objects.",
@@ -4911,7 +5122,7 @@
     "year": 2001,
     "creators": [
       "Clark Evans",
-      "Ingy d\u00f6t Net",
+      "Ingy döt Net",
       "Oren Ben-Kiki"
     ],
     "paradigms": [
@@ -4935,7 +5146,8 @@
       "XML",
       "C",
       "Python",
-      "Perl"
+      "Perl",
+      "Information Theory"
     ],
     "influenced": [
       "HCL"
@@ -4979,7 +5191,8 @@
       "C",
       "C++",
       "Java",
-      "Python"
+      "Python",
+      "Eiffel"
     ],
     "influenced": [],
     "philosophy": "A systems language should preserve native performance while removing much of C++'s historical ceremony and accumulated design debt.",
@@ -5018,7 +5231,8 @@
     "influenced_by": [
       "VB",
       "CSharp",
-      "Java"
+      "Java",
+      "Visual Basic"
     ],
     "influenced": [],
     "philosophy": "The power of .NET with the approachability of Basic syntax. VB.NET provided a modern, object-oriented path for legacy VB developers while maintaining its readable, English-like style. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
@@ -5266,12 +5480,14 @@
     "influenced_by": [
       "Java",
       "Haskell",
-      "ML"
+      "ML",
+      "JVM"
     ],
     "influenced": [
       "Kotlin",
       "Swift",
-      "Rust"
+      "Rust",
+      "Akka"
     ],
     "philosophy": "The scalable language. Scala unifies object-oriented and functional programming into a single, cohesive system that grows with the needs of the developer. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of objects as functional values. Every value is an object, and every operation is a method, but the logic is driven by functional composition and type-level reasoning.",
@@ -5311,7 +5527,8 @@
       "OCaml",
       "CSharp",
       "Haskell",
-      "Python"
+      "Python",
+      "Standard ML"
     ],
     "influenced": [
       "CSharp",
@@ -5354,7 +5571,8 @@
     "influenced_by": [
       "Bash",
       "Zsh",
-      "Perl"
+      "Perl",
+      "Bourne Shell"
     ],
     "influenced": [],
     "philosophy": "A shell should help users discover commands and understand scripts instead of preserving decades of incidental Bourne-shell friction.",
@@ -5471,7 +5689,8 @@
     "influenced_by": [
       "APL",
       "MATLAB",
-      "Python"
+      "Python",
+      "GNU Octave"
     ],
     "influenced": [
       "Julia"
@@ -5554,7 +5773,9 @@
       "Lisp",
       "Scheme",
       "Java",
-      "Haskell"
+      "Haskell",
+      "Common Lisp",
+      "JVM"
     ],
     "influenced": [
       "Elixir"
@@ -5646,7 +5867,9 @@
       "C",
       "Pascal",
       "Occam",
-      "Python"
+      "Python",
+      "CSP",
+      "Oberon"
     ],
     "influenced": [
       "Zig",
@@ -5667,7 +5890,7 @@
     "name": "Akka",
     "year": 2009,
     "creators": [
-      "Jonas Bon\u00e9r"
+      "Jonas Bonér"
     ],
     "paradigms": [
       "Actor-model",
@@ -5782,13 +6005,17 @@
       "Ada",
       "OCaml",
       "Scala",
-      "LLVM"
+      "LLVM",
+      "C",
+      "Standard ML"
     ],
     "influenced": [
       "Mojo",
       "Swift",
       "Zig",
-      "Crystal"
+      "Crystal",
+      "Carbon",
+      "Gleam"
     ],
     "philosophy": "Safety and performance without compromise. Rust empowers everyone to build reliable and efficient software by making memory safety a first-class citizen. Note: Historically characterized by Static/Strong (Linear) typing and Ownership/Borrowing memory management.",
     "mental_model": "Think in terms of data ownership. The compiler tracks who 'owns' every piece of data, preventing data races and memory leaks at compile time.",
@@ -5829,7 +6056,8 @@
       "Java",
       "CSharp",
       "Smalltalk",
-      "Self"
+      "Self",
+      "ActionScript"
     ],
     "influenced": [],
     "philosophy": "Optimized for client development. Dart provides a productive environment for building high-performance UIs across platforms with a familiar, robust syntax. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
@@ -5876,9 +6104,12 @@
       "Scala",
       "CSharp",
       "Groovy",
-      "Python"
+      "Python",
+      "JVM"
     ],
-    "influenced": [],
+    "influenced": [
+      "Carbon"
+    ],
     "philosophy": "Pragmatic and concise. Kotlin aims to be a better Java, providing modern features and industrial-grade safety while maintaining 100% interoperability with the Java ecosystem. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of safe, concise Java. You are working within the JVM ecosystem but with a language that eliminates verbosity and null-pointer exceptions by default.",
     "complexity_bias": "medium",
@@ -5933,7 +6164,7 @@
     "name": "Elixir",
     "year": 2012,
     "creators": [
-      "Jos\u00e9 Valim"
+      "José Valim"
     ],
     "paradigms": [
       "Actor-model",
@@ -6002,7 +6233,9 @@
     "influenced": [
       "Redux",
       "Svelte",
-      "SwiftUI"
+      "SwiftUI",
+      "Gleam",
+      "React"
     ],
     "philosophy": "Delightful web apps through purity. Elm enforces a strict, purely functional architecture that guarantees the absence of runtime errors and simplifies state management. Note: Historically characterized by Static/Strong typing and Tracing GC (via JS) memory management.",
     "mental_model": "Think in terms of the Model-View-Update cycle. You define an immutable state, a way to render it as a view, and a way to transition between states via messages.",
@@ -6057,7 +6290,12 @@
       "Python",
       "MATLAB",
       "R",
-      "C++"
+      "C++",
+      "Common Lisp",
+      "Dylan",
+      "LLVM",
+      "Mathematica",
+      "Numpy"
     ],
     "influenced": [],
     "philosophy": "Walk like Python, run like C. Julia solves the 'two-language problem' by providing a high-level syntax that the JIT compiler can optimize to native speed. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
@@ -6100,7 +6338,9 @@
     "influenced_by": [
       "JavaScript",
       "CSharp",
-      "Java"
+      "Java",
+      "ActionScript",
+      "CoffeeScript"
     ],
     "influenced": [
       "AssemblyScript"
@@ -6348,10 +6588,17 @@
       "Haskell",
       "Ruby",
       "CSharp",
-      "CLU"
+      "CLU",
+      "FSharp",
+      "LLVM",
+      "ML",
+      "Python",
+      "Scala"
     ],
     "influenced": [
-      "Mojo"
+      "Mojo",
+      "Carbon",
+      "SwiftUI"
     ],
     "philosophy": "Safe, fast, and expressive. Swift was built to replace Objective-C, providing a modern, developer-friendly syntax with performance that rivals C++ and safety that prevents common crashes. Note: Historically characterized by Static/Strong typing and Reference Counting (ARC) memory management.",
     "mental_model": "Think in terms of value types and protocols. You prefer structs over classes and use protocols to define common behavior, creating a safe and composable system.",
@@ -6582,7 +6829,8 @@
       "JavaScript",
       "HTML",
       "CSS",
-      "Elm"
+      "Elm",
+      "React"
     ],
     "influenced": [],
     "philosophy": "The compiler is the framework. Svelte shifts the work from the browser to the build step, transforming declarative components into highly efficient imperative code. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (via JS) memory management.",
@@ -6698,7 +6946,9 @@
       "JVM",
       "LLVM"
     ],
-    "influenced": [],
+    "influenced": [
+      "AssemblyScript"
+    ],
     "philosophy": "A universal binary format for the web and beyond. WebAssembly provides a secure, portable, and near-native execution environment for any language. Note: Historically characterized by Static/Strong typing and Manual/Linear memory management.",
     "mental_model": "Think in terms of a virtual stack machine and linear memory. You are targeting a low-level, sandboxed instruction set that interacts with the host environment through well-defined imports.",
     "complexity_bias": "medium",
@@ -6813,7 +7063,8 @@
       "C++",
       "Swift",
       "Kotlin",
-      "Rust"
+      "Rust",
+      "Clang"
     ],
     "influenced": [],
     "philosophy": "A successor language should earn adoption by giving entrenched C++ codebases a realistic migration path instead of demanding a clean break.",
