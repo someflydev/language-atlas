@@ -1,0 +1,321 @@
+# PROMPT_79: Entity Type Classification and File Hygiene
+
+## Objective
+
+Introduce a formal `entity_type` classification field to the Atlas data model
+and file system. The `languages` table has always held a mix of actual
+programming languages, pre-computing historical foundations (Jacquard Loom,
+Turing Machine, etc.), and influential tools/libraries/runtimes (LLVM, GCC,
+JVM, Numpy, React, etc.). This prompt makes that distinction explicit and
+machine-readable by:
+
+1. Adding `entity_type` to the SQLite schema and populating it from source data.
+2. Tagging all existing `languages.json` entries with the correct type.
+3. Adding 11 new entries (10 artifacts + ENIAC) that already have profile docs
+   but no `languages.json` record.
+4. Resolving two profile filename issues: the orphan `PLI.json` and the
+   non-ASCII `Plankalkül.json`.
+
+Do not change routes, templates, CLI, or TUI in this prompt — surfacing
+`entity_type` through the full application stack is deferred to PROMPT_81.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md` and `.context/database.md`.
+3. Load `.context/commands.md`.
+4. Create `tmp/PROMPT_79_checklist.md` with a checkbox per task group below
+   and one per new entry in the "New entries" section.
+5. Check off each item immediately after completing it.
+
+## Task 1: SQLite Schema — Add `entity_type` Column
+
+In `src/app/core/build_sqlite.py`, add `entity_type TEXT DEFAULT 'language'`
+to the `languages` table DDL (after the existing `key_innovations` column):
+
+```sql
+entity_type TEXT DEFAULT 'language'
+```
+
+In the language insertion loop (around line 363), read `entity_type` from the
+JSON record and pass it to the INSERT:
+
+```python
+cursor.execute("""
+    INSERT INTO languages (
+        name, display_name, year, cluster, generation,
+        philosophy, description, mental_model, complexity_bias, safety_model,
+        typing_discipline, memory_management, is_keystone,
+        primary_use_cases, key_innovations, entity_type
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+""", (
+    lang['name'],
+    lang.get('display_name'),
+    lang.get('year'),
+    lang.get('cluster'),
+    lang.get('generation'),
+    lang.get('philosophy'),
+    lang.get('philosophy'),
+    lang.get('mental_model'),
+    lang.get('complexity_bias'),
+    lang.get('safety_model'),
+    lang.get('typing_discipline'),
+    lang.get('memory_management'),
+    lang.get('is_keystone', False),
+    json.dumps(lang.get('primary_use_cases', [])),
+    json.dumps(lang.get('key_innovations', [])),
+    lang.get('entity_type', 'language'),
+))
+```
+
+Also add a covering index after the table is populated:
+
+```sql
+CREATE INDEX IF NOT EXISTS idx_languages_entity_type ON languages(entity_type);
+```
+
+Place this index creation in the same block where other post-insert SQL runs
+(after `UPDATE languages SET influence_score = ...`).
+
+## Task 2: Tag All Existing `languages.json` Entries
+
+Add `"entity_type"` to every entry in `data/languages.json`. The field must
+be present on all entries; do not leave any entry without it.
+
+### Entries to tag `"foundation"` (12)
+
+These are pre-computing machines, theoretical frameworks, and mathematical
+systems that appear in language lineage but are not programming languages:
+
+Analytical Engine, Boolean Algebra, Chomsky Hierarchy, Hollerith Tabulator,
+Information Theory, Jacquard Loom, Lambda Calculus, Machine Code,
+Mathematical Notation, Short Code, Turing Machine, Von Neumann Architecture
+
+### Entries to tag `"artifact"` (4 reclassifications of existing entries)
+
+These are tools, data formats, or compiler infrastructure that are referenced
+in influence chains but are not programming languages a developer writes in:
+
+JSON, LLVM, XML, YAML
+
+### All other entries
+
+Tag every remaining entry `"entity_type": "language"`. This includes HTML,
+CSS, WebAssembly, HCL, SVG, Assembly, PostScript, and all scripting/markup
+entries. (These can be revisited in a later pass if further reclassification
+is warranted; be conservative here.)
+
+## Task 3: Add 11 New Entries to `languages.json`
+
+Each entry below already has a profile document in
+`data/docs/language_profiles/`. Add the following records to `languages.json`.
+Follow the existing schema exactly (name, year, creators, paradigms, cluster,
+generation, primary_use_cases, key_innovations, influenced_by, influenced,
+philosophy, mental_model, complexity_bias, safety_model, typing_discipline,
+memory_management, is_keystone, display_name, entity_type).
+
+For fields where you must write narrative text (philosophy, mental_model),
+read the corresponding profile doc first and derive a concise one-to-two
+sentence summary consistent with that document.
+
+---
+
+**GCC** (`entity_type: "artifact"`)
+- year: 1987
+- creators: ["Richard Stallman"]
+- paradigms: ["Procedural"]
+- cluster: "infra", generation: "early"
+- influenced_by: ["C", "LLVM"] — note: LLVM influenced GCC in the reverse-
+  influence sense; keep only direct ancestors here: ["C"]
+- influenced: ["LLVM", "Clang"]
+- is_keystone: true
+
+**JVM** (`entity_type: "artifact"`)
+- year: 1995
+- creators: ["James Gosling", "Sun Microsystems"]
+- paradigms: ["Stack-based", "Object-Oriented"]
+- cluster: "infra", generation: "web1"
+- influenced_by: ["Java", "Smalltalk", "UCSD Pascal"]
+- influenced: ["Kotlin", "Scala", "Clojure", "WebAssembly"]
+- is_keystone: true
+
+**Numpy** (`entity_type: "artifact"`)
+- year: 2006
+- creators: ["Travis Oliphant"]
+- paradigms: ["Array-oriented", "Procedural"]
+- cluster: "scientific", generation: "web1"
+- influenced_by: ["APL", "MATLAB", "Python"]
+- influenced: ["Julia"]
+- is_keystone: false
+
+**React** (`entity_type: "artifact"`)
+- year: 2013
+- creators: ["Jordan Walke", "Facebook"]
+- paradigms: ["Declarative", "Component-based", "Reactive"]
+- cluster: "frontend", generation: "renaissance"
+- influenced_by: ["JavaScript", "Elm"]
+- influenced: ["Svelte", "ReasonML", "SwiftUI"]
+- is_keystone: true
+
+**Redux** (`entity_type: "artifact"`)
+- year: 2015
+- creators: ["Dan Abramov", "Andrew Clark"]
+- paradigms: ["Functional", "Event-driven"]
+- cluster: "frontend", generation: "renaissance"
+- influenced_by: ["Elm", "Haskell"]
+- influenced: []
+- is_keystone: false
+
+**SwiftUI** (`entity_type: "artifact"`)
+- year: 2019
+- creators: ["Apple"]
+- paradigms: ["Declarative", "Reactive", "Component-based"]
+- cluster: "frontend", generation: "autonomic"
+- influenced_by: ["React", "Elm", "Swift"]
+- influenced: []
+- is_keystone: false
+
+**Akka** (`entity_type: "artifact"`)
+- year: 2009
+- creators: ["Jonas Bonér"]
+- paradigms: ["Actor-model", "Concurrent", "Reactive"]
+- cluster: "backend", generation: "cloud"
+- influenced_by: ["Erlang", "Scala"]
+- influenced: []
+- is_keystone: false
+
+**Cloud Haskell** (`entity_type: "artifact"`)
+- year: 2011
+- creators: ["Jeff Epstein", "Andrew Black", "Simon Peyton Jones"]
+- paradigms: ["Functional", "Actor-model", "Concurrent"]
+- cluster: "backend", generation: "cloud"
+- influenced_by: ["Haskell", "Erlang"]
+- influenced: []
+- is_keystone: false
+
+**Clang** (`entity_type: "artifact"`)
+- year: 2007
+- creators: ["Chris Lattner", "LLVM Project"]
+- paradigms: ["Procedural"]
+- cluster: "infra", generation: "web1"
+- influenced_by: ["LLVM", "GCC"]
+- influenced: ["Carbon"]
+- is_keystone: false
+
+**GraphQL** (`entity_type: "artifact"`)
+- year: 2015
+- creators: ["Lee Byron", "Facebook"]
+- paradigms: ["Declarative", "Query-oriented"]
+- cluster: "infra", generation: "renaissance"
+- influenced_by: ["SQL", "REST"]
+- influenced: []
+- is_keystone: false
+
+**ENIAC** (`entity_type: "foundation"`)
+- year: 1945
+- creators: ["John Presper Eckert", "John Mauchly"]
+- paradigms: ["Imperative"]
+- cluster: "historical", generation: "dawn"
+- influenced_by: ["Analytical Engine", "Hollerith Tabulator"]
+- influenced: ["Von Neumann Architecture", "Machine Code"]
+- is_keystone: true
+
+## Task 4: File Hygiene
+
+### 4a. Delete the orphan PLI.json
+
+`data/docs/language_profiles/PLI.json` is an inferior duplicate.
+`data/docs/language_profiles/PL:I.json` already maps correctly to the
+canonical `PL/I` entry in `languages.json` via the `:` → `/` candidate in
+`DataLoader._language_profile_lookup_candidates`. Delete `PLI.json`.
+
+```bash
+rm data/docs/language_profiles/PLI.json
+```
+
+Confirm: `PL:I.json` still resolves to `PL/I` after the deletion.
+
+### 4b. Rename Plankalkül.json to Plankalku l.json
+
+Wait — the correct ASCII transliteration is `Plankalkul.json` (ü → u).
+
+```bash
+mv "data/docs/language_profiles/Plankalkül.json" \
+   data/docs/language_profiles/Plankalkul.json
+```
+
+After the rename, `Plankalkul.json` produces the key `Plankalkul`, but the
+canonical language name in `languages.json` is `Plankalkül` (with umlaut).
+The existing lookup candidates (`name`, `name.replace('_',' ')`,
+`name.replace(':','/')`, combined) do not strip diacritics, so the renamed
+file would fail to link. Fix this by adding a diacritic-stripping candidate
+to `DataLoader._language_profile_lookup_candidates` in
+`src/app/core/data_loader.py`:
+
+```python
+@staticmethod
+def _language_profile_lookup_candidates(name: str) -> List[str]:
+    import unicodedata
+    candidates: List[str] = []
+    for candidate in [
+        name,
+        name.replace('_', ' '),
+        name.replace(':', '/'),
+        name.replace(':', '/').replace('_', ' '),
+        unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode('ascii'),
+        unicodedata.normalize('NFKD', name.replace('_', ' ')).encode('ascii', 'ignore').decode('ascii'),
+    ]:
+        if candidate not in candidates:
+            candidates.append(candidate)
+    return candidates
+```
+
+The `unicodedata` import already exists at the top of `data_loader.py`; do
+not add a duplicate import. Move the inline import to use the top-level one.
+
+## Verification
+
+1. Run `make build`. Confirm it exits cleanly.
+2. Run `make audit`. There will still be unknown-reference warnings (those
+   are addressed in PROMPT_80 and PROMPT_81); confirm there are no new
+   errors introduced by this prompt.
+3. Run `make test`.
+4. Open a Python REPL and spot-check:
+
+```python
+import sqlite3, json
+conn = sqlite3.connect('language_atlas.sqlite')
+conn.row_factory = sqlite3.Row
+# Verify entity_type column exists and is populated
+rows = conn.execute(
+    "SELECT name, entity_type FROM languages WHERE entity_type != 'language' ORDER BY entity_type, name"
+).fetchall()
+for r in rows:
+    print(r['entity_type'], r['name'])
+# Should show ~12 foundations and ~15 artifacts
+
+# Verify new entries loaded their profiles
+for name in ('GCC', 'JVM', 'Numpy', 'React', 'ENIAC'):
+    row = conn.execute(
+        "SELECT l.name, lp.title FROM languages l LEFT JOIN language_profiles lp ON l.id=lp.language_id WHERE l.name=?",
+        (name,)
+    ).fetchone()
+    print(name, '->', row['title'] if row else 'NO PROFILE')
+conn.close()
+```
+
+5. Verify `Plankalkül` still resolves:
+
+```python
+from app.core.data_loader import DataLoader
+dl = DataLoader()
+p = dl.get_language_profile('Plankalkül')
+print(p.get('title') if p else 'MISSING')
+```
+
+6. Verify `PLI.json` is gone and `PL/I` profile still loads:
+
+```python
+p = dl.get_language_profile('PL/I')
+print(p.get('title') if p else 'MISSING')
+```

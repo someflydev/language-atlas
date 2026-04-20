@@ -1,0 +1,399 @@
+# PROMPT_80: Name Mismatches, Missing Language Entries, and Profile Filename Fixes
+
+## Objective
+
+After PROMPT_79 established the `entity_type` classification and added
+artifact/foundation entries, the audit still reports ~80 unknown references in
+`influenced` and `influenced_by` fields. This prompt resolves the structural
+causes:
+
+1. Canonical name mismatches — the same language is referenced under different
+   spellings (e.g., `C#` vs `CSharp`, `Simula 67` vs `SIMULA 67`).
+2. Missing `languages.json` entries — profile docs exist in
+   `data/docs/language_profiles/` but the language was never added to the
+   source JSON, so influence edges are silently dropped.
+3. Profile filename mismatches — a profile doc exists but its filename does
+   not resolve to the canonical language name through the lookup logic.
+
+Do not add new profile documents in this prompt. Only fix data records,
+influence references, and filenames. Surfacing `entity_type` through the
+application stack is deferred to PROMPT_81.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md` and `.context/commands.md`.
+3. Run `make audit` and capture the list of unknown reference warnings.
+   Keep this output open; use it to verify which issues this prompt resolves.
+4. Create `tmp/PROMPT_80_checklist.md` with a checkbox per task below.
+5. Check off each item immediately after completing it.
+
+## Task 1: Fix Canonical Name Mismatches in `languages.json`
+
+In `languages.json`, search every `"influenced"` and `"influenced_by"` array
+across all entries and apply the replacements below. These are purely
+string substitutions in the JSON source; do not rename any language entry.
+
+| Wrong reference | Correct canonical name | Note |
+|---|---|---|
+| `"C#"` | `"CSharp"` | `CSharp` is the canonical entry name; `C#` is only the display_name |
+| `"Simula 67"` | `"SIMULA 67"` | Case mismatch against canonical entry |
+| `"awk"` | `"AWK"` | Lowercase reference in Perl's `influenced_by` |
+| `"sed"` | `"Sed"` | Lowercase reference in Perl's `influenced_by` |
+| `"sh"` | `"Bourne Shell"` | Normalize the bare shell reference (entry added in Task 2) |
+| `"sh (Bourne shell)"` | `"Bourne Shell"` | Verbose variant in Bash's `influenced_by` |
+| `"Simula 67"` | `"SIMULA 67"` | Already listed; make sure all occurrences are caught |
+
+After editing, run a quick sanity check:
+
+```bash
+python3 -c "
+import json
+with open('data/languages.json') as f:
+    data = json.load(f)
+bad = ['C#', 'Simula 67', 'awk', 'sed', 'sh ', 'sh (']
+for e in data:
+    for field in ('influenced', 'influenced_by'):
+        for ref in e.get(field, []):
+            if any(ref.startswith(b) or ref == b.strip() for b in bad):
+                print(e['name'], field, repr(ref))
+"
+```
+
+The output should be empty.
+
+## Task 2: Add Missing Language Entries to `languages.json`
+
+Each entry below has a profile doc in `data/docs/language_profiles/` but no
+corresponding record in `languages.json`. Add them now.
+
+For each entry, read the profile doc to derive `philosophy` and `mental_model`
+(one-to-two sentences each). Use the profile's `key_innovations` list as the
+basis for the `key_innovations` field. All other structured fields (creators,
+year, paradigms, influenced_by, influenced) must be independently accurate;
+do not invent them from the profile narrative alone — cross-reference the
+profile's `historical_context` section.
+
+Required fields on every entry: `name`, `year`, `creators`, `paradigms`,
+`cluster`, `generation`, `primary_use_cases`, `key_innovations`,
+`influenced_by`, `influenced`, `philosophy`, `mental_model`,
+`complexity_bias`, `safety_model`, `typing_discipline`, `memory_management`,
+`is_keystone`, `display_name`, `entity_type`.
+
+---
+
+### New `entity_type: "language"` entries
+
+**ALGOL 58**
+- Profile: `data/docs/language_profiles/ALGOL_58.json`
+- year: 1958, creators: ["Friedrich L. Bauer", "John Backus", "ACM-GAMM committee"]
+- paradigms: ["Procedural", "Structured", "Imperative"]
+- cluster: "historical", generation: "early"
+- influenced_by: ["FORTRAN", "Mathematical Notation"]
+- influenced: ["ALGOL 60"]
+- is_keystone: true
+
+**Bourne Shell**
+- Profile: `data/docs/language_profiles/Bourne_Shell.json`
+- year: 1979, creators: ["Stephen Bourne"]
+- paradigms: ["Scripting", "Imperative", "Pipeline-oriented"]
+- cluster: "scripting", generation: "early"
+- influenced_by: ["ALGOL 68", "PWB shell"]
+- influenced: ["Bash", "Ksh", "Zsh", "Fish", "Ash"]
+- is_keystone: true
+
+**Carbon**
+- Profile: `data/docs/language_profiles/Carbon.json`
+- year: 2022, creators: ["Google", "Chandler Carruth"]
+- paradigms: ["Procedural", "Object-Oriented", "Systems"]
+- cluster: "systems", generation: "autonomic"
+- influenced_by: ["C++", "Swift", "Kotlin", "Rust"]
+- influenced: []
+- is_keystone: false
+
+**CoffeeScript**
+- Profile: `data/docs/language_profiles/CoffeeScript.json`
+- year: 2009, creators: ["Jeremy Ashkenas"]
+- paradigms: ["Scripting", "Functional", "Object-Oriented"]
+- cluster: "frontend", generation: "web1"
+- influenced_by: ["JavaScript", "Ruby", "Python", "Haskell"]
+- influenced: ["JavaScript", "TypeScript"]
+- is_keystone: false
+
+**Cyclone**
+- Profile: `data/docs/language_profiles/Cyclone.json`
+- year: 2002, creators: ["AT&T Labs", "University of Maryland"]
+- paradigms: ["Procedural", "Systems", "Type-driven"]
+- cluster: "systems", generation: "web1"
+- influenced_by: ["C", "ML"]
+- influenced: ["Rust"]
+- is_keystone: false
+
+**D**
+- Profile: `data/docs/language_profiles/D.json`
+- year: 2001, creators: ["Walter Bright", "Andrei Alexandrescu"]
+- paradigms: ["Procedural", "Object-Oriented", "Functional", "Generic"]
+- cluster: "systems", generation: "web1"
+- influenced_by: ["C", "C++", "Java", "Python"]
+- influenced: []
+- is_keystone: false
+
+**Datalog**
+- Profile: `data/docs/language_profiles/Datalog.json`
+- year: 1977, creators: ["Hervé Gallaire", "Jack Minker"]
+- paradigms: ["Logic", "Declarative", "Query-oriented"]
+- cluster: "academic", generation: "early"
+- influenced_by: ["Prolog", "SQL", "First-order logic"]
+- influenced: ["Datomic", "Souffle"]
+- is_keystone: false
+
+**Delphi**
+- Profile: `data/docs/language_profiles/Delphi.json`
+- year: 1995, creators: ["Anders Hejlsberg", "Borland"]
+- paradigms: ["Object-Oriented", "Procedural", "Component-based"]
+- cluster: "enterprise", generation: "web1"
+- influenced_by: ["Pascal", "Object Pascal"]
+- influenced: ["CSharp"]
+- is_keystone: false
+
+**Fish**
+- Profile: `data/docs/language_profiles/Fish.json`
+- year: 2005, creators: ["Axel Liljencrantz"]
+- paradigms: ["Scripting", "Imperative", "Pipeline-oriented"]
+- cluster: "scripting", generation: "web1"
+- influenced_by: ["Bash", "Zsh", "Perl"]
+- influenced: []
+- is_keystone: false
+
+**GNU Octave**
+- Profile: `data/docs/language_profiles/GNU_Octave.json`
+- year: 1988, creators: ["John W. Eaton"]
+- paradigms: ["Array-oriented", "Matrix-oriented", "Procedural"]
+- cluster: "scientific", generation: "early"
+- influenced_by: ["MATLAB", "Fortran"]
+- influenced: ["Numpy"]
+- is_keystone: false
+
+**Groovy**
+- Profile: `data/docs/language_profiles/Groovy.json`
+- year: 2003, creators: ["James Strachan"]
+- paradigms: ["Object-Oriented", "Scripting", "Functional", "Dynamic"]
+- cluster: "backend", generation: "web1"
+- influenced_by: ["Java", "Python", "Ruby", "Smalltalk"]
+- influenced: ["Kotlin"]
+- is_keystone: false
+
+**Haxe**
+- Profile: `data/docs/language_profiles/Haxe.json`
+- year: 2005, creators: ["Nicolas Cannasse"]
+- paradigms: ["Object-Oriented", "Functional", "Generic"]
+- cluster: "frontend", generation: "web1"
+- influenced_by: ["OCaml", "JavaScript", "ActionScript"]
+- influenced: []
+- is_keystone: false
+
+**Maclisp**
+- Profile: `data/docs/language_profiles/Maclisp.json`
+- year: 1966, creators: ["Richard Greenblatt", "MIT Project MAC"]
+- paradigms: ["Functional", "Symbolic", "Procedural"]
+- cluster: "academic", generation: "early"
+- influenced_by: ["Lisp"]
+- influenced: ["Common Lisp", "Scheme", "Emacs Lisp"]
+- is_keystone: false
+
+**Mathematica**
+- Profile: `data/docs/language_profiles/Mathematica.json`
+- year: 1988, creators: ["Stephen Wolfram"]
+- paradigms: ["Functional", "Symbolic", "Rule-based", "Procedural"]
+- cluster: "scientific", generation: "early"
+- influenced_by: ["Lisp", "APL", "MACSYMA", "Maple"]
+- influenced: ["Maple", "Julia"]
+- is_keystone: false
+
+**Mercury**
+- Profile: `data/docs/language_profiles/Mercury.json`
+- year: 1995, creators: ["Zoltan Somogyi", "University of Melbourne"]
+- paradigms: ["Logic", "Functional", "Declarative"]
+- cluster: "academic", generation: "web1"
+- influenced_by: ["Prolog", "Haskell", "ML"]
+- influenced: []
+- is_keystone: false
+
+**Occam**
+- Profile: `data/docs/language_profiles/Occam.json`
+- year: 1983, creators: ["David May", "INMOS"]
+- paradigms: ["Concurrent", "Process-oriented", "Imperative"]
+- cluster: "systems", generation: "early"
+- influenced_by: ["CSP", "ALGOL 68"]
+- influenced: ["Go", "Erlang"]
+- is_keystone: false
+
+**Planner**
+- Profile: `data/docs/language_profiles/Planner.json`
+- year: 1969, creators: ["Carl Hewitt"]
+- paradigms: ["Logic", "Goal-directed", "Procedural"]
+- cluster: "academic", generation: "early"
+- influenced_by: ["Lisp", "First-order logic"]
+- influenced: ["Prolog", "Scheme"]
+- is_keystone: false
+
+**PureScript**
+- Profile: `data/docs/language_profiles/Purescript.json`
+- Note: the profile filename is `Purescript.json` (single case); canonical
+  name should be `PureScript` to match standard usage.
+- year: 2013, creators: ["Phil Freeman"]
+- paradigms: ["Functional", "Type-driven", "Declarative"]
+- cluster: "frontend", generation: "renaissance"
+- influenced_by: ["Haskell", "ML"]
+- influenced: []
+- is_keystone: false
+
+**QUEL**
+- Profile: `data/docs/language_profiles/QUEL.json`
+- year: 1974, creators: ["Michael Stonebraker", "University of California Berkeley"]
+- paradigms: ["Query-oriented", "Declarative", "Relational"]
+- cluster: "academic", generation: "early"
+- influenced_by: ["ALPHA", "Relational algebra"]
+- influenced: ["SQL"]
+- is_keystone: false
+
+**SASL**
+- Profile: `data/docs/language_profiles/SASL.json`
+- year: 1972, creators: ["David Turner"]
+- paradigms: ["Functional", "Declarative", "Lazy"]
+- cluster: "academic", generation: "early"
+- influenced_by: ["Lisp", "ISWIM", "Lambda Calculus"]
+- influenced: ["Miranda", "Haskell", "KRC"]
+- is_keystone: false
+
+**Visual Basic**
+- Profile: `data/docs/language_profiles/Visual_Basic.json`
+- year: 1991, creators: ["Alan Cooper", "Microsoft"]
+- paradigms: ["Object-Oriented", "Event-Driven", "Procedural", "Component-based"]
+- cluster: "business", generation: "web1"
+- influenced_by: ["BASIC", "QuickBASIC"]
+- influenced: ["VB", "VB.NET", "Delphi"]
+- is_keystone: false
+
+**Zsh**
+- Profile: `data/docs/language_profiles/Zsh.json`
+- year: 1990, creators: ["Paul Falstad"]
+- paradigms: ["Scripting", "Imperative", "Pipeline-oriented"]
+- cluster: "scripting", generation: "early"
+- influenced_by: ["Bash", "Ksh", "Tcsh"]
+- influenced: ["Fish"]
+- is_keystone: false
+
+---
+
+### New `entity_type: "artifact"` entries
+
+**CSS**
+- Profile: `data/docs/language_profiles/CSS.json`
+- year: 1996, creators: ["Håkon Wium Lie", "Bert Bos", "W3C"]
+- paradigms: ["Declarative", "Rule-based"]
+- cluster: "frontend", generation: "web1"
+- influenced_by: ["HTML", "DSSSL", "PostScript"]
+- influenced: ["Svelte", "Sass"]
+- is_keystone: true
+
+**HTML**
+- Profile: `data/docs/language_profiles/HTML.json`
+- year: 1991, creators: ["Tim Berners-Lee", "W3C"]
+- paradigms: ["Declarative", "Markup"]
+- cluster: "frontend", generation: "web1"
+- influenced_by: ["SGML", "XML"]
+- influenced: ["CSS", "JavaScript", "Svelte"]
+- is_keystone: true
+
+## Task 3: Fix Profile Filename Mismatches
+
+### 3a. FLOW-MATIC profile
+
+The file `data/docs/language_profiles/FLOW_MATIC.json` uses an underscore.
+The canonical language name is `FLOW-MATIC` (with a hyphen). The lookup
+candidates function does not replace underscores with hyphens, so the
+profile is silently dropped during build. Rename the file:
+
+```bash
+mv data/docs/language_profiles/FLOW_MATIC.json \
+   "data/docs/language_profiles/FLOW-MATIC.json"
+```
+
+Verify the profile loads for FLOW-MATIC after rebuild.
+
+### 3b. VB.NET profile
+
+The file `data/docs/language_profiles/VBNET.json` does not match `VB.NET`.
+Rename to use the canonical name directly (the dot is valid in filenames and
+is not in the URL-unsafe character set for the lookup logic):
+
+```bash
+mv data/docs/language_profiles/VBNET.json \
+   "data/docs/language_profiles/VB.NET.json"
+```
+
+### 3c. F# profile and canonical name
+
+The file `data/docs/language_profiles/FSharp.json` does not match `F#`
+because `#` fails the URL-safety check in `get_entity_link_map` and also
+breaks browser URL parsing at the fragment boundary.
+
+The correct fix is to change the canonical `name` in `languages.json` from
+`"F#"` to `"FSharp"` and set `"display_name": "F#"` so the human-readable
+name is preserved everywhere. The route becomes `/language/FSharp`.
+
+Steps:
+1. In `languages.json`, find the `F#` entry and change:
+   - `"name": "F#"` → `"name": "FSharp"`
+   - Set `"display_name": "F#"` if not already present.
+2. In `languages.json`, update all `influenced`/`influenced_by` references
+   from `"F#"` to `"FSharp"` throughout the file.
+3. `FSharp.json` already has the correct filename for lookup — no rename needed.
+
+After this change, `get_entity_link_map` will include `FSharp` (URL-safe)
+AND `F#` (display_name, also URL-safe per the `_url_safe_segment` check —
+wait, `F#` contains `#` which IS in the unsafe set). The display_name `F#`
+will be skipped for auto-linking, which is the correct behaviour. The
+canonical route slug `FSharp` will be auto-linked instead.
+
+## Verification
+
+1. Run `make build`. Confirm it exits cleanly.
+2. Run `make audit`. Compare the unknown-reference list against the one
+   captured at the start of this session. Confirm that all entries addressed
+   in Task 1 and Task 2 are resolved.
+3. Run `make test`.
+4. Run `make dark-matter` and note the reduction in missing-profile count.
+5. Spot-check profiles loaded for newly added entries:
+
+```python
+import sqlite3
+conn = sqlite3.connect('language_atlas.sqlite')
+conn.row_factory = sqlite3.Row
+for name in ('ALGOL 58', 'Bourne Shell', 'D', 'Delphi', 'PureScript',
+             'FSharp', 'FLOW-MATIC', 'VB.NET', 'QUEL', 'Visual Basic',
+             'Zsh', 'CSS', 'HTML'):
+    row = conn.execute(
+        "SELECT l.name, l.entity_type, lp.title FROM languages l "
+        "LEFT JOIN language_profiles lp ON l.id=lp.language_id "
+        "WHERE lower(l.name)=lower(?)",
+        (name,)
+    ).fetchone()
+    if row:
+        print(row['name'], f'({row[\"entity_type\"]})', '->', row['title'])
+    else:
+        print(name, '-> NOT FOUND')
+conn.close()
+```
+
+6. Verify F# renaming did not break the FSharp profile:
+
+```python
+from app.core.data_loader import DataLoader
+dl = DataLoader()
+p = dl.get_language_profile('FSharp')
+print(p.get('title') if p else 'MISSING')
+lang = dl.get_language('FSharp')
+print(lang.get('display_name') if lang else 'MISSING')  # should be 'F#'
+```

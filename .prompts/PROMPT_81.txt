@@ -1,0 +1,453 @@
+# PROMPT_81: Unknown Reference Cleanup and Full-Stack entity_type Integration
+
+## Objective
+
+This is the integration and validation prompt for the entity_type work started
+in PROMPT_79 and PROMPT_80. It has three phases:
+
+1. **Unknown reference cleanup** — resolve the remaining `influenced` /
+   `influenced_by` references that the audit still flags as unknown. Remove
+   obscure or irrelevant entries from influence chains; add minimal
+   `languages.json` records for historically significant ones.
+
+2. **Full-stack entity_type surfacing** — update `DataLoader`, FastAPI routes,
+   the CLI, and the TUI to filter and display by `entity_type`, so the
+   classification work is actually usable and not just latent in the database.
+
+3. **Comprehensive validation** — confirm that the SQLite build is producing
+   a well-formed, fully-linked database and that all application layers
+   retrieve and present data correctly.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/data-pipeline.md`,
+   `.context/database.md`, `.context/routes.md`, and `.context/commands.md`.
+3. Run `make audit` and save the output to `tmp/PROMPT_81_audit_before.txt`.
+4. Run `make build` first to ensure the database is current.
+5. Create `tmp/PROMPT_81_checklist.md` with checkboxes per phase.
+6. Check off each item immediately after completing it.
+
+---
+
+## Phase 1: Unknown Reference Cleanup
+
+### 1a. Remove obscure/dead references from influence chains
+
+The entries below appear in `influenced` or `influenced_by` but represent
+one of: an internal implementation detail, a defunct/untracked sub-dialect,
+a library that is too narrow to warrant an Atlas entry, or an alternate name
+that has no educational value as a standalone reference. Remove them from
+`languages.json` influence arrays only — do not add new records for them.
+
+| Reference to remove | Found in |
+|---|---|
+| `"asm.js"` | WebAssembly's `influenced_by` |
+| `"PNaCl"` | WebAssembly's `influenced_by` |
+| `"Compression Algorithms"` | Information Theory's `influenced` |
+| `"CycL"` | SQL's `influenced` |
+| `"NeWS"` | PostScript's `influenced` |
+| `"PDF"` | PostScript's `influenced` |
+| `"BSON"` | JSON's `influenced` |
+| `"Goo"` | Dylan's `influenced_by` |
+| `"DEL"` | Lua's `influenced_by` |
+| `"SOL"` | Lua's `influenced_by` |
+| `"Squirrel"` | Lua's `influenced` |
+| `"MoonScript"` | Lua's `influenced` |
+| `"Pizza"` | Scala's `influenced_by` |
+| `"Ractive.js"` | Svelte's `influenced_by` |
+| `"Object REXX"` | REXX's `influenced` |
+| `"Unicon"` | Icon's `influenced` |
+| `"NewtonScript"` | Self's `influenced` |
+| `"UCSD Pascal"` | JVM's `influenced_by` (only if added in PROMPT_79) |
+| `"Datomic"` | Datalog's `influenced` (only if added in PROMPT_80) |
+| `"Souffle"` | Datalog's `influenced` (only if added in PROMPT_80) |
+| `"Sass"` | CSS's `influenced` (only if added in PROMPT_80) |
+| `"Ash"` | Bourne Shell's `influenced` (only if added in PROMPT_80) |
+| `"JAX"` | Numpy's `influenced` (only if added in PROMPT_79) |
+| `"REST"` | GraphQL's `influenced_by` (only if added in PROMPT_79) |
+| `"Flux"` | Redux's `influenced_by` (only if added in PROMPT_79) |
+| `"FRP"` | React's `influenced_by` (only if added in PROMPT_79) |
+| `"Vue"` | React's `influenced` (only if added in PROMPT_79) |
+| `"Ksh"` | Bourne Shell or Bash entries |
+| `"Tcsh"` | Zsh's `influenced_by` (only if added in PROMPT_80) |
+| `"Emacs Lisp"` | Maclisp's `influenced` (only if added in PROMPT_80) |
+| `"DSSSL"` | CSS's `influenced_by` (only if added in PROMPT_80) |
+| `"Sgml"` or `"SGML"` | HTML's `influenced_by` (only if added in PROMPT_80) |
+| `"QuickBASIC"` | Visual Basic's `influenced_by` (only if added in PROMPT_80) |
+| `"MACSYMA"` | Maple's `influenced_by` |
+| `"LINPACK"` | MATLAB's `influenced_by` |
+| `"EISPACK"` | MATLAB's `influenced_by` |
+| `"Nginx config"` | HCL's `influenced_by` |
+| `"libucl"` | HCL's `influenced_by` |
+| `"Pulumi (concepts)"` | HCL's `influenced` |
+
+### 1b. Add minimal entries for significant unresolved references
+
+The entries below appear as unknown references and are historically
+significant enough to warrant a minimal `languages.json` record. They do
+NOT require profile documents at this stage — a profile can be added in a
+later content-focused prompt. Add only the fields needed for the build
+pipeline to create a valid row and wire influence edges.
+
+Required minimum fields: `name`, `year`, `creators`, `paradigms`, `cluster`,
+`generation`, `entity_type`, `display_name`, `influenced_by`, `influenced`,
+`is_keystone: false`. Leave narrative fields (`philosophy`, `mental_model`,
+etc.) as `""` (empty string) if unknown — the pipeline allows this.
+
+**BNF** (`entity_type: "foundation"`)
+- Profile: `data/docs/language_profiles/BNF.json` (exists; will link after build)
+- year: 1959, creators: ["John Backus", "Peter Naur"]
+- paradigms: ["Formal grammar", "Metasyntax"]
+- cluster: "historical", generation: "early"
+- influenced_by: ["ALGOL 58", "Mathematical Notation"]
+- influenced: ["ALGOL 60", "Chomsky Hierarchy", "Prolog", "XML"]
+- is_keystone: true
+
+**ISWIM** (`entity_type: "language"`)
+- year: 1966, creators: ["Peter Landin"]
+- paradigms: ["Functional", "Imperative"]
+- cluster: "academic", generation: "early"
+- influenced_by: ["Lambda Calculus", "Lisp", "ALGOL 60"]
+- influenced: ["ML", "Haskell", "SASL"]
+- is_keystone: false
+
+**KRC** (`entity_type: "language"`)
+- year: 1981, creators: ["David Turner"]
+- paradigms: ["Functional", "Lazy", "Declarative"]
+- cluster: "academic", generation: "early"
+- influenced_by: ["SASL", "Lambda Calculus"]
+- influenced: ["Miranda", "Haskell"]
+- is_keystone: false
+
+**S** (`entity_type: "language"`)
+- Note: This is the statistical language S, precursor to R. Use `"S"` as
+  canonical name and `"S Language"` as display_name to avoid any namespace
+  confusion.
+- year: 1976, creators: ["John Chambers", "Bell Labs"]
+- paradigms: ["Array-oriented", "Functional", "Procedural"]
+- cluster: "scientific", generation: "early"
+- influenced_by: ["Fortran", "APL", "Lisp"]
+- influenced: ["R", "GNU Octave"]
+- is_keystone: false
+
+**AssemblyScript** (`entity_type: "language"`)
+- year: 2017, creators: ["Daniel Wirtz", "Max Graey"]
+- paradigms: ["Typed", "Compiled", "Procedural"]
+- cluster: "frontend", generation: "autonomic"
+- influenced_by: ["TypeScript", "WebAssembly"]
+- influenced: []
+- is_keystone: false
+
+**Hack** (`entity_type: "language"`)
+- year: 2014, creators: ["Facebook"]
+- paradigms: ["Object-Oriented", "Functional", "Procedural"]
+- cluster: "backend", generation: "renaissance"
+- influenced_by: ["PHP", "Haskell"]
+- influenced: []
+- is_keystone: false
+
+**Q** (`entity_type: "language"`)
+- Note: This is the Q array language (Kx Systems), descendant of K.
+- year: 2003, creators: ["Arthur Whitney", "Kx Systems"]
+- paradigms: ["Array", "Functional", "Procedural"]
+- cluster: "finance", generation: "web1"
+- influenced_by: ["K", "APL"]
+- influenced: []
+- is_keystone: false
+
+After making additions, re-run `make audit` and save output to
+`tmp/PROMPT_81_audit_after.txt`. Diff the two files to confirm that
+the unknown-reference count dropped substantially. A small number of
+truly obscure references may remain; document them in the checklist but
+do not block the prompt on eliminating every last one.
+
+---
+
+## Phase 2: Surface entity_type Through the Full Stack
+
+### 2a. DataLoader — add `entity_type` filter to `get_all_languages()`
+
+In `src/app/core/data_loader.py`, update `get_all_languages()` to accept an
+optional `entity_type` parameter:
+
+```python
+def get_all_languages(
+    self,
+    ...,
+    entity_type: Optional[str] = 'language',
+) -> List[Dict[str, Any]]:
+```
+
+**Default value is `'language'`** — existing callers that do not pass this
+argument will automatically exclude foundations and artifacts, which is the
+correct behaviour for language-browse views (the year-range scatter plots and
+the comparison tool should not include Jacquard Loom or Numpy).
+
+In the JSON path, add:
+```python
+if entity_type:
+    langs = [l for l in langs if l.get('entity_type', 'language') == entity_type]
+```
+
+In the SQLite path, add the WHERE clause variant:
+```python
+if entity_type:
+    query += " AND COALESCE(entity_type, 'language') = ?"
+    params.append(entity_type)
+```
+
+Also update `get_all_clusters()` to only return clusters for
+`entity_type='language'` by default (pass `entity_type='language'`
+internally), so the cluster browse list is not polluted with `historical`
+entries that are now foundations:
+
+```python
+def get_all_clusters(self, entity_type: str = 'language') -> List[str]:
+```
+
+Add equivalent filtering in both JSON and SQLite paths.
+
+### 2b. FastAPI — expose entity_type filtering on the language list route
+
+In `src/app/app.py`, find the `/languages` route (the main language list page
+and the filtered partial). Add an optional `entity_type` query parameter:
+
+```python
+@app.get("/languages", response_class=HTMLResponse)
+async def get_languages(
+    request: Request,
+    ...,
+    entity_type: Optional[str] = Query(None),
+) -> Response:
+```
+
+When `entity_type` is provided, pass it through to `data_loader.get_all_languages()`.
+When it is `None`, pass `entity_type='language'` to preserve the default behaviour.
+
+Add three navigation links to the language list template (or to the Atlas
+index page, whichever is most natural) so users can browse foundations and
+artifacts:
+
+- `/languages?entity_type=language` — programming languages (default)
+- `/languages?entity_type=foundation` — historical and theoretical foundations
+- `/languages?entity_type=artifact` — tools, libraries, runtimes, and formats
+
+The template should display the `entity_type` tab or label so users know
+which section they are browsing.
+
+Also add a new `/api/entity-types` JSON route that returns a summary:
+
+```python
+@app.get("/api/entity-types")
+async def get_entity_type_summary(request: Request) -> Response:
+    # Return counts per entity_type
+```
+
+Update `API_GUIDE.md` to document the new query parameter and the new route.
+
+### 2c. CLI — add `--entity-type` option to `list` command
+
+In `src/cli.py`, find the `list_langs` (or equivalent `list`) command.
+Add a `--entity-type` option that defaults to `"language"`:
+
+```python
+entity_type: Optional[str] = typer.Option(
+    "language",
+    "--entity-type", "-e",
+    help="Filter by entity type: language, foundation, or artifact",
+)
+```
+
+Pass it to `loader.get_all_languages(entity_type=entity_type)`.
+
+Add `entity_type` as a column in the Rich table output so the value is
+visible when browsing mixed types (e.g., `atlas list --entity-type artifact`).
+
+### 2d. TUI — show entity_type in the language detail panel
+
+In `src/tui.py`, find where the language detail or "vital signs" panel is
+rendered. Add an `Entity Type:` row alongside the existing `Cluster:` and
+`Generation:` rows:
+
+```python
+vital_signs += f"[bold]Entity Type:[/bold] {lang.get('entity_type', 'language')}\n"
+```
+
+Also, in the TUI language listing widget, if languages are currently fetched
+via `get_all_languages()` without an `entity_type` argument, confirm the new
+default (`'language'`) does not break the display. If the TUI should show
+all entity types, pass `entity_type=None` explicitly when constructing the
+full list.
+
+### 2e. Search index — verify FTS5 entries for new entities
+
+After rebuilding, confirm that the FTS5 `search_index` table contains entries
+for a sample of the new artifact and foundation entries. The build pipeline
+populates `search_index` from the `language_profiles` join — this only works
+if profile docs exist AND loaded correctly.
+
+```python
+import sqlite3
+conn = sqlite3.connect('language_atlas.sqlite')
+conn.row_factory = sqlite3.Row
+for name in ('GCC', 'JVM', 'ENIAC', 'BNF', 'Bourne Shell', 'D', 'PureScript'):
+    row = conn.execute(
+        "SELECT COUNT(*) as cnt FROM search_index WHERE entity_id = ?", (name,)
+    ).fetchone()
+    print(name, '->', row['cnt'], 'FTS5 entries')
+conn.close()
+```
+
+Entries with profiles should have at least one FTS5 row. If any are missing,
+trace back to whether the profile doc is being loaded and linked correctly.
+
+---
+
+## Phase 3: Comprehensive Validation
+
+Run all quality gates in sequence and record the outcome of each in the
+checklist.
+
+### 3a. Build and audit
+
+```bash
+make build
+make audit
+```
+
+From the audit output, record:
+- Total languages, foundations, and artifacts in the database.
+- Count of remaining unknown-reference warnings (target: under 15).
+- Any schema violations or referential integrity failures (target: 0).
+
+### 3b. Full test suite
+
+```bash
+make harden
+```
+
+All tests must pass. Fix any failures introduced by the `entity_type` changes
+before proceeding.
+
+### 3c. Dark matter report
+
+```bash
+make dark-matter
+```
+
+Review `generated-reports/dark_matter_todo.json`. Confirm that:
+- Newly added language entries without profile docs appear as profile-doc
+  gaps (this is expected and correct; profiles are added in content prompts).
+- No previously-profiled languages were accidentally de-linked.
+
+### 3d. Database integrity spot-checks
+
+Run the following queries and confirm they return expected results:
+
+```python
+import sqlite3, json
+conn = sqlite3.connect('language_atlas.sqlite')
+conn.row_factory = sqlite3.Row
+
+# Entity type distribution
+print("=== Entity type distribution ===")
+for row in conn.execute(
+    "SELECT COALESCE(entity_type,'language') as et, COUNT(*) as n "
+    "FROM languages GROUP BY et ORDER BY et"
+).fetchall():
+    print(f"  {row['et']}: {row['n']}")
+
+# Influence edge count — should be substantially higher than before PROMPT_79
+print("\n=== Influence edges ===")
+row = conn.execute("SELECT COUNT(*) as n FROM influences").fetchone()
+print(f"  Total influence edges: {row['n']}")
+
+# Cross-type influence examples (foundations -> languages)
+print("\n=== Foundation -> language influence samples ===")
+for row in conn.execute("""
+    SELECT src.name as src, tgt.name as tgt
+    FROM influences i
+    JOIN languages src ON i.source_id = src.id
+    JOIN languages tgt ON i.target_id = tgt.id
+    WHERE src.entity_type = 'foundation' AND tgt.entity_type = 'language'
+    LIMIT 10
+""").fetchall():
+    print(f"  {row['src']} -> {row['tgt']}")
+
+# Artifact -> language influence examples
+print("\n=== Artifact -> language influence samples ===")
+for row in conn.execute("""
+    SELECT src.name as src, tgt.name as tgt
+    FROM influences i
+    JOIN languages src ON i.source_id = src.id
+    JOIN languages tgt ON i.target_id = tgt.id
+    WHERE src.entity_type = 'artifact' AND tgt.entity_type = 'language'
+    LIMIT 10
+""").fetchall():
+    print(f"  {row['src']} -> {row['tgt']}")
+
+# Profile coverage for entity types
+print("\n=== Profile coverage by entity_type ===")
+for row in conn.execute("""
+    SELECT COALESCE(l.entity_type,'language') as et,
+           COUNT(l.id) as total,
+           COUNT(lp.id) as with_profile
+    FROM languages l
+    LEFT JOIN language_profiles lp ON l.id = lp.language_id
+    GROUP BY et ORDER BY et
+""").fetchall():
+    print(f"  {row['et']}: {row['with_profile']}/{row['total']} have profiles")
+
+conn.close()
+```
+
+### 3e. Application route spot-checks
+
+Start the FastAPI server (`make server` or `uv run uvicorn app.main:app`)
+and verify:
+
+- `/languages` — returns only programming languages (no Jacquard Loom, no Numpy).
+- `/languages?entity_type=foundation` — returns historical/theoretical entries.
+- `/languages?entity_type=artifact` — returns GCC, JVM, Numpy, React, etc.
+- `/language/GCC` — language detail page loads with profile content.
+- `/language/Turing_Machine` — detail page loads for a foundation.
+- `/language/Numpy` — detail page loads for an artifact.
+- `/language/FSharp` — loads correctly; page title shows `F#`.
+- `/language/PureScript` — loads correctly.
+- `/api/entity-types` — returns JSON with counts per entity_type.
+- Site search for `"react"` returns the React artifact entry.
+- Site search for `"turing"` returns the Turing Machine foundation entry.
+
+### 3f. CLI spot-checks
+
+```bash
+uv run python -m cli list --entity-type artifact
+uv run python -m cli list --entity-type foundation
+uv run python -m cli list --entity-type language --generation dawn
+```
+
+Confirm that artifact and foundation lists show the expected entries and that
+the `Entity Type` column is present in the table output.
+
+### 3g. Final audit diff
+
+Compare `tmp/PROMPT_81_audit_before.txt` and `tmp/PROMPT_81_audit_after.txt`.
+Write a one-paragraph summary of what changed into the checklist file.
+
+---
+
+## Documentation Updates
+
+1. Update `src/README.md`:
+   - Add `entity_type` to the schema table for the `languages` table.
+   - Document the three valid values and their semantics.
+   - Note the default filter behaviour in `get_all_languages()`.
+
+2. Update `API_GUIDE.md`:
+   - Document the `entity_type` query parameter on `/languages`.
+   - Document the new `/api/entity-types` endpoint.
+
+3. Commit `generated-reports/dark_matter_todo.json` alongside the code
+   changes so the report reflects the current state after all three prompts.
+
