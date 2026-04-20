@@ -1,8 +1,18 @@
 [
   {
+    "from": "FLOW-MATIC",
+    "to": "COBOL",
+    "type": "business-data-modeling"
+  },
+  {
     "from": "FORTRAN",
     "to": "ALGOL 60",
-    "type": "predecessor"
+    "type": "compiler-and-syntax-predecessor"
+  },
+  {
+    "from": "ALGOL 60",
+    "to": "Pascal",
+    "type": "structured-programming"
   },
   {
     "from": "ALGOL 60",
@@ -12,12 +22,42 @@
   {
     "from": "ALGOL 60",
     "to": "SIMULA 67",
-    "type": "classes"
+    "type": "class-abstraction"
+  },
+  {
+    "from": "BCPL",
+    "to": "B",
+    "type": "systems-minimalism"
+  },
+  {
+    "from": "B",
+    "to": "C",
+    "type": "language-evolution"
+  },
+  {
+    "from": "Pascal",
+    "to": "Mesa",
+    "type": "typed-modularity"
+  },
+  {
+    "from": "Pascal",
+    "to": "Modula-2",
+    "type": "module-system"
+  },
+  {
+    "from": "Lisp",
+    "to": "Scheme",
+    "type": "minimalist-lisp"
   },
   {
     "from": "Lisp",
     "to": "Smalltalk",
-    "type": "garbage-collection"
+    "type": "garbage-collection-and-live-systems"
+  },
+  {
+    "from": "SIMULA 67",
+    "to": "Smalltalk",
+    "type": "message-oriented-objects"
   },
   {
     "from": "SIMULA 67",
@@ -27,46 +67,146 @@
   {
     "from": "C",
     "to": "C++",
-    "type": "evolution"
+    "type": "extension-of-c"
   },
   {
-    "from": "Smalltalk",
-    "to": "Java",
-    "type": "object-model"
-  },
-  {
-    "from": "Java",
-    "to": "JavaScript",
-    "type": "branding/syntax"
-  },
-  {
-    "from": "ML",
-    "to": "Haskell",
-    "type": "purity"
-  },
-  {
-    "from": "ML",
-    "to": "Rust",
-    "type": "type-system"
-  },
-  {
-    "from": "Haskell",
-    "to": "Rust",
-    "type": "traits/type-classes"
+    "from": "C",
+    "to": "Objective-C",
+    "type": "c-superset"
   },
   {
     "from": "C",
     "to": "Go",
-    "type": "syntax/simplicity"
+    "type": "syntax-and-tooling-simplicity"
+  },
+  {
+    "from": "C",
+    "to": "Rust",
+    "type": "systems-language-lineage"
+  },
+  {
+    "from": "Mesa",
+    "to": "Modula-3",
+    "type": "safe-systems-modules"
+  },
+  {
+    "from": "Smalltalk",
+    "to": "Objective-C",
+    "type": "message-passing-runtime"
+  },
+  {
+    "from": "Smalltalk",
+    "to": "Ruby",
+    "type": "pure-object-model"
+  },
+  {
+    "from": "Smalltalk",
+    "to": "Self",
+    "type": "object-model-experiment"
+  },
+  {
+    "from": "Smalltalk",
+    "to": "Java",
+    "type": "mainstream-object-model"
+  },
+  {
+    "from": "Scheme",
+    "to": "JavaScript",
+    "type": "first-class-functions"
+  },
+  {
+    "from": "Self",
+    "to": "JavaScript",
+    "type": "prototype-inheritance"
+  },
+  {
+    "from": "ML",
+    "to": "Haskell",
+    "type": "types-and-purity"
+  },
+  {
+    "from": "ML",
+    "to": "OCaml",
+    "type": "module-system-lineage"
+  },
+  {
+    "from": "ML",
+    "to": "Rust",
+    "type": "type-system-influence"
+  },
+  {
+    "from": "Haskell",
+    "to": "Rust",
+    "type": "traits-and-type-classes"
+  },
+  {
+    "from": "Haskell",
+    "to": "Elm",
+    "type": "pure-functional-ui"
+  },
+  {
+    "from": "Occam",
+    "to": "Go",
+    "type": "channels-and-csp"
+  },
+  {
+    "from": "Erlang",
+    "to": "Elixir",
+    "type": "beam-and-actor-inheritance"
+  },
+  {
+    "from": "Erlang",
+    "to": "Gleam",
+    "type": "typed-beam"
+  },
+  {
+    "from": "Java",
+    "to": "CSharp",
+    "type": "managed-runtime-ecosystem"
+  },
+  {
+    "from": "Java",
+    "to": "Scala",
+    "type": "jvm-fusion"
+  },
+  {
+    "from": "Java",
+    "to": "Kotlin",
+    "type": "jvm-modernization"
+  },
+  {
+    "from": "Java",
+    "to": "Groovy",
+    "type": "jvm-scripting"
   },
   {
     "from": "JavaScript",
     "to": "TypeScript",
-    "type": "superset"
+    "type": "typed-superset"
+  },
+  {
+    "from": "JavaScript",
+    "to": "CoffeeScript",
+    "type": "syntax-reimagining"
+  },
+  {
+    "from": "OCaml",
+    "to": "ReScript",
+    "type": "typed-web-compilation"
+  },
+  {
+    "from": "Objective-C",
+    "to": "Swift",
+    "type": "ecosystem-replacement"
   },
   {
     "from": "Python",
-    "to": "Ruby",
-    "type": "scripting-philosophy"
+    "to": "Julia",
+    "type": "technical-computing-ergonomics"
+  },
+  {
+    "from": "C++",
+    "to": "Carbon",
+    "type": "successor-experiment"
   }
 ]
