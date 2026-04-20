@@ -58,7 +58,7 @@
     ],
     "influenced": [
       "Turing Machine",
-      "Plankalkül"
+      "Plankalk\u00fcl"
     ],
     "philosophy": "A mechanical machine capable of performing any mathematical operation, controlled by an external program. It is the theoretical ancestor of the general-purpose computer.",
     "mental_model": "Think in terms of gears, levers, and punched cards. Data is stored in the 'Store' and moved to the 'Mill' for processing, governed by the instructions on the cards.",
@@ -107,6 +107,80 @@
     "is_keystone": true,
     "display_name": "Boolean Algebra",
     "entity_type": "foundation"
+  },
+  {
+    "name": "Set theory",
+    "year": 1874,
+    "creators": [
+      "Georg Cantor"
+    ],
+    "paradigms": [
+      "Mathematical"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "entity_type": "foundation",
+    "display_name": "Set theory",
+    "influenced_by": [],
+    "influenced": [
+      "Relational algebra",
+      "SQL",
+      "Pascal"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Foundations of mathematics",
+      "Data modeling"
+    ],
+    "key_innovations": [
+      "Formalization of sets and membership",
+      "Basis for relational data model"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "First-order logic",
+    "year": 1879,
+    "creators": [
+      "Gottlob Frege",
+      "David Hilbert"
+    ],
+    "paradigms": [
+      "Logic",
+      "Formal logic"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "entity_type": "foundation",
+    "display_name": "First-order logic",
+    "influenced_by": [
+      "Boolean Algebra"
+    ],
+    "influenced": [
+      "Prolog",
+      "Datalog",
+      "Planner"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Mathematical logic",
+      "Formal verification"
+    ],
+    "key_innovations": [
+      "Quantification",
+      "Formalization of deduction"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
   },
   {
     "name": "Hollerith Tabulator",
@@ -293,7 +367,7 @@
     "entity_type": "foundation"
   },
   {
-    "name": "Plankalkül",
+    "name": "Plankalk\u00fcl",
     "year": 1945,
     "creators": [
       "Konrad Zuse"
@@ -323,7 +397,7 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": true,
-    "display_name": "Plankalkül",
+    "display_name": "Plankalk\u00fcl",
     "entity_type": "language"
   },
   {
@@ -813,6 +887,48 @@
     "entity_type": "language"
   },
   {
+    "name": "ALGOL 58",
+    "year": 1958,
+    "creators": [
+      "Friedrich L. Bauer",
+      "John Backus",
+      "ACM-GAMM committee"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Structured",
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "primary_use_cases": [
+      "Scientific computing",
+      "Algorithm publication",
+      "Portable algorithm description"
+    ],
+    "key_innovations": [
+      "International language design by committee",
+      "Early block-structured thinking",
+      "Machine-independent algorithm description"
+    ],
+    "influenced_by": [
+      "FORTRAN",
+      "Mathematical Notation"
+    ],
+    "influenced": [
+      "ALGOL 60"
+    ],
+    "philosophy": "Programming languages should describe algorithms in a portable, publication-quality form rather than mirror one machine's quirks.",
+    "mental_model": "Think in nested algorithmic structure and named intermediate values, with code serving as a disciplined description of procedure rather than raw machine control.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "ALGOL 58",
+    "entity_type": "language"
+  },
+  {
     "name": "BNF",
     "year": 1959,
     "creators": [
@@ -936,46 +1052,6 @@
     "memory_management": "compile_time",
     "is_keystone": true,
     "display_name": "ALGOL 60",
-    "entity_type": "language"
-  },
-  {
-    "name": "ISWIM",
-    "year": 1966,
-    "creators": [
-      "Peter Landin"
-    ],
-    "paradigms": [
-      "Functional",
-      "Imperative"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "Language design research",
-      "Semantic models"
-    ],
-    "key_innovations": [
-      "Syntactic sugar over lambda calculus",
-      "Abstract core language for language families"
-    ],
-    "influenced_by": [
-      "Lambda Calculus",
-      "Lisp",
-      "ALGOL 60"
-    ],
-    "influenced": [
-      "ML",
-      "Haskell",
-      "SASL"
-    ],
-    "philosophy": "",
-    "mental_model": "",
-    "complexity_bias": "high",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "is_keystone": false,
-    "display_name": "ISWIM",
     "entity_type": "language"
   },
   {
@@ -1138,6 +1214,46 @@
     "entity_type": "language"
   },
   {
+    "name": "ISWIM",
+    "year": 1966,
+    "creators": [
+      "Peter Landin"
+    ],
+    "paradigms": [
+      "Functional",
+      "Imperative"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Language design research",
+      "Semantic models"
+    ],
+    "key_innovations": [
+      "Syntactic sugar over lambda calculus",
+      "Abstract core language for language families"
+    ],
+    "influenced_by": [
+      "Lambda Calculus",
+      "Lisp",
+      "ALGOL 60"
+    ],
+    "influenced": [
+      "ML",
+      "Haskell",
+      "SASL"
+    ],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "ISWIM",
+    "entity_type": "language"
+  },
+  {
     "name": "APL",
     "year": 1966,
     "creators": [
@@ -1181,6 +1297,83 @@
     "is_keystone": true,
     "display_name": "APL",
     "entity_type": "language"
+  },
+  {
+    "name": "Maclisp",
+    "year": 1966,
+    "creators": [
+      "Richard Greenblatt",
+      "MIT Project MAC"
+    ],
+    "paradigms": [
+      "Functional",
+      "Symbolic",
+      "Procedural"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "AI research",
+      "Symbolic computing",
+      "Interactive language experimentation"
+    ],
+    "key_innovations": [
+      "Pragmatic symbolic computing environment",
+      "Interactive dynamic development",
+      "Macro-rich language evolution",
+      "Direct influence on later Lisp lineages"
+    ],
+    "influenced_by": [
+      "Lisp"
+    ],
+    "influenced": [
+      "Common Lisp",
+      "Scheme"
+    ],
+    "philosophy": "A Lisp should be a practical symbolic workshop for real AI work, interactive experimentation, and language extension.",
+    "mental_model": "Treat the language as a live environment for manipulating symbolic structures, evolving programs incrementally, and extending the language through macros.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Maclisp",
+    "entity_type": "language"
+  },
+  {
+    "name": "QED",
+    "year": 1966,
+    "creators": [
+      "Butler Lampson",
+      "Peter Deutsch",
+      "Ken Thompson"
+    ],
+    "paradigms": [
+      "Line-oriented"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "QED",
+    "influenced_by": [],
+    "influenced": [
+      "ed"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Text editing",
+      "Time-sharing systems"
+    ],
+    "key_innovations": [
+      "First implementation of regular expressions in an editor",
+      "Programmable text substitution"
+    ],
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
   },
   {
     "name": "BCPL",
@@ -1306,6 +1499,42 @@
     "entity_type": "language"
   },
   {
+    "name": "MACSYMA",
+    "year": 1968,
+    "creators": [
+      "Project MAC (MIT)"
+    ],
+    "paradigms": [
+      "Symbolic manipulation"
+    ],
+    "cluster": "scientific",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "MACSYMA",
+    "influenced_by": [
+      "Lisp"
+    ],
+    "influenced": [
+      "Mathematica",
+      "Maple"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Symbolic mathematics",
+      "Computer algebra"
+    ],
+    "key_innovations": [
+      "General-purpose computer algebra system",
+      "Symbolic integration and differentiation"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
     "name": "B",
     "year": 1969,
     "creators": [
@@ -1377,6 +1606,120 @@
     "is_keystone": false,
     "display_name": "SETL",
     "entity_type": "language"
+  },
+  {
+    "name": "Planner",
+    "year": 1969,
+    "creators": [
+      "Carl Hewitt"
+    ],
+    "paradigms": [
+      "Logic",
+      "Goal-directed",
+      "Procedural"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "AI research",
+      "Goal-directed reasoning",
+      "Symbolic problem solving"
+    ],
+    "key_innovations": [
+      "Goal-directed control",
+      "Mixed declarative and procedural knowledge",
+      "Search-oriented AI language design",
+      "Influence on later AI reasoning models"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "First-order logic"
+    ],
+    "influenced": [
+      "Prolog",
+      "Scheme"
+    ],
+    "philosophy": "Reasoning systems should combine knowledge representation with explicit search and control strategies instead of treating deduction as a purely passive process.",
+    "mental_model": "Think of problem solving as guided search through goals and subgoals, where control strategy is a first-class part of the program.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Planner",
+    "entity_type": "language"
+  },
+  {
+    "name": "ed",
+    "year": 1969,
+    "creators": [
+      "Ken Thompson"
+    ],
+    "paradigms": [
+      "Line-oriented"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "ed",
+    "influenced_by": [
+      "QED"
+    ],
+    "influenced": [
+      "Sed",
+      "vi",
+      "grep"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Text editing",
+      "Scripting"
+    ],
+    "key_innovations": [
+      "Regular expressions in Unix",
+      "Line-based editing model"
+    ],
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "GML",
+    "year": 1969,
+    "creators": [
+      "Charles Goldfarb",
+      "Edward Mosher",
+      "Raymond Lorie"
+    ],
+    "paradigms": [
+      "Markup"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "foundation",
+    "display_name": "GML",
+    "influenced_by": [],
+    "influenced": [
+      "SGML"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Document markup",
+      "Information retrieval"
+    ],
+    "key_innovations": [
+      "Descriptive markup (separation of structure from style)",
+      "Standardized tag-based format"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
   },
   {
     "name": "Forth",
@@ -1467,6 +1810,115 @@
     "is_keystone": true,
     "display_name": "Pascal",
     "entity_type": "language"
+  },
+  {
+    "name": "Relational algebra",
+    "year": 1970,
+    "creators": [
+      "Edgar F. Codd"
+    ],
+    "paradigms": [
+      "Relational",
+      "Mathematical"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "entity_type": "foundation",
+    "display_name": "Relational algebra",
+    "influenced_by": [
+      "Set theory"
+    ],
+    "influenced": [
+      "SQL",
+      "QUEL",
+      "ALPHA"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Database theory",
+      "Query optimization"
+    ],
+    "key_innovations": [
+      "Set-theoretic basis for data manipulation",
+      "Relational operators (select, project, join)"
+    ],
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "ALPHA",
+    "year": 1971,
+    "creators": [
+      "Edgar F. Codd"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Relational"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "foundation",
+    "display_name": "Codd's Alpha",
+    "influenced_by": [
+      "Relational algebra"
+    ],
+    "influenced": [
+      "QUEL"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Database theory",
+      "Relational query design"
+    ],
+    "key_innovations": [
+      "Relational calculus for database sublanguages",
+      "Declarative data access"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
+    "name": "Thompson shell",
+    "year": 1971,
+    "creators": [
+      "Ken Thompson"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Pipeline-oriented"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "Thompson Shell",
+    "influenced_by": [],
+    "influenced": [
+      "PWB shell",
+      "Bourne Shell"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Unix command interpretation",
+      "Scripting"
+    ],
+    "key_innovations": [
+      "Introduction of the pipe (|) operator",
+      "I/O redirection primitives"
+    ],
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
   },
   {
     "name": "C",
@@ -1611,6 +2063,49 @@
     "entity_type": "language"
   },
   {
+    "name": "SASL",
+    "year": 1972,
+    "creators": [
+      "David Turner"
+    ],
+    "paradigms": [
+      "Functional",
+      "Declarative",
+      "Lazy"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Functional programming research",
+      "Lazy evaluation experimentation",
+      "Language design"
+    ],
+    "key_innovations": [
+      "Early lazy evaluation in practice",
+      "Purely functional design",
+      "Lineage into Miranda and Haskell"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "ISWIM",
+      "Lambda Calculus"
+    ],
+    "influenced": [
+      "Miranda",
+      "Haskell",
+      "KRC"
+    ],
+    "philosophy": "Programs should be written as pure definitions of values and functions, with evaluation deferred until demand makes it necessary.",
+    "mental_model": "Describe what values mean rather than when to compute them, trusting non-strict evaluation to realize only the parts of a computation that are needed.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "SASL",
+    "entity_type": "language"
+  },
+  {
     "name": "ML",
     "year": 1973,
     "creators": [
@@ -1654,6 +2149,40 @@
     "is_keystone": true,
     "display_name": "ML",
     "entity_type": "language"
+  },
+  {
+    "name": "grep",
+    "year": 1973,
+    "creators": [
+      "Ken Thompson"
+    ],
+    "paradigms": [
+      "Pattern-matching",
+      "Stream-oriented"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "grep",
+    "influenced_by": [
+      "ed"
+    ],
+    "influenced": [],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Text searching",
+      "Log analysis"
+    ],
+    "key_innovations": [
+      "Standalone regular expression search tool",
+      "Implementation of Thompson's construction algorithm"
+    ],
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
   },
   {
     "name": "SQL",
@@ -1780,6 +2309,48 @@
     "entity_type": "language"
   },
   {
+    "name": "QUEL",
+    "year": 1974,
+    "creators": [
+      "Michael Stonebraker",
+      "University of California Berkeley"
+    ],
+    "paradigms": [
+      "Query-oriented",
+      "Declarative",
+      "Relational"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Relational querying",
+      "Database research",
+      "Ingres database applications"
+    ],
+    "key_innovations": [
+      "Relational query expression in Ingres",
+      "Alternative syntax to SQL",
+      "Strong connection to academic database design",
+      "Historical test case for standards lock-in"
+    ],
+    "influenced_by": [
+      "ALPHA",
+      "Relational algebra"
+    ],
+    "influenced": [
+      "SQL"
+    ],
+    "philosophy": "A query language should let users describe relational intent directly, independent of any one commercial syntax becoming dominant.",
+    "mental_model": "Think in relations, tuples, and predicates over sets of data rather than loops over individual records.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "QUEL",
+    "entity_type": "language"
+  },
+  {
     "name": "Scheme",
     "year": 1975,
     "creators": [
@@ -1815,7 +2386,7 @@
       "Lua",
       "R"
     ],
-    "philosophy": "Small is beautiful. Scheme's minimalist design proves that a few powerful building blocks—lexical scoping and first-class continuations—are sufficient to build any abstraction. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
+    "philosophy": "Small is beautiful. Scheme's minimalist design proves that a few powerful building blocks\u2014lexical scoping and first-class continuations\u2014are sufficient to build any abstraction. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of pure lambda calculus. Every control structure is just a variation of a function call, and the environment is a first-class participant in the computation.",
     "complexity_bias": "high",
     "safety_model": "runtime",
@@ -1824,6 +2395,42 @@
     "is_keystone": true,
     "display_name": "Scheme",
     "entity_type": "language"
+  },
+  {
+    "name": "PWB shell",
+    "year": 1975,
+    "creators": [
+      "John Mashey"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "Mashey Shell",
+    "influenced_by": [
+      "Thompson shell"
+    ],
+    "influenced": [
+      "Bourne Shell"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Unix automation",
+      "Programmer workbench"
+    ],
+    "key_innovations": [
+      "Shell programming constructs",
+      "Execution of scripts as binaries"
+    ],
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
   },
   {
     "name": "S",
@@ -1908,6 +2515,43 @@
     "entity_type": "language"
   },
   {
+    "name": "vi",
+    "year": 1976,
+    "creators": [
+      "Bill Joy"
+    ],
+    "paradigms": [
+      "Modal",
+      "Visual-oriented"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "artifact",
+    "display_name": "vi",
+    "influenced_by": [
+      "ed",
+      "ex"
+    ],
+    "influenced": [
+      "Vim"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Text editing",
+      "Source code editing"
+    ],
+    "key_innovations": [
+      "Modal editing model",
+      "Screen-oriented visual editing"
+    ],
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
     "name": "Icon",
     "year": 1977,
     "creators": [
@@ -1987,6 +2631,46 @@
     "entity_type": "language"
   },
   {
+    "name": "Datalog",
+    "year": 1977,
+    "creators": [
+      "Herve Gallaire",
+      "Jack Minker"
+    ],
+    "paradigms": [
+      "Logic",
+      "Declarative",
+      "Query-oriented"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Deductive databases",
+      "Program analysis",
+      "Rule-based inference"
+    ],
+    "key_innovations": [
+      "Rule-based recursive queries",
+      "Fixpoint evaluation",
+      "Declarative reasoning over relations"
+    ],
+    "influenced_by": [
+      "Prolog",
+      "SQL",
+      "First-order logic"
+    ],
+    "influenced": [],
+    "philosophy": "Programs should describe relations and inference rules, leaving the engine to derive all facts implied by those definitions.",
+    "mental_model": "Stop asking how to compute step by step and instead define facts and rules whose repeated application converges on the answer set.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Datalog",
+    "entity_type": "language"
+  },
+  {
     "name": "Modula-2",
     "year": 1978,
     "creators": [
@@ -2029,6 +2713,41 @@
     "entity_type": "language"
   },
   {
+    "name": "CSP",
+    "year": 1978,
+    "creators": [
+      "Tony Hoare"
+    ],
+    "paradigms": [
+      "Process calculus",
+      "Concurrent"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "entity_type": "foundation",
+    "display_name": "CSP",
+    "influenced_by": [],
+    "influenced": [
+      "Occam",
+      "Go"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Concurrency theory",
+      "Formal specification"
+    ],
+    "key_innovations": [
+      "Synchronous channel communication",
+      "Process composition operators"
+    ],
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
     "name": "REXX",
     "year": 1979,
     "creators": [
@@ -2065,6 +2784,49 @@
     "memory_management": "runtime",
     "is_keystone": false,
     "display_name": "REXX",
+    "entity_type": "language"
+  },
+  {
+    "name": "Bourne Shell",
+    "year": 1979,
+    "creators": [
+      "Stephen Bourne"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Imperative",
+      "Pipeline-oriented"
+    ],
+    "cluster": "scripting",
+    "generation": "early",
+    "primary_use_cases": [
+      "Unix scripting",
+      "System administration",
+      "Process orchestration"
+    ],
+    "key_innovations": [
+      "Portable /bin/sh scripting grammar",
+      "Pipelines and redirection as first-class composition",
+      "Structured control flow for reusable automation",
+      "Environment-driven execution model"
+    ],
+    "influenced_by": [
+      "ALGOL 68",
+      "PWB shell"
+    ],
+    "influenced": [
+      "Bash",
+      "Zsh",
+      "Fish"
+    ],
+    "philosophy": "A shell should be a portable control language for orchestrating Unix programs, files, and streams rather than only an interactive command prompt.",
+    "mental_model": "Think in terms of connecting processes through redirection, pipelines, environment state, and exit codes to execute an operational plan.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Bourne Shell",
     "entity_type": "language"
   },
   {
@@ -2113,6 +2875,44 @@
     "memory_management": "manual",
     "is_keystone": true,
     "display_name": "Ada",
+    "entity_type": "language"
+  },
+  {
+    "name": "KRC",
+    "year": 1981,
+    "creators": [
+      "David Turner"
+    ],
+    "paradigms": [
+      "Functional",
+      "Lazy",
+      "Declarative"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Research into lazy functional programming"
+    ],
+    "key_innovations": [
+      "Lazy graph reduction model",
+      "Experimentation with non-strict functional syntax"
+    ],
+    "influenced_by": [
+      "SASL",
+      "Lambda Calculus"
+    ],
+    "influenced": [
+      "Miranda",
+      "Haskell"
+    ],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "KRC",
     "entity_type": "language"
   },
   {
@@ -2176,7 +2976,7 @@
     "key_innovations": [
       "Device-independent graphics",
       "Stack-based execution",
-      "Bézier curves"
+      "B\u00e9zier curves"
     ],
     "influenced_by": [
       "Forth"
@@ -2190,6 +2990,48 @@
     "memory_management": "manual",
     "is_keystone": true,
     "display_name": "PostScript",
+    "entity_type": "language"
+  },
+  {
+    "name": "Occam",
+    "year": 1983,
+    "creators": [
+      "David May",
+      "INMOS"
+    ],
+    "paradigms": [
+      "Concurrent",
+      "Process-oriented",
+      "Imperative"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Concurrent systems",
+      "Parallel computing",
+      "Transputer software"
+    ],
+    "key_innovations": [
+      "CSP-inspired channels",
+      "First-class process composition",
+      "Theory-hardware alignment for parallel systems"
+    ],
+    "influenced_by": [
+      "CSP",
+      "ALGOL 68"
+    ],
+    "influenced": [
+      "Go",
+      "Erlang"
+    ],
+    "philosophy": "Concurrency should be built into the language model itself through explicit process composition and communication, not bolted on as a library concern.",
+    "mental_model": "Model software as independent processes that communicate through channels instead of sharing mutable state and retrofitting synchronization later.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Occam",
     "entity_type": "language"
   },
   {
@@ -2503,6 +3345,42 @@
     "entity_type": "language"
   },
   {
+    "name": "SGML",
+    "year": 1986,
+    "creators": [
+      "Charles Goldfarb"
+    ],
+    "paradigms": [
+      "Markup"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "entity_type": "foundation",
+    "display_name": "SGML",
+    "influenced_by": [
+      "GML"
+    ],
+    "influenced": [
+      "HTML",
+      "XML"
+    ],
+    "is_keystone": false,
+    "primary_use_cases": [
+      "Document markup",
+      "Data exchange"
+    ],
+    "key_innovations": [
+      "Generalized markup language",
+      "Metalanguage for defining DTDs"
+    ],
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "philosophy": "",
+    "mental_model": ""
+  },
+  {
     "name": "Oberon",
     "year": 1987,
     "creators": [
@@ -2671,44 +3549,6 @@
     "entity_type": "language"
   },
   {
-    "name": "KRC",
-    "year": 1981,
-    "creators": [
-      "David Turner"
-    ],
-    "paradigms": [
-      "Functional",
-      "Lazy",
-      "Declarative"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "Research into lazy functional programming"
-    ],
-    "key_innovations": [
-      "Lazy graph reduction model",
-      "Experimentation with non-strict functional syntax"
-    ],
-    "influenced_by": [
-      "SASL",
-      "Lambda Calculus"
-    ],
-    "influenced": [
-      "Miranda",
-      "Haskell"
-    ],
-    "philosophy": "",
-    "mental_model": "",
-    "complexity_bias": "medium",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "is_keystone": false,
-    "display_name": "KRC",
-    "entity_type": "language"
-  },
-  {
     "name": "ABC",
     "year": 1987,
     "creators": [
@@ -2834,6 +3674,92 @@
     "memory_management": "runtime",
     "is_keystone": false,
     "display_name": "Modula-3",
+    "entity_type": "language"
+  },
+  {
+    "name": "GNU Octave",
+    "year": 1988,
+    "creators": [
+      "John W. Eaton"
+    ],
+    "paradigms": [
+      "Array-oriented",
+      "Matrix-oriented",
+      "Procedural"
+    ],
+    "cluster": "scientific",
+    "generation": "early",
+    "primary_use_cases": [
+      "Numerical computing",
+      "Scientific computing",
+      "Teaching and prototyping"
+    ],
+    "key_innovations": [
+      "MATLAB-like compatibility",
+      "Matrix-first language design",
+      "Interactive numerical exploration",
+      "Open scientific computing environment"
+    ],
+    "influenced_by": [
+      "MATLAB",
+      "FORTRAN"
+    ],
+    "influenced": [
+      "Numpy"
+    ],
+    "philosophy": "Numerical computing should remain accessible, reproducible, and open rather than locked behind proprietary scientific software.",
+    "mental_model": "Think in matrices, vectors, and whole-array transformations, with interactive numerical exploration centered on linear algebra and batch operations.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "GNU Octave",
+    "entity_type": "language"
+  },
+  {
+    "name": "Mathematica",
+    "year": 1988,
+    "creators": [
+      "Stephen Wolfram"
+    ],
+    "paradigms": [
+      "Functional",
+      "Symbolic",
+      "Rule-based",
+      "Procedural"
+    ],
+    "cluster": "scientific",
+    "generation": "early",
+    "primary_use_cases": [
+      "Symbolic computation",
+      "Scientific notebooks",
+      "Technical exploration"
+    ],
+    "key_innovations": [
+      "Unified symbolic and numerical computation",
+      "Pattern matching and rule-based rewriting",
+      "Notebook-based interactive computing",
+      "Integrated computational knowledge base"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "APL",
+      "MACSYMA",
+      "Maple"
+    ],
+    "influenced": [
+      "Maple",
+      "Julia"
+    ],
+    "philosophy": "A technical computing environment should treat code, formulas, graphics, and documents as one symbolic medium for interactive exploration.",
+    "mental_model": "See everything as a symbolic expression tree that can be transformed through rules, patterns, and notebook-driven experimentation.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Mathematica",
     "entity_type": "language"
   },
   {
@@ -3010,6 +3936,46 @@
     "entity_type": "language"
   },
   {
+    "name": "Zsh",
+    "year": 1990,
+    "creators": [
+      "Paul Falstad"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Imperative",
+      "Pipeline-oriented"
+    ],
+    "cluster": "scripting",
+    "generation": "early",
+    "primary_use_cases": [
+      "Interactive shell use",
+      "Developer productivity",
+      "Shell scripting"
+    ],
+    "key_innovations": [
+      "Context-aware tab completion",
+      "Advanced globbing",
+      "Prompt theming and plugin ecosystems",
+      "Bourne-style compatibility with a richer interactive shell"
+    ],
+    "influenced_by": [
+      "Bash"
+    ],
+    "influenced": [
+      "Fish"
+    ],
+    "philosophy": "A Bourne-style shell should preserve scripting compatibility while making the interactive command line dramatically more programmable and ergonomic.",
+    "mental_model": "Keep the Bourne shell model of processes, expansions, and pipelines, but treat the command line itself as a programmable interface for the user.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Zsh",
+    "entity_type": "language"
+  },
+  {
     "name": "Python",
     "year": 1991,
     "creators": [
@@ -3054,7 +4020,7 @@
       "Kotlin",
       "YAML"
     ],
-    "philosophy": "There should be one—and preferably only one—obvious way to do it. Readability counts. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (with RC) memory management.",
+    "philosophy": "There should be one\u2014and preferably only one\u2014obvious way to do it. Readability counts. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (with RC) memory management.",
     "mental_model": "Think in terms of clear, executable pseudocode. You describe what you want the computer to do in a way that is almost as readable as English.",
     "complexity_bias": "low",
     "safety_model": "runtime",
@@ -3103,6 +4069,92 @@
     "is_keystone": true,
     "display_name": "VB",
     "entity_type": "language"
+  },
+  {
+    "name": "Visual Basic",
+    "year": 1991,
+    "creators": [
+      "Alan Cooper",
+      "Microsoft"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Event-Driven",
+      "Procedural",
+      "Component-based"
+    ],
+    "cluster": "business",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Desktop business applications",
+      "Rapid GUI development",
+      "Office and COM automation"
+    ],
+    "key_innovations": [
+      "Forms-based rapid application development",
+      "Event-driven programming for mainstream developers",
+      "COM and Office automation reach"
+    ],
+    "influenced_by": [
+      "BASIC",
+      "BASIC"
+    ],
+    "influenced": [
+      "VB",
+      "VB.NET",
+      "Delphi"
+    ],
+    "philosophy": "GUI programming should be approachable to mainstream software teams through forms, controls, and event handlers instead of raw Windows API plumbing.",
+    "mental_model": "Think in terms of screens, controls, and events, where you assemble an application visually and then attach behavior to user actions.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Visual Basic",
+    "entity_type": "language"
+  },
+  {
+    "name": "HTML",
+    "year": 1991,
+    "creators": [
+      "Tim Berners-Lee",
+      "W3C"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Markup"
+    ],
+    "cluster": "frontend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Web documents",
+      "Hypertext publishing",
+      "Application UI structure"
+    ],
+    "key_innovations": [
+      "Hyperlinks as a global information graph",
+      "Permissive parsing for web resilience",
+      "Semantic elements for machine-readable structure",
+      "Stable substrate for CSS and JavaScript"
+    ],
+    "influenced_by": [
+      "XML"
+    ],
+    "influenced": [
+      "CSS",
+      "JavaScript",
+      "Svelte"
+    ],
+    "philosophy": "Documents on the web should be represented as resilient, semantic structure that browsers and other systems can interpret consistently.",
+    "mental_model": "Think of a document as a tree of nested elements that defines meaning and structure, with browsers parsing that tree into a manipulable document model.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "HTML",
+    "entity_type": "artifact"
   },
   {
     "name": "Dylan",
@@ -3511,6 +4563,87 @@
     "entity_type": "language"
   },
   {
+    "name": "Delphi",
+    "year": 1995,
+    "creators": [
+      "Anders Hejlsberg",
+      "Borland"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Procedural",
+      "Component-based"
+    ],
+    "cluster": "enterprise",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Desktop applications",
+      "Business software",
+      "Rapid GUI development"
+    ],
+    "key_innovations": [
+      "Object Pascal with strong tooling",
+      "VCL component model",
+      "Fast native compilation"
+    ],
+    "influenced_by": [
+      "Pascal"
+    ],
+    "influenced": [
+      "CSharp"
+    ],
+    "philosophy": "Native application development should combine Pascal's readable structure with a productive visual component model and fast compilation.",
+    "mental_model": "Build applications as cooperating forms, components, and event handlers, with the IDE and component library acting as part of the language experience.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Delphi",
+    "entity_type": "language"
+  },
+  {
+    "name": "Mercury",
+    "year": 1995,
+    "creators": [
+      "Zoltan Somogyi",
+      "University of Melbourne"
+    ],
+    "paradigms": [
+      "Logic",
+      "Functional",
+      "Declarative"
+    ],
+    "cluster": "academic",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Logic programming research",
+      "Compiler construction",
+      "High-assurance declarative systems"
+    ],
+    "key_innovations": [
+      "Strong static typing for logic programming",
+      "Mode and determinism systems",
+      "Purity-focused declarative design",
+      "Performance-oriented compilation"
+    ],
+    "influenced_by": [
+      "Prolog",
+      "Haskell",
+      "ML"
+    ],
+    "influenced": [],
+    "philosophy": "Logic programming should gain the predictability, type discipline, and compiler reasoning normally associated with typed functional languages.",
+    "mental_model": "Describe relations declaratively, but make data flow, determinism, and purity explicit enough that the compiler can reason about control behavior.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Mercury",
+    "entity_type": "language"
+  },
+  {
     "name": "OCaml",
     "year": 1996,
     "creators": [
@@ -3558,6 +4691,48 @@
     "is_keystone": true,
     "display_name": "OCaml",
     "entity_type": "language"
+  },
+  {
+    "name": "CSS",
+    "year": 1996,
+    "creators": [
+      "Hakon Wium Lie",
+      "Bert Bos",
+      "W3C"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Rule-based"
+    ],
+    "cluster": "frontend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Web styling",
+      "Responsive layouts",
+      "Design systems"
+    ],
+    "key_innovations": [
+      "The cascade as a formal conflict-resolution model",
+      "Specificity as override strength",
+      "The box model for layout computation",
+      "Flexbox and Grid as modern layout systems"
+    ],
+    "influenced_by": [
+      "HTML",
+      "PostScript"
+    ],
+    "influenced": [
+      "Svelte"
+    ],
+    "philosophy": "Presentation should be separated from document structure and composed through a declarative rule system that can reconcile many competing styling intents.",
+    "mental_model": "Think in selectors, cascades, inheritance, layout contexts, and painted boxes over a document tree rather than a sequence of visual commands.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "CSS",
+    "entity_type": "artifact"
   },
   {
     "name": "ActionScript",
@@ -3736,7 +4911,7 @@
     "year": 2001,
     "creators": [
       "Clark Evans",
-      "Ingy döt Net",
+      "Ingy d\u00f6t Net",
       "Oren Ben-Kiki"
     ],
     "paradigms": [
@@ -3776,40 +4951,45 @@
     "entity_type": "artifact"
   },
   {
-    "name": "Q",
-    "year": 2003,
+    "name": "D",
+    "year": 2001,
     "creators": [
-      "Arthur Whitney",
-      "Kx Systems"
+      "Walter Bright",
+      "Andrei Alexandrescu"
     ],
     "paradigms": [
-      "Array",
+      "Procedural",
+      "Object-Oriented",
       "Functional",
-      "Procedural"
+      "Generic"
     ],
-    "cluster": "finance",
+    "cluster": "systems",
     "generation": "web1",
     "primary_use_cases": [
-      "Time-series analysis",
-      "Financial data systems"
+      "Systems programming",
+      "Native applications",
+      "High-performance tooling"
     ],
     "key_innovations": [
-      "Array language paired with in-memory column store",
-      "Dense notation for streaming finance workloads"
+      "Compile-time execution and metaprogramming",
+      "Built-in contracts and unit tests",
+      "Range-based generic programming"
     ],
     "influenced_by": [
-      "K",
-      "APL"
+      "C",
+      "C++",
+      "Java",
+      "Python"
     ],
     "influenced": [],
-    "philosophy": "",
-    "mental_model": "",
-    "complexity_bias": "high",
+    "philosophy": "A systems language should preserve native performance while removing much of C++'s historical ceremony and accumulated design debt.",
+    "mental_model": "Think like a systems programmer who expects the language to help with metaprogramming, contracts, and composition instead of forcing everything through C++-style machinery.",
+    "complexity_bias": "medium",
     "safety_model": "runtime",
-    "typing_discipline": "runtime",
+    "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Q",
+    "display_name": "D",
     "entity_type": "language"
   },
   {
@@ -3849,6 +5029,84 @@
     "memory_management": "runtime",
     "is_keystone": false,
     "display_name": "VB.NET",
+    "entity_type": "language"
+  },
+  {
+    "name": "Cyclone",
+    "year": 2002,
+    "creators": [
+      "AT&T Labs",
+      "University of Maryland"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Systems",
+      "Type-driven"
+    ],
+    "cluster": "systems",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Systems programming",
+      "Security-focused low-level software",
+      "Programming languages research"
+    ],
+    "key_innovations": [
+      "Memory safety without mandatory garbage collection",
+      "Safer pointer and union discipline",
+      "Research bridge from C to modern safe systems languages"
+    ],
+    "influenced_by": [
+      "C",
+      "ML"
+    ],
+    "influenced": [
+      "Rust"
+    ],
+    "philosophy": "Low-level systems programming should retain C's domain while making common memory and type errors much harder to express.",
+    "mental_model": "Reason like a systems programmer, but make ownership, nullability, regions, and data-variant constraints explicit parts of the type story.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "compile_time",
+    "is_keystone": false,
+    "display_name": "Cyclone",
+    "entity_type": "language"
+  },
+  {
+    "name": "Q",
+    "year": 2003,
+    "creators": [
+      "Arthur Whitney",
+      "Kx Systems"
+    ],
+    "paradigms": [
+      "Array",
+      "Functional",
+      "Procedural"
+    ],
+    "cluster": "finance",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Time-series analysis",
+      "Financial data systems"
+    ],
+    "key_innovations": [
+      "Array language paired with in-memory column store",
+      "Dense notation for streaming finance workloads"
+    ],
+    "influenced_by": [
+      "K",
+      "APL"
+    ],
+    "influenced": [],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Q",
     "entity_type": "language"
   },
   {
@@ -3932,6 +5190,49 @@
     "is_keystone": true,
     "display_name": "LLVM",
     "entity_type": "artifact"
+  },
+  {
+    "name": "Groovy",
+    "year": 2003,
+    "creators": [
+      "James Strachan"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Scripting",
+      "Functional",
+      "Dynamic"
+    ],
+    "cluster": "backend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "JVM scripting",
+      "Build tooling",
+      "Enterprise automation"
+    ],
+    "key_innovations": [
+      "Java interoperability with a dynamic surface",
+      "Builder and DSL-style APIs",
+      "Gradle-centered scripting culture"
+    ],
+    "influenced_by": [
+      "Java",
+      "Python",
+      "Ruby",
+      "Smalltalk"
+    ],
+    "influenced": [
+      "Kotlin"
+    ],
+    "philosophy": "The JVM should support a more concise, malleable scripting language without giving up deep access to Java libraries and deployment infrastructure.",
+    "mental_model": "Treat the JVM as a stable runtime platform and write against a more flexible surface that favors scripting, DSLs, and concise object manipulation.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Groovy",
+    "entity_type": "language"
   },
   {
     "name": "Scala",
@@ -4024,6 +5325,85 @@
     "memory_management": "runtime",
     "is_keystone": false,
     "display_name": "F#",
+    "entity_type": "language"
+  },
+  {
+    "name": "Fish",
+    "year": 2005,
+    "creators": [
+      "Axel Liljencrantz"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Imperative",
+      "Pipeline-oriented"
+    ],
+    "cluster": "scripting",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Interactive shell use",
+      "Command-line productivity",
+      "Unix scripting"
+    ],
+    "key_innovations": [
+      "Autosuggestions and rich completions",
+      "Cleaner syntax and friendlier defaults",
+      "Usability-first shell design",
+      "Modern shell design without abandoning pipelines"
+    ],
+    "influenced_by": [
+      "Bash",
+      "Zsh",
+      "Perl"
+    ],
+    "influenced": [],
+    "philosophy": "A shell should help users discover commands and understand scripts instead of preserving decades of incidental Bourne-shell friction.",
+    "mental_model": "Treat the shell as a conversational programming environment built around pipelines and commands, but optimized for readability, completion, and interactive guidance.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Fish",
+    "entity_type": "language"
+  },
+  {
+    "name": "Haxe",
+    "year": 2005,
+    "creators": [
+      "Nicolas Cannasse"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Functional",
+      "Generic"
+    ],
+    "cluster": "frontend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Cross-platform applications",
+      "Game development",
+      "Web applications"
+    ],
+    "key_innovations": [
+      "Multi-target compilation as the core mission",
+      "Portable typed core with backend escape hatches",
+      "Powerful macro system"
+    ],
+    "influenced_by": [
+      "OCaml",
+      "JavaScript",
+      "ActionScript"
+    ],
+    "influenced": [],
+    "philosophy": "Application logic should be written once in a strongly structured language and then adapted across many target runtimes.",
+    "mental_model": "Separate your program's stable model from the incidental details of any single backend, and rely on the compiler to bridge the gap.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Haxe",
     "entity_type": "language"
   },
   {
@@ -4287,7 +5667,7 @@
     "name": "Akka",
     "year": 2009,
     "creators": [
-      "Jonas Bonér"
+      "Jonas Bon\u00e9r"
     ],
     "paradigms": [
       "Actor-model",
@@ -4320,6 +5700,49 @@
     "is_keystone": false,
     "display_name": "Akka",
     "entity_type": "artifact"
+  },
+  {
+    "name": "CoffeeScript",
+    "year": 2009,
+    "creators": [
+      "Jeremy Ashkenas"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Functional",
+      "Object-Oriented"
+    ],
+    "cluster": "frontend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Web frontend code",
+      "Node.js scripting",
+      "Compile-to-JavaScript applications"
+    ],
+    "key_innovations": [
+      "Compile-to-JavaScript as a viable mainstream strategy",
+      "Fat arrow syntax for lexical binding",
+      "Concise expression-oriented surface syntax"
+    ],
+    "influenced_by": [
+      "JavaScript",
+      "Ruby",
+      "Python",
+      "Haskell"
+    ],
+    "influenced": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "philosophy": "JavaScript development should feel lighter, more expressive, and more intention-first without leaving the web platform.",
+    "mental_model": "Treat JavaScript as a target runtime and write in a terse, expressive source language that compiles away much of the platform's historical syntax friction.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "CoffeeScript",
+    "entity_type": "language"
   },
   {
     "name": "Rust",
@@ -4420,50 +5843,6 @@
     "entity_type": "language"
   },
   {
-    "name": "Elixir",
-    "year": 2012,
-    "creators": [
-      "José Valim"
-    ],
-    "paradigms": [
-      "Actor-model",
-      "Functional",
-      "Concurrent",
-      "Event-Driven",
-      "Reactive",
-      "Metaprogramming",
-      "Process-oriented"
-    ],
-    "cluster": "cloud",
-    "generation": "cloud",
-    "primary_use_cases": [
-      "Real-time messaging",
-      "Scalable web apps",
-      "Distributed systems"
-    ],
-    "key_innovations": [
-      "Ruby-like syntax on BEAM VM",
-      "Protocols",
-      "Macro system",
-      "Pipeline operator"
-    ],
-    "influenced_by": [
-      "Erlang",
-      "Ruby",
-      "Clojure"
-    ],
-    "influenced": [],
-    "philosophy": "Productivity meets reliability. Elixir brings a modern syntax and powerful tooling to the battle-tested Erlang VM, making distributed systems accessible. Note: Historically characterized by Dynamic/Strong typing and Per-Process GC memory management.",
-    "mental_model": "Think in terms of transformations and isolated processes. You build systems as a series of data pipes, where failure is localized and handled through supervision trees.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "Elixir",
-    "entity_type": "language"
-  },
-  {
     "name": "Kotlin",
     "year": 2011,
     "creators": [
@@ -4549,6 +5928,50 @@
     "is_keystone": false,
     "display_name": "Cloud Haskell",
     "entity_type": "artifact"
+  },
+  {
+    "name": "Elixir",
+    "year": 2012,
+    "creators": [
+      "Jos\u00e9 Valim"
+    ],
+    "paradigms": [
+      "Actor-model",
+      "Functional",
+      "Concurrent",
+      "Event-Driven",
+      "Reactive",
+      "Metaprogramming",
+      "Process-oriented"
+    ],
+    "cluster": "cloud",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Real-time messaging",
+      "Scalable web apps",
+      "Distributed systems"
+    ],
+    "key_innovations": [
+      "Ruby-like syntax on BEAM VM",
+      "Protocols",
+      "Macro system",
+      "Pipeline operator"
+    ],
+    "influenced_by": [
+      "Erlang",
+      "Ruby",
+      "Clojure"
+    ],
+    "influenced": [],
+    "philosophy": "Productivity meets reliability. Elixir brings a modern syntax and powerful tooling to the battle-tested Erlang VM, making distributed systems accessible. Note: Historically characterized by Dynamic/Strong typing and Per-Process GC memory management.",
+    "mental_model": "Think in terms of transformations and isolated processes. You build systems as a series of data pipes, where failure is localized and handled through supervision trees.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Elixir",
+    "entity_type": "language"
   },
   {
     "name": "Elm",
@@ -4693,42 +6116,6 @@
     "entity_type": "language"
   },
   {
-    "name": "AssemblyScript",
-    "year": 2017,
-    "creators": [
-      "Daniel Wirtz",
-      "Max Graey"
-    ],
-    "paradigms": [
-      "Typed",
-      "Compiled",
-      "Procedural"
-    ],
-    "cluster": "frontend",
-    "generation": "autonomic",
-    "primary_use_cases": [
-      "WebAssembly authoring",
-      "Typed browser-adjacent systems code"
-    ],
-    "key_innovations": [
-      "TypeScript-like syntax targeting WebAssembly"
-    ],
-    "influenced_by": [
-      "TypeScript",
-      "WebAssembly"
-    ],
-    "influenced": [],
-    "philosophy": "",
-    "mental_model": "",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "compile_time",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "AssemblyScript",
-    "entity_type": "language"
-  },
-  {
     "name": "React",
     "year": 2013,
     "creators": [
@@ -4770,6 +6157,44 @@
     "is_keystone": true,
     "display_name": "React",
     "entity_type": "artifact"
+  },
+  {
+    "name": "PureScript",
+    "year": 2013,
+    "creators": [
+      "Phil Freeman"
+    ],
+    "paradigms": [
+      "Functional",
+      "Type-driven",
+      "Declarative"
+    ],
+    "cluster": "frontend",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Frontend applications",
+      "Typed web applications",
+      "Functional JavaScript interop"
+    ],
+    "key_innovations": [
+      "Advanced functional typing on a JavaScript target",
+      "Explicit effect modeling",
+      "Typed interop with the web platform"
+    ],
+    "influenced_by": [
+      "Haskell",
+      "ML"
+    ],
+    "influenced": [],
+    "philosophy": "Frontend software should use the type system as a design medium, making effects explicit and abstractions precise before code reaches JavaScript.",
+    "mental_model": "Model the domain with algebraic data types and explicit effects, then compile a principled functional core into the JavaScript runtime.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "PureScript",
+    "entity_type": "language"
   },
   {
     "name": "Crystal",
@@ -5212,6 +6637,42 @@
     "entity_type": "language"
   },
   {
+    "name": "AssemblyScript",
+    "year": 2017,
+    "creators": [
+      "Daniel Wirtz",
+      "Max Graey"
+    ],
+    "paradigms": [
+      "Typed",
+      "Compiled",
+      "Procedural"
+    ],
+    "cluster": "frontend",
+    "generation": "autonomic",
+    "primary_use_cases": [
+      "WebAssembly authoring",
+      "Typed browser-adjacent systems code"
+    ],
+    "key_innovations": [
+      "TypeScript-like syntax targeting WebAssembly"
+    ],
+    "influenced_by": [
+      "TypeScript",
+      "WebAssembly"
+    ],
+    "influenced": [],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "AssemblyScript",
+    "entity_type": "language"
+  },
+  {
     "name": "WebAssembly",
     "year": 2017,
     "creators": [
@@ -5324,131 +6785,6 @@
     "entity_type": "language"
   },
   {
-    "name": "Mojo",
-    "year": 2023,
-    "creators": [
-      "Chris Lattner",
-      "Modular Inc."
-    ],
-    "paradigms": [
-      "Object-Oriented",
-      "Functional",
-      "Parallel"
-    ],
-    "cluster": "AI",
-    "generation": "autonomic",
-    "primary_use_cases": [
-      "AI Infrastructure",
-      "High-performance computing"
-    ],
-    "key_innovations": [
-      "Python compatibility with C performance",
-      "Strong ownership model",
-      "MLIR integration"
-    ],
-    "influenced_by": [
-      "Python",
-      "Swift",
-      "Rust",
-      "C++"
-    ],
-    "influenced": [],
-    "philosophy": "A superset of Python that provides systems-level performance and safety. Note: Historically characterized by Static/Strong typing and Ownership/Borrowing memory management.",
-    "mental_model": "Think in Python, but with the control of C++ and the safety of Rust.",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "compile_time",
-    "memory_management": "compile_time",
-    "is_keystone": false,
-    "display_name": "Mojo",
-    "entity_type": "language"
-  },
-  {
-    "name": "ALGOL 58",
-    "year": 1958,
-    "creators": [
-      "Friedrich L. Bauer",
-      "John Backus",
-      "ACM-GAMM committee"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Structured",
-      "Imperative"
-    ],
-    "cluster": "historical",
-    "generation": "early",
-    "primary_use_cases": [
-      "Scientific computing",
-      "Algorithm publication",
-      "Portable algorithm description"
-    ],
-    "key_innovations": [
-      "International language design by committee",
-      "Early block-structured thinking",
-      "Machine-independent algorithm description"
-    ],
-    "influenced_by": [
-      "FORTRAN",
-      "Mathematical Notation"
-    ],
-    "influenced": [
-      "ALGOL 60"
-    ],
-    "philosophy": "Programming languages should describe algorithms in a portable, publication-quality form rather than mirror one machine's quirks.",
-    "mental_model": "Think in nested algorithmic structure and named intermediate values, with code serving as a disciplined description of procedure rather than raw machine control.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "compile_time",
-    "memory_management": "manual",
-    "is_keystone": true,
-    "display_name": "ALGOL 58",
-    "entity_type": "language"
-  },
-  {
-    "name": "Bourne Shell",
-    "year": 1979,
-    "creators": [
-      "Stephen Bourne"
-    ],
-    "paradigms": [
-      "Scripting",
-      "Imperative",
-      "Pipeline-oriented"
-    ],
-    "cluster": "scripting",
-    "generation": "early",
-    "primary_use_cases": [
-      "Unix scripting",
-      "System administration",
-      "Process orchestration"
-    ],
-    "key_innovations": [
-      "Portable /bin/sh scripting grammar",
-      "Pipelines and redirection as first-class composition",
-      "Structured control flow for reusable automation",
-      "Environment-driven execution model"
-    ],
-    "influenced_by": [
-      "ALGOL 68",
-      "PWB shell"
-    ],
-    "influenced": [
-      "Bash",
-      "Zsh",
-      "Fish"
-    ],
-    "philosophy": "A shell should be a portable control language for orchestrating Unix programs, files, and streams rather than only an interactive command prompt.",
-    "mental_model": "Think in terms of connecting processes through redirection, pipelines, environment state, and exit codes to execute an operational plan.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "is_keystone": true,
-    "display_name": "Bourne Shell",
-    "entity_type": "language"
-  },
-  {
     "name": "Carbon",
     "year": 2022,
     "creators": [
@@ -5491,1379 +6827,43 @@
     "entity_type": "language"
   },
   {
-    "name": "CoffeeScript",
-    "year": 2009,
+    "name": "Mojo",
+    "year": 2023,
     "creators": [
-      "Jeremy Ashkenas"
+      "Chris Lattner",
+      "Modular Inc."
     ],
     "paradigms": [
-      "Scripting",
+      "Object-Oriented",
       "Functional",
-      "Object-Oriented"
+      "Parallel"
     ],
-    "cluster": "frontend",
-    "generation": "web1",
+    "cluster": "AI",
+    "generation": "autonomic",
     "primary_use_cases": [
-      "Web frontend code",
-      "Node.js scripting",
-      "Compile-to-JavaScript applications"
+      "AI Infrastructure",
+      "High-performance computing"
     ],
     "key_innovations": [
-      "Compile-to-JavaScript as a viable mainstream strategy",
-      "Fat arrow syntax for lexical binding",
-      "Concise expression-oriented surface syntax"
+      "Python compatibility with C performance",
+      "Strong ownership model",
+      "MLIR integration"
     ],
     "influenced_by": [
-      "JavaScript",
-      "Ruby",
       "Python",
-      "Haskell"
+      "Swift",
+      "Rust",
+      "C++"
     ],
-    "influenced": [
-      "JavaScript",
-      "TypeScript"
-    ],
-    "philosophy": "JavaScript development should feel lighter, more expressive, and more intention-first without leaving the web platform.",
-    "mental_model": "Treat JavaScript as a target runtime and write in a terse, expressive source language that compiles away much of the platform's historical syntax friction.",
-    "complexity_bias": "low",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "CoffeeScript",
-    "entity_type": "language"
-  },
-  {
-    "name": "Cyclone",
-    "year": 2002,
-    "creators": [
-      "AT&T Labs",
-      "University of Maryland"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Systems",
-      "Type-driven"
-    ],
-    "cluster": "systems",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Systems programming",
-      "Security-focused low-level software",
-      "Programming languages research"
-    ],
-    "key_innovations": [
-      "Memory safety without mandatory garbage collection",
-      "Safer pointer and union discipline",
-      "Research bridge from C to modern safe systems languages"
-    ],
-    "influenced_by": [
-      "C",
-      "ML"
-    ],
-    "influenced": [
-      "Rust"
-    ],
-    "philosophy": "Low-level systems programming should retain C's domain while making common memory and type errors much harder to express.",
-    "mental_model": "Reason like a systems programmer, but make ownership, nullability, regions, and data-variant constraints explicit parts of the type story.",
-    "complexity_bias": "high",
+    "influenced": [],
+    "philosophy": "A superset of Python that provides systems-level performance and safety. Note: Historically characterized by Static/Strong typing and Ownership/Borrowing memory management.",
+    "mental_model": "Think in Python, but with the control of C++ and the safety of Rust.",
+    "complexity_bias": "medium",
     "safety_model": "compile_time",
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": false,
-    "display_name": "Cyclone",
+    "display_name": "Mojo",
     "entity_type": "language"
-  },
-  {
-    "name": "D",
-    "year": 2001,
-    "creators": [
-      "Walter Bright",
-      "Andrei Alexandrescu"
-    ],
-    "paradigms": [
-      "Procedural",
-      "Object-Oriented",
-      "Functional",
-      "Generic"
-    ],
-    "cluster": "systems",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Systems programming",
-      "Native applications",
-      "High-performance tooling"
-    ],
-    "key_innovations": [
-      "Compile-time execution and metaprogramming",
-      "Built-in contracts and unit tests",
-      "Range-based generic programming"
-    ],
-    "influenced_by": [
-      "C",
-      "C++",
-      "Java",
-      "Python"
-    ],
-    "influenced": [],
-    "philosophy": "A systems language should preserve native performance while removing much of C++'s historical ceremony and accumulated design debt.",
-    "mental_model": "Think like a systems programmer who expects the language to help with metaprogramming, contracts, and composition instead of forcing everything through C++-style machinery.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "compile_time",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "D",
-    "entity_type": "language"
-  },
-  {
-    "name": "Datalog",
-    "year": 1977,
-    "creators": [
-      "Herve Gallaire",
-      "Jack Minker"
-    ],
-    "paradigms": [
-      "Logic",
-      "Declarative",
-      "Query-oriented"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "Deductive databases",
-      "Program analysis",
-      "Rule-based inference"
-    ],
-    "key_innovations": [
-      "Rule-based recursive queries",
-      "Fixpoint evaluation",
-      "Declarative reasoning over relations"
-    ],
-    "influenced_by": [
-      "Prolog",
-      "SQL",
-      "First-order logic"
-    ],
-    "influenced": [],
-    "philosophy": "Programs should describe relations and inference rules, leaving the engine to derive all facts implied by those definitions.",
-    "mental_model": "Stop asking how to compute step by step and instead define facts and rules whose repeated application converges on the answer set.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "Datalog",
-    "entity_type": "language"
-  },
-  {
-    "name": "Delphi",
-    "year": 1995,
-    "creators": [
-      "Anders Hejlsberg",
-      "Borland"
-    ],
-    "paradigms": [
-      "Object-Oriented",
-      "Procedural",
-      "Component-based"
-    ],
-    "cluster": "enterprise",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Desktop applications",
-      "Business software",
-      "Rapid GUI development"
-    ],
-    "key_innovations": [
-      "Object Pascal with strong tooling",
-      "VCL component model",
-      "Fast native compilation"
-    ],
-    "influenced_by": [
-      "Pascal"
-    ],
-    "influenced": [
-      "CSharp"
-    ],
-    "philosophy": "Native application development should combine Pascal's readable structure with a productive visual component model and fast compilation.",
-    "mental_model": "Build applications as cooperating forms, components, and event handlers, with the IDE and component library acting as part of the language experience.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "compile_time",
-    "memory_management": "manual",
-    "is_keystone": false,
-    "display_name": "Delphi",
-    "entity_type": "language"
-  },
-  {
-    "name": "Fish",
-    "year": 2005,
-    "creators": [
-      "Axel Liljencrantz"
-    ],
-    "paradigms": [
-      "Scripting",
-      "Imperative",
-      "Pipeline-oriented"
-    ],
-    "cluster": "scripting",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Interactive shell use",
-      "Command-line productivity",
-      "Unix scripting"
-    ],
-    "key_innovations": [
-      "Autosuggestions and rich completions",
-      "Cleaner syntax and friendlier defaults",
-      "Usability-first shell design",
-      "Modern shell design without abandoning pipelines"
-    ],
-    "influenced_by": [
-      "Bash",
-      "Zsh",
-      "Perl"
-    ],
-    "influenced": [],
-    "philosophy": "A shell should help users discover commands and understand scripts instead of preserving decades of incidental Bourne-shell friction.",
-    "mental_model": "Treat the shell as a conversational programming environment built around pipelines and commands, but optimized for readability, completion, and interactive guidance.",
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "is_keystone": false,
-    "display_name": "Fish",
-    "entity_type": "language"
-  },
-  {
-    "name": "GNU Octave",
-    "year": 1988,
-    "creators": [
-      "John W. Eaton"
-    ],
-    "paradigms": [
-      "Array-oriented",
-      "Matrix-oriented",
-      "Procedural"
-    ],
-    "cluster": "scientific",
-    "generation": "early",
-    "primary_use_cases": [
-      "Numerical computing",
-      "Scientific computing",
-      "Teaching and prototyping"
-    ],
-    "key_innovations": [
-      "MATLAB-like compatibility",
-      "Matrix-first language design",
-      "Interactive numerical exploration",
-      "Open scientific computing environment"
-    ],
-    "influenced_by": [
-      "MATLAB",
-      "FORTRAN"
-    ],
-    "influenced": [
-      "Numpy"
-    ],
-    "philosophy": "Numerical computing should remain accessible, reproducible, and open rather than locked behind proprietary scientific software.",
-    "mental_model": "Think in matrices, vectors, and whole-array transformations, with interactive numerical exploration centered on linear algebra and batch operations.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "GNU Octave",
-    "entity_type": "language"
-  },
-  {
-    "name": "Groovy",
-    "year": 2003,
-    "creators": [
-      "James Strachan"
-    ],
-    "paradigms": [
-      "Object-Oriented",
-      "Scripting",
-      "Functional",
-      "Dynamic"
-    ],
-    "cluster": "backend",
-    "generation": "web1",
-    "primary_use_cases": [
-      "JVM scripting",
-      "Build tooling",
-      "Enterprise automation"
-    ],
-    "key_innovations": [
-      "Java interoperability with a dynamic surface",
-      "Builder and DSL-style APIs",
-      "Gradle-centered scripting culture"
-    ],
-    "influenced_by": [
-      "Java",
-      "Python",
-      "Ruby",
-      "Smalltalk"
-    ],
-    "influenced": [
-      "Kotlin"
-    ],
-    "philosophy": "The JVM should support a more concise, malleable scripting language without giving up deep access to Java libraries and deployment infrastructure.",
-    "mental_model": "Treat the JVM as a stable runtime platform and write against a more flexible surface that favors scripting, DSLs, and concise object manipulation.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "Groovy",
-    "entity_type": "language"
-  },
-  {
-    "name": "Haxe",
-    "year": 2005,
-    "creators": [
-      "Nicolas Cannasse"
-    ],
-    "paradigms": [
-      "Object-Oriented",
-      "Functional",
-      "Generic"
-    ],
-    "cluster": "frontend",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Cross-platform applications",
-      "Game development",
-      "Web applications"
-    ],
-    "key_innovations": [
-      "Multi-target compilation as the core mission",
-      "Portable typed core with backend escape hatches",
-      "Powerful macro system"
-    ],
-    "influenced_by": [
-      "OCaml",
-      "JavaScript",
-      "ActionScript"
-    ],
-    "influenced": [],
-    "philosophy": "Application logic should be written once in a strongly structured language and then adapted across many target runtimes.",
-    "mental_model": "Separate your program's stable model from the incidental details of any single backend, and rely on the compiler to bridge the gap.",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "compile_time",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "Haxe",
-    "entity_type": "language"
-  },
-  {
-    "name": "Maclisp",
-    "year": 1966,
-    "creators": [
-      "Richard Greenblatt",
-      "MIT Project MAC"
-    ],
-    "paradigms": [
-      "Functional",
-      "Symbolic",
-      "Procedural"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "AI research",
-      "Symbolic computing",
-      "Interactive language experimentation"
-    ],
-    "key_innovations": [
-      "Pragmatic symbolic computing environment",
-      "Interactive dynamic development",
-      "Macro-rich language evolution",
-      "Direct influence on later Lisp lineages"
-    ],
-    "influenced_by": [
-      "Lisp"
-    ],
-    "influenced": [
-      "Common Lisp",
-      "Scheme"
-    ],
-    "philosophy": "A Lisp should be a practical symbolic workshop for real AI work, interactive experimentation, and language extension.",
-    "mental_model": "Treat the language as a live environment for manipulating symbolic structures, evolving programs incrementally, and extending the language through macros.",
-    "complexity_bias": "high",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "Maclisp",
-    "entity_type": "language"
-  },
-  {
-    "name": "Mathematica",
-    "year": 1988,
-    "creators": [
-      "Stephen Wolfram"
-    ],
-    "paradigms": [
-      "Functional",
-      "Symbolic",
-      "Rule-based",
-      "Procedural"
-    ],
-    "cluster": "scientific",
-    "generation": "early",
-    "primary_use_cases": [
-      "Symbolic computation",
-      "Scientific notebooks",
-      "Technical exploration"
-    ],
-    "key_innovations": [
-      "Unified symbolic and numerical computation",
-      "Pattern matching and rule-based rewriting",
-      "Notebook-based interactive computing",
-      "Integrated computational knowledge base"
-    ],
-    "influenced_by": [
-      "Lisp",
-      "APL",
-      "MACSYMA",
-      "Maple"
-    ],
-    "influenced": [
-      "Maple",
-      "Julia"
-    ],
-    "philosophy": "A technical computing environment should treat code, formulas, graphics, and documents as one symbolic medium for interactive exploration.",
-    "mental_model": "See everything as a symbolic expression tree that can be transformed through rules, patterns, and notebook-driven experimentation.",
-    "complexity_bias": "high",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "Mathematica",
-    "entity_type": "language"
-  },
-  {
-    "name": "Mercury",
-    "year": 1995,
-    "creators": [
-      "Zoltan Somogyi",
-      "University of Melbourne"
-    ],
-    "paradigms": [
-      "Logic",
-      "Functional",
-      "Declarative"
-    ],
-    "cluster": "academic",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Logic programming research",
-      "Compiler construction",
-      "High-assurance declarative systems"
-    ],
-    "key_innovations": [
-      "Strong static typing for logic programming",
-      "Mode and determinism systems",
-      "Purity-focused declarative design",
-      "Performance-oriented compilation"
-    ],
-    "influenced_by": [
-      "Prolog",
-      "Haskell",
-      "ML"
-    ],
-    "influenced": [],
-    "philosophy": "Logic programming should gain the predictability, type discipline, and compiler reasoning normally associated with typed functional languages.",
-    "mental_model": "Describe relations declaratively, but make data flow, determinism, and purity explicit enough that the compiler can reason about control behavior.",
-    "complexity_bias": "high",
-    "safety_model": "compile_time",
-    "typing_discipline": "compile_time",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "Mercury",
-    "entity_type": "language"
-  },
-  {
-    "name": "Occam",
-    "year": 1983,
-    "creators": [
-      "David May",
-      "INMOS"
-    ],
-    "paradigms": [
-      "Concurrent",
-      "Process-oriented",
-      "Imperative"
-    ],
-    "cluster": "systems",
-    "generation": "early",
-    "primary_use_cases": [
-      "Concurrent systems",
-      "Parallel computing",
-      "Transputer software"
-    ],
-    "key_innovations": [
-      "CSP-inspired channels",
-      "First-class process composition",
-      "Theory-hardware alignment for parallel systems"
-    ],
-    "influenced_by": [
-      "CSP",
-      "ALGOL 68"
-    ],
-    "influenced": [
-      "Go",
-      "Erlang"
-    ],
-    "philosophy": "Concurrency should be built into the language model itself through explicit process composition and communication, not bolted on as a library concern.",
-    "mental_model": "Model software as independent processes that communicate through channels instead of sharing mutable state and retrofitting synchronization later.",
-    "complexity_bias": "medium",
-    "safety_model": "compile_time",
-    "typing_discipline": "compile_time",
-    "memory_management": "manual",
-    "is_keystone": false,
-    "display_name": "Occam",
-    "entity_type": "language"
-  },
-  {
-    "name": "Planner",
-    "year": 1969,
-    "creators": [
-      "Carl Hewitt"
-    ],
-    "paradigms": [
-      "Logic",
-      "Goal-directed",
-      "Procedural"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "AI research",
-      "Goal-directed reasoning",
-      "Symbolic problem solving"
-    ],
-    "key_innovations": [
-      "Goal-directed control",
-      "Mixed declarative and procedural knowledge",
-      "Search-oriented AI language design",
-      "Influence on later AI reasoning models"
-    ],
-    "influenced_by": [
-      "Lisp",
-      "First-order logic"
-    ],
-    "influenced": [
-      "Prolog",
-      "Scheme"
-    ],
-    "philosophy": "Reasoning systems should combine knowledge representation with explicit search and control strategies instead of treating deduction as a purely passive process.",
-    "mental_model": "Think of problem solving as guided search through goals and subgoals, where control strategy is a first-class part of the program.",
-    "complexity_bias": "high",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "Planner",
-    "entity_type": "language"
-  },
-  {
-    "name": "PureScript",
-    "year": 2013,
-    "creators": [
-      "Phil Freeman"
-    ],
-    "paradigms": [
-      "Functional",
-      "Type-driven",
-      "Declarative"
-    ],
-    "cluster": "frontend",
-    "generation": "renaissance",
-    "primary_use_cases": [
-      "Frontend applications",
-      "Typed web applications",
-      "Functional JavaScript interop"
-    ],
-    "key_innovations": [
-      "Advanced functional typing on a JavaScript target",
-      "Explicit effect modeling",
-      "Typed interop with the web platform"
-    ],
-    "influenced_by": [
-      "Haskell",
-      "ML"
-    ],
-    "influenced": [],
-    "philosophy": "Frontend software should use the type system as a design medium, making effects explicit and abstractions precise before code reaches JavaScript.",
-    "mental_model": "Model the domain with algebraic data types and explicit effects, then compile a principled functional core into the JavaScript runtime.",
-    "complexity_bias": "high",
-    "safety_model": "compile_time",
-    "typing_discipline": "compile_time",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "PureScript",
-    "entity_type": "language"
-  },
-  {
-    "name": "QUEL",
-    "year": 1974,
-    "creators": [
-      "Michael Stonebraker",
-      "University of California Berkeley"
-    ],
-    "paradigms": [
-      "Query-oriented",
-      "Declarative",
-      "Relational"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "Relational querying",
-      "Database research",
-      "Ingres database applications"
-    ],
-    "key_innovations": [
-      "Relational query expression in Ingres",
-      "Alternative syntax to SQL",
-      "Strong connection to academic database design",
-      "Historical test case for standards lock-in"
-    ],
-    "influenced_by": [
-      "ALPHA",
-      "Relational algebra"
-    ],
-    "influenced": [
-      "SQL"
-    ],
-    "philosophy": "A query language should let users describe relational intent directly, independent of any one commercial syntax becoming dominant.",
-    "mental_model": "Think in relations, tuples, and predicates over sets of data rather than loops over individual records.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "QUEL",
-    "entity_type": "language"
-  },
-  {
-    "name": "SASL",
-    "year": 1972,
-    "creators": [
-      "David Turner"
-    ],
-    "paradigms": [
-      "Functional",
-      "Declarative",
-      "Lazy"
-    ],
-    "cluster": "academic",
-    "generation": "early",
-    "primary_use_cases": [
-      "Functional programming research",
-      "Lazy evaluation experimentation",
-      "Language design"
-    ],
-    "key_innovations": [
-      "Early lazy evaluation in practice",
-      "Purely functional design",
-      "Lineage into Miranda and Haskell"
-    ],
-    "influenced_by": [
-      "Lisp",
-      "ISWIM",
-      "Lambda Calculus"
-    ],
-    "influenced": [
-      "Miranda",
-      "Haskell",
-      "KRC"
-    ],
-    "philosophy": "Programs should be written as pure definitions of values and functions, with evaluation deferred until demand makes it necessary.",
-    "mental_model": "Describe what values mean rather than when to compute them, trusting non-strict evaluation to realize only the parts of a computation that are needed.",
-    "complexity_bias": "high",
-    "safety_model": "compile_time",
-    "typing_discipline": "compile_time",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "SASL",
-    "entity_type": "language"
-  },
-  {
-    "name": "Visual Basic",
-    "year": 1991,
-    "creators": [
-      "Alan Cooper",
-      "Microsoft"
-    ],
-    "paradigms": [
-      "Object-Oriented",
-      "Event-Driven",
-      "Procedural",
-      "Component-based"
-    ],
-    "cluster": "business",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Desktop business applications",
-      "Rapid GUI development",
-      "Office and COM automation"
-    ],
-    "key_innovations": [
-      "Forms-based rapid application development",
-      "Event-driven programming for mainstream developers",
-      "COM and Office automation reach"
-    ],
-    "influenced_by": [
-      "BASIC",
-      "BASIC"
-    ],
-    "influenced": [
-      "VB",
-      "VB.NET",
-      "Delphi"
-    ],
-    "philosophy": "GUI programming should be approachable to mainstream software teams through forms, controls, and event handlers instead of raw Windows API plumbing.",
-    "mental_model": "Think in terms of screens, controls, and events, where you assemble an application visually and then attach behavior to user actions.",
-    "complexity_bias": "low",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": false,
-    "display_name": "Visual Basic",
-    "entity_type": "language"
-  },
-  {
-    "name": "Zsh",
-    "year": 1990,
-    "creators": [
-      "Paul Falstad"
-    ],
-    "paradigms": [
-      "Scripting",
-      "Imperative",
-      "Pipeline-oriented"
-    ],
-    "cluster": "scripting",
-    "generation": "early",
-    "primary_use_cases": [
-      "Interactive shell use",
-      "Developer productivity",
-      "Shell scripting"
-    ],
-    "key_innovations": [
-      "Context-aware tab completion",
-      "Advanced globbing",
-      "Prompt theming and plugin ecosystems",
-      "Bourne-style compatibility with a richer interactive shell"
-    ],
-    "influenced_by": [
-      "Bash"
-    ],
-    "influenced": [
-      "Fish"
-    ],
-    "philosophy": "A Bourne-style shell should preserve scripting compatibility while making the interactive command line dramatically more programmable and ergonomic.",
-    "mental_model": "Keep the Bourne shell model of processes, expansions, and pipelines, but treat the command line itself as a programmable interface for the user.",
-    "complexity_bias": "medium",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "is_keystone": false,
-    "display_name": "Zsh",
-    "entity_type": "language"
-  },
-  {
-    "name": "CSS",
-    "year": 1996,
-    "creators": [
-      "Hakon Wium Lie",
-      "Bert Bos",
-      "W3C"
-    ],
-    "paradigms": [
-      "Declarative",
-      "Rule-based"
-    ],
-    "cluster": "frontend",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Web styling",
-      "Responsive layouts",
-      "Design systems"
-    ],
-    "key_innovations": [
-      "The cascade as a formal conflict-resolution model",
-      "Specificity as override strength",
-      "The box model for layout computation",
-      "Flexbox and Grid as modern layout systems"
-    ],
-    "influenced_by": [
-      "HTML",
-      "PostScript"
-    ],
-    "influenced": [
-      "Svelte"
-    ],
-    "philosophy": "Presentation should be separated from document structure and composed through a declarative rule system that can reconcile many competing styling intents.",
-    "mental_model": "Think in selectors, cascades, inheritance, layout contexts, and painted boxes over a document tree rather than a sequence of visual commands.",
-    "complexity_bias": "medium",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": true,
-    "display_name": "CSS",
-    "entity_type": "artifact"
-  },
-  {
-    "name": "HTML",
-    "year": 1991,
-    "creators": [
-      "Tim Berners-Lee",
-      "W3C"
-    ],
-    "paradigms": [
-      "Declarative",
-      "Markup"
-    ],
-    "cluster": "frontend",
-    "generation": "web1",
-    "primary_use_cases": [
-      "Web documents",
-      "Hypertext publishing",
-      "Application UI structure"
-    ],
-    "key_innovations": [
-      "Hyperlinks as a global information graph",
-      "Permissive parsing for web resilience",
-      "Semantic elements for machine-readable structure",
-      "Stable substrate for CSS and JavaScript"
-    ],
-    "influenced_by": [
-      "XML"
-    ],
-    "influenced": [
-      "CSS",
-      "JavaScript",
-      "Svelte"
-    ],
-    "philosophy": "Documents on the web should be represented as resilient, semantic structure that browsers and other systems can interpret consistently.",
-    "mental_model": "Think of a document as a tree of nested elements that defines meaning and structure, with browsers parsing that tree into a manipulable document model.",
-    "complexity_bias": "low",
-    "safety_model": "runtime",
-    "typing_discipline": "runtime",
-    "memory_management": "runtime",
-    "is_keystone": true,
-    "display_name": "HTML",
-    "entity_type": "artifact"
-  },
-  {
-    "name": "ed",
-    "year": 1969,
-    "creators": [
-      "Ken Thompson"
-    ],
-    "paradigms": [
-      "Line-oriented"
-    ],
-    "cluster": "historical",
-    "generation": "early",
-    "entity_type": "artifact",
-    "display_name": "ed",
-    "influenced_by": [
-      "QED"
-    ],
-    "influenced": [
-      "Sed",
-      "vi",
-      "grep"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Text editing",
-      "Scripting"
-    ],
-    "key_innovations": [
-      "Regular expressions in Unix",
-      "Line-based editing model"
-    ],
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "SGML",
-    "year": 1986,
-    "creators": [
-      "Charles Goldfarb"
-    ],
-    "paradigms": [
-      "Markup"
-    ],
-    "cluster": "historical",
-    "generation": "early",
-    "entity_type": "foundation",
-    "display_name": "SGML",
-    "influenced_by": [
-      "GML"
-    ],
-    "influenced": [
-      "HTML",
-      "XML"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Document markup",
-      "Data exchange"
-    ],
-    "key_innovations": [
-      "Generalized markup language",
-      "Metalanguage for defining DTDs"
-    ],
-    "complexity_bias": "high",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "ALPHA",
-    "year": 1971,
-    "creators": [
-      "Edgar F. Codd"
-    ],
-    "paradigms": [
-      "Declarative",
-      "Relational"
-    ],
-    "cluster": "historical",
-    "generation": "early",
-    "entity_type": "foundation",
-    "display_name": "Codd's Alpha",
-    "influenced_by": [
-      "Relational algebra"
-    ],
-    "influenced": [
-      "QUEL"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Database theory",
-      "Relational query design"
-    ],
-    "key_innovations": [
-      "Relational calculus for database sublanguages",
-      "Declarative data access"
-    ],
-    "complexity_bias": "high",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "PWB shell",
-    "year": 1975,
-    "creators": [
-      "John Mashey"
-    ],
-    "paradigms": [
-      "Scripting",
-      "Imperative"
-    ],
-    "cluster": "historical",
-    "generation": "early",
-    "entity_type": "artifact",
-    "display_name": "Mashey Shell",
-    "influenced_by": [
-      "Thompson shell"
-    ],
-    "influenced": [
-      "Bourne Shell"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Unix automation",
-      "Programmer workbench"
-    ],
-    "key_innovations": [
-      "Shell programming constructs",
-      "Execution of scripts as binaries"
-    ],
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "First-order logic",
-    "year": 1879,
-    "creators": [
-      "Gottlob Frege",
-      "David Hilbert"
-    ],
-    "paradigms": [
-      "Logic",
-      "Formal logic"
-    ],
-    "cluster": "historical",
-    "generation": "dawn",
-    "entity_type": "foundation",
-    "display_name": "First-order logic",
-    "influenced_by": [
-      "Boolean Algebra"
-    ],
-    "influenced": [
-      "Prolog",
-      "Datalog",
-      "Planner"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Mathematical logic",
-      "Formal verification"
-    ],
-    "key_innovations": [
-      "Quantification",
-      "Formalization of deduction"
-    ],
-    "complexity_bias": "high",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "MACSYMA",
-    "year": 1968,
-    "creators": [
-      "Project MAC (MIT)"
-    ],
-    "paradigms": [
-      "Symbolic manipulation"
-    ],
-    "cluster": "scientific",
-    "generation": "early",
-    "entity_type": "artifact",
-    "display_name": "MACSYMA",
-    "influenced_by": [
-      "Lisp"
-    ],
-    "influenced": [
-      "Mathematica",
-      "Maple"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Symbolic mathematics",
-      "Computer algebra"
-    ],
-    "key_innovations": [
-      "General-purpose computer algebra system",
-      "Symbolic integration and differentiation"
-    ],
-    "complexity_bias": "high",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "CSP",
-    "year": 1978,
-    "creators": [
-      "Tony Hoare"
-    ],
-    "paradigms": [
-      "Process calculus",
-      "Concurrent"
-    ],
-    "cluster": "systems",
-    "generation": "early",
-    "entity_type": "foundation",
-    "display_name": "CSP",
-    "influenced_by": [],
-    "influenced": [
-      "Occam",
-      "Go"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Concurrency theory",
-      "Formal specification"
-    ],
-    "key_innovations": [
-      "Synchronous channel communication",
-      "Process composition operators"
-    ],
-    "complexity_bias": "medium",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "Relational algebra",
-    "year": 1970,
-    "creators": [
-      "Edgar F. Codd"
-    ],
-    "paradigms": [
-      "Relational",
-      "Mathematical"
-    ],
-    "cluster": "historical",
-    "generation": "dawn",
-    "entity_type": "foundation",
-    "display_name": "Relational algebra",
-    "influenced_by": [
-      "Set theory"
-    ],
-    "influenced": [
-      "SQL",
-      "QUEL",
-      "ALPHA"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Database theory",
-      "Query optimization"
-    ],
-    "key_innovations": [
-      "Set-theoretic basis for data manipulation",
-      "Relational operators (select, project, join)"
-    ],
-    "complexity_bias": "medium",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "QED",
-    "year": 1966,
-    "creators": [
-      "Butler Lampson",
-      "Peter Deutsch",
-      "Ken Thompson"
-    ],
-    "paradigms": [
-      "Line-oriented"
-    ],
-    "cluster": "historical",
-    "generation": "early",
-    "entity_type": "artifact",
-    "display_name": "QED",
-    "influenced_by": [],
-    "influenced": [
-      "ed"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Text editing",
-      "Time-sharing systems"
-    ],
-    "key_innovations": [
-      "First implementation of regular expressions in an editor",
-      "Programmable text substitution"
-    ],
-    "complexity_bias": "medium",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "vi",
-    "year": 1976,
-    "creators": [
-      "Bill Joy"
-    ],
-    "paradigms": [
-      "Modal",
-      "Visual-oriented"
-    ],
-    "cluster": "historical",
-    "generation": "early",
-    "entity_type": "artifact",
-    "display_name": "vi",
-    "influenced_by": [
-      "ed",
-      "ex"
-    ],
-    "influenced": [
-      "Vim"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Text editing",
-      "Source code editing"
-    ],
-    "key_innovations": [
-      "Modal editing model",
-      "Screen-oriented visual editing"
-    ],
-    "complexity_bias": "medium",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "grep",
-    "year": 1973,
-    "creators": [
-      "Ken Thompson"
-    ],
-    "paradigms": [
-      "Pattern-matching",
-      "Stream-oriented"
-    ],
-    "cluster": "historical",
-    "generation": "early",
-    "entity_type": "artifact",
-    "display_name": "grep",
-    "influenced_by": [
-      "ed"
-    ],
-    "influenced": [],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Text searching",
-      "Log analysis"
-    ],
-    "key_innovations": [
-      "Standalone regular expression search tool",
-      "Implementation of Thompson's construction algorithm"
-    ],
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "GML",
-    "year": 1969,
-    "creators": [
-      "Charles Goldfarb",
-      "Edward Mosher",
-      "Raymond Lorie"
-    ],
-    "paradigms": [
-      "Markup"
-    ],
-    "cluster": "historical",
-    "generation": "early",
-    "entity_type": "foundation",
-    "display_name": "GML",
-    "influenced_by": [],
-    "influenced": [
-      "SGML"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Document markup",
-      "Information retrieval"
-    ],
-    "key_innovations": [
-      "Descriptive markup (separation of structure from style)",
-      "Standardized tag-based format"
-    ],
-    "complexity_bias": "high",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "Thompson shell",
-    "year": 1971,
-    "creators": [
-      "Ken Thompson"
-    ],
-    "paradigms": [
-      "Scripting",
-      "Pipeline-oriented"
-    ],
-    "cluster": "historical",
-    "generation": "early",
-    "entity_type": "artifact",
-    "display_name": "Thompson Shell",
-    "influenced_by": [],
-    "influenced": [
-      "PWB shell",
-      "Bourne Shell"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Unix command interpretation",
-      "Scripting"
-    ],
-    "key_innovations": [
-      "Introduction of the pipe (|) operator",
-      "I/O redirection primitives"
-    ],
-    "complexity_bias": "low",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
-  },
-  {
-    "name": "Set theory",
-    "year": 1874,
-    "creators": [
-      "Georg Cantor"
-    ],
-    "paradigms": [
-      "Mathematical"
-    ],
-    "cluster": "historical",
-    "generation": "dawn",
-    "entity_type": "foundation",
-    "display_name": "Set theory",
-    "influenced_by": [],
-    "influenced": [
-      "Relational algebra",
-      "SQL",
-      "Pascal"
-    ],
-    "is_keystone": false,
-    "primary_use_cases": [
-      "Foundations of mathematics",
-      "Data modeling"
-    ],
-    "key_innovations": [
-      "Formalization of sets and membership",
-      "Basis for relational data model"
-    ],
-    "complexity_bias": "high",
-    "safety_model": "manual",
-    "typing_discipline": "manual",
-    "memory_management": "manual",
-    "philosophy": "",
-    "mental_model": ""
   }
 ]
