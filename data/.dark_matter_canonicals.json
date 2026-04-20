@@ -1,4 +1,15 @@
 {
+  "ACM-GAMM committee": {
+    "type": "organization",
+    "profile_key": "ACM-GAMM_committee"
+  },
+  "ALGOL 58": {
+    "type": "language"
+  },
+  "AT&T Labs": {
+    "type": "organization",
+    "profile_key": "AT&T_Labs"
+  },
   "Alick Glennie": {
     "type": "person"
   },
@@ -15,6 +26,10 @@
   "Bjarne Stroustrup": {
     "type": "person"
   },
+  "Borland": {
+    "type": "organization",
+    "profile_key": "Borland"
+  },
   "Bourne Shell": {
     "type": "language"
   },
@@ -23,6 +38,10 @@
   },
   "C++": {
     "type": "language"
+  },
+  "CODASYL": {
+    "type": "organization",
+    "profile_key": "CODASYL"
   },
   "CSharp": {
     "type": "language"
@@ -63,6 +82,9 @@
   "Friedrich L. Bauer": {
     "type": "person"
   },
+  "GNU Octave": {
+    "type": "language"
+  },
   "Go": {
     "type": "language"
   },
@@ -81,9 +103,6 @@
   "Groovy": {
     "type": "language"
   },
-  "GNU Octave": {
-    "type": "language"
-  },
   "Guy L. Steele": {
     "type": "person"
   },
@@ -92,6 +111,10 @@
   },
   "Haxe": {
     "type": "language"
+  },
+  "INMOS": {
+    "type": "organization",
+    "profile_key": "INMOS"
   },
   "JavaScript": {
     "type": "language"
@@ -108,6 +131,9 @@
   "John McCarthy": {
     "type": "person"
   },
+  "K": {
+    "type": "language"
+  },
   "Kenneth E. Iverson": {
     "type": "person"
   },
@@ -117,8 +143,13 @@
   "Kristen Nygaard": {
     "type": "person"
   },
-  "ALGOL 58": {
-    "type": "language"
+  "Kx Systems": {
+    "type": "organization",
+    "profile_key": "Kx_Systems"
+  },
+  "LLVM Project": {
+    "type": "organization",
+    "profile_key": "LLVM_Project"
   },
   "Lambda Calculus": {
     "type": "language"
@@ -129,6 +160,10 @@
   "MATLAB": {
     "type": "language"
   },
+  "MIT Project MAC": {
+    "type": "organization",
+    "profile_key": "MIT_Project_MAC"
+  },
   "Maclisp": {
     "type": "language"
   },
@@ -137,6 +172,10 @@
   },
   "Mercury": {
     "type": "language"
+  },
+  "Modular Inc": {
+    "type": "organization",
+    "profile_key": "Modular_Inc"
   },
   "Mojo": {
     "type": "language"
@@ -147,10 +186,10 @@
   "OCaml": {
     "type": "language"
   },
-  "Occam": {
+  "Objective-C": {
     "type": "language"
   },
-  "Objective-C": {
+  "Occam": {
     "type": "language"
   },
   "PowerShell": {
@@ -192,11 +231,24 @@
   "Svelte": {
     "type": "language"
   },
+  "Symbolic Computation Group (University of Waterloo)": {
+    "type": "organization",
+    "profile_key": "Symbolic_Computation_Group_(University_of_Waterloo)"
+  },
   "TypeScript": {
     "type": "language"
   },
-  "K": {
-    "type": "language"
+  "University of California Berkeley": {
+    "type": "organization",
+    "profile_key": "University_of_California_Berkeley"
+  },
+  "University of Maryland": {
+    "type": "organization",
+    "profile_key": "University_of_Maryland"
+  },
+  "University of Melbourne": {
+    "type": "organization",
+    "profile_key": "University_of_Melbourne"
   },
   "VB.NET": {
     "type": "language"
