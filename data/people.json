@@ -90,13 +90,6 @@
     ]
   },
   {
-    "name": "Apple Computer",
-    "contributions": [
-      "Dylan",
-      "Swift"
-    ]
-  },
-  {
     "name": "Arthur Whitney",
     "contributions": [
       "K",
@@ -939,16 +932,6 @@
     "name": "Xavier Leroy",
     "contributions": [
       "OCaml"
-    ]
-  },
-  {
-    "name": "Xerox PARC",
-    "contributions": [
-      "Mesa",
-      "Smalltalk",
-      "Ethernet",
-      "Laser printing",
-      "Graphical User Interface (GUI)"
     ]
   },
   {

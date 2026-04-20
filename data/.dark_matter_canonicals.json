@@ -2,6 +2,10 @@
   "Alick Glennie": {
     "type": "person"
   },
+  "Apple Inc": {
+    "type": "organization",
+    "profile_key": "Apple_Inc"
+  },
   "Assembly": {
     "type": "language"
   },
