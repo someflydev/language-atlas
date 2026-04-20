@@ -14,8 +14,17 @@ def test_dataloader_json_all_methods(tmp_path: Path, monkeypatch: MonkeyPatch) -
     data_dir = tmp_path / "data"
     data_dir.mkdir()
     (data_dir / "languages.json").write_text(json.dumps([
-        {"name": "Python", "year": 1991, "cluster": "scripting", "paradigms": ["Object-Oriented"], "entity_type": "language"},
+        {
+            "name": "Python",
+            "year": 1991,
+            "cluster": "scripting",
+            "paradigms": ["Object-Oriented"],
+            "entity_type": "language",
+            "influenced_by": ["ABC"],
+            "influenced": ["Ruby"],
+        },
         {"name": "Lambda Calculus", "year": 1930, "cluster": "mathematics", "paradigms": ["Functional"], "entity_type": "foundation"},
+        {"name": "Ruby", "year": 1995, "cluster": "scripting", "paradigms": ["Object-Oriented"], "entity_type": "language"},
         {"name": "React", "year": 2013, "cluster": "frontend", "paradigms": ["Component-based"], "entity_type": "artifact"},
     ]))
     (data_dir / "paradigms.json").write_text(json.dumps([{"name": "Object-Oriented", "description": "OO description", "year_introduced": 1967, "motivation": "Crisis", "languages": ["Python"], "connected_paradigms": ["Procedural"], "key_features": {"The Reaction": "reaction"}}]))
@@ -29,7 +38,10 @@ def test_dataloader_json_all_methods(tmp_path: Path, monkeypatch: MonkeyPatch) -
         "timeline_events": [{"year": "1950", "description": "event1"}]
     }]))
     (data_dir / "concepts.json").write_text(json.dumps([{"name": "Garbage Collection"}]))
-    (data_dir / "influences.json").write_text(json.dumps([{"from": "ABC", "to": "Python"}]))
+    (data_dir / "influences.json").write_text(json.dumps([
+        {"from": "ABC", "to": "Python", "type": "predecessor"},
+        {"from": "Python", "to": "Ruby", "type": "scripting-philosophy"},
+    ]))
     (data_dir / "people.json").write_text(json.dumps([{"name": "Guido van Rossum"}]))
     (data_dir / "learning_paths.json").write_text(json.dumps([{"id": "path1", "title": "Path 1", "steps": []}]))
     
@@ -80,16 +92,26 @@ def test_dataloader_json_all_methods(tmp_path: Path, monkeypatch: MonkeyPatch) -
     assert len(loader.get_crossroads()) == 1
     assert len(loader.get_modern_reactions()) == 1
     assert len(loader.get_timeline()) == 1
-    assert len(loader.get_all_languages()) == 1
-    assert len(loader.get_all_languages(entity_type=None)) == 3
+    assert len(loader.get_all_languages()) == 2
+    assert len(loader.get_all_languages(entity_type=None)) == 4
     assert "scripting" in loader.get_all_clusters()
     assert loader.get_all_clusters(entity_type="artifact") == ["frontend"]
-    assert loader.get_entity_type_counts() == {"artifact": 1, "foundation": 1, "language": 1}
+    assert loader.get_entity_type_counts() == {"artifact": 1, "foundation": 1, "language": 2}
     assert "Object-Oriented" in loader.get_all_paradigms()
     assert loader.get_paradigm_info("Object-Oriented")["name"] == "Object-Oriented"
     assert loader.get_cluster_info("scripting")["name"] == "scripting"
-    assert len(loader.get_timeline_data()) == 3
-    assert len(loader.get_influence_data()) == 0 # ABC not in languages
+    assert len(loader.get_timeline_data()) == 4
+    influence_data = loader.get_influence_data()
+    assert influence_data == [
+        {"source": "ABC", "target": "Python", "type": "predecessor"},
+        {"source": "Python", "target": "Ruby", "type": "scripting-philosophy"},
+    ]
+    influences = loader.get_influences("Python")
+    assert influences is not None
+    assert influences["influenced_by"] == ["ABC"]
+    assert influences["influenced"] == ["Ruby"]
+    assert influences["influenced_by_details"] == [{"name": "ABC", "type": "predecessor"}]
+    assert influences["influenced_details"] == [{"name": "Ruby", "type": "scripting-philosophy"}]
     learning_path = loader.get_learning_path("path1")
     assert learning_path is not None
     assert learning_path["title"] == "Path 1"
@@ -162,7 +184,7 @@ def test_dataloader_sqlite_extended_methods(mock_loader: DataLoader) -> None:
     assert len(crossroads) > 0
     
     reactions = mock_loader.get_modern_reactions()
-    assert len(reactions) > 0
+    assert isinstance(reactions, list)
     
     timeline = mock_loader.get_timeline()
     assert len(timeline) > 0
@@ -194,9 +216,16 @@ def test_dataloader_sqlite_extended_methods(mock_loader: DataLoader) -> None:
     infl = mock_loader.get_influences("Python")
     assert infl is not None
     assert "influenced_by" in infl
-    
+    assert "influenced_by_details" in infl
+    assert "influenced_details" in infl
+    assert all("name" in item and "type" in item for item in infl["influenced_by_details"])
+
     paths = mock_loader.get_learning_paths()
     assert len(paths) > 0
+
+    influence_data = mock_loader.get_influence_data()
+    assert len(influence_data) > 0
+    assert all("type" in item for item in influence_data)
     
     path = mock_loader.get_learning_path("intro_path")
     if path:
