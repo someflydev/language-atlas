@@ -1,0 +1,197 @@
+# PROMPT_86: Surface Foundational Precursors on Individual Profiles and Finish Docs
+
+## Objective
+
+PROMPT_83 through PROMPT_85 make paradigm pages and mixed-entity profiles
+foundation-aware. This prompt finishes the feature by improving how individual
+profiles explain their own upstream influences.
+
+Today, a language-like entity's `influenced_by` list is conceptually flat.
+After adding paradigm ecosystem views, the next most useful refinement is to
+show users the difference between:
+
+- foundational precursors
+- language ancestors
+- optionally other mixed-corpus influences if they appear
+
+The goal is interpretability, not more raw data.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/routes.md`, and
+   `.context/commands.md`.
+3. Read:
+   - `src/app/app.py`
+   - `src/app/templates/profile.html`
+   - `src/app/core/data_loader.py`
+   - `API_GUIDE.md`
+   - `src/README.md`
+4. Create `tmp/PROMPT_86_checklist.md`.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. Split upstream influences into meaningful buckets on profiles
+
+For language-like entities shown on the shared profile page, present upstream
+influences in a more meaningful structure.
+
+At minimum, distinguish:
+
+- `Foundational Precursors`
+- `Language Ancestors`
+
+If artifacts appear in the upstream set and you encounter them naturally, you
+may add a third group such as:
+
+- `Related Artifacts / Runtime Influences`
+
+But do not force this if the current data rarely needs it.
+
+### 2. Use entity-type-aware grouping, not string heuristics
+
+Grouping must be based on the actual `entity_type` of the upstream entities,
+not on name matching or prose heuristics.
+
+This likely means extending the loader to return influence detail objects with
+entity types preserved in a form the profile template can consume cleanly.
+
+### 3. Keep the existing overall profile structure
+
+Do not redesign the whole profile page. Add a thoughtful new section or refine
+the existing lineage/influence area so the distinction becomes clear.
+
+The user should be able to tell quickly:
+
+- which ideas or formal systems the entity stands on
+- which prior languages directly shaped it
+
+### 4. Preserve plain influence lists where needed for APIs
+
+If existing APIs already return flat `influenced_by` / `influenced` lists,
+avoid breaking those contracts.
+
+It is acceptable to add richer parallel fields for templates, such as grouped
+detail lists, while preserving existing flat lists for compatibility.
+
+### 5. Finish documentation for the whole feature
+
+By the end of this prompt, the documentation should clearly reflect that:
+
+- paradigms now have foundation-aware ecosystem views
+- mixed language-like entities are profile-aware by `entity_type`
+- profiles distinguish foundations from language ancestors where appropriate
+
+Update:
+
+- `API_GUIDE.md`
+- `src/README.md`
+- `.context/routes.md`
+
+If a route description or architecture note changed in PROMPT_84 or PROMPT_85
+but was left partial, finish it here.
+
+---
+
+## Implementation Guidance
+
+### Loader changes
+
+Prefer to enhance existing influence detail structures rather than layering
+template-only logic over flat names.
+
+Good outcomes:
+
+- a grouped influence payload built in Python
+- entity-type-preserving influence detail records
+- template receives already-partitioned lists
+
+Avoid complex branching logic directly in Jinja templates.
+
+### Template design
+
+The new upstream section should feel explanatory rather than mechanical. Keep
+the labels short and legible.
+
+A good pattern is:
+
+- short heading
+- 1-2 sentence explanatory subcopy if needed
+- grouped chips/cards/lists
+
+Do not turn the profile into a dense analytics dashboard.
+
+### Scope discipline
+
+This prompt is the finishing pass. If you find a tempting broad redesign, do
+not take it on unless it is necessary to make the feature coherent.
+
+---
+
+## Tests
+
+Add or update tests to prove the grouped upstream behavior.
+
+### Required coverage
+
+1. A test fixture with a language whose upstream influences include at least:
+   - one foundation
+   - one language
+
+2. Assert that the grouped data structure separates them correctly.
+
+3. Add or update a route/template test that confirms the rendered profile page
+   shows both grouped headings in the representative case.
+
+4. Ensure any previously existing flat influence list behavior used elsewhere
+   still works.
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- overhaul the compare page
+- redesign every card component
+- add graph visualizations
+- introduce artifacts into paradigm pages unless already necessary
+
+Stop once the feature feels complete and documented.
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make test
+make docs
+```
+
+If `make docs` changes generated output unexpectedly, inspect carefully and
+commit only what the repo convention expects.
+
+Also inspect the relevant diff:
+
+```bash
+git diff -- src/app/core/data_loader.py src/app/app.py src/app/templates/profile.html API_GUIDE.md src/README.md .context/routes.md tests
+```
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- profile pages distinguish foundational precursors from language ancestors
+- the grouping uses real entity types
+- existing influence APIs remain compatible or are extended safely
+- docs describe the full feature set coherently
+- tests pass

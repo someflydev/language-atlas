@@ -1,0 +1,215 @@
+# PROMPT_85: Make Mixed Entity Profiles and Links Foundation-Aware
+
+## Objective
+
+The new paradigm ecosystem page will surface foundation cards prominently.
+Those cards must land on profiles that behave correctly for non-language
+entities in the `languages` corpus, especially `entity_type == "foundation"`.
+
+Right now the language-like profile route is biased toward
+`entity_type="language"` in both labeling and rendering assumptions. This
+prompt corrects that.
+
+The goal is not to invent a whole new information architecture. The goal is to
+make mixed language-like entities render honestly and link consistently.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/routes.md`, and
+   `.context/commands.md`.
+3. Read:
+   - `src/app/app.py`
+   - `src/app/templates/profile.html`
+   - `src/app/templates/partials/language_grid.html`
+   - `src/app/templates/paradigm_view.html` if created in PROMPT_84
+   - `src/app/static/atlas-static.js`
+   - `API_GUIDE.md`
+4. Create `tmp/PROMPT_85_checklist.md`.
+5. Check off items immediately after completing them.
+
+---
+
+## Product Requirements
+
+### 1. Respect actual `entity_type` on language-like profiles
+
+The route that serves the core corpus profile must stop hardcoding
+`entity_type = "language"` in the template context when the underlying record
+is actually a foundation or artifact.
+
+Update the route and template logic so a foundation record is rendered as a
+foundation-oriented page, not mislabeled as a normal programming language.
+
+This includes sidebar labeling and any conditional sections that currently
+assume executable languages only.
+
+### 2. Keep a shared profile route unless there is a compelling reason not to
+
+You do not need to add `/foundation/{name}` or `/artifact/{name}` if the
+existing route can cleanly support mixed language-like entities.
+
+If you do add alias routes, they must be light wrappers and not create
+duplicated rendering logic.
+
+The default expectation for this prompt is:
+
+- continue using the existing core profile route
+- make it type-aware
+
+### 3. Fix language-like linking across templates and client-side helpers
+
+Anywhere the UI generates links for entries from the mixed corpus, make sure
+the link destination is correct for foundations as well as languages.
+
+Review at least:
+
+- `src/app/templates/paradigm_view.html`
+- `src/app/templates/partials/language_grid.html`
+- `src/app/templates/tag_view.html`
+- `src/app/static/atlas-static.js`
+- any route mapping used for search or cards
+
+Do not assume everything should route to `/language/...` blindly if the record
+already tells you its entity type.
+
+### 4. Profile sections should degrade gracefully for foundations
+
+Foundations do not always fit all the same framing as modern languages. The
+profile page should still feel coherent if a foundation has:
+
+- creators
+- paradigms
+- influences
+- lineage
+
+But avoid language-specific labels that become misleading. For example:
+
+- "Vital Statistics" may still be acceptable
+- "Established" is okay if used generically
+- language-only marketing copy or executable-language assumptions are not
+
+If a section only makes sense for executable languages, gate it appropriately.
+
+### 5. Preserve lineage usefulness for foundations
+
+Foundations should still benefit from influence/lineage navigation where the
+data supports it.
+
+If lineage queries already work generically over the mixed `languages` table,
+reuse them. If the template currently hides lineage behind `entity_type ==
+"language"`, reconsider that condition.
+
+However, do not turn this prompt into a total lineage UX rewrite. Keep the
+change focused on correctness and obvious usefulness.
+
+---
+
+## Implementation Guidance
+
+### Centralize route mapping if needed
+
+If multiple templates or JS helpers need to decide between routes for
+`language`, `foundation`, and `artifact`, introduce a small shared mapping
+mechanism instead of repeating conditional strings everywhere.
+
+Keep it simple. Avoid framework-level abstraction.
+
+### Template conditionals
+
+Audit conditionals like:
+
+```jinja2
+{% if entity_type == 'language' %}
+```
+
+Decide which should become:
+
+- `entity_type in ('language', 'foundation', 'artifact')`
+- foundation-specific rendering
+- truly language-only
+
+Be explicit. Do not loosen conditionals blindly.
+
+### Search and static pages
+
+If search results or client-side rendered cards can surface foundations, ensure
+their route generation stays correct there too.
+
+---
+
+## Tests
+
+Add or update tests to cover type-aware profile behavior and routing.
+
+### Required coverage
+
+1. A route test for a foundation profile page:
+   - returns 200
+   - renders the foundation name
+   - does not misclassify the entity in a way visible in the UI
+
+2. A test that mixed-entity route generation is correct for at least one
+   language and one foundation in the affected helper path.
+
+3. If you change `atlas-static.js` route generation, add or extend tests that
+   catch regressions there if the current suite supports that.
+
+If direct JS tests are awkward, at minimum ensure server-rendered templates
+emit correct links.
+
+---
+
+## Documentation Requirements
+
+Update documentation where the route semantics or entity-type handling changed:
+
+- `API_GUIDE.md` if route descriptions need clarification
+- `.context/routes.md`
+- `src/README.md` if mixed-entity profile handling is an architectural point
+
+Keep docs brief and precise.
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- redesign the main `/languages` browser
+- add artifact-specific ecosystem sections
+- perform large visual restyling unrelated to type correctness
+- rewrite lineage SQL
+
+If a deeper lineage refinement seems desirable, leave it for PROMPT_86.
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+uv run pytest tests/test_site_crawler.py -v
+make test
+```
+
+Inspect the relevant diff:
+
+```bash
+git diff -- src/app/app.py src/app/templates/profile.html src/app/templates/partials/language_grid.html src/app/templates/tag_view.html src/app/static/atlas-static.js API_GUIDE.md .context/routes.md src/README.md tests
+```
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- foundation pages render through the shared profile flow without being
+  mislabeled as ordinary languages
+- mixed-entity links are correct in the touched surfaces
+- lineage/helpful metadata still works for foundations
+- tests pass

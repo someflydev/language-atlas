@@ -1,0 +1,245 @@
+# PROMPT_84: Redesign Paradigm Pages as Foundation-Aware Ecosystem Views
+
+## Objective
+
+PROMPT_83 added a structured paradigm ecosystem model. This prompt uses that
+data to turn `/paradigm/{name}` from a generic tag page into a page that shows
+both:
+
+- the languages that embody a paradigm
+- the foundations that explain where that paradigm comes from
+
+The guiding principle is:
+
+> Paradigms are the primary browsing surface. Foundations are the conceptual
+> substrate beneath them.
+
+Do not build a brand-new top-level foundations hub here. The goal is to weave
+foundations into paradigm browsing thoughtfully.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/routes.md`, and
+   `.context/commands.md`.
+3. Read:
+   - `src/app/app.py`
+   - `src/app/templates/tag_view.html`
+   - `src/app/templates/profile.html`
+   - `src/app/templates/base.html`
+   - any new loader/API changes created by PROMPT_83
+4. Create `tmp/PROMPT_84_checklist.md` with a checkbox per task below.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. Keep the route, change the experience
+
+Retain the existing route:
+
+```text
+/paradigm/{name}
+```
+
+But stop rendering it through the generic `tag_view.html` pattern.
+
+Create a dedicated paradigm template, for example:
+
+```text
+src/app/templates/paradigm_view.html
+```
+
+`/cluster/{name}` should continue using the generic tag view. Do not entangle
+cluster and paradigm rendering unnecessarily.
+
+### 2. The page must have two clearly distinct sections
+
+The page should include:
+
+1. `Foundational Precursors`
+2. `Languages in this paradigm`
+
+Do not mix foundations and languages into a single undifferentiated card grid.
+
+The foundation section should appear before the language grid, or otherwise be
+visually higher in hierarchy, so the page reads as:
+
+idea -> embodiment
+
+### 3. Foundation cards should explain why they are present
+
+Each foundation card should surface:
+
+- display name
+- year
+- short description or philosophy
+- a short relevance explanation
+- supporting language count
+- a few example descendant languages
+
+If the loader exposes `is_directly_tagged`, consider a compact badge such as:
+
+- `Directly tagged`
+- `Shared precursor`
+
+Keep it tasteful. Avoid dashboard clutter.
+
+### 4. Language section should preserve existing usefulness
+
+The language list still needs:
+
+- sort by `name` and `year`
+- the familiar card-based browse behavior
+- links to profiles
+- visible paradigm/cluster metadata where helpful
+
+If you create a small shared card partial for language cards, that is fine.
+Do not do a large template refactor unless it clearly reduces duplication.
+
+### 5. The page should read like a guided intellectual map
+
+The top of the page should include:
+
+- paradigm title
+- description
+- compact stats such as:
+  - number of languages
+  - number of foundations
+  - earliest foundation year or earliest language year if available
+
+Optional but encouraged:
+
+- a short line of explanatory copy clarifying that the top section contains
+  historical or theoretical precursors while the lower section contains
+  executable languages
+
+### 6. Preserve static export compatibility
+
+This route is crawled into the static site. Do not introduce client-only logic
+that leaves the exported page empty or broken.
+
+Server-render the full page content.
+
+---
+
+## Implementation Guidance
+
+### Route logic
+
+Update the `/paradigm/{name}` route in `src/app/app.py` to consume the
+paradigm ecosystem data from PROMPT_83.
+
+Keep sorting behavior explicit for the language section. Foundations should
+usually stay ranked by relevance rather than sharing the language sort toggle.
+
+If you need multiple sort controls, keep them minimal and legible. The simplest
+acceptable version is:
+
+- user-controlled sorting for languages
+- fixed relevance ordering for foundations
+
+### Template structure
+
+The new template should be intentional, not a generic report dump. Avoid:
+
+- walls of tiny metadata chips
+- over-nesting
+- two giant grids with no explanatory framing
+
+Aim for a strong hierarchy:
+
+- header
+- compact foundation cards
+- larger language browse grid
+
+### Link behavior
+
+Foundation cards must link to a sensible profile destination. If the current
+profile routing does not yet handle foundations well, wire the link in the best
+available way and leave the route/profile correctness cleanup to PROMPT_85.
+
+Do not block this prompt on perfect cross-entity route cleanup.
+
+---
+
+## Tests
+
+Add or update tests to cover the new server-rendered paradigm page.
+
+### Required coverage
+
+1. Add a route test or template-response test that confirms:
+   - `/paradigm/{name}` returns 200
+   - the rendered HTML includes a foundations section heading
+   - the rendered HTML includes at least one foundation card and one language
+     card in a representative fixture
+
+2. Update static export / crawler tests if needed so the paradigm page remains
+   crawlable after the template change.
+
+3. If you introduce a new template file, ensure any existing crawler or site
+   builder assumptions still hold.
+
+Prefer targeted tests over snapshot-style giant HTML assertions.
+
+---
+
+## Documentation Requirements
+
+Update these if behavior materially changes:
+
+- `API_GUIDE.md` only if the HTML route description needs clarification beyond
+  PROMPT_83's API work
+- `.context/routes.md`
+
+Keep route docs accurate about the paradigm page becoming a richer ecosystem
+view rather than a plain tag list.
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- add dedicated `/foundation/{name}` routes unless strictly required
+- refactor all profile pages
+- change the main `/languages` browser
+- build a graph visualization
+- weave artifacts into the paradigm page
+
+If you see a clean future improvement, note it in the checklist.
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+uv run pytest tests/test_site_crawler.py -v
+make test
+```
+
+Also inspect the relevant diff:
+
+```bash
+git diff -- src/app/app.py src/app/templates/paradigm_view.html src/app/templates/tag_view.html .context/routes.md tests/test_site_crawler.py
+```
+
+If additional route tests were added, include them in the final verification.
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- `/paradigm/{name}` renders through a dedicated paradigm page
+- foundations and languages appear as distinct, purposeful sections
+- the page is server-rendered and static-export-safe
+- tests pass
+- cluster pages remain on the generic tag-view path

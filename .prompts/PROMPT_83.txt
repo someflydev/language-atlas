@@ -1,0 +1,297 @@
+# PROMPT_83: Build a Paradigm Ecosystem Data Model for Foundations
+
+## Objective
+
+Paradigm pages currently behave like simple tag filters. They list languages
+that carry a given paradigm, but they do not expose the historical and
+theoretical foundations that make those languages intelligible.
+
+This prompt adds the backend model needed for a richer paradigm page:
+
+- a new DataLoader method that returns a **paradigm ecosystem**
+- foundation relevance derived from both explicit paradigm tagging and the
+  influence graph
+- a stable API surface for the richer data
+- tests that prove the scoring and mixed-entity handling work in both JSON and
+  SQLite-backed flows where practical
+
+This prompt is backend/data-contract work first. It must not attempt to finish
+the final page design. It may add small route plumbing needed for API access,
+but the major `/paradigm/{name}` HTML redesign belongs to PROMPT_84.
+
+## Desired Product Shape
+
+At the end of this prompt, the codebase should be able to answer a question of
+the form:
+
+> "For paradigm X, which foundations matter most, why do they matter, and how
+> many languages in this paradigm do they feed into?"
+
+The answer should be available as structured data, not inferred ad hoc in the
+template.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/routes.md`,
+   `.context/data-pipeline.md`, and `.context/commands.md`.
+3. Read these implementation points before changing anything:
+   - `src/app/core/data_loader.py`
+   - `src/app/app.py`
+   - `API_GUIDE.md`
+   - `tests/test_data_loader_full.py`
+   - `tests/test_site_crawler.py`
+4. Create `tmp/PROMPT_83_checklist.md` with a checkbox for each task below.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. Add a first-class "paradigm ecosystem" loader API
+
+Add a new method in `src/app/core/data_loader.py`:
+
+```python
+get_paradigm_ecosystem(name: str, *, sort_languages: str = "year") -> Dict[str, Any]
+```
+
+Its result must include:
+
+- `paradigm`
+  - the existing paradigm info record or a compatible stub
+- `languages`
+  - language entities tagged with the paradigm
+- `foundations`
+  - relevant `entity_type == "foundation"` entities, ordered by relevance
+- `stats`
+  - at minimum:
+    - `language_count`
+    - `foundation_count`
+    - `earliest_language_year` if available
+    - `earliest_foundation_year` if available
+
+Each foundation entry must include enough information for a page card:
+
+- `name`
+- `display_name`
+- `year`
+- `philosophy`
+- `paradigms`
+- `relevance_score`
+- `relevance_reason`
+- `supporting_language_count`
+- `example_languages`
+- `is_directly_tagged`
+
+`example_languages` should be a short ordered list of matching paradigm
+languages downstream of that foundation. Cap it conservatively, for example 3
+or 4 entries.
+
+### 2. Foundation relevance must come from two sources
+
+Foundations should be considered relevant to a paradigm if either of these is
+true:
+
+1. the foundation itself lists that paradigm in its `paradigms`
+2. the foundation is an ancestor, through the influence graph, of one or more
+   languages in that paradigm
+
+Do not rely on direct `influenced` adjacency only. Use the graph transitively.
+For SQLite mode, prefer query-driven implementation. For JSON mode, walk the
+in-memory graph.
+
+### 3. Use a simple, inspectable ranking model
+
+Use a scoring model that is easy to understand and debug. For example:
+
+- strong bonus if directly tagged with the paradigm
+- additional weight per downstream paradigm language supported
+- deterministic tie-breakers by year and name
+
+The exact constants can differ, but the ranking must satisfy this principle:
+
+- direct paradigm-tagged foundations should usually rise to the top
+- widely shared upstream foundations should outrank niche or single-language
+  ancestors
+
+Populate `relevance_reason` with a readable explanation such as:
+
+- `"Tagged with Functional and upstream of 12 Functional languages"`
+- `"Upstream of 4 Logic languages"`
+
+Do not hide the logic in undocumented magic numbers.
+
+### 4. Keep language results language-only
+
+The `languages` list inside `get_paradigm_ecosystem()` must remain strictly
+`entity_type == "language"`.
+
+Do not mix foundations into the language list and do not change the default
+behavior of `get_all_languages()`.
+
+### 5. Add a dedicated API surface for the ecosystem
+
+Add a JSON API route in `src/app/app.py`:
+
+```text
+/api/paradigm/{name}/ecosystem
+```
+
+This should return the ecosystem payload from the loader method.
+
+Do not silently change the shape of the existing `/api/paradigm/{name}` route
+if that would break callers relying on the current lightweight response. Keep
+the existing detail endpoint stable unless there is a clearly backward-safe
+extension.
+
+### 6. Do not overreach into artifacts yet
+
+This prompt is about weaving **foundations** into paradigm browsing.
+
+Do not expand the ecosystem model to artifacts unless a small shared helper
+needs to account for them generically. Any artifact-specific UX belongs to a
+later prompt.
+
+---
+
+## Implementation Guidance
+
+### DataLoader design
+
+Prefer a small number of focused helpers rather than one giant method. Good
+examples:
+
+- a helper to collect paradigm languages
+- a helper to walk or query ancestors of a language
+- a helper to score foundation relevance
+- a helper to build the final normalized foundation card payload
+
+Keep JSON and SQLite implementations behaviorally aligned.
+
+### SQLite implementation
+
+Use the existing `languages`, `influences`, and `language_paradigms` tables.
+If recursive CTEs simplify ancestor discovery, use them.
+
+Avoid N+1 query patterns if possible. The paradigm ecosystem route may be
+statically crawled later, so it should not be wasteful.
+
+### JSON implementation
+
+Use the in-memory `self.languages` corpus and graph relationships. Ensure
+foundation and language entity types are respected explicitly.
+
+### Shape stability
+
+The return payload should be resilient to missing descriptions or sparse
+profiles. Do not assume every foundation has rich prose. Empty strings or empty
+lists are acceptable when data is missing.
+
+---
+
+## Testing Requirements
+
+Add or update tests so this prompt leaves behind executable guarantees.
+
+### Required tests
+
+1. `tests/test_data_loader_full.py`
+   - add a JSON-mode test for `get_paradigm_ecosystem()`
+   - include a small graph with:
+     - at least one direct-tagged foundation
+     - at least one transitive upstream foundation
+     - at least two languages in the same paradigm
+   - assert:
+     - only language entities appear in `languages`
+     - only foundation entities appear in `foundations`
+     - supporting counts are correct
+     - direct-tagged foundations rank above weaker graph-only ones when
+       appropriate
+
+2. Add a SQLite-backed test if the existing fixtures make it practical.
+   If a dedicated SQLite test is too heavy, extend an existing loader or route
+   test to validate at least one SQL-backed ecosystem call.
+
+3. Add an API test for `/api/paradigm/{name}/ecosystem`
+   - confirm 200 response
+   - confirm returned shape includes `paradigm`, `languages`, `foundations`,
+     and `stats`
+
+### Nice-to-have tests
+
+- stable ordering tie-breakers
+- no foundations returned when none qualify
+- missing paradigm name returns a safe stub plus empty lists rather than
+  crashing
+
+---
+
+## Documentation Requirements
+
+Update documentation for any new API or loader contract you introduce:
+
+- `API_GUIDE.md`
+- `src/README.md` if the new loader method or paradigm behavior materially
+  changes the architecture story
+
+Keep the docs concise and factual. This prompt is about the data contract, not
+the visual redesign.
+
+---
+
+## Out of Scope
+
+Do not do these in this prompt:
+
+- redesign `/paradigm/{name}` HTML
+- create a new polished paradigm template
+- refactor all profile-page lineage sections
+- add `/foundation/{name}` or `/artifact/{name}` routes unless a later prompt
+  explicitly requires them
+- change search UX
+
+Record any tempting follow-up in the checklist, then stop.
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make test
+```
+
+If that is too expensive during iteration, run a narrower sequence first and
+finish with `make test` before closing the prompt.
+
+At minimum during development:
+
+```bash
+uv run pytest tests/test_data_loader_full.py -v
+uv run pytest tests/test_site_crawler.py -v
+```
+
+If you add or touch API route tests elsewhere, include them in the final run.
+
+Also inspect the relevant diff:
+
+```bash
+git diff -- src/app/core/data_loader.py src/app/app.py API_GUIDE.md src/README.md tests/test_data_loader_full.py tests/test_site_crawler.py
+```
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- `get_paradigm_ecosystem()` exists and returns structured foundation-aware
+  paradigm data
+- foundation relevance uses direct paradigm tagging plus transitive ancestry
+- `/api/paradigm/{name}/ecosystem` is implemented and documented
+- tests prove the behavior and pass
+- no UI-heavy redesign work has been mixed into the backend session
