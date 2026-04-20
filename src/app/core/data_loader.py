@@ -492,19 +492,122 @@ class DataLoader:
         finally:
             conn.close()
 
-    def get_influence_data(self) -> List[Dict[str, str]]:
+    def _merge_json_influence_edges(self) -> List[Dict[str, Any]]:
+        """Merge typed edges from influences.json with untyped language lineage arrays."""
+        all_edges: Dict[Tuple[str, str], Dict[str, Any]] = {}
+
+        for influence in self.influences:
+            source = influence.get('from') or influence.get('source')
+            target = influence.get('to') or influence.get('target')
+            if not source or not target:
+                continue
+            all_edges[(source, target)] = {
+                'from': source,
+                'to': target,
+                'type': influence.get('type'),
+            }
+
+        for lang in self.languages:
+            name = lang.get('name')
+            if not name:
+                continue
+            for parent in lang.get('influenced_by', []):
+                all_edges.setdefault((parent, name), {
+                    'from': parent,
+                    'to': name,
+                    'type': None,
+                })
+            for child in lang.get('influenced', []):
+                all_edges.setdefault((name, child), {
+                    'from': name,
+                    'to': child,
+                    'type': None,
+                })
+
+        return list(all_edges.values())
+
+    def _json_influence_details_for_language(self, name: str) -> Dict[str, List[Dict[str, Any]]]:
+        alt_name = name.replace('_', ' ')
+        matched_language = self.get_language(name)
+        canonical_names = {name.lower(), alt_name.lower()}
+        if matched_language:
+            canonical_names.add(matched_language['name'].lower())
+
+        influenced_by_details: List[Dict[str, Any]] = []
+        influenced_details: List[Dict[str, Any]] = []
+
+        for edge in self._merge_json_influence_edges():
+            source = edge['from']
+            target = edge['to']
+            influence_type = edge.get('type')
+            if target.lower() in canonical_names:
+                influenced_by_details.append({'name': source, 'type': influence_type})
+            if source.lower() in canonical_names:
+                influenced_details.append({'name': target, 'type': influence_type})
+
+        influenced_by_details.sort(key=lambda item: item['name'].lower())
+        influenced_details.sort(key=lambda item: item['name'].lower())
+        return {
+            'influenced_by_details': influenced_by_details,
+            'influenced_details': influenced_details,
+        }
+
+    def _sqlite_influence_details_for_language(self, name: str) -> Optional[Dict[str, List[Dict[str, Any]]]]:
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute("""
+                SELECT id
+                FROM languages
+                WHERE lower(name) = ? OR lower(display_name) = ?
+                LIMIT 1
+            """, (name.lower(), name.lower()))
+            row = cursor.fetchone()
+            if not row:
+                return None
+
+            lang_id = row['id']
+            cursor = conn.execute("""
+                SELECT l.name, i.influence_type
+                FROM languages l
+                JOIN influences i ON l.id = i.source_id
+                WHERE i.target_id = ?
+                ORDER BY l.name
+            """, (lang_id,))
+            influenced_by_details = [
+                {'name': item['name'], 'type': item['influence_type']}
+                for item in cursor.fetchall()
+            ]
+
+            cursor = conn.execute("""
+                SELECT l.name, i.influence_type
+                FROM languages l
+                JOIN influences i ON l.id = i.target_id
+                WHERE i.source_id = ?
+                ORDER BY l.name
+            """, (lang_id,))
+            influenced_details = [
+                {'name': item['name'], 'type': item['influence_type']}
+                for item in cursor.fetchall()
+            ]
+            return {
+                'influenced_by_details': influenced_by_details,
+                'influenced_details': influenced_details,
+            }
+        finally:
+            conn.close()
+
+    def get_influence_data(self) -> List[Dict[str, Any]]:
         """Fetches data for influence network visualization."""
         if not self.use_sqlite:
-            edges = []
-            for l in self.languages:
-                for target in l.get('influenced', []):
-                    edges.append({'source': l['name'], 'target': target})
-            return edges
+            return [
+                {'source': edge['from'], 'target': edge['to'], 'type': edge.get('type')}
+                for edge in self._merge_json_influence_edges()
+            ]
 
         conn = self._get_connection()
         try:
             cursor = conn.execute("""
-                SELECT s.name as source, t.name as target 
+                SELECT s.name as source, t.name as target, i.influence_type as type
                 FROM influences i
                 JOIN languages s ON i.source_id = s.id
                 JOIN languages t ON i.target_id = t.id
@@ -1034,15 +1137,27 @@ class DataLoader:
         if profile:
             combined.update(profile)
 
+        influences = self.get_influences(lang['name'])
+        if influences:
+            combined.update(influences)
+
         return combined
 
     def get_influences(self, name: str) -> Optional[Dict[str, Any]]:
         lang = self.get_language(name)
         if not lang:
             return None
+        if not self.use_sqlite:
+            details = self._json_influence_details_for_language(name)
+        else:
+            details = self._sqlite_influence_details_for_language(name)
+            if details is None:
+                return None
         return {
-            'influenced_by': lang.get('influenced_by', []),
-            'influenced': lang.get('influenced', [])
+            'influenced_by': [item['name'] for item in details['influenced_by_details']],
+            'influenced': [item['name'] for item in details['influenced_details']],
+            'influenced_by_details': details['influenced_by_details'],
+            'influenced_details': details['influenced_details'],
         }
 
     def get_descendants(self, language_id: int, max_depth: int = 5) -> List[Dict[str, Any]]:
