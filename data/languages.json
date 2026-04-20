@@ -468,8 +468,7 @@
     "influenced": [
       "JSON",
       "YAML",
-      "SQL",
-      "Compression Algorithms"
+      "SQL"
     ],
     "philosophy": "Information is a quantifiable physical quantity that can be measured, compressed, and transmitted reliably through noisy channels.",
     "mental_model": "Think in terms of probability and bits. Every piece of data has a measurable amount of information, and computation is the process of manipulating that information efficiently.",
@@ -814,6 +813,48 @@
     "entity_type": "language"
   },
   {
+    "name": "BNF",
+    "year": 1959,
+    "creators": [
+      "John Backus",
+      "Peter Naur"
+    ],
+    "paradigms": [
+      "Formal grammar",
+      "Metasyntax"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "primary_use_cases": [
+      "Language specification",
+      "Formal syntax notation"
+    ],
+    "key_innovations": [
+      "Compact notation for context-free syntax",
+      "Angle-bracket nonterminal convention",
+      "Shared grammar vocabulary for language design"
+    ],
+    "influenced_by": [
+      "ALGOL 58",
+      "Mathematical Notation"
+    ],
+    "influenced": [
+      "ALGOL 60",
+      "Chomsky Hierarchy",
+      "Prolog",
+      "XML"
+    ],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "BNF",
+    "entity_type": "foundation"
+  },
+  {
     "name": "COBOL",
     "year": 1959,
     "creators": [
@@ -895,6 +936,46 @@
     "memory_management": "compile_time",
     "is_keystone": true,
     "display_name": "ALGOL 60",
+    "entity_type": "language"
+  },
+  {
+    "name": "ISWIM",
+    "year": 1966,
+    "creators": [
+      "Peter Landin"
+    ],
+    "paradigms": [
+      "Functional",
+      "Imperative"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Language design research",
+      "Semantic models"
+    ],
+    "key_innovations": [
+      "Syntactic sugar over lambda calculus",
+      "Abstract core language for language families"
+    ],
+    "influenced_by": [
+      "Lambda Calculus",
+      "Lisp",
+      "ALGOL 60"
+    ],
+    "influenced": [
+      "ML",
+      "Haskell",
+      "SASL"
+    ],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "ISWIM",
     "entity_type": "language"
   },
   {
@@ -1604,7 +1685,6 @@
       "QUEL"
     ],
     "influenced": [
-      "CycL",
       "GraphQL"
     ],
     "philosophy": "Describe WHAT you want, not HOW to get it. SQL abstracts the physical storage of data, allowing the user to focus on logical relationships. Note: Historically characterized by Static/Strong typing and Managed-Store memory management.",
@@ -1746,6 +1826,47 @@
     "entity_type": "language"
   },
   {
+    "name": "S",
+    "year": 1976,
+    "creators": [
+      "John Chambers",
+      "Bell Labs"
+    ],
+    "paradigms": [
+      "Array-oriented",
+      "Functional",
+      "Procedural"
+    ],
+    "cluster": "scientific",
+    "generation": "early",
+    "primary_use_cases": [
+      "Statistical computing",
+      "Interactive data analysis"
+    ],
+    "key_innovations": [
+      "Interactive statistical environment",
+      "Vectorized statistical operations"
+    ],
+    "influenced_by": [
+      "FORTRAN",
+      "APL",
+      "Lisp"
+    ],
+    "influenced": [
+      "R",
+      "GNU Octave"
+    ],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "S Language",
+    "entity_type": "language"
+  },
+  {
     "name": "Mesa",
     "year": 1976,
     "creators": [
@@ -1811,8 +1932,7 @@
       "SNOBOL"
     ],
     "influenced": [
-      "Python",
-      "Unicon"
+      "Python"
     ],
     "philosophy": "Searching for success. Icon programs are built around expressions that can succeed or fail, and backtrack to find a successful path.",
     "mental_model": "Execution is a search process. Expressions generate values and can be resumed if later parts of the program fail.",
@@ -1935,8 +2055,7 @@
       "ALGOL 60"
     ],
     "influenced": [
-      "Python",
-      "Object REXX"
+      "Python"
     ],
     "philosophy": "A language that is as easy to read and write as possible, prioritizing human productivity and readability over machine efficiency.",
     "mental_model": "Think in terms of simple, English-like commands and powerful string manipulation. It is a tool for automating tasks and extending applications with minimal boilerplate.",
@@ -2021,8 +2140,7 @@
       "Interactive worksheets"
     ],
     "influenced_by": [
-      "Lisp",
-      "MACSYMA"
+      "Lisp"
     ],
     "influenced": [
       "Mathematica"
@@ -2063,10 +2181,7 @@
     "influenced_by": [
       "Forth"
     ],
-    "influenced": [
-      "PDF",
-      "NeWS"
-    ],
+    "influenced": [],
     "philosophy": "Graphics as code. Represent images and text as a series of program instructions rather than a bitmap.",
     "mental_model": "Think in terms of a global stack and a coordinate system. Push data, call operators, and draw on a virtual canvas.",
     "complexity_bias": "medium",
@@ -2105,14 +2220,12 @@
     "influenced_by": [
       "FORTRAN",
       "APL",
-      "LINPACK",
-      "EISPACK"
+      "S"
     ],
     "influenced": [
       "Julia",
       "Numpy",
-      "GNU Octave",
-      "Scilab"
+      "GNU Octave"
     ],
     "philosophy": "The matrix is the fundamental unit. MATLAB provides a high-performance environment for numerical computation and visualization without the overhead of lower-level memory management. Note: Historically characterized by Dynamic/Strong typing and Managed-Store memory management.",
     "mental_model": "Think in terms of linear transformations. Every variable is an array, and every operation is designed to work on matrices, reflecting the math of signal and image processing.",
@@ -2544,7 +2657,6 @@
     ],
     "influenced": [
       "JavaScript",
-      "NewtonScript",
       "Lua",
       "Dart"
     ],
@@ -2556,6 +2668,44 @@
     "memory_management": "runtime",
     "is_keystone": true,
     "display_name": "Self",
+    "entity_type": "language"
+  },
+  {
+    "name": "KRC",
+    "year": 1981,
+    "creators": [
+      "David Turner"
+    ],
+    "paradigms": [
+      "Functional",
+      "Lazy",
+      "Declarative"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Research into lazy functional programming"
+    ],
+    "key_innovations": [
+      "Lazy graph reduction model",
+      "Experimentation with non-strict functional syntax"
+    ],
+    "influenced_by": [
+      "SASL",
+      "Lambda Calculus"
+    ],
+    "influenced": [
+      "Miranda",
+      "Haskell"
+    ],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "KRC",
     "entity_type": "language"
   },
   {
@@ -2622,8 +2772,7 @@
     ],
     "influenced_by": [
       "Lisp",
-      "C",
-      "Shell"
+      "C"
     ],
     "influenced": [
       "Python",
@@ -2711,9 +2860,7 @@
       "Command substitution"
     ],
     "influenced_by": [
-      "Bourne Shell",
-      "ksh",
-      "csh"
+      "Bourne Shell"
     ],
     "influenced": [
       "Zsh",
@@ -2945,9 +3092,7 @@
       "BASIC"
     ],
     "influenced": [
-      "VB.NET",
-      "VBScript",
-      "Xojo"
+      "VB.NET"
     ],
     "philosophy": "Democratizing software development. VB enabled a generation of non-professional programmers to build functional GUI applications with unprecedented speed. Note: Historically characterized by Dynamic/Weak typing and Reference Counting memory management.",
     "mental_model": "Think in terms of a canvas. You draw your interface first and then attach snippets of code to events (like button clicks) to define the application's behavior.",
@@ -2987,7 +3132,6 @@
       "Scheme"
     ],
     "influenced": [
-      "Goo",
       "Julia"
     ],
     "philosophy": "The best of both worlds. The flexibility and power of Lisp and Smalltalk, but with the performance and delivery of a compiled language like C++.",
@@ -3066,15 +3210,11 @@
       "Minimalist C API"
     ],
     "influenced_by": [
-      "SOL",
-      "DEL",
       "Scheme",
       "SNOBOL"
     ],
     "influenced": [
-      "JavaScript",
-      "Squirrel",
-      "MoonScript"
+      "JavaScript"
     ],
     "philosophy": "Simplicity is the ultimate sophistication. Lua provides a minimal, fast, and highly embeddable engine that can be extended to fit any environment. Note: Historically characterized by Dynamic/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of tables and metatables. Everything is a hash map, and you can redefine the behavior of any operation by attaching metadata to your data structures.",
@@ -3209,8 +3349,7 @@
     ],
     "influenced_by": [
       "Java",
-      "Smalltalk",
-      "UCSD Pascal"
+      "Smalltalk"
     ],
     "influenced": [
       "Kotlin",
@@ -3584,8 +3723,7 @@
     ],
     "influenced": [
       "YAML",
-      "HCL",
-      "BSON"
+      "HCL"
     ],
     "philosophy": "The simplest possible data format. JSON provides a language-independent way to represent data that is easy for both humans to read and machines to parse. Note: Historically characterized by Dynamic/Weak typing and Managed-Store memory management.",
     "mental_model": "Think in terms of a universal dictionary. It is the common tongue of the web, representing everything as simple strings, numbers, booleans, arrays, and objects.",
@@ -3640,6 +3778,43 @@
     "is_keystone": true,
     "display_name": "YAML",
     "entity_type": "artifact"
+  },
+  {
+    "name": "Q",
+    "year": 2003,
+    "creators": [
+      "Arthur Whitney",
+      "Kx Systems"
+    ],
+    "paradigms": [
+      "Array",
+      "Functional",
+      "Procedural"
+    ],
+    "cluster": "finance",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Time-series analysis",
+      "Financial data systems"
+    ],
+    "key_innovations": [
+      "Array language paired with in-memory column store",
+      "Dense notation for streaming finance workloads"
+    ],
+    "influenced_by": [
+      "K",
+      "APL"
+    ],
+    "influenced": [],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Q",
+    "entity_type": "language"
   },
   {
     "name": "VB.NET",
@@ -3794,7 +3969,6 @@
     "influenced_by": [
       "Java",
       "Haskell",
-      "Pizza",
       "ML"
     ],
     "influenced": [
@@ -4523,6 +4697,42 @@
     "entity_type": "language"
   },
   {
+    "name": "AssemblyScript",
+    "year": 2017,
+    "creators": [
+      "Daniel Wirtz",
+      "Max Graey"
+    ],
+    "paradigms": [
+      "Typed",
+      "Compiled",
+      "Procedural"
+    ],
+    "cluster": "frontend",
+    "generation": "autonomic",
+    "primary_use_cases": [
+      "WebAssembly authoring",
+      "Typed browser-adjacent systems code"
+    ],
+    "key_innovations": [
+      "TypeScript-like syntax targeting WebAssembly"
+    ],
+    "influenced_by": [
+      "TypeScript",
+      "WebAssembly"
+    ],
+    "influenced": [],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "AssemblyScript",
+    "entity_type": "language"
+  },
+  {
     "name": "React",
     "year": 2013,
     "creators": [
@@ -4628,13 +4838,9 @@
     ],
     "influenced_by": [
       "JSON",
-      "YAML",
-      "Nginx config",
-      "libucl"
+      "YAML"
     ],
-    "influenced": [
-      "Pulumi (concepts)"
-    ],
+    "influenced": [],
     "philosophy": "Configuration for humans and machines. HCL was designed to strike a balance between the readability of YAML and the structure of JSON, specifically for infrastructure definitions. Note: Historically characterized by Static/Strong typing and Managed-Store memory management.",
     "mental_model": "Think in terms of desired state. You describe the resources you want to exist, and the tool (like Terraform) determines the steps to reach that state.",
     "complexity_bias": "low",
@@ -4643,6 +4849,42 @@
     "memory_management": "runtime",
     "is_keystone": false,
     "display_name": "HCL",
+    "entity_type": "language"
+  },
+  {
+    "name": "Hack",
+    "year": 2014,
+    "creators": [
+      "Facebook"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Functional",
+      "Procedural"
+    ],
+    "cluster": "backend",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Typed web backends",
+      "Large PHP codebases"
+    ],
+    "key_innovations": [
+      "Gradual typing for PHP ecosystems",
+      "HHVM-backed async and collection primitives"
+    ],
+    "influenced_by": [
+      "PHP",
+      "Haskell"
+    ],
+    "influenced": [],
+    "philosophy": "",
+    "mental_model": "",
+    "complexity_bias": "medium",
+    "safety_model": "hybrid",
+    "typing_discipline": "hybrid",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Hack",
     "entity_type": "language"
   },
   {
@@ -4725,7 +4967,7 @@
     ],
     "influenced_by": [
       "SQL",
-      "REST"
+      "JSON"
     ],
     "influenced": [],
     "philosophy": "Let clients describe the exact shape of data they need against a typed schema instead of navigating many coarse endpoints. GraphQL turns the API into a schema-and-resolver system rather than a URL catalog.",
@@ -4919,8 +5161,7 @@
       "JavaScript",
       "HTML",
       "CSS",
-      "Elm",
-      "Ractive.js"
+      "Elm"
     ],
     "influenced": [],
     "philosophy": "The compiler is the framework. Svelte shifts the work from the browser to the build step, transforming declarative components into highly efficient imperative code. Note: Historically characterized by Dynamic/Strong typing and Tracing GC (via JS) memory management.",
@@ -4997,8 +5238,6 @@
       "Near-native sandbox performance"
     ],
     "influenced_by": [
-      "asm.js",
-      "PNaCl",
       "JVM",
       "LLVM"
     ],
@@ -5200,10 +5439,8 @@
     ],
     "influenced": [
       "Bash",
-      "Ksh",
       "Zsh",
-      "Fish",
-      "Ash"
+      "Fish"
     ],
     "philosophy": "A shell should be a portable control language for orchestrating Unix programs, files, and streams rather than only an interactive command prompt.",
     "mental_model": "Think in terms of connecting processes through redirection, pipelines, environment state, and exit codes to execute an operational plan.",
@@ -5412,10 +5649,7 @@
       "SQL",
       "First-order logic"
     ],
-    "influenced": [
-      "Datomic",
-      "Souffle"
-    ],
+    "influenced": [],
     "philosophy": "Programs should describe relations and inference rules, leaving the engine to derive all facts implied by those definitions.",
     "mental_model": "Stop asking how to compute step by step and instead define facts and rules whose repeated application converges on the answer set.",
     "complexity_bias": "medium",
@@ -5451,8 +5685,7 @@
       "Fast native compilation"
     ],
     "influenced_by": [
-      "Pascal",
-      "Object Pascal"
+      "Pascal"
     ],
     "influenced": [
       "CSharp"
@@ -5660,8 +5893,7 @@
     ],
     "influenced": [
       "Common Lisp",
-      "Scheme",
-      "Emacs Lisp"
+      "Scheme"
     ],
     "philosophy": "A Lisp should be a practical symbolic workshop for real AI work, interactive experimentation, and language extension.",
     "mental_model": "Treat the language as a live environment for manipulating symbolic structures, evolving programs incrementally, and extending the language through macros.",
@@ -5993,7 +6225,7 @@
     ],
     "influenced_by": [
       "BASIC",
-      "QuickBASIC"
+      "BASIC"
     ],
     "influenced": [
       "VB",
@@ -6035,9 +6267,7 @@
       "Bourne-style compatibility with a richer interactive shell"
     ],
     "influenced_by": [
-      "Bash",
-      "Ksh",
-      "Tcsh"
+      "Bash"
     ],
     "influenced": [
       "Fish"
@@ -6079,12 +6309,10 @@
     ],
     "influenced_by": [
       "HTML",
-      "DSSSL",
       "PostScript"
     ],
     "influenced": [
-      "Svelte",
-      "Sass"
+      "Svelte"
     ],
     "philosophy": "Presentation should be separated from document structure and composed through a declarative rule system that can reconcile many competing styling intents.",
     "mental_model": "Think in selectors, cascades, inheritance, layout contexts, and painted boxes over a document tree rather than a sequence of visual commands.",
@@ -6121,7 +6349,6 @@
       "Stable substrate for CSS and JavaScript"
     ],
     "influenced_by": [
-      "SGML",
       "XML"
     ],
     "influenced": [
