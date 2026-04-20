@@ -87,6 +87,7 @@ def dashboard(language: str, json_out: bool = typer.Option(False, "--json")) -> 
     
     # Vital Signs
     vital_signs = f"[bold]Year:[/bold] {lang.get('year', 'N/A')}\n"
+    vital_signs += f"[bold]Entity Type:[/bold] {lang.get('entity_type', 'language')}\n"
     vital_signs += f"[bold]Cluster:[/bold] {lang.get('cluster', 'N/A')}\n"
     vital_signs += f"[bold]Keystone:[/bold] {'[bold green]YES[/bold green]' if lang.get('is_keystone') else '[red]NO[/red]'}\n"
     vital_signs += f"[bold]Gen:[/bold] {lang.get('generation', 'N/A').upper()}"
