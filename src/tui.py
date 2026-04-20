@@ -238,6 +238,7 @@ class LivingAtlasApp(App):
         md = f"# {lang.get('display_name') or lang['name']} ({lang.get('year', 'N/A')})\n\n"
         md += f"- **Creators:** {', '.join(lang.get('creators', []))}\n"
         md += f"- **Paradigms:** {', '.join(lang.get('paradigms', []))}\n"
+        md += f"- **Entity Type:** {lang.get('entity_type', 'language')}\n"
         md += f"- **Cluster:** {lang.get('cluster', 'N/A')}\n"
         md += f"- **Generation:** {lang.get('generation', 'N/A')}\n\n"
         

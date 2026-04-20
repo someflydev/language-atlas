@@ -1,7 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form hx-get="/" hx-target="#language-grid" hx-trigger="change from:input, change from:select" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 mb-12">
+<section class="mb-8">
+    <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+            <p class="text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Browse Atlas Entities</p>
+            <h1 class="text-3xl font-black text-slate-900">{{ current_entity_label }}</h1>
+        </div>
+        <nav class="flex flex-wrap gap-2" aria-label="Entity type navigation">
+            {% for tab in entity_type_tabs %}
+            <a href="/languages?entity_type={{ tab.value }}"
+               class="px-4 py-2 text-xs font-black uppercase tracking-widest rounded-full border transition-colors {% if current_entity_type == tab.value %}bg-blue-600 border-blue-600 text-white{% else %}bg-white border-slate-200 text-slate-500 hover:border-blue-200 hover:text-blue-600{% endif %}">
+                {{ tab.label }}
+            </a>
+            {% endfor %}
+        </nav>
+    </div>
+</section>
+
+<form hx-get="{{ route_path }}" hx-target="#language-grid" hx-trigger="change from:input, change from:select" class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 mb-12">
+    <input type="hidden" name="entity_type" value="{{ current_entity_type }}">
     <!-- Cluster Filters -->
     <div class="mb-8">
         <label class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Filter by Cluster</label>
@@ -67,7 +85,7 @@
         
         <!-- Actions -->
         <div class="flex items-center space-x-4">
-            <a href="/" class="text-xs font-bold uppercase text-slate-400 hover:text-slate-600 transition-colors">Reset All Filters</a>
+            <a href="/languages?entity_type={{ current_entity_type }}" class="text-xs font-bold uppercase text-slate-400 hover:text-slate-600 transition-colors">Reset All Filters</a>
         </div>
     </div>
 </form>

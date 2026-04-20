@@ -643,9 +643,11 @@ class DataLoader:
         finally:
             conn.close()
 
-    def get_all_languages(self, clusters: Optional[List[str]] = None, paradigms: Optional[List[str]] = None, min_year: int = 1930, max_year: int = 2024, sort: str = "year", filter_gen: Optional[str] = None, filter_cluster: Optional[str] = None, primary_paradigm_weighting: bool = False) -> List[Dict[str, Any]]:
+    def get_all_languages(self, clusters: Optional[List[str]] = None, paradigms: Optional[List[str]] = None, min_year: int = 1930, max_year: int = 2024, sort: str = "year", filter_gen: Optional[str] = None, filter_cluster: Optional[str] = None, primary_paradigm_weighting: bool = False, entity_type: Optional[str] = "language") -> List[Dict[str, Any]]:
         if not self.use_sqlite:
             langs = list(self.languages)
+            if entity_type:
+                langs = [l for l in langs if l.get('entity_type', 'language') == entity_type]
             if filter_gen:
                 langs = [l for l in langs if l.get('generation', '').lower() == filter_gen.lower()]
             if filter_cluster:
@@ -678,6 +680,9 @@ class DataLoader:
             query = "SELECT * FROM languages WHERE year BETWEEN ? AND ?"
             params: List[Any] = [min_year, max_year]
 
+            if entity_type:
+                query += " AND COALESCE(entity_type, 'language') = ?"
+                params.append(entity_type)
             if filter_gen:
                 query += " AND lower(generation) = ?"
                 params.append(filter_gen.lower())
@@ -1311,17 +1316,28 @@ class DataLoader:
         finally:
             conn.close()
 
-    def get_all_clusters(self) -> List[str]:
+    def get_all_clusters(self, entity_type: str = "language") -> List[str]:
         if not self.use_sqlite:
             clusters = set()
             for lang in self.languages:
+                if lang.get('entity_type', 'language') != entity_type:
+                    continue
                 if 'cluster' in lang:
                     clusters.add(lang['cluster'])
             return sorted(list(clusters))
 
         conn = self._get_connection()
         try:
-            cursor = conn.execute("SELECT DISTINCT cluster FROM languages WHERE cluster IS NOT NULL ORDER BY cluster")
+            cursor = conn.execute(
+                """
+                SELECT DISTINCT cluster
+                FROM languages
+                WHERE cluster IS NOT NULL
+                  AND COALESCE(entity_type, 'language') = ?
+                ORDER BY cluster
+                """,
+                (entity_type,),
+            )
             return [row['cluster'] for row in cursor.fetchall()]
         finally:
             conn.close()
@@ -1372,10 +1388,10 @@ class DataLoader:
             # Simple in-memory search fallback
             results = []
             term = query_term.lower()
-            for lang in self.get_all_languages():
+            for lang in self.get_all_languages(entity_type=None):
                 if term in lang['name'].lower() or term in lang.get('philosophy', '').lower():
                     results.append({
-                        'category': 'language',
+                        'category': lang.get('entity_type', 'language'),
                         'title': lang['name'],
                         'snippet': lang.get('philosophy', '')[:200],
                         'language_id': lang.get('id')
@@ -1751,6 +1767,29 @@ class DataLoader:
                 'people': _count('people'),
                 'profiles': _count('language_profiles'),
             }
+        finally:
+            conn.close()
+
+    def get_entity_type_counts(self) -> Dict[str, int]:
+        """Returns counts grouped by language entity_type."""
+        if not self.use_sqlite:
+            counts: Dict[str, int] = {}
+            for lang in self.languages:
+                entity_type = lang.get('entity_type', 'language')
+                counts[entity_type] = counts.get(entity_type, 0) + 1
+            return dict(sorted(counts.items()))
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute(
+                """
+                SELECT COALESCE(entity_type, 'language') AS entity_type, COUNT(*) AS count
+                FROM languages
+                GROUP BY COALESCE(entity_type, 'language')
+                ORDER BY entity_type
+                """
+            )
+            return {row['entity_type']: row['count'] for row in cursor.fetchall()}
         finally:
             conn.close()
 

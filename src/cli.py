@@ -240,12 +240,26 @@ def research(language: str, json_out: bool = typer.Option(False, "--json")) -> N
     console.print(Panel(Markdown(md_content), border_style="magenta"))
 
 @app.command()
-def list_langs(generation: Optional[str] = None, cluster: Optional[str] = None, json_out: bool = typer.Option(False, "--json")) -> None:
+def list_langs(
+    generation: Optional[str] = None,
+    cluster: Optional[str] = None,
+    entity_type: Optional[str] = typer.Option(
+        "language",
+        "--entity-type",
+        "-e",
+        help="Filter by entity type: language, foundation, or artifact",
+    ),
+    json_out: bool = typer.Option(False, "--json"),
+) -> None:
     """
     List all languages with optional filters.
     """
     loader = get_loader()
-    langs = loader.get_all_languages(filter_gen=generation, filter_cluster=cluster)
+    langs = loader.get_all_languages(
+        filter_gen=generation,
+        filter_cluster=cluster,
+        entity_type=entity_type,
+    )
     
     if json_out:
         console.print_json(data=langs)
@@ -257,6 +271,7 @@ def list_langs(generation: Optional[str] = None, cluster: Optional[str] = None, 
     
     table = Table(title="Languages Atlas Index", border_style="blue")
     table.add_column("Language", style="cyan")
+    table.add_column("Entity Type", style="yellow")
     table.add_column("Year", justify="right")
     table.add_column("Cluster", style="green")
     table.add_column("Generation", style="magenta")
@@ -268,6 +283,7 @@ def list_langs(generation: Optional[str] = None, cluster: Optional[str] = None, 
             philosophy = philosophy[:57] + "..."
         table.add_row(
             lang['name'],
+            lang.get('entity_type', 'language'),
             str(lang.get('year', 'N/A')),
             lang.get('cluster', 'N/A'),
             lang.get('generation', 'N/A'),

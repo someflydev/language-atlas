@@ -55,6 +55,11 @@ data_loader = DataLoader()
 
 # Global entity link map for auto-linking
 _entity_link_map: Optional[Dict[str, str]] = None
+ENTITY_TYPE_LABELS = {
+    "language": "Programming Languages",
+    "foundation": "Historical and Theoretical Foundations",
+    "artifact": "Tools, Libraries, Runtimes, and Formats",
+}
 
 def get_link_map() -> Dict[str, str]:
     global _entity_link_map
@@ -245,6 +250,66 @@ async def api_viz_timeline() -> List[Dict[str, Any]]:
 async def api_viz_influence() -> Any:
     return data_loader.get_influence_data()
 
+
+def _render_language_browser(
+    request: Request,
+    route_path: str,
+    sort: str,
+    clusters: Optional[List[str]],
+    paradigms: Optional[List[str]],
+    min_year: int,
+    max_year: int,
+    entity_type: Optional[str],
+    min_bound: int,
+) -> Response:
+    effective_entity_type = entity_type or "language"
+    filtered_languages = data_loader.get_all_languages(
+        clusters=clusters,
+        paradigms=paradigms,
+        min_year=min_year,
+        max_year=max_year,
+        sort=sort,
+        entity_type=effective_entity_type,
+    )
+
+    available_clusters = data_loader.get_all_clusters(entity_type=effective_entity_type)
+    available_paradigms = data_loader.get_all_paradigms()
+    current_entity_label = ENTITY_TYPE_LABELS.get(
+        effective_entity_type,
+        effective_entity_type.replace("_", " ").title(),
+    )
+
+    context = {
+        "request": request,
+        "languages": filtered_languages,
+        "current_sort": sort,
+        "available_clusters": available_clusters,
+        "selected_clusters": clusters or [],
+        "available_paradigms": available_paradigms,
+        "selected_paradigms": paradigms or [],
+        "min_year": min_year,
+        "max_year": max_year,
+        "min_bound": min_bound,
+        "max_bound": 2024,
+        "route_path": route_path,
+        "current_entity_type": effective_entity_type,
+        "current_entity_label": current_entity_label,
+        "entity_type_tabs": [
+            {"value": "language", "label": "Programming Languages"},
+            {"value": "foundation", "label": "Foundations"},
+            {"value": "artifact", "label": "Artifacts"},
+        ],
+    }
+
+    if request.headers.get("HX-Request"):
+        return templates.TemplateResponse(
+            request=request,
+            name="partials/language_grid.html",
+            context=context,
+        )
+
+    return templates.TemplateResponse(request=request, name="index.html", context=context)
+
 @app.get("/", response_class=HTMLResponse)
 async def read_root(
     request: Request, 
@@ -254,36 +319,39 @@ async def read_root(
     min_year: int = 1930,
     max_year: int = 2024
 ) -> Response:
-    # Fetch filtered languages directly from SQL via DataLoader
-    filtered_languages = data_loader.get_all_languages(
+    return _render_language_browser(
+        request=request,
+        route_path="/",
+        sort=sort,
         clusters=clusters,
         paradigms=paradigms,
         min_year=min_year,
         max_year=max_year,
-        sort=sort
+        entity_type="language",
+        min_bound=1930,
     )
-    
-    available_clusters = data_loader.get_all_clusters()
-    available_paradigms = data_loader.get_all_paradigms()
 
-    context = {
-        "request": request,
-        "languages": filtered_languages, 
-        "current_sort": sort,
-        "available_clusters": available_clusters,
-        "selected_clusters": clusters or [],
-        "available_paradigms": available_paradigms,
-        "selected_paradigms": paradigms or [],
-        "min_year": min_year,
-        "max_year": max_year,
-        "min_bound": 1930,
-        "max_bound": 2024
-    }
-
-    if request.headers.get("HX-Request"):
-        return templates.TemplateResponse(request=request, name="partials/language_grid.html", context=context)
-
-    return templates.TemplateResponse(request=request, name="index.html", context=context)
+@app.get("/languages", response_class=HTMLResponse)
+async def get_languages(
+    request: Request,
+    sort: str = "year",
+    clusters: Optional[List[str]] = Query(None),
+    paradigms: Optional[List[str]] = Query(None),
+    min_year: int = 1800,
+    max_year: int = 2024,
+    entity_type: Optional[str] = Query(None),
+) -> Response:
+    return _render_language_browser(
+        request=request,
+        route_path="/languages",
+        sort=sort,
+        clusters=clusters,
+        paradigms=paradigms,
+        min_year=min_year,
+        max_year=max_year,
+        entity_type=entity_type,
+        min_bound=1800,
+    )
 
 @app.get("/compare", response_class=HTMLResponse)
 async def compare_languages(
@@ -1005,7 +1073,8 @@ async def api_index() -> Dict[str, Any]:
         "description": "Programmatic access to the Language Atlas database.",
         "endpoints": {
             "/api/search?q={term}": "Semantic search (min 2 chars)",
-            "/api/languages": "List all languages (with cluster, generation, sort, min_year, max_year filters)",
+            "/api/languages": "List all languages (with cluster, generation, entity_type, sort, min_year, max_year filters)",
+            "/api/entity-types": "Counts grouped by entity_type for language-like entities",
             "/api/language/{name}": "Detailed language profile data",
             "/api/paradigms": "List all programming paradigms",
             "/api/paradigm/{name}": "Detailed paradigm information",
@@ -1036,6 +1105,7 @@ async def api_search(q: str = Query(...)) -> Dict[str, Any]:
 async def api_list_languages(
     cluster: Optional[str] = None, 
     generation: Optional[str] = None,
+    entity_type: Optional[str] = "language",
     sort: str = "year",
     min_year: int = 1930,
     max_year: int = 2024
@@ -1046,7 +1116,17 @@ async def api_list_languages(
         filter_cluster=cluster,
         sort=sort,
         min_year=min_year,
-        max_year=max_year
+        max_year=max_year,
+        entity_type=entity_type,
+    )
+
+
+@app.get("/api/entity-types")
+async def get_entity_type_summary(request: Request) -> Response:
+    return JSONResponse(
+        content={
+            "entity_types": data_loader.get_entity_type_counts(),
+        }
     )
 
 @app.get("/api/language/{name}")

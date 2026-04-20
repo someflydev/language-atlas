@@ -13,7 +13,11 @@ def test_dataloader_json_all_methods(tmp_path: Path, monkeypatch: MonkeyPatch) -
     # Setup mock data directory
     data_dir = tmp_path / "data"
     data_dir.mkdir()
-    (data_dir / "languages.json").write_text(json.dumps([{"name": "Python", "year": 1991, "cluster": "scripting", "paradigms": ["Object-Oriented"]}]))
+    (data_dir / "languages.json").write_text(json.dumps([
+        {"name": "Python", "year": 1991, "cluster": "scripting", "paradigms": ["Object-Oriented"], "entity_type": "language"},
+        {"name": "Lambda Calculus", "year": 1930, "cluster": "mathematics", "paradigms": ["Functional"], "entity_type": "foundation"},
+        {"name": "React", "year": 2013, "cluster": "frontend", "paradigms": ["Component-based"], "entity_type": "artifact"},
+    ]))
     (data_dir / "paradigms.json").write_text(json.dumps([{"name": "Object-Oriented", "description": "OO description", "year_introduced": 1967, "motivation": "Crisis", "languages": ["Python"], "connected_paradigms": ["Procedural"], "key_features": {"The Reaction": "reaction"}}]))
     (data_dir / "eras.json").write_text(json.dumps([{
         "name": "Early Era", 
@@ -77,11 +81,14 @@ def test_dataloader_json_all_methods(tmp_path: Path, monkeypatch: MonkeyPatch) -
     assert len(loader.get_modern_reactions()) == 1
     assert len(loader.get_timeline()) == 1
     assert len(loader.get_all_languages()) == 1
+    assert len(loader.get_all_languages(entity_type=None)) == 3
     assert "scripting" in loader.get_all_clusters()
+    assert loader.get_all_clusters(entity_type="artifact") == ["frontend"]
+    assert loader.get_entity_type_counts() == {"artifact": 1, "foundation": 1, "language": 1}
     assert "Object-Oriented" in loader.get_all_paradigms()
     assert loader.get_paradigm_info("Object-Oriented")["name"] == "Object-Oriented"
     assert loader.get_cluster_info("scripting")["name"] == "scripting"
-    assert len(loader.get_timeline_data()) == 1
+    assert len(loader.get_timeline_data()) == 3
     assert len(loader.get_influence_data()) == 0 # ABC not in languages
     learning_path = loader.get_learning_path("path1")
     assert learning_path is not None
@@ -164,6 +171,7 @@ def test_dataloader_sqlite_extended_methods(mock_loader: DataLoader) -> None:
     assert len(mock_loader.get_all_clusters()) > 0
     assert len(mock_loader.get_all_paradigms()) > 0
     assert len(mock_loader.get_all_influences()) > 0
+    assert mock_loader.get_entity_type_counts()["language"] > 0
     
     # 9. Search & Utils
     results = mock_loader.search("Python")

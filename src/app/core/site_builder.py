@@ -76,7 +76,7 @@ class SiteBuilder:
 
     def emit_language_profiles(self) -> None:
         """Write one Markdown file per language into languages/."""
-        for lang_stub in self._loader.get_all_languages():
+        for lang_stub in self._loader.get_all_languages(entity_type=None):
             info = self._loader.get_language_doc_info(lang_stub['name'])
             if info is None:
                 continue
@@ -203,7 +203,7 @@ class SiteBuilder:
 
     def emit_era_index(self) -> None:
         """Write eras.md grouping languages by generation."""
-        all_langs = self._loader.get_all_languages()
+        all_langs = self._loader.get_all_languages(entity_type=None)
 
         # Group by generation, preserving insertion order via dict
         gen_map: Dict[str, List[Dict[str, Any]]] = {}

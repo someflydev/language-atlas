@@ -42,7 +42,7 @@ def test_site_builder_language_count_matches_loader(tmp_path: Path) -> None:
     loader = _make_loader()
     SiteBuilder(loader, tmp_path).build_markdown()
 
-    expected = len(loader.get_all_languages())
+    expected = len(loader.get_all_languages(entity_type=None))
     actual = len(list((tmp_path / "languages").glob("*.md")))
     assert actual == expected
 
