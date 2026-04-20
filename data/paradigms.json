@@ -1,33 +1,212 @@
 [
   {
-    "name": "Actor-model",
-    "description": "Using independent 'actors' that communicate via message passing to handle concurrency.",
-    "year_introduced": 1973,
-    "motivation": "Historical Crisis: The \"Concurrency Crisis\" where shared-memory locking (mutexes) led to deadlocks and unscalable systems.\nContext: Carl Hewitt and later the Erlang team needed to build massive, fault-tolerant telecom systems that never stopped.",
+    "name": "Imperative",
+    "description": "Programming by specifying a sequence of statements that change a program's state.",
+    "year_introduced": 1945,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Procedural",
+      "Structured"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Declarative",
+    "description": "A high-level style where the logic of computation is expressed without describing its control flow.",
+    "year_introduced": 1958,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Functional",
+      "Logic",
+      "Constraint"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Dynamic",
+    "description": "A paradigm where many common behaviors happen at runtime rather than compile-time.",
+    "year_introduced": 1958,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Scripting",
+      "Reflective"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Functional",
+    "description": "Treating computation as the evaluation of mathematical functions, avoiding side effects.",
+    "year_introduced": 1958,
+    "motivation": "Historical Crisis: The challenge of concurrency and the unpredictability of side effects in imperative systems.\nContext: Rooted in Lambda Calculus, functional programming was brought to the forefront by Lisp and later refined by ML and Haskell to address the \"von Neumann bottleneck.\"",
     "languages": [
-      "Ada",
+      "APL",
       "C#",
       "C++",
+      "Clojure",
       "Elixir",
       "Erlang",
-      "Go",
+      "Haskell",
       "Java",
+      "JavaScript",
       "Julia",
       "Kotlin",
+      "Lisp",
+      "ML",
+      "Nim",
+      "OCaml",
+      "Perl",
       "Python",
+      "Ruby",
+      "Rust",
+      "Scala",
+      "Swift",
+      "TypeScript"
+    ],
+    "connected_paradigms": [
+      "Declarative",
+      "Logic"
+    ],
+    "key_features": {
+      "The Reaction": "Treat computation as the evaluation of mathematical functions. Avoid mutable state and side effects. Data is immutable, and functions are first-class citizens.",
+      "Tradeoffs": "High predictability and easier concurrency (no data races), but can have a steep learning curve and higher memory overhead due to immutability and recursion."
+    }
+  },
+  {
+    "name": "Metaprogramming",
+    "description": "Writing programs that treat other programs as their data; code that generates or modifies code.",
+    "year_introduced": 1958,
+    "motivation": "Historical Crisis: The \"Boilerplate Crisis\" where developers spend more time writing \"glue code\" than actual logic.\nContext: Lisp (macros), Ruby (DSL), and Rust (procedural macros) sought to let the language extend itself.",
+    "languages": [
+      "C#",
+      "C++",
+      "Clojure",
+      "Elixir",
+      "Forth",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Julia",
+      "Kotlin",
+      "Lisp",
+      "Nim",
+      "Perl",
+      "Python",
+      "Ruby",
       "Rust",
       "Scala",
       "Smalltalk",
-      "Swift"
+      "Swift",
+      "TypeScript"
     ],
     "connected_paradigms": [
-      "Concurrent",
-      "Reactive"
+      "Reflective",
+      "Symbolic"
     ],
     "key_features": {
-      "The Reaction": "Independent \"actors\" that maintain private state and communicate only via asynchronous message passing.",
-      "Tradeoffs": "Massive scalability and \"Let it Crash\" fault tolerance, but requires a different mental model for system design and can introduce message-latency issues."
+      "The Reaction": "Programs that treat other programs as data. Code that generates or modifies other code during compilation or at runtime.",
+      "Tradeoffs": "Powerful abstraction and reduced boilerplate, but can make the codebase extremely difficult to understand for those not familiar with the \"magic\" being generated.\n\n---\n\n*Diagram Required: Paradigm crossover graph showing OOP and FP merging in modern multi-paradigm languages like Scala and Rust.*"
     }
+  },
+  {
+    "name": "Procedural",
+    "description": "Programming by specifying a sequence of structured steps and commands.",
+    "year_introduced": 1958,
+    "motivation": "Historical Crisis: The \"Spaghetti Code\" crisis of early assembly and unstructured programming (GOTO-heavy).\nContext: As programs grew beyond simple mathematical formulae, managing global state and jump instructions became impossible for humans.",
+    "languages": [
+      "ALGOL 60",
+      "APL",
+      "Ada",
+      "C",
+      "C#",
+      "C++",
+      "COBOL",
+      "FORTRAN",
+      "Forth",
+      "Go",
+      "Java",
+      "JavaScript",
+      "Julia",
+      "Kotlin",
+      "Lisp",
+      "Nim",
+      "OCaml",
+      "Pascal",
+      "Perl",
+      "Python",
+      "Ruby",
+      "Rust",
+      "Swift",
+      "TypeScript"
+    ],
+    "connected_paradigms": [
+      "Imperative",
+      "Structured"
+    ],
+    "key_features": {
+      "The Reaction": "ALGOL and FORTRAN introduced the concept of procedures (subroutines) and block scoping. This allowed programmers to decompose problems into a sequence of structured steps.",
+      "Tradeoffs": "High execution efficiency and predictability, but state management becomes difficult as systems scale, often leading to tight coupling between data and logic."
+    }
+  },
+  {
+    "name": "Symbolic",
+    "description": "A paradigm that manipulates symbols and mathematical expressions as first-class data.",
+    "year_introduced": 1958,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Metaprogramming",
+      "Functional"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Data-driven",
+    "description": "Controlling the flow of a program based on the data itself, often through patterns or tables.",
+    "year_introduced": 1960,
+    "motivation": "Historical Crisis: The rigidity of hard-coded logic when business rules or data structures change frequently.\nContext: Early database systems and text-processing tools (SNOBOL, SQL) needed the data's shape to dictate the program's flow.",
+    "languages": [
+      "C#",
+      "COBOL",
+      "Clojure",
+      "Lisp",
+      "Perl",
+      "SQL"
+    ],
+    "connected_paradigms": [
+      "Reactive",
+      "Event-Driven"
+    ],
+    "key_features": {
+      "The Reaction": "Flow is determined by patterns or tables of data rather than nested conditionals.",
+      "Tradeoffs": "High flexibility and decoupling of logic from data, but can become hard to trace as the \"rules\" are often separated from the code."
+    }
+  },
+  {
+    "name": "Parallel",
+    "description": "A paradigm designed for the simultaneous execution of multiple tasks, typically on multi-core hardware.",
+    "year_introduced": 1960,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Concurrent",
+      "Array"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Scripting",
+    "description": "Using interpreted code to automate tasks, glue components together, or enhance larger applications.",
+    "year_introduced": 1960,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Dynamic",
+      "Imperative"
+    ],
+    "key_features": {}
   },
   {
     "name": "Array",
@@ -88,59 +267,24 @@
     }
   },
   {
-    "name": "Aspect-Oriented",
-    "description": "Separating cross-cutting concerns (e.g., logging) from the main business logic.",
-    "year_introduced": 1997,
-    "motivation": "Historical Crisis: The \"Cross-cutting Concerns\" problem where logging, security, and transaction logic are scattered across every file.\nContext: Large enterprise systems in the 90s/00s became cluttered with non-business logic.",
-    "languages": [
-      "C#",
-      "Java"
-    ],
-    "connected_paradigms": [
-      "Object-Oriented"
-    ],
-    "key_features": {
-      "The Reaction": "Separate cross-cutting concerns from the main logic using \"aspects\" that are \"woven\" into the code at specific join points.",
-      "Tradeoffs": "Cleaner business logic, but can make code behavior \"magical\" and difficult to trace since logic is injected invisibly."
-    }
-  },
-  {
-    "name": "Component-based",
-    "description": "Building software systems by composing reusable, independent components with well-defined interfaces.",
-    "year_introduced": 1990,
+    "name": "String-oriented",
+    "description": "Programming where string manipulation and pattern matching are the primary operations.",
+    "year_introduced": 1962,
     "motivation": "",
     "languages": [],
     "connected_paradigms": [
-      "Object-Oriented",
-      "Modular"
+      "String-processing"
     ],
     "key_features": {}
   },
   {
-    "name": "Concatenative",
-    "description": "Programming based on the composition of functions, often using a stack-oriented approach.",
-    "year_introduced": 1970,
-    "motivation": "Historical Crisis: The overhead of variable management and memory constraints in early embedded systems.\nContext: Forth emerged as a way to build a language from scratch on hardware with almost no memory, using a stack-based approach.",
-    "languages": [
-      "Forth"
-    ],
-    "connected_paradigms": [
-      "Stack-based"
-    ],
-    "key_features": {
-      "The Reaction": "Composition of functions without explicit variables. Functions (words) take arguments from a stack and push results back.",
-      "Tradeoffs": "Very low resource usage and high extensibility, but requires \"stack-shuffling\" which can be mentally taxing for complex logic."
-    }
-  },
-  {
-    "name": "Concurrent",
-    "description": "Programming focused on the execution of multiple tasks that overlap in time, often through processes or threads.",
-    "year_introduced": 1965,
+    "name": "String-processing",
+    "description": "A paradigm specialized for the manipulation, searching, and transformation of text data.",
+    "year_introduced": 1962,
     "motivation": "",
     "languages": [],
     "connected_paradigms": [
-      "Parallel",
-      "Actor-model"
+      "String-oriented"
     ],
     "key_features": {}
   },
@@ -163,258 +307,14 @@
     }
   },
   {
-    "name": "Data-driven",
-    "description": "Controlling the flow of a program based on the data itself, often through patterns or tables.",
-    "year_introduced": 1960,
-    "motivation": "Historical Crisis: The rigidity of hard-coded logic when business rules or data structures change frequently.\nContext: Early database systems and text-processing tools (SNOBOL, SQL) needed the data's shape to dictate the program's flow.",
-    "languages": [
-      "C#",
-      "COBOL",
-      "Clojure",
-      "Lisp",
-      "Perl",
-      "SQL"
-    ],
-    "connected_paradigms": [
-      "Reactive",
-      "Event-Driven"
-    ],
-    "key_features": {
-      "The Reaction": "Flow is determined by patterns or tables of data rather than nested conditionals.",
-      "Tradeoffs": "High flexibility and decoupling of logic from data, but can become hard to trace as the \"rules\" are often separated from the code."
-    }
-  },
-  {
-    "name": "Declarative",
-    "description": "A high-level style where the logic of computation is expressed without describing its control flow.",
-    "year_introduced": 1958,
+    "name": "Concurrent",
+    "description": "Programming focused on the execution of multiple tasks that overlap in time, often through processes or threads.",
+    "year_introduced": 1965,
     "motivation": "",
     "languages": [],
     "connected_paradigms": [
-      "Functional",
-      "Logic",
-      "Constraint"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Dynamic",
-    "description": "A paradigm where many common behaviors happen at runtime rather than compile-time.",
-    "year_introduced": 1958,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Scripting",
-      "Reflective"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Event-Driven",
-    "description": "Flow determined by events such as user actions, sensor outputs, or message passing.",
-    "year_introduced": 1970,
-    "motivation": "Historical Crisis: The shift from batch processing to interactive Graphical User Interfaces (GUIs).\nContext: Systems like Windows, macOS, and the Web need to sit idle until a user acts.",
-    "languages": [
-      "Ada",
-      "C",
-      "C#",
-      "C++",
-      "Elixir",
-      "Erlang",
-      "Go",
-      "Java",
-      "JavaScript",
-      "Julia",
-      "Kotlin",
-      "Lisp",
-      "Nim",
-      "Perl",
-      "Python",
-      "Ruby",
-      "Rust",
-      "Scala",
-      "Smalltalk",
-      "Swift",
-      "TypeScript"
-    ],
-    "connected_paradigms": [
-      "Reactive",
-      "Data-driven"
-    ],
-    "key_features": {
-      "The Reaction": "Flow is determined by events (clicks, messages). The program is a set of listeners waiting for triggers.",
-      "Tradeoffs": "Perfect for interactivity, but can lead to fragmented control flow where the \"big picture\" of the program is hard to see."
-    }
-  },
-  {
-    "name": "Functional",
-    "description": "Treating computation as the evaluation of mathematical functions, avoiding side effects.",
-    "year_introduced": 1958,
-    "motivation": "Historical Crisis: The challenge of concurrency and the unpredictability of side effects in imperative systems.\nContext: Rooted in Lambda Calculus, functional programming was brought to the forefront by Lisp and later refined by ML and Haskell to address the \"von Neumann bottleneck.\"",
-    "languages": [
-      "APL",
-      "C#",
-      "C++",
-      "Clojure",
-      "Elixir",
-      "Erlang",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Julia",
-      "Kotlin",
-      "Lisp",
-      "ML",
-      "Nim",
-      "OCaml",
-      "Perl",
-      "Python",
-      "Ruby",
-      "Rust",
-      "Scala",
-      "Swift",
-      "TypeScript"
-    ],
-    "connected_paradigms": [
-      "Declarative",
-      "Logic"
-    ],
-    "key_features": {
-      "The Reaction": "Treat computation as the evaluation of mathematical functions. Avoid mutable state and side effects. Data is immutable, and functions are first-class citizens.",
-      "Tradeoffs": "High predictability and easier concurrency (no data races), but can have a steep learning curve and higher memory overhead due to immutability and recursion."
-    }
-  },
-  {
-    "name": "Generic",
-    "description": "Writing code that can work with different data types while maintaining type safety.",
-    "year_introduced": 1977,
-    "motivation": "Historical Crisis: The \"Code Duplication\" crisis where programmers had to rewrite the same algorithm for every different data type.\nContext: C++ templates and later Java/C# generics sought to provide type safety without redundancy.",
-    "languages": [
-      "Ada",
-      "C#",
-      "C++",
-      "Go",
-      "Haskell",
-      "Java",
-      "Julia",
-      "Kotlin",
-      "Lisp",
-      "ML",
-      "Nim",
-      "OCaml",
-      "Python",
-      "Rust",
-      "Scala",
-      "Swift",
-      "TypeScript"
-    ],
-    "connected_paradigms": [
-      "Object-Oriented",
-      "Functional"
-    ],
-    "key_features": {
-      "The Reaction": "Writing code with \"type placeholders\" that the compiler fills in at use-time.",
-      "Tradeoffs": "High reusability and type safety, but can lead to long compile times and \"template bloat.\""
-    }
-  },
-  {
-    "name": "Goal-directed",
-    "description": "Execution centered around expressions that can succeed or fail, using generators and backtracking to find a successful path.",
-    "year_introduced": 1970,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Logic"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Imperative",
-    "description": "Programming by specifying a sequence of statements that change a program's state.",
-    "year_introduced": 1945,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Procedural",
-      "Structured"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Logic",
-    "description": "Programming based on formal logic; specifying what should be achieved rather than how.",
-    "year_introduced": 1972,
-    "motivation": "Historical Crisis: The difficulty of encoding human knowledge and rules for Artificial Intelligence.\nContext: AI researchers in the 70s (Prolog) needed a way to express *what* a problem was rather than *how* to solve it step-by-step.",
-    "languages": [
-      "Lisp",
-      "Prolog"
-    ],
-    "connected_paradigms": [
-      "Declarative",
-      "Constraint"
-    ],
-    "key_features": {
-      "The Reaction": "Programming as formal logic. You define facts and rules, and an inference engine (unification and backtracking) finds the solution.",
-      "Tradeoffs": "Incredible for search and constraint-satisfaction problems, but notoriously difficult to optimize for general-purpose performance."
-    }
-  },
-  {
-    "name": "Metaprogramming",
-    "description": "Writing programs that treat other programs as their data; code that generates or modifies code.",
-    "year_introduced": 1958,
-    "motivation": "Historical Crisis: The \"Boilerplate Crisis\" where developers spend more time writing \"glue code\" than actual logic.\nContext: Lisp (macros), Ruby (DSL), and Rust (procedural macros) sought to let the language extend itself.",
-    "languages": [
-      "C#",
-      "C++",
-      "Clojure",
-      "Elixir",
-      "Forth",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Julia",
-      "Kotlin",
-      "Lisp",
-      "Nim",
-      "Perl",
-      "Python",
-      "Ruby",
-      "Rust",
-      "Scala",
-      "Smalltalk",
-      "Swift",
-      "TypeScript"
-    ],
-    "connected_paradigms": [
-      "Reflective",
-      "Symbolic"
-    ],
-    "key_features": {
-      "The Reaction": "Programs that treat other programs as data. Code that generates or modifies other code during compilation or at runtime.",
-      "Tradeoffs": "Powerful abstraction and reduced boilerplate, but can make the codebase extremely difficult to understand for those not familiar with the \"magic\" being generated.\n\n---\n\n*Diagram Required: Paradigm crossover graph showing OOP and FP merging in modern multi-paradigm languages like Scala and Rust.*"
-    }
-  },
-  {
-    "name": "Modular",
-    "description": "Designing a system by breaking it down into smaller, self-contained components with clear interfaces.",
-    "year_introduced": 1970,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Procedural",
-      "Component-based"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Multiple Dispatch",
-    "description": "A feature where a function or method can be specialized based on the runtime types of all its arguments.",
-    "year_introduced": 1988,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Object-Oriented",
-      "Generic"
+      "Parallel",
+      "Actor-model"
     ],
     "key_features": {}
   },
@@ -457,129 +357,13 @@
     }
   },
   {
-    "name": "Parallel",
-    "description": "A paradigm designed for the simultaneous execution of multiple tasks, typically on multi-core hardware.",
-    "year_introduced": 1960,
+    "name": "Structured",
+    "description": "A paradigm aimed at improving quality and development time through the use of structured control flow (if/then/else, loops).",
+    "year_introduced": 1968,
     "motivation": "",
     "languages": [],
     "connected_paradigms": [
-      "Concurrent",
-      "Array"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Procedural",
-    "description": "Programming by specifying a sequence of structured steps and commands.",
-    "year_introduced": 1958,
-    "motivation": "Historical Crisis: The \"Spaghetti Code\" crisis of early assembly and unstructured programming (GOTO-heavy).\nContext: As programs grew beyond simple mathematical formulae, managing global state and jump instructions became impossible for humans.",
-    "languages": [
-      "ALGOL 60",
-      "APL",
-      "Ada",
-      "C",
-      "C#",
-      "C++",
-      "COBOL",
-      "FORTRAN",
-      "Forth",
-      "Go",
-      "Java",
-      "JavaScript",
-      "Julia",
-      "Kotlin",
-      "Lisp",
-      "Nim",
-      "OCaml",
-      "Pascal",
-      "Perl",
-      "Python",
-      "Ruby",
-      "Rust",
-      "Swift",
-      "TypeScript"
-    ],
-    "connected_paradigms": [
-      "Imperative",
-      "Structured"
-    ],
-    "key_features": {
-      "The Reaction": "ALGOL and FORTRAN introduced the concept of procedures (subroutines) and block scoping. This allowed programmers to decompose problems into a sequence of structured steps.",
-      "Tradeoffs": "High execution efficiency and predictability, but state management becomes difficult as systems scale, often leading to tight coupling between data and logic."
-    }
-  },
-  {
-    "name": "Protocol-oriented",
-    "description": "A style emphasizing the use of protocols (interfaces) and composition over rigid class hierarchies.",
-    "year_introduced": 2014,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Object-Oriented"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Prototype-based",
-    "description": "A style of object-oriented programming in which inheritance is performed via a process of cloning existing objects that serve as prototypes.",
-    "year_introduced": 1986,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Object-Oriented"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Reactive",
-    "description": "Programming based on asynchronous data streams and the propagation of change.",
-    "year_introduced": 1985,
-    "motivation": "Historical Crisis: The \"Latency Crisis\" in web and mobile apps where users expected instant updates from asynchronous sources.\nContext: Modern web apps deal with endless streams of data (user clicks, socket messages, sensor data).",
-    "languages": [
-      "C#",
-      "C++",
-      "Clojure",
-      "Elixir",
-      "Erlang",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Julia",
-      "Kotlin",
-      "Python",
-      "Scala",
-      "Swift",
-      "TypeScript"
-    ],
-    "connected_paradigms": [
-      "Data-driven",
-      "Event-Driven"
-    ],
-    "key_features": {
-      "The Reaction": "Programming based on asynchronous data streams and the automatic propagation of change.",
-      "Tradeoffs": "Highly responsive UIs and clean handling of async events, but \"callback hell\" or complex stream-merging logic can be difficult to debug."
-    }
-  },
-  {
-    "name": "Reflective",
-    "description": "Programming that allows a system to observe and modify its own structure and behavior at runtime.",
-    "year_introduced": 1982,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Metaprogramming",
-      "Dynamic"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Scripting",
-    "description": "Using interpreted code to automate tasks, glue components together, or enhance larger applications.",
-    "year_introduced": 1960,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Dynamic",
+      "Procedural",
       "Imperative"
     ],
     "key_features": {}
@@ -592,6 +376,82 @@
     "languages": [],
     "connected_paradigms": [
       "Declarative"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Concatenative",
+    "description": "Programming based on the composition of functions, often using a stack-oriented approach.",
+    "year_introduced": 1970,
+    "motivation": "Historical Crisis: The overhead of variable management and memory constraints in early embedded systems.\nContext: Forth emerged as a way to build a language from scratch on hardware with almost no memory, using a stack-based approach.",
+    "languages": [
+      "Forth"
+    ],
+    "connected_paradigms": [
+      "Stack-based"
+    ],
+    "key_features": {
+      "The Reaction": "Composition of functions without explicit variables. Functions (words) take arguments from a stack and push results back.",
+      "Tradeoffs": "Very low resource usage and high extensibility, but requires \"stack-shuffling\" which can be mentally taxing for complex logic."
+    }
+  },
+  {
+    "name": "Event-Driven",
+    "description": "Flow determined by events such as user actions, sensor outputs, or message passing.",
+    "year_introduced": 1970,
+    "motivation": "Historical Crisis: The shift from batch processing to interactive Graphical User Interfaces (GUIs).\nContext: Systems like Windows, macOS, and the Web need to sit idle until a user acts.",
+    "languages": [
+      "Ada",
+      "C",
+      "C#",
+      "C++",
+      "Elixir",
+      "Erlang",
+      "Go",
+      "Java",
+      "JavaScript",
+      "Julia",
+      "Kotlin",
+      "Lisp",
+      "Nim",
+      "Perl",
+      "Python",
+      "Ruby",
+      "Rust",
+      "Scala",
+      "Smalltalk",
+      "Swift",
+      "TypeScript"
+    ],
+    "connected_paradigms": [
+      "Reactive",
+      "Data-driven"
+    ],
+    "key_features": {
+      "The Reaction": "Flow is determined by events (clicks, messages). The program is a set of listeners waiting for triggers.",
+      "Tradeoffs": "Perfect for interactivity, but can lead to fragmented control flow where the \"big picture\" of the program is hard to see."
+    }
+  },
+  {
+    "name": "Goal-directed",
+    "description": "Execution centered around expressions that can succeed or fail, using generators and backtracking to find a successful path.",
+    "year_introduced": 1970,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Logic"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Modular",
+    "description": "Designing a system by breaking it down into smaller, self-contained components with clear interfaces.",
+    "year_introduced": 1970,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Procedural",
+      "Component-based"
     ],
     "key_features": {}
   },
@@ -612,112 +472,21 @@
     }
   },
   {
-    "name": "String-oriented",
-    "description": "Programming where string manipulation and pattern matching are the primary operations.",
-    "year_introduced": 1962,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "String-processing"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "String-processing",
-    "description": "A paradigm specialized for the manipulation, searching, and transformation of text data.",
-    "year_introduced": 1962,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "String-oriented"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Structured",
-    "description": "A paradigm aimed at improving quality and development time through the use of structured control flow (if/then/else, loops).",
-    "year_introduced": 1968,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Procedural",
-      "Imperative"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "State-driven UI",
-    "description": "Constructing interfaces as renderings of explicit application state, with updates flowing through controlled transitions rather than direct widget mutation.",
-    "year_introduced": 2012,
-    "motivation": "Historical Crisis: jQuery-era interfaces and classic widget toolkits spread UI behavior across event handlers, mutable DOM nodes, delegates, and ad hoc callbacks, making large applications difficult to reason about.\nContext: Elm, React-era architecture, Redux, SwiftUI, and Svelte converged on the idea that interface code should describe views from state and make transitions explicit enough to debug, replay, and test.",
+    "name": "Logic",
+    "description": "Programming based on formal logic; specifying what should be achieved rather than how.",
+    "year_introduced": 1972,
+    "motivation": "Historical Crisis: The difficulty of encoding human knowledge and rules for Artificial Intelligence.\nContext: AI researchers in the 70s (Prolog) needed a way to express *what* a problem was rather than *how* to solve it step-by-step.",
     "languages": [
-      "Elm",
-      "Svelte",
-      "Swift"
+      "Lisp",
+      "Prolog"
     ],
     "connected_paradigms": [
       "Declarative",
-      "Reactive",
-      "Event-Driven"
+      "Constraint"
     ],
     "key_features": {
-      "The Reaction": "Model the UI as a function of state and route updates through messages, actions, bindings, or other explicit transitions instead of mutating interface objects from many directions.",
-      "Tradeoffs": "This makes complex interface behavior more predictable and testable, but it shifts difficulty into state modeling, effect management, recomposition costs, and the discipline required to keep transitions explicit."
-    }
-  },
-  {
-    "name": "Symbolic",
-    "description": "A paradigm that manipulates symbols and mathematical expressions as first-class data.",
-    "year_introduced": 1958,
-    "motivation": "",
-    "languages": [],
-    "connected_paradigms": [
-      "Metaprogramming",
-      "Functional"
-    ],
-    "key_features": {}
-  },
-  {
-    "name": "Type-driven",
-    "description": "Designing programs around types as a primary medium for modeling invariants, composition, and API boundaries.",
-    "year_introduced": 1973,
-    "motivation": "Historical Crisis: Large software systems needed stronger ways to state intent and preserve invariants as codebases grew in size and abstraction.\nContext: ML, Standard ML, Haskell, and later Rust and Swift turned the type system from a passive checker into an active design surface for architecture, correctness, and evolution.",
-    "languages": [
-      "ML",
-      "Standard ML",
-      "Haskell",
-      "OCaml",
-      "Rust",
-      "Elm",
-      "TypeScript",
-      "Swift"
-    ],
-    "connected_paradigms": [
-      "Functional",
-      "Generic"
-    ],
-    "key_features": {
-      "The Reaction": "Use types to encode domain structure, impossible states, protocol boundaries, and composition rules before execution begins.",
-      "Tradeoffs": "This yields clearer APIs and stronger guarantees, but it can increase modeling overhead and push teams toward more abstract designs than they can comfortably maintain."
-    }
-  },
-  {
-    "name": "UI DSL",
-    "description": "Expressing interface structure through a host-language embedded domain-specific language so UI code reads as a declarative grammar rather than a sequence of imperative widget calls.",
-    "year_introduced": 2013,
-    "motivation": "Historical Crisis: Traditional UI frameworks often required verbose builder patterns, XML side files, or imperative widget mutation that split layout intent from program logic.\nContext: JSX in React, SwiftUI builders in Swift, and Svelte's component syntax reframed interface construction as a language-design problem, embedding UI notation directly into the host language and its tooling.",
-    "languages": [
-      "Svelte",
-      "Swift"
-    ],
-    "connected_paradigms": [
-      "Declarative",
-      "Component-based",
-      "State-driven UI"
-    ],
-    "key_features": {
-      "The Reaction": "Design the surface syntax so component trees, modifiers, bindings, and layout structure are written as if the host language had native notation for interface construction.",
-      "Tradeoffs": "This can make UI intent dramatically clearer and improve tooling, but it blurs the boundary between language and framework, increases compiler or transform complexity, and can feel magical when generated behavior is hard to trace."
+      "The Reaction": "Programming as formal logic. You define facts and rules, and an inference engine (unification and backtracking) finds the solution.",
+      "Tradeoffs": "Incredible for search and constraint-satisfaction problems, but notoriously difficult to optimize for general-purpose performance."
     }
   },
   {
@@ -739,56 +508,33 @@
     }
   },
   {
-    "name": "Query-oriented",
-    "description": "Centering computation on asking structured questions over data and relations rather than manually traversing storage and control flow.",
-    "year_introduced": 1974,
-    "motivation": "Historical Crisis: Programmers were spending too much effort navigating physical storage structures and hand-coding data access paths instead of describing the information they needed.\nContext: SQL established the enduring pattern of declarative retrieval over sets and relations, separating the statement of a query from the optimizer strategy used to execute it.",
+    "name": "Actor-model",
+    "description": "Using independent 'actors' that communicate via message passing to handle concurrency.",
+    "year_introduced": 1973,
+    "motivation": "Historical Crisis: The \"Concurrency Crisis\" where shared-memory locking (mutexes) led to deadlocks and unscalable systems.\nContext: Carl Hewitt and later the Erlang team needed to build massive, fault-tolerant telecom systems that never stopped.",
     "languages": [
-      "SQL"
+      "Ada",
+      "C#",
+      "C++",
+      "Elixir",
+      "Erlang",
+      "Go",
+      "Java",
+      "Julia",
+      "Kotlin",
+      "Python",
+      "Rust",
+      "Scala",
+      "Smalltalk",
+      "Swift"
     ],
     "connected_paradigms": [
-      "Declarative",
-      "Data-driven",
-      "Logic"
+      "Concurrent",
+      "Reactive"
     ],
     "key_features": {
-      "The Reaction": "Describe the desired relation, subset, or aggregation and let the engine choose the access plan, join order, and evaluation strategy.",
-      "Tradeoffs": "This raises the abstraction level dramatically, but it can hide cost models and make performance opaque until users understand the optimizer and data distribution."
-    }
-  },
-  {
-    "name": "Matrix-oriented",
-    "description": "A scientific-computing paradigm that treats matrices and linear algebra workflows as the central organizing model of the language environment.",
-    "year_introduced": 1984,
-    "motivation": "Historical Crisis: Scientists and engineers could access serious numerical algorithms, but expressing matrix-heavy work through low-level scalar code and library wrappers was slow, error-prone, and far from the mathematics they actually used.\nContext: MATLAB popularized the matrix laboratory as a practical language style, and later systems such as GNU Octave and Julia carried that matrix-first scientific framing into broader technical-computing communities.",
-    "languages": [
-      "MATLAB",
-      "Julia"
-    ],
-    "connected_paradigms": [
-      "Array",
-      "Array-oriented",
-      "Procedural"
-    ],
-    "key_features": {
-      "The Reaction": "Treat matrices, factorizations, and vectorized numerical operations as the natural surface of programming so engineers can move from linear algebra notation directly into executable workflows.",
-      "Tradeoffs": "This makes scientific and engineering problems far easier to express and optimize, but it can overfit language design to dense numerical domains and feel awkward for software outside the technical-computing core."
-    }
-  },
-  {
-    "name": "Notebook-oriented",
-    "description": "A paradigm centered on interactive computational documents where narrative, code, formulas, graphics, and results are fused into one working medium.",
-    "year_introduced": 1982,
-    "motivation": "Historical Crisis: Technical work was split across source files, terminals, plotting tools, and publication systems, making it hard to preserve both the reasoning process and the executable artifact in one place.\nContext: Maple's interactive worksheet model (1982) pioneered the document-computation fusion idea, and Mathematica's notebook interface (1988) popularized it further, showing how scientific programming could revolve around interactive computational documents rather than only files or shells.",
-    "languages": [
-      "Maple"
-    ],
-    "connected_paradigms": [
-      "Symbolic"
-    ],
-    "key_features": {
-      "The Reaction": "Make the primary workspace a live document where code cells, explanation, equations, plots, and outputs remain in context together during exploration and presentation.",
-      "Tradeoffs": "This is excellent for research, pedagogy, and exploratory analysis, but hidden state and execution-order drift can make notebook-centric work less disciplined than file-centric program structure."
+      "The Reaction": "Independent \"actors\" that maintain private state and communicate only via asynchronous message passing.",
+      "Tradeoffs": "Massive scalability and \"Let it Crash\" fault tolerance, but requires a different mental model for system design and can introduce message-latency issues."
     }
   },
   {
@@ -830,5 +576,259 @@
       "The Reaction": "Build systems out of explicit process boundaries, message paths, pipelines, and supervision relationships rather than hiding everything inside one shared heap or call stack.",
       "Tradeoffs": "Strong isolation and recoverability improve robustness, but processes introduce coordination overhead, asynchronous reasoning costs, and more pressure on protocol design and observability."
     }
+  },
+  {
+    "name": "Type-driven",
+    "description": "Designing programs around types as a primary medium for modeling invariants, composition, and API boundaries.",
+    "year_introduced": 1973,
+    "motivation": "Historical Crisis: Large software systems needed stronger ways to state intent and preserve invariants as codebases grew in size and abstraction.\nContext: ML, Standard ML, Haskell, and later Rust and Swift turned the type system from a passive checker into an active design surface for architecture, correctness, and evolution.",
+    "languages": [
+      "ML",
+      "Standard ML",
+      "Haskell",
+      "OCaml",
+      "Rust",
+      "Elm",
+      "TypeScript",
+      "Swift"
+    ],
+    "connected_paradigms": [
+      "Functional",
+      "Generic"
+    ],
+    "key_features": {
+      "The Reaction": "Use types to encode domain structure, impossible states, protocol boundaries, and composition rules before execution begins.",
+      "Tradeoffs": "This yields clearer APIs and stronger guarantees, but it can increase modeling overhead and push teams toward more abstract designs than they can comfortably maintain."
+    }
+  },
+  {
+    "name": "Query-oriented",
+    "description": "Centering computation on asking structured questions over data and relations rather than manually traversing storage and control flow.",
+    "year_introduced": 1974,
+    "motivation": "Historical Crisis: Programmers were spending too much effort navigating physical storage structures and hand-coding data access paths instead of describing the information they needed.\nContext: SQL established the enduring pattern of declarative retrieval over sets and relations, separating the statement of a query from the optimizer strategy used to execute it.",
+    "languages": [
+      "SQL"
+    ],
+    "connected_paradigms": [
+      "Declarative",
+      "Data-driven",
+      "Logic"
+    ],
+    "key_features": {
+      "The Reaction": "Describe the desired relation, subset, or aggregation and let the engine choose the access plan, join order, and evaluation strategy.",
+      "Tradeoffs": "This raises the abstraction level dramatically, but it can hide cost models and make performance opaque until users understand the optimizer and data distribution."
+    }
+  },
+  {
+    "name": "Generic",
+    "description": "Writing code that can work with different data types while maintaining type safety.",
+    "year_introduced": 1977,
+    "motivation": "Historical Crisis: The \"Code Duplication\" crisis where programmers had to rewrite the same algorithm for every different data type.\nContext: C++ templates and later Java/C# generics sought to provide type safety without redundancy.",
+    "languages": [
+      "Ada",
+      "C#",
+      "C++",
+      "Go",
+      "Haskell",
+      "Java",
+      "Julia",
+      "Kotlin",
+      "Lisp",
+      "ML",
+      "Nim",
+      "OCaml",
+      "Python",
+      "Rust",
+      "Scala",
+      "Swift",
+      "TypeScript"
+    ],
+    "connected_paradigms": [
+      "Object-Oriented",
+      "Functional"
+    ],
+    "key_features": {
+      "The Reaction": "Writing code with \"type placeholders\" that the compiler fills in at use-time.",
+      "Tradeoffs": "High reusability and type safety, but can lead to long compile times and \"template bloat.\""
+    }
+  },
+  {
+    "name": "Notebook-oriented",
+    "description": "A paradigm centered on interactive computational documents where narrative, code, formulas, graphics, and results are fused into one working medium.",
+    "year_introduced": 1982,
+    "motivation": "Historical Crisis: Technical work was split across source files, terminals, plotting tools, and publication systems, making it hard to preserve both the reasoning process and the executable artifact in one place.\nContext: Maple's interactive worksheet model (1982) pioneered the document-computation fusion idea, and Mathematica's notebook interface (1988) popularized it further, showing how scientific programming could revolve around interactive computational documents rather than only files or shells.",
+    "languages": [
+      "Maple"
+    ],
+    "connected_paradigms": [
+      "Symbolic"
+    ],
+    "key_features": {
+      "The Reaction": "Make the primary workspace a live document where code cells, explanation, equations, plots, and outputs remain in context together during exploration and presentation.",
+      "Tradeoffs": "This is excellent for research, pedagogy, and exploratory analysis, but hidden state and execution-order drift can make notebook-centric work less disciplined than file-centric program structure."
+    }
+  },
+  {
+    "name": "Reflective",
+    "description": "Programming that allows a system to observe and modify its own structure and behavior at runtime.",
+    "year_introduced": 1982,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Metaprogramming",
+      "Dynamic"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Matrix-oriented",
+    "description": "A scientific-computing paradigm that treats matrices and linear algebra workflows as the central organizing model of the language environment.",
+    "year_introduced": 1984,
+    "motivation": "Historical Crisis: Scientists and engineers could access serious numerical algorithms, but expressing matrix-heavy work through low-level scalar code and library wrappers was slow, error-prone, and far from the mathematics they actually used.\nContext: MATLAB popularized the matrix laboratory as a practical language style, and later systems such as GNU Octave and Julia carried that matrix-first scientific framing into broader technical-computing communities.",
+    "languages": [
+      "MATLAB",
+      "Julia"
+    ],
+    "connected_paradigms": [
+      "Array",
+      "Array-oriented",
+      "Procedural"
+    ],
+    "key_features": {
+      "The Reaction": "Treat matrices, factorizations, and vectorized numerical operations as the natural surface of programming so engineers can move from linear algebra notation directly into executable workflows.",
+      "Tradeoffs": "This makes scientific and engineering problems far easier to express and optimize, but it can overfit language design to dense numerical domains and feel awkward for software outside the technical-computing core."
+    }
+  },
+  {
+    "name": "Reactive",
+    "description": "Programming based on asynchronous data streams and the propagation of change.",
+    "year_introduced": 1985,
+    "motivation": "Historical Crisis: The \"Latency Crisis\" in web and mobile apps where users expected instant updates from asynchronous sources.\nContext: Modern web apps deal with endless streams of data (user clicks, socket messages, sensor data).",
+    "languages": [
+      "C#",
+      "C++",
+      "Clojure",
+      "Elixir",
+      "Erlang",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Julia",
+      "Kotlin",
+      "Python",
+      "Scala",
+      "Swift",
+      "TypeScript"
+    ],
+    "connected_paradigms": [
+      "Data-driven",
+      "Event-Driven"
+    ],
+    "key_features": {
+      "The Reaction": "Programming based on asynchronous data streams and the automatic propagation of change.",
+      "Tradeoffs": "Highly responsive UIs and clean handling of async events, but \"callback hell\" or complex stream-merging logic can be difficult to debug."
+    }
+  },
+  {
+    "name": "Prototype-based",
+    "description": "A style of object-oriented programming in which inheritance is performed via a process of cloning existing objects that serve as prototypes.",
+    "year_introduced": 1986,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Object-Oriented"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Multiple Dispatch",
+    "description": "A feature where a function or method can be specialized based on the runtime types of all its arguments.",
+    "year_introduced": 1988,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Object-Oriented",
+      "Generic"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Component-based",
+    "description": "Building software systems by composing reusable, independent components with well-defined interfaces.",
+    "year_introduced": 1990,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Object-Oriented",
+      "Modular"
+    ],
+    "key_features": {}
+  },
+  {
+    "name": "Aspect-Oriented",
+    "description": "Separating cross-cutting concerns (e.g., logging) from the main business logic.",
+    "year_introduced": 1997,
+    "motivation": "Historical Crisis: The \"Cross-cutting Concerns\" problem where logging, security, and transaction logic are scattered across every file.\nContext: Large enterprise systems in the 90s/00s became cluttered with non-business logic.",
+    "languages": [
+      "C#",
+      "Java"
+    ],
+    "connected_paradigms": [
+      "Object-Oriented"
+    ],
+    "key_features": {
+      "The Reaction": "Separate cross-cutting concerns from the main logic using \"aspects\" that are \"woven\" into the code at specific join points.",
+      "Tradeoffs": "Cleaner business logic, but can make code behavior \"magical\" and difficult to trace since logic is injected invisibly."
+    }
+  },
+  {
+    "name": "State-driven UI",
+    "description": "Constructing interfaces as renderings of explicit application state, with updates flowing through controlled transitions rather than direct widget mutation.",
+    "year_introduced": 2012,
+    "motivation": "Historical Crisis: jQuery-era interfaces and classic widget toolkits spread UI behavior across event handlers, mutable DOM nodes, delegates, and ad hoc callbacks, making large applications difficult to reason about.\nContext: Elm, React-era architecture, Redux, SwiftUI, and Svelte converged on the idea that interface code should describe views from state and make transitions explicit enough to debug, replay, and test.",
+    "languages": [
+      "Elm",
+      "Svelte",
+      "Swift"
+    ],
+    "connected_paradigms": [
+      "Declarative",
+      "Reactive",
+      "Event-Driven"
+    ],
+    "key_features": {
+      "The Reaction": "Model the UI as a function of state and route updates through messages, actions, bindings, or other explicit transitions instead of mutating interface objects from many directions.",
+      "Tradeoffs": "This makes complex interface behavior more predictable and testable, but it shifts difficulty into state modeling, effect management, recomposition costs, and the discipline required to keep transitions explicit."
+    }
+  },
+  {
+    "name": "UI DSL",
+    "description": "Expressing interface structure through a host-language embedded domain-specific language so UI code reads as a declarative grammar rather than a sequence of imperative widget calls.",
+    "year_introduced": 2013,
+    "motivation": "Historical Crisis: Traditional UI frameworks often required verbose builder patterns, XML side files, or imperative widget mutation that split layout intent from program logic.\nContext: JSX in React, SwiftUI builders in Swift, and Svelte's component syntax reframed interface construction as a language-design problem, embedding UI notation directly into the host language and its tooling.",
+    "languages": [
+      "Svelte",
+      "Swift"
+    ],
+    "connected_paradigms": [
+      "Declarative",
+      "Component-based",
+      "State-driven UI"
+    ],
+    "key_features": {
+      "The Reaction": "Design the surface syntax so component trees, modifiers, bindings, and layout structure are written as if the host language had native notation for interface construction.",
+      "Tradeoffs": "This can make UI intent dramatically clearer and improve tooling, but it blurs the boundary between language and framework, increases compiler or transform complexity, and can feel magical when generated behavior is hard to trace."
+    }
+  },
+  {
+    "name": "Protocol-oriented",
+    "description": "A style emphasizing the use of protocols (interfaces) and composition over rigid class hierarchies.",
+    "year_introduced": 2014,
+    "motivation": "",
+    "languages": [],
+    "connected_paradigms": [
+      "Object-Oriented"
+    ],
+    "key_features": {}
   }
 ]

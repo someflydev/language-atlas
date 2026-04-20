@@ -1,108 +1,20 @@
 [
   {
-    "name": "Immutability",
-    "description": "The philosophy that data cannot be modified after its creation, eliminating shared mutable state bugs.",
-    "year": 1958,
+    "name": "Church-Turing Thesis",
+    "description": "The hypothesis that every effectively calculable function is computable by a Turing machine.",
+    "year": 1936,
     "responsible": [
-      "John McCarthy"
+      "Alonzo Church",
+      "Alan Turing"
     ]
   },
   {
-    "name": "The Actor Model",
-    "description": "A model of concurrent computation where isolated entities communicate exclusively via message passing.",
-    "year": 1973,
+    "name": "State-Based Transitions",
+    "description": "Reasoning about program behavior as movement between explicit states, making UI logic describable as controlled transitions rather than scattered callbacks.",
+    "year": 1936,
     "responsible": [
-      "Carl Hewitt"
-    ]
-  },
-  {
-    "name": "CSP - Communicating Sequential Processes",
-    "description": "A formal language for describing patterns of interaction in concurrent systems via channels.",
-    "year": 1978,
-    "responsible": [
-      "Tony Hoare"
-    ]
-  },
-  {
-    "name": "Async/Await",
-    "description": "A syntactic feature that allows asynchronous code to be written in a structured, synchronous-like style.",
-    "year": 2012,
-    "responsible": [
-      "Microsoft"
-    ]
-  },
-  {
-    "name": "Hindley-Milner Type System",
-    "description": "A formal type system that provides automatic type inference for strictly typed languages.",
-    "year": 1969,
-    "responsible": [
-      "Roger Hindley",
-      "Robin Milner"
-    ]
-  },
-  {
-    "name": "Garbage Collection",
-    "description": "Automatic memory management that identifies and reclaims memory no longer in use by the program.",
-    "year": 1959,
-    "responsible": [
-      "John McCarthy"
-    ]
-  },
-  {
-    "name": "RAII - Resource Acquisition Is Initialization",
-    "description": "A programming idiom where resource lifecycle is tied to object scope and destructors.",
-    "year": 1985,
-    "responsible": [
-      "Bjarne Stroustrup"
-    ]
-  },
-  {
-    "name": "Ownership & Borrowing",
-    "description": "A memory management system that uses compile-time rules to ensure safety without a garbage collector.",
-    "year": 2010,
-    "responsible": [
-      "Graydon Hoare",
-      "Mozilla"
-    ]
-  },
-  {
-    "name": "Macros",
-    "description": "A system for defining code transformations that are expanded by the compiler or preprocessor.",
-    "year": 1963,
-    "responsible": [
-      "Timothy Hart"
-    ]
-  },
-  {
-    "name": "Homoiconicity",
-    "description": "A property where the program's structure is itself a data structure of the language.",
-    "year": 1958,
-    "responsible": [
-      "John McCarthy"
-    ]
-  },
-  {
-    "name": "The Software Crisis",
-    "description": "The historical realization that software complexity often outpaces our tools and methodologies.",
-    "year": 1968,
-    "responsible": [
-      "NATO Science Committee"
-    ]
-  },
-  {
-    "name": "Semantic Search",
-    "description": "Information retrieval that focuses on the conceptual intent of a query rather than literal keywords.",
-    "year": 2013,
-    "responsible": [
-      "Google"
-    ]
-  },
-  {
-    "name": "Borrow Checking",
-    "description": "The compile-time analysis used to enforce ownership and reference validity rules.",
-    "year": 2012,
-    "responsible": [
-      "Niko Matsakis"
+      "Alan Turing",
+      "Evan Czaplicki"
     ]
   },
   {
@@ -114,53 +26,19 @@
     ]
   },
   {
-    "name": "Design by Contract",
-    "description": "A formal approach to software design using preconditions, postconditions, and invariants.",
-    "year": 1986,
+    "name": "Homoiconicity",
+    "description": "A property where the program's structure is itself a data structure of the language.",
+    "year": 1958,
     "responsible": [
-      "Bertrand Meyer"
+      "John McCarthy"
     ]
   },
   {
-    "name": "Event Loop",
-    "description": "A programming construct that waits for and dispatches events or messages in a program.",
-    "year": 1970,
+    "name": "Immutability",
+    "description": "The philosophy that data cannot be modified after its creation, eliminating shared mutable state bugs.",
+    "year": 1958,
     "responsible": [
-      "Xerox PARC"
-    ]
-  },
-  {
-    "name": "Multiple Inheritance",
-    "description": "A feature where a class can inherit behaviors and features from more than one parent class.",
-    "year": 1967,
-    "responsible": [
-      "Ole-Johan Dahl",
-      "Kristen Nygaard"
-    ]
-  },
-  {
-    "name": "Nominal vs Structural Typing",
-    "description": "The distinction between typing based on explicit names versus typing based on data shape.",
-    "year": 1980,
-    "responsible": [
-      "Luca Cardelli"
-    ]
-  },
-  {
-    "name": "Object-Oriented Design",
-    "description": "A design philosophy centered on objects, encapsulation, inheritance, and polymorphism.",
-    "year": 1967,
-    "responsible": [
-      "Ole-Johan Dahl",
-      "Kristen Nygaard"
-    ]
-  },
-  {
-    "name": "Relational Model",
-    "description": "A model for database management based on first-order predicate logic and set theory.",
-    "year": 1970,
-    "responsible": [
-      "Edgar F. Codd"
+      "John McCarthy"
     ]
   },
   {
@@ -173,98 +51,20 @@
     ]
   },
   {
-    "name": "Church-Turing Thesis",
-    "description": "The hypothesis that every effectively calculable function is computable by a Turing machine.",
-    "year": 1936,
+    "name": "Garbage Collection",
+    "description": "Automatic memory management that identifies and reclaims memory no longer in use by the program.",
+    "year": 1959,
     "responsible": [
-      "Alonzo Church",
-      "Alan Turing"
+      "John McCarthy"
     ]
   },
   {
-    "name": "Algebraic Data Types",
-    "description": "Composing data from sums and products so programs can model closed sets of cases precisely.",
-    "year": 1973,
+    "name": "Arbitrary-Precision Arithmetic",
+    "description": "Computing with exact or expansible numeric precision so symbolic systems and technical tools are not forced into fixed-width approximations.",
+    "year": 1960,
     "responsible": [
-      "Robin Milner",
-      "David Turner"
-    ]
-  },
-  {
-    "name": "Type Inference",
-    "description": "Automatically deducing program types from how values are defined and used.",
-    "year": 1973,
-    "responsible": [
-      "Robin Milner"
-    ]
-  },
-  {
-    "name": "Type Classes",
-    "description": "A disciplined form of ad-hoc polymorphism that attaches behavior to families of types through explicit constraints.",
-    "year": 1989,
-    "responsible": [
-      "Philip Wadler",
-      "Simon Peyton Jones"
-    ]
-  },
-  {
-    "name": "Structural Typing",
-    "description": "Type compatibility based on shape and available operations rather than declared identity.",
-    "year": 1988,
-    "responsible": [
-      "Luca Cardelli"
-    ]
-  },
-  {
-    "name": "Nominal Typing",
-    "description": "Type compatibility based on explicit declarations, names, and lineage rather than object shape alone.",
-    "year": 1988,
-    "responsible": [
-      "Luca Cardelli"
-    ]
-  },
-  {
-    "name": "Gradual Typing",
-    "description": "Combining dynamic and static typing so codebases can move between looser and stricter checking over time.",
-    "year": 2006,
-    "responsible": [
-      "Jeremy Siek",
-      "Walid Taha"
-    ]
-  },
-  {
-    "name": "Module System",
-    "description": "A language-level mechanism for organizing code into named units with explicit interfaces and composition rules.",
-    "year": 1978,
-    "responsible": [
-      "Niklaus Wirth",
-      "David MacQueen"
-    ]
-  },
-  {
-    "name": "Functors",
-    "description": "Parameterized modules in the ML tradition that compute new modules from other modules.",
-    "year": 1984,
-    "responsible": [
-      "David MacQueen"
-    ]
-  },
-  {
-    "name": "Pattern Matching",
-    "description": "Destructuring and branching on data shape directly in the language, often alongside algebraic types.",
-    "year": 1973,
-    "responsible": [
-      "Robin Milner",
-      "David Turner"
-    ]
-  },
-  {
-    "name": "Unification",
-    "description": "Solving symbolic constraints by finding substitutions that make expressions structurally consistent.",
-    "year": 1972,
-    "responsible": [
-      "Alain Colmerauer",
-      "Robert Kowalski"
+      "John McCarthy",
+      "MACSYMA Team"
     ]
   },
   {
@@ -284,21 +84,29 @@
     ]
   },
   {
-    "name": "Broadcasting",
-    "description": "Generalized scalar-shape interaction that lets array expressions combine values of different shapes without writing explicit replication loops.",
-    "year": 2005,
+    "name": "Macros",
+    "description": "A system for defining code transformations that are expanded by the compiler or preprocessor.",
+    "year": 1963,
     "responsible": [
-      "Travis Oliphant",
-      "NumPy Community"
+      "Timothy Hart"
     ]
   },
   {
-    "name": "Arbitrary-Precision Arithmetic",
-    "description": "Computing with exact or expansible numeric precision so symbolic systems and technical tools are not forced into fixed-width approximations.",
-    "year": 1960,
+    "name": "Multiple Inheritance",
+    "description": "A feature where a class can inherit behaviors and features from more than one parent class.",
+    "year": 1967,
     "responsible": [
-      "John McCarthy",
-      "MACSYMA Team"
+      "Ole-Johan Dahl",
+      "Kristen Nygaard"
+    ]
+  },
+  {
+    "name": "Object-Oriented Design",
+    "description": "A design philosophy centered on objects, encapsulation, inheritance, and polymorphism.",
+    "year": 1967,
+    "responsible": [
+      "Ole-Johan Dahl",
+      "Kristen Nygaard"
     ]
   },
   {
@@ -310,55 +118,150 @@
     ]
   },
   {
-    "name": "Notebook Computing",
-    "description": "An interactive document-computation model where code, prose, formulas, graphics, and results live together in one technical workspace.",
-    "year": 1988,
+    "name": "The Software Crisis",
+    "description": "The historical realization that software complexity often outpaces our tools and methodologies.",
+    "year": 1968,
     "responsible": [
-      "Stephen Wolfram"
+      "NATO Science Committee"
     ]
   },
   {
-    "name": "Symbolic Pattern Recognition",
-    "description": "Pattern-directed matching over symbolic expressions so rewriting systems can recognize algebraic structure instead of only concrete values.",
-    "year": 1988,
+    "name": "Hindley-Milner Type System",
+    "description": "A formal type system that provides automatic type inference for strictly typed languages.",
+    "year": 1969,
     "responsible": [
-      "Stephen Wolfram",
-      "MACSYMA Team"
+      "Roger Hindley",
+      "Robin Milner"
     ]
   },
   {
-    "name": "Interactive Numerical Exploration",
-    "description": "Using a command-driven numerical environment to iterate on models, data, and visual output in immediate conversation with the machine.",
-    "year": 1979,
+    "name": "Event Loop",
+    "description": "A programming construct that waits for and dispatches events or messages in a program.",
+    "year": 1970,
     "responsible": [
-      "Cleve Moler",
-      "John W. Eaton"
+      "Xerox PARC"
     ]
   },
   {
-    "name": "Integrated Plotting and Analysis",
-    "description": "A technical-computing workflow where data analysis, plotting, and iterative model refinement happen inside the same language environment.",
-    "year": 1984,
+    "name": "Relational Model",
+    "description": "A model for database management based on first-order predicate logic and set theory.",
+    "year": 1970,
     "responsible": [
-      "Cleve Moler",
-      "MathWorks"
+      "Edgar F. Codd"
     ]
   },
   {
-    "name": "ASCII-Based Array Syntax",
-    "description": "Expressing array-language ideas with portable ASCII notation instead of specialized glyph sets, preserving array semantics in text-first environments.",
-    "year": 1990,
+    "name": "Unification",
+    "description": "Solving symbolic constraints by finding substitutions that make expressions structurally consistent.",
+    "year": 1972,
     "responsible": [
-      "Kenneth E. Iverson",
-      "Roger Hui"
+      "Alain Colmerauer",
+      "Robert Kowalski"
     ]
   },
   {
-    "name": "Virtual DOM",
-    "description": "Representing the UI as an in-memory tree that can be reconciled against the previous render so declarative views do not require manual DOM patching.",
-    "year": 2013,
+    "name": "Algebraic Data Types",
+    "description": "Composing data from sums and products so programs can model closed sets of cases precisely.",
+    "year": 1973,
     "responsible": [
-      "Jordan Walke"
+      "Robin Milner",
+      "David Turner"
+    ]
+  },
+  {
+    "name": "Asynchronous Message Passing",
+    "description": "Coordinating concurrent components by sending messages that can be received later, decoupling senders from immediate synchronous execution.",
+    "year": 1973,
+    "responsible": [
+      "Carl Hewitt",
+      "Joe Armstrong"
+    ]
+  },
+  {
+    "name": "Isolated Processes",
+    "description": "Structuring computation as independent processes with private state and explicit boundaries so faults and side effects stay contained.",
+    "year": 1973,
+    "responsible": [
+      "Ken Thompson",
+      "Carl Hewitt",
+      "Joe Armstrong"
+    ]
+  },
+  {
+    "name": "No Shared State",
+    "description": "A concurrency discipline where components do not directly mutate the same memory, reducing coordination hazards by forcing communication through messages or transfers.",
+    "year": 1973,
+    "responsible": [
+      "Carl Hewitt",
+      "Tony Hoare",
+      "Joe Armstrong"
+    ]
+  },
+  {
+    "name": "Pattern Matching",
+    "description": "Destructuring and branching on data shape directly in the language, often alongside algebraic types.",
+    "year": 1973,
+    "responsible": [
+      "Robin Milner",
+      "David Turner"
+    ]
+  },
+  {
+    "name": "Pipeline Architecture",
+    "description": "Designing software as chains of focused stages so complex work emerges from composable transformations rather than one monolithic program.",
+    "year": 1973,
+    "responsible": [
+      "Doug McIlroy"
+    ]
+  },
+  {
+    "name": "Pipelines",
+    "description": "A composition model where the output of one program or stage becomes the input of the next, allowing larger workflows to be built from smaller tools.",
+    "year": 1973,
+    "responsible": [
+      "Doug McIlroy",
+      "Ken Thompson"
+    ]
+  },
+  {
+    "name": "The Actor Model",
+    "description": "A model of concurrent computation where isolated entities communicate exclusively via message passing.",
+    "year": 1973,
+    "responsible": [
+      "Carl Hewitt"
+    ]
+  },
+  {
+    "name": "Type Inference",
+    "description": "Automatically deducing program types from how values are defined and used.",
+    "year": 1973,
+    "responsible": [
+      "Robin Milner"
+    ]
+  },
+  {
+    "name": "CSP - Communicating Sequential Processes",
+    "description": "A formal language for describing patterns of interaction in concurrent systems via channels.",
+    "year": 1978,
+    "responsible": [
+      "Tony Hoare"
+    ]
+  },
+  {
+    "name": "Job Control",
+    "description": "Interactive shell control over foreground and background processes, including suspension, resumption, and signal-driven workflow management.",
+    "year": 1978,
+    "responsible": [
+      "Bill Joy"
+    ]
+  },
+  {
+    "name": "Module System",
+    "description": "A language-level mechanism for organizing code into named units with explicit interfaces and composition rules.",
+    "year": 1978,
+    "responsible": [
+      "Niklaus Wirth",
+      "David MacQueen"
     ]
   },
   {
@@ -371,12 +274,188 @@
     ]
   },
   {
-    "name": "Unidirectional Data Flow",
-    "description": "Organizing interface updates so state moves predictably through one main direction, making cause and effect easier to trace across complex applications.",
+    "name": "Direct Manipulation UI",
+    "description": "Designing interfaces around visible objects and immediate user feedback, a tradition that later pushed programmers to seek higher-level models than imperative widget mutation.",
+    "year": 1979,
+    "responsible": [
+      "Alan Kay"
+    ]
+  },
+  {
+    "name": "Environment-Driven Execution",
+    "description": "A runtime model where inherited environment variables, current working directory, and path lookup shape how programs find configuration, tools, and execution context.",
+    "year": 1979,
+    "responsible": [
+      "Stephen Bourne",
+      "Dennis Ritchie"
+    ]
+  },
+  {
+    "name": "Interactive Numerical Exploration",
+    "description": "Using a command-driven numerical environment to iterate on models, data, and visual output in immediate conversation with the machine.",
+    "year": 1979,
+    "responsible": [
+      "Cleve Moler",
+      "John W. Eaton"
+    ]
+  },
+  {
+    "name": "Nominal vs Structural Typing",
+    "description": "The distinction between typing based on explicit names versus typing based on data shape.",
+    "year": 1980,
+    "responsible": [
+      "Luca Cardelli"
+    ]
+  },
+  {
+    "name": "Functors",
+    "description": "Parameterized modules in the ML tradition that compute new modules from other modules.",
+    "year": 1984,
+    "responsible": [
+      "David MacQueen"
+    ]
+  },
+  {
+    "name": "Integrated Plotting and Analysis",
+    "description": "A technical-computing workflow where data analysis, plotting, and iterative model refinement happen inside the same language environment.",
+    "year": 1984,
+    "responsible": [
+      "Cleve Moler",
+      "MathWorks"
+    ]
+  },
+  {
+    "name": "RAII - Resource Acquisition Is Initialization",
+    "description": "A programming idiom where resource lifecycle is tied to object scope and destructors.",
+    "year": 1985,
+    "responsible": [
+      "Bjarne Stroustrup"
+    ]
+  },
+  {
+    "name": "Design by Contract",
+    "description": "A formal approach to software design using preconditions, postconditions, and invariants.",
+    "year": 1986,
+    "responsible": [
+      "Bertrand Meyer"
+    ]
+  },
+  {
+    "name": "Let It Crash",
+    "description": "A runtime philosophy that treats failure as inevitable and focuses on isolation, supervision, and recovery instead of defensive error suppression everywhere.",
+    "year": 1986,
+    "responsible": [
+      "Joe Armstrong"
+    ]
+  },
+  {
+    "name": "Nominal Typing",
+    "description": "Type compatibility based on explicit declarations, names, and lineage rather than object shape alone.",
+    "year": 1988,
+    "responsible": [
+      "Luca Cardelli"
+    ]
+  },
+  {
+    "name": "Notebook Computing",
+    "description": "An interactive document-computation model where code, prose, formulas, graphics, and results live together in one technical workspace.",
+    "year": 1988,
+    "responsible": [
+      "Stephen Wolfram"
+    ]
+  },
+  {
+    "name": "Structural Typing",
+    "description": "Type compatibility based on shape and available operations rather than declared identity.",
+    "year": 1988,
+    "responsible": [
+      "Luca Cardelli"
+    ]
+  },
+  {
+    "name": "Symbolic Pattern Recognition",
+    "description": "Pattern-directed matching over symbolic expressions so rewriting systems can recognize algebraic structure instead of only concrete values.",
+    "year": 1988,
+    "responsible": [
+      "Stephen Wolfram",
+      "MACSYMA Team"
+    ]
+  },
+  {
+    "name": "Type Classes",
+    "description": "A disciplined form of ad-hoc polymorphism that attaches behavior to families of types through explicit constraints.",
+    "year": 1989,
+    "responsible": [
+      "Philip Wadler",
+      "Simon Peyton Jones"
+    ]
+  },
+  {
+    "name": "ASCII-Based Array Syntax",
+    "description": "Expressing array-language ideas with portable ASCII notation instead of specialized glyph sets, preserving array semantics in text-first environments.",
+    "year": 1990,
+    "responsible": [
+      "Kenneth E. Iverson",
+      "Roger Hui"
+    ]
+  },
+  {
+    "name": "Autosuggestions",
+    "description": "Shell assistance that predicts likely commands or arguments from history and context, reducing recall burden during interactive work.",
+    "year": 2005,
+    "responsible": [
+      "Axel Liljencrantz"
+    ]
+  },
+  {
+    "name": "Broadcasting",
+    "description": "Generalized scalar-shape interaction that lets array expressions combine values of different shapes without writing explicit replication loops.",
+    "year": 2005,
+    "responsible": [
+      "Travis Oliphant",
+      "NumPy Community"
+    ]
+  },
+  {
+    "name": "Gradual Typing",
+    "description": "Combining dynamic and static typing so codebases can move between looser and stricter checking over time.",
+    "year": 2006,
+    "responsible": [
+      "Jeremy Siek",
+      "Walid Taha"
+    ]
+  },
+  {
+    "name": "Object Pipelines",
+    "description": "Passing structured objects between commands instead of raw text so downstream stages can work with typed fields and methods directly.",
+    "year": 2006,
+    "responsible": [
+      "Jeffrey Snover"
+    ]
+  },
+  {
+    "name": "Ownership & Borrowing",
+    "description": "A memory management system that uses compile-time rules to ensure safety without a garbage collector.",
+    "year": 2010,
+    "responsible": [
+      "Graydon Hoare",
+      "Mozilla"
+    ]
+  },
+  {
+    "name": "Async/Await",
+    "description": "A syntactic feature that allows asynchronous code to be written in a structured, synchronous-like style.",
     "year": 2012,
     "responsible": [
-      "Evan Czaplicki",
-      "Jordan Walke"
+      "Microsoft"
+    ]
+  },
+  {
+    "name": "Borrow Checking",
+    "description": "The compile-time analysis used to enforce ownership and reference validity rules.",
+    "year": 2012,
+    "responsible": [
+      "Niko Matsakis"
     ]
   },
   {
@@ -388,28 +467,12 @@
     ]
   },
   {
-    "name": "Direct Manipulation UI",
-    "description": "Designing interfaces around visible objects and immediate user feedback, a tradition that later pushed programmers to seek higher-level models than imperative widget mutation.",
-    "year": 1979,
+    "name": "Unidirectional Data Flow",
+    "description": "Organizing interface updates so state moves predictably through one main direction, making cause and effect easier to trace across complex applications.",
+    "year": 2012,
     "responsible": [
-      "Alan Kay"
-    ]
-  },
-  {
-    "name": "State-Based Transitions",
-    "description": "Reasoning about program behavior as movement between explicit states, making UI logic describable as controlled transitions rather than scattered callbacks.",
-    "year": 1936,
-    "responsible": [
-      "Alan Turing",
-      "Evan Czaplicki"
-    ]
-  },
-  {
-    "name": "Protocol-Oriented Design",
-    "description": "Building systems around capabilities and protocol composition so behavior is described by contracts and defaults rather than deep class hierarchies.",
-    "year": 2014,
-    "responsible": [
-      "Chris Lattner"
+      "Evan Czaplicki",
+      "Jordan Walke"
     ]
   },
   {
@@ -420,6 +483,30 @@
       "Jordan Walke",
       "Chris Lattner",
       "Rich Harris"
+    ]
+  },
+  {
+    "name": "Semantic Search",
+    "description": "Information retrieval that focuses on the conceptual intent of a query rather than literal keywords.",
+    "year": 2013,
+    "responsible": [
+      "Google"
+    ]
+  },
+  {
+    "name": "Virtual DOM",
+    "description": "Representing the UI as an in-memory tree that can be reconciled against the previous render so declarative views do not require manual DOM patching.",
+    "year": 2013,
+    "responsible": [
+      "Jordan Walke"
+    ]
+  },
+  {
+    "name": "Protocol-Oriented Design",
+    "description": "Building systems around capabilities and protocol composition so behavior is described by contracts and defaults rather than deep class hierarchies.",
+    "year": 2014,
+    "responsible": [
+      "Chris Lattner"
     ]
   },
   {
@@ -436,93 +523,6 @@
     "year": 2019,
     "responsible": [
       "Chris Lattner"
-    ]
-  },
-  {
-    "name": "Pipelines",
-    "description": "A composition model where the output of one program or stage becomes the input of the next, allowing larger workflows to be built from smaller tools.",
-    "year": 1973,
-    "responsible": [
-      "Doug McIlroy",
-      "Ken Thompson"
-    ]
-  },
-  {
-    "name": "Pipeline Architecture",
-    "description": "Designing software as chains of focused stages so complex work emerges from composable transformations rather than one monolithic program.",
-    "year": 1973,
-    "responsible": [
-      "Doug McIlroy"
-    ]
-  },
-  {
-    "name": "Object Pipelines",
-    "description": "Passing structured objects between commands instead of raw text so downstream stages can work with typed fields and methods directly.",
-    "year": 2006,
-    "responsible": [
-      "Jeffrey Snover"
-    ]
-  },
-  {
-    "name": "Autosuggestions",
-    "description": "Shell assistance that predicts likely commands or arguments from history and context, reducing recall burden during interactive work.",
-    "year": 2005,
-    "responsible": [
-      "Axel Liljencrantz"
-    ]
-  },
-  {
-    "name": "Job Control",
-    "description": "Interactive shell control over foreground and background processes, including suspension, resumption, and signal-driven workflow management.",
-    "year": 1978,
-    "responsible": [
-      "Bill Joy"
-    ]
-  },
-  {
-    "name": "Environment-Driven Execution",
-    "description": "A runtime model where inherited environment variables, current working directory, and path lookup shape how programs find configuration, tools, and execution context.",
-    "year": 1979,
-    "responsible": [
-      "Stephen Bourne",
-      "Dennis Ritchie"
-    ]
-  },
-  {
-    "name": "Asynchronous Message Passing",
-    "description": "Coordinating concurrent components by sending messages that can be received later, decoupling senders from immediate synchronous execution.",
-    "year": 1973,
-    "responsible": [
-      "Carl Hewitt",
-      "Joe Armstrong"
-    ]
-  },
-  {
-    "name": "No Shared State",
-    "description": "A concurrency discipline where components do not directly mutate the same memory, reducing coordination hazards by forcing communication through messages or transfers.",
-    "year": 1973,
-    "responsible": [
-      "Carl Hewitt",
-      "Tony Hoare",
-      "Joe Armstrong"
-    ]
-  },
-  {
-    "name": "Let It Crash",
-    "description": "A runtime philosophy that treats failure as inevitable and focuses on isolation, supervision, and recovery instead of defensive error suppression everywhere.",
-    "year": 1986,
-    "responsible": [
-      "Joe Armstrong"
-    ]
-  },
-  {
-    "name": "Isolated Processes",
-    "description": "Structuring computation as independent processes with private state and explicit boundaries so faults and side effects stay contained.",
-    "year": 1973,
-    "responsible": [
-      "Ken Thompson",
-      "Carl Hewitt",
-      "Joe Armstrong"
     ]
   }
 ]
