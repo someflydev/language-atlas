@@ -14,12 +14,18 @@ class DataLoader:
 
     @staticmethod
     def _language_profile_lookup_candidates(name: str) -> List[str]:
+        ascii_name = unicodedata.normalize("NFKD", name).encode("ascii", "ignore").decode("ascii")
+        ascii_spaced_name = unicodedata.normalize("NFKD", name.replace("_", " ")).encode("ascii", "ignore").decode("ascii")
         candidates: List[str] = []
         for candidate in [
             name,
             name.replace('_', ' '),
+            name.replace('/', ':'),
+            name.replace('/', ':').replace('_', ' '),
             name.replace(':', '/'),
             name.replace(':', '/').replace('_', ' '),
+            ascii_name,
+            ascii_spaced_name,
         ]:
             if candidate not in candidates:
                 candidates.append(candidate)

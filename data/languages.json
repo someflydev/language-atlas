@@ -30,7 +30,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Jacquard Loom"
+    "display_name": "Jacquard Loom",
+    "entity_type": "foundation"
   },
   {
     "name": "Analytical Engine",
@@ -66,7 +67,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Analytical Engine"
+    "display_name": "Analytical Engine",
+    "entity_type": "foundation"
   },
   {
     "name": "Boolean Algebra",
@@ -103,7 +105,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Boolean Algebra"
+    "display_name": "Boolean Algebra",
+    "entity_type": "foundation"
   },
   {
     "name": "Hollerith Tabulator",
@@ -139,7 +142,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Hollerith Tabulator"
+    "display_name": "Hollerith Tabulator",
+    "entity_type": "foundation"
   },
   {
     "name": "Mathematical Notation",
@@ -177,7 +181,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Mathematical Notation"
+    "display_name": "Mathematical Notation",
+    "entity_type": "foundation"
   },
   {
     "name": "Lambda Calculus",
@@ -212,7 +217,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Lambda Calculus"
+    "display_name": "Lambda Calculus",
+    "entity_type": "foundation"
   },
   {
     "name": "Turing Machine",
@@ -248,7 +254,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Turing Machine"
+    "display_name": "Turing Machine",
+    "entity_type": "foundation"
   },
   {
     "name": "Machine Code",
@@ -282,7 +289,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Machine Code"
+    "display_name": "Machine Code",
+    "entity_type": "foundation"
   },
   {
     "name": "Plankalkül",
@@ -315,7 +323,48 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": true,
-    "display_name": "Plankalkül"
+    "display_name": "Plankalkül",
+    "entity_type": "language"
+  },
+  {
+    "name": "ENIAC",
+    "year": 1945,
+    "creators": [
+      "John Presper Eckert",
+      "John Mauchly"
+    ],
+    "paradigms": [
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "dawn",
+    "primary_use_cases": [
+      "Electronic numerical computation",
+      "Ballistics calculation",
+      "Programmable machine configuration"
+    ],
+    "key_innovations": [
+      "Electronic general-purpose computation",
+      "Programmable machine environment",
+      "Pressure toward stored-program design"
+    ],
+    "influenced_by": [
+      "Analytical Engine",
+      "Hollerith Tabulator"
+    ],
+    "influenced": [
+      "Von Neumann Architecture",
+      "Machine Code"
+    ],
+    "philosophy": "Make large-scale electronic computation practical even before stored programs existed. ENIAC exposed both the power of programmable machines and the cost of encoding procedures as physical configuration.",
+    "mental_model": "Think in control pulses, units, tables, and rewired pathways rather than source files. Programming means arranging machine behavior directly, which makes later symbolic instruction sets feel like a major human breakthrough.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "ENIAC",
+    "entity_type": "foundation"
   },
   {
     "name": "Von Neumann Architecture",
@@ -352,7 +401,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Von Neumann Architecture"
+    "display_name": "Von Neumann Architecture",
+    "entity_type": "foundation"
   },
   {
     "name": "Assembly",
@@ -387,7 +437,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Assembly"
+    "display_name": "Assembly",
+    "entity_type": "language"
   },
   {
     "name": "Information Theory",
@@ -427,7 +478,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Information Theory"
+    "display_name": "Information Theory",
+    "entity_type": "foundation"
   },
   {
     "name": "Short Code",
@@ -458,7 +510,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": false,
-    "display_name": "Short Code"
+    "display_name": "Short Code",
+    "entity_type": "foundation"
   },
   {
     "name": "A-0",
@@ -492,7 +545,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "A-0"
+    "display_name": "A-0",
+    "entity_type": "language"
   },
   {
     "name": "Autocode",
@@ -525,7 +579,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": false,
-    "display_name": "Autocode"
+    "display_name": "Autocode",
+    "entity_type": "language"
   },
   {
     "name": "FLOW-MATIC",
@@ -557,7 +612,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": false,
-    "display_name": "FLOW-MATIC"
+    "display_name": "FLOW-MATIC",
+    "entity_type": "language"
   },
   {
     "name": "Chomsky Hierarchy",
@@ -594,7 +650,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Chomsky Hierarchy"
+    "display_name": "Chomsky Hierarchy",
+    "entity_type": "foundation"
   },
   {
     "name": "COMIT",
@@ -624,7 +681,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "COMIT"
+    "display_name": "COMIT",
+    "entity_type": "language"
   },
   {
     "name": "COMTRAN",
@@ -656,7 +714,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": false,
-    "display_name": "COMTRAN"
+    "display_name": "COMTRAN",
+    "entity_type": "language"
   },
   {
     "name": "FORTRAN",
@@ -698,7 +757,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": true,
-    "display_name": "FORTRAN"
+    "display_name": "FORTRAN",
+    "entity_type": "language"
   },
   {
     "name": "Lisp",
@@ -750,7 +810,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Lisp"
+    "display_name": "Lisp",
+    "entity_type": "language"
   },
   {
     "name": "COBOL",
@@ -789,7 +850,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": true,
-    "display_name": "COBOL"
+    "display_name": "COBOL",
+    "entity_type": "language"
   },
   {
     "name": "ALGOL 60",
@@ -832,7 +894,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": true,
-    "display_name": "ALGOL 60"
+    "display_name": "ALGOL 60",
+    "entity_type": "language"
   },
   {
     "name": "SNOBOL",
@@ -873,7 +936,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "SNOBOL"
+    "display_name": "SNOBOL",
+    "entity_type": "language"
   },
   {
     "name": "CPL",
@@ -906,7 +970,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": false,
-    "display_name": "CPL"
+    "display_name": "CPL",
+    "entity_type": "language"
   },
   {
     "name": "BASIC",
@@ -946,7 +1011,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "BASIC"
+    "display_name": "BASIC",
+    "entity_type": "language"
   },
   {
     "name": "PL/I",
@@ -987,7 +1053,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "PL/I"
+    "display_name": "PL/I",
+    "entity_type": "language"
   },
   {
     "name": "APL",
@@ -1031,7 +1098,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "APL"
+    "display_name": "APL",
+    "entity_type": "language"
   },
   {
     "name": "BCPL",
@@ -1068,7 +1136,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "BCPL"
+    "display_name": "BCPL",
+    "entity_type": "language"
   },
   {
     "name": "SIMULA 67",
@@ -1108,7 +1177,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "SIMULA 67"
+    "display_name": "SIMULA 67",
+    "entity_type": "language"
   },
   {
     "name": "ALGOL 68",
@@ -1151,7 +1221,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "ALGOL 68"
+    "display_name": "ALGOL 68",
+    "entity_type": "language"
   },
   {
     "name": "B",
@@ -1185,7 +1256,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "B"
+    "display_name": "B",
+    "entity_type": "language"
   },
   {
     "name": "SETL",
@@ -1222,7 +1294,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "SETL"
+    "display_name": "SETL",
+    "entity_type": "language"
   },
   {
     "name": "Forth",
@@ -1264,7 +1337,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Forth"
+    "display_name": "Forth",
+    "entity_type": "language"
   },
   {
     "name": "Pascal",
@@ -1310,7 +1384,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Pascal"
+    "display_name": "Pascal",
+    "entity_type": "language"
   },
   {
     "name": "C",
@@ -1359,7 +1434,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "C"
+    "display_name": "C",
+    "entity_type": "language"
   },
   {
     "name": "Prolog",
@@ -1401,7 +1477,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Prolog"
+    "display_name": "Prolog",
+    "entity_type": "language"
   },
   {
     "name": "Smalltalk",
@@ -1449,7 +1526,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Smalltalk"
+    "display_name": "Smalltalk",
+    "entity_type": "language"
   },
   {
     "name": "ML",
@@ -1493,7 +1571,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "ML"
+    "display_name": "ML",
+    "entity_type": "language"
   },
   {
     "name": "SQL",
@@ -1535,7 +1614,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "SQL"
+    "display_name": "SQL",
+    "entity_type": "language"
   },
   {
     "name": "Sed",
@@ -1572,7 +1652,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Sed"
+    "display_name": "Sed",
+    "entity_type": "language"
   },
   {
     "name": "CLU",
@@ -1615,7 +1696,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "CLU"
+    "display_name": "CLU",
+    "entity_type": "language"
   },
   {
     "name": "Scheme",
@@ -1660,7 +1742,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Scheme"
+    "display_name": "Scheme",
+    "entity_type": "language"
   },
   {
     "name": "Mesa",
@@ -1700,7 +1783,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": false,
-    "display_name": "Mesa"
+    "display_name": "Mesa",
+    "entity_type": "language"
   },
   {
     "name": "Icon",
@@ -1737,7 +1821,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Icon"
+    "display_name": "Icon",
+    "entity_type": "language"
   },
   {
     "name": "AWK",
@@ -1778,7 +1863,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "AWK"
+    "display_name": "AWK",
+    "entity_type": "language"
   },
   {
     "name": "Modula-2",
@@ -1819,7 +1905,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Modula-2"
+    "display_name": "Modula-2",
+    "entity_type": "language"
   },
   {
     "name": "REXX",
@@ -1858,7 +1945,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "REXX"
+    "display_name": "REXX",
+    "entity_type": "language"
   },
   {
     "name": "Ada",
@@ -1905,7 +1993,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Ada"
+    "display_name": "Ada",
+    "entity_type": "language"
   },
   {
     "name": "Maple",
@@ -1945,7 +2034,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Maple"
+    "display_name": "Maple",
+    "entity_type": "language"
   },
   {
     "name": "PostScript",
@@ -1984,7 +2074,8 @@
     "typing_discipline": "runtime",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "PostScript"
+    "display_name": "PostScript",
+    "entity_type": "language"
   },
   {
     "name": "MATLAB",
@@ -2030,7 +2121,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "MATLAB"
+    "display_name": "MATLAB",
+    "entity_type": "language"
   },
   {
     "name": "Common Lisp",
@@ -2076,7 +2168,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Common Lisp"
+    "display_name": "Common Lisp",
+    "entity_type": "language"
   },
   {
     "name": "Objective-C",
@@ -2115,7 +2208,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Objective-C"
+    "display_name": "Objective-C",
+    "entity_type": "language"
   },
   {
     "name": "C++",
@@ -2167,7 +2261,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "C++"
+    "display_name": "C++",
+    "entity_type": "language"
   },
   {
     "name": "Eiffel",
@@ -2206,7 +2301,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Eiffel"
+    "display_name": "Eiffel",
+    "entity_type": "language"
   },
   {
     "name": "Miranda",
@@ -2243,7 +2339,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Miranda"
+    "display_name": "Miranda",
+    "entity_type": "language"
   },
   {
     "name": "Erlang",
@@ -2289,7 +2386,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Erlang"
+    "display_name": "Erlang",
+    "entity_type": "language"
   },
   {
     "name": "Oberon",
@@ -2328,7 +2426,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Oberon"
+    "display_name": "Oberon",
+    "entity_type": "language"
   },
   {
     "name": "Perl",
@@ -2377,7 +2476,46 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Perl"
+    "display_name": "Perl",
+    "entity_type": "language"
+  },
+  {
+    "name": "GCC",
+    "year": 1987,
+    "creators": [
+      "Richard Stallman"
+    ],
+    "paradigms": [
+      "Procedural"
+    ],
+    "cluster": "infra",
+    "generation": "early",
+    "primary_use_cases": [
+      "C and C++ compilation",
+      "Cross-platform toolchains",
+      "Compiler backends"
+    ],
+    "key_innovations": [
+      "Retargetable compiler infrastructure",
+      "Shared multi-language toolchain",
+      "Optimization across diverse architectures"
+    ],
+    "influenced_by": [
+      "C"
+    ],
+    "influenced": [
+      "LLVM",
+      "Clang"
+    ],
+    "philosophy": "Treat the compiler as shared public infrastructure rather than a vendor-bound tool. GCC made multi-architecture compilation and optimization a common foundation for the free software world.",
+    "mental_model": "Think in layers: front ends feed a reusable middle layer and backends target many machines. GCC is best understood as a compiler platform that coordinates languages, optimizers, and architectures.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "GCC",
+    "entity_type": "artifact"
   },
   {
     "name": "Self",
@@ -2417,7 +2555,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Self"
+    "display_name": "Self",
+    "entity_type": "language"
   },
   {
     "name": "ABC",
@@ -2455,7 +2594,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "ABC"
+    "display_name": "ABC",
+    "entity_type": "language"
   },
   {
     "name": "Tcl",
@@ -2497,7 +2637,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Tcl"
+    "display_name": "Tcl",
+    "entity_type": "language"
   },
   {
     "name": "Modula-3",
@@ -2543,7 +2684,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Modula-3"
+    "display_name": "Modula-3",
+    "entity_type": "language"
   },
   {
     "name": "Bash",
@@ -2584,7 +2726,8 @@
     "typing_discipline": "manual",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "Bash"
+    "display_name": "Bash",
+    "entity_type": "language"
   },
   {
     "name": "Haskell",
@@ -2634,7 +2777,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Haskell"
+    "display_name": "Haskell",
+    "entity_type": "language"
   },
   {
     "name": "Standard ML",
@@ -2676,7 +2820,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Standard ML"
+    "display_name": "Standard ML",
+    "entity_type": "language"
   },
   {
     "name": "J",
@@ -2714,7 +2859,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "J"
+    "display_name": "J",
+    "entity_type": "language"
   },
   {
     "name": "Python",
@@ -2768,7 +2914,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Python"
+    "display_name": "Python",
+    "entity_type": "language"
   },
   {
     "name": "VB",
@@ -2809,7 +2956,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "VB"
+    "display_name": "VB",
+    "entity_type": "language"
   },
   {
     "name": "Dylan",
@@ -2849,7 +2997,8 @@
     "typing_discipline": "hybrid",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Dylan"
+    "display_name": "Dylan",
+    "entity_type": "language"
   },
   {
     "name": "K",
@@ -2887,7 +3036,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "K"
+    "display_name": "K",
+    "entity_type": "language"
   },
   {
     "name": "Lua",
@@ -2933,7 +3083,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Lua"
+    "display_name": "Lua",
+    "entity_type": "language"
   },
   {
     "name": "R",
@@ -2975,7 +3126,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "R"
+    "display_name": "R",
+    "entity_type": "language"
   },
   {
     "name": "Java",
@@ -3029,7 +3181,52 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Java"
+    "display_name": "Java",
+    "entity_type": "language"
+  },
+  {
+    "name": "JVM",
+    "year": 1995,
+    "creators": [
+      "James Gosling",
+      "Sun Microsystems"
+    ],
+    "paradigms": [
+      "Stack-based",
+      "Object-Oriented"
+    ],
+    "cluster": "infra",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Managed runtime execution",
+      "Portable bytecode deployment",
+      "Multi-language platform"
+    ],
+    "key_innovations": [
+      "Portable bytecode runtime",
+      "Managed execution services",
+      "Shared runtime for many languages"
+    ],
+    "influenced_by": [
+      "Java",
+      "Smalltalk",
+      "UCSD Pascal"
+    ],
+    "influenced": [
+      "Kotlin",
+      "Scala",
+      "Clojure",
+      "WebAssembly"
+    ],
+    "philosophy": "Separate language expression from machine-specific execution by compiling to a stable bytecode runtime. The JVM makes portability, verification, and runtime services part of the platform contract.",
+    "mental_model": "Think of the JVM as a negotiated boundary between source languages and execution. Languages lower into bytecode and runtime conventions, then inherit garbage collection, loading, tooling, and optimization from the virtual machine.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "JVM",
+    "entity_type": "artifact"
   },
   {
     "name": "JavaScript",
@@ -3082,7 +3279,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "JavaScript"
+    "display_name": "JavaScript",
+    "entity_type": "language"
   },
   {
     "name": "PHP",
@@ -3123,7 +3321,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "PHP"
+    "display_name": "PHP",
+    "entity_type": "language"
   },
   {
     "name": "Ruby",
@@ -3169,7 +3368,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Ruby"
+    "display_name": "Ruby",
+    "entity_type": "language"
   },
   {
     "name": "OCaml",
@@ -3217,7 +3417,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "OCaml"
+    "display_name": "OCaml",
+    "entity_type": "language"
   },
   {
     "name": "ActionScript",
@@ -3255,7 +3456,56 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "ActionScript"
+    "display_name": "ActionScript",
+    "entity_type": "language"
+  },
+  {
+    "name": "XML",
+    "year": 1998,
+    "creators": [
+      "Tim Bray",
+      "Jean Paoli",
+      "C. M. Sperberg-McQueen",
+      "W3C"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Markup"
+    ],
+    "cluster": "infra",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Data interchange",
+      "Configuration",
+      "Web services",
+      "Document markup"
+    ],
+    "key_innovations": [
+      "Simplified SGML-derived syntax for general data",
+      "Namespaces for combining vocabularies",
+      "Schema and validation for contract-based data"
+    ],
+    "influenced_by": [
+      "SGML",
+      "HTML"
+    ],
+    "influenced": [
+      "JSON",
+      "SVG",
+      "RSS",
+      "Atom",
+      "SOAP",
+      "YAML"
+    ],
+    "philosophy": "A metalanguage for defining structured markup vocabularies through a simplified web-era subset of SGML.",
+    "mental_model": "Think in labeled trees with explicit boundaries, where every document is a hierarchy of elements and attributes.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "XML",
+    "entity_type": "artifact"
   },
   {
     "name": "CSharp",
@@ -3305,7 +3555,8 @@
     "safety_model": "runtime",
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
-    "is_keystone": true
+    "is_keystone": true,
+    "entity_type": "language"
   },
   {
     "name": "JSON",
@@ -3343,7 +3594,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "JSON"
+    "display_name": "JSON",
+    "entity_type": "artifact"
   },
   {
     "name": "YAML",
@@ -3386,7 +3638,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "YAML"
+    "display_name": "YAML",
+    "entity_type": "artifact"
   },
   {
     "name": "VB.NET",
@@ -3424,7 +3677,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "VB.NET"
+    "display_name": "VB.NET",
+    "entity_type": "language"
   },
   {
     "name": "Factor",
@@ -3461,7 +3715,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Factor"
+    "display_name": "Factor",
+    "entity_type": "language"
   },
   {
     "name": "LLVM",
@@ -3504,7 +3759,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "LLVM"
+    "display_name": "LLVM",
+    "entity_type": "artifact"
   },
   {
     "name": "Scala",
@@ -3553,7 +3809,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Scala"
+    "display_name": "Scala",
+    "entity_type": "language"
   },
   {
     "name": "F#",
@@ -3596,7 +3853,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "F#"
+    "display_name": "F#",
+    "entity_type": "language"
   },
   {
     "name": "PowerShell",
@@ -3635,7 +3893,87 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "PowerShell"
+    "display_name": "PowerShell",
+    "entity_type": "language"
+  },
+  {
+    "name": "Numpy",
+    "year": 2006,
+    "creators": [
+      "Travis Oliphant"
+    ],
+    "paradigms": [
+      "Array-oriented",
+      "Procedural"
+    ],
+    "cluster": "scientific",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Numerical computing",
+      "Scientific Python",
+      "Dense array processing"
+    ],
+    "key_innovations": [
+      "Universal ndarray core",
+      "Vectorized array execution",
+      "Broadcasting for shape-aware operations"
+    ],
+    "influenced_by": [
+      "APL",
+      "MATLAB",
+      "Python"
+    ],
+    "influenced": [
+      "Julia"
+    ],
+    "philosophy": "Turn Python into a practical numerical-computing environment by centering work on dense arrays and vectorized operations. NumPy treats whole-array transformation, not scalar looping, as the real execution model.",
+    "mental_model": "Think in n-dimensional arrays, shapes, dtypes, and bulk operations. Good NumPy code moves work out of Python loops and into vectorized transformations executed by optimized native kernels.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Numpy",
+    "entity_type": "artifact"
+  },
+  {
+    "name": "Clang",
+    "year": 2007,
+    "creators": [
+      "Chris Lattner",
+      "LLVM Project"
+    ],
+    "paradigms": [
+      "Procedural"
+    ],
+    "cluster": "infra",
+    "generation": "web1",
+    "primary_use_cases": [
+      "C-family compilation",
+      "Compiler diagnostics",
+      "Language tooling and static analysis"
+    ],
+    "key_innovations": [
+      "Reusable frontend libraries",
+      "High-quality compiler diagnostics",
+      "LLVM-based tooling integration"
+    ],
+    "influenced_by": [
+      "LLVM",
+      "GCC"
+    ],
+    "influenced": [
+      "Carbon"
+    ],
+    "philosophy": "Treat the compiler frontend as reusable language infrastructure, not just a monolithic translator. Clang made diagnostics, AST access, and tooling integration first-class goals alongside code generation.",
+    "mental_model": "Think of parsing and semantic analysis as services other tools can reuse. Clang is both a compiler and a semantic platform for editors, refactoring tools, analyzers, and build systems.",
+    "complexity_bias": "high",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Clang",
+    "entity_type": "artifact"
   },
   {
     "name": "Clojure",
@@ -3678,7 +4016,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Clojure"
+    "display_name": "Clojure",
+    "entity_type": "language"
   },
   {
     "name": "Nim",
@@ -3722,7 +4061,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Nim"
+    "display_name": "Nim",
+    "entity_type": "language"
   },
   {
     "name": "Go",
@@ -3770,7 +4110,46 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Go"
+    "display_name": "Go",
+    "entity_type": "language"
+  },
+  {
+    "name": "Akka",
+    "year": 2009,
+    "creators": [
+      "Jonas Bonér"
+    ],
+    "paradigms": [
+      "Actor-model",
+      "Concurrent",
+      "Reactive"
+    ],
+    "cluster": "backend",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Concurrent JVM services",
+      "Distributed systems",
+      "Actor-based architectures"
+    ],
+    "key_innovations": [
+      "Actor-based concurrency on the JVM",
+      "Supervision trees for failure containment",
+      "Production actor tooling for clustered systems"
+    ],
+    "influenced_by": [
+      "Erlang",
+      "Scala"
+    ],
+    "influenced": [],
+    "philosophy": "Bring actor-model discipline and supervised failure boundaries into mainstream JVM systems. Akka treats concurrency as message-oriented coordination between isolated actors, not shared-memory orchestration.",
+    "mental_model": "Think in actors, mailboxes, supervision rules, and message protocols. Local state stays inside actors, and system behavior emerges from message flow rather than direct shared mutation.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Akka",
+    "entity_type": "artifact"
   },
   {
     "name": "Rust",
@@ -3825,7 +4204,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": true,
-    "display_name": "Rust"
+    "display_name": "Rust",
+    "entity_type": "language"
   },
   {
     "name": "Dart",
@@ -3866,7 +4246,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Dart"
+    "display_name": "Dart",
+    "entity_type": "language"
   },
   {
     "name": "Elixir",
@@ -3909,7 +4290,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Elixir"
+    "display_name": "Elixir",
+    "entity_type": "language"
   },
   {
     "name": "Kotlin",
@@ -3955,7 +4337,48 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Kotlin"
+    "display_name": "Kotlin",
+    "entity_type": "language"
+  },
+  {
+    "name": "Cloud Haskell",
+    "year": 2011,
+    "creators": [
+      "Jeff Epstein",
+      "Andrew Black",
+      "Simon Peyton Jones"
+    ],
+    "paradigms": [
+      "Functional",
+      "Actor-model",
+      "Concurrent"
+    ],
+    "cluster": "backend",
+    "generation": "cloud",
+    "primary_use_cases": [
+      "Typed distributed systems",
+      "Actor-style concurrency",
+      "Research into fault-tolerant functional systems"
+    ],
+    "key_innovations": [
+      "Typed distributed-process model",
+      "Location-transparent process communication",
+      "Erlang-style semantics in Haskell"
+    ],
+    "influenced_by": [
+      "Haskell",
+      "Erlang"
+    ],
+    "influenced": [],
+    "philosophy": "Rebuild Erlang-like distributed-process semantics inside a strongly typed functional setting. Cloud Haskell asks how far actor-style reliability can travel when combined with Haskell purity and type discipline.",
+    "mental_model": "Think in typed process conversations that may span nodes. Processes communicate by explicit messages and failures remain central, but the design is shaped by Haskell abstractions, purity, and compile-time structure.",
+    "complexity_bias": "high",
+    "safety_model": "hybrid",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Cloud Haskell",
+    "entity_type": "artifact"
   },
   {
     "name": "Elm",
@@ -3995,7 +4418,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Elm"
+    "display_name": "Elm",
+    "entity_type": "language"
   },
   {
     "name": "Julia",
@@ -4050,7 +4474,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Julia"
+    "display_name": "Julia",
+    "entity_type": "language"
   },
   {
     "name": "TypeScript",
@@ -4094,7 +4519,51 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "TypeScript"
+    "display_name": "TypeScript",
+    "entity_type": "language"
+  },
+  {
+    "name": "React",
+    "year": 2013,
+    "creators": [
+      "Jordan Walke",
+      "Facebook"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Component-based",
+      "Reactive"
+    ],
+    "cluster": "frontend",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Web applications",
+      "Component-based interfaces",
+      "State-driven UI"
+    ],
+    "key_innovations": [
+      "Composable component architecture",
+      "Declarative state-to-view rendering",
+      "Virtual DOM reconciliation"
+    ],
+    "influenced_by": [
+      "JavaScript",
+      "Elm"
+    ],
+    "influenced": [
+      "Svelte",
+      "ReasonML",
+      "SwiftUI"
+    ],
+    "philosophy": "Describe the UI as a function of application state instead of mutating the DOM by hand. React made component composition and declarative rendering the default architecture for large frontend applications.",
+    "mental_model": "Think in component trees that re-render from changing state. Data flows down through props, events push changes upward, and the runtime reconciles the rendered view against the current application state.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "React",
+    "entity_type": "artifact"
   },
   {
     "name": "Crystal",
@@ -4134,7 +4603,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Crystal"
+    "display_name": "Crystal",
+    "entity_type": "language"
   },
   {
     "name": "HCL",
@@ -4172,7 +4642,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "HCL"
+    "display_name": "HCL",
+    "entity_type": "language"
   },
   {
     "name": "Swift",
@@ -4226,7 +4697,84 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": true,
-    "display_name": "Swift"
+    "display_name": "Swift",
+    "entity_type": "language"
+  },
+  {
+    "name": "GraphQL",
+    "year": 2015,
+    "creators": [
+      "Lee Byron",
+      "Facebook"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Query-oriented"
+    ],
+    "cluster": "infra",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "API query layers",
+      "Typed client-server schemas",
+      "Frontend-driven data fetching"
+    ],
+    "key_innovations": [
+      "Client-selected response shapes",
+      "Schema introspection",
+      "Typed resolver-based API contracts"
+    ],
+    "influenced_by": [
+      "SQL",
+      "REST"
+    ],
+    "influenced": [],
+    "philosophy": "Let clients describe the exact shape of data they need against a typed schema instead of navigating many coarse endpoints. GraphQL turns the API into a schema-and-resolver system rather than a URL catalog.",
+    "mental_model": "Think in typed response trees and resolver execution. Queries traverse a schema, mutations express named state changes, and the server resolves a data graph rather than serving one fixed endpoint shape.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "GraphQL",
+    "entity_type": "artifact"
+  },
+  {
+    "name": "Redux",
+    "year": 2015,
+    "creators": [
+      "Dan Abramov",
+      "Andrew Clark"
+    ],
+    "paradigms": [
+      "Functional",
+      "Event-driven"
+    ],
+    "cluster": "frontend",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Frontend state management",
+      "Replayable application state",
+      "Predictable UI data flow"
+    ],
+    "key_innovations": [
+      "Single explicit store",
+      "Reducer-based state transitions",
+      "Replayable unidirectional data flow"
+    ],
+    "influenced_by": [
+      "Elm",
+      "Haskell"
+    ],
+    "influenced": [],
+    "philosophy": "Make application state explicit, immutable, and traceable through a disciplined event flow. Redux treats updates as replayable transformations instead of scattered mutable UI behavior.",
+    "mental_model": "Think of the app as a log of actions applied to a single state tree. Reducers compute the next state, views derive from that store, and time becomes visible through inspectable state transitions.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Redux",
+    "entity_type": "artifact"
   },
   {
     "name": "Gleam",
@@ -4262,7 +4810,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Gleam"
+    "display_name": "Gleam",
+    "entity_type": "language"
   },
   {
     "name": "Odin",
@@ -4300,7 +4849,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": false,
-    "display_name": "Odin"
+    "display_name": "Odin",
+    "entity_type": "language"
   },
   {
     "name": "ReasonML",
@@ -4339,7 +4889,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "ReasonML"
+    "display_name": "ReasonML",
+    "entity_type": "language"
   },
   {
     "name": "Svelte",
@@ -4379,7 +4930,8 @@
     "typing_discipline": "runtime",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "Svelte"
+    "display_name": "Svelte",
+    "entity_type": "language"
   },
   {
     "name": "Zig",
@@ -4419,7 +4971,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": false,
-    "display_name": "Zig"
+    "display_name": "Zig",
+    "entity_type": "language"
   },
   {
     "name": "WebAssembly",
@@ -4457,7 +5010,47 @@
     "typing_discipline": "compile_time",
     "memory_management": "manual",
     "is_keystone": true,
-    "display_name": "WebAssembly"
+    "display_name": "WebAssembly",
+    "entity_type": "language"
+  },
+  {
+    "name": "SwiftUI",
+    "year": 2019,
+    "creators": [
+      "Apple"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Reactive",
+      "Component-based"
+    ],
+    "cluster": "frontend",
+    "generation": "autonomic",
+    "primary_use_cases": [
+      "Apple platform interfaces",
+      "Declarative mobile UI",
+      "Cross-device client applications"
+    ],
+    "key_innovations": [
+      "Swift-hosted UI DSL",
+      "Value-oriented view descriptions",
+      "Reactive state-driven rendering"
+    ],
+    "influenced_by": [
+      "React",
+      "Elm",
+      "Swift"
+    ],
+    "influenced": [],
+    "philosophy": "Treat interface code as a declarative language layer embedded in Swift rather than a sequence of imperative widget mutations. SwiftUI aligns UI construction with state-driven rendering and value semantics.",
+    "mental_model": "Think of views as values that describe what should exist for the current state. SwiftUI diffs those declarations over time, so developers reason about state flow and composition instead of manual lifecycle patching.",
+    "complexity_bias": "medium",
+    "safety_model": "hybrid",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "SwiftUI",
+    "entity_type": "artifact"
   },
   {
     "name": "ReScript",
@@ -4492,7 +5085,8 @@
     "typing_discipline": "compile_time",
     "memory_management": "runtime",
     "is_keystone": false,
-    "display_name": "ReScript"
+    "display_name": "ReScript",
+    "entity_type": "language"
   },
   {
     "name": "Mojo",
@@ -4531,6 +5125,7 @@
     "typing_discipline": "compile_time",
     "memory_management": "compile_time",
     "is_keystone": false,
-    "display_name": "Mojo"
+    "display_name": "Mojo",
+    "entity_type": "language"
   }
 ]

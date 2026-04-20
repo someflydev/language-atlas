@@ -63,7 +63,8 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             is_keystone BOOLEAN,
             influence_score INTEGER DEFAULT 0,
             primary_use_cases TEXT,
-            key_innovations TEXT
+            key_innovations TEXT,
+            entity_type TEXT DEFAULT 'language'
         );
 
         CREATE TABLE paradigms (
@@ -367,8 +368,8 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
                     name, display_name, year, cluster, generation,
                     philosophy, description, mental_model, complexity_bias, safety_model,
                     typing_discipline, memory_management, is_keystone,
-                    primary_use_cases, key_innovations
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    primary_use_cases, key_innovations, entity_type
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 lang['name'],
                 lang.get('display_name'),
@@ -385,6 +386,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
                 lang.get('is_keystone', False),
                 json.dumps(lang.get('primary_use_cases', [])),
                 json.dumps(lang.get('key_innovations', [])),
+                lang.get('entity_type', 'language'),
             ))
             if cursor.lastrowid is not None:
                 lang_id = cursor.lastrowid
@@ -447,6 +449,7 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
                 SELECT COUNT(*) FROM influences WHERE target_id = languages.id
             )
         """)
+        cursor.execute("CREATE INDEX IF NOT EXISTS idx_languages_entity_type ON languages(entity_type)")
 
         # Language Profiles
         profiles = loader.get_language_profiles()
