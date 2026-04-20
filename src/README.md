@@ -83,6 +83,29 @@ Notable endpoints:
 - **Plotly Express** renders visualizations, using a Pandas/PyArrow
   bridge to consume Polars DataFrames.
 
+## Language Schema Notes
+
+The `languages` table in `language_atlas.sqlite` includes the following
+core classification fields that drive browse behavior:
+
+| Column | Meaning |
+|---|---|
+| `name` | Canonical Atlas identifier used in influence edges and routes |
+| `display_name` | User-facing name for rendering, such as `F#` |
+| `year` | First public appearance or introduction year |
+| `cluster` | Functional ecosystem grouping such as `systems`, `frontend`, or `academic` |
+| `generation` | Broad era bucket such as `early`, `web1`, or `renaissance` |
+| `entity_type` | Atlas classification: `language`, `foundation`, or `artifact` |
+
+`entity_type` semantics:
+- `language`: executable programming languages and language families used in normal language-browse views
+- `foundation`: theoretical, historical, and conceptual precursors such as Turing Machine or BNF
+- `artifact`: runtimes, tools, libraries, formats, and UI/runtime systems such as JVM, React, or JSON
+
+`DataLoader.get_all_languages()` now defaults to `entity_type="language"`.
+Callers that need the full mixed corpus must pass `entity_type=None` or an
+explicit non-language type.
+
 ## Data Quality
 
 ```bash
