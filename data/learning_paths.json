@@ -1,157 +1,439 @@
 [
   {
-    "id": "systems_descent",
-    "title": "The Systems Descent",
-    "description": "Trace the path from high-level managed code down to the metal, and finally to modern memory safety.",
+    "id": "history_of_abstraction",
+    "title": "A History of Abstraction",
+    "description": "Follow the climb from machine-adjacent thinking into structured, portable, and reusable software.",
     "type": "path",
     "steps": [
       {
-        "language": "Java",
-        "milestone": "The Managed abstraction",
-        "rationale": "Understand the comfort of Garbage Collection and the JVM before losing the safety net.",
-        "challenge": "Identify the overhead introduced by the JVM's memory management."
+        "language": "FORTRAN",
+        "milestone": "Compiler trust",
+        "rationale": "See the moment engineers accepted that a compiler could generate code competitive with hand-written assembly.",
+        "challenge": "Rewrite a numeric routine in a style that favors formulas over machine details and explain what abstraction you gained."
+      },
+      {
+        "language": "ALGOL 60",
+        "milestone": "Block structure",
+        "rationale": "Learn why lexical scope and nested blocks became the backbone of readable large programs.",
+        "challenge": "Take a flat procedural routine and refactor it into nested scopes with clear local state boundaries."
+      },
+      {
+        "language": "Pascal",
+        "milestone": "Disciplined structure",
+        "rationale": "Use strong typing and explicit procedures to feel the pedagogical side of structured programming.",
+        "challenge": "Design a small text-processing tool without global state or goto-style escape hatches."
       },
       {
         "language": "C",
-        "milestone": "The Raw Metal",
-        "rationale": "Experience the power and danger of manual memory management and pointers.",
-        "challenge": "Implement a linked list and manually manage every byte without leaking."
-      },
-      {
-        "language": "Rust",
-        "milestone": "The Safety Revolution",
-        "rationale": "Discover how the Borrow Checker provides C-level performance with Java-level safety.",
-        "challenge": "Refactor a C-style pointer implementation to pass the Rust borrow checker."
+        "milestone": "Portable systems code",
+        "rationale": "Understand why C became the compromise between machine intimacy and portable systems engineering.",
+        "challenge": "Build a tiny command-line utility that manipulates buffers directly and document each memory-safety risk."
       }
     ]
   },
   {
-    "id": "concurrency_evolution",
-    "title": "The Concurrency Evolution",
-    "description": "Explore how different languages handle the challenge of doing many things at once.",
+    "id": "systems_descent",
+    "title": "The Systems Descent",
+    "description": "Trace the path from managed convenience down to raw control, then back up into modern safety-first systems work.",
     "type": "path",
     "steps": [
       {
+        "language": "Java",
+        "milestone": "Managed baseline",
+        "rationale": "Start with a runtime that hides memory management so you can focus on object models, tooling, and portability.",
+        "challenge": "Profile a memory-heavy service and identify what the runtime is doing on your behalf."
+      },
+      {
+        "language": "C",
+        "milestone": "Manual responsibility",
+        "rationale": "Feel the cost of direct pointer arithmetic, unchecked mutation, and explicit ownership-by-convention.",
+        "challenge": "Implement a linked structure and prove to yourself that every allocation and free path is accounted for."
+      },
+      {
         "language": "C++",
-        "milestone": "Manual Threading",
-        "rationale": "Learn the traditional shared-memory model with mutexes and locks.",
-        "challenge": "Resolve a classic deadlock scenario in a multi-threaded application."
+        "milestone": "Resource discipline",
+        "rationale": "Add RAII, templates, and zero-cost abstraction to the same low-level world.",
+        "challenge": "Replace manual cleanup logic with scoped resource management and explain where complexity merely moved."
       },
       {
-        "language": "Go",
-        "milestone": "CSP & Goroutines",
-        "rationale": "Shift from shared memory to 'communicating by sharing' via channels.",
-        "challenge": "Implement a worker pool using goroutines and channels for synchronization."
+        "language": "Rust",
+        "milestone": "Compiler-enforced safety",
+        "rationale": "See how ownership, borrowing, and traits reframe systems programming as a design-time correctness problem.",
+        "challenge": "Port a pointer-heavy component into Rust and document every borrow-checker error as a design lesson."
       },
       {
-        "language": "Erlang",
-        "milestone": "The Actor Model",
-        "rationale": "Experience the ultimate isolation: no shared state, only asynchronous message passing.",
-        "challenge": "Build a fault-tolerant supervisor tree that restarts failing processes."
+        "language": "Zig",
+        "milestone": "Explicit modern control",
+        "rationale": "Compare Rust's proof-heavy approach with a language that keeps C-style control but sharpens tooling and compile-time metaprogramming.",
+        "challenge": "Write a small allocator-aware tool and explain where Zig gives discipline without full Rust-style guarantees."
+      }
+    ]
+  },
+  {
+    "id": "object_models_in_motion",
+    "title": "Object Models in Motion",
+    "description": "Study how objects evolved from simulation abstractions into live environments, prototypes, and platform frameworks.",
+    "type": "path",
+    "steps": [
+      {
+        "language": "SIMULA 67",
+        "milestone": "Simulation objects",
+        "rationale": "Begin with classes and instances as modeling tools for complex systems rather than enterprise boilerplate.",
+        "challenge": "Model a simple queueing or traffic simulation and identify why objects were a better fit than plain procedures."
+      },
+      {
+        "language": "Smalltalk",
+        "milestone": "Everything is an object",
+        "rationale": "Experience the purest version of message passing, live programming, and image-based development.",
+        "challenge": "Implement a graphical toy in a way that forces you to think in messages instead of function calls."
+      },
+      {
+        "language": "Self",
+        "milestone": "Prototype inheritance",
+        "rationale": "See what happens when classes disappear and objects clone behavior directly from other objects.",
+        "challenge": "Recreate a class hierarchy from Smalltalk using prototypes and explain which relationships became simpler or stranger."
+      },
+      {
+        "language": "Ruby",
+        "milestone": "Developer-friendly OOP",
+        "rationale": "Observe how object orientation was softened into a language optimized for readability, iteration speed, and metaprogramming.",
+        "challenge": "Build a tiny internal DSL and explain how Ruby's object model supports expressive APIs."
+      },
+      {
+        "language": "Swift",
+        "milestone": "Value types and protocols",
+        "rationale": "Finish with a modern platform language that reacts against class-heavy inheritance with structs, enums, and protocol composition.",
+        "challenge": "Refactor a class-based model into value types plus protocols and compare the resulting mutation story."
       }
     ]
   },
   {
     "id": "functional_shift",
     "title": "The Functional Shift",
-    "description": "Move away from imperative instructions towards declarative expressions and pure functions.",
+    "description": "Move from symbolic computation toward strong types, purity, and pragmatic functional systems.",
     "type": "path",
     "steps": [
       {
         "language": "Lisp",
-        "milestone": "Symbolic Processing",
-        "rationale": "Return to the roots of functional programming where code is data.",
-        "challenge": "Write a macro that extends the language with a new control structure."
+        "milestone": "Code as data",
+        "rationale": "Start where symbolic computing, macros, and the REPL made the language itself malleable.",
+        "challenge": "Write a macro that removes repetitive branching and explain what makes the transformation safe."
+      },
+      {
+        "language": "ML",
+        "milestone": "Inference and algebraic data",
+        "rationale": "See how type inference and pattern matching change the ergonomics of functional programming.",
+        "challenge": "Represent a small expression tree with algebraic data types and eliminate a class of impossible states."
       },
       {
         "language": "Haskell",
-        "milestone": "Pure Purity",
-        "rationale": "Enforce side-effect freedom with a rigorous, lazy type system.",
-        "challenge": "Use Monads to handle IO while maintaining functional purity."
+        "milestone": "Purity under pressure",
+        "rationale": "Push into lazy evaluation, type classes, and a language that takes purity seriously enough to restructure program design.",
+        "challenge": "Build an IO boundary around a pure core and explain how the type system exposes side effects."
+      },
+      {
+        "language": "Elm",
+        "milestone": "Functional UI architecture",
+        "rationale": "Watch functional ideas turn into a disciplined user-interface architecture with explicit messages and state transitions.",
+        "challenge": "Implement a small interactive app and trace every state transition without relying on implicit mutation."
       },
       {
         "language": "Elixir",
-        "milestone": "Pragmatic Functionalism",
-        "rationale": "See how functional principles scale to massive distributed systems.",
-        "challenge": "Scale a functional web service to handle 10,000 concurrent connections."
+        "milestone": "Functional pragmatism at scale",
+        "rationale": "End with a language that keeps immutable data and higher-order functions while thriving in production distributed systems.",
+        "challenge": "Design a small service that uses supervisors and immutable message flow rather than shared mutable state."
+      }
+    ]
+  },
+  {
+    "id": "concurrency_evolution",
+    "title": "The Concurrency Evolution",
+    "description": "Compare the major answers to the multicore and distribution problem: threads, channels, actors, and ownership-aware safety.",
+    "type": "path",
+    "steps": [
+      {
+        "language": "C++",
+        "milestone": "Threads and locks",
+        "rationale": "Start with the classic shared-memory toolbox and its coordination hazards.",
+        "challenge": "Create a deliberately deadlock-prone design, then remove the failure mode without reducing throughput too far."
+      },
+      {
+        "language": "Go",
+        "milestone": "Channels and goroutines",
+        "rationale": "Experience CSP-style concurrency as a simpler operational model for many service workloads.",
+        "challenge": "Implement a bounded worker pipeline and explain where channels clarify ownership and backpressure."
+      },
+      {
+        "language": "Erlang",
+        "milestone": "Isolated processes",
+        "rationale": "Shift to actor-style systems where failure isolation and supervision are central design constraints.",
+        "challenge": "Build a supervision tree and force failures until recovery behavior becomes predictable."
+      },
+      {
+        "language": "Rust",
+        "milestone": "Fearless concurrency",
+        "rationale": "See how ownership rules and type-level constraints prevent whole classes of race-prone designs before runtime.",
+        "challenge": "Port a channel-or-threaded design from another language and catalog which invalid states the compiler rejects."
+      },
+      {
+        "language": "Elixir",
+        "milestone": "Ergonomic distributed concurrency",
+        "rationale": "Close by comparing Erlang's model with a more expressive syntax and modern ecosystem on the same BEAM runtime.",
+        "challenge": "Build a small real-time service and justify when BEAM-style process isolation beats lower-level parallelism."
       }
     ]
   },
   {
     "id": "web_architectural_journey",
     "title": "The Web's Architectural Journey",
-    "description": "Follow the web's transition from simple scripts to robust, type-safe engineering.",
+    "description": "Follow the web from template rendering and browser scripting into typed frontends and compiler-shaped UI systems.",
     "type": "path",
     "steps": [
       {
         "language": "PHP",
-        "milestone": "Template Roots",
-        "rationale": "Understand the birth of the dynamic web and the request-response cycle.",
-        "challenge": "Create a session-managed application using only core language features."
+        "milestone": "Server-rendered momentum",
+        "rationale": "Start where shipping mattered more than architectural purity and the request-response model ruled.",
+        "challenge": "Build a simple session-backed application and identify which concerns become tangled as the codebase grows."
       },
       {
         "language": "JavaScript",
-        "milestone": "The Client-Side Spark",
-        "rationale": "Bring interactivity to the browser and learn the event loop.",
-        "challenge": "Implement an asynchronous data fetcher that handles race conditions."
+        "milestone": "The universal runtime",
+        "rationale": "Understand the event loop, asynchronous callbacks, and the accidental standardization of one browser language.",
+        "challenge": "Write client-side code that coordinates timers, network calls, and user interaction without race-prone global state."
       },
       {
         "language": "TypeScript",
-        "milestone": "Industrial Strength",
-        "rationale": "Add the safety of a modern type system to the web's most flexible language.",
-        "challenge": "Convert a dynamic JS library to a strictly typed TS module."
+        "milestone": "Typed large-scale frontend",
+        "rationale": "See how structural typing and tooling made sprawling JavaScript applications easier to refactor and maintain.",
+        "challenge": "Convert a dynamic module to strict types and explain which bugs became visible only after annotation."
+      },
+      {
+        "language": "Elm",
+        "milestone": "State machines for interfaces",
+        "rationale": "Study the strongest functional reaction to unpredictable UI state and runtime exceptions.",
+        "challenge": "Model a non-trivial form or dashboard using messages, model updates, and explicit effects only."
+      },
+      {
+        "language": "Svelte",
+        "milestone": "Compiler-first UI",
+        "rationale": "End with the argument that much of frontend framework complexity should be paid at build time instead of in a large client runtime.",
+        "challenge": "Rebuild the same component in Svelte and compare the runtime model against a heavier client-side framework mindset."
+      }
+    ]
+  },
+  {
+    "id": "data_and_array_thinking",
+    "title": "Data and Array Thinking",
+    "description": "Learn how languages change when vectors, relations, notebooks, and analysis loops become the center of gravity.",
+    "type": "path",
+    "steps": [
+      {
+        "language": "APL",
+        "milestone": "Whole-array reasoning",
+        "rationale": "Experience the shock of treating arrays as the primitive semantic unit rather than as collections wrapped around loops.",
+        "challenge": "Translate a nested loop algorithm into an array-first formulation and explain what became elegant or unreadable."
+      },
+      {
+        "language": "MATLAB",
+        "milestone": "Interactive numerical lab",
+        "rationale": "See how matrix-oriented computing, plotting, and iterative experimentation fit into one environment.",
+        "challenge": "Prototype a small numerical experiment and keep the analysis, visualization, and interpretation in one workflow."
+      },
+      {
+        "language": "R",
+        "milestone": "Statistical expressiveness",
+        "rationale": "Shift toward data analysis, statistical modeling, and language features shaped by analysts rather than systems engineers.",
+        "challenge": "Build a reproducible analysis script and identify where the language privileges data frames and formulas."
+      },
+      {
+        "language": "SQL",
+        "milestone": "Relational querying",
+        "rationale": "Learn the declarative move from algorithmic traversal to asking structured questions over sets and relations.",
+        "challenge": "Solve a reporting problem with windowing and joins instead of exporting data into an imperative language."
+      },
+      {
+        "language": "Julia",
+        "milestone": "High-level performance",
+        "rationale": "Finish with a language that tries to collapse the two-language problem between exploratory code and high-performance kernels.",
+        "challenge": "Port a prototype into performance-conscious Julia without abandoning the interactive workflow."
+      }
+    ]
+  },
+  {
+    "id": "shells_and_automation",
+    "title": "Shells and Automation",
+    "description": "Explore the languages of operators: pipelines, text processing, task automation, and object-first command composition.",
+    "type": "path",
+    "steps": [
+      {
+        "language": "Bourne Shell",
+        "milestone": "Process composition",
+        "rationale": "Start with the foundational shell model where programs become small stages in a larger pipeline.",
+        "challenge": "Solve a file-processing task using only composition of existing commands and explain each stage boundary."
+      },
+      {
+        "language": "AWK",
+        "milestone": "Data-shaped text transforms",
+        "rationale": "See how a tiny language can dominate one narrow but important slice of automation: line- and field-oriented transformation.",
+        "challenge": "Build a report generator for log data using pattern-action rules only."
+      },
+      {
+        "language": "Perl",
+        "milestone": "Scripting as leverage",
+        "rationale": "Study the era when glue code, regex power, and pragmatic shortcuts made automation scale across messy environments.",
+        "challenge": "Write a migration or text-cleaning tool that leans on Perl's strengths without becoming unreadable."
+      },
+      {
+        "language": "Bash",
+        "milestone": "Operational standardization",
+        "rationale": "Return to the shell in its dominant modern Unix form and understand its role in CI, deployment, and everyday developer workflow.",
+        "challenge": "Package a multi-step operational task into a script that handles failures, arguments, and environment assumptions clearly."
+      },
+      {
+        "language": "PowerShell",
+        "milestone": "Objects in the pipeline",
+        "rationale": "Contrast text-stream composition with a shell that passes structured objects end to end.",
+        "challenge": "Rebuild a Bash-style reporting pipeline in PowerShell and compare the tradeoffs between text and object semantics."
+      }
+    ]
+  },
+  {
+    "id": "type_systems_as_design",
+    "title": "Type Systems as Design Tools",
+    "description": "Treat the type system not as syntax overhead but as a medium for architecture, API design, and impossible-state elimination.",
+    "type": "path",
+    "steps": [
+      {
+        "language": "Standard ML",
+        "milestone": "Inference with modules",
+        "rationale": "Begin with a language where types and modules carry a large share of the design burden.",
+        "challenge": "Model a small interpreter with signatures and algebraic data types so invalid states cannot be constructed casually."
+      },
+      {
+        "language": "Haskell",
+        "milestone": "Constraint-rich abstraction",
+        "rationale": "Push into type classes and purity to see types become the vocabulary of architecture rather than mere validation.",
+        "challenge": "Design a small library whose public API is largely explained by its type signatures alone."
+      },
+      {
+        "language": "TypeScript",
+        "milestone": "Gradual industrial typing",
+        "rationale": "Examine how structural and gradual typing scale to large existing codebases that cannot be rewritten from scratch.",
+        "challenge": "Introduce discriminated unions and exhaustive checking into a dynamic code path and measure the maintenance win."
+      },
+      {
+        "language": "Rust",
+        "milestone": "Ownership as type design",
+        "rationale": "See how lifetimes, borrowing, and traits turn data movement and aliasing into first-class API concerns.",
+        "challenge": "Design an API where ownership transfer is explicit and compare it to a garbage-collected equivalent."
+      },
+      {
+        "language": "Swift",
+        "milestone": "Protocols and value semantics",
+        "rationale": "End with a mainstream language that uses types to balance performance, safety, and approachable platform development.",
+        "challenge": "Use enums, generics, and protocols to model a domain without relying on deep inheritance."
+      }
+    ]
+  },
+  {
+    "id": "runtime_and_vm_lineage",
+    "title": "Runtime and VM Lineage",
+    "description": "Study languages through the execution engines beneath them: images, VMs, JITs, and managed runtimes.",
+    "type": "path",
+    "steps": [
+      {
+        "language": "Smalltalk",
+        "milestone": "Image-based liveness",
+        "rationale": "Start with a system where the runtime is not a hidden substrate but the visible environment you program inside.",
+        "challenge": "Explain how the image model changes debugging, persistence, and what it means to run a program."
+      },
+      {
+        "language": "Self",
+        "milestone": "VM research pressure",
+        "rationale": "Connect object-model experimentation to the optimization techniques that later transformed mainstream runtimes.",
+        "challenge": "Trace one optimization idea from Self into a later production runtime."
+      },
+      {
+        "language": "Java",
+        "milestone": "Enterprise virtual machine",
+        "rationale": "See how bytecode, JIT compilation, and portability turned the VM into a mass-market platform.",
+        "challenge": "Inspect a small program at both source and bytecode level and note which abstractions survive translation."
+      },
+      {
+        "language": "JavaScript",
+        "milestone": "Runtime acceleration",
+        "rationale": "Watch how aggressive JIT work made a browser scripting language viable for serious applications and later servers.",
+        "challenge": "Profile a dynamic code path and explain why hidden classes, inline caches, or deoptimization matter."
+      },
+      {
+        "language": "Dart",
+        "milestone": "Designed with the runtime in mind",
+        "rationale": "Finish with a language whose story is inseparable from tooling, JIT for development, and ahead-of-time compilation for deployment.",
+        "challenge": "Compare a development-time JIT workflow with a production AOT build and explain the ecosystem consequences."
       }
     ]
   },
   {
     "id": "fintech_performance",
-    "title": "FinTech Performance & Safety",
-    "description": "A focused project on building high-frequency trading systems where every microsecond and every bit of safety counts.",
+    "title": "FinTech Performance and Safety",
+    "description": "Build intuition for systems where latency, determinism, throughput, and auditability all matter at once.",
     "type": "project",
     "steps": [
       {
         "language": "C++",
-        "milestone": "Low-Latency Core",
-        "rationale": "Used for the absolute fastest execution paths in trading engines.",
-        "challenge": "Optimize an order matching algorithm for sub-microsecond latency."
+        "milestone": "Low-latency matching core",
+        "rationale": "Use the traditional performance-first tool for memory layout control, predictable execution, and finely tuned hot paths.",
+        "challenge": "Sketch an order-matching engine and identify every place cache locality or allocation strategy matters."
       },
       {
         "language": "Java",
-        "milestone": "Enterprise Orchestration",
-        "rationale": "Handles the complex business logic and reporting with high throughput.",
-        "challenge": "Tune the G1 garbage collector to minimize 'stop-the-world' pauses."
+        "milestone": "Operational throughput",
+        "rationale": "Add the JVM perspective where ergonomics, ecosystem maturity, and runtime tuning dominate the surrounding business platform.",
+        "challenge": "Tune a service for predictable latency and document the tradeoff between developer speed and garbage-collector behavior."
       },
       {
         "language": "Rust",
-        "milestone": "Modern Safety",
-        "rationale": "The emerging choice for combining C++ speed with absolute memory safety.",
-        "challenge": "Rewrite a critical risk-check module in Rust to eliminate segfault risks."
+        "milestone": "Memory-safe critical path",
+        "rationale": "Evaluate where compile-time safety is worth the extra modeling effort in exchange for removing certain runtime failure classes.",
+        "challenge": "Re-architect a risk or validation component so ownership rules clarify data lifetimes under load."
+      },
+      {
+        "language": "Python",
+        "milestone": "Research and orchestration layer",
+        "rationale": "Acknowledge that many trading and analytics systems still depend on a high-productivity language for experimentation and control planes.",
+        "challenge": "Define the system boundary where Python remains acceptable and where it must hand work off to lower-level components."
       }
     ]
   },
   {
     "id": "space_grade_constraint",
     "title": "The Space-Grade Constraint",
-    "description": "Develop software for environments where failure is not an option and resources are extremely limited.",
+    "description": "Develop a sense for software built under severe correctness, determinism, and resource constraints.",
     "type": "project",
     "steps": [
       {
         "language": "Ada",
-        "milestone": "High-Integrity Specification",
-        "rationale": "The gold standard for safety-critical systems since the 1980s.",
-        "challenge": "Use Ravenscar profile to ensure deterministic real-time behavior."
+        "milestone": "High-integrity specification",
+        "rationale": "Start with a language explicitly shaped by reliability, analyzability, and mission-critical engineering.",
+        "challenge": "Specify a control subsystem with contracts, strict interfaces, and predictable task behavior."
       },
       {
         "language": "C",
-        "milestone": "Embedded Realities",
-        "rationale": "The lingua franca of hardware interfacing in space missions.",
-        "challenge": "Write a hardware driver for a radiation-hardened processor."
+        "milestone": "Hardware-near reality",
+        "rationale": "Confront the embedded baseline where device access and tight footprints often still mean manual control.",
+        "challenge": "Design a tiny driver-facing module and document every assumption about memory, timing, and undefined behavior."
+      },
+      {
+        "language": "Rust",
+        "milestone": "Safer embedded systems",
+        "rationale": "Explore how modern compile-time guarantees can improve reliability in constrained environments without abandoning systems-level performance.",
+        "challenge": "Model a peripheral interface with zero-cost abstractions while keeping aliasing and lifetime rules explicit."
       },
       {
         "language": "Zig",
-        "milestone": "The Modern Embedded",
-        "rationale": "A fresh take on systems programming with better safety than C but same control.",
-        "challenge": "Use Zig's comptime to generate optimized telemetry packets."
+        "milestone": "Explicit modern embedded work",
+        "rationale": "Compare another approach that prioritizes clarity of control, cross-compilation, and comptime-assisted systems work.",
+        "challenge": "Generate a compact telemetry or packet format at compile time and explain the operational advantage."
       }
     ]
   }
