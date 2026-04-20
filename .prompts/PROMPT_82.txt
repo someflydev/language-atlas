@@ -1,0 +1,298 @@
+# PROMPT_82: Dark Matter Alias Layer Cleanup for Legacy Language Variants
+
+## Objective
+
+PROMPT_80 and PROMPT_81 improved the canonical language graph and cleaned up
+unknown references in `languages.json`, but the dark matter audit still relies
+on a separate reviewed alias layer for semantic merges and bucket overrides.
+
+This prompt is a **dark-matter curation pass only**. Its goal is to improve
+`data/.dark_matter_aliases.json` and `data/.dark_matter_canonicals.json` so
+common legacy spellings, symbolic display forms, and filename-era variants
+resolve to the correct canonical Atlas entities during dark-matter collection.
+
+This prompt must **not**:
+
+- edit `data/languages.json`
+- add or rename profile documents
+- change application/runtime code
+- add hardcoded semantic alias logic to `scripts/dark_matter_audit.py`
+
+Only edit the hidden dark matter metadata files and regenerate the dark matter
+report at the end.
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/data-pipeline.md` and `.context/commands.md`.
+3. Read `scripts/README.md` sections for `dark_matter_audit.py` and
+   `dark_matter_alias_candidates.py`.
+4. Read `data/.dark_matter_aliases.json` and `data/.dark_matter_canonicals.json`.
+5. Run `make dark-matter` and save a copy of the current report to
+   `tmp/PROMPT_82_dark_matter_before.json`.
+6. Create `tmp/PROMPT_82_checklist.md` with a checkbox per task below.
+7. Check off each item immediately after completing it.
+
+---
+
+## Task 1: Preserve the Existing Scope of the Alias Layer
+
+Before editing anything, keep these rules explicit:
+
+- `data/.dark_matter_aliases.json` is for **reviewed semantic merges**
+  from noisy human-facing terms to a canonical display term.
+- `data/.dark_matter_canonicals.json` is for **declared canonical terms**
+  and bucket/type overrides used by the dark matter resolver.
+- Mechanical cleanup such as stripping years or punctuation variants that the
+  Python resolver already handles must stay in Python; do not duplicate that
+  logic with unnecessary aliases.
+- Do not add every language in `data/languages.json` to
+  `.dark_matter_canonicals.json`. Only add canonicals that the hidden alias
+  layer needs in order to resolve reviewed terms safely.
+
+If a candidate alias is ambiguous, skip it and record the ambiguity in the
+checklist instead of forcing a mapping.
+
+---
+
+## Task 2: Add Canonical Entries Needed for Reviewed Alias Targets
+
+Add canonical dark matter entries for the PROMPT_80 / PROMPT_81 canonical
+names below **if they are not already present** in
+`data/.dark_matter_canonicals.json`.
+
+Each should use:
+
+```json
+{ "type": "language" }
+```
+
+Required canonical entries to review and add as needed:
+
+- `ALGOL 58`
+- `CSharp`
+- `FSharp`
+- `FLOW-MATIC`
+- `PureScript`
+- `VB.NET`
+- `Visual Basic`
+- `Delphi`
+- `Datalog`
+- `GNU Octave`
+- `Maclisp`
+- `Mathematica`
+- `Mercury`
+- `Occam`
+- `QUEL`
+- `SASL`
+- `Zsh`
+- `CoffeeScript`
+- `Cyclone`
+- `Groovy`
+- `Haxe`
+- `Carbon`
+
+Also review whether these already-existing canonicals are sufficient and leave
+them unchanged if so:
+
+- `Bourne Shell`
+- `Bash`
+- `JavaScript`
+- `TypeScript`
+- `GraphQL`
+- `HCL`
+
+Do not add canonicals for terms that PROMPT_81 intentionally removed from the
+influence graph as too obscure or too narrow.
+
+---
+
+## Task 3: Add Reviewed Alias Mappings for Common Legacy Variants
+
+Extend `data/.dark_matter_aliases.json` with **conservative, high-confidence**
+mappings for widely-used legacy variants that are now canonicalized elsewhere
+in the Atlas.
+
+### 3a. Symbolic and display-name variants
+
+Add these mappings:
+
+| Alias | Canonical target |
+|---|---|
+| `C#` | `CSharp` |
+| `F#` | `FSharp` |
+| `VB.NET` | `VB.NET` |
+| `VBNet` | `VB.NET` |
+| `VBNET` | `VB.NET` |
+| `FLOW MATIC` | `FLOW-MATIC` |
+| `Flow-Matic` | `FLOW-MATIC` |
+| `Flow Matic` | `FLOW-MATIC` |
+| `Pure Script` | `PureScript` |
+| `Purescript` | `PureScript` |
+
+Note: self-target aliases like `VB.NET` are acceptable here if needed to force
+resolution through the reviewed canonical layer rather than the fallback bucket.
+
+### 3b. Plain-English naming variants
+
+Add these mappings:
+
+| Alias | Canonical target |
+|---|---|
+| `VisualBasic` | `Visual Basic` |
+| `Visual Basic language` | `Visual Basic` |
+| `Bourne shell` | `Bourne Shell` |
+| `bourne shell` | `Bourne Shell` |
+| `Delphi language` | `Delphi` |
+| `GNU Octave language` | `GNU Octave` |
+
+### 3c. Safe historical/casing variants for newly-added canonicals
+
+Add these mappings only if they are not already implicitly handled and they do
+not collide after normalization:
+
+| Alias | Canonical target |
+|---|---|
+| `Algol 58` | `ALGOL 58` |
+| `algol 58` | `ALGOL 58` |
+| `Quel` | `QUEL` |
+| `Sasl` | `SASL` |
+| `ZSH` | `Zsh` |
+| `MacLisp` | `Maclisp` |
+
+If the normalization logic already makes a proposed alias redundant and the
+alias adds no semantic value, skip it. Prefer a smaller, cleaner reviewed
+layer over exhaustive duplication.
+
+---
+
+## Task 4: Validate That the Alias Layer Is Well-Designed
+
+After edits:
+
+1. Run:
+
+```bash
+uv run python scripts/dark_matter_audit.py
+```
+
+2. Run:
+
+```bash
+uv run pytest tests/test_dark_matter_audit.py -v
+```
+
+3. Add or update targeted tests in `tests/test_dark_matter_audit.py` for the
+new reviewed aliases introduced in this prompt. At minimum, cover:
+
+- `C#` -> `CSharp`
+- `F#` -> `FSharp`
+- `VBNET` -> `VB.NET`
+- `Purescript` -> `PureScript`
+- `Flow Matic` or `Flow-Matic` -> `FLOW-MATIC`
+- `Algol 58` -> `ALGOL 58`
+
+Keep the test style consistent with the existing resolver tests.
+
+4. Confirm that no alias collision or missing-canonical validation error is
+introduced.
+
+5. Save a post-run copy of the dark matter report to:
+
+```bash
+tmp/PROMPT_82_dark_matter_after.json
+```
+
+6. Diff the before/after reports and summarize only the meaningful changes in
+the checklist. Do not expect dramatic count drops; the main value of this
+prompt is better semantic consolidation and future curation quality.
+
+---
+
+## Task 5: Keep the Prompt Narrow
+
+Do not broaden this prompt into a general dark matter sweep.
+
+Specifically do **not**:
+
+- add aliases for vague prose fragments like `"The AI Infrastructure Reaction"`
+- add aliases for speculative concepts that are not clearly equivalent
+- add canonicals for every missing language or concept in the report
+- edit `scripts/dark_matter_audit.py` unless a test proves the hidden JSON
+  files alone cannot express the reviewed mapping
+
+If you discover broader curation opportunities, note them in the checklist but
+leave them for a later prompt.
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make dark-matter
+uv run pytest tests/test_dark_matter_audit.py -v
+git diff -- data/.dark_matter_aliases.json data/.dark_matter_canonicals.json tests/test_dark_matter_audit.py generated-reports/dark_matter_todo.json
+```
+
+The work is complete when:
+
+- the hidden dark matter files remain valid JSON objects
+- the resolver accepts all new aliases without collisions
+- targeted tests pass
+- the regenerated report reflects the updated alias layer
+
+---
+
+## Commit Plan
+
+Use Tim Pope style multi-line commits. Keep dark matter report regeneration
+last.
+
+### Commit 1: Alias metadata + tests
+
+Stage:
+
+```bash
+git add data/.dark_matter_aliases.json
+git add data/.dark_matter_canonicals.json
+git add tests/test_dark_matter_audit.py
+```
+
+Commit:
+
+```bash
+git commit -F- <<'EOF'
+[PROMPT_82] Curate dark matter aliases for legacy variants
+
+Add reviewed alias mappings and canonical entries for symbolic and
+legacy language variants introduced by recent canonical cleanup.
+
+Cover the new mappings with resolver tests so future audit changes
+do not silently break the reviewed alias layer.
+EOF
+```
+
+### Commit 2: Regenerated dark matter report
+
+Stage:
+
+```bash
+git add generated-reports/dark_matter_todo.json
+```
+
+Commit:
+
+```bash
+git commit -F- <<'EOF'
+[PROMPT_82] Refresh dark matter report after alias curation
+
+Regenerate the dark matter audit after updating the reviewed alias
+layer for canonical language variants.
+
+This captures the current report state after semantic consolidation
+through the hidden dark matter metadata files.
+EOF
+```
+
