@@ -1,0 +1,17 @@
+{
+  "title": "LLVM Project: Modular Compiler Infrastructure as a Shared Platform",
+  "founded": "2000s open-source project",
+  "overview": "The LLVM Project is the open-source compiler ecosystem built around reusable intermediate representation, optimization passes, and code generation components. It appears here as the organizational creator of Clang, the C-family frontend that made LLVM-based tooling broadly accessible.",
+  "key_contributions": [
+    "**LLVM infrastructure:** Established a reusable compiler backend and optimization platform adopted by many modern languages.",
+    "**Clang (2007):** Delivered a frontend and tooling architecture that made diagnostics, AST access, and refactoring support first-class."
+  ],
+  "pivotal_people": [
+    "**Chris Lattner:** Started LLVM and drove Clang's early technical direction.",
+    "**Vikram Adve:** Co-founded LLVM and helped shape its research and architectural agenda."
+  ],
+  "legacy": "LLVM Project changed compiler engineering by making backends and middle-end infrastructure sharable at scale. Clang then extended that effect into editor tooling, diagnostics, and language services, helping many later language teams avoid monolithic compiler architecture.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Trace how the LLVM Project evolved from reusable backend research into the broader platform that enabled Clang and many later languages.\""
+  ]
+}

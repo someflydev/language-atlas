@@ -1,0 +1,16 @@
+{
+  "title": "INMOS: The Transputer Company That Backed Occam",
+  "founded": "1978",
+  "overview": "INMOS was a British semiconductor company best known for the transputer project. It backed Occam as the language counterpart to that hardware vision, emphasizing concurrency, communication, and explicit process structure.",
+  "key_contributions": [
+    "**Occam (1983):** Sponsored and shaped the language closely associated with transputer-based concurrent computing.",
+    "**Transputer ecosystem:** Treated language and hardware design as a coordinated concurrency platform."
+  ],
+  "pivotal_people": [
+    "**David May:** Led the architectural and language work around the transputer and Occam vision."
+  ],
+  "legacy": "INMOS matters less for commercial dominance than for how clearly it linked hardware architecture, language design, and concurrency thinking. Occam remained niche, but the process-oriented mindset fed later discussions around CSP, channels, and parallel programming.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Trace the relationship between INMOS, the transputer, and Occam's model of communicating sequential processes.\""
+  ]
+}

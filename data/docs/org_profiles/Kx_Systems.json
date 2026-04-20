@@ -1,0 +1,16 @@
+{
+  "title": "Kx Systems: Commercial Steward of the q Language",
+  "founded": "1993",
+  "overview": "Kx Systems commercialized Arthur Whitney's array-oriented language ideas through q and the kdb+ database platform. Its importance comes from making terse vector programming a practical tool in high-performance time-series and financial systems.",
+  "key_contributions": [
+    "**q (2003):** Turned the K lineage into a language tightly coupled to fast in-memory and time-series data processing.",
+    "**kdb+:** Demonstrated that an array language and a database engine could reinforce each other in production trading environments."
+  ],
+  "pivotal_people": [
+    "**Arthur Whitney:** Provided the language lineage and design taste behind q and K."
+  ],
+  "legacy": "Kx Systems showed that highly compressed notation and whole-array thinking could survive in commercial software when attached to a domain with extreme performance demands. q remains one of the clearest examples of a language succeeding through tight coupling to a specialized data platform.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain how Kx Systems turned Arthur Whitney's terse array-language lineage into a production data platform.\""
+  ]
+}

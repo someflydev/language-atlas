@@ -1,0 +1,16 @@
+{
+  "title": "University of Maryland: Academic Partner in Cyclone's Safer C Experiment",
+  "founded": "1856",
+  "overview": "The University of Maryland appears here through Cyclone, the safer C-like language developed with both academic and industrial collaboration. Its role reflects how memory-safety experimentation often moved through research universities before later becoming mainstream systems-language practice.",
+  "key_contributions": [
+    "**Cyclone (2002):** Helped develop a language that added checked pointers, regions, and type-system constraints to a C-like model.",
+    "**Memory-safety research:** Contributed to the line of work that asked how much of C's control could be preserved without inheriting all of its hazards."
+  ],
+  "pivotal_people": [
+    "**Researchers in the Cyclone collaboration:** Linked type-system research to practical low-level programming concerns."
+  ],
+  "legacy": "The University of Maryland's importance in this context comes from helping test a now-familiar proposition: systems programming needed stronger safety guarantees, but adoption depended on staying close to C's operational model. Cyclone was an important predecessor in that argument.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Place the University of Maryland's Cyclone work in the longer history from C to Rust and other safer systems languages.\""
+  ]
+}

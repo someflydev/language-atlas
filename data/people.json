@@ -1,10 +1,17 @@
 [
   {
+    "name": "Ada Lovelace",
+    "contributions": [
+      "Analytical Engine"
+    ]
+  },
+  {
     "name": "Adele Goldberg",
     "contributions": [
       "Smalltalk-80",
       "Design Patterns",
-      "Object-oriented programming"
+      "Object-oriented programming",
+      "Smalltalk"
     ]
   },
   {
@@ -22,7 +29,8 @@
   {
     "name": "Alan Cooper",
     "contributions": [
-      "Visual Basic"
+      "Visual Basic",
+      "VB"
     ]
   },
   {
@@ -74,13 +82,32 @@
       "TypeScript",
       "C#",
       "Turbo Pascal",
-      "Delphi"
+      "Delphi",
+      "CSharp"
     ]
   },
   {
     "name": "Andreas Rumpf",
     "contributions": [
       "Nim"
+    ]
+  },
+  {
+    "name": "Andrei Alexandrescu",
+    "contributions": [
+      "D"
+    ]
+  },
+  {
+    "name": "Andrew Black",
+    "contributions": [
+      "Cloud Haskell"
+    ]
+  },
+  {
+    "name": "Andrew Clark",
+    "contributions": [
+      "Redux"
     ]
   },
   {
@@ -103,6 +130,12 @@
     ]
   },
   {
+    "name": "Axel Liljencrantz",
+    "contributions": [
+      "Fish"
+    ]
+  },
+  {
     "name": "Barbara Liskov",
     "contributions": [
       "CLU",
@@ -117,10 +150,28 @@
     ]
   },
   {
+    "name": "Bell Labs",
+    "contributions": [
+      "S"
+    ]
+  },
+  {
+    "name": "Bert Bos",
+    "contributions": [
+      "CSS"
+    ]
+  },
+  {
     "name": "Bertrand Meyer",
     "contributions": [
       "Eiffel",
       "Design by Contract"
+    ]
+  },
+  {
+    "name": "Bill Joy",
+    "contributions": [
+      "vi"
     ]
   },
   {
@@ -140,21 +191,14 @@
     "contributions": [
       "ASCII",
       "COBOL",
-      "ESCAPE character"
+      "ESCAPE character",
+      "COMTRAN"
     ]
   },
   {
     "name": "Brad Cox",
     "contributions": [
       "Objective-C"
-    ]
-  },
-  {
-    "name": "Brian Kernighan",
-    "contributions": [
-      "AWK",
-      "C",
-      "Unix"
     ]
   },
   {
@@ -170,10 +214,55 @@
     ]
   },
   {
+    "name": "Brian Kernighan",
+    "contributions": [
+      "AWK",
+      "C",
+      "Unix"
+    ]
+  },
+  {
+    "name": "Butler Lampson",
+    "contributions": [
+      "QED"
+    ]
+  },
+  {
+    "name": "C. M. Sperberg-McQueen",
+    "contributions": [
+      "XML"
+    ]
+  },
+  {
+    "name": "Carl Hewitt",
+    "contributions": [
+      "Planner"
+    ]
+  },
+  {
+    "name": "Chandler Carruth",
+    "contributions": [
+      "Carbon"
+    ]
+  },
+  {
+    "name": "Charles Babbage",
+    "contributions": [
+      "Analytical Engine"
+    ]
+  },
+  {
     "name": "Charles Geschke",
     "contributions": [
       "PostScript",
       "Adobe"
+    ]
+  },
+  {
+    "name": "Charles Goldfarb",
+    "contributions": [
+      "GML",
+      "SGML"
     ]
   },
   {
@@ -187,7 +276,8 @@
     "contributions": [
       "LLVM",
       "Swift",
-      "Mojo"
+      "Mojo",
+      "Clang"
     ]
   },
   {
@@ -204,6 +294,12 @@
     ]
   },
   {
+    "name": "Claude Shannon",
+    "contributions": [
+      "Information Theory"
+    ]
+  },
+  {
     "name": "Cleve Moler",
     "contributions": [
       "MATLAB",
@@ -215,6 +311,12 @@
     "name": "Cornelis Koster",
     "contributions": [
       "ALGOL 68"
+    ]
+  },
+  {
+    "name": "Dan Abramov",
+    "contributions": [
+      "Redux"
     ]
   },
   {
@@ -233,6 +335,18 @@
     ]
   },
   {
+    "name": "Daniel Wirtz",
+    "contributions": [
+      "AssemblyScript"
+    ]
+  },
+  {
+    "name": "David Hilbert",
+    "contributions": [
+      "First-order logic"
+    ]
+  },
+  {
     "name": "David J. Farber",
     "contributions": [
       "SNOBOL"
@@ -243,6 +357,12 @@
     "contributions": [
       "Standard ML",
       "SML/NJ"
+    ]
+  },
+  {
+    "name": "David May",
+    "contributions": [
+      "Occam"
     ]
   },
   {
@@ -271,14 +391,23 @@
     "name": "Dennis Ritchie",
     "contributions": [
       "C",
-      "Unix"
+      "Unix",
+      "B"
     ]
   },
   {
     "name": "Don Syme",
     "contributions": [
       "F#",
-      "Generics in C#"
+      "Generics in C#",
+      "FSharp"
+    ]
+  },
+  {
+    "name": "Donald D. Chamberlin",
+    "contributions": [
+      "SQL",
+      "XQuery"
     ]
   },
   {
@@ -287,13 +416,6 @@
       "Algorithm analysis",
       "The Art of Computer Programming",
       "TeX"
-    ]
-  },
-  {
-    "name": "Donald D. Chamberlin",
-    "contributions": [
-      "SQL",
-      "XQuery"
     ]
   },
   {
@@ -312,9 +434,10 @@
     ]
   },
   {
-    "name": "Evan Czaplicki",
+    "name": "Edgar F. Codd",
     "contributions": [
-      "Elm"
+      "Relational algebra",
+      "ALPHA"
     ]
   },
   {
@@ -326,16 +449,49 @@
     ]
   },
   {
+    "name": "Edward Mosher",
+    "contributions": [
+      "GML"
+    ]
+  },
+  {
+    "name": "Evan Czaplicki",
+    "contributions": [
+      "Elm"
+    ]
+  },
+  {
+    "name": "Facebook",
+    "contributions": [
+      "React",
+      "Hack",
+      "GraphQL"
+    ]
+  },
+  {
     "name": "Friedrich L. Bauer",
     "contributions": [
       "ALGOL 60",
-      "Stack data structure"
+      "Stack data structure",
+      "ALGOL 58"
     ]
   },
   {
     "name": "Gary Grossman",
     "contributions": [
       "ActionScript"
+    ]
+  },
+  {
+    "name": "Georg Cantor",
+    "contributions": [
+      "Set theory"
+    ]
+  },
+  {
+    "name": "George Boole",
+    "contributions": [
+      "Boolean Algebra"
     ]
   },
   {
@@ -352,11 +508,24 @@
     ]
   },
   {
+    "name": "Google",
+    "contributions": [
+      "Carbon"
+    ]
+  },
+  {
+    "name": "Gottlob Frege",
+    "contributions": [
+      "First-order logic"
+    ]
+  },
+  {
     "name": "Grace Hopper",
     "contributions": [
       "COBOL",
       "FLOW-MATIC",
-      "First compiler concepts"
+      "First compiler concepts",
+      "A-0"
     ]
   },
   {
@@ -387,6 +556,18 @@
     ]
   },
   {
+    "name": "Hakon Wium Lie",
+    "contributions": [
+      "CSS"
+    ]
+  },
+  {
+    "name": "HashiCorp",
+    "contributions": [
+      "HCL"
+    ]
+  },
+  {
     "name": "Herman Hollerith",
     "contributions": [
       "Hollerith Tabulator",
@@ -395,10 +576,22 @@
     ]
   },
   {
+    "name": "Herve Gallaire",
+    "contributions": [
+      "Datalog"
+    ]
+  },
+  {
     "name": "Hongbo Zhang",
     "contributions": [
       "ReScript",
       "OCaml"
+    ]
+  },
+  {
+    "name": "IBM",
+    "contributions": [
+      "PL/I"
     ]
   },
   {
@@ -411,6 +604,12 @@
     "name": "Ivan P. Polonsky",
     "contributions": [
       "SNOBOL"
+    ]
+  },
+  {
+    "name": "Jack Minker",
+    "contributions": [
+      "Datalog"
     ]
   },
   {
@@ -429,7 +628,14 @@
     "name": "James Gosling",
     "contributions": [
       "Java",
-      "Emacs (Gosling Emacs)"
+      "Emacs (Gosling Emacs)",
+      "JVM"
+    ]
+  },
+  {
+    "name": "James Strachan",
+    "contributions": [
+      "Groovy"
     ]
   },
   {
@@ -439,15 +645,39 @@
     ]
   },
   {
+    "name": "Jean Paoli",
+    "contributions": [
+      "XML"
+    ]
+  },
+  {
     "name": "Jeff Bezanson",
     "contributions": [
       "Julia"
     ]
   },
   {
+    "name": "Jeff Epstein",
+    "contributions": [
+      "Cloud Haskell"
+    ]
+  },
+  {
     "name": "Jeffrey Snover",
     "contributions": [
       "PowerShell"
+    ]
+  },
+  {
+    "name": "Jeremy Ashkenas",
+    "contributions": [
+      "CoffeeScript"
+    ]
+  },
+  {
+    "name": "JetBrains",
+    "contributions": [
+      "Kotlin"
     ]
   },
   {
@@ -462,13 +692,27 @@
     "contributions": [
       "FORTRAN",
       "ALGOL 60",
-      "Backus-Naur Form (BNF)"
+      "Backus-Naur Form (BNF)",
+      "ALGOL 58",
+      "BNF"
+    ]
+  },
+  {
+    "name": "John Chambers",
+    "contributions": [
+      "S"
     ]
   },
   {
     "name": "John G. Kemeny",
     "contributions": [
       "BASIC"
+    ]
+  },
+  {
+    "name": "John Mashey",
+    "contributions": [
+      "PWB shell"
     ]
   },
   {
@@ -502,11 +746,35 @@
     ]
   },
   {
+    "name": "John Presper Eckert",
+    "contributions": [
+      "ENIAC"
+    ]
+  },
+  {
+    "name": "John W. Eaton",
+    "contributions": [
+      "GNU Octave"
+    ]
+  },
+  {
     "name": "John Warnock",
     "contributions": [
       "PostScript",
       "Adobe PDF",
       "Bézier curves"
+    ]
+  },
+  {
+    "name": "John von Neumann",
+    "contributions": [
+      "Von Neumann Architecture"
+    ]
+  },
+  {
+    "name": "Jonas Bonér",
+    "contributions": [
+      "Akka"
     ]
   },
   {
@@ -517,16 +785,22 @@
     ]
   },
   {
+    "name": "Joseph Marie Jacquard",
+    "contributions": [
+      "Jacquard Loom",
+      "Punched card control"
+    ]
+  },
+  {
     "name": "José Valim",
     "contributions": [
       "Elixir"
     ]
   },
   {
-    "name": "Joseph Marie Jacquard",
+    "name": "Juan Wajnerman",
     "contributions": [
-      "Jacquard Loom",
-      "Punched card control"
+      "Crystal"
     ]
   },
   {
@@ -539,7 +813,8 @@
   {
     "name": "Kathleen Booth",
     "contributions": [
-      "Assembly language"
+      "Assembly language",
+      "Assembly"
     ]
   },
   {
@@ -549,7 +824,11 @@
       "B",
       "C",
       "Unix",
-      "UTF-8"
+      "UTF-8",
+      "QED",
+      "ed",
+      "Thompson shell",
+      "grep"
     ]
   },
   {
@@ -571,7 +850,8 @@
     "name": "Kristen Nygaard",
     "contributions": [
       "Simula",
-      "Object-oriented programming"
+      "Object-oriented programming",
+      "SIMULA 67"
     ]
   },
   {
@@ -595,6 +875,12 @@
       "Dart",
       "V8 engine",
       "Self"
+    ]
+  },
+  {
+    "name": "Lee Byron",
+    "contributions": [
+      "GraphQL"
     ]
   },
   {
@@ -662,9 +948,29 @@
     ]
   },
   {
+    "name": "Max Graey",
+    "contributions": [
+      "AssemblyScript"
+    ]
+  },
+  {
+    "name": "Michael Stonebraker",
+    "contributions": [
+      "QUEL"
+    ]
+  },
+  {
     "name": "Mick Jordan",
     "contributions": [
       "Modula-3"
+    ]
+  },
+  {
+    "name": "Microsoft",
+    "contributions": [
+      "VB",
+      "Visual Basic",
+      "VB.NET"
     ]
   },
   {
@@ -679,6 +985,12 @@
     "name": "Mike Williams",
     "contributions": [
       "Erlang"
+    ]
+  },
+  {
+    "name": "Nicolas Cannasse",
+    "contributions": [
+      "Haxe"
     ]
   },
   {
@@ -702,7 +1014,8 @@
     "name": "Ole-Johan Dahl",
     "contributions": [
       "Simula",
-      "Object-oriented programming"
+      "Object-oriented programming",
+      "SIMULA 67"
     ]
   },
   {
@@ -712,10 +1025,29 @@
     ]
   },
   {
+    "name": "Paul Falstad",
+    "contributions": [
+      "Zsh"
+    ]
+  },
+  {
+    "name": "Peter Deutsch",
+    "contributions": [
+      "QED"
+    ]
+  },
+  {
+    "name": "Peter Landin",
+    "contributions": [
+      "ISWIM"
+    ]
+  },
+  {
     "name": "Peter Naur",
     "contributions": [
       "ALGOL 60",
-      "Backus-Naur Form (BNF)"
+      "Backus-Naur Form (BNF)",
+      "BNF"
     ]
   },
   {
@@ -726,10 +1058,22 @@
     ]
   },
   {
+    "name": "Phil Freeman",
+    "contributions": [
+      "PureScript"
+    ]
+  },
+  {
     "name": "Philip Wadler",
     "contributions": [
       "Haskell",
       "Monads in functional programming"
+    ]
+  },
+  {
+    "name": "Ralph E. Griswold",
+    "contributions": [
+      "SNOBOL"
     ]
   },
   {
@@ -758,10 +1102,9 @@
     ]
   },
   {
-    "name": "Richard P. Gabriel",
+    "name": "Raymond Lorie",
     "contributions": [
-      "Common Lisp",
-      "Worse is Better philosophy"
+      "GML"
     ]
   },
   {
@@ -775,6 +1118,25 @@
     "name": "Rich Hickey",
     "contributions": [
       "Clojure"
+    ]
+  },
+  {
+    "name": "Richard Greenblatt",
+    "contributions": [
+      "Maclisp"
+    ]
+  },
+  {
+    "name": "Richard P. Gabriel",
+    "contributions": [
+      "Common Lisp",
+      "Worse is Better philosophy"
+    ]
+  },
+  {
+    "name": "Richard Stallman",
+    "contributions": [
+      "GCC"
     ]
   },
   {
@@ -860,7 +1222,8 @@
   {
     "name": "Simon Peyton Jones",
     "contributions": [
-      "Haskell"
+      "Haskell",
+      "Cloud Haskell"
     ]
   },
   {
@@ -876,6 +1239,18 @@
     ]
   },
   {
+    "name": "Stephen Bourne",
+    "contributions": [
+      "Bourne Shell"
+    ]
+  },
+  {
+    "name": "Stephen Wolfram",
+    "contributions": [
+      "Mathematica"
+    ]
+  },
+  {
     "name": "Steven Pemberton",
     "contributions": [
       "ABC",
@@ -885,9 +1260,33 @@
     ]
   },
   {
+    "name": "Sun Microsystems",
+    "contributions": [
+      "JVM"
+    ]
+  },
+  {
     "name": "Thomas E. Kurtz",
     "contributions": [
       "BASIC"
+    ]
+  },
+  {
+    "name": "Tim Berners-Lee",
+    "contributions": [
+      "HTML"
+    ]
+  },
+  {
+    "name": "Tim Bray",
+    "contributions": [
+      "XML"
+    ]
+  },
+  {
+    "name": "Tom Love",
+    "contributions": [
+      "Objective-C"
     ]
   },
   {
@@ -895,13 +1294,14 @@
     "contributions": [
       "Hoare logic",
       "Communicating Sequential Processes (CSP)",
-      "Quicksort"
+      "Quicksort",
+      "CSP"
     ]
   },
   {
-    "name": "Tom Love",
+    "name": "Travis Oliphant",
     "contributions": [
-      "Objective-C"
+      "Numpy"
     ]
   },
   {
@@ -923,9 +1323,24 @@
     ]
   },
   {
+    "name": "W3C",
+    "contributions": [
+      "HTML",
+      "CSS",
+      "XML",
+      "WebAssembly"
+    ]
+  },
+  {
     "name": "Waldemar Celes",
     "contributions": [
       "Lua"
+    ]
+  },
+  {
+    "name": "Walter Bright",
+    "contributions": [
+      "D"
     ]
   },
   {
@@ -935,9 +1350,21 @@
     ]
   },
   {
+    "name": "Xerox PARC",
+    "contributions": [
+      "Mesa"
+    ]
+  },
+  {
     "name": "Yukihiro Matsumoto",
     "contributions": [
       "Ruby"
+    ]
+  },
+  {
+    "name": "Zoltan Somogyi",
+    "contributions": [
+      "Mercury"
     ]
   }
 ]

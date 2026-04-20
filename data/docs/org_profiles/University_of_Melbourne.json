@@ -1,0 +1,16 @@
+{
+  "title": "University of Melbourne: Academic Home of Mercury",
+  "founded": "1853",
+  "overview": "The University of Melbourne provided the research setting for Mercury, a logic-functional language that pushed hard on purity, modes, determinism, and performance. The institution appears here because Mercury was very much a university research-language project rather than a vendor product.",
+  "key_contributions": [
+    "**Mercury (1995):** Supported a language that reworked Prolog-style logic programming with stronger static guarantees and explicit determinism.",
+    "**Research into declarative programming:** Helped sustain a branch of language design focused on making logic and functional ideas more analyzable and efficient."
+  ],
+  "pivotal_people": [
+    "**Zoltan Somogyi:** Led Mercury's design around stronger semantic guarantees for declarative programming."
+  ],
+  "legacy": "The University of Melbourne's role in Mercury shows the value of research languages that prioritize semantic clarity over immediate mass adoption. Mercury helped test how far declarative programming could go when types, modes, and determinism were treated as core engineering tools rather than optional theory.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain why Mercury emerged from a university research setting and what problems it was trying to solve beyond traditional Prolog.\""
+  ]
+}

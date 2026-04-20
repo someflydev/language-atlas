@@ -1,0 +1,17 @@
+{
+  "title": "Borland: The Toolmaker Behind Turbo Pascal and Delphi",
+  "founded": "1983",
+  "overview": "Borland became influential by shipping fast, approachable developer tools for personal computers. Its language legacy is tied most strongly to Turbo Pascal and Delphi, both of which brought productive compiled development to mainstream PC software teams.",
+  "key_contributions": [
+    "**Turbo Pascal (1983):** Popularized an inexpensive, fast Pascal environment for personal-computer programmers.",
+    "**Delphi (1995):** Extended the Pascal lineage into visual component-based Windows development."
+  ],
+  "pivotal_people": [
+    "**Anders Hejlsberg:** Built Turbo Pascal and later drove Delphi's technical direction.",
+    "**Philippe Kahn:** Helped define Borland's aggressive developer-tools strategy."
+  ],
+  "legacy": "Borland mattered because it made high-quality language tooling feel fast and accessible at a time when many professional environments were expensive or cumbersome. Delphi in particular showed how component frameworks and native compilation could coexist in a productive RAD workflow.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Compare Borland's Turbo Pascal and Delphi era with Microsoft's Visual Basic approach to mainstream developer productivity.\""
+  ]
+}

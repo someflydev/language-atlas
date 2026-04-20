@@ -1,0 +1,17 @@
+{
+  "title": "University of California Berkeley: Systems and Database Research at Scale",
+  "founded": "1868",
+  "overview": "UC Berkeley appears in this dataset as a creator institution for QUEL, reflecting the university's deep role in relational databases and systems research. More broadly, Berkeley repeatedly served as a birthplace for influential infrastructure software and data ideas.",
+  "key_contributions": [
+    "**QUEL (1970s):** Co-created the early relational query language used by the Ingres project.",
+    "**Ingres and database systems research:** Helped turn relational theory into working software and academic practice.",
+    "**Broader systems influence:** Berkeley also became a major center for Unix, networking, and systems education."
+  ],
+  "pivotal_people": [
+    "**Michael Stonebraker:** Led the Ingres and QUEL work that made Berkeley central to database history."
+  ],
+  "legacy": "Berkeley's language influence often comes through systems and data infrastructure rather than through standalone general-purpose languages. QUEL shows that path clearly: the institution helped operationalize relational ideas in software and teaching, even when SQL later became the dominant standard.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain Berkeley's role in QUEL and Ingres, and why that mattered even though SQL became the long-term winner.\""
+  ]
+}

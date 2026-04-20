@@ -1,0 +1,20 @@
+{
+  "title": "MIT Project MAC: Time-Sharing, AI, and the Institutional Home of Maclisp and MACSYMA",
+  "founded": "1963",
+  "overview": "Project MAC at MIT was a major center for time-sharing, AI, and symbolic computation. In the language atlas data it is the organizational creator behind Maclisp and MACSYMA, both of which emerged from the Project MAC research culture rather than from MIT in the abstract.",
+  "key_contributions": [
+    "**Maclisp (1960s):** Hosted the influential Lisp dialect that fed later Scheme, Common Lisp, and AI tooling traditions.",
+    "**MACSYMA (1968):** Backed one of the earliest major computer algebra systems, showing what symbolic computation could become at scale.",
+    "**Shared AI and time-sharing culture:** Helped create the environment from which many MIT language and systems ideas spread."
+  ],
+  "pivotal_people": [
+    "**Richard Greenblatt:** Helped shape Maclisp and the hacker culture around extensible symbolic systems.",
+    "**Carl Hewitt:** Worked in the MIT AI context that treated languages as vehicles for reasoning and symbolic process.",
+    "**The MACSYMA team:** Extended Lisp from a language into a large symbolic computing environment."
+  ],
+  "legacy": "Project MAC deserves to be named distinctly because it was not just MIT as a campus label. It was the concrete institutional setting that connected time-sharing, AI, Lisp experimentation, and symbolic mathematics in one place. That combination materially influenced the later Lisp family and the idea of the programmable symbolic environment.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain why Project MAC should be treated separately from MIT when tracing the origins of Maclisp and MACSYMA.\"",
+    "2. \"Trace the line from Project MAC's symbolic computing culture to Scheme, Common Lisp, and later AI tooling traditions.\""
+  ]
+}

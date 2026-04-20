@@ -1,0 +1,19 @@
+{
+  "title": "ACM-GAMM Committee: The Joint Group Behind ALGOL 58",
+  "founded": "1950s collaboration",
+  "overview": "The ACM-GAMM committee was a joint American and European working group formed to define a more universal algorithmic language. Its most important result was ALGOL 58, the direct precursor to ALGOL 60 and the broader structured-programming tradition.",
+  "key_contributions": [
+    "**ALGOL 58 (1958):** Produced the early international language design that clarified how mathematical notation and machine-independent structure could coexist.",
+    "**International standardization culture:** Helped move programming language design from single-vendor practice toward multi-institution committee work."
+  ],
+  "pivotal_people": [
+    "**John Backus:** Brought FORTRAN experience into the committee discussions.",
+    "**Friedrich L. Bauer:** Represented the European current that shaped ALGOL's structure and later formalization.",
+    "**Peter Naur:** Helped carry the committee's work into ALGOL 60 and its documentation culture."
+  ],
+  "legacy": "The committee matters because it showed that language design could become an international intellectual project rather than a hardware-specific product feature. ALGOL 58 was imperfect, but it established the path to ALGOL 60 and the later formal treatment of block structure, recursion, and syntax description.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Trace how the ACM-GAMM committee turned post-FORTRAN frustration into ALGOL 58 and then ALGOL 60.\"",
+    "2. \"Explain why committee-designed languages mattered for the emergence of programming as an international discipline.\""
+  ]
+}

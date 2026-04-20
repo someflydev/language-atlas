@@ -1,0 +1,17 @@
+{
+  "title": "CODASYL: The Committee That Standardized COBOL's Business Language Compromise",
+  "founded": "1959",
+  "overview": "CODASYL, the Conference on Data Systems Languages, coordinated the effort that produced COBOL. It mattered because government pressure and industry fragmentation forced competing vendors and language proposals into a shared business-programming standard.",
+  "key_contributions": [
+    "**COBOL (1959):** Produced the committee standard that unified ideas from FLOW-MATIC, COMTRAN, and other business-language proposals.",
+    "**Committee-driven standardization:** Established a durable pattern for cross-vendor language governance in enterprise computing."
+  ],
+  "pivotal_people": [
+    "**Grace Hopper:** Her FLOW-MATIC work strongly influenced the committee's business-language direction.",
+    "**Bob Bemer:** Brought COMTRAN experience into the compromise that became COBOL."
+  ],
+  "legacy": "CODASYL demonstrated that language design could be shaped as much by procurement, interoperability, and institutional coordination as by pure technical elegance. COBOL's longevity is inseparable from that standardization success.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain why CODASYL had to reconcile FLOW-MATIC, COMTRAN, and vendor politics to make COBOL viable.\""
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Symbolic Computation Group at the University of Waterloo: The Team Behind Maple",
+  "founded": "1970s",
+  "overview": "The Symbolic Computation Group at the University of Waterloo built Maple as a practical computer algebra system and language environment. It represents the academic-to-commercial path by which symbolic mathematics became a durable software platform.",
+  "key_contributions": [
+    "**Maple (1980):** Built a symbolic computation environment that made algebraic manipulation and mathematical programming accessible on smaller machines.",
+    "**Computer algebra tooling:** Helped establish symbolic mathematics as a usable software domain outside a few elite research labs."
+  ],
+  "pivotal_people": [
+    "**Keith Geddes, Gaston Gonnet, and collaborators:** Drove the computer-algebra work that became Maple."
+  ],
+  "legacy": "The group matters because it turned symbolic computation into a widely distributed software product rather than a one-off research artifact. Maple helped preserve a line of language and system design where mathematics, algebraic rewriting, and interactive exploration remain central.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Compare Waterloo's Maple effort with MIT Project MAC's MACSYMA to show two different institutional paths for computer algebra.\""
+  ]
+}

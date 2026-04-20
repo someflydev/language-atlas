@@ -1,0 +1,16 @@
+{
+  "title": "AT&T Labs: Industrial Research Beyond the Classic Bell Labs Era",
+  "founded": "1996",
+  "overview": "AT&T Labs continued parts of the Bell Labs research tradition after corporate restructuring, especially in networking, systems, and language-related tooling. In the language-atlas data it appears most directly through Cyclone, a safer C-like systems language shaped in part by AT&T research participation.",
+  "key_contributions": [
+    "**Cyclone (2002):** Participated in the safer-systems-language work that tried to preserve C's performance model while reducing memory errors.",
+    "**Networking and systems research:** Carried forward parts of AT&T's long-running industrial computing lineage."
+  ],
+  "pivotal_people": [
+    "**Researchers collaborating on Cyclone:** Helped connect industrial systems concerns to academic language-safety work."
+  ],
+  "legacy": "AT&T Labs represents a later phase of the institutional line that repeatedly treated systems software, networking, and language tooling as first-class research topics. Its appearance in Cyclone reflects the enduring pressure to make C-like programming safer without abandoning low-level control.",
+  "ai_assisted_discovery_missions": [
+    "1. \"Explain how AT&T Labs extended industrial systems research after Bell Labs and why Cyclone fits that lineage.\""
+  ]
+}
