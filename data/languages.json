@@ -5127,5 +5127,1016 @@
     "is_keystone": false,
     "display_name": "Mojo",
     "entity_type": "language"
+  },
+  {
+    "name": "ALGOL 58",
+    "year": 1958,
+    "creators": [
+      "Friedrich L. Bauer",
+      "John Backus",
+      "ACM-GAMM committee"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Structured",
+      "Imperative"
+    ],
+    "cluster": "historical",
+    "generation": "early",
+    "primary_use_cases": [
+      "Scientific computing",
+      "Algorithm publication",
+      "Portable algorithm description"
+    ],
+    "key_innovations": [
+      "International language design by committee",
+      "Early block-structured thinking",
+      "Machine-independent algorithm description"
+    ],
+    "influenced_by": [
+      "FORTRAN",
+      "Mathematical Notation"
+    ],
+    "influenced": [
+      "ALGOL 60"
+    ],
+    "philosophy": "Programming languages should describe algorithms in a portable, publication-quality form rather than mirror one machine's quirks.",
+    "mental_model": "Think in nested algorithmic structure and named intermediate values, with code serving as a disciplined description of procedure rather than raw machine control.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "ALGOL 58",
+    "entity_type": "language"
+  },
+  {
+    "name": "Bourne Shell",
+    "year": 1979,
+    "creators": [
+      "Stephen Bourne"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Imperative",
+      "Pipeline-oriented"
+    ],
+    "cluster": "scripting",
+    "generation": "early",
+    "primary_use_cases": [
+      "Unix scripting",
+      "System administration",
+      "Process orchestration"
+    ],
+    "key_innovations": [
+      "Portable /bin/sh scripting grammar",
+      "Pipelines and redirection as first-class composition",
+      "Structured control flow for reusable automation",
+      "Environment-driven execution model"
+    ],
+    "influenced_by": [
+      "ALGOL 68",
+      "PWB shell"
+    ],
+    "influenced": [
+      "Bash",
+      "Ksh",
+      "Zsh",
+      "Fish",
+      "Ash"
+    ],
+    "philosophy": "A shell should be a portable control language for orchestrating Unix programs, files, and streams rather than only an interactive command prompt.",
+    "mental_model": "Think in terms of connecting processes through redirection, pipelines, environment state, and exit codes to execute an operational plan.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": true,
+    "display_name": "Bourne Shell",
+    "entity_type": "language"
+  },
+  {
+    "name": "Carbon",
+    "year": 2022,
+    "creators": [
+      "Google",
+      "Chandler Carruth"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Object-Oriented",
+      "Systems"
+    ],
+    "cluster": "systems",
+    "generation": "autonomic",
+    "primary_use_cases": [
+      "Systems programming",
+      "C++ migration paths",
+      "Performance-critical infrastructure"
+    ],
+    "key_innovations": [
+      "C++ interoperability as a primary design goal",
+      "Migration-oriented successor language design",
+      "Cleaner generics and modern tooling expectations",
+      "Language design centered on industrial transition costs"
+    ],
+    "influenced_by": [
+      "C++",
+      "Swift",
+      "Kotlin",
+      "Rust"
+    ],
+    "influenced": [],
+    "philosophy": "A successor language should earn adoption by giving entrenched C++ codebases a realistic migration path instead of demanding a clean break.",
+    "mental_model": "Think from the constraints of large systems software and interoperability boundaries first, then use stronger modern abstractions to reduce legacy complexity.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Carbon",
+    "entity_type": "language"
+  },
+  {
+    "name": "CoffeeScript",
+    "year": 2009,
+    "creators": [
+      "Jeremy Ashkenas"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Functional",
+      "Object-Oriented"
+    ],
+    "cluster": "frontend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Web frontend code",
+      "Node.js scripting",
+      "Compile-to-JavaScript applications"
+    ],
+    "key_innovations": [
+      "Compile-to-JavaScript as a viable mainstream strategy",
+      "Fat arrow syntax for lexical binding",
+      "Concise expression-oriented surface syntax"
+    ],
+    "influenced_by": [
+      "JavaScript",
+      "Ruby",
+      "Python",
+      "Haskell"
+    ],
+    "influenced": [
+      "JavaScript",
+      "TypeScript"
+    ],
+    "philosophy": "JavaScript development should feel lighter, more expressive, and more intention-first without leaving the web platform.",
+    "mental_model": "Treat JavaScript as a target runtime and write in a terse, expressive source language that compiles away much of the platform's historical syntax friction.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "CoffeeScript",
+    "entity_type": "language"
+  },
+  {
+    "name": "Cyclone",
+    "year": 2002,
+    "creators": [
+      "AT&T Labs",
+      "University of Maryland"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Systems",
+      "Type-driven"
+    ],
+    "cluster": "systems",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Systems programming",
+      "Security-focused low-level software",
+      "Programming languages research"
+    ],
+    "key_innovations": [
+      "Memory safety without mandatory garbage collection",
+      "Safer pointer and union discipline",
+      "Research bridge from C to modern safe systems languages"
+    ],
+    "influenced_by": [
+      "C",
+      "ML"
+    ],
+    "influenced": [
+      "Rust"
+    ],
+    "philosophy": "Low-level systems programming should retain C's domain while making common memory and type errors much harder to express.",
+    "mental_model": "Reason like a systems programmer, but make ownership, nullability, regions, and data-variant constraints explicit parts of the type story.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "compile_time",
+    "is_keystone": false,
+    "display_name": "Cyclone",
+    "entity_type": "language"
+  },
+  {
+    "name": "D",
+    "year": 2001,
+    "creators": [
+      "Walter Bright",
+      "Andrei Alexandrescu"
+    ],
+    "paradigms": [
+      "Procedural",
+      "Object-Oriented",
+      "Functional",
+      "Generic"
+    ],
+    "cluster": "systems",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Systems programming",
+      "Native applications",
+      "High-performance tooling"
+    ],
+    "key_innovations": [
+      "Compile-time execution and metaprogramming",
+      "Built-in contracts and unit tests",
+      "Range-based generic programming"
+    ],
+    "influenced_by": [
+      "C",
+      "C++",
+      "Java",
+      "Python"
+    ],
+    "influenced": [],
+    "philosophy": "A systems language should preserve native performance while removing much of C++'s historical ceremony and accumulated design debt.",
+    "mental_model": "Think like a systems programmer who expects the language to help with metaprogramming, contracts, and composition instead of forcing everything through C++-style machinery.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "D",
+    "entity_type": "language"
+  },
+  {
+    "name": "Datalog",
+    "year": 1977,
+    "creators": [
+      "Herve Gallaire",
+      "Jack Minker"
+    ],
+    "paradigms": [
+      "Logic",
+      "Declarative",
+      "Query-oriented"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Deductive databases",
+      "Program analysis",
+      "Rule-based inference"
+    ],
+    "key_innovations": [
+      "Rule-based recursive queries",
+      "Fixpoint evaluation",
+      "Declarative reasoning over relations"
+    ],
+    "influenced_by": [
+      "Prolog",
+      "SQL",
+      "First-order logic"
+    ],
+    "influenced": [
+      "Datomic",
+      "Souffle"
+    ],
+    "philosophy": "Programs should describe relations and inference rules, leaving the engine to derive all facts implied by those definitions.",
+    "mental_model": "Stop asking how to compute step by step and instead define facts and rules whose repeated application converges on the answer set.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Datalog",
+    "entity_type": "language"
+  },
+  {
+    "name": "Delphi",
+    "year": 1995,
+    "creators": [
+      "Anders Hejlsberg",
+      "Borland"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Procedural",
+      "Component-based"
+    ],
+    "cluster": "enterprise",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Desktop applications",
+      "Business software",
+      "Rapid GUI development"
+    ],
+    "key_innovations": [
+      "Object Pascal with strong tooling",
+      "VCL component model",
+      "Fast native compilation"
+    ],
+    "influenced_by": [
+      "Pascal",
+      "Object Pascal"
+    ],
+    "influenced": [
+      "CSharp"
+    ],
+    "philosophy": "Native application development should combine Pascal's readable structure with a productive visual component model and fast compilation.",
+    "mental_model": "Build applications as cooperating forms, components, and event handlers, with the IDE and component library acting as part of the language experience.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Delphi",
+    "entity_type": "language"
+  },
+  {
+    "name": "Fish",
+    "year": 2005,
+    "creators": [
+      "Axel Liljencrantz"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Imperative",
+      "Pipeline-oriented"
+    ],
+    "cluster": "scripting",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Interactive shell use",
+      "Command-line productivity",
+      "Unix scripting"
+    ],
+    "key_innovations": [
+      "Autosuggestions and rich completions",
+      "Cleaner syntax and friendlier defaults",
+      "Usability-first shell design",
+      "Modern shell design without abandoning pipelines"
+    ],
+    "influenced_by": [
+      "Bash",
+      "Zsh",
+      "Perl"
+    ],
+    "influenced": [],
+    "philosophy": "A shell should help users discover commands and understand scripts instead of preserving decades of incidental Bourne-shell friction.",
+    "mental_model": "Treat the shell as a conversational programming environment built around pipelines and commands, but optimized for readability, completion, and interactive guidance.",
+    "complexity_bias": "low",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Fish",
+    "entity_type": "language"
+  },
+  {
+    "name": "GNU Octave",
+    "year": 1988,
+    "creators": [
+      "John W. Eaton"
+    ],
+    "paradigms": [
+      "Array-oriented",
+      "Matrix-oriented",
+      "Procedural"
+    ],
+    "cluster": "scientific",
+    "generation": "early",
+    "primary_use_cases": [
+      "Numerical computing",
+      "Scientific computing",
+      "Teaching and prototyping"
+    ],
+    "key_innovations": [
+      "MATLAB-like compatibility",
+      "Matrix-first language design",
+      "Interactive numerical exploration",
+      "Open scientific computing environment"
+    ],
+    "influenced_by": [
+      "MATLAB",
+      "FORTRAN"
+    ],
+    "influenced": [
+      "Numpy"
+    ],
+    "philosophy": "Numerical computing should remain accessible, reproducible, and open rather than locked behind proprietary scientific software.",
+    "mental_model": "Think in matrices, vectors, and whole-array transformations, with interactive numerical exploration centered on linear algebra and batch operations.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "GNU Octave",
+    "entity_type": "language"
+  },
+  {
+    "name": "Groovy",
+    "year": 2003,
+    "creators": [
+      "James Strachan"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Scripting",
+      "Functional",
+      "Dynamic"
+    ],
+    "cluster": "backend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "JVM scripting",
+      "Build tooling",
+      "Enterprise automation"
+    ],
+    "key_innovations": [
+      "Java interoperability with a dynamic surface",
+      "Builder and DSL-style APIs",
+      "Gradle-centered scripting culture"
+    ],
+    "influenced_by": [
+      "Java",
+      "Python",
+      "Ruby",
+      "Smalltalk"
+    ],
+    "influenced": [
+      "Kotlin"
+    ],
+    "philosophy": "The JVM should support a more concise, malleable scripting language without giving up deep access to Java libraries and deployment infrastructure.",
+    "mental_model": "Treat the JVM as a stable runtime platform and write against a more flexible surface that favors scripting, DSLs, and concise object manipulation.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Groovy",
+    "entity_type": "language"
+  },
+  {
+    "name": "Haxe",
+    "year": 2005,
+    "creators": [
+      "Nicolas Cannasse"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Functional",
+      "Generic"
+    ],
+    "cluster": "frontend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Cross-platform applications",
+      "Game development",
+      "Web applications"
+    ],
+    "key_innovations": [
+      "Multi-target compilation as the core mission",
+      "Portable typed core with backend escape hatches",
+      "Powerful macro system"
+    ],
+    "influenced_by": [
+      "OCaml",
+      "JavaScript",
+      "ActionScript"
+    ],
+    "influenced": [],
+    "philosophy": "Application logic should be written once in a strongly structured language and then adapted across many target runtimes.",
+    "mental_model": "Separate your program's stable model from the incidental details of any single backend, and rely on the compiler to bridge the gap.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Haxe",
+    "entity_type": "language"
+  },
+  {
+    "name": "Maclisp",
+    "year": 1966,
+    "creators": [
+      "Richard Greenblatt",
+      "MIT Project MAC"
+    ],
+    "paradigms": [
+      "Functional",
+      "Symbolic",
+      "Procedural"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "AI research",
+      "Symbolic computing",
+      "Interactive language experimentation"
+    ],
+    "key_innovations": [
+      "Pragmatic symbolic computing environment",
+      "Interactive dynamic development",
+      "Macro-rich language evolution",
+      "Direct influence on later Lisp lineages"
+    ],
+    "influenced_by": [
+      "Lisp"
+    ],
+    "influenced": [
+      "Common Lisp",
+      "Scheme",
+      "Emacs Lisp"
+    ],
+    "philosophy": "A Lisp should be a practical symbolic workshop for real AI work, interactive experimentation, and language extension.",
+    "mental_model": "Treat the language as a live environment for manipulating symbolic structures, evolving programs incrementally, and extending the language through macros.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Maclisp",
+    "entity_type": "language"
+  },
+  {
+    "name": "Mathematica",
+    "year": 1988,
+    "creators": [
+      "Stephen Wolfram"
+    ],
+    "paradigms": [
+      "Functional",
+      "Symbolic",
+      "Rule-based",
+      "Procedural"
+    ],
+    "cluster": "scientific",
+    "generation": "early",
+    "primary_use_cases": [
+      "Symbolic computation",
+      "Scientific notebooks",
+      "Technical exploration"
+    ],
+    "key_innovations": [
+      "Unified symbolic and numerical computation",
+      "Pattern matching and rule-based rewriting",
+      "Notebook-based interactive computing",
+      "Integrated computational knowledge base"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "APL",
+      "MACSYMA",
+      "Maple"
+    ],
+    "influenced": [
+      "Maple",
+      "Julia"
+    ],
+    "philosophy": "A technical computing environment should treat code, formulas, graphics, and documents as one symbolic medium for interactive exploration.",
+    "mental_model": "See everything as a symbolic expression tree that can be transformed through rules, patterns, and notebook-driven experimentation.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Mathematica",
+    "entity_type": "language"
+  },
+  {
+    "name": "Mercury",
+    "year": 1995,
+    "creators": [
+      "Zoltan Somogyi",
+      "University of Melbourne"
+    ],
+    "paradigms": [
+      "Logic",
+      "Functional",
+      "Declarative"
+    ],
+    "cluster": "academic",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Logic programming research",
+      "Compiler construction",
+      "High-assurance declarative systems"
+    ],
+    "key_innovations": [
+      "Strong static typing for logic programming",
+      "Mode and determinism systems",
+      "Purity-focused declarative design",
+      "Performance-oriented compilation"
+    ],
+    "influenced_by": [
+      "Prolog",
+      "Haskell",
+      "ML"
+    ],
+    "influenced": [],
+    "philosophy": "Logic programming should gain the predictability, type discipline, and compiler reasoning normally associated with typed functional languages.",
+    "mental_model": "Describe relations declaratively, but make data flow, determinism, and purity explicit enough that the compiler can reason about control behavior.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Mercury",
+    "entity_type": "language"
+  },
+  {
+    "name": "Occam",
+    "year": 1983,
+    "creators": [
+      "David May",
+      "INMOS"
+    ],
+    "paradigms": [
+      "Concurrent",
+      "Process-oriented",
+      "Imperative"
+    ],
+    "cluster": "systems",
+    "generation": "early",
+    "primary_use_cases": [
+      "Concurrent systems",
+      "Parallel computing",
+      "Transputer software"
+    ],
+    "key_innovations": [
+      "CSP-inspired channels",
+      "First-class process composition",
+      "Theory-hardware alignment for parallel systems"
+    ],
+    "influenced_by": [
+      "CSP",
+      "ALGOL 68"
+    ],
+    "influenced": [
+      "Go",
+      "Erlang"
+    ],
+    "philosophy": "Concurrency should be built into the language model itself through explicit process composition and communication, not bolted on as a library concern.",
+    "mental_model": "Model software as independent processes that communicate through channels instead of sharing mutable state and retrofitting synchronization later.",
+    "complexity_bias": "medium",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Occam",
+    "entity_type": "language"
+  },
+  {
+    "name": "Planner",
+    "year": 1969,
+    "creators": [
+      "Carl Hewitt"
+    ],
+    "paradigms": [
+      "Logic",
+      "Goal-directed",
+      "Procedural"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "AI research",
+      "Goal-directed reasoning",
+      "Symbolic problem solving"
+    ],
+    "key_innovations": [
+      "Goal-directed control",
+      "Mixed declarative and procedural knowledge",
+      "Search-oriented AI language design",
+      "Influence on later AI reasoning models"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "First-order logic"
+    ],
+    "influenced": [
+      "Prolog",
+      "Scheme"
+    ],
+    "philosophy": "Reasoning systems should combine knowledge representation with explicit search and control strategies instead of treating deduction as a purely passive process.",
+    "mental_model": "Think of problem solving as guided search through goals and subgoals, where control strategy is a first-class part of the program.",
+    "complexity_bias": "high",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Planner",
+    "entity_type": "language"
+  },
+  {
+    "name": "PureScript",
+    "year": 2013,
+    "creators": [
+      "Phil Freeman"
+    ],
+    "paradigms": [
+      "Functional",
+      "Type-driven",
+      "Declarative"
+    ],
+    "cluster": "frontend",
+    "generation": "renaissance",
+    "primary_use_cases": [
+      "Frontend applications",
+      "Typed web applications",
+      "Functional JavaScript interop"
+    ],
+    "key_innovations": [
+      "Advanced functional typing on a JavaScript target",
+      "Explicit effect modeling",
+      "Typed interop with the web platform"
+    ],
+    "influenced_by": [
+      "Haskell",
+      "ML"
+    ],
+    "influenced": [],
+    "philosophy": "Frontend software should use the type system as a design medium, making effects explicit and abstractions precise before code reaches JavaScript.",
+    "mental_model": "Model the domain with algebraic data types and explicit effects, then compile a principled functional core into the JavaScript runtime.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "PureScript",
+    "entity_type": "language"
+  },
+  {
+    "name": "QUEL",
+    "year": 1974,
+    "creators": [
+      "Michael Stonebraker",
+      "University of California Berkeley"
+    ],
+    "paradigms": [
+      "Query-oriented",
+      "Declarative",
+      "Relational"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Relational querying",
+      "Database research",
+      "Ingres database applications"
+    ],
+    "key_innovations": [
+      "Relational query expression in Ingres",
+      "Alternative syntax to SQL",
+      "Strong connection to academic database design",
+      "Historical test case for standards lock-in"
+    ],
+    "influenced_by": [
+      "ALPHA",
+      "Relational algebra"
+    ],
+    "influenced": [
+      "SQL"
+    ],
+    "philosophy": "A query language should let users describe relational intent directly, independent of any one commercial syntax becoming dominant.",
+    "mental_model": "Think in relations, tuples, and predicates over sets of data rather than loops over individual records.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "QUEL",
+    "entity_type": "language"
+  },
+  {
+    "name": "SASL",
+    "year": 1972,
+    "creators": [
+      "David Turner"
+    ],
+    "paradigms": [
+      "Functional",
+      "Declarative",
+      "Lazy"
+    ],
+    "cluster": "academic",
+    "generation": "early",
+    "primary_use_cases": [
+      "Functional programming research",
+      "Lazy evaluation experimentation",
+      "Language design"
+    ],
+    "key_innovations": [
+      "Early lazy evaluation in practice",
+      "Purely functional design",
+      "Lineage into Miranda and Haskell"
+    ],
+    "influenced_by": [
+      "Lisp",
+      "ISWIM",
+      "Lambda Calculus"
+    ],
+    "influenced": [
+      "Miranda",
+      "Haskell",
+      "KRC"
+    ],
+    "philosophy": "Programs should be written as pure definitions of values and functions, with evaluation deferred until demand makes it necessary.",
+    "mental_model": "Describe what values mean rather than when to compute them, trusting non-strict evaluation to realize only the parts of a computation that are needed.",
+    "complexity_bias": "high",
+    "safety_model": "compile_time",
+    "typing_discipline": "compile_time",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "SASL",
+    "entity_type": "language"
+  },
+  {
+    "name": "Visual Basic",
+    "year": 1991,
+    "creators": [
+      "Alan Cooper",
+      "Microsoft"
+    ],
+    "paradigms": [
+      "Object-Oriented",
+      "Event-Driven",
+      "Procedural",
+      "Component-based"
+    ],
+    "cluster": "business",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Desktop business applications",
+      "Rapid GUI development",
+      "Office and COM automation"
+    ],
+    "key_innovations": [
+      "Forms-based rapid application development",
+      "Event-driven programming for mainstream developers",
+      "COM and Office automation reach"
+    ],
+    "influenced_by": [
+      "BASIC",
+      "QuickBASIC"
+    ],
+    "influenced": [
+      "VB",
+      "VB.NET",
+      "Delphi"
+    ],
+    "philosophy": "GUI programming should be approachable to mainstream software teams through forms, controls, and event handlers instead of raw Windows API plumbing.",
+    "mental_model": "Think in terms of screens, controls, and events, where you assemble an application visually and then attach behavior to user actions.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": false,
+    "display_name": "Visual Basic",
+    "entity_type": "language"
+  },
+  {
+    "name": "Zsh",
+    "year": 1990,
+    "creators": [
+      "Paul Falstad"
+    ],
+    "paradigms": [
+      "Scripting",
+      "Imperative",
+      "Pipeline-oriented"
+    ],
+    "cluster": "scripting",
+    "generation": "early",
+    "primary_use_cases": [
+      "Interactive shell use",
+      "Developer productivity",
+      "Shell scripting"
+    ],
+    "key_innovations": [
+      "Context-aware tab completion",
+      "Advanced globbing",
+      "Prompt theming and plugin ecosystems",
+      "Bourne-style compatibility with a richer interactive shell"
+    ],
+    "influenced_by": [
+      "Bash",
+      "Ksh",
+      "Tcsh"
+    ],
+    "influenced": [
+      "Fish"
+    ],
+    "philosophy": "A Bourne-style shell should preserve scripting compatibility while making the interactive command line dramatically more programmable and ergonomic.",
+    "mental_model": "Keep the Bourne shell model of processes, expansions, and pipelines, but treat the command line itself as a programmable interface for the user.",
+    "complexity_bias": "medium",
+    "safety_model": "manual",
+    "typing_discipline": "manual",
+    "memory_management": "manual",
+    "is_keystone": false,
+    "display_name": "Zsh",
+    "entity_type": "language"
+  },
+  {
+    "name": "CSS",
+    "year": 1996,
+    "creators": [
+      "Hakon Wium Lie",
+      "Bert Bos",
+      "W3C"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Rule-based"
+    ],
+    "cluster": "frontend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Web styling",
+      "Responsive layouts",
+      "Design systems"
+    ],
+    "key_innovations": [
+      "The cascade as a formal conflict-resolution model",
+      "Specificity as override strength",
+      "The box model for layout computation",
+      "Flexbox and Grid as modern layout systems"
+    ],
+    "influenced_by": [
+      "HTML",
+      "DSSSL",
+      "PostScript"
+    ],
+    "influenced": [
+      "Svelte",
+      "Sass"
+    ],
+    "philosophy": "Presentation should be separated from document structure and composed through a declarative rule system that can reconcile many competing styling intents.",
+    "mental_model": "Think in selectors, cascades, inheritance, layout contexts, and painted boxes over a document tree rather than a sequence of visual commands.",
+    "complexity_bias": "medium",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "CSS",
+    "entity_type": "artifact"
+  },
+  {
+    "name": "HTML",
+    "year": 1991,
+    "creators": [
+      "Tim Berners-Lee",
+      "W3C"
+    ],
+    "paradigms": [
+      "Declarative",
+      "Markup"
+    ],
+    "cluster": "frontend",
+    "generation": "web1",
+    "primary_use_cases": [
+      "Web documents",
+      "Hypertext publishing",
+      "Application UI structure"
+    ],
+    "key_innovations": [
+      "Hyperlinks as a global information graph",
+      "Permissive parsing for web resilience",
+      "Semantic elements for machine-readable structure",
+      "Stable substrate for CSS and JavaScript"
+    ],
+    "influenced_by": [
+      "SGML",
+      "XML"
+    ],
+    "influenced": [
+      "CSS",
+      "JavaScript",
+      "Svelte"
+    ],
+    "philosophy": "Documents on the web should be represented as resilient, semantic structure that browsers and other systems can interpret consistently.",
+    "mental_model": "Think of a document as a tree of nested elements that defines meaning and structure, with browsers parsing that tree into a manipulable document model.",
+    "complexity_bias": "low",
+    "safety_model": "runtime",
+    "typing_discipline": "runtime",
+    "memory_management": "runtime",
+    "is_keystone": true,
+    "display_name": "HTML",
+    "entity_type": "artifact"
   }
 ]
