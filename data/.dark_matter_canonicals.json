@@ -20,13 +20,37 @@
   "C++": {
     "type": "language"
   },
+  "CSharp": {
+    "type": "language"
+  },
+  "Carbon": {
+    "type": "language"
+  },
+  "CoffeeScript": {
+    "type": "language"
+  },
   "Crystal": {
+    "type": "language"
+  },
+  "Cyclone": {
+    "type": "language"
+  },
+  "Datalog": {
+    "type": "language"
+  },
+  "Delphi": {
     "type": "language"
   },
   "Dennis Ritchie": {
     "type": "person"
   },
   "Erlang": {
+    "type": "language"
+  },
+  "FLOW-MATIC": {
+    "type": "language"
+  },
+  "FSharp": {
     "type": "language"
   },
   "Forth": {
@@ -50,10 +74,19 @@
   "Graydon Hoare": {
     "type": "person"
   },
+  "Groovy": {
+    "type": "language"
+  },
+  "GNU Octave": {
+    "type": "language"
+  },
   "Guy L. Steele": {
     "type": "person"
   },
   "HCL": {
+    "type": "language"
+  },
+  "Haxe": {
     "type": "language"
   },
   "JavaScript": {
@@ -80,6 +113,9 @@
   "Kristen Nygaard": {
     "type": "person"
   },
+  "ALGOL 58": {
+    "type": "language"
+  },
   "Lambda Calculus": {
     "type": "language"
   },
@@ -87,6 +123,15 @@
     "type": "language"
   },
   "MATLAB": {
+    "type": "language"
+  },
+  "Maclisp": {
+    "type": "language"
+  },
+  "Mathematica": {
+    "type": "language"
+  },
+  "Mercury": {
     "type": "language"
   },
   "Mojo": {
@@ -98,13 +143,22 @@
   "OCaml": {
     "type": "language"
   },
+  "Occam": {
+    "type": "language"
+  },
   "Objective-C": {
     "type": "language"
   },
   "PowerShell": {
     "type": "language"
   },
+  "PureScript": {
+    "type": "language"
+  },
   "Python": {
+    "type": "language"
+  },
+  "QUEL": {
     "type": "language"
   },
   "R": {
@@ -117,6 +171,9 @@
     "type": "person"
   },
   "Rust": {
+    "type": "language"
+  },
+  "SASL": {
     "type": "language"
   },
   "Self": {
@@ -137,7 +194,16 @@
   "K": {
     "type": "language"
   },
+  "VB.NET": {
+    "type": "language"
+  },
+  "Visual Basic": {
+    "type": "language"
+  },
   "WebAssembly": {
+    "type": "language"
+  },
+  "Zsh": {
     "type": "language"
   }
 }

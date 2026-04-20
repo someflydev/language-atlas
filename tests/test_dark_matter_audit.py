@@ -70,9 +70,13 @@ def test_alias_resolution_reviewed_language_variants() -> None:
     resolver = DarkMatterResolver.from_data_dir(REPO_ROOT / "data")
 
     cases = {
+        "Algol 58": "ALGOL 58",
         "Assembly (Early 1940s)": "Assembly",
+        "C#": "CSharp",
         "Crystal (The Reactions to the New Complexity)": "Crystal",
         "Erlang (1980s)": "Erlang",
+        "F#": "FSharp",
+        "Flow Matic": "FLOW-MATIC",
         "Forth (late 1960s onward)": "Forth",
         "GraphQL (internal from 2012; open-sourced 2015)": "GraphQL",
         "HCL (HashiCorp Configuration Language)": "HCL",
@@ -81,10 +85,12 @@ def test_alias_resolution_reviewed_language_variants() -> None:
         "MATLAB (late 1970s onward)": "MATLAB",
         "Objective-C (early 1980s)": "Objective-C",
         "PowerShell (2006 onward)": "PowerShell",
+        "Purescript": "PureScript",
         "R (1990s)": "R",
         "Rust (Mozilla era, 2009 onward)": "Rust",
         "Self (late 1980s)": "Self",
         "TypeScript (2012/2015 Surge)": "TypeScript",
+        "VBNET": "VB.NET",
     }
 
     for term, expected in cases.items():
