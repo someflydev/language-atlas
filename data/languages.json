@@ -1375,7 +1375,7 @@
       "Go",
       "Odin",
       "Nim",
-      "C#"
+      "CSharp"
     ],
     "philosophy": "Discipline is the path to correctness. Pascal was designed to force programmers to express their intent clearly through strict typing and structured control flow. Note: Historically characterized by Static/Strong typing and Manual memory management.",
     "mental_model": "Think in terms of records and procedures. A program is a carefully orchestrated sequence of steps operating on well-defined data structures, where every type has its place.",
@@ -1774,7 +1774,7 @@
     "influenced": [
       "Modula-2",
       "Java",
-      "C#"
+      "CSharp"
     ],
     "philosophy": "Systems programming requires a high-level language with strong typing and modularity to manage the complexity of large software systems.",
     "mental_model": "Think in terms of strictly defined modules and interfaces. Safety and correctness are ensured through a robust type system and structured error handling.",
@@ -2247,7 +2247,7 @@
     ],
     "influenced": [
       "Java",
-      "C#",
+      "CSharp",
       "D",
       "Rust",
       "Zig",
@@ -2285,12 +2285,12 @@
       "Strict type safety"
     ],
     "influenced_by": [
-      "Simula 67",
+      "SIMULA 67",
       "ALGOL 68"
     ],
     "influenced": [
       "Java",
-      "C#",
+      "CSharp",
       "D",
       "Ruby"
     ],
@@ -2417,7 +2417,7 @@
     "influenced": [
       "Go",
       "Java",
-      "C#"
+      "CSharp"
     ],
     "philosophy": "Make it as simple as possible, but no simpler. Oberon stripped away everything non-essential from Modula-2, adding only type extension.",
     "mental_model": "Simplicity is the ultimate sophistication. A tiny core that can build entire operating systems through simple extensions.",
@@ -2458,9 +2458,9 @@
     ],
     "influenced_by": [
       "C",
-      "sh",
-      "awk",
-      "sed"
+      "Bourne Shell",
+      "AWK",
+      "Sed"
     ],
     "influenced": [
       "Ruby",
@@ -2675,7 +2675,7 @@
     "influenced": [
       "Java",
       "Python",
-      "C#"
+      "CSharp"
     ],
     "philosophy": "Combine the modularity and type safety of Wirth's languages with modern features like objects, threads, and garbage collection.",
     "mental_model": "Think in terms of safe, modular components. You are building complex systems where state and concurrency are managed through clear interfaces and language-level safety.",
@@ -2711,7 +2711,7 @@
       "Command substitution"
     ],
     "influenced_by": [
-      "sh (Bourne shell)",
+      "Bourne Shell",
       "ksh",
       "csh"
     ],
@@ -2765,8 +2765,8 @@
       "Rust",
       "Scala",
       "Swift",
-      "Purescript",
-      "F#",
+      "PureScript",
+      "FSharp",
       "Clojure",
       "Elm"
     ],
@@ -2810,7 +2810,7 @@
     ],
     "influenced": [
       "OCaml",
-      "F#",
+      "FSharp",
       "Rust"
     ],
     "philosophy": "A rigorously defined functional language that provides mathematical certainty through its formal specification.",
@@ -2902,7 +2902,7 @@
       "Ruby",
       "Go",
       "Swift",
-      "F#",
+      "FSharp",
       "Julia",
       "Kotlin",
       "YAML"
@@ -3166,7 +3166,7 @@
       "Ada"
     ],
     "influenced": [
-      "C#",
+      "CSharp",
       "Scala",
       "Kotlin",
       "TypeScript",
@@ -3403,7 +3403,7 @@
       "Standard ML"
     ],
     "influenced": [
-      "F#",
+      "FSharp",
       "Rust",
       "ReasonML",
       "Haxe",
@@ -3547,7 +3547,7 @@
       "Kotlin",
       "TypeScript",
       "Dart",
-      "F#"
+      "FSharp"
     ],
     "philosophy": "A versatile, component-oriented language. C# balances the power of C++ with the safety of Java, evolving rapidly to embrace functional and asynchronous patterns. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
     "mental_model": "Think in terms of properties, events, and data streams. It is a highly structured environment where language features like LINQ allow you to treat data as a first-class citizen.",
@@ -3666,7 +3666,7 @@
     ],
     "influenced_by": [
       "VB",
-      "C#",
+      "CSharp",
       "Java"
     ],
     "influenced": [],
@@ -3813,7 +3813,7 @@
     "entity_type": "language"
   },
   {
-    "name": "F#",
+    "name": "FSharp",
     "year": 2005,
     "creators": [
       "Don Syme"
@@ -3838,12 +3838,12 @@
     ],
     "influenced_by": [
       "OCaml",
-      "C#",
+      "CSharp",
       "Haskell",
       "Python"
     ],
     "influenced": [
-      "C#",
+      "CSharp",
       "Swift"
     ],
     "philosophy": "Succinct, robust, and performant. F# simplifies complex problem solving by making the right way also the easy way, especially on the .NET platform. Note: Historically characterized by Static/Strong typing and Tracing GC memory management.",
@@ -4234,7 +4234,7 @@
     "influenced_by": [
       "JavaScript",
       "Java",
-      "C#",
+      "CSharp",
       "Smalltalk",
       "Self"
     ],
@@ -4325,7 +4325,7 @@
     "influenced_by": [
       "Java",
       "Scala",
-      "C#",
+      "CSharp",
       "Groovy",
       "Python"
     ],
@@ -4506,7 +4506,7 @@
     ],
     "influenced_by": [
       "JavaScript",
-      "C#",
+      "CSharp",
       "Java"
     ],
     "influenced": [
@@ -4684,7 +4684,7 @@
       "Rust",
       "Haskell",
       "Ruby",
-      "C#",
+      "CSharp",
       "CLU"
     ],
     "influenced": [
