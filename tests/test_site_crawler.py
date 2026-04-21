@@ -7,6 +7,7 @@ The crawl runs once per test session via a session-scoped fixture.
 import os
 import re
 from pathlib import Path
+from urllib.parse import quote
 
 import pytest
 from fastapi.testclient import TestClient
@@ -19,6 +20,14 @@ from app.core.site_builder import CrawlReport, SiteCrawler
 def _make_loader() -> DataLoader:
     os.environ.setdefault("USE_SQLITE", "1")
     return DataLoader()
+
+
+def _find_representative_paradigm(loader: DataLoader) -> tuple[str, dict] | None:
+    for name in loader.get_all_paradigms():
+        ecosystem = loader.get_paradigm_ecosystem(name)
+        if ecosystem["foundations"] and ecosystem["languages"]:
+            return name, ecosystem
+    return None
 
 
 @pytest.fixture(scope="session")
@@ -110,6 +119,46 @@ def test_crawler_no_500s(crawled_site: tuple) -> None:
     if report.failures:
         details = "\n".join(f"  {f['url']}: {f['error']}" for f in report.failures)
         pytest.fail(f"{report.fail_count} crawl failures:\n{details}")
+
+
+def test_paradigm_route_renders_foundations_and_languages(
+    mock_loader: DataLoader,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    ecosystem = _find_representative_paradigm(mock_loader)
+    assert ecosystem is not None, "Expected at least one paradigm ecosystem with foundations and languages"
+
+    paradigm_name, paradigm_data = ecosystem
+    first_foundation = paradigm_data["foundations"][0]["display_name"]
+    first_language = paradigm_data["languages"][0]["display_name"]
+
+    monkeypatch.setattr(app_module, "data_loader", mock_loader)
+    monkeypatch.setattr(app_module, "_entity_link_map", None)
+
+    client = TestClient(app_module.app)
+    response = client.get(f"/paradigm/{quote(paradigm_name)}")
+
+    assert response.status_code == 200
+    assert "Foundational Precursors" in response.text
+    assert "Languages in this paradigm" in response.text
+    assert first_foundation in response.text
+    assert first_language in response.text
+
+
+def test_crawler_emits_foundation_aware_paradigm_page(crawled_site: tuple) -> None:
+    """A crawled paradigm page includes the new foundations section."""
+    site_dir, _, loader = crawled_site
+    ecosystem = _find_representative_paradigm(loader)
+    assert ecosystem is not None, "Expected at least one crawlable paradigm ecosystem with foundations and languages"
+
+    paradigm_name, paradigm_data = ecosystem
+    page = site_dir / "paradigm" / quote(paradigm_name, safe="") / "index.html"
+    assert page.exists(), f"Expected crawled paradigm page for {paradigm_name}"
+
+    html = page.read_text(encoding="utf-8")
+    assert "Foundational Precursors" in html
+    assert paradigm_data["foundations"][0]["display_name"] in html
+    assert paradigm_data["languages"][0]["display_name"] in html
 
 
 def test_api_paradigm_ecosystem_route(
