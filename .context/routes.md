@@ -34,7 +34,7 @@ Routes marked **skipped** are not exported at all.
 | `GET /compare/clear` | `partials/comparison_tray_content.html` | Deletes cookie | skipped |
 | `GET /compare/tray` | `partials/comparison_tray_content.html` | Reads cookie | skipped |
 | `GET /search` | `search_results.html` | FTS5 search, q param (min 2 chars) | skipped (needs query) |
-| `GET /language/{name}` | `profile.html` | entity_type=language; auto-link Markdown | crawled |
+| `GET /language/{name}` | `profile.html` | shared language-like profile route; preserves stored `entity_type` for `language`, `foundation`, and `artifact` records; auto-link Markdown | crawled |
 | `GET /person/{name}` | `profile.html` | entity_type=person | crawled |
 | `GET /event/{slug}` | `profile.html` | entity_type=event | crawled |
 | `GET /org/{name}` | `profile.html` | entity_type=org | crawled |
@@ -84,7 +84,7 @@ Routes marked **skipped** are not exported at all.
 src/app/templates/
   base.html                          # Base layout
   index.html                         # Language grid + filters
-  profile.html                       # Universal entity profile (language/person/event/org/concept)
+  profile.html                       # Universal entity profile; `/language/{name}` is shared by language-like entities
   compare.html                       # Side-by-side comparison
   tag_view.html                      # Generic cluster filtered view
   paradigm_view.html                 # Foundation-aware paradigm ecosystem view

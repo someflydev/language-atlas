@@ -103,7 +103,10 @@ Retrieve the current counts of language-like entities grouped by `entity_type`.
   ```
 
 ### 5. Get Language Detail
-Retrieve core data and extended profile information for a specific language.
+Retrieve core data and extended profile information for a specific
+language-like entity. The shared `/language/{name}` route remains the
+canonical HTML profile route for `language`, `foundation`, and `artifact`
+records in the mixed `languages` corpus.
 
 - **URL:** `/api/language/{name}`
 - **Method:** `GET`

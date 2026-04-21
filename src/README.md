@@ -42,7 +42,11 @@ commands for contributors working in this directory.
 
 FastAPI application serving all HTML and JSON routes on port 8084.
 See `API_GUIDE.md` for the full endpoint reference and `.context/routes.md`
-for the complete route-to-template map.
+for the complete route-to-template map. The core `/language/{name}`
+profile route is shared by the mixed `languages` corpus, so
+`entity_type="foundation"` and `entity_type="artifact"` records render
+through the same template without being relabeled as executable
+languages.
 
 ### CLI (`src/cli.py`)
 
