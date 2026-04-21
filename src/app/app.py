@@ -565,6 +565,12 @@ async def get_language_profile(request: Request, name: str) -> Response:
             if entity_type == "language"
             else None
         )
+
+    upstream_influence_groups = (
+        lang.get("upstream_influence_groups", [])
+        if entity_type in LANGUAGE_LIKE_ENTITY_TYPES
+        else []
+    )
     
     return templates.TemplateResponse(
         request=request,
@@ -577,6 +583,7 @@ async def get_language_profile(request: Request, name: str) -> Response:
                 entity_type, entity_type.replace("_", " ").title()
             ),
             "auto_odyssey": auto_odyssey,
+            "upstream_influence_groups": upstream_influence_groups,
             "ancestors": ancestors,
             "descendants": descendants,
             "ranking": lang_rank

@@ -167,6 +167,35 @@
                 {{ content|safe }}
             </div>
 
+            {% if entity_type in ('language', 'foundation', 'artifact') and upstream_influence_groups %}
+            <section class="mt-12 bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100">
+                <div class="max-w-3xl mb-8">
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-3">Upstream Influences</h2>
+                    <p class="text-base text-slate-500 leading-relaxed">
+                        This view separates foundational ideas from direct language lineage so the profile makes clear both the conceptual base and the immediate technical ancestry.
+                    </p>
+                </div>
+
+                <div class="space-y-8">
+                    {% for group in upstream_influence_groups %}
+                    <div>
+                        <h3 class="text-sm font-black uppercase tracking-widest text-slate-400 mb-4">{{ group.label }}</h3>
+                        <div class="flex flex-wrap gap-3">
+                            {% for influence in group["items"] %}
+                            <a href="{{ entity_profile_href(influence.name, influence.entity_type) }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 hover:border-blue-300 hover:text-blue-600 transition-colors">
+                                <span>{{ influence.display_name or influence.name }}</span>
+                                {% if influence.type %}
+                                <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">{{ influence.type|replace('-', ' ') }}</span>
+                                {% endif %}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
             {% if entity_type in ('language', 'foundation', 'artifact') %}
             {% if ancestors or descendants %}
             <section class="mt-12 bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100">

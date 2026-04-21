@@ -6,6 +6,11 @@ from typing import List, Optional, Dict, Any, Union, Set, Tuple, cast
 
 class DataLoader:
     _eras_cache: List[Dict[str, Any]] | None = None
+    _UPSTREAM_INFLUENCE_GROUPS: Tuple[Tuple[str, str, Set[str]], ...] = (
+        ("foundational_precursors", "Foundational Precursors", {"foundation"}),
+        ("language_ancestors", "Language Ancestors", {"language"}),
+        ("related_artifacts", "Related Artifacts / Runtime Influences", {"artifact"}),
+    )
 
     @staticmethod
     def _ascii_normalize_name(name: str) -> str:
@@ -192,6 +197,53 @@ class DataLoader:
                         profiles[filename[:-5]] = json.load(f)
                 except (json.JSONDecodeError, IOError): continue
         return profiles
+
+    def _lookup_language_like_entity_json(self, name: str) -> Optional[Dict[str, Any]]:
+        normalized_name = self._ascii_normalize_name(name)
+        for entity in self.languages:
+            entity_name = entity.get("name")
+            if isinstance(entity_name, str) and self._ascii_normalize_name(entity_name) == normalized_name:
+                return entity
+            display_name = entity.get("display_name")
+            if isinstance(display_name, str) and self._ascii_normalize_name(display_name) == normalized_name:
+                return entity
+        return None
+
+    def _classify_upstream_influences(
+        self,
+        influenced_by_details: List[Dict[str, Any]],
+    ) -> Dict[str, Any]:
+        grouped_items: Dict[str, List[Dict[str, Any]]] = {
+            key: [] for key, _, _ in self._UPSTREAM_INFLUENCE_GROUPS
+        }
+
+        for item in influenced_by_details:
+            entity_type = item.get("entity_type") or "language"
+            matched_group_key = "language_ancestors"
+            for group_key, _, entity_types in self._UPSTREAM_INFLUENCE_GROUPS:
+                if entity_type in entity_types:
+                    matched_group_key = group_key
+                    break
+            grouped_items[matched_group_key].append(item)
+
+        groups: List[Dict[str, Any]] = []
+        for group_key, label, _ in self._UPSTREAM_INFLUENCE_GROUPS:
+            items = grouped_items[group_key]
+            if items:
+                groups.append(
+                    {
+                        "key": group_key,
+                        "label": label,
+                        "items": items,
+                    }
+                )
+
+        return {
+            "groups": groups,
+            "has_foundations": bool(grouped_items["foundational_precursors"]),
+            "has_languages": bool(grouped_items["language_ancestors"]),
+            "has_artifacts": bool(grouped_items["related_artifacts"]),
+        }
 
     def get_people_profiles(self) -> Dict[str, Any]:
         if not self.use_sqlite:
@@ -563,9 +615,41 @@ class DataLoader:
             target = edge['to']
             influence_type = edge.get('type')
             if target.lower() in canonical_names:
-                influenced_by_details.append({'name': source, 'type': influence_type})
+                source_entity = self._lookup_language_like_entity_json(source)
+                influenced_by_details.append(
+                    {
+                        'name': source,
+                        'display_name': (
+                            source_entity.get('display_name')
+                            if source_entity and source_entity.get('display_name')
+                            else source
+                        ),
+                        'type': influence_type,
+                        'entity_type': (
+                            source_entity.get('entity_type', 'language')
+                            if source_entity
+                            else 'language'
+                        ),
+                    }
+                )
             if source.lower() in canonical_names:
-                influenced_details.append({'name': target, 'type': influence_type})
+                target_entity = self._lookup_language_like_entity_json(target)
+                influenced_details.append(
+                    {
+                        'name': target,
+                        'display_name': (
+                            target_entity.get('display_name')
+                            if target_entity and target_entity.get('display_name')
+                            else target
+                        ),
+                        'type': influence_type,
+                        'entity_type': (
+                            target_entity.get('entity_type', 'language')
+                            if target_entity
+                            else 'language'
+                        ),
+                    }
+                )
 
         influenced_by_details.sort(key=lambda item: item['name'].lower())
         influenced_details.sort(key=lambda item: item['name'].lower())
@@ -589,26 +673,40 @@ class DataLoader:
 
             lang_id = row['id']
             cursor = conn.execute("""
-                SELECT l.name, i.influence_type
+                SELECT l.name, l.display_name,
+                       COALESCE(l.entity_type, 'language') AS entity_type,
+                       i.influence_type
                 FROM languages l
                 JOIN influences i ON l.id = i.source_id
                 WHERE i.target_id = ?
                 ORDER BY l.name
             """, (lang_id,))
             influenced_by_details = [
-                {'name': item['name'], 'type': item['influence_type']}
+                {
+                    'name': item['name'],
+                    'display_name': item['display_name'] or item['name'],
+                    'type': item['influence_type'],
+                    'entity_type': item['entity_type'],
+                }
                 for item in cursor.fetchall()
             ]
 
             cursor = conn.execute("""
-                SELECT l.name, i.influence_type
+                SELECT l.name, l.display_name,
+                       COALESCE(l.entity_type, 'language') AS entity_type,
+                       i.influence_type
                 FROM languages l
                 JOIN influences i ON l.id = i.target_id
                 WHERE i.source_id = ?
                 ORDER BY l.name
             """, (lang_id,))
             influenced_details = [
-                {'name': item['name'], 'type': item['influence_type']}
+                {
+                    'name': item['name'],
+                    'display_name': item['display_name'] or item['name'],
+                    'type': item['influence_type'],
+                    'entity_type': item['entity_type'],
+                }
                 for item in cursor.fetchall()
             ]
             return {
@@ -1175,11 +1273,18 @@ class DataLoader:
             details = self._sqlite_influence_details_for_language(name)
             if details is None:
                 return None
+        upstream_influence_groups = self._classify_upstream_influences(
+            details['influenced_by_details']
+        )
         return {
             'influenced_by': [item['name'] for item in details['influenced_by_details']],
             'influenced': [item['name'] for item in details['influenced_details']],
             'influenced_by_details': details['influenced_by_details'],
             'influenced_details': details['influenced_details'],
+            'upstream_influence_groups': upstream_influence_groups['groups'],
+            'has_foundational_precursors': upstream_influence_groups['has_foundations'],
+            'has_language_ancestors': upstream_influence_groups['has_languages'],
+            'has_related_artifacts': upstream_influence_groups['has_artifacts'],
         }
 
     def get_descendants(self, language_id: int, max_depth: int = 5) -> List[Dict[str, Any]]:
