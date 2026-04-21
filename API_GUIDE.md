@@ -123,56 +123,102 @@ Retrieve detailed information for a specific programming paradigm.
 - **Method:** `GET`
 - **Response:** JSON object with name and description.
 
-### 8. List Concepts
+### 8. Get Paradigm Ecosystem
+Retrieve the foundation-aware ecosystem for a specific paradigm. This keeps the
+existing paradigm detail endpoint stable and exposes richer lineage data on a
+separate route.
+
+- **URL:** `/api/paradigm/{name}/ecosystem`
+- **Method:** `GET`
+- **Query Params:**
+  - `sort_languages`: `year` (default) or `name`.
+- **Response:**
+  ```json
+  {
+    "paradigm": {
+      "name": "Functional",
+      "description": "..."
+    },
+    "languages": [
+      {
+        "name": "Haskell",
+        "entity_type": "language",
+        "paradigms": ["Functional"]
+      }
+    ],
+    "foundations": [
+      {
+        "name": "Lambda Calculus",
+        "display_name": "Lambda Calculus",
+        "year": 1930,
+        "philosophy": "...",
+        "paradigms": ["Functional"],
+        "relevance_score": 130,
+        "relevance_reason": "Tagged with Functional and upstream of 3 Functional languages",
+        "supporting_language_count": 3,
+        "example_languages": ["ML", "Haskell", "F#"],
+        "is_directly_tagged": true
+      }
+    ],
+    "stats": {
+      "language_count": 3,
+      "foundation_count": 1,
+      "earliest_language_year": 1973,
+      "earliest_foundation_year": 1930
+    }
+  }
+  ```
+
+### 9. List Concepts
 Retrieve all programming concepts and innovations.
 
 - **URL:** `/api/concepts`
 - **Method:** `GET`
 - **Response:** Array of concept objects.
 
-### 9. Get Concept Detail
+### 10. Get Concept Detail
 Retrieve detailed profile information for a specific programming concept.
 
 - **URL:** `/api/concept/{name}`
 - **Method:** `GET`
 - **Response:** Detailed JSON object for the requested concept.
 
-### 10. List Eras
+### 11. List Eras
 Retrieve summaries of the major historical eras of computing.
 
 - **URL:** `/api/eras`
 - **Method:** `GET`
 - **Response:** Array of era summary objects.
 
-### 11. Get Era Detail
+### 12. Get Era Detail
 Retrieve a detailed narrative summary for a specific era.
 
 - **URL:** `/api/era/{slug}`
 - **Method:** `GET`
 - **Response:** Detailed JSON object for the requested era.
 
-### 12. List Organizations
+### 13. List Organizations
 Retrieve all organization profiles.
 
 - **URL:** `/api/organizations`
 - **Method:** `GET`
 - **Response:** Key-value object mapping organization names to their profile data.
 
-### 13. Get Organization Detail
+### 14. Get Organization Detail
 Retrieve detailed information for a specific organization.
 
 - **URL:** `/api/org/{name}`
 - **Method:** `GET`
 - **Response:** Detailed JSON object for the requested organization.
 
-### 14. List Odysseys
+### 15. List Odysseys
 Retrieve all guided learning paths.
 
 - **URL:** `/api/odysseys`
 - **Method:** `GET`
 - **Response:** Array of Odyssey objects.
 
-### 15. Get Odyssey Path
+### 16. Get Odyssey Path
 Retrieve a specific guided learning path by its ID.
 
 - **URL:** `/api/odyssey/{path_id}`
@@ -192,14 +238,14 @@ Retrieve a specific guided learning path by its ID.
   }
   ```
 
-### 16. List People
+### 17. List People
 Retrieve all people profiles.
 
 - **URL:** `/api/people`
 - **Method:** `GET`
 - **Response:** Key-value object mapping person names to their profile data.
 
-### 17. Get Person Detail
+### 18. Get Person Detail
 Retrieve detailed profile information for a specific person.
 
 - **URL:** `/api/person/{name}`
@@ -207,28 +253,28 @@ Retrieve detailed profile information for a specific person.
 - **Note:** Names containing spaces may be URL-encoded (`John%20Backus`) or use underscores (`John_Backus`). See "Name Lookup and URL Encoding" below.
 - **Response:** Detailed JSON object for the requested person.
 
-### 18. List Historical Events
+### 19. List Historical Events
 Retrieve all historical events.
 
 - **URL:** `/api/historical_events`
 - **Method:** `GET`
 - **Response:** Key-value object mapping event slugs to their event data.
 
-### 19. Get Historical Event Detail
+### 20. Get Historical Event Detail
 Retrieve detailed information for a specific historical event.
 
 - **URL:** `/api/event/{slug}`
 - **Method:** `GET`
 - **Response:** Detailed JSON object for the requested event.
 
-### 20. Insights: Paradigm Momentum
+### 21. Insights: Paradigm Momentum
 Retrieve paradigm momentum data for the insights dashboard.
 
 - **URL:** `/api/insights/momentum`
 - **Method:** `GET`
 - **Response:** Array of objects with paradigm momentum analytics.
 
-### 21. Visualization Data
+### 22. Visualization Data
 Retrieve processed data for timeline and influence visualizations.
 
 - **URL:** `/api/viz/timeline`

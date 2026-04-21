@@ -13,7 +13,11 @@ commands for contributors working in this directory.
   `language_atlas.sqlite` in normal operation (`USE_SQLITE=1`) and
   falls back to JSON files during the build step (`USE_SQLITE=0`).
   All routes and commands go through DataLoader; no module issues raw
-  SQL except DataLoader and InsightGenerator.
+  SQL except DataLoader and InsightGenerator. Paradigm browsing now has
+  a first-class `get_paradigm_ecosystem()` contract that returns the
+  paradigm record, language-only members, foundation-only upstream
+  context, and summary stats without changing the lightweight paradigm
+  detail endpoint.
 - **`build_sqlite.py`** — Transforms the JSON source files into
   `language_atlas.sqlite`. Calculates `influence_score`, builds the
   FTS5 `search_index` virtual table, and creates analytical views.
@@ -71,6 +75,7 @@ and `/redoc` while the server is running.
 Notable endpoints:
 - `GET /api/search?q=concurrency` — FTS5 BM25 ranked results
 - `GET /api/language/Rust` — combined core + profile data
+- `GET /api/paradigm/Functional/ecosystem` — paradigm languages plus ranked foundations
 - `GET /api/odysseys` — list all guided paths
 - `GET /visualizations` — Plotly timeline and influence network
 
