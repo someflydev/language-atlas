@@ -30,6 +30,11 @@ def _find_representative_paradigm(loader: DataLoader) -> tuple[str, dict] | None
     return None
 
 
+def _find_representative_foundation(loader: DataLoader) -> dict | None:
+    foundations = loader.get_all_languages(entity_type="foundation")
+    return foundations[0] if foundations else None
+
+
 @pytest.fixture(scope="session")
 def crawled_site(tmp_path_factory: pytest.TempPathFactory) -> tuple[Path, CrawlReport, DataLoader]:
     """Run one full crawl into a shared session-scoped temp directory."""
@@ -143,6 +148,47 @@ def test_paradigm_route_renders_foundations_and_languages(
     assert "Languages in this paradigm" in response.text
     assert first_foundation in response.text
     assert first_language in response.text
+
+
+def test_foundation_profile_uses_shared_route_without_language_mislabel(
+    mock_loader: DataLoader,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    foundation = _find_representative_foundation(mock_loader)
+    assert foundation is not None, "Expected at least one foundation in the mixed corpus"
+
+    monkeypatch.setattr(app_module, "data_loader", mock_loader)
+    monkeypatch.setattr(app_module, "_entity_link_map", None)
+
+    client = TestClient(app_module.app)
+    response = client.get(f"/language/{quote(foundation['name'])}")
+
+    assert response.status_code == 200
+    assert foundation["display_name"] in response.text
+    assert "Historical and Theoretical Foundations" in response.text
+    assert "Top 5 Language" not in response.text
+
+
+def test_language_and_foundation_cards_render_correct_profile_links(
+    mock_loader: DataLoader,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    foundation = _find_representative_foundation(mock_loader)
+    language = mock_loader.get_all_languages(entity_type="language")[0]
+    assert foundation is not None, "Expected at least one foundation in the mixed corpus"
+
+    monkeypatch.setattr(app_module, "data_loader", mock_loader)
+    monkeypatch.setattr(app_module, "_entity_link_map", None)
+
+    client = TestClient(app_module.app)
+
+    foundation_response = client.get("/languages?entity_type=foundation")
+    assert foundation_response.status_code == 200
+    assert f'href="/language/{foundation["name"]}"' in foundation_response.text
+
+    language_response = client.get("/languages?entity_type=language")
+    assert language_response.status_code == 200
+    assert f'href="/language/{language["name"]}"' in language_response.text
 
 
 def test_crawler_emits_foundation_aware_paradigm_page(crawled_site: tuple) -> None:
