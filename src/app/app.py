@@ -458,26 +458,18 @@ async def search(request: Request, q: str = Query("")) -> Any:
 
 @app.get("/paradigm/{name}", response_class=HTMLResponse)
 async def get_paradigm_view(request: Request, name: str, sort: str = "year") -> Response:
-    info = data_loader.get_paradigm_info(name)
-    all_languages = data_loader.get_all_languages()
-    filtered_languages = [
-        l for l in all_languages 
-        if name.lower() in [p.lower() for p in (l.get('paradigms') or [])]
-    ]
-    
-    if sort == "name":
-        filtered_languages.sort(key=lambda x: x['name'].lower())
-    else:
-        filtered_languages.sort(key=lambda x: x.get('year', 0))
-    
+    current_sort = sort if sort in {"name", "year"} else "year"
+    ecosystem = data_loader.get_paradigm_ecosystem(name, sort_languages=current_sort)
+
     return templates.TemplateResponse(
         request=request,
-        name="tag_view.html",
+        name="paradigm_view.html",
         context={
-            "type": "Paradigm",
-            "info": info,
-            "languages": filtered_languages,
-            "current_sort": sort
+            "info": ecosystem["paradigm"],
+            "languages": ecosystem["languages"],
+            "foundations": ecosystem["foundations"],
+            "stats": ecosystem["stats"],
+            "current_sort": current_sort,
         }
     )
 

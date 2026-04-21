@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto py-8 px-4">
+    <nav class="mb-12">
+        <a href="/" class="group inline-flex items-center text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors">
+            <svg class="w-4 h-4 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            BACK TO ATLAS
+        </a>
+    </nav>
+
+    <header class="mb-16">
+        <div class="flex flex-wrap items-start justify-between gap-8 mb-8">
+            <div class="max-w-3xl">
+                <span class="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-black uppercase tracking-widest mb-4">
+                    Paradigm Ecosystem
+                </span>
+                <h1 class="text-5xl md:text-6xl font-black text-slate-900 tracking-tighter mb-5">{{ info.name }}</h1>
+                <p class="text-xl text-slate-500 font-medium leading-relaxed">
+                    {{ info.description }}
+                </p>
+                <p class="mt-5 text-sm text-slate-500 max-w-2xl">
+                    The upper section traces the historical and theoretical precursors behind this paradigm. The lower section shows the languages that put those ideas into executable form.
+                </p>
+            </div>
+
+            <dl class="grid grid-cols-1 sm:grid-cols-3 gap-4 min-w-full sm:min-w-0 sm:max-w-xl">
+                <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+                    <dt class="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">Languages</dt>
+                    <dd class="text-3xl font-black text-slate-900">{{ stats.language_count }}</dd>
+                </div>
+                <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+                    <dt class="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">Foundations</dt>
+                    <dd class="text-3xl font-black text-slate-900">{{ stats.foundation_count }}</dd>
+                </div>
+                <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+                    <dt class="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">Earliest Anchor</dt>
+                    <dd class="text-3xl font-black text-slate-900">{{ stats.earliest_foundation_year or stats.earliest_language_year or "Unknown" }}</dd>
+                </div>
+            </dl>
+        </div>
+    </header>
+
+    <section class="mb-16">
+        <div class="flex items-end justify-between gap-6 mb-8">
+            <div>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight">Foundational Precursors</h2>
+                <p class="mt-2 text-sm text-slate-500 max-w-3xl">
+                    These foundations are ranked by relevance to {{ info.name }}. Directly tagged foundations appear alongside shared precursors inferred from documented lineage.
+                </p>
+            </div>
+            <div class="text-xs font-black uppercase tracking-widest text-slate-400">
+                {{ foundations|length }} foundations
+            </div>
+        </div>
+
+        {% if foundations %}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {% for foundation in foundations %}
+            <article class="relative bg-white rounded-3xl border border-slate-100 shadow-sm p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-blue-100">
+                <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+                    <div>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            {% if foundation.is_directly_tagged %}
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-100 text-blue-700">
+                                Directly tagged
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-slate-100 text-slate-500">
+                                Shared precursor
+                            </span>
+                            {% endif %}
+                            {% if foundation.supporting_language_count %}
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-emerald-50 text-emerald-700">
+                                {{ foundation.supporting_language_count }} supporting language{% if foundation.supporting_language_count != 1 %}s{% endif %}
+                            </span>
+                            {% endif %}
+                        </div>
+                        <h3 class="text-2xl font-black text-slate-900">{{ foundation.display_name }}</h3>
+                    </div>
+                    <div class="text-sm font-bold text-slate-400">
+                        {{ foundation.year or "Unknown year" }}
+                    </div>
+                </div>
+
+                {% if foundation.philosophy %}
+                <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                    {{ foundation.philosophy }}
+                </p>
+                {% endif %}
+
+                {% if foundation.relevance_reason %}
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl p-4 mb-5">
+                    <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">Why It Matters Here</p>
+                    <p class="text-sm text-slate-600">{{ foundation.relevance_reason }}</p>
+                </div>
+                {% endif %}
+
+                {% if foundation.example_languages %}
+                <div class="mb-5">
+                    <p class="text-[11px] font-black uppercase tracking-widest text-slate-400 mb-3">Example Descendants</p>
+                    <div class="flex flex-wrap gap-2">
+                        {% for example_language in foundation.example_languages %}
+                        <span class="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">
+                            {{ example_language }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <a href="/language/{{ foundation.name }}" class="inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors">
+                    View profile
+                    <span class="ml-2" aria-hidden="true">&rarr;</span>
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
+            <p class="text-slate-500">No historical or theoretical precursors are currently linked to this paradigm.</p>
+        </div>
+        {% endif %}
+    </section>
+
+    <section class="border-t border-slate-100 pt-12">
+        <div class="flex flex-wrap items-center justify-between gap-6 mb-10">
+            <div>
+                <h2 class="text-3xl font-black text-slate-900 tracking-tight">Languages in this paradigm</h2>
+                <p class="mt-2 text-sm text-slate-500">Browse the executable languages that embody {{ info.name }} ideas.</p>
+            </div>
+
+            <form action="" method="get" class="flex items-center space-x-4">
+                <span class="text-xs font-black uppercase tracking-widest text-slate-400">Sort:</span>
+                <div class="flex bg-slate-100 p-1 rounded-lg shadow-inner">
+                    <input type="radio" name="sort" value="name" id="sort-name" class="hidden" {% if current_sort == 'name' %}checked{% endif %} onchange="this.form.submit()">
+                    <label for="sort-name" class="px-6 py-2 text-xs font-bold uppercase rounded-md cursor-pointer transition-all {% if current_sort == 'name' %}bg-white shadow-sm text-blue-600{% else %}text-slate-500 hover:text-slate-700{% endif %}">
+                        Name
+                    </label>
+
+                    <input type="radio" name="sort" value="year" id="sort-year" class="hidden" {% if current_sort == 'year' %}checked{% endif %} onchange="this.form.submit()">
+                    <label for="sort-year" class="px-6 py-2 text-xs font-bold uppercase rounded-md cursor-pointer transition-all {% if current_sort == 'year' %}bg-white shadow-sm text-blue-600{% else %}text-slate-500 hover:text-slate-700{% endif %}">
+                        Year
+                    </label>
+                </div>
+            </form>
+        </div>
+
+        {% if languages %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for lang in languages %}
+            <div class="card-container group relative flex flex-col h-full">
+                <article class="card h-full flex flex-col p-6 bg-white rounded-2xl border border-slate-100 shadow-sm transition-all duration-300 group-hover:shadow-xl group-hover:border-blue-100 group-hover:-translate-y-1 relative">
+                    <header class="mb-4">
+                        <div class="flex justify-between items-start mb-3 gap-4">
+                            <h3 class="text-xl font-black text-slate-900 group-hover:text-blue-600 transition-colors">{{ lang.display_name }}</h3>
+                            <span class="text-xs font-bold text-slate-400 whitespace-nowrap">{{ lang.year or "Unknown" }}</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2 relative z-30 mb-3">
+                            {% for paradigm in lang.paradigms or [] %}
+                            <a href="/paradigm/{{ paradigm }}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black uppercase tracking-wider px-2 py-1 rounded transition-colors pointer-events-auto relative {% if paradigm == info.name %}text-blue-600 bg-blue-50 hover:bg-blue-100{% else %}text-slate-500 bg-slate-100 hover:bg-slate-200{% endif %}">
+                                {{ paradigm }}
+                            </a>
+                            {% endfor %}
+                            {% if lang.cluster %}
+                            <a href="/cluster/{{ lang.cluster }}" target="_blank" rel="noopener noreferrer" class="text-[10px] font-black uppercase tracking-wider text-slate-400 border border-slate-100 px-2 py-1 rounded hover:bg-slate-50 transition-colors badge cluster-{{ lang.cluster|lower }} pointer-events-auto relative">
+                                {{ lang.cluster }}
+                            </a>
+                            {% endif %}
+                        </div>
+                    </header>
+                    <p class="text-sm text-slate-500 leading-relaxed line-clamp-3 italic mb-4">
+                        "{{ lang.philosophy }}"
+                    </p>
+                    <a href="/language/{{ lang.name }}" class="absolute inset-0 z-10 rounded-2xl cursor-pointer" aria-label="View {{ lang.display_name }} profile"></a>
+                </article>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
+            <p class="text-slate-500">No languages are currently associated with this paradigm.</p>
+        </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

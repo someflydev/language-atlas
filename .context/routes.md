@@ -39,7 +39,7 @@ Routes marked **skipped** are not exported at all.
 | `GET /event/{slug}` | `profile.html` | entity_type=event | crawled |
 | `GET /org/{name}` | `profile.html` | entity_type=org | crawled |
 | `GET /concept/{name}` | `profile.html` | entity_type=concept | crawled |
-| `GET /paradigm/{name}` | `tag_view.html` | type=Paradigm | crawled |
+| `GET /paradigm/{name}` | `paradigm_view.html` | foundation-aware ecosystem view with ranked precursors and sorted language cards | crawled |
 | `GET /cluster/{name}` | `tag_view.html` | type=Cluster | crawled |
 | `GET /odysseys` | `odysseys.html` | | crawled |
 | `GET /odyssey/{path_id}` | `odyssey_detail.html` | hydrates steps with language profiles | crawled |
@@ -86,7 +86,8 @@ src/app/templates/
   index.html                         # Language grid + filters
   profile.html                       # Universal entity profile (language/person/event/org/concept)
   compare.html                       # Side-by-side comparison
-  tag_view.html                      # Paradigm/cluster filtered view
+  tag_view.html                      # Generic cluster filtered view
+  paradigm_view.html                 # Foundation-aware paradigm ecosystem view
   insights.html                      # Analytics dashboard
   visualizations.html                # Plotly charts
   narrative_hub.html                 # Era/crossroads navigation
