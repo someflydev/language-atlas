@@ -5,7 +5,7 @@ import json
 import sqlite3
 import difflib
 from typing import Optional, List, Dict, Any
-from rich.console import Console
+from rich.console import Console, Group
 from rich.table import Table
 from rich.panel import Panel
 from rich.layout import Layout
@@ -15,6 +15,13 @@ from rich.live import Live
 from rich.text import Text
 from rich import print as rprint
 from app.core.data_loader import DataLoader
+from app.core.terminal_ui import (
+    build_downstream_lineage_entries,
+    build_upstream_lineage_sections,
+    format_lineage_entry,
+    get_display_name,
+    get_entity_type_label,
+)
 
 app = typer.Typer(help="Language Atlas CLI - Explore Programming Language History")
 console = Console(width=140, height=40)
@@ -48,10 +55,38 @@ def output_result(data: Any, json_out: bool) -> None:
         # Standard rich output is already 'pretty'
         pass
 
+
+def _build_lineage_panel(influences: Dict[str, Any]) -> Panel:
+    upstream_sections = build_upstream_lineage_sections(influences)
+    downstream_entries = build_downstream_lineage_entries(influences)
+    blocks: List[Any] = []
+
+    if upstream_sections:
+        for section in upstream_sections:
+            blocks.append(Text(section["label"], style="bold green"))
+            for item in section.get("items", []):
+                blocks.append(Text(f"  <- {format_lineage_entry(item)}", style="green"))
+            blocks.append(Text(""))
+    else:
+        blocks.append(Text("No recorded upstream lineage.", style="dim"))
+        blocks.append(Text(""))
+
+    blocks.append(Text("Downstream Influences", style="bold cyan"))
+    if downstream_entries:
+        for item in downstream_entries:
+            blocks.append(Text(f"  -> {format_lineage_entry(item)}", style="cyan"))
+    else:
+        blocks.append(Text("  None recorded.", style="dim"))
+
+    if blocks and isinstance(blocks[-1], Text) and not blocks[-1].plain.strip():
+        blocks.pop()
+
+    return Panel(Group(*blocks), title="Lineage Panel", border_style="green")
+
 @app.command()
 def dashboard(language: str, json_out: bool = typer.Option(False, "--json")) -> None:
     """
-    The 'Impact Dashboard': Control Room style view for a language.
+    The 'Impact Dashboard': Control Room style view for a language-like entity.
     """
     loader = get_loader()
     lang = loader.get_language(language)
@@ -103,19 +138,7 @@ def dashboard(language: str, json_out: bool = typer.Option(False, "--json")) -> 
     layout["innovations"].update(Panel(innovation_list, title="Innovation Stats", border_style="yellow"))
     
     # Lineage
-    influenced_by = influences.get('influenced_by', [])
-    influenced = influences.get('influenced', [])
-    
-    ib_text = Text("Ancestors (Influenced By):\n", style="bold green")
-    for ib in influenced_by:
-        ib_text.append(f"  ← {ib}\n", style="green")
-        
-    i_text = Text("\nDescendants (Influenced):\n", style="bold cyan")
-    for i in influenced:
-        i_text.append(f"  → {i}\n", style="cyan")
-    
-    lineage_cols = Columns([ib_text, i_text])
-    layout["lineage"].update(Panel(lineage_cols, title="Lineage Panel", border_style="green"))
+    layout["lineage"].update(_build_lineage_panel(influences))
     
     # Footer
     philosophy = lang.get('philosophy', 'N/A')
@@ -124,6 +147,101 @@ def dashboard(language: str, json_out: bool = typer.Option(False, "--json")) -> 
     layout["footer"].update(Panel(f"[italic]{philosophy}[/italic]", title="Philosophy Snippet", border_style="dim"))
 
     console.print(layout)
+
+
+@app.command("paradigm")
+def paradigm_view(name: str, json_out: bool = typer.Option(False, "--json")) -> None:
+    """
+    Explore a paradigm ecosystem with ranked foundations and member languages.
+    """
+    loader = get_loader()
+    ecosystem = loader.get_paradigm_ecosystem(name)
+    paradigm = ecosystem.get("paradigm") or {}
+
+    if not paradigm.get("name"):
+        console.print(f"[red]Error: Paradigm '{name}' not found.[/red]")
+        raise typer.Exit(1)
+
+    if json_out:
+        console.print_json(data=ecosystem)
+        return
+
+    stats = ecosystem.get("stats") or {}
+    foundations = ecosystem.get("foundations") or []
+    languages = ecosystem.get("languages") or []
+
+    stats_table = Table.grid(expand=True)
+    stats_table.add_column(style="cyan")
+    stats_table.add_column(style="bold white")
+    stats_table.add_row("Languages", str(stats.get("language_count", len(languages))))
+    stats_table.add_row("Foundations", str(stats.get("foundation_count", len(foundations))))
+    stats_table.add_row(
+        "Earliest Language",
+        str(stats.get("earliest_language_year") or "Unknown"),
+    )
+    stats_table.add_row(
+        "Earliest Foundation",
+        str(stats.get("earliest_foundation_year") or "Unknown"),
+    )
+
+    foundation_table = Table(box=None, show_header=True, header_style="bold green")
+    foundation_table.add_column("Foundation", style="green")
+    foundation_table.add_column("Why It Matters", style="white")
+    foundation_table.add_column("Signals", style="cyan")
+    if foundations:
+        for foundation in foundations:
+            signals = []
+            if foundation.get("supporting_language_count"):
+                signals.append(
+                    f"{foundation['supporting_language_count']} supporting language(s)"
+                )
+            if foundation.get("example_languages"):
+                signals.append(
+                    "Examples: " + ", ".join(foundation["example_languages"])
+                )
+            if foundation.get("is_directly_tagged"):
+                signals.append("Directly tagged")
+            foundation_table.add_row(
+                get_display_name(foundation),
+                foundation.get("relevance_reason")
+                or foundation.get("philosophy")
+                or "No rationale recorded.",
+                "; ".join(signals) or "No supporting signals recorded.",
+            )
+    else:
+        foundation_table.add_row("None recorded", "No foundational precursors recorded.", "")
+
+    language_table = Table(box=None, show_header=True, header_style="bold cyan")
+    language_table.add_column("Language", style="cyan")
+    language_table.add_column("Year", justify="right")
+    language_table.add_column("Primary Paradigm", style="magenta")
+    language_table.add_column("Cluster", style="green")
+    if languages:
+        for language in languages:
+            paradigms = language.get("paradigms") or []
+            language_table.add_row(
+                get_display_name(language),
+                str(language.get("year") or "Unknown"),
+                paradigms[0] if paradigms else "Unspecified",
+                language.get("cluster") or "Unspecified",
+            )
+    else:
+        language_table.add_row("None recorded", "", "", "")
+
+    console.print(
+        Panel(
+            Group(
+                Text(paradigm["name"], style="bold magenta"),
+                Text(paradigm.get("description") or "No description recorded.", style="white"),
+                Text(""),
+                stats_table,
+            ),
+            title="Paradigm Ecosystem",
+            border_style="magenta",
+        )
+    )
+    console.print(Panel(foundation_table, title="Foundational Precursors", border_style="green"))
+    console.print(Panel(language_table, title="Languages in this paradigm", border_style="cyan"))
 
 @app.command()
 def report(subcommand: str = typer.Argument(..., help="Subcommand: summary"), json_out: bool = typer.Option(False, "--json")) -> None:
@@ -295,7 +413,7 @@ def list_langs(
 @app.command()
 def influences(language: str, json_out: bool = typer.Option(False, "--json")) -> None:
     """
-    Explore lineage and influences for a specific language.
+    Explore lineage and influences for a specific language-like entity.
     """
     loader = get_loader()
     infl = loader.get_influences(language)
@@ -308,23 +426,33 @@ def influences(language: str, json_out: bool = typer.Option(False, "--json")) ->
         console.print_json(data=infl)
         return
     
-    table = Table(title=f"Lineage: {language}", border_style="green")
-    table.add_column("Direction", style="bold")
-    table.add_column("Language", style="cyan")
-    table.add_column("Type", style="magenta")
+    sections = build_upstream_lineage_sections(infl)
+    downstream_entries = build_downstream_lineage_entries(infl)
 
-    influenced_by_details = infl.get('influenced_by_details', [])
-    influenced_details = infl.get('influenced_details', [])
+    blocks: List[Any] = []
+    if sections:
+        for section in sections:
+            table = Table(box=None, show_header=False)
+            table.add_column(style="green")
+            for item in section.get("items", []):
+                table.add_row(f"<- {format_lineage_entry(item)}")
+            blocks.append(Panel(table, title=section["label"], border_style="green"))
 
-    if not influenced_by_details and not influenced_details:
-        table.add_row("·", "No lineage recorded", "")
+    downstream_table = Table(box=None, show_header=False)
+    downstream_table.add_column(style="cyan")
+    if downstream_entries:
+        for item in downstream_entries:
+            downstream_table.add_row(f"-> {format_lineage_entry(item)}")
     else:
-        for item in influenced_by_details:
-            table.add_row("← Influenced By", item['name'], item.get('type') or "")
-        for item in influenced_details:
-            table.add_row("→ Influenced", item['name'], item.get('type') or "")
-    
-    console.print(table)
+        downstream_table.add_row("No recorded downstream influences.")
+    blocks.append(Panel(downstream_table, title="Downstream Influences", border_style="cyan"))
+
+    if not sections and not downstream_entries:
+        blocks = [Panel("No lineage recorded.", border_style="dim")]
+
+    title = loader.get_language(language)
+    entity_label = get_entity_type_label(title.get("entity_type") if title else None)
+    console.print(Panel(Group(*blocks), title=f"Lineage: {language} ({entity_label})", border_style="green"))
 
 @app.command()
 def search(term: str, json_out: bool = typer.Option(False, "--json")) -> None:
