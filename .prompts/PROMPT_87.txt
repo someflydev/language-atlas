@@ -1,0 +1,368 @@
+# PROMPT_87: Bring CLI and TUI Up to Feature Parity for Foundations and Grouped Lineage
+
+## Objective
+
+PROMPT_83 through PROMPT_86 made the web experience and shared data layer much
+smarter about:
+
+- paradigm ecosystems with ranked foundations
+- mixed language-like entities in the `languages` corpus
+- grouped upstream influences on profiles
+
+The CLI and TUI still lag behind. They expose some raw `entity_type` fields,
+but they do not yet present the new model coherently.
+
+This prompt closes that gap.
+
+The goal is not superficial parity by dumping JSON into the terminal. The goal
+is to make the CLI and TUI feel like first-class interfaces to the same
+foundation-aware Atlas:
+
+- paradigm browsing should explain both languages and foundations
+- lineage views should distinguish foundations from language ancestors
+- mixed `language` / `foundation` / `artifact` entities should browse honestly
+- documentation should describe the terminal interfaces accurately
+
+Do this thoughtfully. Favor a small number of useful terminal surfaces over a
+large number of half-finished commands.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/routes.md`,
+   `.context/commands.md`, and `.context/workflow.md`.
+3. Read:
+   - `src/cli.py`
+   - `src/tui.py`
+   - `src/app/core/data_loader.py`
+   - `src/README.md`
+   - `API_GUIDE.md`
+4. Review the PROMPT_83 through PROMPT_86 changes in the current codebase
+   before editing anything.
+5. Create `tmp/PROMPT_87_checklist.md`.
+6. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. Add a CLI paradigm ecosystem surface
+
+The CLI must expose the foundation-aware paradigm ecosystem added in
+PROMPT_83.
+
+Add a command that makes the paradigm ecosystem genuinely useful in a terminal,
+for example:
+
+```text
+atlas paradigm Functional
+```
+
+or a similarly named command that is easy to discover.
+
+Requirements:
+
+- accept a paradigm name
+- call `DataLoader.get_paradigm_ecosystem()`
+- render:
+  - paradigm title and description
+  - compact stats
+  - a `Foundational Precursors` section
+  - a `Languages in this paradigm` section
+- keep the foundation ranking order from the loader
+- support `--json`
+
+The human-readable output must not collapse everything into a flat table.
+Users should be able to tell quickly:
+
+- which foundations matter most
+- why they matter
+- which languages embody the paradigm
+
+### 2. Upgrade CLI lineage output to use grouped upstream influences
+
+The existing CLI influence/lineage command currently prints a flat upstream
+list. It must be updated to take advantage of PROMPT_86.
+
+Requirements:
+
+- use the richer grouped upstream data returned by `get_influences()`
+- render upstream sections separately when present:
+  - `Foundational Precursors`
+  - `Language Ancestors`
+  - optional artifact/runtime section if present
+- keep downstream influences visible
+- preserve `--json`
+
+Do not regress simple use cases where a language only has one kind of upstream
+influence.
+
+The grouped view should be legible, not over-designed. Rich tables, panels, or
+small section headers are all acceptable.
+
+### 3. Upgrade the CLI dashboard so it reflects grouped lineage
+
+The `dashboard` command should stop implying that all upstream influences are
+the same kind of ancestor.
+
+At minimum:
+
+- the lineage panel must distinguish foundations from language ancestors when
+  the data supports it
+- the command must still work for ordinary language-only cases
+- it must remain coherent for foundations and artifacts shown through the
+  shared corpus
+
+Do not turn `dashboard` into a wall of text. Keep the control-room feel, but
+make the lineage portion truthful.
+
+### 4. Bring the TUI reader up to profile parity
+
+The TUI reader is currently much closer to the old flat profile model than to
+the web profile page.
+
+Update it so the reader meaningfully uses the richer combined language-like
+payload.
+
+Requirements:
+
+- continue using `get_combined_language_data()`
+- render `entity_type` clearly
+- add an upstream lineage section that uses grouped influences rather than a
+  single undifferentiated list
+- keep historical context / profile narrative sections useful
+
+You do not need to clone the exact web profile design. This is a terminal
+reader, not a browser template. But the same conceptual distinctions must be
+present.
+
+### 5. Bring the TUI nexus pane up to lineage parity
+
+The TUI nexus pane currently bypasses the shared grouped influence logic and
+queries raw edges directly. This prompt should align it with the shared
+DataLoader contract unless there is a compelling performance reason not to.
+
+Requirements:
+
+- prefer `get_influences()` or a shared helper instead of duplicating lineage
+  queries ad hoc in the TUI
+- show upstream groups distinctly
+- keep downstream influences visible
+- preserve influence type labels where useful
+
+If you retain any direct SQL, justify it with a narrow reason and keep the
+grouping logic aligned with the loader contract.
+
+### 6. Decide how the TUI should browse mixed language-like entities
+
+The TUI chronology tree currently behaves as a language-only tree. That is now
+an obvious mismatch with the rest of the application.
+
+You must make a deliberate product decision and implement it cleanly:
+
+Option A:
+- keep the default chronology tree language-only
+- add an explicit entity-type toggle or mode so foundations and artifacts are
+  browseable
+
+Option B:
+- make the tree mixed-entity-aware by default in a way that remains readable
+
+Either approach is acceptable, but the final behavior must satisfy:
+
+- foundations are discoverable in the TUI
+- artifacts are not silently hidden forever
+- labels and grouping make it clear what users are looking at
+
+Do not bury this behind undocumented keys. If you add a toggle or mode, expose
+it in bindings/help text.
+
+### 7. Keep search and selection behavior coherent
+
+If TUI search results or CLI selection flows can surface foundations or
+artifacts, selection and rendering must continue to work.
+
+Requirements:
+
+- selecting a foundation from search or navigation should render a coherent
+  reader view
+- no terminal path should assume every item is an executable language
+- route terminology in docs/help text should stay accurate
+
+### 8. Preserve existing API/data contracts
+
+This prompt is a terminal UX parity pass, not a data-model rewrite.
+
+Do not break:
+
+- `get_paradigm_ecosystem()`
+- `get_influences()`
+- existing flat influence fields
+- existing CLI commands unless you are improving their presentation in a
+  backward-compatible way
+
+If you add new loader helpers to reduce TUI/CLI duplication, keep them focused
+and reuse shared logic rather than splitting behavior across multiple partially
+overlapping implementations.
+
+---
+
+## Implementation Guidance
+
+### CLI design
+
+Prefer a small number of strong commands over many tiny ones.
+
+A good outcome would be:
+
+- one new paradigm-focused command
+- upgraded `influences`
+- upgraded `dashboard`
+
+Keep `--json` behavior straightforward. The human-readable mode is where the
+design work matters most.
+
+### TUI design
+
+The TUI should feel like a terminal-native knowledge browser:
+
+- left pane: discoverability and navigation
+- center pane: narrative reader
+- right pane: influence context / nexus
+
+Avoid a huge reactive refactor if a smaller update can achieve parity. But do
+not leave the nexus pane on an obsolete flat lineage model.
+
+### Shared logic
+
+If both CLI and TUI need the same grouped-lineage formatting inputs, prefer
+small shared helpers in Python over repeated ad hoc branching.
+
+Do not move rendering into `DataLoader`. Keep data shaping there, not Rich or
+Textual presentation.
+
+### Mixed-entity terminology
+
+Be careful with labels like:
+
+- `Language`
+- `Ancestor`
+- `Established`
+
+When showing a foundation or artifact, use wording that remains honest. It is
+fine for some commands to remain language-centric if they explicitly target
+languages, but do not silently mislabel mixed entities.
+
+---
+
+## Tests
+
+Add or update tests to prove the new CLI/TUI behavior rather than relying on
+manual inspection.
+
+### Required coverage
+
+1. CLI paradigm ecosystem coverage
+   - add a test for the new CLI command
+   - assert the rendered output includes:
+     - a foundations section heading
+     - a languages section heading
+     - representative content from both
+   - also verify `--json` shape if practical
+
+2. CLI grouped influence coverage
+   - update or add a test showing grouped upstream lineage in terminal output
+   - assert representative headings such as `Foundational Precursors` and
+     `Language Ancestors` when both are present
+
+3. TUI reader / nexus coverage
+   - add focused tests for the functions or methods that generate the reader
+     content and nexus data
+   - prove the TUI uses grouped lineage rather than only flat upstream lists
+
+4. Mixed-entity TUI navigation coverage
+   - add a test for the chosen mixed-entity browsing approach
+   - prove at least one foundation is discoverable in the TUI navigation model
+
+### Testing guidance
+
+Prefer testing smaller formatting/data-preparation helpers where possible. If
+the current TUI test surface is thin, introduce focused helper methods that are
+easy to test rather than relying entirely on full interactive app tests.
+
+Do not add snapshot tests for giant terminal blobs unless the repo already uses
+that style. Assertions should be targeted and high-signal.
+
+---
+
+## Documentation Requirements
+
+Update documentation so the terminal interfaces are described accurately after
+this prompt.
+
+Required updates:
+
+- `src/README.md`
+- `API_GUIDE.md` if any CLI/TUI-relevant endpoint references or examples need
+  clarification
+- `.context/commands.md`
+- `.context/routes.md` if route or terminal-navigation semantics need a note
+
+Documentation should reflect:
+
+- the CLI paradigm ecosystem entry point
+- grouped lineage in terminal views
+- the TUI mixed-entity browsing behavior you chose
+
+If command help text changes materially, keep examples current.
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- redesign the web templates again
+- add new web routes unless strictly required
+- invent a separate terminal-only data model
+- do a broad Textual architecture rewrite unrelated to parity
+- add graph visualizations
+
+If you find additional terminal UX ideas, note them in the checklist and stop
+once CLI/TUI parity for PROMPT_83 through PROMPT_86 is coherent.
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make test
+make docs
+```
+
+Also inspect the relevant diff:
+
+```bash
+git diff -- src/cli.py src/tui.py src/app/core/data_loader.py src/README.md API_GUIDE.md .context/commands.md .context/routes.md tests
+```
+
+If you add a new dedicated test module for CLI or TUI behavior, include it in
+the diff review and mention it explicitly in the final summary.
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- the CLI exposes a thoughtful paradigm ecosystem view
+- CLI lineage output distinguishes foundations from language ancestors
+- the TUI reader and nexus pane use grouped lineage
+- foundations and artifacts are discoverable in the TUI by a deliberate,
+  documented browsing model
+- docs describe the terminal interfaces accurately
+- tests pass
