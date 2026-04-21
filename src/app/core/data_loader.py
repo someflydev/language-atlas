@@ -1497,6 +1497,243 @@ class DataLoader:
         finally:
             conn.close()
 
+    @staticmethod
+    def _year_sort_key(value: Any) -> Tuple[int, int]:
+        if isinstance(value, int):
+            return (0, value)
+        return (1, 0)
+
+    @classmethod
+    def _entity_name_sort_key(cls, entity: Dict[str, Any]) -> Tuple[str, str]:
+        display_name = entity.get('display_name') or entity.get('name') or ''
+        name = entity.get('name') or ''
+        return (str(display_name).lower(), str(name).lower())
+
+    @classmethod
+    def _ecosystem_entity_sort_key(cls, entity: Dict[str, Any], sort: str) -> Tuple[Any, ...]:
+        if sort == "name":
+            return cls._entity_name_sort_key(entity)
+        return (
+            cls._year_sort_key(entity.get('year')),
+            cls._entity_name_sort_key(entity),
+        )
+
+    def _get_paradigm_languages_json(self, paradigm_name: str, sort: str) -> List[Dict[str, Any]]:
+        languages = [
+            lang for lang in self.languages
+            if lang.get('entity_type', 'language') == 'language'
+            and any(p.lower() == paradigm_name.lower() for p in (lang.get('paradigms') or []))
+        ]
+        languages.sort(key=lambda lang: self._ecosystem_entity_sort_key(lang, sort))
+        return [dict(lang) for lang in languages]
+
+    def _get_paradigm_languages_sqlite(self, paradigm_name: str, sort: str) -> List[Dict[str, Any]]:
+        conn = self._get_connection()
+        try:
+            order_clause = "lower(l.display_name), lower(l.name)"
+            if sort != "name":
+                order_clause = (
+                    "CASE WHEN l.year IS NULL THEN 1 ELSE 0 END, "
+                    "l.year ASC, lower(l.display_name), lower(l.name)"
+                )
+            cursor = conn.execute(
+                f"""
+                SELECT l.*
+                FROM languages l
+                JOIN language_paradigms lp ON lp.language_id = l.id
+                JOIN paradigms p ON p.id = lp.paradigm_id
+                WHERE lower(p.name) = ?
+                  AND COALESCE(l.entity_type, 'language') = 'language'
+                ORDER BY {order_clause}
+                """,
+                (paradigm_name.lower(),),
+            )
+            languages = [self._row_to_dict(row) for row in cursor.fetchall()]
+            for lang in languages:
+                self._hydrate_language_json_compatibility(lang, conn)
+            return languages
+        finally:
+            conn.close()
+
+    def _collect_ancestor_support_json(self, language_names: Set[str]) -> Dict[str, Set[str]]:
+        parent_map: Dict[str, Set[str]] = {}
+        for edge in self._merge_json_influence_edges():
+            source = edge.get('from')
+            target = edge.get('to')
+            if source and target:
+                parent_map.setdefault(target, set()).add(source)
+
+        support_map: Dict[str, Set[str]] = {}
+        for language_name in language_names:
+            visited: Set[str] = set()
+            queue = list(parent_map.get(language_name, set()))
+            while queue:
+                current = queue.pop(0)
+                if current in visited:
+                    continue
+                visited.add(current)
+                support_map.setdefault(current, set()).add(language_name)
+                for parent in parent_map.get(current, set()):
+                    if parent not in visited:
+                        queue.append(parent)
+        return support_map
+
+    def _collect_ancestor_support_sqlite(self, language_ids: List[int]) -> Dict[str, Set[str]]:
+        if not language_ids:
+            return {}
+
+        conn = self._get_connection()
+        try:
+            placeholders = ', '.join(['?'] * len(language_ids))
+            cursor = conn.execute(
+                f"""
+                WITH RECURSIVE upstream(paradigm_language_id, ancestor_id) AS (
+                    SELECT i.target_id, i.source_id
+                    FROM influences i
+                    WHERE i.target_id IN ({placeholders})
+                    UNION
+                    SELECT upstream.paradigm_language_id, i.source_id
+                    FROM upstream
+                    JOIN influences i ON i.target_id = upstream.ancestor_id
+                )
+                SELECT ancestor.name AS ancestor_name, paradigm_lang.name AS paradigm_language_name
+                FROM upstream
+                JOIN languages ancestor ON ancestor.id = upstream.ancestor_id
+                JOIN languages paradigm_lang ON paradigm_lang.id = upstream.paradigm_language_id
+                """,
+                language_ids,
+            )
+            support_map: Dict[str, Set[str]] = {}
+            for row in cursor.fetchall():
+                support_map.setdefault(row['ancestor_name'], set()).add(row['paradigm_language_name'])
+            return support_map
+        finally:
+            conn.close()
+
+    def _build_foundation_card(
+        self,
+        foundation: Dict[str, Any],
+        paradigm_name: str,
+        supporting_languages: List[Dict[str, Any]],
+        is_directly_tagged: bool,
+    ) -> Dict[str, Any]:
+        supporting_count = len(supporting_languages)
+        relevance_score = (100 if is_directly_tagged else 0) + (supporting_count * 10)
+        reason_parts: List[str] = []
+        if is_directly_tagged:
+            reason_parts.append(f"Tagged with {paradigm_name}")
+        if supporting_count:
+            reason_parts.append(
+                f"upstream of {supporting_count} {paradigm_name} language"
+                f"{'' if supporting_count == 1 else 's'}"
+            )
+
+        example_languages = [
+            lang.get('display_name') or lang.get('name')
+            for lang in supporting_languages[:3]
+            if lang.get('display_name') or lang.get('name')
+        ]
+        philosophy = foundation.get('philosophy') or foundation.get('description') or ""
+        paradigms = foundation.get('paradigms') or []
+
+        return {
+            'name': foundation.get('name'),
+            'display_name': foundation.get('display_name') or foundation.get('name'),
+            'year': foundation.get('year'),
+            'philosophy': philosophy,
+            'paradigms': paradigms,
+            'relevance_score': relevance_score,
+            'relevance_reason': " and ".join(reason_parts) if reason_parts else "",
+            'supporting_language_count': supporting_count,
+            'example_languages': example_languages,
+            'is_directly_tagged': is_directly_tagged,
+        }
+
+    def _foundation_rank_sort_key(self, foundation: Dict[str, Any]) -> Tuple[Any, ...]:
+        return (
+            -int(foundation.get('relevance_score', 0)),
+            self._year_sort_key(foundation.get('year')),
+            self._entity_name_sort_key(foundation),
+        )
+
+    def get_paradigm_ecosystem(
+        self,
+        name: str,
+        *,
+        sort_languages: str = "year",
+    ) -> Dict[str, Any]:
+        paradigm = self.get_paradigm_info(name)
+        languages = (
+            self._get_paradigm_languages_sqlite(name, sort_languages)
+            if self.use_sqlite
+            else self._get_paradigm_languages_json(name, sort_languages)
+        )
+        language_names = {lang['name'] for lang in languages if lang.get('name')}
+        support_map = (
+            self._collect_ancestor_support_sqlite([lang['id'] for lang in languages if 'id' in lang])
+            if self.use_sqlite
+            else self._collect_ancestor_support_json(language_names)
+        )
+
+        if self.use_sqlite:
+            foundation_candidates = self.get_all_languages(
+                entity_type="foundation",
+                min_year=-9999,
+                max_year=9999,
+            )
+        else:
+            foundation_candidates = [
+                dict(lang) for lang in self.languages
+                if lang.get('entity_type', 'language') == 'foundation'
+            ]
+
+        language_lookup = {lang['name']: lang for lang in languages if lang.get('name')}
+        foundations: List[Dict[str, Any]] = []
+        for foundation in foundation_candidates:
+            foundation_name = foundation.get('name')
+            if not foundation_name:
+                continue
+            is_directly_tagged = any(
+                paradigm_name.lower() == name.lower()
+                for paradigm_name in (foundation.get('paradigms') or [])
+                if isinstance(paradigm_name, str)
+            )
+            supporting_names = sorted(
+                support_map.get(foundation_name, set()),
+                key=lambda lang_name: self._ecosystem_entity_sort_key(language_lookup[lang_name], sort_languages),
+            )
+            supporting_languages = [
+                language_lookup[lang_name]
+                for lang_name in supporting_names
+                if lang_name in language_lookup
+            ]
+            if not is_directly_tagged and not supporting_languages:
+                continue
+            foundations.append(
+                self._build_foundation_card(
+                    foundation,
+                    name,
+                    supporting_languages,
+                    is_directly_tagged,
+                )
+            )
+
+        foundations.sort(key=self._foundation_rank_sort_key)
+        language_years = [lang.get('year') for lang in languages if isinstance(lang.get('year'), int)]
+        foundation_years = [foundation.get('year') for foundation in foundations if isinstance(foundation.get('year'), int)]
+
+        return {
+            'paradigm': paradigm,
+            'languages': languages,
+            'foundations': foundations,
+            'stats': {
+                'language_count': len(languages),
+                'foundation_count': len(foundations),
+                'earliest_language_year': min(language_years) if language_years else None,
+                'earliest_foundation_year': min(foundation_years) if foundation_years else None,
+            },
+        }
+
     def search(self, query_term: str) -> List[Dict[str, Any]]:
         """Performs an advanced full-text search using FTS5 BM25 ranking and context snippets."""
         if not self.use_sqlite:

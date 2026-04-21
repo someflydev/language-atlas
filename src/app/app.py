@@ -1100,6 +1100,7 @@ async def api_index() -> Dict[str, Any]:
             "/api/language/{name}": "Detailed language profile data",
             "/api/paradigms": "List all programming paradigms",
             "/api/paradigm/{name}": "Detailed paradigm information",
+            "/api/paradigm/{name}/ecosystem": "Foundation-aware paradigm ecosystem data",
             "/api/concepts": "List all programming concepts",
             "/api/concept/{name}": "Detailed concept profile data",
             "/api/eras": "List all historical eras of computing",
@@ -1168,6 +1169,11 @@ async def api_list_paradigms() -> Any:
 async def api_get_paradigm(name: str) -> Any:
     """Get paradigm detail."""
     return data_loader.get_paradigm_info(name)
+
+@app.get("/api/paradigm/{name}/ecosystem")
+async def api_get_paradigm_ecosystem(name: str, sort_languages: str = "year") -> Any:
+    """Get foundation-aware ecosystem data for a paradigm."""
+    return data_loader.get_paradigm_ecosystem(name, sort_languages=sort_languages)
 
 @app.get("/api/concepts")
 async def api_list_concepts() -> Any:
