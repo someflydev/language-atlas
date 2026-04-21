@@ -110,8 +110,22 @@ def test_dataloader_json_all_methods(tmp_path: Path, monkeypatch: MonkeyPatch) -
     assert influences is not None
     assert influences["influenced_by"] == ["ABC"]
     assert influences["influenced"] == ["Ruby"]
-    assert influences["influenced_by_details"] == [{"name": "ABC", "type": "predecessor"}]
-    assert influences["influenced_details"] == [{"name": "Ruby", "type": "scripting-philosophy"}]
+    assert influences["influenced_by_details"] == [
+        {
+            "name": "ABC",
+            "display_name": "ABC",
+            "type": "predecessor",
+            "entity_type": "language",
+        }
+    ]
+    assert influences["influenced_details"] == [
+        {
+            "name": "Ruby",
+            "display_name": "Ruby",
+            "type": "scripting-philosophy",
+            "entity_type": "language",
+        }
+    ]
     learning_path = loader.get_learning_path("path1")
     assert learning_path is not None
     assert learning_path["title"] == "Path 1"
@@ -376,6 +390,136 @@ def test_get_paradigm_ecosystem_sqlite_mode(mock_loader: DataLoader) -> None:
         assert "relevance_reason" in foundation
         assert "supporting_language_count" in foundation
         assert "example_languages" in foundation
+
+
+def test_get_influences_groups_upstream_entities_in_json_mode(
+    tmp_path: Path,
+    monkeypatch: MonkeyPatch,
+) -> None:
+    monkeypatch.setenv("USE_SQLITE", "0")
+
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    (data_dir / "languages.json").write_text(json.dumps([
+        {
+            "name": "Lambda Calculus",
+            "display_name": "Lambda Calculus",
+            "year": 1930,
+            "cluster": "mathematics",
+            "paradigms": ["Functional"],
+            "entity_type": "foundation",
+        },
+        {
+            "name": "ML",
+            "display_name": "ML",
+            "year": 1973,
+            "cluster": "academic",
+            "paradigms": ["Functional"],
+            "entity_type": "language",
+        },
+        {
+            "name": "JVM",
+            "display_name": "JVM",
+            "year": 1995,
+            "cluster": "runtime",
+            "paradigms": [],
+            "entity_type": "artifact",
+        },
+        {
+            "name": "Scala",
+            "display_name": "Scala",
+            "year": 2004,
+            "cluster": "backend",
+            "paradigms": ["Functional"],
+            "entity_type": "language",
+        },
+    ]))
+    (data_dir / "paradigms.json").write_text(json.dumps([]))
+    (data_dir / "eras.json").write_text(json.dumps([]))
+    (data_dir / "concepts.json").write_text(json.dumps([]))
+    (data_dir / "people.json").write_text(json.dumps([]))
+    (data_dir / "learning_paths.json").write_text(json.dumps([]))
+    (data_dir / "influences.json").write_text(json.dumps([
+        {"from": "Lambda Calculus", "to": "Scala", "type": "formal-foundation"},
+        {"from": "ML", "to": "Scala", "type": "typed-lineage"},
+        {"from": "JVM", "to": "Scala", "type": "runtime-platform"},
+    ]))
+
+    docs_dir = data_dir / "docs"
+    (docs_dir / "language_profiles").mkdir(parents=True)
+    (docs_dir / "concept_profiles").mkdir(parents=True)
+    (docs_dir / "people_profiles").mkdir(parents=True)
+    (docs_dir / "historical_events").mkdir(parents=True)
+    (docs_dir / "org_profiles").mkdir(parents=True)
+    (docs_dir / "era_summaries").mkdir(parents=True)
+    (docs_dir / "language_profiles" / "Scala.json").write_text(json.dumps({"title": "Scala"}))
+
+    loader = DataLoader(data_dir=str(data_dir))
+    influences = loader.get_influences("Scala")
+
+    assert influences is not None
+    assert influences["influenced_by"] == ["JVM", "Lambda Calculus", "ML"]
+    assert influences["influenced_by_details"] == [
+        {
+            "name": "JVM",
+            "display_name": "JVM",
+            "type": "runtime-platform",
+            "entity_type": "artifact",
+        },
+        {
+            "name": "Lambda Calculus",
+            "display_name": "Lambda Calculus",
+            "type": "formal-foundation",
+            "entity_type": "foundation",
+        },
+        {
+            "name": "ML",
+            "display_name": "ML",
+            "type": "typed-lineage",
+            "entity_type": "language",
+        },
+    ]
+    assert influences["upstream_influence_groups"] == [
+        {
+            "key": "foundational_precursors",
+            "label": "Foundational Precursors",
+            "items": [
+                {
+                    "name": "Lambda Calculus",
+                    "display_name": "Lambda Calculus",
+                    "type": "formal-foundation",
+                    "entity_type": "foundation",
+                }
+            ],
+        },
+        {
+            "key": "language_ancestors",
+            "label": "Language Ancestors",
+            "items": [
+                {
+                    "name": "ML",
+                    "display_name": "ML",
+                    "type": "typed-lineage",
+                    "entity_type": "language",
+                }
+            ],
+        },
+        {
+            "key": "related_artifacts",
+            "label": "Related Artifacts / Runtime Influences",
+            "items": [
+                {
+                    "name": "JVM",
+                    "display_name": "JVM",
+                    "type": "runtime-platform",
+                    "entity_type": "artifact",
+                }
+            ],
+        },
+    ]
+    assert influences["has_foundational_precursors"] is True
+    assert influences["has_language_ancestors"] is True
+    assert influences["has_related_artifacts"] is True
 
 
 def test_new_site_builder_dataloader_methods(mock_loader: DataLoader) -> None:

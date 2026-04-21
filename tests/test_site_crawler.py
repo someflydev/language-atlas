@@ -35,6 +35,18 @@ def _find_representative_foundation(loader: DataLoader) -> dict | None:
     return foundations[0] if foundations else None
 
 
+def _find_profile_with_grouped_upstream_influences(loader: DataLoader) -> tuple[dict, dict] | None:
+    for entity in loader.get_all_languages(entity_type=None):
+        influences = loader.get_influences(entity["name"])
+        if not influences:
+            continue
+        groups = influences.get("upstream_influence_groups", [])
+        labels = {group["label"] for group in groups}
+        if "Foundational Precursors" in labels and "Language Ancestors" in labels:
+            return entity, influences
+    return None
+
+
 @pytest.fixture(scope="session")
 def crawled_site(tmp_path_factory: pytest.TempPathFactory) -> tuple[Path, CrawlReport, DataLoader]:
     """Run one full crawl into a shared session-scoped temp directory."""
@@ -189,6 +201,33 @@ def test_language_and_foundation_cards_render_correct_profile_links(
     language_response = client.get("/languages?entity_type=language")
     assert language_response.status_code == 200
     assert f'href="/language/{language["name"]}"' in language_response.text
+
+
+def test_language_profile_renders_grouped_upstream_influences(
+    mock_loader: DataLoader,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    representative = _find_profile_with_grouped_upstream_influences(mock_loader)
+    assert representative is not None, "Expected at least one language-like profile with foundations and language ancestors"
+
+    entity, influences = representative
+    grouped_items = {
+        group["label"]: group["items"]
+        for group in influences["upstream_influence_groups"]
+    }
+
+    monkeypatch.setattr(app_module, "data_loader", mock_loader)
+    monkeypatch.setattr(app_module, "_entity_link_map", None)
+
+    client = TestClient(app_module.app)
+    response = client.get(f"/language/{quote(entity['name'])}")
+
+    assert response.status_code == 200
+    assert "Upstream Influences" in response.text
+    assert "Foundational Precursors" in response.text
+    assert "Language Ancestors" in response.text
+    assert grouped_items["Foundational Precursors"][0]["display_name"] in response.text
+    assert grouped_items["Language Ancestors"][0]["display_name"] in response.text
 
 
 def test_crawler_emits_foundation_aware_paradigm_page(crawled_site: tuple) -> None:
