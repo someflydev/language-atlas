@@ -31,15 +31,22 @@ make server
 ## CLI (Typer — `src/cli.py`)
 ```bash
 uv run atlas dashboard Python        # Control Room view for a language
+uv run atlas paradigm Functional     # Paradigm ecosystem with ranked foundations
+uv run atlas influences Scala        # Grouped upstream lineage + downstream influence
 uv run atlas odyssey systems_renaissance  # Run a guided learning path
 uv run atlas auto-odyssey "C"        # Dynamic lineage-based odyssey
 # atlas --help for full command list
 ```
 
+Notes:
+- `atlas dashboard` and `atlas influences` now distinguish foundational precursors from direct language ancestors when grouped lineage data is available.
+- `atlas paradigm` is the terminal entry point for the foundation-aware paradigm ecosystem introduced in the shared data layer.
+
 ## TUI (`src/tui.py`)
 ```bash
 uv run python3 src/tui.py   # Launch Textual TUI (LivingAtlasApp)
 # Press 'o' to toggle Odyssey mode inside TUI
+# Press 'm' to cycle chronology browse mode: languages, foundations, artifacts, all
 ```
 
 ## Scripts

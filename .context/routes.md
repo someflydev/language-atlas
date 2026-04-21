@@ -60,9 +60,10 @@ Routes marked **skipped** are not exported at all.
 | `GET /api` | API index / docs |
 | `GET /api/search?q=` | FTS5 search → {results, query} |
 | `GET /api/languages` | cluster, generation, sort, min_year, max_year filters |
-| `GET /api/language/{name}` | Combined profile; preserves flat influence lists and adds grouped upstream detail fields for profile-aware clients |
+| `GET /api/language/{name}` | Combined profile; preserves flat influence lists and adds grouped upstream detail fields for profile-aware clients. CLI dashboard / influences views and the TUI reader / nexus now rely on these grouped fields when present. |
 | `GET /api/paradigms` | List |
 | `GET /api/paradigm/{name}` | Detail |
+| `GET /api/paradigm/{name}/ecosystem` | Foundation-aware paradigm ecosystem payload used by the web route and mirrored by the CLI `atlas paradigm` surface |
 | `GET /api/concepts` | List |
 | `GET /api/concept/{name}` | Detail |
 | `GET /api/eras` | List |
@@ -106,3 +107,8 @@ src/app/templates/
     404.html
     500.html
 ```
+
+## Terminal Navigation Notes
+
+- The CLI now has a dedicated paradigm ecosystem entry point: `atlas paradigm <name>`.
+- The TUI chronology pane remains language-first by default, but `m` cycles browse mode through languages, foundations, artifacts, and all language-like entities so mixed-corpus navigation stays explicit.

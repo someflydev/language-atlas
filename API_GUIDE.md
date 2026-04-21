@@ -116,11 +116,18 @@ clients.
 - **Response:** Detailed JSON object combining core attributes and profile sections.
   Relevant influence fields include:
   - `influenced_by`: flat upstream names for compatibility.
-  - `influenced_by_details`: upstream detail records with `name`,
-    `display_name`, `entity_type`, and influence `type`.
-  - `upstream_influence_groups`: grouped upstream records keyed as
-    `foundational_precursors`, `language_ancestors`, and, when present,
-    `related_artifacts`.
+- `influenced_by_details`: upstream detail records with `name`,
+  `display_name`, `entity_type`, and influence `type`.
+- `upstream_influence_groups`: grouped upstream records keyed as
+  `foundational_precursors`, `language_ancestors`, and, when present,
+  `related_artifacts`.
+
+The terminal clients follow the same grouped-lineage contract:
+
+- `atlas influences <name>` renders the grouped upstream sections directly
+- `atlas dashboard <name>` uses them in the lineage panel
+- the TUI reader and nexus panes use the grouped fields instead of a flat
+  upstream list when they are present
 
 ### 6. List Paradigms
 Retrieve all programming paradigms known to the system.
@@ -181,6 +188,10 @@ separate route.
     }
   }
   ```
+
+This is also the conceptual payload surfaced by the CLI via
+`atlas paradigm <name>`, which renders the ranked foundations and member
+languages in a terminal-friendly layout.
 
 The shared HTML profile route and the API detail route now align on the same
 entity-type-aware interpretation of upstream influences:

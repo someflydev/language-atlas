@@ -55,13 +55,25 @@ foundations from direct language lineage.
 
 ### CLI (`src/cli.py`)
 
-Typer CLI exposing `atlas dashboard`, `atlas odyssey <id>`, and
-`atlas auto-odyssey <language>`. Run with `uv run atlas --help`.
+Typer CLI exposing terminal-native views over the same mixed
+language/foundation/artifact corpus as the web app. Notable commands:
+
+- `atlas paradigm <name>` for the foundation-aware paradigm ecosystem
+- `atlas influences <name>` for grouped upstream lineage plus downstream impact
+- `atlas dashboard <name>` for the control-room view with typed lineage groups
+- `atlas odyssey <id>` and `atlas auto-odyssey <language>` for guided paths
+
+Run with `uv run atlas --help`.
 
 ### TUI (`src/tui.py`)
 
-Textual three-pane browser with real-time FTS5 search and an Odyssey
-mode (toggle with `o`). Run with `uv run atlas tui`.
+Textual three-pane browser with real-time search across language-like
+entities and an Odyssey mode (toggle with `o`). The chronology pane now
+defaults to languages, and `m` cycles browse mode through languages,
+foundations, artifacts, and the mixed corpus so non-language precursors
+are explicitly discoverable instead of silently omitted. The reader and
+nexus panes both use grouped lineage labels, separating foundational
+precursors from direct language ancestors. Run with `uv run atlas tui`.
 
 ## Guided and Auto-generated Learning Paths (Odysseys)
 
@@ -151,6 +163,12 @@ uv run atlas odyssey systems_renaissance
 
 # Generate an auto-Odyssey from C's influence graph
 uv run atlas auto-odyssey "C"
+
+# Inspect a paradigm ecosystem with ranked foundations
+uv run atlas paradigm Functional
+
+# See grouped lineage for a language-like entity
+uv run atlas influences Scala
 
 # Rebuild the database after editing JSON source files
 make build
