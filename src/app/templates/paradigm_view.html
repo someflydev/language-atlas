@@ -111,7 +111,7 @@
                 </div>
                 {% endif %}
 
-                <a href="/language/{{ foundation.name }}" class="inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors">
+                <a href="{{ entity_profile_href(foundation.name, foundation.entity_type) }}" class="inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors">
                     View profile
                     <span class="ml-2" aria-hidden="true">&rarr;</span>
                 </a>
@@ -174,7 +174,7 @@
                     <p class="text-sm text-slate-500 leading-relaxed line-clamp-3 italic mb-4">
                         "{{ lang.philosophy }}"
                     </p>
-                    <a href="/language/{{ lang.name }}" class="absolute inset-0 z-10 rounded-2xl cursor-pointer" aria-label="View {{ lang.display_name }} profile"></a>
+                    <a href="{{ entity_profile_href(lang.name, lang.entity_type) }}" class="absolute inset-0 z-10 rounded-2xl cursor-pointer" aria-label="View {{ lang.display_name }} profile"></a>
                 </article>
             </div>
             {% endfor %}

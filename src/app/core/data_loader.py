@@ -414,6 +414,22 @@ class DataLoader:
         """
         return not any(c in name for c in "/#?&")
 
+    @staticmethod
+    def get_entity_profile_route(name: str, entity_type: Optional[str] = None) -> str:
+        """Return the canonical HTML route for an entity."""
+        normalized_type = (entity_type or "language").lower()
+        if normalized_type in {"language", "foundation", "artifact"}:
+            return f"/language/{name}"
+        if normalized_type in {"person", "concept", "org"}:
+            return f"/{normalized_type}/{name.replace(' ', '_')}"
+        if normalized_type == "event":
+            return f"/event/{name}"
+        if normalized_type == "era":
+            return f"/narrative/era/{name}"
+        if normalized_type == "paradigm":
+            return f"/paradigm/{name}"
+        return f"/language/{name}"
+
     def get_entity_link_map(self) -> Dict[str, str]:
         """Returns a map of entity names to their routes for auto-linking.
 
@@ -425,13 +441,19 @@ class DataLoader:
         link_map: Dict[str, str] = {}
         try:
             # 1. Languages
-            cursor = conn.execute("SELECT name, display_name FROM languages")
+            cursor = conn.execute(
+                "SELECT name, display_name, COALESCE(entity_type, 'language') AS entity_type FROM languages"
+            )
             for row in cursor.fetchall():
                 if self._url_safe_segment(row['name']):
-                    link_map[row['name']] = f"/language/{row['name']}"
+                    link_map[row['name']] = self.get_entity_profile_route(
+                        row['name'], row['entity_type']
+                    )
                 if (row['display_name'] and row['display_name'] != row['name']
                         and self._url_safe_segment(row['display_name'])):
-                    link_map[row['display_name']] = f"/language/{row['name']}"
+                    link_map[row['display_name']] = self.get_entity_profile_route(
+                        row['name'], row['entity_type']
+                    )
 
             # 2. People (only those with profile entries to avoid dead links)
             cursor = conn.execute("""
@@ -1167,7 +1189,9 @@ class DataLoader:
         conn = self._get_connection()
         try:
             query = """
-                SELECT d.descendant_id, l.name, l.display_name, d.depth, d.path
+                SELECT d.descendant_id, l.name, l.display_name,
+                       COALESCE(l.entity_type, 'language') AS entity_type,
+                       d.depth, d.path
                 FROM v_language_descendants d
                 JOIN languages l ON d.descendant_id = l.id
                 WHERE d.root_id = ? AND d.depth <= ?
@@ -1185,7 +1209,9 @@ class DataLoader:
         conn = self._get_connection()
         try:
             query = """
-                SELECT a.ancestor_id, l.name, l.display_name, a.depth, a.path
+                SELECT a.ancestor_id, l.name, l.display_name,
+                       COALESCE(l.entity_type, 'language') AS entity_type,
+                       a.depth, a.path
                 FROM v_language_ancestors a
                 JOIN languages l ON a.ancestor_id = l.id
                 WHERE a.root_id = ? AND a.depth <= ?

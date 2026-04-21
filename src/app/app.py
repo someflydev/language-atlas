@@ -45,6 +45,7 @@ templates = Jinja2Templates(directory=templates_dir)
 # this env var before making requests; clearing it on exit restores the
 # normal live-app behaviour.
 templates.env.globals["atlas_static_mode"] = lambda: os.environ.get("ATLAS_STATIC_MODE", "0") == "1"
+templates.env.globals["entity_profile_href"] = DataLoader.get_entity_profile_route
 
 
 def atlas_static_mode() -> bool:
@@ -60,6 +61,7 @@ ENTITY_TYPE_LABELS = {
     "foundation": "Historical and Theoretical Foundations",
     "artifact": "Tools, Libraries, Runtimes, and Formats",
 }
+LANGUAGE_LIKE_ENTITY_TYPES = {"language", "foundation", "artifact"}
 
 def get_link_map() -> Dict[str, str]:
     global _entity_link_map
@@ -503,6 +505,7 @@ async def get_language_profile(request: Request, name: str) -> Response:
     lang = data_loader.get_combined_language_data(name)
     if not lang:
         raise HTTPException(status_code=404, detail="Language not found")
+    entity_type = lang.get("entity_type", "language")
     
     # Construct Markdown from the profile sections stored in the database
     content = f"# {lang.get('title', lang['name'])}\n\n"
@@ -534,7 +537,11 @@ async def get_language_profile(request: Request, name: str) -> Response:
     html_content = auto_link_content(html_content)
     
     # Generate Dynamic Heritage Journey
-    auto_odyssey = data_loader.get_auto_odyssey(lang['name'])
+    auto_odyssey = (
+        data_loader.get_auto_odyssey(lang['name'])
+        if entity_type == "language"
+        else None
+    )
 
     # Static export crawls every language page, so skip the expensive
     # lineage view queries there and keep the live app unchanged.
@@ -543,9 +550,21 @@ async def get_language_profile(request: Request, name: str) -> Response:
         descendants: list[dict[str, Any]] = []
         lang_rank: dict[str, Any] | None = None
     else:
-        ancestors = data_loader.get_ancestors(lang['id'], max_depth=5)
-        descendants = data_loader.get_descendants(lang['id'], max_depth=5)
-        lang_rank = data_loader.get_language_ranking(lang['id'])
+        ancestors = (
+            data_loader.get_ancestors(lang['id'], max_depth=5)
+            if entity_type in LANGUAGE_LIKE_ENTITY_TYPES
+            else []
+        )
+        descendants = (
+            data_loader.get_descendants(lang['id'], max_depth=5)
+            if entity_type in LANGUAGE_LIKE_ENTITY_TYPES
+            else []
+        )
+        lang_rank = (
+            data_loader.get_language_ranking(lang['id'])
+            if entity_type == "language"
+            else None
+        )
     
     return templates.TemplateResponse(
         request=request,
@@ -553,7 +572,10 @@ async def get_language_profile(request: Request, name: str) -> Response:
         context={
             "lang": lang, 
             "content": html_content, 
-            "entity_type": "language",
+            "entity_type": entity_type,
+            "entity_type_label": ENTITY_TYPE_LABELS.get(
+                entity_type, entity_type.replace("_", " ").title()
+            ),
             "auto_odyssey": auto_odyssey,
             "ancestors": ancestors,
             "descendants": descendants,

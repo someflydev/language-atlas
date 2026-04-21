@@ -67,7 +67,7 @@
                         "{{ lang.philosophy }}"
                     </p>
                     <!-- Card-level link overlay: Inside article, lower z-index than tags -->
-                    <a href="/language/{{ lang.name }}" class="absolute inset-0 z-10 rounded-2xl cursor-pointer" aria-label="View {{ lang.display_name }} profile"></a>
+                    <a href="{{ entity_profile_href(lang.name, lang.entity_type) }}" class="absolute inset-0 z-10 rounded-2xl cursor-pointer" aria-label="View {{ lang.display_name }} profile"></a>
                 </article>
             </div>
             {% endfor %}

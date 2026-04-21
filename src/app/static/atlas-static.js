@@ -56,6 +56,7 @@ async function queryLanguages(worker, { clusters, paradigms, minYear, maxYear, s
   const orderBy = sort === "year" ? "l.year ASC, l.name ASC" : "l.name ASC";
   const sql = `
     SELECT l.name, l.display_name, l.year, l.cluster, l.philosophy,
+      COALESCE(l.entity_type, 'language') AS entity_type,
       (SELECT p.name FROM language_paradigms lp
        JOIN paradigms p ON lp.paradigm_id = p.id
        WHERE lp.language_id = l.id ORDER BY lp.order_index ASC LIMIT 1) AS first_paradigm
@@ -85,8 +86,28 @@ function esc(str) {
     .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
+function entityProfilePath(name, entityType = "language") {
+  const normalizedType = String(entityType || "language").toLowerCase();
+  if (["language", "foundation", "artifact"].includes(normalizedType)) {
+    return "language/" + encodeURIComponent(name) + "/";
+  }
+  const routeMap = {
+    era: "narrative/era",
+    concept: "concept",
+    person: "person",
+    paradigm: "paradigm",
+    org: "org",
+    event: "event",
+  };
+  const route = routeMap[normalizedType] || "language";
+  const segment = ["person", "concept", "org"].includes(normalizedType)
+    ? String(name || "").replace(/ /g, "_")
+    : String(name || "");
+  return route + "/" + encodeURIComponent(segment) + "/";
+}
+
 function renderCard(lang) {
-  const langUrl = SITE_ROOT + "language/" + encodeURIComponent(lang.name) + "/";
+  const langUrl = SITE_ROOT + entityProfilePath(lang.name, lang.entity_type);
   const clusterUrl = SITE_ROOT + "cluster/" + encodeURIComponent(lang.cluster || "") + "/";
   const paradigmUrl = SITE_ROOT + "paradigm/" + encodeURIComponent(lang.first_paradigm || "") + "/";
   const paradigmTag = lang.first_paradigm
@@ -120,9 +141,7 @@ function renderSearchResults(rows, query) {
   }
   const items = rows.map(r => {
     const cat = r.entity_type || "language";
-    const routeMap = { era: "narrative/era", concept: "concept", person: "person", paradigm: "paradigm" };
-    const route = routeMap[cat] || "language";
-    const href = SITE_ROOT + route + "/" + encodeURIComponent((r.link_name || "").replace(/ /g, "_")) + "/";
+    const href = SITE_ROOT + entityProfilePath(r.link_name || "", cat);
     const badge = cat === "language" ? "bg-blue-50 text-blue-600" : "bg-amber-50 text-amber-600";
     return `<a href="${href}" class="block p-4 hover:bg-slate-50 rounded-lg transition-colors border-b border-slate-50 last:border-0 group">
       <div class="flex justify-between items-start mb-1">
