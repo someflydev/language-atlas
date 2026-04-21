@@ -9,6 +9,13 @@ from textual.reactive import reactive
 from textual.binding import Binding
 
 from app.core.data_loader import DataLoader
+from app.core.terminal_ui import (
+    build_downstream_lineage_entries,
+    build_upstream_lineage_sections,
+    format_lineage_entry,
+    get_display_name,
+    get_entity_type_label,
+)
 
 class SearchResultItem(ListItem):
     def __init__(self, title: str, category: str, language_name: str, snippet: str):
@@ -24,17 +31,45 @@ class SearchResultItem(ListItem):
         yield Static(Text.from_markup(self.snippet), classes="search_snippet")
 
 class NexusItem(ListItem):
-    def __init__(self, language_name: str, score: int, direction: str, influence_type: Optional[str] = None):
+    def __init__(
+        self,
+        language_name: str,
+        direction: str,
+        display_name: Optional[str] = None,
+        entity_type: Optional[str] = None,
+        influence_type: Optional[str] = None,
+    ):
         super().__init__()
         self.language_name = language_name
-        self.score = score
         self.direction = direction
+        self.display_name = display_name or language_name
+        self.entity_type = entity_type
         self.influence_type = influence_type
 
     def compose(self) -> ComposeResult:
         icon = "←" if self.direction == "from" else "→"
-        type_tag = f" [{self.influence_type}]" if self.influence_type else ""
-        yield Label(f"{icon} {self.language_name}{type_tag} (Score: {self.score})")
+        meta = [get_entity_type_label(self.entity_type)]
+        if self.influence_type:
+            meta.append(self.influence_type)
+        yield Label(f"{icon} {self.display_name} [{' | '.join(meta)}]")
+
+
+class NexusSectionItem(ListItem):
+    def __init__(self, title: str):
+        super().__init__()
+        self.title = title
+
+    def compose(self) -> ComposeResult:
+        yield Label(f"[bold]{self.title}[/bold]")
+
+
+class NexusMessageItem(ListItem):
+    def __init__(self, message: str):
+        super().__init__()
+        self.message = message
+
+    def compose(self) -> ComposeResult:
+        yield Label(self.message)
 
 class LivingAtlasApp(App):
     CSS = """
@@ -110,12 +145,14 @@ class LivingAtlasApp(App):
         Binding("q", "quit", "Quit", priority=True),
         Binding("f", "focus_search", "Search"),
         Binding("o", "toggle_odyssey", "Toggle Odyssey Mode"),
+        Binding("m", "cycle_browse_mode", "Cycle Browse Mode"),
         Binding("escape", "hide_search", "Clear Search", show=False),
     ]
 
     selected_language = reactive[str | None](None)
     search_query = reactive[str]("")
     odyssey_mode = reactive[bool](False)
+    browse_mode = reactive[str]("language")
 
     def __init__(self, initial_language: Optional[str] = None) -> None:
         super().__init__()
@@ -127,7 +164,10 @@ class LivingAtlasApp(App):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Input(placeholder="Search the Atlas (FTS5)...", id="search_input")
+        yield Input(
+            placeholder="Search languages, foundations, and artifacts...",
+            id="search_input",
+        )
         yield ListView(id="search_results")
         with Horizontal(id="main_container"):
             with Vertical(id="left_pane"):
@@ -145,6 +185,7 @@ class LivingAtlasApp(App):
     def on_mount(self) -> None:
         self.populate_tree()
         self.populate_odyssey_tree()
+        self.query_one("#pane_label", Label).update(self._chronology_label())
         if self.initial_language:
             self.selected_language = self.initial_language
             self.select_in_tree(self.initial_language)
@@ -152,21 +193,40 @@ class LivingAtlasApp(App):
 
     def populate_tree(self) -> None:
         tree = self.query_one("#chronology_tree", Tree[dict[str, Any]])
+        tree.clear()
         tree.root.expand()
-        
-        langs = self.loader.get_all_languages()
+
+        entities = self.get_browse_entities()
         # Group by generation
         gens: dict[str, list[dict[str, Any]]] = {}
-        for l in langs:
+        for l in entities:
             g = l.get('generation', 'unknown').capitalize()
             if g not in gens:
                 gens[g] = []
             gens[g].append(l)
 
+        root_label = {
+            "language": "Languages",
+            "foundation": "Foundations",
+            "artifact": "Artifacts",
+            "all": "All Language-like Entities",
+        }[self.browse_mode]
+        tree.root.label = root_label
+
         for gen_name in sorted(gens.keys()):
             gen_node = tree.root.add(gen_name, expand=True)
-            for lang in sorted(gens[gen_name], key=lambda x: x.get('year', 0)):
-                gen_node.add_leaf(lang['name'], data=lang)
+            for lang in sorted(gens[gen_name], key=lambda x: (x.get('year') or 0, x.get('name') or "")):
+                label = get_display_name(lang)
+                if self.browse_mode == "all":
+                    label = f"{label} [{get_entity_type_label(lang.get('entity_type'))}]"
+                gen_node.add_leaf(label, data=lang)
+
+    def get_browse_entities(self) -> List[Dict[str, Any]]:
+        return self.get_browse_entities_for_mode(self.browse_mode)
+
+    def get_browse_entities_for_mode(self, mode: str) -> List[Dict[str, Any]]:
+        selected_type = None if mode == "all" else mode
+        return self.loader.get_all_languages(entity_type=selected_type)
 
     def populate_odyssey_tree(self) -> None:
         tree = self.query_one("#odyssey_tree", Tree[dict[str, Any]])
@@ -201,6 +261,8 @@ class LivingAtlasApp(App):
             self.update_nexus(step_data['language'])
 
     def watch_odyssey_mode(self, val: bool) -> None:
+        if not self.is_mounted:
+            return
         label = self.query_one("#pane_label", Label)
         c_tree = self.query_one("#chronology_tree", Tree[dict[str, Any]])
         o_tree = self.query_one("#odyssey_tree", Tree[dict[str, Any]])
@@ -210,12 +272,35 @@ class LivingAtlasApp(App):
             c_tree.add_class("hidden")
             o_tree.add_class("visible")
         else:
-            label.update("CHRONOLOGY")
+            label.update(self._chronology_label())
             c_tree.remove_class("hidden")
             o_tree.remove_class("visible")
 
     def action_toggle_odyssey(self) -> None:
         self.odyssey_mode = not self.odyssey_mode
+
+    def _chronology_label(self) -> str:
+        labels = {
+            "language": "CHRONOLOGY [LANGUAGES]",
+            "foundation": "CHRONOLOGY [FOUNDATIONS]",
+            "artifact": "CHRONOLOGY [ARTIFACTS]",
+            "all": "CHRONOLOGY [ALL]",
+        }
+        return labels[self.browse_mode]
+
+    def action_cycle_browse_mode(self) -> None:
+        modes = ["language", "foundation", "artifact", "all"]
+        current_index = modes.index(self.browse_mode)
+        self.browse_mode = modes[(current_index + 1) % len(modes)]
+
+    def watch_browse_mode(self, _: str, __: str) -> None:
+        if not self.is_mounted:
+            return
+        if not self.odyssey_mode:
+            self.query_one("#pane_label", Label).update(self._chronology_label())
+        self.populate_tree()
+        if self.selected_language:
+            self.select_in_tree(self.selected_language)
 
     def watch_selected_language(self, old_val: str | None, new_val: str | None) -> None:
         if new_val:
@@ -235,73 +320,129 @@ class LivingAtlasApp(App):
         self.update_nexus(language_name)
 
     def generate_markdown(self, lang: Dict[str, Any]) -> str:
+        entity_label = get_entity_type_label(lang.get('entity_type'))
         md = f"# {lang.get('display_name') or lang['name']} ({lang.get('year', 'N/A')})\n\n"
-        md += f"- **Creators:** {', '.join(lang.get('creators', []))}\n"
-        md += f"- **Paradigms:** {', '.join(lang.get('paradigms', []))}\n"
-        md += f"- **Entity Type:** {lang.get('entity_type', 'language')}\n"
+        md += f"- **Entity Type:** {entity_label}\n"
+        md += f"- **Creators:** {', '.join(lang.get('creators', [])) or 'Unknown'}\n"
+        md += f"- **Paradigms:** {', '.join(lang.get('paradigms', [])) or 'Unspecified'}\n"
         md += f"- **Cluster:** {lang.get('cluster', 'N/A')}\n"
         md += f"- **Generation:** {lang.get('generation', 'N/A')}\n\n"
-        
+
+        upstream_sections = build_upstream_lineage_sections(lang)
+        downstream_entries = build_downstream_lineage_entries(lang)
+        if upstream_sections or downstream_entries:
+            md += "## Upstream Lineage\n"
+            if upstream_sections:
+                for section in upstream_sections:
+                    md += f"\n### {section['label']}\n"
+                    for item in section.get("items", []):
+                        md += f"- {format_lineage_entry(item)}\n"
+            else:
+                md += "\nNo upstream lineage recorded.\n"
+
+            md += "\n### Downstream Influences\n"
+            if downstream_entries:
+                for item in downstream_entries:
+                    md += f"- {format_lineage_entry(item)}\n"
+            else:
+                md += "- None recorded.\n"
+            md += "\n"
+
+        overview = lang.get("overview")
+        if overview:
+            md += "## Overview\n"
+            md += f"{overview}\n\n"
+
         md += "## Philosophy\n"
         md += f"{lang.get('philosophy', 'N/A')}\n\n"
-        
+
         md += "## Mental Model\n"
         md += f"{lang.get('mental_model', 'N/A')}\n\n"
-        
-        md += "## Key Innovations\n"
-        for i in lang.get('key_innovations', []):
-            md += f"- {i}\n"
-        
+
+        innovations = lang.get('key_innovations', [])
+        if innovations:
+            md += "## Key Innovations\n"
+            for i in innovations:
+                md += f"- {i}\n"
+            md += "\n"
+
         if 'historical_context' in lang:
-            md += "\n## Historical Context\n"
-            md += lang['historical_context']
+            md += "## Historical Context\n"
+            md += f"{lang['historical_context']}\n"
             
         return md
 
     def update_nexus(self, language_name: str) -> None:
         nexus_list = self.query_one("#nexus_list", ListView)
         nexus_list.clear()
-
-        conn = self.loader._get_connection()
-        # Find ID of selected language
-        cursor = conn.execute("SELECT id FROM languages WHERE name = ?", (language_name,))
-        row = cursor.fetchone()
-        if not row:
-            conn.close()
+        nexus_sections = self.get_nexus_sections(language_name)
+        if not nexus_sections:
+            nexus_list.append(NexusMessageItem("No lineage recorded."))
             return
-        lang_id = row['id']
 
-        # Influenced By
-        cursor = conn.execute("""
-            SELECT l.name, l.influence_score, i.influence_type
-            FROM languages l
-            JOIN influences i ON l.id = i.source_id
-            WHERE i.target_id = ?
-        """, (lang_id,))
-        for r in cursor.fetchall():
-            nexus_list.append(NexusItem(r['name'], r['influence_score'], "from", r['influence_type']))
+        for section in nexus_sections:
+            nexus_list.append(NexusSectionItem(section["label"]))
+            items = section.get("items", [])
+            if items:
+                for item in items:
+                    nexus_list.append(
+                        NexusItem(
+                            item["name"],
+                            section["direction"],
+                            display_name=get_display_name(item),
+                            entity_type=item.get("entity_type"),
+                            influence_type=item.get("type"),
+                        )
+                    )
+            else:
+                nexus_list.append(NexusMessageItem(section["empty_message"]))
 
-        # Influenced
-        cursor = conn.execute("""
-            SELECT l.name, l.influence_score, i.influence_type
-            FROM languages l
-            JOIN influences i ON l.id = i.target_id
-            WHERE i.source_id = ?
-        """, (lang_id,))
-        for r in cursor.fetchall():
-            nexus_list.append(NexusItem(r['name'], r['influence_score'], "to", r['influence_type']))
+    def get_nexus_sections(self, language_name: str) -> List[Dict[str, Any]]:
+        influences = self.loader.get_influences(language_name)
+        if not influences:
+            return []
 
-        conn.close()
+        upstream_sections = build_upstream_lineage_sections(influences)
+        downstream_entries = build_downstream_lineage_entries(influences)
+        sections: List[Dict[str, Any]] = []
+
+        if upstream_sections:
+            for section in upstream_sections:
+                sections.append(
+                    {
+                        "label": section["label"],
+                        "direction": "from",
+                        "items": section.get("items", []),
+                        "empty_message": "No upstream influences recorded.",
+                    }
+                )
+
+        sections.append(
+            {
+                "label": "Downstream Influences",
+                "direction": "to",
+                "items": downstream_entries,
+                "empty_message": "No downstream influences recorded.",
+            }
+        )
+        return sections
 
     def on_list_view_selected(self, event: ListView.Selected) -> None:
         if isinstance(event.item, NexusItem):
             self.selected_language = event.item.language_name
+            self._switch_browse_mode_for_entity(event.item.entity_type)
             # Also try to select it in the tree for consistency
             self.select_in_tree(event.item.language_name)
         elif isinstance(event.item, SearchResultItem):
             self.selected_language = event.item.language_name
+            self._switch_browse_mode_for_entity(event.item.category)
             self.select_in_tree(event.item.language_name)
             self.action_hide_search()
+
+    def _switch_browse_mode_for_entity(self, entity_type: Optional[str]) -> None:
+        normalized = (entity_type or "language").lower()
+        if normalized in {"language", "foundation", "artifact"} and self.browse_mode != normalized:
+            self.browse_mode = normalized
 
     def select_in_tree(self, language_name: str) -> None:
         tree = self.query_one("#chronology_tree", Tree[dict[str, Any]])
@@ -336,6 +477,7 @@ class LivingAtlasApp(App):
             SELECT entity_type as category, title, snippet(search_index, -1, '[b]', '[/b]', '...', 10) as snippet, entity_id as language_name
             FROM search_index 
             WHERE search_index MATCH ?
+              AND entity_type IN ('language', 'foundation', 'artifact')
             ORDER BY bm25(search_index)
             LIMIT 10
         """
