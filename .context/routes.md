@@ -34,7 +34,7 @@ Routes marked **skipped** are not exported at all.
 | `GET /compare/clear` | `partials/comparison_tray_content.html` | Deletes cookie | skipped |
 | `GET /compare/tray` | `partials/comparison_tray_content.html` | Reads cookie | skipped |
 | `GET /search` | `search_results.html` | FTS5 search, q param (min 2 chars) | skipped (needs query) |
-| `GET /language/{name}` | `profile.html` | shared language-like profile route; preserves stored `entity_type` for `language`, `foundation`, and `artifact` records; auto-link Markdown | crawled |
+| `GET /language/{name}` | `profile.html` | shared language-like profile route; preserves stored `entity_type` for `language`, `foundation`, and `artifact` records; auto-link Markdown; groups upstream influences into foundational precursors, language ancestors, and optional artifact/runtime influences using upstream `entity_type` data | crawled |
 | `GET /person/{name}` | `profile.html` | entity_type=person | crawled |
 | `GET /event/{slug}` | `profile.html` | entity_type=event | crawled |
 | `GET /org/{name}` | `profile.html` | entity_type=org | crawled |
@@ -60,7 +60,7 @@ Routes marked **skipped** are not exported at all.
 | `GET /api` | API index / docs |
 | `GET /api/search?q=` | FTS5 search → {results, query} |
 | `GET /api/languages` | cluster, generation, sort, min_year, max_year filters |
-| `GET /api/language/{name}` | Combined profile |
+| `GET /api/language/{name}` | Combined profile; preserves flat influence lists and adds grouped upstream detail fields for profile-aware clients |
 | `GET /api/paradigms` | List |
 | `GET /api/paradigm/{name}` | Detail |
 | `GET /api/concepts` | List |
@@ -84,7 +84,7 @@ Routes marked **skipped** are not exported at all.
 src/app/templates/
   base.html                          # Base layout
   index.html                         # Language grid + filters
-  profile.html                       # Universal entity profile; `/language/{name}` is shared by language-like entities
+  profile.html                       # Universal entity profile; `/language/{name}` is shared by language-like entities and renders typed upstream influence groups
   compare.html                       # Side-by-side comparison
   tag_view.html                      # Generic cluster filtered view
   paradigm_view.html                 # Foundation-aware paradigm ecosystem view

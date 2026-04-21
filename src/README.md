@@ -17,7 +17,10 @@ commands for contributors working in this directory.
   a first-class `get_paradigm_ecosystem()` contract that returns the
   paradigm record, language-only members, foundation-only upstream
   context, and summary stats without changing the lightweight paradigm
-  detail endpoint.
+  detail endpoint. Language-like profile loading now also keeps upstream
+  influence entity types attached so the shared profile template can
+  distinguish foundational precursors from direct language ancestors
+  without breaking the older flat influence lists.
 - **`build_sqlite.py`** — Transforms the JSON source files into
   `language_atlas.sqlite`. Calculates `influence_score`, builds the
   FTS5 `search_index` virtual table, and creates analytical views.
@@ -46,7 +49,9 @@ for the complete route-to-template map. The core `/language/{name}`
 profile route is shared by the mixed `languages` corpus, so
 `entity_type="foundation"` and `entity_type="artifact"` records render
 through the same template without being relabeled as executable
-languages.
+languages. That shared profile view now renders grouped upstream
+influences for language-like entities, separating conceptual
+foundations from direct language lineage.
 
 ### CLI (`src/cli.py`)
 
@@ -82,6 +87,11 @@ Notable endpoints:
 - `GET /api/paradigm/Functional/ecosystem` — paradigm languages plus ranked foundations
 - `GET /api/odysseys` — list all guided paths
 - `GET /visualizations` — Plotly timeline and influence network
+
+For `/api/language/{name}`, compatibility fields like `influenced_by`
+remain flat lists, while richer consumers can use
+`influenced_by_details` and `upstream_influence_groups` to distinguish
+foundations, language ancestors, and related artifacts.
 
 ## Data Architecture
 

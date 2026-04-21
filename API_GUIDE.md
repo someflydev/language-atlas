@@ -106,11 +106,21 @@ Retrieve the current counts of language-like entities grouped by `entity_type`.
 Retrieve core data and extended profile information for a specific
 language-like entity. The shared `/language/{name}` route remains the
 canonical HTML profile route for `language`, `foundation`, and `artifact`
-records in the mixed `languages` corpus.
+records in the mixed `languages` corpus. Flat `influenced_by` and
+`influenced` arrays remain stable for compatibility, and the detail
+payload now also includes typed upstream groupings for profile-aware
+clients.
 
 - **URL:** `/api/language/{name}`
 - **Method:** `GET`
 - **Response:** Detailed JSON object combining core attributes and profile sections.
+  Relevant influence fields include:
+  - `influenced_by`: flat upstream names for compatibility.
+  - `influenced_by_details`: upstream detail records with `name`,
+    `display_name`, `entity_type`, and influence `type`.
+  - `upstream_influence_groups`: grouped upstream records keyed as
+    `foundational_precursors`, `language_ancestors`, and, when present,
+    `related_artifacts`.
 
 ### 6. List Paradigms
 Retrieve all programming paradigms known to the system.
@@ -171,6 +181,13 @@ separate route.
     }
   }
   ```
+
+The shared HTML profile route and the API detail route now align on the same
+entity-type-aware interpretation of upstream influences:
+
+- foundations surface as `Foundational Precursors`
+- languages surface as `Language Ancestors`
+- artifacts, when present, surface as `Related Artifacts / Runtime Influences`
 
 ### 9. List Concepts
 Retrieve all programming concepts and innovations.
