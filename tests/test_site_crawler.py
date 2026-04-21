@@ -9,7 +9,9 @@ import re
 from pathlib import Path
 
 import pytest
+from fastapi.testclient import TestClient
 
+from app import app as app_module
 from app.core.data_loader import DataLoader
 from app.core.site_builder import CrawlReport, SiteCrawler
 
@@ -108,3 +110,24 @@ def test_crawler_no_500s(crawled_site: tuple) -> None:
     if report.failures:
         details = "\n".join(f"  {f['url']}: {f['error']}" for f in report.failures)
         pytest.fail(f"{report.fail_count} crawl failures:\n{details}")
+
+
+def test_api_paradigm_ecosystem_route(
+    mock_loader: DataLoader,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    paradigm_name = "Functional" if "Functional" in mock_loader.get_all_paradigms() else mock_loader.get_all_paradigms()[0]
+    monkeypatch.setattr(app_module, "data_loader", mock_loader)
+    monkeypatch.setattr(app_module, "_entity_link_map", None)
+
+    client = TestClient(app_module.app)
+    response = client.get(f"/api/paradigm/{paradigm_name}/ecosystem")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert set(payload.keys()) == {"paradigm", "languages", "foundations", "stats"}
+    assert payload["paradigm"]["name"] == paradigm_name
+    assert isinstance(payload["languages"], list)
+    assert isinstance(payload["foundations"], list)
+    assert payload["stats"]["language_count"] == len(payload["languages"])
+    assert payload["stats"]["foundation_count"] == len(payload["foundations"])

@@ -253,6 +253,131 @@ def test_dataloader_edge_cases(tmp_path: Path, monkeypatch: MonkeyPatch) -> None
     assert loader.get_person("None") is None
 
 
+def test_get_paradigm_ecosystem_json_mode(tmp_path: Path, monkeypatch: MonkeyPatch) -> None:
+    monkeypatch.setenv("USE_SQLITE", "0")
+
+    data_dir = tmp_path / "data"
+    data_dir.mkdir()
+    (data_dir / "languages.json").write_text(json.dumps([
+        {
+            "name": "Lambda Calculus",
+            "display_name": "Lambda Calculus",
+            "year": 1930,
+            "cluster": "mathematics",
+            "paradigms": ["Functional"],
+            "entity_type": "foundation",
+        },
+        {
+            "name": "Combinatory Logic",
+            "display_name": "Combinatory Logic",
+            "year": 1924,
+            "cluster": "mathematics",
+            "paradigms": [],
+            "entity_type": "foundation",
+        },
+        {
+            "name": "ML",
+            "display_name": "ML",
+            "year": 1973,
+            "cluster": "academic",
+            "paradigms": ["Functional"],
+            "entity_type": "language",
+        },
+        {
+            "name": "Haskell",
+            "display_name": "Haskell",
+            "year": 1990,
+            "cluster": "academic",
+            "paradigms": ["Functional"],
+            "entity_type": "language",
+        },
+        {
+            "name": "F#",
+            "display_name": "F#",
+            "year": 2005,
+            "cluster": "enterprise",
+            "paradigms": ["Functional"],
+            "entity_type": "language",
+        },
+        {
+            "name": "Elm Reactor",
+            "display_name": "Elm Reactor",
+            "year": 2012,
+            "cluster": "frontend",
+            "paradigms": ["Functional"],
+            "entity_type": "artifact",
+        },
+    ]))
+    (data_dir / "paradigms.json").write_text(json.dumps([
+        {"name": "Functional", "description": "Compute with evaluation and composition."}
+    ]))
+    (data_dir / "eras.json").write_text(json.dumps([]))
+    (data_dir / "concepts.json").write_text(json.dumps([]))
+    (data_dir / "people.json").write_text(json.dumps([]))
+    (data_dir / "learning_paths.json").write_text(json.dumps([]))
+    (data_dir / "influences.json").write_text(json.dumps([
+        {"from": "Lambda Calculus", "to": "ML", "type": "formal-foundation"},
+        {"from": "ML", "to": "Haskell", "type": "typed-lineage"},
+        {"from": "ML", "to": "F#", "type": "typed-lineage"},
+        {"from": "Combinatory Logic", "to": "Haskell", "type": "theoretical-lineage"},
+    ]))
+
+    docs_dir = data_dir / "docs"
+    (docs_dir / "language_profiles").mkdir(parents=True)
+    (docs_dir / "concept_profiles").mkdir(parents=True)
+    (docs_dir / "people_profiles").mkdir(parents=True)
+    (docs_dir / "historical_events").mkdir(parents=True)
+    (docs_dir / "org_profiles").mkdir(parents=True)
+    (docs_dir / "era_summaries").mkdir(parents=True)
+
+    loader = DataLoader(data_dir=str(data_dir))
+    ecosystem = loader.get_paradigm_ecosystem("Functional")
+
+    assert ecosystem["paradigm"]["name"] == "Functional"
+    assert [language["name"] for language in ecosystem["languages"]] == ["ML", "Haskell", "F#"]
+    assert all(language["entity_type"] == "language" for language in ecosystem["languages"])
+    assert [foundation["name"] for foundation in ecosystem["foundations"]] == [
+        "Lambda Calculus",
+        "Combinatory Logic",
+    ]
+    assert ecosystem["foundations"][0]["is_directly_tagged"] is True
+    assert ecosystem["foundations"][0]["supporting_language_count"] == 3
+    assert ecosystem["foundations"][0]["example_languages"] == ["ML", "Haskell", "F#"]
+    assert ecosystem["foundations"][0]["relevance_reason"] == (
+        "Tagged with Functional and upstream of 3 Functional languages"
+    )
+    assert ecosystem["foundations"][1]["is_directly_tagged"] is False
+    assert ecosystem["foundations"][1]["supporting_language_count"] == 1
+    assert ecosystem["foundations"][1]["example_languages"] == ["Haskell"]
+    assert ecosystem["stats"] == {
+        "language_count": 3,
+        "foundation_count": 2,
+        "earliest_language_year": 1973,
+        "earliest_foundation_year": 1924,
+    }
+
+
+def test_get_paradigm_ecosystem_sqlite_mode(mock_loader: DataLoader) -> None:
+    paradigm_name = "Functional" if "Functional" in mock_loader.get_all_paradigms() else mock_loader.get_all_paradigms()[0]
+    ecosystem = mock_loader.get_paradigm_ecosystem(paradigm_name)
+
+    assert ecosystem["paradigm"]["name"] == paradigm_name
+    assert isinstance(ecosystem["languages"], list)
+    assert isinstance(ecosystem["foundations"], list)
+    assert isinstance(ecosystem["stats"], dict)
+    assert ecosystem["stats"]["language_count"] == len(ecosystem["languages"])
+    assert ecosystem["stats"]["foundation_count"] == len(ecosystem["foundations"])
+    assert all(language["entity_type"] == "language" for language in ecosystem["languages"])
+    for foundation in ecosystem["foundations"]:
+        foundation_entity = mock_loader.get_language(foundation["name"])
+        assert foundation_entity is not None
+        assert foundation_entity["entity_type"] == "foundation"
+        assert "relevance_score" in foundation
+        assert "relevance_reason" in foundation
+        assert "supporting_language_count" in foundation
+        assert "example_languages" in foundation
+
+
 def test_new_site_builder_dataloader_methods(mock_loader: DataLoader) -> None:
     """One-line smoke tests for methods added to support SiteBuilder."""
     assert mock_loader.get_language_doc_info("Python") is not None
