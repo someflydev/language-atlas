@@ -41,6 +41,14 @@ commands for contributors working in this directory.
   now-deleted `docs/CONCEPTS.md` into `data/core_concepts.json`.
   Not imported by any live module; safe to ignore.
 
+## Generated and Legacy Artifacts
+
+### `generated-data/`
+
+Derived JSON artifacts produced by `make derived-data`
+(`scripts/generate_derived_data.py`). Gitignored; rebuilt on demand.
+Read by Phase 3 API endpoints.
+
 ### Web server (`src/app/app.py`)
 
 FastAPI application serving all HTML and JSON routes on port 8084.
@@ -131,6 +139,14 @@ materializes ancestry, descendants, reachability, and bounded lineage
 paths so runtime lineage queries do not need to evaluate recursive CTEs
 on each request.
 
+Optional post-build derived data:
+
+```text
+language_atlas.sqlite
+    -> scripts/generate_derived_data.py
+    -> generated-data/
+```
+
 ## Language Schema Notes
 
 The `languages` table in `language_atlas.sqlite` includes the following
@@ -208,6 +224,7 @@ make docs
 | `make type-check` | mypy |
 | `make test-intensive` | Long-running analytical tests |
 | `make docs` | Regenerate `generated-docs/` Markdown tree |
+| `make derived-data` | Generate derived JSON artifacts in `generated-data/` |
 | `make site` | Export static HTML into `site/` |
 | `make pages` | Prepare gh-pages artifacts (gh-pages branch only) |
 | `make clean` | Remove generated artifacts |

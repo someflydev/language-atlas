@@ -24,6 +24,7 @@ htmlcov/
 
 # Generated assets
 generated-docs/
+generated-data/
 generated-reports/*
 !generated-reports/dark_matter_todo.json
 *.sqlite

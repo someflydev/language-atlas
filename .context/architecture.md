@@ -31,6 +31,9 @@ src/tui.py      Textual TUI (LivingAtlasApp)
 ```
 generated-docs/     Markdown tree produced by `make docs` (SiteBuilder).
                     Gitignored; rebuilt on demand. Not read by the live app.
+generated-data/     Derived JSON graph artifacts produced by `make derived-data`.
+                    Gitignored; rebuilt on demand. Intended for Phase 3 API
+                    endpoints.
 data/core_concepts.json  Output of docs_parser.py (legacy). Not loaded by
                          build_sqlite.py or data_loader.py. Safe to ignore.
 ```
@@ -40,6 +43,11 @@ data/core_concepts.json  Output of docs_parser.py (legacy). Not loaded by
 Build time:
 ```
 JSON + data/docs/ → build_sqlite.py → language_atlas.sqlite
+```
+
+Optional post-build derived data:
+```
+language_atlas.sqlite → scripts/generate_derived_data.py → generated-data/
 ```
 
 Runtime (per HTTP request):

@@ -24,9 +24,10 @@ make server
 | `make type-check` | `mypy . --config-file mypy.ini` |
 | `make test-intensive` | `pytest -m intensive` |
 | `make docs` | Generate Markdown docs: `PYTHONPATH=src uv run python -m app.core.site_builder` |
+| `make derived-data` | Generate derived JSON artifacts in generated-data/ |
 | `make site` | Build static HTML export into `site/`: `PYTHONPATH=src uv run python -m app.core.site_builder --html` |
 | `make pages` | Prepare gh-pages artifacts (must be run on gh-pages branch): `python3 scripts/prep_pages.py` |
-| `make clean` | Remove generated-docs/, dist/, build_temp/ |
+| `make clean` | Remove generated-docs/, generated-data/, dist/, build_temp/ |
 
 ## CLI (Typer — `src/cli.py`)
 ```bash

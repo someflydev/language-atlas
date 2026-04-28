@@ -1,4 +1,4 @@
-.PHONY: init build server audit dark-matter test harden type-check test-intensive docs site pages clean help
+.PHONY: init build server audit dark-matter test harden type-check test-intensive docs derived-data site pages clean help
 
 help:
 	@echo "Usage: make [target]"
@@ -14,6 +14,7 @@ help:
 	@echo "  type-check      Run mypy type checking"
 	@echo "  test-intensive  Run long-running analytical tests"
 	@echo "  docs            Generate Markdown documentation from the SQLite database"
+	@echo "  derived-data    Generate derived JSON artifacts in generated-data/"
 	@echo "  site            Export fully-rendered static HTML site into site/"
 	@echo "  pages           Prepare gh-pages artifacts (run on gh-pages branch only)"
 	@echo "  clean           Remove generated artifacts"
@@ -59,6 +60,10 @@ docs:
 	@echo "Generating documentation (INDEX.md and README.md included)..."
 	PYTHONPATH=src uv run python -m app.core.site_builder
 
+derived-data:
+	@echo "Generating derived data artifacts..."
+	PYTHONPATH=src uv run python scripts/generate_derived_data.py
+
 site:
 	@echo "Building static site into site/..."
 	PYTHONPATH=src uv run python -m app.core.site_builder --html
@@ -70,6 +75,7 @@ pages: build site
 clean:
 	@echo "Cleaning up generated documentation and build artifacts..."
 	rm -rf generated-docs/
+	rm -rf generated-data/
 	rm -rf dist/
 	rm -rf build_temp/
 	rm -rf .pytest_cache/
