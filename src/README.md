@@ -59,7 +59,10 @@ profile route is shared by the mixed `languages` corpus, so
 through the same template without being relabeled as executable
 languages. That shared profile view now renders grouped upstream
 influences for language-like entities, separating conceptual
-foundations from direct language lineage.
+foundations from direct language lineage. It also injects closure-table
+lineage data into profile pages so they can show transitive ancestry,
+notable descendants, and graph role indicators without running recursive
+queries during request handling.
 
 ### CLI (`src/cli.py`)
 
