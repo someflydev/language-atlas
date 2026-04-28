@@ -64,6 +64,12 @@ def test_crawler_emits_index_html(crawled_site: tuple) -> None:
     assert index.stat().st_size > 0, "index.html is empty"
 
 
+def test_crawler_includes_path_finder(mock_loader: DataLoader) -> None:
+    urls = SiteCrawler(mock_loader, Path("site"))._enumerate_urls()
+
+    assert "/path" in urls
+
+
 def test_crawler_emits_one_file_per_language(crawled_site: tuple) -> None:
     """One language/*/index.html is written for each language the crawler exports.
 

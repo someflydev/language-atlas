@@ -4,6 +4,7 @@ from typing import Any
 
 import sqlite3
 from fastapi.testclient import TestClient
+from fastapi.responses import HTMLResponse
 
 from app import app as app_module
 from app.core.data_loader import DataLoader
@@ -154,6 +155,128 @@ def test_api_path_unknown_language_returns_404(
     assert response.json() == {"error": "Source language not found"}
 
 
+def test_path_page_empty_state(mock_loader: DataLoader, monkeypatch: Any) -> None:
+    client = _client_with_loader(monkeypatch, mock_loader)
+
+    response = client.get("/path")
+
+    assert response.status_code == 200
+    assert "Origin Language" in response.text
+    assert "Destination Language" in response.text
+
+
+def test_path_page_reachable_renders_path_chain(
+    db_conn: sqlite3.Connection,
+    mock_loader: DataLoader,
+    monkeypatch: Any,
+) -> None:
+    path = db_conn.execute(
+        """
+        SELECT f.name AS from_name, t.name AS to_name, p.path_text
+        FROM language_lineage_paths_bounded p
+        JOIN languages f ON f.id = p.from_language_id
+        JOIN languages t ON t.id = p.to_language_id
+        ORDER BY p.depth ASC, f.name ASC, t.name ASC
+        LIMIT 1
+        """
+    ).fetchone()
+    assert path is not None
+    client = _client_with_loader(monkeypatch, mock_loader)
+
+    response = client.get(
+        "/path",
+        params={"from": path["from_name"], "to": path["to_name"]},
+    )
+
+    assert response.status_code == 200
+    assert path["path_text"].split(" -> ")[0] in response.text
+    assert "&rarr;" in response.text
+
+
+def test_path_page_not_reachable_renders_message(
+    db_conn: sqlite3.Connection,
+    mock_loader: DataLoader,
+    monkeypatch: Any,
+) -> None:
+    pair = db_conn.execute(
+        """
+        SELECT f.name AS from_name, t.name AS to_name
+        FROM languages f
+        CROSS JOIN languages t
+        LEFT JOIN language_reachability r
+          ON r.from_language_id = f.id
+         AND r.to_language_id = t.id
+        WHERE f.id != t.id
+          AND r.from_language_id IS NULL
+        ORDER BY f.name ASC, t.name ASC
+        LIMIT 1
+        """
+    ).fetchone()
+    assert pair is not None
+    client = _client_with_loader(monkeypatch, mock_loader)
+
+    response = client.get(
+        "/path",
+        params={"from": pair["from_name"], "to": pair["to_name"]},
+    )
+
+    assert response.status_code == 200
+    assert "No influence path found" in response.text
+
+
+def test_path_page_unknown_origin_renders_error(
+    mock_loader: DataLoader,
+    monkeypatch: Any,
+) -> None:
+    client = _client_with_loader(monkeypatch, mock_loader)
+
+    response = client.get("/path", params={"from": "UNKNOWN", "to": "Python"})
+
+    assert response.status_code == 200
+    assert "Origin language not found" in response.text
+
+
+def test_dataloader_get_cousins_returns_shared_ancestor_matches(
+    mock_loader: DataLoader,
+) -> None:
+    cousins: list[dict[str, Any]] = []
+    for language in mock_loader.get_all_languages(entity_type=None):
+        cousins = mock_loader.get_cousins(language["name"])
+        if cousins:
+            break
+
+    assert cousins, "Expected at least one cousin language relationship"
+    assert all(item["shared_ancestor_count"] >= 2 for item in cousins)
+    assert {"name", "display_name", "entity_type", "year", "influence_score", "shared_ancestor_count"} <= set(cousins[0])
+
+
+def test_dataloader_get_cousins_no_ancestors_returns_empty(
+    mock_loader: DataLoader,
+) -> None:
+    assert mock_loader.get_cousins("COMIT") == []
+
+
+def test_profile_route_context_includes_cousins_key(
+    mock_loader: DataLoader,
+    monkeypatch: Any,
+) -> None:
+    captured: dict[str, Any] = {}
+
+    def fake_template_response(*args: Any, **kwargs: Any) -> HTMLResponse:
+        captured.update(kwargs.get("context", {}))
+        return HTMLResponse("ok")
+
+    monkeypatch.setattr(app_module, "data_loader", mock_loader)
+    monkeypatch.setattr(app_module, "auto_link_content", lambda html: html)
+    monkeypatch.setattr(app_module.templates, "TemplateResponse", fake_template_response)
+
+    client = TestClient(app_module.app)
+    response = client.get("/language/Python")
+
+    assert response.status_code == 200
+    assert "cousins" in captured
+
+
 def test_dataloader_lineage_methods_gracefully_degrade_in_json_mode(
     monkeypatch: Any,
 ) -> None:
@@ -169,6 +292,7 @@ def test_dataloader_lineage_methods_gracefully_degrade_in_json_mode(
     )
 
     assert loader.get_lineage("Source") is None
+    assert loader.get_cousins("Source") == []
     assert loader.get_path("Source", "Target") == {
         "from": "Source",
         "to": "Target",
