@@ -1335,6 +1335,131 @@ class DataLoader:
         finally:
             conn.close()
 
+    def get_lineage(self, name: str) -> Optional[Dict[str, Any]]:
+        """Full transitive lineage from closure tables."""
+        lang = self.get_language(name)
+        if not lang:
+            return None
+
+        if not self.use_sqlite:
+            return None
+
+        conn = self._get_connection()
+        try:
+            language_id = lang["id"]
+            ancestor_cursor = conn.execute(
+                """
+                SELECT l.name,
+                       l.display_name,
+                       COALESCE(l.entity_type, 'language') AS entity_type,
+                       l.year,
+                       la.depth,
+                       la.path_count
+                FROM language_ancestry la
+                JOIN languages l ON la.ancestor_language_id = l.id
+                WHERE la.root_language_id = ?
+                ORDER BY la.depth ASC, l.name ASC
+                """,
+                (language_id,),
+            )
+            ancestors = [self._row_to_dict(row) for row in ancestor_cursor.fetchall()]
+
+            descendant_cursor = conn.execute(
+                """
+                SELECT l.name,
+                       l.display_name,
+                       COALESCE(l.entity_type, 'language') AS entity_type,
+                       l.year,
+                       ld.depth,
+                       ld.path_count
+                FROM language_descendants ld
+                JOIN languages l ON ld.descendant_language_id = l.id
+                WHERE ld.root_language_id = ?
+                ORDER BY ld.depth ASC, l.name ASC
+                """,
+                (language_id,),
+            )
+            descendants = [self._row_to_dict(row) for row in descendant_cursor.fetchall()]
+
+            return {
+                "name": lang["name"],
+                "display_name": lang.get("display_name") or lang["name"],
+                "entity_type": lang.get("entity_type", "language"),
+                "year": lang.get("year"),
+                "ancestor_count": len(ancestors),
+                "descendant_count": len(descendants),
+                "max_ancestor_depth": max((item["depth"] for item in ancestors), default=0),
+                "max_descendant_depth": max((item["depth"] for item in descendants), default=0),
+                "ancestors": ancestors,
+                "descendants": descendants,
+            }
+        finally:
+            conn.close()
+
+    def get_path(self, from_name: str, to_name: str) -> Dict[str, Any]:
+        """Shortest path between two languages from closure tables."""
+        from_language = self.get_language(from_name)
+        to_language = self.get_language(to_name)
+        from_display = (
+            from_language.get("name")
+            if from_language
+            else from_name.replace("_", " ")
+        )
+        to_display = (
+            to_language.get("name")
+            if to_language
+            else to_name.replace("_", " ")
+        )
+
+        unreachable = {
+            "from": from_display,
+            "to": to_display,
+            "reachable": False,
+            "min_depth": None,
+            "path_count": 0,
+            "sample_paths": [],
+        }
+        if not self.use_sqlite or not from_language or not to_language:
+            return unreachable
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute(
+                """
+                SELECT min_depth, path_count
+                FROM language_reachability
+                WHERE from_language_id = ?
+                  AND to_language_id = ?
+                """,
+                (from_language["id"], to_language["id"]),
+            )
+            reachability = cursor.fetchone()
+            if not reachability:
+                return unreachable
+
+            paths_cursor = conn.execute(
+                """
+                SELECT path_text
+                FROM language_lineage_paths_bounded
+                WHERE from_language_id = ?
+                  AND to_language_id = ?
+                ORDER BY depth ASC, path_text ASC
+                LIMIT 3
+                """,
+                (from_language["id"], to_language["id"]),
+            )
+
+            return {
+                "from": from_language["name"],
+                "to": to_language["name"],
+                "reachable": True,
+                "min_depth": reachability["min_depth"],
+                "path_count": reachability["path_count"],
+                "sample_paths": [row["path_text"] for row in paths_cursor.fetchall()],
+            }
+        finally:
+            conn.close()
+
     def get_all_eras(self) -> List[Dict[str, Any]]:
         if not self.use_sqlite:
             return self.eras

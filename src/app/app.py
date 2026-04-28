@@ -1,3 +1,4 @@
+import json
 import os
 import re
 import copy
@@ -47,9 +48,28 @@ templates = Jinja2Templates(directory=templates_dir)
 templates.env.globals["atlas_static_mode"] = lambda: os.environ.get("ATLAS_STATIC_MODE", "0") == "1"
 templates.env.globals["entity_profile_href"] = DataLoader.get_entity_profile_route
 
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+GENERATED_DATA_DIR = os.path.join(REPO_ROOT, 'generated-data')
+
 
 def atlas_static_mode() -> bool:
     return os.environ.get("ATLAS_STATIC_MODE", "0") == "1"
+
+def _load_generated_data(filename: str) -> Optional[Any]:
+    path = os.path.join(GENERATED_DATA_DIR, filename)
+    if not os.path.exists(path):
+        return None
+    with open(path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+def _generated_data_response(filename: str, label: str) -> Response:
+    data = _load_generated_data(filename)
+    if data is None:
+        return JSONResponse(
+            content={"error": f"{label} not generated. Run: make derived-data"},
+            status_code=503,
+        )
+    return JSONResponse(content=data)
 
 # Initialize data loader
 data_loader = DataLoader()
@@ -258,6 +278,13 @@ async def api_viz_timeline() -> List[Dict[str, Any]]:
 @app.get("/api/viz/influence")
 async def api_viz_influence() -> Any:
     return data_loader.get_influence_data()
+
+@app.get("/api/viz/influence-expanded")
+async def api_viz_influence_expanded() -> Response:
+    return _generated_data_response(
+        "viz/influence-expanded.json",
+        "Expanded influence visualization",
+    )
 
 
 def _render_language_browser(
@@ -1119,6 +1146,8 @@ async def api_index() -> Dict[str, Any]:
             "/api/languages": "List all languages (with cluster, generation, entity_type, sort, min_year, max_year filters)",
             "/api/entity-types": "Counts grouped by entity_type for language-like entities",
             "/api/language/{name}": "Detailed language profile data",
+            "/api/lineage/{name}": "Full transitive lineage from closure tables",
+            "/api/path?from={source}&to={target}": "Shortest influence path between two languages",
             "/api/paradigms": "List all programming paradigms",
             "/api/paradigm/{name}": "Detailed paradigm information",
             "/api/paradigm/{name}/ecosystem": "Foundation-aware paradigm ecosystem data",
@@ -1133,7 +1162,11 @@ async def api_index() -> Dict[str, Any]:
             "/api/historical_events": "List all historical events",
             "/api/event/{slug}": "Detailed historical event data",
             "/api/odysseys": "List all guided learning paths",
-            "/api/odyssey/{id}": "Specific journey data and challenges"
+            "/api/odyssey/{id}": "Specific journey data and challenges",
+            "/api/reports/keystones": "Keystone entities report",
+            "/api/reports/bridges": "Bridge entities report",
+            "/api/reports/orphans": "Orphan subgraph report",
+            "/api/viz/influence-expanded": "Expanded influence graph with closure context"
         }
     }
 
@@ -1180,6 +1213,55 @@ async def api_get_language(name: str) -> Any:
     if not lang:
         raise HTTPException(status_code=404, detail="Language not found")
     return lang
+
+@app.get("/api/lineage/{name}")
+async def api_get_lineage(name: str) -> Response:
+    lineage = data_loader.get_lineage(name)
+    if lineage is None:
+        return JSONResponse(content={"error": "Language not found"}, status_code=404)
+    return JSONResponse(content=lineage)
+
+@app.get("/api/path")
+async def api_get_path(
+    from_name: str = Query(..., alias="from"),
+    to_name: str = Query(..., alias="to"),
+) -> Response:
+    from_language = data_loader.get_language(from_name)
+    if not from_language:
+        return JSONResponse(content={"error": "Source language not found"}, status_code=404)
+
+    to_language = data_loader.get_language(to_name)
+    if not to_language:
+        return JSONResponse(content={"error": "Target language not found"}, status_code=404)
+
+    if from_language["name"].lower() == to_language["name"].lower():
+        return JSONResponse(
+            content={"error": "Source and target languages must be different"},
+            status_code=400,
+        )
+
+    return JSONResponse(content=data_loader.get_path(from_language["name"], to_language["name"]))
+
+@app.get("/api/reports/keystones")
+async def api_report_keystones() -> Response:
+    return _generated_data_response(
+        "reports/keystone-entities.json",
+        "Keystone report",
+    )
+
+@app.get("/api/reports/bridges")
+async def api_report_bridges() -> Response:
+    return _generated_data_response(
+        "reports/bridge-entities.json",
+        "Bridge report",
+    )
+
+@app.get("/api/reports/orphans")
+async def api_report_orphans() -> Response:
+    return _generated_data_response(
+        "reports/orphan-subgraphs.json",
+        "Orphan subgraph report",
+    )
 
 @app.get("/api/paradigms")
 async def api_list_paradigms() -> Any:
