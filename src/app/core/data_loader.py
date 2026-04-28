@@ -1398,6 +1398,70 @@ class DataLoader:
         finally:
             conn.close()
 
+    def get_cousins(
+        self,
+        name: str,
+        min_shared: int = 2,
+        limit: int = 20,
+    ) -> List[Dict[str, Any]]:
+        """Find languages that share multiple ancestors with the given language."""
+        if not self.use_sqlite:
+            return []
+
+        lang = self.get_language(name)
+        if not lang:
+            return []
+
+        conn = self._get_connection()
+        try:
+            cursor = conn.execute(
+                """
+                WITH my_ancestors AS (
+                    SELECT ancestor_language_id
+                    FROM language_ancestry
+                    WHERE root_language_id = :lang_id
+                ),
+                cousin_candidates AS (
+                    SELECT la.root_language_id AS candidate_id,
+                           COUNT(la.ancestor_language_id) AS shared_count
+                    FROM language_ancestry la
+                    WHERE la.ancestor_language_id IN (
+                            SELECT ancestor_language_id FROM my_ancestors
+                        )
+                      AND la.root_language_id != :lang_id
+                      AND la.root_language_id NOT IN (
+                            SELECT ancestor_language_id FROM my_ancestors
+                        )
+                      AND la.root_language_id NOT IN (
+                            SELECT descendant_language_id
+                            FROM language_descendants
+                            WHERE root_language_id = :lang_id
+                        )
+                    GROUP BY la.root_language_id
+                    HAVING shared_count >= :min_shared
+                    ORDER BY shared_count DESC
+                    LIMIT :limit
+                )
+                SELECT l.name,
+                       l.display_name,
+                       COALESCE(l.entity_type, 'language') AS entity_type,
+                       l.year,
+                       l.influence_score,
+                       cc.shared_count AS shared_ancestor_count
+                FROM cousin_candidates cc
+                JOIN languages l ON l.id = cc.candidate_id
+                ORDER BY cc.shared_count DESC, l.influence_score DESC
+                """,
+                {
+                    "lang_id": lang["id"],
+                    "min_shared": min_shared,
+                    "limit": limit,
+                },
+            )
+            return [self._row_to_dict(row) for row in cursor.fetchall()]
+        finally:
+            conn.close()
+
     def get_path(self, from_name: str, to_name: str) -> Dict[str, Any]:
         """Shortest path between two languages from closure tables."""
         from_language = self.get_language(from_name)

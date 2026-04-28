@@ -752,6 +752,7 @@ class SiteCrawler:
         for route in [
             "/",
             "/compare",
+            "/path",
             "/insights",
             "/visualizations",
             "/odysseys",

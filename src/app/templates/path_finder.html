@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mb-12">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+        <div>
+            <nav class="flex items-center space-x-2 text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">
+                <a href="/" class="hover:text-blue-600 transition-colors">Home</a>
+                <span>/</span>
+                <span class="text-blue-600">Influence Path Finder</span>
+            </nav>
+            <h1 class="text-4xl font-black text-slate-900 leading-tight">Influence Path Finder</h1>
+        </div>
+        <a href="/" class="text-xs font-black uppercase tracking-widest bg-slate-100 text-slate-500 px-6 py-3 rounded-xl hover:bg-slate-200 transition-all">
+            &larr; Back to Atlas
+        </a>
+    </div>
+
+    <form method="get" action="/path" class="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 md:p-8 mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-4 md:items-end">
+            <label class="block">
+                <span class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Origin Language</span>
+                <input type="text" name="from" value="{{ from_name }}" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-900 outline-none focus:border-blue-400 focus:bg-white transition-colors" placeholder="LISP">
+            </label>
+            <label class="block">
+                <span class="block text-xs font-black uppercase tracking-widest text-slate-400 mb-2">Destination Language</span>
+                <input type="text" name="to" value="{{ to_name }}" class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-900 outline-none focus:border-blue-400 focus:bg-white transition-colors" placeholder="Clojure">
+            </label>
+            <button type="submit" class="inline-flex justify-center rounded-2xl bg-blue-600 px-6 py-3 text-sm font-black uppercase tracking-widest text-white hover:bg-blue-700 transition-colors shadow-xl shadow-blue-500/20">
+                Find Path
+            </button>
+        </div>
+    </form>
+
+    {% if error %}
+    <div class="bg-red-50 border border-red-100 text-red-700 rounded-3xl p-6 font-bold">
+        {{ error }}
+    </div>
+    {% elif path_result %}
+    <div class="bg-white rounded-3xl border border-slate-100 shadow-sm p-8 md:p-10">
+        {% if path_result.reachable %}
+            <div class="mb-8">
+                <h2 class="text-2xl font-extrabold text-slate-900 mb-2">{{ path_result.from }} to {{ path_result.to }}</h2>
+                <p class="text-sm font-medium text-slate-500">
+                    Shortest route: {{ path_result.min_depth }} step{% if path_result.min_depth != 1 %}s{% endif %} across {{ path_result.path_count }} distinct route{% if path_result.path_count != 1 %}s{% endif %}.
+                </p>
+            </div>
+
+            {% if path_result.sample_paths %}
+            <div class="space-y-4">
+                {% for sample_path in path_result.sample_paths[:2] %}
+                <div class="flex flex-wrap items-center gap-3">
+                    {% for language_name in sample_path.split(" -> ") %}
+                    <a href="/language/{{ language_name }}" class="inline-flex items-center px-4 py-2 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 hover:border-blue-300 hover:text-blue-600 transition-colors">
+                        {{ language_name }}
+                    </a>
+                    {% if not loop.last %}
+                    <span class="text-slate-300 text-2xl font-black">&rarr;</span>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-slate-600 font-medium">
+                Influence reaches {{ path_result.to }} in {{ path_result.min_depth }} step{% if path_result.min_depth != 1 %}s{% endif %} via {{ path_result.path_count }} distinct route{% if path_result.path_count != 1 %}s{% endif %}.
+            </p>
+            {% endif %}
+        {% else %}
+            <div class="text-center py-10">
+                <h2 class="text-2xl font-extrabold text-slate-900 mb-3">No influence path found</h2>
+                <p class="text-slate-500 font-medium">{{ path_result.from }} does not currently reach {{ path_result.to }} in the influence graph.</p>
+            </div>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="bg-white p-20 rounded-3xl border border-dashed border-slate-200 text-center">
+        <h2 class="text-xl font-bold text-slate-900 mb-2">Choose two languages</h2>
+        <p class="text-slate-500 max-w-md mx-auto">Enter an origin and destination to trace the shortest known influence route between them.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

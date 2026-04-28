@@ -526,6 +526,42 @@ async def compare_languages(
         context={"languages": languages_data}
     )
 
+@app.get("/path", response_class=HTMLResponse)
+async def path_finder(
+    request: Request,
+    from_name: Optional[str] = Query(None, alias="from"),
+    to_name: Optional[str] = Query(None, alias="to"),
+) -> Response:
+    path_result: Optional[Dict[str, Any]] = None
+    error: Optional[str] = None
+
+    if from_name and to_name:
+        from_language = data_loader.get_language(from_name)
+        to_language = data_loader.get_language(to_name)
+
+        if not from_language:
+            error = f"Origin language not found: {from_name}"
+        elif not to_language:
+            error = f"Destination language not found: {to_name}"
+        elif from_language["name"].lower() == to_language["name"].lower():
+            error = "Origin and destination languages must be different."
+        else:
+            path_result = data_loader.get_path(
+                from_language["name"],
+                to_language["name"],
+            )
+
+    return templates.TemplateResponse(
+        request=request,
+        name="path_finder.html",
+        context={
+            "from_name": from_name or "",
+            "to_name": to_name or "",
+            "path_result": path_result,
+            "error": error,
+        },
+    )
+
 @app.get("/compare/add")
 async def add_to_compare(request: Request, lang: str) -> Response:
     cookie_val = request.cookies.get("selected_languages", "")
@@ -723,6 +759,11 @@ async def get_language_profile(request: Request, name: str) -> Response:
             "has_graph_role": False,
         }
     )
+    cousins = (
+        data_loader.get_cousins(name, min_shared=2, limit=20)
+        if data_loader.use_sqlite and entity_type in LANGUAGE_LIKE_ENTITY_TYPES
+        else []
+    )
     
     return templates.TemplateResponse(
         request=request,
@@ -741,6 +782,7 @@ async def get_language_profile(request: Request, name: str) -> Response:
             "ranking": lang_rank,
             "lineage_data": lineage_data,
             "graph_role": graph_role,
+            "cousins": cousins,
             "is_keystone_report_member": graph_role["is_keystone_report_member"],
         }
     )
