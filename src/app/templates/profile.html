@@ -127,6 +127,29 @@
                 </dl>
             </div>
 
+            {% if entity_type in ('language', 'foundation', 'artifact') and graph_role and graph_role.has_graph_role %}
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h3 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-4">Graph Role</h3>
+                <div class="flex flex-wrap gap-2">
+                    {% if graph_role.has_reachability %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-blue-50 text-blue-700">
+                        Reaches {{ lineage_data.descendant_count }} languages transitively
+                    </span>
+                    {% endif %}
+                    {% if graph_role.is_bridge_node %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-amber-100 text-amber-800">
+                        Bridge Node
+                    </span>
+                    {% endif %}
+                    {% if graph_role.is_keystone %}
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black bg-indigo-100 text-indigo-800">
+                        Keystone
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
             {% if lang.primary_use_cases %}
             <div class="bg-slate-900 p-6 rounded-2xl shadow-xl">
                 <h3 class="text-xs font-black uppercase tracking-widest text-slate-500 mb-4">Primary Domains</h3>
@@ -197,39 +220,66 @@
             {% endif %}
 
             {% if entity_type in ('language', 'foundation', 'artifact') %}
-            {% if ancestors or descendants %}
+            {% if lineage_data.has_deep_ancestry or lineage_data.notable_descendants %}
             <section class="mt-12 bg-white rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100">
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="text-3xl font-extrabold text-slate-900">Lineage</h2>
                     <a href="/lineage/{{ lang.id }}" class="text-sm font-bold text-blue-600 hover:text-blue-800 uppercase tracking-wide">View Full Graph &rarr;</a>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {% if ancestors %}
+                <div class="space-y-10">
+                    {% if lineage_data.has_deep_ancestry %}
                     <div>
                         <h3 class="text-sm font-black uppercase tracking-widest text-slate-400 mb-4">Deep Ancestry</h3>
-                        <ul class="space-y-3">
-                            {% for a in ancestors %}
-                            <li class="text-sm text-slate-600">
-                                <a href="{{ entity_profile_href(a.name, a.entity_type) }}" class="font-bold text-slate-900 hover:text-blue-600 transition-colors">{{ a.display_name or a.name }}</a> <span class="text-slate-400">({{ a.depth }} deg.)</span>
-                                <div class="text-xs text-slate-400 mt-1">{{ a.path }}</div>
-                            </li>
-                            {% endfor %}
-                        </ul>
+                        <div class="space-y-6">
+                            {% if lineage_data.grandparent_ancestors %}
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Grandparent Influences</h4>
+                                <div class="flex flex-wrap gap-3">
+                                    {% for ancestor in lineage_data.grandparent_ancestors %}
+                                    <a href="{{ entity_profile_href(ancestor.name, ancestor.entity_type) }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 hover:border-blue-300 hover:text-blue-600 transition-colors">
+                                        <span>{{ ancestor.display_name or ancestor.name }}</span>
+                                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">{{ ancestor.depth }} generations</span>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if lineage_data.deep_root_ancestors %}
+                            <div>
+                                <h4 class="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">Deep Historical Roots</h4>
+                                <div class="flex flex-wrap gap-3">
+                                    {% for ancestor in lineage_data.deep_root_ancestors %}
+                                    <a href="{{ entity_profile_href(ancestor.name, ancestor.entity_type) }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 hover:border-blue-300 hover:text-blue-600 transition-colors">
+                                        <span>{{ ancestor.display_name or ancestor.name }}</span>
+                                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">{{ ancestor.depth }} generations</span>
+                                    </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <p class="mt-5 text-sm font-medium text-slate-500">
+                            {{ lineage_data.ancestor_count }} total ancestors across {{ lineage_data.max_ancestor_depth }} generations
+                        </p>
                     </div>
                     {% endif %}
 
-                    {% if descendants %}
+                    {% if lineage_data.notable_descendants %}
                     <div>
-                        <h3 class="text-sm font-black uppercase tracking-widest text-slate-400 mb-4">Far-Reaching Descendants</h3>
-                        <ul class="space-y-3">
-                            {% for d in descendants %}
-                            <li class="text-sm text-slate-600">
-                                <a href="{{ entity_profile_href(d.name, d.entity_type) }}" class="font-bold text-slate-900 hover:text-blue-600 transition-colors">{{ d.display_name or d.name }}</a> <span class="text-slate-400">({{ d.depth }} deg.)</span>
-                                <div class="text-xs text-slate-400 mt-1">{{ d.path }}</div>
-                            </li>
+                        <h3 class="text-sm font-black uppercase tracking-widest text-slate-400 mb-4">Notable Descendants</h3>
+                        <div class="flex flex-wrap gap-3">
+                            {% for descendant in lineage_data.notable_descendants %}
+                            <a href="{{ entity_profile_href(descendant.name, descendant.entity_type) }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 hover:border-blue-300 hover:text-blue-600 transition-colors">
+                                <span>{{ descendant.display_name or descendant.name }}</span>
+                                <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">score {{ descendant.influence_score or 0 }}</span>
+                            </a>
                             {% endfor %}
-                        </ul>
+                        </div>
+                        <p class="mt-5 text-sm font-medium text-slate-500">
+                            {{ lineage_data.descendant_count }} total languages in lineage
+                        </p>
                     </div>
                     {% endif %}
                 </div>
