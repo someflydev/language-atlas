@@ -29,6 +29,7 @@ Routes marked **skipped** are not exported at all.
 |---|---|---|---|
 | `GET /` | `index.html` / `partials/language_grid.html` | Filter by cluster, paradigms, year; HTMX partial replaced by atlas-static.js at runtime | crawled (unfiltered state; filters functional via client-side SQL) |
 | `GET /compare` | `compare.html` | lang, lang1, lang2 params | crawled (empty state) |
+| `GET /path` | `path_finder.html` | form for from/to path finding; renders sample paths as card chains | crawled (empty state) |
 | `GET /compare/add` | `partials/comparison_tray_content.html` | Sets cookie | skipped |
 | `GET /compare/remove` | `partials/comparison_tray_content.html` | Modifies cookie | skipped |
 | `GET /compare/clear` | `partials/comparison_tray_content.html` | Deletes cookie | skipped |
@@ -93,6 +94,7 @@ src/app/templates/
   index.html                         # Language grid + filters
   profile.html                       # Universal entity profile; `/language/{name}` is shared by language-like entities and renders typed upstream influence groups
   compare.html                       # Side-by-side comparison
+  path_finder.html                   # Influence path finder form and chain results
   tag_view.html                      # Generic cluster filtered view
   paradigm_view.html                 # Foundation-aware paradigm ecosystem view
   insights.html                      # Analytics dashboard

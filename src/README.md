@@ -63,6 +63,9 @@ foundations from direct language lineage. It also injects closure-table
 lineage data into profile pages so they can show transitive ancestry,
 notable descendants, and graph role indicators without running recursive
 queries during request handling.
+The web app also exposes `/path` for bookmarkable influence path
+finding and surfaces cousin languages on profiles when two branches
+share multiple common ancestors.
 
 ### CLI (`src/cli.py`)
 
@@ -107,8 +110,10 @@ and `/redoc` while the server is running.
 Notable endpoints:
 - `GET /api/search?q=concurrency` — FTS5 BM25 ranked results
 - `GET /api/language/Rust` — combined core + profile data
+- `GET /api/path?from=LISP&to=Clojure` — shortest influence path data
 - `GET /api/paradigm/Functional/ecosystem` — paradigm languages plus ranked foundations
 - `GET /api/odysseys` — list all guided paths
+- `GET /path` — web form for tracing influence routes between languages
 - `GET /visualizations` — Plotly timeline and influence network
 
 For `/api/language/{name}`, compatibility fields like `influenced_by`

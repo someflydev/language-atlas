@@ -209,6 +209,10 @@ Find the shortest known influence path between two language-like entities.
     "sample_paths": []
   }
   ```
+- **Notes:** `sample_paths` may be empty even when `reachable` is
+  `true` if the bounded path materialization has no stored path strings
+  for that pair. In that case, use `min_depth` and `path_count` for the
+  reachability summary.
 
 ### 8. List Paradigms
 Retrieve all programming paradigms known to the system.
