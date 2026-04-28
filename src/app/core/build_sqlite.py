@@ -2,6 +2,7 @@
 import sqlite3
 import os
 import sys
+from collections import defaultdict, deque
 from typing import Optional, Dict, List, Tuple, Any
 
 # Ensure we can import from src
@@ -13,6 +14,183 @@ sys.path.append(os.path.join(REPO_ROOT, 'src'))
 from app.core.data_loader import DataLoader
 
 DB_PATH = os.path.join(REPO_ROOT, 'language_atlas.sqlite')
+
+
+def _populate_closure_tables(conn: sqlite3.Connection, cursor: sqlite3.Cursor) -> None:
+    max_depth = 10
+    path_count_depth_limit = 5
+    max_counted_paths = 10
+    max_stored_paths_per_pair = 2
+    max_stored_path_rows = 5000
+
+    forward: Dict[int, set[int]] = defaultdict(set)
+    reverse: Dict[int, set[int]] = defaultdict(set)
+    edge_types: Dict[Tuple[int, int], Optional[str]] = {}
+
+    cursor.execute("SELECT source_id, target_id, influence_type FROM influences")
+    for source_id, target_id, influence_type in cursor.fetchall():
+        forward[source_id].add(target_id)
+        reverse[target_id].add(source_id)
+        edge_types[(source_id, target_id)] = influence_type
+
+    cursor.execute("SELECT id, name FROM languages ORDER BY id")
+    language_rows = cursor.fetchall()
+    language_ids = [row[0] for row in language_rows]
+    language_names = {row[0]: row[1] for row in language_rows}
+
+    def bfs_min_depth(root_id: int, adjacency: Dict[int, set[int]]) -> Dict[int, int]:
+        visited = {root_id: 0}
+        queue = deque([(root_id, 0)])
+
+        while queue:
+            node_id, depth = queue.popleft()
+            if depth >= max_depth:
+                continue
+            for next_id in sorted(adjacency.get(node_id, ())):
+                if next_id in visited:
+                    continue
+                next_depth = depth + 1
+                visited[next_id] = next_depth
+                queue.append((next_id, next_depth))
+
+        visited.pop(root_id, None)
+        return visited
+
+    def collect_paths_for_targets(
+        root_id: int,
+        adjacency: Dict[int, set[int]],
+        target_ids: set[int],
+    ) -> Dict[int, List[List[int]]]:
+        paths_by_target: Dict[int, List[List[int]]] = {target_id: [] for target_id in target_ids}
+
+        def dfs(node_id: int, path: List[int], path_nodes: set[int]) -> None:
+            path_depth = len(path) - 1
+            if node_id in target_ids and node_id != root_id:
+                paths = paths_by_target[node_id]
+                if len(paths) < max_counted_paths:
+                    paths.append(list(path))
+            if path_depth >= max_depth:
+                return
+            if all(len(paths) >= max_counted_paths for paths in paths_by_target.values()):
+                return
+
+            for next_id in sorted(adjacency.get(node_id, ())):
+                if next_id in path_nodes:
+                    continue
+                path.append(next_id)
+                path_nodes.add(next_id)
+                dfs(next_id, path, path_nodes)
+                path_nodes.remove(next_id)
+                path.pop()
+
+        dfs(root_id, [root_id], {root_id})
+        return paths_by_target
+
+    def build_closure_rows(
+        root_id: int,
+        adjacency: Dict[int, set[int]],
+        include_paths: bool = False,
+    ) -> Tuple[List[Tuple[int, int, int, int]], Dict[Tuple[int, int], List[List[int]]]]:
+        min_depths = bfs_min_depth(root_id, adjacency)
+        rows: List[Tuple[int, int, int, int]] = []
+        stored_paths: Dict[Tuple[int, int], List[List[int]]] = {}
+        path_target_ids = {
+            target_id
+            for target_id, depth in min_depths.items()
+            if depth <= path_count_depth_limit
+        }
+        paths_by_target = collect_paths_for_targets(root_id, adjacency, path_target_ids)
+
+        for target_id, depth in sorted(min_depths.items(), key=lambda item: (item[1], language_names[item[0]])):
+            paths = paths_by_target.get(target_id, [])
+            path_count = max(1, len(paths))
+            rows.append((root_id, target_id, depth, path_count))
+            if include_paths and depth <= path_count_depth_limit and paths:
+                stored_paths[(root_id, target_id)] = paths[:max_stored_paths_per_pair]
+
+        return rows, stored_paths
+
+    ancestry_total = 0
+    descendant_rows_all: List[Tuple[int, int, int, int]] = []
+    lineage_path_rows: List[Tuple[int, int, int, str, Optional[str]]] = []
+
+    for root_id in language_ids:
+        ancestry_rows, _ = build_closure_rows(root_id, reverse)
+        if ancestry_rows:
+            cursor.executemany(
+                """
+                INSERT INTO language_ancestry (
+                    root_language_id, ancestor_language_id, depth, path_count
+                ) VALUES (?, ?, ?, ?)
+                """,
+                ancestry_rows,
+            )
+            ancestry_total += len(ancestry_rows)
+
+        descendant_rows, stored_paths = build_closure_rows(
+            root_id,
+            forward,
+            include_paths=len(lineage_path_rows) < max_stored_path_rows,
+        )
+        if descendant_rows:
+            cursor.executemany(
+                """
+                INSERT INTO language_descendants (
+                    root_language_id, descendant_language_id, depth, path_count
+                ) VALUES (?, ?, ?, ?)
+                """,
+                descendant_rows,
+            )
+            descendant_rows_all.extend(descendant_rows)
+
+        if len(lineage_path_rows) >= max_stored_path_rows:
+            continue
+        for (from_id, to_id), paths in sorted(
+            stored_paths.items(),
+            key=lambda item: (
+                len(item[1][0]) if item[1] else max_depth + 1,
+                language_names[item[0][0]],
+                language_names[item[0][1]],
+            ),
+        ):
+            for path in paths:
+                if len(lineage_path_rows) >= max_stored_path_rows:
+                    break
+                path_text = " -> ".join(language_names[node_id] for node_id in path)
+                edge_text = " -> ".join(
+                    edge_types.get((path[idx], path[idx + 1])) or "direct"
+                    for idx in range(len(path) - 1)
+                )
+                lineage_path_rows.append((from_id, to_id, len(path) - 1, path_text, edge_text))
+
+    if descendant_rows_all:
+        cursor.executemany(
+            """
+            INSERT INTO language_reachability (
+                from_language_id, to_language_id, min_depth, path_count
+            ) VALUES (?, ?, ?, ?)
+            """,
+            descendant_rows_all,
+        )
+
+    if lineage_path_rows:
+        cursor.executemany(
+            """
+            INSERT INTO language_lineage_paths_bounded (
+                from_language_id, to_language_id, depth, path_text, edge_types_text
+            ) VALUES (?, ?, ?, ?, ?)
+            """,
+            lineage_path_rows,
+        )
+
+    print(
+        "Closure tables populated: "
+        f"language_ancestry={ancestry_total}, "
+        f"language_descendants={len(descendant_rows_all)}, "
+        f"language_reachability={len(descendant_rows_all)}, "
+        f"language_lineage_paths_bounded={len(lineage_path_rows)}"
+    )
+
 
 def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional[str] = None) -> None:
     # Force use_sqlite=0 for the loader used during build to ensure it reads from JSON
@@ -91,6 +269,46 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
             PRIMARY KEY (source_id, target_id),
             FOREIGN KEY (source_id) REFERENCES languages(id) ON DELETE CASCADE,
             FOREIGN KEY (target_id) REFERENCES languages(id) ON DELETE CASCADE
+        );
+
+        CREATE TABLE language_ancestry (
+            root_language_id    INTEGER NOT NULL,
+            ancestor_language_id INTEGER NOT NULL,
+            depth               INTEGER NOT NULL,
+            path_count          INTEGER NOT NULL DEFAULT 1,
+            PRIMARY KEY (root_language_id, ancestor_language_id),
+            FOREIGN KEY (root_language_id) REFERENCES languages(id),
+            FOREIGN KEY (ancestor_language_id) REFERENCES languages(id)
+        );
+
+        CREATE TABLE language_descendants (
+            root_language_id       INTEGER NOT NULL,
+            descendant_language_id INTEGER NOT NULL,
+            depth                  INTEGER NOT NULL,
+            path_count             INTEGER NOT NULL DEFAULT 1,
+            PRIMARY KEY (root_language_id, descendant_language_id),
+            FOREIGN KEY (root_language_id) REFERENCES languages(id),
+            FOREIGN KEY (descendant_language_id) REFERENCES languages(id)
+        );
+
+        CREATE TABLE language_reachability (
+            from_language_id INTEGER NOT NULL,
+            to_language_id   INTEGER NOT NULL,
+            min_depth        INTEGER NOT NULL,
+            path_count       INTEGER NOT NULL DEFAULT 1,
+            PRIMARY KEY (from_language_id, to_language_id),
+            FOREIGN KEY (from_language_id) REFERENCES languages(id),
+            FOREIGN KEY (to_language_id)   REFERENCES languages(id)
+        );
+
+        CREATE TABLE language_lineage_paths_bounded (
+            from_language_id INTEGER NOT NULL,
+            to_language_id   INTEGER NOT NULL,
+            depth            INTEGER NOT NULL,
+            path_text        TEXT NOT NULL,
+            edge_types_text  TEXT,
+            FOREIGN KEY (from_language_id) REFERENCES languages(id),
+            FOREIGN KEY (to_language_id)   REFERENCES languages(id)
         );
 
         CREATE TABLE language_paradigms (
@@ -757,6 +975,14 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         CREATE INDEX idx_lang_people_person ON language_people(person_id);
         CREATE INDEX idx_profile_sections_profile ON profile_sections(profile_id);
         CREATE INDEX idx_concept_profile_sections_profile ON concept_profile_sections(profile_id);
+        CREATE INDEX idx_ancestry_root     ON language_ancestry(root_language_id);
+        CREATE INDEX idx_ancestry_ancestor ON language_ancestry(ancestor_language_id);
+        CREATE INDEX idx_descendants_root  ON language_descendants(root_language_id);
+        CREATE INDEX idx_descendants_desc  ON language_descendants(descendant_language_id);
+        CREATE INDEX idx_reach_from        ON language_reachability(from_language_id);
+        CREATE INDEX idx_reach_to          ON language_reachability(to_language_id);
+        CREATE INDEX idx_paths_from        ON language_lineage_paths_bounded(from_language_id);
+        CREATE INDEX idx_paths_to          ON language_lineage_paths_bounded(to_language_id);
         """)
         
         # 7. Create Views
@@ -882,6 +1108,8 @@ def build_database(conn: Optional[sqlite3.Connection] = None, data_dir: Optional
         WHERE year IS NOT NULL;
         """)
 
+        print("Populating closure tables...")
+        _populate_closure_tables(conn, cursor)
         
         conn.commit()
         print(f"Database built successfully at {DB_PATH}")

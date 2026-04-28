@@ -1294,13 +1294,17 @@ class DataLoader:
         conn = self._get_connection()
         try:
             query = """
-                SELECT d.descendant_id, l.name, l.display_name,
+                SELECT ld.descendant_language_id AS descendant_id,
+                       l.name,
+                       l.display_name,
                        COALESCE(l.entity_type, 'language') AS entity_type,
-                       d.depth, d.path
-                FROM v_language_descendants d
-                JOIN languages l ON d.descendant_id = l.id
-                WHERE d.root_id = ? AND d.depth <= ?
-                ORDER BY d.depth ASC, l.name ASC
+                       ld.depth,
+                       ld.path_count
+                FROM language_descendants ld
+                JOIN languages l ON ld.descendant_language_id = l.id
+                WHERE ld.root_language_id = ?
+                  AND ld.depth <= ?
+                ORDER BY ld.depth ASC, l.name ASC
             """
             cursor = conn.execute(query, (language_id, max_depth))
             return [self._row_to_dict(row) for row in cursor.fetchall()]
@@ -1314,13 +1318,17 @@ class DataLoader:
         conn = self._get_connection()
         try:
             query = """
-                SELECT a.ancestor_id, l.name, l.display_name,
+                SELECT la.ancestor_language_id AS ancestor_id,
+                       l.name,
+                       l.display_name,
                        COALESCE(l.entity_type, 'language') AS entity_type,
-                       a.depth, a.path
-                FROM v_language_ancestors a
-                JOIN languages l ON a.ancestor_id = l.id
-                WHERE a.root_id = ? AND a.depth <= ?
-                ORDER BY a.depth ASC, l.name ASC
+                       la.depth,
+                       la.path_count
+                FROM language_ancestry la
+                JOIN languages l ON la.ancestor_language_id = l.id
+                WHERE la.root_language_id = ?
+                  AND la.depth <= ?
+                ORDER BY la.depth ASC, l.name ASC
             """
             cursor = conn.execute(query, (language_id, max_depth))
             return [self._row_to_dict(row) for row in cursor.fetchall()]
