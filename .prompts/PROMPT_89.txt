@@ -288,23 +288,6 @@ git diff -- tests/test_closure_tables.py \
             src/app/core/build_sqlite.py
 ```
 
----
-
-## Commit Expectations
-
-Single commit:
-
-```
-[PROMPT_89] Add synthetic correctness tests for closure tables
-
-Cover ancestry, descendant, reachability, cycle-safety, depth-limit,
-and path-text behavior using in-memory fixtures with known topology.
-Add live-corpus smoke tests. Refactor _populate_closure_tables to a
-module-level function to enable direct import in tests.
-```
-
----
-
 ## Completion Criteria
 
 This prompt is complete when:

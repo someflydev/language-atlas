@@ -396,42 +396,6 @@ git diff -- src/app/core/insights.py \
             tests/test_advanced_analytics.py
 ```
 
----
-
-## Commit Expectations
-
-Group into three commits:
-
-**Commit 1** — analytics engine:
-```
-[PROMPT_94] Add leverage, diffusion, and anomaly analytics
-
-InsightGenerator gains calculate_leverage_scores(),
-calculate_concept_diffusion(), and detect_graph_anomalies(). Three
-new /api/insights/* endpoints expose these without recursive SQL
-at request time.
-```
-
-**Commit 2** — UI and CLI:
-```
-[PROMPT_94] Surface graph analytics in insights page and CLI
-
-Insights page shows leverage rankings, concept diffusion, and anomaly
-detection sections. New atlas leverage and atlas anomalies CLI commands
-render the same data in terminal-native Rich format.
-```
-
-**Commit 3** — tests and docs:
-```
-[PROMPT_94] Test advanced analytics and update docs
-
-Cover leverage score correctness, diffusion >= direct_languages
-invariant, anomaly dict shape, route responses, and CLI command
-smoke tests. Update API_GUIDE.md, commands.md, README.
-```
-
----
-
 ## Completion Criteria
 
 This prompt is complete when:

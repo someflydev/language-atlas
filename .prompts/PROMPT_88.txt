@@ -367,33 +367,6 @@ git diff -- src/app/core/build_sqlite.py \
             src/README.md
 ```
 
----
-
-## Commit Expectations
-
-Group into two commits:
-
-**Commit 1** — schema and population:
-```
-[PROMPT_88] Add materialized closure tables to build step
-
-Add language_ancestry, language_descendants, language_reachability,
-and language_lineage_paths_bounded tables populated at build time
-via cycle-safe BFS. Depth limited to 10. Replaces runtime-recursive
-view queries in DataLoader.get_ancestors/get_descendants.
-```
-
-**Commit 2** — tests and docs:
-```
-[PROMPT_88] Add closure table tests and update schema docs
-
-Cover schema existence, ancestry/descendant correctness, depth
-limits, cycle safety, and DataLoader integration. Update database.md
-and src/README.md to document the new closure layer.
-```
-
----
-
 ## Completion Criteria
 
 This prompt is complete when:

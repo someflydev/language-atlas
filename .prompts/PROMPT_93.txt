@@ -320,33 +320,6 @@ git diff -- src/app/app.py \
             tests/
 ```
 
----
-
-## Commit Expectations
-
-Group into two commits:
-
-**Commit 1** — route, template, DataLoader:
-```
-[PROMPT_93] Add path finder page and cousin language discovery
-
-New /path page renders shortest influence chains between any two
-languages. Cousin Languages section on profiles shows languages
-sharing >= 2 common ancestors via DataLoader.get_cousins() backed
-by language_ancestry table.
-```
-
-**Commit 2** — tests and docs:
-```
-[PROMPT_93] Test path finder and cousin discovery, update docs
-
-Cover path rendering, no-path case, error handling, get_cousins
-correctness, and SiteCrawler inclusion. Update routes.md,
-API_GUIDE.md, README.
-```
-
----
-
 ## Completion Criteria
 
 This prompt is complete when:

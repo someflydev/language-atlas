@@ -317,31 +317,6 @@ git diff -- src/app/app.py \
             tests/
 ```
 
----
-
-## Commit Expectations
-
-Group into two commits:
-
-**Commit 1** — routes and DataLoader:
-```
-[PROMPT_91] Add lineage and reports API endpoints
-
-Add /api/lineage/{name}, /api/path, and four /api/reports/* endpoints
-reading from closure tables and generated-data/. Add DataLoader
-get_lineage() and get_path() methods backed by materialized tables.
-```
-
-**Commit 2** — tests and docs:
-```
-[PROMPT_91] Test lineage API endpoints and update API docs
-
-Cover 200/404/400/503 cases for all new endpoints. Update API_GUIDE.md
-and routes.md with the complete new endpoint descriptions.
-```
-
----
-
 ## Completion Criteria
 
 This prompt is complete when:

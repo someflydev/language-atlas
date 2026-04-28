@@ -59,7 +59,8 @@ generated-data/odyssey/.gitkeep
 generated-data/search/.gitkeep
 ```
 
-Commit the `.gitkeep` files but nothing else from `generated-data/`.
+Keep the `.gitkeep` files trackable while leaving generated JSON artifacts
+ignored.
 
 ### 2. Write scripts/generate_derived_data.py
 
@@ -436,38 +437,11 @@ git diff -- scripts/generate_derived_data.py \
             .context/commands.md
 ```
 
----
-
-## Commit Expectations
-
-Group into two commits:
-
-**Commit 1** — script, Makefile, gitignore:
-```
-[PROMPT_90] Add derived-data generation pipeline
-
-scripts/generate_derived_data.py reads closure tables and outputs six
-JSON artifacts to generated-data/: lineage summary, keystones, bridges,
-orphan subgraphs, expanded viz edges, and odyssey candidates. New
-make derived-data target runs the pipeline.
-```
-
-**Commit 2** — tests and docs:
-```
-[PROMPT_90] Add derived-data pipeline tests and docs
-
-Cover file creation, schema validation, keystone/orphan disjointness,
-and odyssey candidate filtering. Update architecture.md, commands.md,
-and README with generated-data layer documentation.
-```
-
----
-
 ## Completion Criteria
 
 This prompt is complete when:
 
-- `generated-data/` directory structure is committed (with `.gitkeep` files)
+- `generated-data/` directory structure exists with `.gitkeep` files
 - `generated-data/` contents are gitignored
 - `make derived-data` produces all six JSON files without error
 - All six files have the documented schema and contain non-trivial data

@@ -277,32 +277,6 @@ git diff -- src/app/app.py \
             tests/
 ```
 
----
-
-## Commit Expectations
-
-Group into two commits:
-
-**Commit 1** — route, DataLoader, and template:
-```
-[PROMPT_92] Add deep ancestry and graph role sections to profiles
-
-Enrich /language/{name} with transitive ancestor groupings, notable
-descendants ranked by influence score, and a compact graph role row
-showing reachability, bridge, and keystone status. Sourced from
-closure tables and pre-generated reports.
-```
-
-**Commit 2** — tests and docs:
-```
-[PROMPT_92] Test profile UI enrichment and update route docs
-
-Cover deep ancestry rendering, empty-state handling, descendant list,
-and graph role badge conditions. Update README and routes.md.
-```
-
----
-
 ## Completion Criteria
 
 This prompt is complete when:
