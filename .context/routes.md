@@ -61,6 +61,11 @@ Routes marked **skipped** are not exported at all.
 | `GET /api/search?q=` | FTS5 search → {results, query} |
 | `GET /api/languages` | cluster, generation, sort, min_year, max_year filters |
 | `GET /api/language/{name}` | Combined profile; preserves flat influence lists and adds grouped upstream detail fields for profile-aware clients. CLI dashboard / influences views and the TUI reader / nexus now rely on these grouped fields when present. |
+| `GET /api/lineage/{name}` | Full transitive lineage from closure tables; ancestors and descendants sorted by depth |
+| `GET /api/path?from=X&to=Y` | Shortest influence path between two languages; returns reachable/min_depth/sample_paths |
+| `GET /api/reports/keystones` | Keystone entities report; returns 503 if make derived-data has not run |
+| `GET /api/reports/bridges` | Bridge entities report; same 503 behavior |
+| `GET /api/reports/orphans` | Orphan subgraph report; same 503 behavior |
 | `GET /api/paradigms` | List |
 | `GET /api/paradigm/{name}` | Detail |
 | `GET /api/paradigm/{name}/ecosystem` | Foundation-aware paradigm ecosystem payload used by the web route and mirrored by the CLI `atlas paradigm` surface |
@@ -78,6 +83,7 @@ Routes marked **skipped** are not exported at all.
 | `GET /api/odyssey/{id}` | Detail + hydrated steps |
 | `GET /api/viz/timeline` | Raw timeline data |
 | `GET /api/viz/influence` | Raw influence edges |
+| `GET /api/viz/influence-expanded` | Expanded influence graph with closure context; same 503 behavior |
 | `GET /api/insights/momentum` | Paradigm momentum data |
 
 ## Templates Directory

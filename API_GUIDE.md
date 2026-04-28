@@ -33,7 +33,13 @@ A machine-readable directory of all available endpoints.
       "/api/search?q={term}": "Semantic search (min 2 chars)",
       "/api/languages": "List all languages (with filters)",
       "/api/entity-types": "Counts grouped by entity_type",
-      "/api/language/{name}": "Detailed language profile data"
+      "/api/language/{name}": "Detailed language profile data",
+      "/api/lineage/{name}": "Full transitive lineage from closure tables",
+      "/api/path?from={source}&to={target}": "Shortest influence path between two languages",
+      "/api/reports/keystones": "Keystone entities report",
+      "/api/reports/bridges": "Bridge entities report",
+      "/api/reports/orphans": "Orphan subgraph report",
+      "/api/viz/influence-expanded": "Expanded influence graph with closure context"
     }
   }
   ```
@@ -129,21 +135,96 @@ The terminal clients follow the same grouped-lineage contract:
 - the TUI reader and nexus panes use the grouped fields instead of a flat
   upstream list when they are present
 
-### 6. List Paradigms
+### 6. Get Transitive Lineage
+Retrieve the full closure-table lineage for a language-like entity.
+
+- **URL:** `/api/lineage/{name}`
+- **Method:** `GET`
+- **Response:** JSON object containing the root entity, counts, max depths,
+  ancestors, and descendants. Ancestors and descendants are sorted by
+  `depth ASC, name ASC`.
+  ```json
+  {
+    "name": "Python",
+    "display_name": "Python",
+    "entity_type": "language",
+    "year": 1991,
+    "ancestor_count": 5,
+    "descendant_count": 12,
+    "max_ancestor_depth": 4,
+    "max_descendant_depth": 3,
+    "ancestors": [
+      {
+        "name": "C",
+        "display_name": "C",
+        "entity_type": "language",
+        "year": 1972,
+        "depth": 2,
+        "path_count": 1
+      }
+    ],
+    "descendants": [
+      {
+        "name": "MicroPython",
+        "display_name": "MicroPython",
+        "entity_type": "language",
+        "year": 2013,
+        "depth": 1,
+        "path_count": 1
+      }
+    ]
+  }
+  ```
+
+### 7. Get Influence Path
+Find the shortest known influence path between two language-like entities.
+
+- **URL:** `/api/path`
+- **Method:** `GET`
+- **Query Params:**
+  - `from`: Source language name.
+  - `to`: Target language name.
+- **Reachable Response:**
+  ```json
+  {
+    "from": "LISP",
+    "to": "Clojure",
+    "reachable": true,
+    "min_depth": 2,
+    "path_count": 3,
+    "sample_paths": [
+      "LISP -> Common Lisp -> Clojure",
+      "LISP -> Scheme -> Clojure"
+    ]
+  }
+  ```
+- **Not Reachable Response:**
+  ```json
+  {
+    "from": "COBOL",
+    "to": "Rust",
+    "reachable": false,
+    "min_depth": null,
+    "path_count": 0,
+    "sample_paths": []
+  }
+  ```
+
+### 8. List Paradigms
 Retrieve all programming paradigms known to the system.
 
 - **URL:** `/api/paradigms`
 - **Method:** `GET`
 - **Response:** Array of strings (paradigm names).
 
-### 7. Get Paradigm Detail
+### 9. Get Paradigm Detail
 Retrieve detailed information for a specific programming paradigm.
 
 - **URL:** `/api/paradigm/{name}`
 - **Method:** `GET`
 - **Response:** JSON object with name and description.
 
-### 8. Get Paradigm Ecosystem
+### 10. Get Paradigm Ecosystem
 Retrieve the foundation-aware ecosystem for a specific paradigm. This keeps the
 existing paradigm detail endpoint stable and exposes richer lineage data on a
 separate route.
@@ -200,56 +281,56 @@ entity-type-aware interpretation of upstream influences:
 - languages surface as `Language Ancestors`
 - artifacts, when present, surface as `Related Artifacts / Runtime Influences`
 
-### 9. List Concepts
+### 11. List Concepts
 Retrieve all programming concepts and innovations.
 
 - **URL:** `/api/concepts`
 - **Method:** `GET`
 - **Response:** Array of concept objects.
 
-### 10. Get Concept Detail
+### 12. Get Concept Detail
 Retrieve detailed profile information for a specific programming concept.
 
 - **URL:** `/api/concept/{name}`
 - **Method:** `GET`
 - **Response:** Detailed JSON object for the requested concept.
 
-### 11. List Eras
+### 13. List Eras
 Retrieve summaries of the major historical eras of computing.
 
 - **URL:** `/api/eras`
 - **Method:** `GET`
 - **Response:** Array of era summary objects.
 
-### 12. Get Era Detail
+### 14. Get Era Detail
 Retrieve a detailed narrative summary for a specific era.
 
 - **URL:** `/api/era/{slug}`
 - **Method:** `GET`
 - **Response:** Detailed JSON object for the requested era.
 
-### 13. List Organizations
+### 15. List Organizations
 Retrieve all organization profiles.
 
 - **URL:** `/api/organizations`
 - **Method:** `GET`
 - **Response:** Key-value object mapping organization names to their profile data.
 
-### 14. Get Organization Detail
+### 16. Get Organization Detail
 Retrieve detailed information for a specific organization.
 
 - **URL:** `/api/org/{name}`
 - **Method:** `GET`
 - **Response:** Detailed JSON object for the requested organization.
 
-### 15. List Odysseys
+### 17. List Odysseys
 Retrieve all guided learning paths.
 
 - **URL:** `/api/odysseys`
 - **Method:** `GET`
 - **Response:** Array of Odyssey objects.
 
-### 16. Get Odyssey Path
+### 18. Get Odyssey Path
 Retrieve a specific guided learning path by its ID.
 
 - **URL:** `/api/odyssey/{path_id}`
@@ -269,14 +350,14 @@ Retrieve a specific guided learning path by its ID.
   }
   ```
 
-### 17. List People
+### 19. List People
 Retrieve all people profiles.
 
 - **URL:** `/api/people`
 - **Method:** `GET`
 - **Response:** Key-value object mapping person names to their profile data.
 
-### 18. Get Person Detail
+### 20. Get Person Detail
 Retrieve detailed profile information for a specific person.
 
 - **URL:** `/api/person/{name}`
@@ -284,28 +365,44 @@ Retrieve detailed profile information for a specific person.
 - **Note:** Names containing spaces may be URL-encoded (`John%20Backus`) or use underscores (`John_Backus`). See "Name Lookup and URL Encoding" below.
 - **Response:** Detailed JSON object for the requested person.
 
-### 19. List Historical Events
+### 21. List Historical Events
 Retrieve all historical events.
 
 - **URL:** `/api/historical_events`
 - **Method:** `GET`
 - **Response:** Key-value object mapping event slugs to their event data.
 
-### 20. Get Historical Event Detail
+### 22. Get Historical Event Detail
 Retrieve detailed information for a specific historical event.
 
 - **URL:** `/api/event/{slug}`
 - **Method:** `GET`
 - **Response:** Detailed JSON object for the requested event.
 
-### 21. Insights: Paradigm Momentum
+### 23. Reports
+Retrieve generated graph-intelligence reports. These endpoints return HTTP
+503 if `make derived-data` has not generated the backing JSON file.
+
+- **URL:** `/api/reports/keystones`
+- **Method:** `GET`
+- **Response:** Contents of `generated-data/reports/keystone-entities.json`.
+
+- **URL:** `/api/reports/bridges`
+- **Method:** `GET`
+- **Response:** Contents of `generated-data/reports/bridge-entities.json`.
+
+- **URL:** `/api/reports/orphans`
+- **Method:** `GET`
+- **Response:** Contents of `generated-data/reports/orphan-subgraphs.json`.
+
+### 24. Insights: Paradigm Momentum
 Retrieve paradigm momentum data for the insights dashboard.
 
 - **URL:** `/api/insights/momentum`
 - **Method:** `GET`
 - **Response:** Array of objects with paradigm momentum analytics.
 
-### 22. Visualization Data
+### 25. Visualization Data
 Retrieve processed data for timeline and influence visualizations.
 
 - **URL:** `/api/viz/timeline`
@@ -314,6 +411,11 @@ Retrieve processed data for timeline and influence visualizations.
 - **URL:** `/api/viz/influence`
 - **Method:** `GET`
 - **Response:** Array of source/target influence relationships.
+- **URL:** `/api/viz/influence-expanded`
+- **Method:** `GET`
+- **Response:** Contents of `generated-data/viz/influence-expanded.json`.
+- **Note:** Returns HTTP 503 if `make derived-data` has not generated the
+  backing file.
 
 ---
 
