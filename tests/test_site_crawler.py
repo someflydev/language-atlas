@@ -230,6 +230,46 @@ def test_language_profile_renders_grouped_upstream_influences(
     assert grouped_items["Language Ancestors"][0]["display_name"] in response.text
 
 
+def test_language_profile_renders_graph_intelligence_sections(
+    mock_loader: DataLoader,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(app_module, "data_loader", mock_loader)
+    monkeypatch.setattr(app_module, "_entity_link_map", None)
+    monkeypatch.setattr(app_module, "_graph_reports_dir", None)
+
+    client = TestClient(app_module.app)
+    response = client.get("/language/Python")
+
+    assert response.status_code == 200
+    assert "Deep Ancestry" in response.text or "Grandparent Influences" in response.text
+    assert "Notable Descendants" in response.text
+    assert "Graph Role" in response.text
+    assert "Keystone" in response.text
+    assert 'href="/language/' in response.text
+
+
+def test_language_profile_without_deep_ancestors_hides_deep_ancestry(
+    mock_loader: DataLoader,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    language = mock_loader.get_language("COMIT")
+    assert language is not None
+    lineage = mock_loader.get_lineage("COMIT")
+    assert lineage is not None
+    assert lineage["ancestor_count"] == 0
+
+    monkeypatch.setattr(app_module, "data_loader", mock_loader)
+    monkeypatch.setattr(app_module, "_entity_link_map", None)
+    monkeypatch.setattr(app_module, "_graph_reports_dir", None)
+
+    client = TestClient(app_module.app)
+    response = client.get("/language/COMIT")
+
+    assert response.status_code == 200
+    assert "Deep Ancestry" not in response.text
+
+
 def test_crawler_emits_foundation_aware_paradigm_page(crawled_site: tuple) -> None:
     """A crawled paradigm page includes the new foundations section."""
     site_dir, _, loader = crawled_site

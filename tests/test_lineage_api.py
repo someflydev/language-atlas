@@ -179,6 +179,18 @@ def test_dataloader_lineage_methods_gracefully_degrade_in_json_mode(
     }
 
 
+def test_dataloader_lineage_items_include_influence_score(
+    mock_loader: DataLoader,
+) -> None:
+    lineage = mock_loader.get_lineage("Python")
+
+    assert lineage is not None
+    assert lineage["ancestors"]
+    assert "influence_score" in lineage["ancestors"][0]
+    if lineage["descendants"]:
+        assert "influence_score" in lineage["descendants"][0]
+
+
 def test_report_endpoints_return_503_when_file_absent(
     tmp_path: Path,
     monkeypatch: Any,
