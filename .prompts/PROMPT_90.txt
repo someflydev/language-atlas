@@ -46,21 +46,18 @@ Add the following to `.gitignore` (if not already present):
 generated-data/
 ```
 
-Create the directory structure on disk so it exists in the repo (but its
-contents are ignored by git). Add placeholder `.gitkeep` files so the
-directories are tracked:
+Create the directory structure on disk when the generator runs, but do not
+track the directory or any placeholder files in git. `generated-data/` is a
+pure generated artifact root and should remain fully ignored.
 
 ```
 generated-data/
-generated-data/closure/.gitkeep
-generated-data/reports/.gitkeep
-generated-data/viz/.gitkeep
-generated-data/odyssey/.gitkeep
-generated-data/search/.gitkeep
+generated-data/closure/
+generated-data/reports/
+generated-data/viz/
+generated-data/odyssey/
+generated-data/search/
 ```
-
-Keep the `.gitkeep` files trackable while leaving generated JSON artifacts
-ignored.
 
 ### 2. Write scripts/generate_derived_data.py
 
@@ -425,12 +422,6 @@ Inspect the diff:
 git diff -- scripts/generate_derived_data.py \
             Makefile \
             .gitignore \
-            generated-data/.gitkeep \
-            generated-data/closure/.gitkeep \
-            generated-data/reports/.gitkeep \
-            generated-data/viz/.gitkeep \
-            generated-data/odyssey/.gitkeep \
-            generated-data/search/.gitkeep \
             tests/test_derived_data_pipeline.py \
             src/README.md \
             .context/architecture.md \
@@ -441,8 +432,8 @@ git diff -- scripts/generate_derived_data.py \
 
 This prompt is complete when:
 
-- `generated-data/` directory structure exists with `.gitkeep` files
-- `generated-data/` contents are gitignored
+- `generated-data/` directory structure is created by the generator
+- `generated-data/` is fully gitignored, including generated JSON artifacts
 - `make derived-data` produces all six JSON files without error
 - All six files have the documented schema and contain non-trivial data
 - `make test` passes
