@@ -1,0 +1,408 @@
+# PROMPT_95: Precomputed Profile Auto-Odyssey (Remove Runtime Recursive CTE)
+
+## Objective
+
+Language profile pages currently render a "Dynamic Heritage Journey" section by
+calling `DataLoader.get_auto_odyssey()` from the `/language/{name}` route. That
+method runs a recursive CTE at request time. Earlier graph-intelligence prompts
+introduced closure tables and generated-data artifacts so profile pages can
+render graph-derived enrichments without doing recursive graph traversal during
+normal page requests.
+
+This prompt replaces the profile page's runtime auto-Odyssey query with the
+pre-generated artifact:
+
+```text
+generated-data/odyssey/auto-odyssey-candidates.json
+```
+
+The live backend should read this generated JSON when rendering profiles. The
+static site build should bake the resulting journey cards directly into the
+generated HTML during `make site`; GitHub Pages does not need to copy or fetch
+`generated-data/` at runtime for this feature.
+
+This prompt does **not** remove `DataLoader.get_auto_odyssey()` entirely. Keep
+it available for explicit dynamic use by CLI/TUI/future tooling unless a later
+prompt chooses to deprecate it.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/routes.md`,
+   `.context/commands.md`, and `.context/data-pipeline.md`.
+3. Read:
+   - `src/app/app.py` (full `/language/{name}` route and generated-data helpers)
+   - `src/app/templates/profile.html` (Dynamic Heritage Journey section)
+   - `src/app/core/data_loader.py` (focus on `get_auto_odyssey`, `get_lineage`,
+     and `get_language`)
+   - `scripts/generate_derived_data.py` (focus on auto-odyssey artifact schema)
+   - `src/app/core/site_builder.py` (focus on `SiteCrawler` and static export)
+   - `src/README.md`
+   - `.context/routes.md`
+4. Create `tmp/PROMPT_95_checklist.md`.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. Stop profile pages from calling `DataLoader.get_auto_odyssey()`
+
+In `src/app/app.py`, the `/language/{name}` route must no longer call:
+
+```python
+data_loader.get_auto_odyssey(...)
+```
+
+for normal profile rendering.
+
+Instead, the route should obtain profile journey data from a new helper that
+reads the generated Odyssey candidates artifact.
+
+The route should still pass an `auto_odyssey` object into `profile.html`, so
+the template contract remains stable.
+
+### 2. Add a generated-data helper for profile auto-Odyssey
+
+Add a helper in `app.py`, near the existing generated-data/report helpers:
+
+```python
+def _load_profile_auto_odyssey(language_name: str) -> Optional[Dict[str, Any]]:
+    ...
+```
+
+Behavior:
+
+- Read `generated-data/odyssey/auto-odyssey-candidates.json` using the existing
+  generated-data loading helper pattern.
+- Return `None` if the file is absent, malformed, missing the language, or the
+  language has no usable candidates.
+- Match language by canonical `name` and, if the artifact exposes it, by
+  `display_name`. Matching should be case-insensitive.
+- Normalize underscores in route names the same way the rest of the profile
+  route does: `Python` and `Python`, `Common_Lisp` and `Common Lisp` should be
+  treated as equivalent where practical.
+- Return an object shaped for the existing profile template:
+
+```python
+{
+    "id": "auto_python",
+    "title": "The Legacy of Python",
+    "description": "A precomputed journey through influential descendants in the Python lineage.",
+    "steps": [
+        {
+            "language": "TypeScript",
+            "display_name": "TypeScript",
+            "milestone": "Influential Descendant",
+        }
+    ],
+}
+```
+
+The exact candidate field names in the generated artifact should drive the
+implementation. Do not guess blindly; inspect `scripts/generate_derived_data.py`
+and a generated sample file before coding.
+
+### 3. Preserve graceful degradation
+
+If `generated-data/odyssey/auto-odyssey-candidates.json` does not exist, the
+profile page must still render successfully.
+
+In that case:
+
+- `auto_odyssey` should be `None`
+- The "Dynamic Heritage Journey" section should not render
+- No request-time recursive fallback should run from the profile route
+- No 500 should occur
+
+This is important because a developer may run the server after `make build` but
+before `make derived-data`.
+
+### 4. Keep explicit dynamic auto-Odyssey behavior available elsewhere
+
+Do not delete or rewrite `DataLoader.get_auto_odyssey()` in this prompt unless a
+small compatibility adjustment is required by tests.
+
+This prompt is only about removing the implicit recursive query from profile
+page rendering. If CLI/TUI or other explicit surfaces call `get_auto_odyssey()`,
+leave those surfaces alone.
+
+### 5. Static site behavior
+
+The static site generated for GitHub Pages should not need runtime access to
+`generated-data/odyssey/auto-odyssey-candidates.json`.
+
+Expected flow:
+
+```bash
+make build
+make derived-data
+make site
+```
+
+During `make site`, `SiteCrawler` fetches rendered profile pages from the live
+FastAPI app. The app reads the generated Odyssey candidates file and renders the
+journey section into normal HTML. The static export writes that HTML to
+`site/language/.../index.html`.
+
+Therefore:
+
+- Do not add browser-side `fetch()` calls for this feature.
+- Do not require copying `generated-data/` into `site/`.
+- Do not add a new static asset route for the generated Odyssey JSON.
+- Do verify the crawled HTML contains the generated journey section when the
+  artifact exists.
+
+### 6. Documentation updates
+
+Update `src/README.md`:
+
+- Note that language profile pages use precomputed generated-data for
+  auto-Odyssey journey cards.
+- Document that `make derived-data` should be run before `make site` when
+  generating static pages with graph-derived enrichments.
+- Clarify that generated Odyssey data is baked into static HTML during
+  `make site`; GitHub Pages does not need to serve `generated-data/` for this
+  feature.
+
+Update `.context/routes.md`:
+
+- Add a note to the `/language/{name}` row that the Dynamic Heritage Journey is
+  sourced from generated-data rather than a request-time recursive CTE.
+
+Update `.context/data-pipeline.md` if it does not already mention:
+
+- `generated-data/odyssey/auto-odyssey-candidates.json`
+- The dependency order `make build` → `make derived-data` → `make site`
+  for static profile enrichments.
+
+---
+
+## Implementation Guidance
+
+### Inspect the artifact schema first
+
+Before implementing, inspect both:
+
+```bash
+sed -n '1,260p' scripts/generate_derived_data.py
+test -f generated-data/odyssey/auto-odyssey-candidates.json && \
+  sed -n '1,160p' generated-data/odyssey/auto-odyssey-candidates.json
+```
+
+If the generated file is absent, run:
+
+```bash
+make derived-data
+```
+
+Do not change the derived-data generator unless the existing artifact cannot
+support this feature. If a generator change is truly necessary, keep it small
+and add tests for the schema.
+
+### Suggested helper shape
+
+The exact implementation should follow the actual artifact schema, but this is
+the intended direction:
+
+```python
+def _normalize_generated_name(name: str) -> str:
+    return " ".join(name.replace("_", " ").split()).lower()
+
+def _load_profile_auto_odyssey(language_name: str) -> Optional[Dict[str, Any]]:
+    data = _load_generated_data("odyssey/auto-odyssey-candidates.json")
+    if not data:
+        return None
+
+    # Locate language record in the artifact by canonical name/display name.
+    # Extract up to 4 candidate descendants.
+    # Return the existing template contract with id/title/description/steps.
+```
+
+If the artifact stores all candidates in a list, build a small lookup lazily and
+cache it by `GENERATED_DATA_DIR` so tests can monkeypatch `GENERATED_DATA_DIR`
+without stale results.
+
+If the artifact stores a top-level mapping, direct lookup is fine.
+
+### Avoid stale cache bugs in tests
+
+Existing app helpers cache graph report data based on `GENERATED_DATA_DIR`.
+Follow the same pattern if you cache auto-Odyssey candidates:
+
+```python
+_auto_odyssey_dir: Optional[str] = None
+_auto_odyssey_candidates: Dict[str, Dict[str, Any]] = {}
+```
+
+When `GENERATED_DATA_DIR` changes, reload from disk.
+
+### Profile route change
+
+Current pattern likely resembles:
+
+```python
+auto_odyssey = (
+    data_loader.get_auto_odyssey(lang["name"])
+    if entity_type == "language"
+    else None
+)
+```
+
+Replace it with:
+
+```python
+auto_odyssey = (
+    _load_profile_auto_odyssey(lang["name"])
+    if entity_type == "language"
+    else None
+)
+```
+
+Do not add a fallback to `data_loader.get_auto_odyssey()` from this route. That
+would preserve the runtime recursive CTE and defeat the point of the prompt.
+
+### Template compatibility
+
+The existing template expects:
+
+```jinja2
+auto_odyssey.description
+auto_odyssey.steps
+step.language
+step.milestone
+```
+
+Keep those keys present. If you add `display_name`, update the template to
+prefer `step.display_name or step.language` while preserving existing behavior.
+
+---
+
+## Tests
+
+Add or extend tests in the existing suite. Prefer focused tests in
+`tests/test_site_crawler.py` or a new `tests/test_profile_auto_odyssey.py`.
+
+### Required coverage
+
+1. `/language/{name}` does **not** call `DataLoader.get_auto_odyssey()` when
+   rendering a language profile.
+
+   Suggested test:
+   - Monkeypatch `app_module.data_loader` to the test loader.
+   - Monkeypatch `mock_loader.get_auto_odyssey` to raise an AssertionError if
+     called.
+   - Provide a small generated-data fixture for the auto-Odyssey artifact via
+     monkeypatched `app_module.GENERATED_DATA_DIR`.
+   - Request `/language/Python`.
+   - Assert HTTP 200.
+
+2. `/language/{name}` renders "Dynamic Heritage Journey" when the generated
+   Odyssey artifact contains candidates for the language.
+
+3. `/language/{name}` omits "Dynamic Heritage Journey" and still returns 200
+   when the generated Odyssey artifact is absent.
+
+4. The rendered journey uses linked language cards and preserves the expected
+   `step.language` route behavior.
+
+5. `SiteCrawler` bakes the generated journey section into static HTML when the
+   artifact exists.
+
+   Suggested test:
+   - Use a temp generated-data directory with a minimal Odyssey artifact.
+   - Monkeypatch `app_module.GENERATED_DATA_DIR`.
+   - Run a small `TestClient` request or, if inexpensive, use `SiteCrawler` for
+     a targeted crawl assertion.
+   - Assert the written `site/language/Python/index.html` contains
+     "Dynamic Heritage Journey".
+
+6. Existing auto-Odyssey tests or CLI/TUI behaviors still pass, confirming
+   `DataLoader.get_auto_odyssey()` remains available where explicitly used.
+
+### Test fixture guidance
+
+Use the actual generated artifact schema. Keep fixture JSON minimal but valid.
+If the schema looks like:
+
+```json
+{
+  "languages": [
+    {
+      "name": "Python",
+      "candidates": [
+        {"name": "TypeScript", "display_name": "TypeScript"}
+      ]
+    }
+  ]
+}
+```
+
+create only the fields the helper reads. If the schema differs, match it.
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make build
+make derived-data
+make test
+```
+
+Manual verification:
+
+```bash
+make server
+# Open http://localhost:8084/language/Python
+# Confirm "Dynamic Heritage Journey" appears when generated data exists.
+# Temporarily point GENERATED_DATA_DIR in a test or local shell to an empty
+# directory and confirm the profile renders without the journey section.
+```
+
+Static export verification:
+
+```bash
+make site
+# Inspect site/language/Python/index.html
+# Confirm "Dynamic Heritage Journey" is present in the generated HTML when
+# generated-data/odyssey/auto-odyssey-candidates.json exists.
+```
+
+Inspect the diff:
+
+```bash
+git diff -- src/app/app.py \
+            src/app/templates/profile.html \
+            src/app/core/data_loader.py \
+            src/app/core/site_builder.py \
+            scripts/generate_derived_data.py \
+            src/README.md \
+            .context/routes.md \
+            .context/data-pipeline.md \
+            tests/
+```
+
+Not every listed file must change. The diff command is intentionally broad so
+reviewers can confirm no unrelated areas were touched.
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- `/language/{name}` no longer calls `DataLoader.get_auto_odyssey()`
+- Language profile auto-Odyssey cards render from
+  `generated-data/odyssey/auto-odyssey-candidates.json`
+- Profiles render gracefully with no journey section when the generated
+  artifact is absent
+- Static site output bakes generated journey cards into profile HTML and does
+  not require copying `generated-data/`
+- `DataLoader.get_auto_odyssey()` remains available for explicit dynamic use
+- Documentation explains the generated-data/static-site relationship
+- `make test` passes
