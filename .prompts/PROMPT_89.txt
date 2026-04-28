@@ -1,0 +1,317 @@
+# PROMPT_89: Closure Table Correctness and Stress Tests
+
+## Objective
+
+PROMPT_88 added four materialized closure tables populated at build time:
+`language_ancestry`, `language_descendants`, `language_reachability`, and
+`language_lineage_paths_bounded`. The basic tests added there confirm the
+tables exist and contain plausible data.
+
+This prompt adds a thorough, controlled test suite that validates correctness
+against a synthetic graph with known topology. The goal is a test harness that
+will catch regressions in the closure population logic regardless of changes
+to the corpus data.
+
+The tests must be runnable in isolation without a pre-built database, using an
+in-memory SQLite fixture. They must also include a smoke test against the real
+database to confirm the live corpus produces sane results.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/database.md` and `.context/commands.md`.
+3. Read:
+   - `src/app/core/build_sqlite.py` (focus on `_populate_closure_tables` and
+     the four closure table `CREATE TABLE` statements)
+   - `tests/test_closure_tables.py` (the test file from PROMPT_88)
+   - `tests/conftest.py`
+   - `tests/test_data_loader_full.py` (for fixture patterns)
+4. Create `tmp/PROMPT_89_checklist.md`.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. Synthetic in-memory fixture
+
+Create a test helper (module-level function or pytest fixture) that builds a
+minimal in-memory SQLite database containing the tables and data needed by
+`_populate_closure_tables`. It must not touch the filesystem.
+
+The fixture graph must have the following topology (use IDs 1-7):
+
+```
+1: Root
+2: Alpha    (influenced by Root)
+3: Beta     (influenced by Root, Alpha)
+4: Gamma    (influenced by Alpha)
+5: Delta    (influenced by Gamma)
+6: Island   (no influences in or out)
+7: Omega    (influenced by Beta, Delta)
+```
+
+Resulting edges (source_id -> target_id):
+```
+1 -> 2   (Root influences Alpha)
+1 -> 3   (Root influences Beta)
+2 -> 3   (Alpha influences Beta)
+2 -> 4   (Alpha influences Gamma)
+3 -> 7   (Beta influences Omega)
+4 -> 5   (Gamma influences Delta)
+5 -> 7   (Delta influences Omega)
+```
+
+With this graph:
+- Root's descendants: Alpha(1), Beta(1 or 2), Gamma(2), Delta(3), Omega(2 or 3)
+- Omega's ancestors include: Root, Alpha, Beta, Gamma, Delta
+- Island has no ancestors and no descendants
+- Beta is reachable from Root via two paths: Root->Beta directly, and Root->Alpha->Beta
+
+The fixture must create the `languages` and `influences` tables, insert the
+7 languages, insert the 7 edges, and then call `_populate_closure_tables` from
+`build_sqlite.py` to populate the closure tables in the same connection.
+
+### 2. Ancestry correctness tests
+
+Using the synthetic fixture, assert:
+
+1. Root (id=1) has no ancestors (ancestry table has 0 rows with root_language_id=1).
+
+2. Omega (id=7) has ancestors Root, Alpha, Beta, Gamma, and Delta.
+   - Verify all five appear in `language_ancestry` with root_language_id=7.
+
+3. Alpha (id=2) has exactly one ancestor: Root.
+
+4. Minimum depth from Omega to Root: Omega -> Beta -> Root = depth 2 OR
+   Omega -> Delta -> Gamma -> Alpha -> Root = depth 4.
+   The stored depth for (root=Omega, ancestor=Root) must be 2 (the minimum).
+
+5. Path count for (root=Omega, ancestor=Root) must be >= 2 (multiple routes).
+
+### 3. Descendant correctness tests
+
+Using the synthetic fixture, assert:
+
+1. Root (id=1) has descendants: Alpha, Beta, Gamma, Delta, Omega.
+   - Verify all five appear in `language_descendants` with root_language_id=1.
+
+2. Island (id=6) has 0 descendants.
+
+3. Delta (id=5) has exactly one descendant: Omega.
+
+4. Root's depth to Alpha is 1, depth to Gamma is 2, depth to Omega is 2.
+
+5. The `language_descendants` table has no row where
+   `root_language_id = descendant_language_id` (no self-references).
+
+### 4. Reachability tests
+
+Using the synthetic fixture, assert:
+
+1. `language_reachability` has the same row count as `language_descendants`.
+
+2. For the pair (from=Root, to=Omega): `min_depth` is 2.
+
+3. For the pair (from=Island, to=anything) and (from=anything, to=Island):
+   no rows exist.
+
+4. For (from=Alpha, to=Beta): `min_depth` is 1 (direct edge).
+
+5. Every row in `language_descendants` has a corresponding row in
+   `language_reachability` with matching `depth`/`min_depth` and `path_count`.
+
+### 5. Cycle-safety tests
+
+Create a second synthetic fixture with a deliberately cyclic graph:
+
+```
+C1 -> C2 -> C3 -> C1   (cycle among three nodes)
+C4 -> C1               (external node pointing into the cycle)
+```
+
+With this graph, verify:
+
+1. `_populate_closure_tables` completes without raising any exception or
+   running longer than 5 seconds.
+
+2. No row in `language_ancestry` has `root_language_id = ancestor_language_id`.
+
+3. No row in `language_descendants` has
+   `root_language_id = descendant_language_id`.
+
+4. C4's descendants include C1, C2, and C3 (reachability still works across
+   the cycle entry point), each at depth 1, 2, or 3 respectively.
+
+5. C1, C2, and C3 are treated as mutual ancestors/descendants up to the depth
+   limit, but no infinite loop occurs.
+
+### 6. Depth-limit tests
+
+Create a third synthetic fixture: a linear chain of 15 nodes:
+`L1 -> L2 -> L3 -> ... -> L15`.
+
+Assert:
+
+1. L1's descendants include L2 through L11 (depth 1-10) but NOT L12 through L15.
+
+2. The maximum depth value in `language_descendants` across all rows is 10.
+
+3. L1's descendants does NOT include L1 itself (depth 0 is excluded).
+
+### 7. Path text tests
+
+Using the primary synthetic fixture (non-cyclic graph), assert:
+
+1. `language_lineage_paths_bounded` contains at least one row.
+
+2. Every `path_text` value uses `" -> "` as the separator.
+
+3. The first and last name tokens in `path_text` for a (from, to) pair match
+   the `from_language_id` and `to_language_id` names respectively.
+
+4. No `path_text` value contains the same language name twice (no cycle
+   artifacts in path strings).
+
+### 8. Live corpus smoke tests
+
+Add tests that run against the real built database (use the `db_conn` or
+equivalent conftest fixture):
+
+1. All four closure tables exist and are non-empty.
+
+2. No self-referential rows in `language_ancestry` or `language_descendants`.
+
+3. Every `depth` value in all four tables is between 1 and 10 inclusive.
+
+4. C language (or another known high-influence language) appears in
+   `language_descendants` for multiple root languages.
+
+5. A known keystone language (e.g., LISP, C, ALGOL 60) has at least 3
+   descendants in `language_descendants`.
+
+---
+
+## Implementation Guidance
+
+### Importing build_sqlite internals
+
+Import `_populate_closure_tables` directly from `build_sqlite`:
+
+```python
+from app.core.build_sqlite import _populate_closure_tables
+```
+
+If `_populate_closure_tables` is not currently importable (e.g., it is
+defined inside `build_database`), refactor it to be a module-level function
+in `build_sqlite.py` as part of this prompt. The function signature must be:
+
+```python
+def _populate_closure_tables(conn: sqlite3.Connection,
+                              cursor: sqlite3.Cursor) -> None:
+```
+
+### Fixture setup helper
+
+Write a helper function `make_test_db(edges: list[tuple[int, int]],
+n_languages: int) -> sqlite3.Connection` that:
+
+1. Creates an in-memory connection: `sqlite3.connect(":memory:")`
+2. Creates minimal `languages` and `influences` tables
+3. Inserts `n_languages` placeholder language rows (with id 1..n)
+4. Inserts the given edges into `influences`
+5. Creates the four closure tables (copy the `CREATE TABLE` SQL from
+   `build_sqlite.py` or import it as a constant)
+6. Calls `_populate_closure_tables(conn, conn.cursor())`
+7. Returns the connection
+
+Reuse this helper across all three synthetic fixtures.
+
+### Test organization
+
+Put all synthetic-fixture tests in `tests/test_closure_correctness.py`.
+Keep the live-corpus smoke tests in the existing `tests/test_closure_tables.py`
+or add a new class within it. Do not mix synthetic and live-corpus tests in
+the same function.
+
+### Timing assertion
+
+For the cycle-safety fixture, use `time.perf_counter()` to assert the
+population function finishes in under 5 seconds. This is a safety net, not
+a performance benchmark.
+
+---
+
+## Documentation Requirements
+
+No documentation changes are required in this prompt. The test file itself
+serves as the executable specification for closure table behavior.
+
+If you find and fix any bugs in `_populate_closure_tables` while writing these
+tests, update `.context/database.md` only if the behavior change affects the
+documented semantics (e.g., if you discover the path_count semantics need
+clarification).
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- Add new API endpoints or routes
+- Change web templates
+- Modify the DataLoader public API
+- Change `build_sqlite.py` behavior unless fixing a bug discovered by a test
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make build
+uv run pytest tests/test_closure_tables.py tests/test_closure_correctness.py -v
+make test
+```
+
+All tests must pass. No test may be marked `xfail` or skipped unless a clear
+justification is provided in a comment.
+
+Inspect the diff:
+
+```bash
+git diff -- tests/test_closure_tables.py \
+            tests/test_closure_correctness.py \
+            src/app/core/build_sqlite.py
+```
+
+---
+
+## Commit Expectations
+
+Single commit:
+
+```
+[PROMPT_89] Add synthetic correctness tests for closure tables
+
+Cover ancestry, descendant, reachability, cycle-safety, depth-limit,
+and path-text behavior using in-memory fixtures with known topology.
+Add live-corpus smoke tests. Refactor _populate_closure_tables to a
+module-level function to enable direct import in tests.
+```
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- `_populate_closure_tables` is a module-level function importable from tests
+- All synthetic fixture tests pass against the three controlled graphs
+- Cycle-safety test completes in under 5 seconds with no self-referential rows
+- Depth-limit test confirms rows are capped at depth 10
+- Live-corpus smoke tests confirm the real database is correct
+- `make test` passes in full

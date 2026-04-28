@@ -1,0 +1,475 @@
+# PROMPT_90: generated-data/ Pipeline (Graph Intelligence Layer - Phase 2)
+
+## Objective
+
+The closure tables built in PROMPT_88 are now a rich, pre-computed graph layer
+inside the SQLite database. The next step is to derive high-level JSON artifacts
+from that layer and write them to a gitignored directory: `generated-data/`.
+
+These artifacts serve three purposes:
+
+1. They act as fast read targets for API endpoints (Phase 3) that would
+   otherwise require complex SQL at request time.
+2. They give humans and downstream tooling a human-inspectable record of
+   graph-level insights (keystone entities, bridges, orphans).
+3. They are fully reproducible from the database and can be regenerated at
+   any time with a single command.
+
+The pipeline lives in a new script: `scripts/generate_derived_data.py`.
+A new Makefile target `derived-data` runs it.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/database.md`, and
+   `.context/commands.md`.
+3. Read:
+   - `src/app/core/build_sqlite.py` (closure table definitions and population)
+   - `src/app/core/data_loader.py` (DataLoader class, connection handling)
+   - `Makefile`
+   - `.gitignore`
+   - `scripts/generate_reports.py` (for script style reference)
+4. Create `tmp/PROMPT_90_checklist.md`.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. Create the generated-data/ directory structure
+
+Add the following to `.gitignore` (if not already present):
+
+```
+generated-data/
+```
+
+Create the directory structure on disk so it exists in the repo (but its
+contents are ignored by git). Add placeholder `.gitkeep` files so the
+directories are tracked:
+
+```
+generated-data/
+generated-data/closure/.gitkeep
+generated-data/reports/.gitkeep
+generated-data/viz/.gitkeep
+generated-data/odyssey/.gitkeep
+generated-data/search/.gitkeep
+```
+
+Commit the `.gitkeep` files but nothing else from `generated-data/`.
+
+### 2. Write scripts/generate_derived_data.py
+
+This script reads from the built SQLite database and writes JSON files to
+`generated-data/`. It must:
+
+- Accept an optional `--db` argument for the database path (default:
+  `language_atlas.sqlite` at the repo root)
+- Accept an optional `--out` argument for the output root directory
+  (default: `generated-data/`)
+- Print a status line for each file written: `Writing generated-data/...`
+- Exit with a non-zero status if the database does not exist
+
+The script must generate the six files described in the following sections.
+
+### 3. generated-data/closure/language-lineage-summary.json
+
+Query the closure tables to produce a per-language summary. For each
+language in the corpus, compute:
+
+- `name`: canonical language name
+- `display_name`: display name if different
+- `entity_type`: from the languages table
+- `year`: year introduced
+- `ancestor_count`: number of rows in `language_ancestry` with this root
+- `descendant_count`: number of rows in `language_descendants` with this root
+- `max_ancestor_depth`: deepest ancestor depth
+- `max_descendant_depth`: deepest descendant depth
+- `reachability_score`: number of languages reachable FROM this language
+  (i.e., descendant_count)
+- `reachable_by_score`: number of languages that can reach THIS language
+  as a descendant (i.e., how many other languages have this one in their
+  `language_descendants` table)
+
+Sort the output list by `reachability_score` descending (most influential first).
+
+Schema:
+```json
+{
+  "generated_at": "<ISO timestamp>",
+  "language_count": 123,
+  "languages": [
+    {
+      "name": "C",
+      "display_name": "C",
+      "entity_type": "language",
+      "year": 1972,
+      "ancestor_count": 3,
+      "descendant_count": 42,
+      "max_ancestor_depth": 2,
+      "max_descendant_depth": 8,
+      "reachability_score": 42,
+      "reachable_by_score": 5
+    }
+  ]
+}
+```
+
+### 4. generated-data/reports/keystone-entities.json
+
+A keystone entity in the graph sense is a language with both a high
+`reachability_score` (it influences many languages transitively) AND
+a high `reachable_by_score` (many paths converge on it).
+
+Compute a `keystone_score = reachability_score * reachable_by_score` for
+each language. Include the top 30 languages by `keystone_score`.
+
+Also include any language where `is_keystone = 1` in the `languages` table
+even if it does not rank in the top 30 by score.
+
+Deduplicate so each language appears at most once. Sort by `keystone_score`
+descending.
+
+Schema:
+```json
+{
+  "generated_at": "<ISO timestamp>",
+  "count": 35,
+  "keystones": [
+    {
+      "name": "C",
+      "display_name": "C",
+      "entity_type": "language",
+      "year": 1972,
+      "is_keystone_flag": true,
+      "reachability_score": 42,
+      "reachable_by_score": 5,
+      "keystone_score": 210
+    }
+  ]
+}
+```
+
+### 5. generated-data/reports/bridge-entities.json
+
+A bridge entity is a language that sits on many shortest paths between other
+language pairs. Use the `language_lineage_paths_bounded` table to approximate
+this: count how many distinct path strings contain each language name as a
+middle node (not the first or last in the path).
+
+For each language, compute:
+- `bridge_count`: number of path strings in `language_lineage_paths_bounded`
+  where this language appears as a non-terminal node
+
+Include languages with `bridge_count >= 2`. Sort by `bridge_count` descending.
+Cap the output at 50 entries.
+
+Schema:
+```json
+{
+  "generated_at": "<ISO timestamp>",
+  "count": 28,
+  "bridges": [
+    {
+      "name": "C",
+      "display_name": "C",
+      "entity_type": "language",
+      "year": 1972,
+      "bridge_count": 38
+    }
+  ]
+}
+```
+
+### 6. generated-data/reports/orphan-subgraphs.json
+
+An orphan is a language with no ancestors AND no descendants in the closure
+tables (i.e., it is disconnected from the main influence graph).
+
+Query:
+```sql
+SELECT l.name, l.display_name, l.entity_type, l.year
+FROM languages l
+WHERE l.id NOT IN (SELECT DISTINCT root_language_id FROM language_ancestry)
+  AND l.id NOT IN (SELECT DISTINCT root_language_id FROM language_descendants)
+  AND l.id NOT IN (SELECT DISTINCT ancestor_language_id FROM language_ancestry)
+  AND l.id NOT IN (SELECT DISTINCT descendant_language_id FROM language_descendants)
+ORDER BY l.year ASC, l.name ASC
+```
+
+Schema:
+```json
+{
+  "generated_at": "<ISO timestamp>",
+  "count": 4,
+  "orphans": [
+    {
+      "name": "Island",
+      "display_name": "Island",
+      "entity_type": "language",
+      "year": null
+    }
+  ]
+}
+```
+
+### 7. generated-data/viz/influence-expanded.json
+
+This file provides pre-computed data for a rich influence graph visualization.
+It expands the raw `influences` table with closure context.
+
+For each direct influence edge (source -> target), include:
+- `source`: source language name
+- `source_entity_type`: entity_type of source
+- `target`: target language name
+- `target_entity_type`: entity_type of target
+- `influence_type`: from `influences.influence_type` if present, else `"direct"`
+- `source_reachability_score`: from the lineage summary
+- `target_reachable_by_score`: from the lineage summary
+
+Also include an `nodes` array with per-language metadata for each node that
+appears in at least one edge:
+- `name`, `display_name`, `entity_type`, `year`, `reachability_score`
+
+Schema:
+```json
+{
+  "generated_at": "<ISO timestamp>",
+  "node_count": 120,
+  "edge_count": 340,
+  "nodes": [...],
+  "edges": [...]
+}
+```
+
+### 8. generated-data/odyssey/auto-odyssey-candidates.json
+
+An auto-odyssey candidate is a language that would make a good starting point
+for a `get_auto_odyssey` call: high `reachability_score`, at least 3
+descendants at depth 1, and `entity_type = "language"` (not a foundation or
+artifact).
+
+Query:
+```sql
+SELECT l.name, l.display_name, l.year,
+       COUNT(ld.descendant_language_id) AS direct_descendant_count,
+       (SELECT COUNT(*) FROM language_descendants ld2
+        WHERE ld2.root_language_id = l.id) AS total_descendant_count
+FROM languages l
+JOIN language_descendants ld ON ld.root_language_id = l.id AND ld.depth = 1
+WHERE l.entity_type = 'language'
+GROUP BY l.id
+HAVING direct_descendant_count >= 3
+ORDER BY total_descendant_count DESC
+LIMIT 20
+```
+
+Schema:
+```json
+{
+  "generated_at": "<ISO timestamp>",
+  "count": 15,
+  "candidates": [
+    {
+      "name": "C",
+      "display_name": "C",
+      "year": 1972,
+      "direct_descendant_count": 8,
+      "total_descendant_count": 42
+    }
+  ]
+}
+```
+
+### 9. Add Makefile target
+
+Add a `derived-data` target to the Makefile:
+
+```makefile
+derived-data:
+	@echo "Generating derived data artifacts..."
+	PYTHONPATH=src uv run python scripts/generate_derived_data.py
+```
+
+Update the `help` target to include `derived-data` in the output.
+
+Also add `generated-data` to the clean target if it currently only removes
+`generated-docs/` and other artifacts.
+
+---
+
+## Implementation Guidance
+
+### Database connection
+
+Open the database directly with `sqlite3.connect(db_path)` in the script.
+Set `conn.row_factory = sqlite3.Row` for convenient dict-like access.
+Do not use `DataLoader` — the script reads directly from SQLite.
+
+### Timestamp
+
+Use `datetime.utcnow().isoformat() + "Z"` for `generated_at` fields.
+
+### File writing
+
+Use `json.dump(..., indent=2, ensure_ascii=False)` for all output files.
+Create parent directories with `os.makedirs(..., exist_ok=True)` before writing.
+
+### Bridge count approximation
+
+The `language_lineage_paths_bounded` table may have limited rows if the corpus
+graph is sparse. If fewer than 10 bridge candidates are found, include all
+languages with `bridge_count >= 1` rather than enforcing the `>= 2` threshold.
+Log a warning to stderr if this fallback is used.
+
+### Error resilience
+
+If a query produces zero results (e.g., `orphans` is empty), write an empty
+list with `count: 0` rather than failing. The script must always produce all
+six files or fail with a clear error message.
+
+---
+
+## Tests
+
+Add `tests/test_derived_data_pipeline.py`.
+
+### Required coverage
+
+1. **Script is importable**: import `generate_derived_data` as a module
+   (the script must guard its entry point with `if __name__ == "__main__"`).
+
+2. **Files are written**: call the script's main generation function with a
+   tmp output directory. Assert all six expected files are created.
+
+3. **Lineage summary schema**: parse the generated JSON and assert it has
+   `generated_at`, `language_count > 0`, and at least one entry in `languages`
+   with the expected keys.
+
+4. **Keystone entities non-empty**: assert the keystones list is non-empty and
+   every entry has a positive `keystone_score`.
+
+5. **No orphans are also keystones**: assert no language appears in both
+   `orphans` and `keystones`.
+
+6. **Odyssey candidates**: assert all candidates have
+   `direct_descendant_count >= 3` and `entity_type` is not checked (the file
+   itself doesn't store entity_type for candidates — but confirm the filtering
+   worked by asserting the count is reasonable: > 0, <= 20).
+
+### Testing guidance
+
+Use `tmp_path` (pytest built-in fixture) for the output directory.
+Use the real built database as the source. If the database is not available,
+skip the tests with `pytest.importorskip` or a `skipif` condition on
+`os.path.exists('language_atlas.sqlite')`.
+
+---
+
+## Documentation Requirements
+
+Update `.context/commands.md`:
+
+- Add `make derived-data` to the Makefile targets table with description
+  "Generate derived JSON artifacts in generated-data/"
+
+Update `src/README.md`:
+
+- Under "Generated and Legacy Artifacts", add a section for `generated-data/`:
+  "Derived JSON artifacts produced by `make derived-data` (scripts/generate_derived_data.py).
+  Gitignored; rebuilt on demand. Read by Phase 3 API endpoints."
+
+Update `.context/architecture.md`:
+
+- Under "Data Flow", add the derived-data generation step as an optional
+  post-build step that reads from SQLite and writes to `generated-data/`
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- Add API endpoints that serve the generated files
+- Modify any web templates
+- Change the DataLoader
+- Add CLI or TUI surfaces
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make build
+make derived-data
+make test
+```
+
+After `make derived-data`, verify the files were written:
+
+```bash
+find generated-data -name "*.json" | sort
+wc -l generated-data/closure/language-lineage-summary.json
+wc -l generated-data/reports/keystone-entities.json
+```
+
+Inspect the diff:
+
+```bash
+git diff -- scripts/generate_derived_data.py \
+            Makefile \
+            .gitignore \
+            generated-data/.gitkeep \
+            generated-data/closure/.gitkeep \
+            generated-data/reports/.gitkeep \
+            generated-data/viz/.gitkeep \
+            generated-data/odyssey/.gitkeep \
+            generated-data/search/.gitkeep \
+            tests/test_derived_data_pipeline.py \
+            src/README.md \
+            .context/architecture.md \
+            .context/commands.md
+```
+
+---
+
+## Commit Expectations
+
+Group into two commits:
+
+**Commit 1** — script, Makefile, gitignore:
+```
+[PROMPT_90] Add derived-data generation pipeline
+
+scripts/generate_derived_data.py reads closure tables and outputs six
+JSON artifacts to generated-data/: lineage summary, keystones, bridges,
+orphan subgraphs, expanded viz edges, and odyssey candidates. New
+make derived-data target runs the pipeline.
+```
+
+**Commit 2** — tests and docs:
+```
+[PROMPT_90] Add derived-data pipeline tests and docs
+
+Cover file creation, schema validation, keystone/orphan disjointness,
+and odyssey candidate filtering. Update architecture.md, commands.md,
+and README with generated-data layer documentation.
+```
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- `generated-data/` directory structure is committed (with `.gitkeep` files)
+- `generated-data/` contents are gitignored
+- `make derived-data` produces all six JSON files without error
+- All six files have the documented schema and contain non-trivial data
+- `make test` passes
+- Documentation reflects the new pipeline step

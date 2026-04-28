@@ -1,0 +1,359 @@
+# PROMPT_93: Influence Path Finder and Cousin Language Discovery
+
+## Objective
+
+The `/api/path` endpoint added in PROMPT_91 can find shortest influence paths
+between any two languages. This prompt surfaces that capability in the UI and
+adds a companion feature: cousin language discovery.
+
+Two languages are "cousins" if they share at least two common ancestors in the
+influence graph (i.e., two or more languages independently influenced both).
+This surfaces non-obvious connections that pure lineage browsing misses.
+
+The deliverables are:
+
+1. A new `/path` web page where users can find the shortest influence route
+   between any two languages.
+2. A "Cousin Languages" section on individual language profile pages.
+3. A `DataLoader.get_cousins()` method backed by the `language_ancestry` table.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/routes.md`, and
+   `.context/commands.md`.
+3. Read:
+   - `src/app/app.py` (all routes, especially `/compare` and `/language/{name}`)
+   - `src/app/templates/compare.html` (for pattern reference)
+   - `src/app/templates/profile.html` (current state after PROMPT_92)
+   - `src/app/core/data_loader.py` (focus on `get_path`, `get_lineage`,
+     `get_combined_language_data`)
+   - `API_GUIDE.md`
+4. Create `tmp/PROMPT_93_checklist.md`.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. New page: GET /path
+
+Add a new web route and template for influence path finding.
+
+**Route**: `GET /path`
+
+**Query parameters**: `from` and `to` (both optional; page renders in empty
+state when neither is provided)
+
+**Template**: `src/app/templates/path_finder.html`
+
+**Behavior**:
+
+- Render a form with two autocomplete-friendly language name inputs labeled
+  "Origin Language" and "Destination Language".
+- When both `from` and `to` are provided as query parameters:
+  - Call `DataLoader.get_path(from_name, to_name)`.
+  - If the path is found, render the result as a horizontal chain of
+    language cards connected by arrow icons.
+  - If `reachable: false`, show a clear "No influence path found" message.
+  - If either name is not found in the corpus, show an error message.
+- The form submits as a GET request so results are bookmarkable.
+- Use existing Tailwind classes and card patterns from `compare.html`.
+
+**Path chain rendering**:
+
+Use `sample_paths` from the API to render up to 2 paths. Each path is a
+sequence of language names separated by " -> ". Render each name as a
+language card chip (linked to `/language/{name}`). Separate cards with a
+visible arrow (`→`).
+
+Example output (visual intent, not HTML):
+```
+LISP  →  Common Lisp  →  Clojure
+LISP  →  Scheme  →  Clojure
+```
+
+If `sample_paths` is empty but `reachable: true` (only min_depth and
+path_count are available without path strings), show the depth summary:
+"Influence reaches {destination} in {min_depth} step(s) via {path_count}
+distinct route(s)."
+
+### 2. Link to path finder from profile pages
+
+On the language profile page (`profile.html`), add a small "Trace Influence
+Path" link in the "Graph Role" section (added in PROMPT_92).
+
+The link should pre-fill the `from` parameter with the current language's
+name, pointing to `/path?from={name}`, so the user can easily explore paths
+from this language to any other.
+
+Add the same link to the existing `visualizations.html` or `compare.html` if
+there is a natural location for it there. This is optional; do not force it if
+it feels out of place.
+
+### 3. DataLoader.get_cousins(name, min_shared=2, limit=20)
+
+Add a method to `DataLoader` that finds cousin languages.
+
+**Algorithm**:
+
+1. Find all ancestors of `name` from `language_ancestry`.
+2. Find all other languages that share at least `min_shared` of those same
+   ancestors (using `language_ancestry` with the same `ancestor_language_id`
+   values).
+3. Exclude the input language itself and its direct ancestors and descendants
+   (cousins must be a distinct branch of the tree).
+4. Return the results sorted by `shared_ancestor_count` descending, limited
+   to `limit` entries.
+
+**SQL approach** (acceptable to run at request time — it does not use
+recursive CTEs):
+
+```sql
+WITH my_ancestors AS (
+    SELECT ancestor_language_id
+    FROM language_ancestry
+    WHERE root_language_id = :lang_id
+),
+cousin_candidates AS (
+    SELECT la.root_language_id AS candidate_id,
+           COUNT(la.ancestor_language_id) AS shared_count
+    FROM language_ancestry la
+    WHERE la.ancestor_language_id IN (SELECT ancestor_language_id FROM my_ancestors)
+      AND la.root_language_id != :lang_id
+      AND la.root_language_id NOT IN (
+            SELECT ancestor_language_id FROM my_ancestors
+      )
+      AND la.root_language_id NOT IN (
+            SELECT descendant_language_id FROM language_descendants
+            WHERE root_language_id = :lang_id
+      )
+    GROUP BY la.root_language_id
+    HAVING shared_count >= :min_shared
+    ORDER BY shared_count DESC
+    LIMIT :limit
+)
+SELECT l.name, l.display_name, l.entity_type, l.year, l.influence_score,
+       cc.shared_count AS shared_ancestor_count
+FROM cousin_candidates cc
+JOIN languages l ON l.id = cc.candidate_id
+ORDER BY cc.shared_count DESC, l.influence_score DESC
+```
+
+**Return schema** (list of dicts):
+```python
+[
+    {
+        "name": "Haskell",
+        "display_name": "Haskell",
+        "entity_type": "language",
+        "year": 1990,
+        "influence_score": 12,
+        "shared_ancestor_count": 3
+    }
+]
+```
+
+Return `[]` if the language has no ancestors (can't compute cousins) or if
+the query returns nothing. Return `[]` for `use_sqlite=False`.
+
+### 4. Cousin Languages section on profile pages
+
+Add a "Cousin Languages" section to `profile.html` below the "Notable
+Descendants" section added in PROMPT_92.
+
+Display rules:
+
+- Only render if `get_cousins()` returns at least 1 result.
+- Show up to 8 cousin chips (linked language cards), sorted by
+  `shared_ancestor_count` descending.
+- Show a tooltip or subtitle: "Languages sharing at least 2 common ancestors"
+- If there are more than 8 cousins, show "and {N} more similar languages" as
+  plain text (no link).
+- The section must not render a heading if the list is empty.
+
+Inject cousin data from the route handler:
+```python
+cousins = loader.get_cousins(name, min_shared=2, limit=20) if loader.use_sqlite else []
+```
+
+Pass `cousins` to the template context.
+
+### 5. Add /path to SiteCrawler
+
+The new `/path` page (empty state, no query parameters) must be crawlable
+by `SiteCrawler` so it appears in the static site export.
+
+Review `src/app/core/site_builder.py` to confirm `/path` is added to the
+crawl list. If the crawler collects routes dynamically from the app, verify
+the route is reachable. If it uses a hardcoded list, add `/path` to it.
+
+---
+
+## Implementation Guidance
+
+### Path chain rendering
+
+Parse each `sample_path` string by splitting on `" -> "`. Render each token
+as a linked chip using the same chip component used elsewhere in the template.
+Connect chips with a `→` character styled in a muted color.
+
+### Autocomplete form inputs
+
+A simple `<input type="text">` with no autocomplete JS is acceptable. The form
+must work with plain GET submission. If the existing `atlas-static.js` already
+implements language name suggestions, wire the inputs to it. If not, leave
+them as plain text inputs — do not introduce new JavaScript just for
+autocomplete in this prompt.
+
+### get_cousins SQL note
+
+The subquery filtering out direct ancestors and descendants uses the
+materialized tables and runs in a single SQL statement. This is fast for the
+corpus size. Do not add any additional caching for this method.
+
+### Template organization
+
+If `profile.html` is already long after PROMPT_92 additions, consider
+extracting the new sections (cousins, path link) into small Jinja2 macros
+defined at the top of the same file. Do not create new partial files unless
+the section exceeds 60 lines.
+
+---
+
+## Tests
+
+### Required coverage
+
+1. `GET /path` with no query parameters returns 200 and renders the form.
+
+2. `GET /path?from=X&to=Y` where a known path exists returns 200 and the
+   rendered HTML contains a path chain representation (check for at least
+   one language name from the path in the response body).
+
+3. `GET /path?from=X&to=Y` where no path exists returns 200 with a
+   "No influence path found" message.
+
+4. `GET /path?from=UNKNOWN&to=Y` returns 200 with an error message
+   (the page handles the error gracefully rather than 404-ing).
+
+5. `DataLoader.get_cousins(name)` for a language with multiple shared
+   ancestors returns a non-empty list where each item has
+   `shared_ancestor_count >= 2`.
+
+6. `DataLoader.get_cousins(name)` for a language with no ancestors returns
+   an empty list.
+
+7. The `/language/{name}` profile route context includes a `cousins` key.
+
+8. `/path` is included in the `SiteCrawler` crawl list.
+
+---
+
+## Documentation Requirements
+
+Update `API_GUIDE.md`:
+
+- This prompt adds no new API routes, but update the table for
+  `GET /api/path` to clarify that `sample_paths` may be empty when
+  `language_lineage_paths_bounded` has no entries for the pair.
+
+Update `.context/routes.md`:
+
+- Add `GET /path` to the Web Routes table:
+  - Template: `path_finder.html`
+  - Notes: "form for from/to path finding; renders sample paths as card chains"
+  - Static export: "crawled (empty state)"
+
+Update `src/README.md`:
+
+- Under CLI/API features, note the `/path` page and cousin discovery.
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- Add cousin discovery to the CLI or TUI
+- Add an interactive graph visualization
+- Add pagination to the path finder results
+- Add an API endpoint for cousins (the method is DataLoader-only for now)
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make build
+make derived-data
+make test
+```
+
+Manual verification:
+
+```bash
+make server
+# Open http://localhost:8084/path
+# Submit form with two related languages (e.g., from=LISP&to=Clojure)
+# Confirm path chain renders
+# Open http://localhost:8084/language/Python
+# Confirm "Cousin Languages" section appears with linked chips
+# Confirm "Trace Influence Path" link is present in Graph Role section
+```
+
+Inspect the diff:
+
+```bash
+git diff -- src/app/app.py \
+            src/app/templates/path_finder.html \
+            src/app/templates/profile.html \
+            src/app/core/data_loader.py \
+            src/app/core/site_builder.py \
+            API_GUIDE.md \
+            .context/routes.md \
+            src/README.md \
+            tests/
+```
+
+---
+
+## Commit Expectations
+
+Group into two commits:
+
+**Commit 1** — route, template, DataLoader:
+```
+[PROMPT_93] Add path finder page and cousin language discovery
+
+New /path page renders shortest influence chains between any two
+languages. Cousin Languages section on profiles shows languages
+sharing >= 2 common ancestors via DataLoader.get_cousins() backed
+by language_ancestry table.
+```
+
+**Commit 2** — tests and docs:
+```
+[PROMPT_93] Test path finder and cousin discovery, update docs
+
+Cover path rendering, no-path case, error handling, get_cousins
+correctness, and SiteCrawler inclusion. Update routes.md,
+API_GUIDE.md, README.
+```
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- `/path` renders correctly for connected and disconnected language pairs
+- "Cousin Languages" section appears on profile pages with real data
+- `DataLoader.get_cousins()` returns correct results and empty list gracefully
+- "Trace Influence Path" link appears on profile pages
+- `/path` is included in the SiteCrawler crawl list
+- `make test` passes

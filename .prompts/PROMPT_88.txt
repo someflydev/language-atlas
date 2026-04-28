@@ -1,0 +1,407 @@
+# PROMPT_88: Materialized Closure Tables (Graph Intelligence Layer - Phase 1)
+
+## Objective
+
+The influence graph currently supports recursive queries through two SQL views:
+`v_language_ancestors` and `v_language_descendants`. These views run their
+recursive CTEs at query time on every request, which is correct but slow for
+complex traversals and unreliable in the presence of cycles.
+
+This prompt replaces that approach with four materialized tables built once at
+database build time: `language_ancestry`, `language_descendants`,
+`language_reachability`, and `language_lineage_paths_bounded`. These tables are
+the foundation of the Graph Intelligence Layer. They must be cycle-safe, depth-
+limited, deterministic, and indexed.
+
+Do not expose these tables through any new API endpoints in this prompt. The
+goal is a correct, testable build-time layer. API exposure comes later.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/database.md`, and
+   `.context/commands.md`.
+3. Read:
+   - `src/app/core/build_sqlite.py` (full file)
+   - `src/app/core/data_loader.py` (focus on `get_ancestors`, `get_descendants`,
+     `_classify_upstream_influences`, and `get_influences`)
+   - `tests/test_data_loader_full.py`
+4. Create `tmp/PROMPT_88_checklist.md`.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. Add four materialized closure tables to the schema
+
+Add the following `CREATE TABLE` statements to the `executescript` block in
+`build_sqlite.py` alongside the other table definitions:
+
+```sql
+CREATE TABLE language_ancestry (
+    root_language_id    INTEGER NOT NULL,
+    ancestor_language_id INTEGER NOT NULL,
+    depth               INTEGER NOT NULL,
+    path_count          INTEGER NOT NULL DEFAULT 1,
+    PRIMARY KEY (root_language_id, ancestor_language_id),
+    FOREIGN KEY (root_language_id) REFERENCES languages(id),
+    FOREIGN KEY (ancestor_language_id) REFERENCES languages(id)
+);
+
+CREATE TABLE language_descendants (
+    root_language_id       INTEGER NOT NULL,
+    descendant_language_id INTEGER NOT NULL,
+    depth                  INTEGER NOT NULL,
+    path_count             INTEGER NOT NULL DEFAULT 1,
+    PRIMARY KEY (root_language_id, descendant_language_id),
+    FOREIGN KEY (root_language_id) REFERENCES languages(id),
+    FOREIGN KEY (descendant_language_id) REFERENCES languages(id)
+);
+
+CREATE TABLE language_reachability (
+    from_language_id INTEGER NOT NULL,
+    to_language_id   INTEGER NOT NULL,
+    min_depth        INTEGER NOT NULL,
+    path_count       INTEGER NOT NULL DEFAULT 1,
+    PRIMARY KEY (from_language_id, to_language_id),
+    FOREIGN KEY (from_language_id) REFERENCES languages(id),
+    FOREIGN KEY (to_language_id)   REFERENCES languages(id)
+);
+
+CREATE TABLE language_lineage_paths_bounded (
+    from_language_id INTEGER NOT NULL,
+    to_language_id   INTEGER NOT NULL,
+    depth            INTEGER NOT NULL,
+    path_text        TEXT NOT NULL,
+    edge_types_text  TEXT,
+    FOREIGN KEY (from_language_id) REFERENCES languages(id),
+    FOREIGN KEY (to_language_id)   REFERENCES languages(id)
+);
+```
+
+These tables must be created before the closure population step.
+
+### 2. Add indexes on all four tables
+
+Add these indexes after the existing index block in `build_sqlite.py`:
+
+```sql
+CREATE INDEX idx_ancestry_root     ON language_ancestry(root_language_id);
+CREATE INDEX idx_ancestry_ancestor ON language_ancestry(ancestor_language_id);
+CREATE INDEX idx_descendants_root  ON language_descendants(root_language_id);
+CREATE INDEX idx_descendants_desc  ON language_descendants(descendant_language_id);
+CREATE INDEX idx_reach_from        ON language_reachability(from_language_id);
+CREATE INDEX idx_reach_to          ON language_reachability(to_language_id);
+CREATE INDEX idx_paths_from        ON language_lineage_paths_bounded(from_language_id);
+CREATE INDEX idx_paths_to          ON language_lineage_paths_bounded(to_language_id);
+```
+
+### 3. Implement the closure population function
+
+Add a standalone function `_populate_closure_tables(conn, cursor)` in
+`build_sqlite.py`. Call it from `build_database()` immediately after all tables
+and indexes are created but before `conn.commit()`.
+
+The function must:
+
+1. Load all influence edges from the `influences` table into two Python dicts:
+   - `forward: dict[int, set[int]]` — source_id maps to set of target_ids
+   - `reverse: dict[int, set[int]]` — target_id maps to set of source_ids
+
+2. Load all language ids and names from the `languages` table.
+
+Use a **two-phase algorithm** per root language:
+
+**Phase 1 — BFS for min_depth** (cycle-safe):
+   - Follow `reverse` edges (who influenced L?)
+   - Track `(node_id, depth)` in the BFS queue
+   - Use a per-root `visited: dict[int, int]` mapping node -> min_depth
+   - Do NOT enqueue a node already in `visited` (prevents cycles and
+     infinite loops even when A->B and B->A both exist)
+   - Stop enqueuing when `depth >= MAX_DEPTH` (MAX_DEPTH = 10)
+   - Result: `visited` maps every reachable ancestor to its min_depth;
+     `path_count` starts at 1 for every discovered node
+
+**Phase 2 — bounded DFS for path_count** (per-path cycle detection):
+   - For each ancestor discovered in Phase 1 where `min_depth <= 5`,
+     count distinct paths from L to that ancestor using DFS
+   - Use a **per-path** visited set (not a global one) — a node is only
+     "visited" within the current recursive path, not globally
+   - A path terminates when it reaches the target or when `path_depth
+     >= MAX_DEPTH` or when the next node is already in the current path
+   - Cap discovered paths at 10 per (root, ancestor) pair to bound work
+   - Update the ancestor's `path_count` with the total found (min 1)
+
+3. Insert ancestry rows into `language_ancestry` in a single
+   `executemany` call per root language.
+
+4. For each language L, perform the same two-phase algorithm following
+   `forward` edges to find all transitive **descendants**. Insert into
+   `language_descendants`.
+
+5. Populate `language_reachability` from the `language_descendants` data:
+   `(root_language_id, descendant_language_id, depth, path_count)` maps
+   directly to `(from_language_id, to_language_id, min_depth, path_count)`.
+   Do a single bulk insert from the already-computed descendants data.
+
+6. Populate `language_lineage_paths_bounded` with representative path strings:
+   - For each (from, to) pair in `language_descendants` where depth <= 5,
+     record up to 2 distinct paths per pair (collected during Phase 2 DFS)
+   - `path_text` is a `" -> "` separated string of **language names** (not IDs)
+   - `edge_types_text` is `" -> "` separated influence_type values from the
+     `influences` table where available; use `"direct"` as the fallback
+   - Limit total rows to at most 5000 (skip lower-priority pairs if needed)
+
+7. Print a summary: total rows inserted into each of the four tables.
+
+### 4. Cycle-safety guarantee
+
+The implementation must never loop infinitely:
+- Phase 1 BFS uses a global visited-set per root — a node never enters
+  the queue twice for the same root, guaranteeing termination
+- Phase 2 DFS uses a per-path visited set — a node only prevents
+  re-entry within the same recursive path, not globally
+- Both phases are also bounded by `depth >= MAX_DEPTH`
+- Together these guards guarantee termination for any graph topology
+
+Do not collapse Phase 1 and Phase 2 into a single traversal — the
+visited-set semantics are different and mixing them causes either
+incorrect min_depth values or missed paths.
+
+### 5. Update DataLoader.get_ancestors() and get_descendants()
+
+In `data_loader.py`, update the two methods to prefer the materialized tables
+when `use_sqlite` is True:
+
+**`get_ancestors(language_id, max_depth=5)`**: replace the query against
+`v_language_ancestors` with:
+
+```sql
+SELECT la.ancestor_language_id AS ancestor_id,
+       l.name,
+       l.display_name,
+       COALESCE(l.entity_type, 'language') AS entity_type,
+       la.depth,
+       la.path_count
+FROM language_ancestry la
+JOIN languages l ON la.ancestor_language_id = l.id
+WHERE la.root_language_id = ?
+  AND la.depth <= ?
+ORDER BY la.depth ASC, l.name ASC
+```
+
+**`get_descendants(language_id, max_depth=5)`**: replace the query against
+`v_language_descendants` with:
+
+```sql
+SELECT ld.descendant_language_id AS descendant_id,
+       l.name,
+       l.display_name,
+       COALESCE(l.entity_type, 'language') AS entity_type,
+       ld.depth,
+       ld.path_count
+FROM language_descendants ld
+JOIN languages l ON ld.descendant_language_id = l.id
+WHERE ld.root_language_id = ?
+  AND ld.depth <= ?
+ORDER BY ld.depth ASC, l.name ASC
+```
+
+Preserve the existing `v_language_ancestors` and `v_language_descendants`
+views in `build_sqlite.py` — do not remove them. They remain as reference
+implementations and may still be used in tests.
+
+### 6. Return `path_count` from get_ancestors and get_descendants
+
+Both methods now return rows that include a `path_count` field. Ensure
+`_row_to_dict` captures it. Add no new public API surface — this is purely
+a data enrichment on the existing methods.
+
+---
+
+## Implementation Guidance
+
+### Build step integration
+
+Place the call to `_populate_closure_tables(conn, cursor)` near the end of
+`build_database()`, after the `CREATE INDEX` block and the view creation block,
+but before `conn.commit()`. Add a `print("Populating closure tables...")` log
+line so the build output reflects the new step.
+
+### Path text generation
+
+For `language_lineage_paths_bounded`, you need language names, not IDs.
+Load a `{id: name}` lookup dict at the start of `_populate_closure_tables`.
+
+To collect paths (not just min-depth), track paths during the BFS as lists of
+node IDs. Serialize the path to a text string before insertion. Limit memory
+usage by capping path storage at 2 paths per (from, to) pair.
+
+### Performance
+
+The corpus has a few hundred languages. A nested BFS over all root nodes is
+acceptable. Aim to finish closure population in under 5 seconds. Use
+`executemany` for bulk inserts rather than per-row `execute` calls.
+
+### Error handling
+
+If `_populate_closure_tables` raises an exception, let it propagate. The build
+should fail loudly rather than silently produce an incomplete database.
+
+---
+
+## Tests
+
+Add a new test module `tests/test_closure_tables.py`.
+
+### Required coverage
+
+1. **Schema test**: after `make build` (or equivalent fixture setup), confirm
+   all four tables exist in the database with the expected column names.
+
+2. **Ancestry correctness**: for a language that is a known descendant of
+   another (e.g., Python and C, or any verifiable pair in the corpus), confirm
+   that the ancestor appears in `language_ancestry` with depth >= 1.
+
+3. **Descendant correctness**: for a known influential language, confirm at
+   least one direct descendant appears in `language_descendants` at depth 1.
+
+4. **Depth limit**: confirm no row in any closure table has `depth > 10`.
+
+5. **Cycle safety**: build completes without error. No language appears as
+   its own ancestor or its own descendant. Query:
+   ```sql
+   SELECT COUNT(*) FROM language_ancestry
+   WHERE root_language_id = ancestor_language_id
+   ```
+   must return 0.
+
+6. **DataLoader integration**: call `get_ancestors(language_id, max_depth=5)`
+   and `get_descendants(language_id, max_depth=5)` on a known language. Assert
+   the returned list is non-empty and each item has keys `name`, `depth`,
+   `entity_type`.
+
+7. **Reachability populated**: the `language_reachability` table must have
+   at least as many rows as `language_descendants`.
+
+### Fixture guidance
+
+Use the actual built database (the same conftest pattern used by existing
+tests). If a test-specific in-memory database is required for cycle-safety
+testing, you may construct a minimal graph inline:
+```
+A -> B -> C  (A influences B, B influences C)
+D -> B       (D also influences B)
+```
+Verify that A's descendants include C at depth 2, D is not in A's descendants,
+and the tables contain no self-referential rows.
+
+---
+
+## Documentation Requirements
+
+Update `.context/database.md`:
+
+- Add the four new tables to the schema reference table under a new section
+  "Closure Tables (Materialized at Build Time)"
+- Note that `v_language_ancestors` and `v_language_descendants` are now
+  superseded by these tables for runtime queries but remain in the schema
+
+Update `src/README.md`:
+
+- Under "Data Flow", note that the build step now includes a closure
+  population phase after table and view creation
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- Add new API endpoints or routes
+- Change any web templates or UI
+- Expose closure data through CLI or TUI
+- Generate `generated-data/` files
+- Remove the existing `v_language_ancestors` or `v_language_descendants` views
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make build
+make test
+```
+
+After `make build`, verify the tables exist and contain data:
+
+```python
+import sqlite3
+conn = sqlite3.connect('language_atlas.sqlite')
+conn.row_factory = sqlite3.Row
+for table in ('language_ancestry', 'language_descendants',
+              'language_reachability', 'language_lineage_paths_bounded'):
+    count = conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+    print(f"{table}: {count} rows")
+# Verify no self-references
+bad = conn.execute(
+    "SELECT COUNT(*) FROM language_ancestry "
+    "WHERE root_language_id = ancestor_language_id"
+).fetchone()[0]
+print(f"Self-ancestor rows (must be 0): {bad}")
+conn.close()
+```
+
+Inspect the diff:
+
+```bash
+git diff -- src/app/core/build_sqlite.py \
+            src/app/core/data_loader.py \
+            tests/test_closure_tables.py \
+            .context/database.md \
+            src/README.md
+```
+
+---
+
+## Commit Expectations
+
+Group into two commits:
+
+**Commit 1** — schema and population:
+```
+[PROMPT_88] Add materialized closure tables to build step
+
+Add language_ancestry, language_descendants, language_reachability,
+and language_lineage_paths_bounded tables populated at build time
+via cycle-safe BFS. Depth limited to 10. Replaces runtime-recursive
+view queries in DataLoader.get_ancestors/get_descendants.
+```
+
+**Commit 2** — tests and docs:
+```
+[PROMPT_88] Add closure table tests and update schema docs
+
+Cover schema existence, ancestry/descendant correctness, depth
+limits, cycle safety, and DataLoader integration. Update database.md
+and src/README.md to document the new closure layer.
+```
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- All four closure tables are created and populated during `make build`
+- Closure population is cycle-safe and depth-limited to 10
+- `get_ancestors()` and `get_descendants()` query materialized tables
+- `language_ancestry` and `language_descendants` have no self-referential rows
+- `language_reachability` row count >= `language_descendants` row count
+- All new and existing tests pass
+- Schema docs are updated

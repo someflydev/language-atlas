@@ -1,0 +1,354 @@
+# PROMPT_91: Lineage and Reports API Endpoints (Graph Intelligence Layer - Phase 3)
+
+## Objective
+
+The closure tables (PROMPT_88) and derived-data pipeline (PROMPT_90) exist but
+are not yet accessible through the application's API. This prompt adds five
+read-only JSON endpoints that expose graph intelligence data to clients without
+running expensive recursive queries at request time.
+
+All new endpoints read from the materialized closure tables in SQLite or from
+the pre-generated files in `generated-data/`. None of them run new recursive
+CTEs at request time.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/routes.md`, `.context/database.md`,
+   and `.context/commands.md`.
+3. Read:
+   - `src/app/app.py` (full file — all existing routes and patterns)
+   - `src/app/core/data_loader.py` (focus on `get_ancestors`, `get_descendants`,
+     `get_language`, `get_influences`)
+   - `API_GUIDE.md`
+   - `generated-data/closure/language-lineage-summary.json` (if it exists;
+     run `make derived-data` first if needed)
+4. Create `tmp/PROMPT_91_checklist.md`.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. GET /api/lineage/{name}
+
+Returns the full transitive lineage for a named language-like entity: all
+ancestors, all descendants, and a summary drawn from the closure tables.
+
+**Route handler**:
+
+- Resolve `name` to a language record using `DataLoader.get_language(name)`.
+  Return 404 if not found.
+- Query `language_ancestry` for all ancestors of this language.
+- Query `language_descendants` for all descendants of this language.
+- Return structured JSON.
+
+**Response schema**:
+```json
+{
+  "name": "Python",
+  "display_name": "Python",
+  "entity_type": "language",
+  "year": 1991,
+  "ancestor_count": 5,
+  "descendant_count": 12,
+  "max_ancestor_depth": 4,
+  "max_descendant_depth": 3,
+  "ancestors": [
+    {"name": "C", "display_name": "C", "entity_type": "language",
+     "year": 1972, "depth": 2, "path_count": 1}
+  ],
+  "descendants": [
+    {"name": "MicroPython", "display_name": "MicroPython",
+     "entity_type": "language", "year": 2013, "depth": 1, "path_count": 1}
+  ]
+}
+```
+
+Sort `ancestors` by `depth ASC, name ASC`. Sort `descendants` the same way.
+
+Add a DataLoader method `get_lineage(name: str)` that encapsulates this query.
+The route handler must call the DataLoader, not query SQLite directly.
+
+**DataLoader.get_lineage(name)** signature:
+```python
+def get_lineage(self, name: str) -> Optional[Dict[str, Any]]:
+    ...
+```
+
+Returns `None` if the language is not found. Must use the materialized
+`language_ancestry` and `language_descendants` tables. Gracefully returns
+empty ancestor/descendant lists if the language has no connections.
+
+### 2. GET /api/path
+
+Finds the shortest influence path between two languages.
+
+**Query parameters**: `from` and `to` (both required).
+
+**Route handler**:
+
+- Resolve both names with `DataLoader.get_language`. Return 404 if either
+  is not found. Return 400 if `from` and `to` are the same language.
+- Query `language_reachability` for the row `(from_language_id, to_language_id)`.
+  If found, return the min_depth and path_count.
+- Query `language_lineage_paths_bounded` for path strings between this pair
+  ordered by `depth ASC`, limit 3.
+- If no row in `language_reachability`, return a `{"reachable": false}` result.
+
+**Response schema (reachable)**:
+```json
+{
+  "from": "LISP",
+  "to": "Clojure",
+  "reachable": true,
+  "min_depth": 2,
+  "path_count": 3,
+  "sample_paths": [
+    "LISP -> Common Lisp -> Clojure",
+    "LISP -> Scheme -> Clojure"
+  ]
+}
+```
+
+**Response schema (not reachable)**:
+```json
+{
+  "from": "COBOL",
+  "to": "Rust",
+  "reachable": false,
+  "min_depth": null,
+  "path_count": 0,
+  "sample_paths": []
+}
+```
+
+Add `DataLoader.get_path(from_name, to_name)` to encapsulate this logic.
+
+### 3. GET /api/reports/keystones
+
+Returns the keystone entities report from `generated-data/reports/keystone-entities.json`.
+
+If the file does not exist, return a 503 with body:
+```json
+{"error": "Keystone report not generated. Run: make derived-data"}
+```
+
+Otherwise return the file contents directly as JSON.
+
+Do not regenerate the file at request time. If the file is stale, that is
+the caller's problem. The endpoint is a static file serve with a graceful
+fallback.
+
+### 4. GET /api/reports/bridges
+
+Same pattern as keystones but for `generated-data/reports/bridge-entities.json`.
+
+Same 503 behavior if the file is absent.
+
+### 5. GET /api/reports/orphans
+
+Same pattern but for `generated-data/reports/orphan-subgraphs.json`.
+
+### 6. GET /api/viz/influence-expanded
+
+Same pattern but for `generated-data/viz/influence-expanded.json`.
+
+This file may be large. Return it as-is from disk. Do not paginate.
+
+### 7. Add DataLoader methods
+
+Add the following to `data_loader.py`:
+
+```python
+def get_lineage(self, name: str) -> Optional[Dict[str, Any]]:
+    """Full transitive lineage from closure tables."""
+    ...
+
+def get_path(self, from_name: str, to_name: str) -> Dict[str, Any]:
+    """Shortest path between two languages from closure tables."""
+    ...
+```
+
+Both methods must work only when `use_sqlite=True`. For `use_sqlite=False`
+(JSON mode), return `None` and `{"reachable": False, ...}` respectively.
+
+---
+
+## Implementation Guidance
+
+### Reading generated-data files
+
+Create a small helper in `app.py` or a utility module:
+
+```python
+def _load_report(filename: str):
+    path = os.path.join(GENERATED_DATA_DIR, filename)
+    if not os.path.exists(path):
+        return None
+    with open(path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+```
+
+Set `GENERATED_DATA_DIR` as a module-level constant resolved relative to the
+repo root (same pattern used by `DataLoader` to locate `language_atlas.sqlite`).
+
+### Route registration
+
+Register all five new endpoints in `app.py` under the existing `/api/...`
+route block, following the same pattern as other API routes. Use `JSONResponse`
+directly for file-backed endpoints. Use `DataLoader` methods for the two
+computation-backed endpoints.
+
+### Error handling
+
+For `/api/lineage/{name}` and `/api/path`: return `{"error": "..."}` with
+the appropriate HTTP status code using FastAPI's `HTTPException`.
+
+For report endpoints: return a 503 if the file is absent (not a 404, since
+the resource logically exists but has not been generated yet).
+
+### Performance note
+
+`get_lineage` may return large result sets for highly connected languages.
+Do not add pagination in this prompt. Accept that some responses will be large.
+
+---
+
+## Tests
+
+Add or extend `tests/test_closure_tables.py` or create
+`tests/test_lineage_api.py`.
+
+### Required coverage
+
+1. `GET /api/lineage/{name}` for a known language returns 200 with non-empty
+   `ancestors` and `descendants` lists when the language has connections.
+
+2. `GET /api/lineage/{name}` for an unknown language returns 404.
+
+3. `GET /api/lineage/{name}` for a language with no connections returns 200
+   with empty `ancestors` and `descendants` lists (not an error).
+
+4. `GET /api/path?from=X&to=Y` where a known path exists returns 200 with
+   `reachable: true` and `min_depth >= 1`.
+
+5. `GET /api/path?from=X&to=Y` where no path exists returns 200 with
+   `reachable: false`.
+
+6. `GET /api/path?from=X&to=X` (same language) returns 400.
+
+7. `GET /api/path?from=UNKNOWN&to=Y` returns 404.
+
+8. Report endpoints return 503 when the corresponding file is absent
+   (mock or temporarily rename the file in the test).
+
+9. Report endpoints return 200 with valid JSON when the file exists.
+
+### Testing guidance
+
+Use FastAPI's `TestClient` (already used in `test_site_crawler.py`) for
+route tests. For the "file absent" report test, monkeypatch `GENERATED_DATA_DIR`
+to a non-existent or empty tmp directory.
+
+---
+
+## Documentation Requirements
+
+Update `API_GUIDE.md`:
+
+Add the five new endpoints to the JSON API Routes table:
+
+| Route | Notes |
+|---|---|
+| `GET /api/lineage/{name}` | Full transitive lineage from closure tables; ancestors and descendants sorted by depth |
+| `GET /api/path?from=X&to=Y` | Shortest influence path between two languages; returns reachable/min_depth/sample_paths |
+| `GET /api/reports/keystones` | Keystone entities report; returns 503 if make derived-data has not run |
+| `GET /api/reports/bridges` | Bridge entities report; same 503 behavior |
+| `GET /api/reports/orphans` | Orphan subgraph report; same 503 behavior |
+| `GET /api/viz/influence-expanded` | Expanded influence graph with closure context; same 503 behavior |
+
+Update `.context/routes.md`:
+
+Add the same six endpoints to the JSON API Routes table.
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- Add web (HTML) routes for lineage or path visualization
+- Modify web templates
+- Add CLI or TUI surfaces
+- Add pagination
+- Modify the derived-data generation script
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make build
+make derived-data
+make test
+```
+
+Manually test endpoints with the dev server:
+
+```bash
+make server &
+curl -s http://localhost:8084/api/lineage/Python | python3 -m json.tool | head -30
+curl -s "http://localhost:8084/api/path?from=LISP&to=Clojure" | python3 -m json.tool
+curl -s http://localhost:8084/api/reports/keystones | python3 -m json.tool | head -20
+```
+
+Inspect the diff:
+
+```bash
+git diff -- src/app/app.py \
+            src/app/core/data_loader.py \
+            API_GUIDE.md \
+            .context/routes.md \
+            tests/
+```
+
+---
+
+## Commit Expectations
+
+Group into two commits:
+
+**Commit 1** — routes and DataLoader:
+```
+[PROMPT_91] Add lineage and reports API endpoints
+
+Add /api/lineage/{name}, /api/path, and four /api/reports/* endpoints
+reading from closure tables and generated-data/. Add DataLoader
+get_lineage() and get_path() methods backed by materialized tables.
+```
+
+**Commit 2** — tests and docs:
+```
+[PROMPT_91] Test lineage API endpoints and update API docs
+
+Cover 200/404/400/503 cases for all new endpoints. Update API_GUIDE.md
+and routes.md with the complete new endpoint descriptions.
+```
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- All five new API endpoints are registered and return correct responses
+- `DataLoader.get_lineage()` and `DataLoader.get_path()` are implemented
+- Report endpoints return 503 gracefully when derived-data files are absent
+- All route tests pass
+- API_GUIDE.md and routes.md reflect the new endpoints
+- `make test` passes

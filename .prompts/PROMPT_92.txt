@@ -1,0 +1,316 @@
+# PROMPT_92: Language Profile UI Enrichment (Graph Intelligence Layer - Phase 4)
+
+## Objective
+
+The profile page at `/language/{name}` shows direct influences and immediate
+lineage well, but it has no awareness of the transitive influence graph. A user
+viewing the Python profile cannot tell how far Python's influence reaches, which
+historical languages it traces back to, or whether Python acts as a bridge in
+the broader language ecosystem.
+
+This prompt adds three new sections to the language profile page:
+
+1. **Deep Ancestry** — the transitive ancestor chain, grouped by depth tier
+2. **Notable Descendants** — the most influential transitive descendants
+3. **Graph Role** — a compact summary of the language's position in the
+   influence graph (reachability score, bridge indicator, keystone status)
+
+All three sections use data already available from `/api/lineage/{name}` and
+`/api/reports/keystones`. No new recursive SQL runs at request time.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/routes.md`, and
+   `.context/commands.md`.
+3. Read:
+   - `src/app/app.py` (the `/language/{name}` route handler)
+   - `src/app/templates/profile.html` (full template)
+   - `src/app/core/data_loader.py` (focus on `get_combined_language_data`,
+     `get_lineage`, `get_language`)
+   - `API_GUIDE.md`
+4. Create `tmp/PROMPT_92_checklist.md`.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. Enrich the /language/{name} route context with lineage data
+
+In `app.py`, the `/language/{name}` route currently calls
+`get_combined_language_data(name)`. Extend the route to also call
+`DataLoader.get_lineage(name)` and inject the result into the template
+context.
+
+Add the lineage result under a key `lineage_data`. If `get_lineage` returns
+`None` or the language has no connections, pass an empty structure:
+
+```python
+lineage_data = loader.get_lineage(name) or {
+    "ancestor_count": 0,
+    "descendant_count": 0,
+    "max_ancestor_depth": 0,
+    "max_descendant_depth": 0,
+    "ancestors": [],
+    "descendants": [],
+}
+```
+
+Also inject `keystone_report_path` as a boolean `is_keystone_report_member`
+by checking if this language appears in the keystone report. Load the keystone
+report once at startup (or cache it) using the same `_load_report` helper from
+`app.py`. If the report is absent, set `is_keystone_report_member = False`.
+
+### 2. Deep Ancestry section
+
+Add a "Deep Ancestry" section to `profile.html` after the existing
+"Influenced By" or lineage section.
+
+Display rules:
+
+- Only render this section if `lineage_data.ancestor_count > 0`.
+- Group ancestors by depth tier:
+  - Tier 1 (depth 1): "Direct Influences" — ancestors already shown in the
+    existing influences section, skip this tier to avoid duplication.
+  - Tier 2 (depth 2-3): "Grandparent Influences"
+  - Tier 3 (depth 4+): "Deep Historical Roots"
+- For each tier, render at most 8 ancestor names as linked chips using the
+  existing chip/badge component pattern from the template.
+- After all tiers, show a summary line:
+  `"{ancestor_count} total ancestors across {max_ancestor_depth} generations"`
+- Do not show this section for foundations or artifacts if they have
+  `ancestor_count == 0`.
+
+### 3. Notable Descendants section
+
+Add a "Notable Descendants" section after the existing "Influenced" section.
+
+Display rules:
+
+- Only render if `lineage_data.descendant_count > 0`.
+- Show up to 10 descendants, ranked by their own `influence_score` (join on
+  the languages table when building the lineage data, or sort client-side if
+  data is available).
+- If the language has descendants at multiple depth levels, prefer depth=1
+  (direct) descendants and then depth=2 if fewer than 5 direct descendants
+  exist.
+- Each descendant renders as a linked chip.
+- Show a summary line: `"{descendant_count} total languages in lineage"`
+
+To implement ranking: add an `influence_score` field to each item in the
+`ancestors` and `descendants` arrays returned by `DataLoader.get_lineage()`.
+Extend the SQL query in `get_lineage()` to join on `languages.influence_score`.
+
+### 4. Graph Role section
+
+Add a compact "Graph Role" section — a single row of stat chips — to the
+profile sidebar or below the vital statistics.
+
+Display:
+
+- **Reachability**: "Reaches {descendant_count} languages transitively"
+  (only if descendant_count > 0)
+- **Bridge indicator**: show a "Bridge Node" badge if this language appears
+  in the bridge entities report with `bridge_count >= 5`. Load the bridge
+  report the same way as the keystone report.
+- **Keystone badge**: show a "Keystone" badge if `is_keystone_report_member`
+  is True or if the language's own `is_keystone` field is True.
+- **Foundation precursor badge**: already present from PROMPT_86; do not
+  duplicate it.
+
+If none of the conditions trigger (disconnected language, low reachability,
+not a bridge, not a keystone), render nothing for this section. Do not show
+a "Graph Role" section with empty content.
+
+### 5. Section visibility and graceful degradation
+
+All three new sections must:
+
+- Collapse gracefully to nothing if `lineage_data` is empty or unavailable
+- Not render headers for empty sections (no "Deep Ancestry" heading if there
+  are zero ancestors beyond depth 1)
+- Be visually consistent with the existing profile card style (same font
+  sizes, spacing, chip/badge patterns already in use on the page)
+
+Do not introduce new CSS classes that conflict with Tailwind utilities already
+used in the template.
+
+---
+
+## Implementation Guidance
+
+### Template structure
+
+Add the three new sections as Jinja2 block fragments inside the existing
+profile template. Do not create new partial templates unless the sections
+exceed 50 lines each — keep the changes co-located with the profile template
+for readability.
+
+### Keystone and bridge report caching
+
+Load `keystone-entities.json` and `bridge-entities.json` once at module level
+in `app.py` (or in a lazy cache that loads on first request). Use the existing
+`_load_report` helper. Store the name sets as Python sets for O(1) lookup:
+
+```python
+_keystone_names: set[str] = set()
+_bridge_entries: dict[str, int] = {}  # name -> bridge_count
+
+def _load_graph_reports():
+    global _keystone_names, _bridge_entries
+    ks = _load_report("reports/keystone-entities.json")
+    if ks:
+        _keystone_names = {k["name"] for k in ks.get("keystones", [])}
+    br = _load_report("reports/bridge-entities.json")
+    if br:
+        _bridge_entries = {b["name"]: b["bridge_count"]
+                           for b in br.get("bridges", [])}
+```
+
+Call `_load_graph_reports()` at startup in `app.py` (using a FastAPI startup
+event or simply at module load time).
+
+### Deep Ancestry grouping in the template
+
+Pass the `ancestors` list from `lineage_data` to the template. Filter by
+depth in the template:
+
+```jinja2
+{% set grandparent = lineage_data.ancestors | selectattr("depth", "in", [2, 3]) | list %}
+{% set deep_roots  = lineage_data.ancestors | selectattr("depth", "ge", 4) | list %}
+```
+
+Jinja2 `selectattr` with custom tests may need a helper filter. If simpler,
+partition the list in Python before passing to the template.
+
+### Avoiding duplication with existing sections
+
+The existing "Influenced By" section on the profile page already shows direct
+(depth=1) upstream influences. The new "Deep Ancestry" section must skip
+depth=1 ancestors to avoid repeating information. Pass only ancestors with
+`depth >= 2` to the template for the new section.
+
+---
+
+## Tests
+
+Add or extend tests in the existing test suite.
+
+### Required coverage
+
+1. `/language/{name}` route for a well-connected language returns 200 and the
+   rendered HTML contains the text "Deep Ancestry" or a depth tier heading.
+
+2. `/language/{name}` for a language with no ancestors does NOT contain a
+   "Deep Ancestry" heading in the HTML.
+
+3. `/language/{name}` for a language with descendants renders a "Notable
+   Descendants" section containing at least one linked name.
+
+4. `DataLoader.get_lineage()` returns items in the `ancestors` list that each
+   have an `influence_score` key (added in this prompt).
+
+5. The Graph Role section shows a "Keystone" badge for at least one known
+   keystone language (use a language that appears in the keystone report).
+
+---
+
+## Documentation Requirements
+
+Update `src/README.md`:
+
+- Note that language profile pages now include transitive ancestry, notable
+  descendants, and graph role indicators sourced from closure tables
+
+Update `.context/routes.md`:
+
+- Add a note to the `/language/{name}` route row: "profile now includes deep
+  ancestry (depth >= 2), notable descendants, and graph role section using
+  closure table data injected at route handler time"
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- Add a standalone path-finder page (that comes in PROMPT_93)
+- Add lineage visualization graphs or Plotly charts
+- Change the existing "Influenced By" or "Influences" sections
+- Modify the `/api/lineage/{name}` endpoint
+- Add ancestry/descendants to non-language entity profiles (people, orgs, etc.)
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make build
+make derived-data
+make test
+```
+
+Start the dev server and inspect profiles manually:
+
+```bash
+make server
+# Open http://localhost:8084/language/Python
+# Open http://localhost:8084/language/C
+# Open http://localhost:8084/language/LISP
+# Verify "Deep Ancestry", "Notable Descendants", "Graph Role" appear correctly
+# Open a language with no connections; verify no empty sections render
+```
+
+Inspect the diff:
+
+```bash
+git diff -- src/app/app.py \
+            src/app/templates/profile.html \
+            src/app/core/data_loader.py \
+            src/README.md \
+            .context/routes.md \
+            tests/
+```
+
+---
+
+## Commit Expectations
+
+Group into two commits:
+
+**Commit 1** — route, DataLoader, and template:
+```
+[PROMPT_92] Add deep ancestry and graph role sections to profiles
+
+Enrich /language/{name} with transitive ancestor groupings, notable
+descendants ranked by influence score, and a compact graph role row
+showing reachability, bridge, and keystone status. Sourced from
+closure tables and pre-generated reports.
+```
+
+**Commit 2** — tests and docs:
+```
+[PROMPT_92] Test profile UI enrichment and update route docs
+
+Cover deep ancestry rendering, empty-state handling, descendant list,
+and graph role badge conditions. Update README and routes.md.
+```
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- "Deep Ancestry" section renders for connected languages and is absent for
+  disconnected ones
+- "Notable Descendants" section renders for languages with transitive reach
+- "Graph Role" row shows bridge and keystone badges where applicable
+- All sections degrade gracefully to no output when data is unavailable
+- Existing profile tests still pass
+- `make test` passes

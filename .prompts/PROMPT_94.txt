@@ -1,0 +1,444 @@
+# PROMPT_94: Advanced Analytics — Leverage Scores, Concept Diffusion, and Anomaly Detection
+
+## Objective
+
+The Graph Intelligence Layer now has a solid foundation: materialized closure
+tables, a derived-data pipeline, API endpoints, and UI enrichment. This prompt
+adds the advanced analytics tier (Phase 5).
+
+Three features:
+
+1. **Pedagogical leverage score** — a per-language score that captures how
+   much "learning value per step" a language provides. A language with high
+   leverage teaches you a lot about the ecosystem you're entering.
+
+2. **Concept diffusion analysis** — which concepts spread most widely through
+   the influence graph, and which languages were the primary carriers.
+
+3. **Anomaly detection** — identifying structural anomalies: unusually deep
+   chains, disconnected islands, and languages with suspiciously high or low
+   reachability relative to their era.
+
+These analytics are surfaced in the existing `/insights` page and through two
+new CLI commands.
+
+---
+
+## Mandatory First Steps
+
+1. Read `AGENT.md` and `CLAUDE.md`.
+2. Load `.context/architecture.md`, `.context/database.md`, `.context/routes.md`,
+   and `.context/commands.md`.
+3. Read:
+   - `src/app/core/insights.py` (InsightGenerator class — full file)
+   - `src/app/app.py` (the `/insights` route and `/api/insights/*` routes)
+   - `src/app/templates/insights.html`
+   - `src/cli.py` (full file — all existing commands)
+   - `src/app/core/data_loader.py` (get_lineage, get_cousins, and core methods)
+   - `generated-data/closure/language-lineage-summary.json` (if available)
+4. Create `tmp/PROMPT_94_checklist.md`.
+5. Check off each item immediately after completing it.
+
+---
+
+## Product Requirements
+
+### 1. Pedagogical leverage score
+
+A language's **leverage score** measures how well it serves as an entry point
+to the influence graph: how many descendants it reaches per unit of learning
+depth. A shallow language that reaches many others is high-leverage.
+
+**Formula**:
+```
+leverage = reachability_score / max(max_ancestor_depth, 1)
+```
+
+Where:
+- `reachability_score` = descendant_count from `language_descendants`
+- `max_ancestor_depth` = deepest ancestor depth from `language_ancestry`
+
+High leverage: many descendants, shallow ancestry (an accessible gateway).
+Low leverage: few descendants or very deep ancestry (a specialist endpoint).
+
+**Implementation**: add a method to `InsightGenerator`:
+
+```python
+def calculate_leverage_scores(self, limit: int = 30) -> List[Dict[str, Any]]:
+    ...
+```
+
+This method must:
+
+1. Query `language_descendants` to get `descendant_count` and
+   `max_descendant_depth` per language.
+2. Query `language_ancestry` to get `max_ancestor_depth` per language.
+3. Compute `leverage = descendant_count / max(max_ancestor_depth, 1)` in Python.
+4. Return the top `limit` languages by `leverage` descending.
+5. Include fields: `name`, `display_name`, `entity_type`, `year`,
+   `leverage_score`, `descendant_count`, `max_ancestor_depth`.
+6. Round `leverage_score` to 2 decimal places.
+
+Also add `GET /api/insights/leverage` route in `app.py`:
+- `InsightGenerator` takes a raw `sqlite3.Connection`, not a DataLoader.
+  Instantiate it as: `InsightGenerator(data_loader._get_connection())`.
+- `InsightGenerator` is not currently imported in `app.py`. Add:
+  `from app.core.insights import InsightGenerator`
+- Call `InsightGenerator(data_loader._get_connection()).calculate_leverage_scores(limit=30)`.
+- Return JSON list. Wrap in try/except `sqlite3.OperationalError` to handle
+  the case where closure tables don't exist yet (return `[]`).
+
+### 2. Concept diffusion analysis
+
+Each language is associated with one or more paradigms. The influence graph
+creates a "diffusion" channel: when language A influences language B, B
+inherits awareness of A's paradigms.
+
+**Concept diffusion score** for a paradigm P = number of distinct languages
+in the corpus (including descendants via the closure table) that are
+associated with P OR that were influenced by a language associated with P.
+
+**Implementation**: add a method to `InsightGenerator`:
+
+```python
+def calculate_concept_diffusion(self) -> List[Dict[str, Any]]:
+    ...
+```
+
+This method must:
+
+1. For each paradigm P, find all languages directly tagged with P via
+   `language_paradigms`.
+2. For each such language L, count how many languages have L as an ancestor
+   in `language_ancestry` (i.e., L "transmitted" the paradigm downstream).
+3. `diffusion_score` = (count of languages directly tagged with P) +
+   (count of unique languages that have at least one P-tagged language as
+   an ancestor)
+4. Also identify the **primary carrier**: the language tagged with P that has
+   the highest `reachability_score` (most transitive descendants).
+5. Return all paradigms sorted by `diffusion_score` descending.
+6. Fields: `paradigm_name`, `direct_languages`, `diffusion_score`,
+   `primary_carrier_name`, `primary_carrier_year`.
+
+Add `GET /api/insights/concept-diffusion` route in `app.py` using the same
+`InsightGenerator(data_loader._get_connection())` instantiation pattern and the
+same `sqlite3.OperationalError` guard described for the leverage endpoint.
+
+### 3. Anomaly detection
+
+Add `InsightGenerator.detect_graph_anomalies()`:
+
+```python
+def detect_graph_anomalies(self) -> Dict[str, Any]:
+    ...
+```
+
+Detect and return three anomaly categories:
+
+**3a. Unusually deep chains**:
+Find the top 5 longest influence paths in `language_lineage_paths_bounded`.
+A "deep chain" is a path with depth >= 7.
+Return: list of `{"path_text": "...", "depth": N}` sorted by depth descending.
+
+**3b. High-connectivity outliers**:
+Languages whose `reachability_score` is more than 2 standard deviations above
+the mean for their `generation` (era). These are the "unexpectedly central"
+nodes.
+Return: list of `{"name": "...", "generation": "...", "reachability_score": N,
+"generation_mean": N, "z_score": N}` sorted by z_score descending.
+
+**3c. Era gaps**:
+Find pairs of consecutive generations (e.g., "dawn" → "early", "early" →
+"web1") where fewer than 3 languages in the later generation have ANY ancestor
+in the earlier generation. These are generational disconnects in the graph.
+Return: list of `{"from_generation": "...", "to_generation": "...",
+"connected_count": N}` for pairs where `connected_count < 3`.
+
+Add `GET /api/insights/anomalies` route in `app.py` using the same
+`InsightGenerator(data_loader._get_connection())` pattern and error guard.
+
+### 4. Surface analytics in /insights page
+
+Update `src/app/templates/insights.html` to add three new sections after the
+existing analytics cards:
+
+**Leverage Rankings** — a table of the top 10 languages by leverage score,
+showing name, leverage score, descendant count, and ancestor depth. Load via
+`/api/insights/leverage` using HTMX or inline in the route context.
+
+**Concept Diffusion** — a table of the top 10 paradigms by diffusion score,
+showing paradigm name, diffusion score, and primary carrier language. Load via
+`/api/insights/concept-diffusion` or inline.
+
+**Graph Anomalies** — three small sub-sections:
+- "Deep Influence Chains" (deepest paths)
+- "High-Connectivity Outliers" (statistical outliers)
+- "Era Connectivity Gaps" (generational disconnects)
+
+Load via `/api/insights/anomalies` or inline. If a category has 0 results,
+show "None detected" rather than an empty section.
+
+Inline loading is preferred over HTMX for these sections since the data is
+small and always present. Pass the analytics results directly from the
+`/insights` route handler.
+
+### 5. CLI leverage command
+
+Add a new Typer command to `src/cli.py`:
+
+```python
+@app.command()
+def leverage(limit: int = typer.Option(20, help="Number of results to show"),
+             json_output: bool = typer.Option(False, "--json")):
+    """Show languages ranked by pedagogical leverage score."""
+```
+
+Human-readable output: a Rich table with columns:
+`Rank | Language | Era | Leverage | Descendants | Depth`
+
+`--json` output: the raw list from `calculate_leverage_scores`.
+
+### 6. CLI anomalies command
+
+Add:
+
+```python
+@app.command()
+def anomalies():
+    """Report structural anomalies in the influence graph."""
+```
+
+Human-readable output using Rich panels:
+- "Deep Chains" panel: list of paths with depth, one per line
+- "Outliers" panel: language names and z-scores
+- "Era Gaps" panel: generation pairs and connected counts
+
+If all three anomaly categories are empty, print "No anomalies detected."
+
+---
+
+## Implementation Guidance
+
+### InsightGenerator pattern
+
+Review the existing methods in `insights.py` carefully before adding new ones.
+`InsightGenerator.__init__` takes a raw `sqlite3.Connection` assigned to
+`self.conn`. Existing methods query via `self.conn.cursor()`. New methods must
+follow the same pattern — use `self.conn`, not any loader attribute.
+
+The three new methods should gracefully return empty results if the closure
+tables (`language_ancestry`, `language_descendants`, etc.) do not exist in the
+database. Catch `sqlite3.OperationalError` around each closure table query and
+return `[]` or the appropriate empty structure on failure.
+
+### /insights route context
+
+`InsightGenerator` is not currently imported in `app.py`. Add:
+```python
+from app.core.insights import InsightGenerator
+```
+
+The `/insights` route in `app.py` currently collects several analytics objects
+before rendering. Add three more, creating an `InsightGenerator` instance using
+`data_loader._get_connection()`:
+
+```python
+import sqlite3 as _sqlite3
+try:
+    _ig = InsightGenerator(data_loader._get_connection())
+    leverage_data = _ig.calculate_leverage_scores(limit=10)
+    diffusion_data = _ig.calculate_concept_diffusion()[:10]
+    anomaly_data = _ig.detect_graph_anomalies()
+except _sqlite3.OperationalError:
+    leverage_data, diffusion_data, anomaly_data = [], [], {
+        "deep_chains": [], "outliers": [], "era_gaps": []
+    }
+```
+
+Pass all three to the template context.
+
+### Concept diffusion SQL optimization
+
+Step 2 of `calculate_concept_diffusion` involves finding, for each paradigm,
+how many languages have at least one P-tagged language as an ancestor. This
+can be computed with a single SQL query:
+
+```sql
+SELECT p.name AS paradigm_name,
+       COUNT(DISTINCT lp.language_id) AS direct_languages,
+       COUNT(DISTINCT la.root_language_id) AS carrier_descendants
+FROM paradigms p
+JOIN language_paradigms lp ON lp.paradigm_id = p.id
+LEFT JOIN language_ancestry la ON la.ancestor_language_id = lp.language_id
+GROUP BY p.id, p.name
+```
+
+Compute `diffusion_score = direct_languages + carrier_descendants` in Python.
+For `primary_carrier`: a second query or subquery per paradigm is acceptable
+(there are only ~20 paradigms).
+
+### Z-score computation
+
+For the outlier detection, compute mean and standard deviation in Python
+(using `statistics.mean` and `statistics.stdev` from the standard library).
+Group languages by generation first, then compute per-generation statistics.
+A language with fewer than 3 peers in its generation is excluded from
+z-score analysis (insufficient sample).
+
+---
+
+## Tests
+
+Add `tests/test_advanced_analytics.py`.
+
+### Required coverage
+
+1. `InsightGenerator.calculate_leverage_scores(limit=5)` returns a list of
+   at most 5 items where each has `leverage_score > 0` and all required keys.
+
+2. `leverage_score = descendant_count / max(max_ancestor_depth, 1)` is
+   correctly computed for a known language (verify manually for one case).
+
+3. `InsightGenerator.calculate_concept_diffusion()` returns a non-empty list
+   where each item has `diffusion_score >= direct_languages` (because
+   diffusion includes carriers, so it can't be less than direct).
+
+4. `InsightGenerator.detect_graph_anomalies()` returns a dict with keys
+   `deep_chains`, `outliers`, and `era_gaps`. Each key maps to a list
+   (possibly empty).
+
+5. `GET /api/insights/leverage` returns 200 with a non-empty JSON list.
+
+6. `GET /api/insights/concept-diffusion` returns 200 with a non-empty list.
+
+7. `GET /api/insights/anomalies` returns 200 with the three-category dict.
+
+8. `GET /insights` returns 200 and the rendered HTML contains the text
+   "Leverage" and "Diffusion" (confirming the new sections rendered).
+
+9. CLI `atlas leverage` runs without error and produces output containing
+   "Rank" and "Leverage" column headers.
+
+10. CLI `atlas anomalies` runs without error.
+
+---
+
+## Documentation Requirements
+
+Update `API_GUIDE.md`:
+
+Add three new entries to the JSON API Routes table:
+| Route | Notes |
+|---|---|
+| `GET /api/insights/leverage` | Languages ranked by pedagogical leverage score |
+| `GET /api/insights/concept-diffusion` | Paradigms ranked by transitive diffusion through the influence graph |
+| `GET /api/insights/anomalies` | Structural anomalies: deep chains, statistical outliers, era connectivity gaps |
+
+Update `.context/commands.md`:
+
+Add `atlas leverage` and `atlas anomalies` to the CLI table.
+
+Update `src/README.md`:
+
+Add a brief description of the three new analytics capabilities under the
+existing analytics section.
+
+---
+
+## Out of Scope
+
+Do not do these here:
+
+- Add interactive graph visualizations
+- Modify the closure table population logic
+- Add cousin analytics to the insights page (it is already on profile pages)
+- Add leverage or anomaly data to the TUI
+
+---
+
+## Verification
+
+Required verification sequence:
+
+```bash
+make build
+make derived-data
+make test
+```
+
+Manual verification:
+
+```bash
+# Leverage and anomaly APIs
+curl -s http://localhost:8084/api/insights/leverage | python3 -m json.tool | head -30
+curl -s http://localhost:8084/api/insights/concept-diffusion | python3 -m json.tool | head -30
+curl -s http://localhost:8084/api/insights/anomalies | python3 -m json.tool
+
+# CLI commands
+uv run atlas leverage --limit 10
+uv run atlas anomalies
+
+# Insights page
+# Open http://localhost:8084/insights
+# Verify Leverage Rankings, Concept Diffusion, Graph Anomalies sections appear
+```
+
+Inspect the diff:
+
+```bash
+git diff -- src/app/core/insights.py \
+            src/app/app.py \
+            src/app/templates/insights.html \
+            src/cli.py \
+            API_GUIDE.md \
+            .context/commands.md \
+            src/README.md \
+            tests/test_advanced_analytics.py
+```
+
+---
+
+## Commit Expectations
+
+Group into three commits:
+
+**Commit 1** — analytics engine:
+```
+[PROMPT_94] Add leverage, diffusion, and anomaly analytics
+
+InsightGenerator gains calculate_leverage_scores(),
+calculate_concept_diffusion(), and detect_graph_anomalies(). Three
+new /api/insights/* endpoints expose these without recursive SQL
+at request time.
+```
+
+**Commit 2** — UI and CLI:
+```
+[PROMPT_94] Surface graph analytics in insights page and CLI
+
+Insights page shows leverage rankings, concept diffusion, and anomaly
+detection sections. New atlas leverage and atlas anomalies CLI commands
+render the same data in terminal-native Rich format.
+```
+
+**Commit 3** — tests and docs:
+```
+[PROMPT_94] Test advanced analytics and update docs
+
+Cover leverage score correctness, diffusion >= direct_languages
+invariant, anomaly dict shape, route responses, and CLI command
+smoke tests. Update API_GUIDE.md, commands.md, README.
+```
+
+---
+
+## Completion Criteria
+
+This prompt is complete when:
+
+- `InsightGenerator` has three new analytics methods
+- Three new `/api/insights/*` endpoints return correct data
+- `/insights` page renders all three new analytics sections
+- `atlas leverage` and `atlas anomalies` CLI commands work
+- All new and existing tests pass
+- `make test` passes
