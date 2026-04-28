@@ -1353,6 +1353,7 @@ class DataLoader:
                        l.display_name,
                        COALESCE(l.entity_type, 'language') AS entity_type,
                        l.year,
+                       l.influence_score,
                        la.depth,
                        la.path_count
                 FROM language_ancestry la
@@ -1370,6 +1371,7 @@ class DataLoader:
                        l.display_name,
                        COALESCE(l.entity_type, 'language') AS entity_type,
                        l.year,
+                       l.influence_score,
                        ld.depth,
                        ld.path_count
                 FROM language_descendants ld

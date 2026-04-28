@@ -82,6 +82,113 @@ ENTITY_TYPE_LABELS = {
     "artifact": "Tools, Libraries, Runtimes, and Formats",
 }
 LANGUAGE_LIKE_ENTITY_TYPES = {"language", "foundation", "artifact"}
+EMPTY_LINEAGE_DATA: Dict[str, Any] = {
+    "ancestor_count": 0,
+    "descendant_count": 0,
+    "max_ancestor_depth": 0,
+    "max_descendant_depth": 0,
+    "ancestors": [],
+    "descendants": [],
+}
+_graph_reports_dir: Optional[str] = None
+_keystone_names: set[str] = set()
+_bridge_entries: dict[str, int] = {}
+
+def _load_graph_reports() -> None:
+    global _graph_reports_dir, _keystone_names, _bridge_entries
+    if _graph_reports_dir == GENERATED_DATA_DIR:
+        return
+
+    keystone_report = _load_generated_data("reports/keystone-entities.json")
+    bridge_report = _load_generated_data("reports/bridge-entities.json")
+
+    _keystone_names = {
+        item["name"]
+        for item in (keystone_report or {}).get("keystones", [])
+        if item.get("name")
+    }
+    _bridge_entries = {
+        item["name"]: item.get("bridge_count", 0)
+        for item in (bridge_report or {}).get("bridges", [])
+        if item.get("name")
+    }
+    _graph_reports_dir = GENERATED_DATA_DIR
+
+def _name_matches_report(name: Optional[str], display_name: Optional[str], report_names: set[str]) -> bool:
+    candidates = {candidate for candidate in (name, display_name) if candidate}
+    return bool(candidates & report_names)
+
+def _sort_by_influence(items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    return sorted(
+        items,
+        key=lambda item: (
+            -int(item.get("influence_score") or 0),
+            int(item.get("depth") or 0),
+            str(item.get("name") or "").lower(),
+        ),
+    )
+
+def _prepare_lineage_context(lineage: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    data = dict(EMPTY_LINEAGE_DATA)
+    if lineage:
+        data.update(lineage)
+
+    ancestors = list(data.get("ancestors") or [])
+    descendants = list(data.get("descendants") or [])
+    direct_descendants = _sort_by_influence(
+        [item for item in descendants if item.get("depth") == 1]
+    )
+    depth_two_descendants = _sort_by_influence(
+        [item for item in descendants if item.get("depth") == 2]
+    )
+    deeper_descendants = _sort_by_influence(
+        [item for item in descendants if int(item.get("depth") or 0) > 2]
+    )
+
+    notable_descendants = list(direct_descendants)
+    if len(notable_descendants) < 5:
+        notable_descendants.extend(depth_two_descendants)
+    if len(notable_descendants) < 10:
+        notable_descendants.extend(deeper_descendants)
+
+    data["grandparent_ancestors"] = [
+        item for item in ancestors if item.get("depth") in (2, 3)
+    ][:8]
+    data["deep_root_ancestors"] = [
+        item for item in ancestors if int(item.get("depth") or 0) >= 4
+    ][:8]
+    data["notable_descendants"] = notable_descendants[:10]
+    data["has_deep_ancestry"] = bool(
+        data["grandparent_ancestors"] or data["deep_root_ancestors"]
+    )
+    return data
+
+def _profile_graph_role(lang: Dict[str, Any], lineage_data: Dict[str, Any]) -> Dict[str, Any]:
+    _load_graph_reports()
+    name = lang.get("name")
+    display_name = lang.get("display_name")
+    bridge_count = max(
+        _bridge_entries.get(name or "", 0),
+        _bridge_entries.get(display_name or "", 0),
+    )
+    is_keystone_report_member = _name_matches_report(
+        name,
+        display_name,
+        _keystone_names,
+    )
+    is_keystone = bool(is_keystone_report_member or lang.get("is_keystone"))
+
+    role = {
+        "has_reachability": lineage_data.get("descendant_count", 0) > 0,
+        "is_bridge_node": bridge_count >= 5,
+        "bridge_count": bridge_count,
+        "is_keystone": is_keystone,
+        "is_keystone_report_member": is_keystone_report_member,
+    }
+    role["has_graph_role"] = bool(
+        role["has_reachability"] or role["is_bridge_node"] or role["is_keystone"]
+    )
+    return role
 
 def get_link_map() -> Dict[str, str]:
     global _entity_link_map
@@ -598,6 +705,24 @@ async def get_language_profile(request: Request, name: str) -> Response:
         if entity_type in LANGUAGE_LIKE_ENTITY_TYPES
         else []
     )
+    raw_lineage_data = (
+        data_loader.get_lineage(lang["name"])
+        if entity_type in LANGUAGE_LIKE_ENTITY_TYPES
+        else None
+    )
+    lineage_data = _prepare_lineage_context(raw_lineage_data)
+    graph_role = (
+        _profile_graph_role(lang, lineage_data)
+        if entity_type in LANGUAGE_LIKE_ENTITY_TYPES
+        else {
+            "has_reachability": False,
+            "is_bridge_node": False,
+            "bridge_count": 0,
+            "is_keystone": False,
+            "is_keystone_report_member": False,
+            "has_graph_role": False,
+        }
+    )
     
     return templates.TemplateResponse(
         request=request,
@@ -613,7 +738,10 @@ async def get_language_profile(request: Request, name: str) -> Response:
             "upstream_influence_groups": upstream_influence_groups,
             "ancestors": ancestors,
             "descendants": descendants,
-            "ranking": lang_rank
+            "ranking": lang_rank,
+            "lineage_data": lineage_data,
+            "graph_role": graph_role,
+            "is_keystone_report_member": graph_role["is_keystone_report_member"],
         }
     )
 
