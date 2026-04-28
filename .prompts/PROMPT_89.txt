@@ -73,6 +73,9 @@ With this graph:
 The fixture must create the `languages` and `influences` tables, insert the
 7 languages, insert the 7 edges, and then call `_populate_closure_tables` from
 `build_sqlite.py` to populate the closure tables in the same connection.
+The minimal `influences` table must include `source_id`, `target_id`, and
+`influence_type` columns because `_populate_closure_tables` reads all three
+columns. Synthetic edges may use `NULL` for `influence_type`.
 
 ### 2. Ancestry correctness tests
 
@@ -186,8 +189,8 @@ equivalent conftest fixture):
 
 3. Every `depth` value in all four tables is between 1 and 10 inclusive.
 
-4. C language (or another known high-influence language) appears in
-   `language_descendants` for multiple root languages.
+4. C language (or another known high-influence language) has multiple rows in
+   `language_descendants` where it is the `root_language_id`.
 
 5. A known keystone language (e.g., LISP, C, ALGOL 60) has at least 3
    descendants in `language_descendants`.
@@ -219,9 +222,11 @@ Write a helper function `make_test_db(edges: list[tuple[int, int]],
 n_languages: int) -> sqlite3.Connection` that:
 
 1. Creates an in-memory connection: `sqlite3.connect(":memory:")`
-2. Creates minimal `languages` and `influences` tables
+2. Creates minimal `languages` and `influences` tables. `influences` must have
+   `source_id`, `target_id`, and `influence_type` columns.
 3. Inserts `n_languages` placeholder language rows (with id 1..n)
-4. Inserts the given edges into `influences`
+4. Inserts the given edges into `influences`, using `NULL` for
+   `influence_type` unless a test explicitly needs typed edges
 5. Creates the four closure tables (copy the `CREATE TABLE` SQL from
    `build_sqlite.py` or import it as a constant)
 6. Calls `_populate_closure_tables(conn, conn.cursor())`
