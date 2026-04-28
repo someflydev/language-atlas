@@ -23,8 +23,8 @@ commands for contributors working in this directory.
   without breaking the older flat influence lists.
 - **`build_sqlite.py`** — Transforms the JSON source files into
   `language_atlas.sqlite`. Calculates `influence_score`, builds the
-  FTS5 `search_index` virtual table, and creates analytical views.
-  Run via `make build`.
+  FTS5 `search_index` virtual table, creates analytical views, and
+  populates materialized influence closure tables. Run via `make build`.
 - **`auditor.py`** — `AtlasAuditor`: validates JSON schema and
   referential integrity across all data files. Run via `make audit`.
 - **`insights.py`** — `InsightGenerator`: window-function and
@@ -113,6 +113,23 @@ foundations, language ancestors, and related artifacts.
   relational query layer for all analytical features.
 - **Plotly Express** renders visualizations, using a Pandas/PyArrow
   bridge to consume Polars DataFrames.
+
+## Data Flow
+
+Build time:
+
+```text
+JSON + data/docs/
+    -> build_sqlite.py
+    -> tables and views
+    -> materialized influence closure tables
+    -> language_atlas.sqlite
+```
+
+The closure population phase runs after table and view creation. It
+materializes ancestry, descendants, reachability, and bounded lineage
+paths so runtime lineage queries do not need to evaluate recursive CTEs
+on each request.
 
 ## Language Schema Notes
 

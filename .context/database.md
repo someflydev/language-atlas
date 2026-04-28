@@ -45,6 +45,19 @@
 | `learning_paths` | id (text), title, description, type |
 | `learning_path_steps` | path_id, language_name, milestone, rationale, challenge, step_order |
 
+## Closure Tables (Materialized at Build Time)
+| Table | Notes |
+|---|---|
+| `language_ancestry` | root_language_id, ancestor_language_id, min traversal depth, bounded path_count |
+| `language_descendants` | root_language_id, descendant_language_id, min traversal depth, bounded path_count |
+| `language_reachability` | from_language_id, to_language_id, min_depth, path_count copied from descendants |
+| `language_lineage_paths_bounded` | representative bounded paths as language-name path_text plus edge_types_text |
+
+`DataLoader.get_ancestors()` and `DataLoader.get_descendants()` use these
+materialized tables for runtime queries. The recursive
+`v_language_ancestors` and `v_language_descendants` views remain in the schema
+as reference implementations.
+
 ## FTS5 Virtual Table
 ```sql
 CREATE VIRTUAL TABLE search_index USING fts5(
@@ -60,8 +73,8 @@ CREATE VIRTUAL TABLE search_index USING fts5(
 - Additional lead/lag view for complexity/safety comparisons within cluster
 
 ## Recursive CTEs (runtime queries in DataLoader/InsightGenerator)
-- `get_ancestors(language_id, max_depth)` — recursive influence chain going up
-- `get_descendants(language_id, max_depth)` — recursive influence chain going down
+- `get_ancestors(language_id, max_depth)` uses `language_ancestry`; the older recursive view remains available for reference checks
+- `get_descendants(language_id, max_depth)` uses `language_descendants`; the older recursive view remains available for reference checks
 - `get_auto_odyssey(name)` — dynamic learning path via influential descendants
 - `InsightGenerator.calculate_influence_depth()` — transitive influence with depth
 - `InsightGenerator.calculate_paradigm_volatility()` — paradigm intro by decade
