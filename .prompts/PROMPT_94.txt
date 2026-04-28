@@ -82,6 +82,9 @@ This method must:
 Also add `GET /api/insights/leverage` route in `app.py`:
 - `InsightGenerator` takes a raw `sqlite3.Connection`, not a DataLoader.
   Instantiate it as: `InsightGenerator(data_loader._get_connection())`.
+  Close the connection after generating the response. A `try/finally` around
+  the `InsightGenerator` call is preferred so request handlers do not leak
+  read-only SQLite connections.
 - `InsightGenerator` is not currently imported in `app.py`. Add:
   `from app.core.insights import InsightGenerator`
 - Call `InsightGenerator(data_loader._get_connection()).calculate_leverage_scores(limit=30)`.
@@ -182,6 +185,10 @@ Inline loading is preferred over HTMX for these sections since the data is
 small and always present. Pass the analytics results directly from the
 `/insights` route handler.
 
+When using `InsightGenerator` in the `/insights` route, keep the raw SQLite
+connection in a local variable and close it in `finally` after all three
+analytics calls complete.
+
 ### 5. CLI leverage command
 
 Add a new Typer command to `src/cli.py`:
@@ -244,8 +251,10 @@ before rendering. Add three more, creating an `InsightGenerator` instance using
 
 ```python
 import sqlite3 as _sqlite3
+_conn = None
 try:
-    _ig = InsightGenerator(data_loader._get_connection())
+    _conn = data_loader._get_connection()
+    _ig = InsightGenerator(_conn)
     leverage_data = _ig.calculate_leverage_scores(limit=10)
     diffusion_data = _ig.calculate_concept_diffusion()[:10]
     anomaly_data = _ig.detect_graph_anomalies()
@@ -253,6 +262,9 @@ except _sqlite3.OperationalError:
     leverage_data, diffusion_data, anomaly_data = [], [], {
         "deep_chains": [], "outliers": [], "era_gaps": []
     }
+finally:
+    if _conn is not None:
+        _conn.close()
 ```
 
 Pass all three to the template context.
