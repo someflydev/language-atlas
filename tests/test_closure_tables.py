@@ -130,6 +130,91 @@ def test_closure_tables_are_depth_limited_and_cycle_safe(db_conn: sqlite3.Connec
     assert self_descendant_count["count"] == 0
 
 
+def test_live_closure_tables_exist_and_are_non_empty(db_conn: sqlite3.Connection) -> None:
+    for table in (
+        "language_ancestry",
+        "language_descendants",
+        "language_reachability",
+        "language_lineage_paths_bounded",
+    ):
+        table_row = db_conn.execute(
+            "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?",
+            (table,),
+        ).fetchone()
+        count_row = db_conn.execute(f"SELECT COUNT(*) AS count FROM {table}").fetchone()
+
+        assert table_row is not None
+        assert count_row["count"] > 0
+
+
+def test_live_closure_depths_are_bounded(db_conn: sqlite3.Connection) -> None:
+    checks = (
+        ("language_ancestry", "depth"),
+        ("language_descendants", "depth"),
+        ("language_reachability", "min_depth"),
+        ("language_lineage_paths_bounded", "depth"),
+    )
+
+    for table, depth_column in checks:
+        out_of_bounds = db_conn.execute(
+            f"""
+            SELECT COUNT(*) AS count
+            FROM {table}
+            WHERE {depth_column} < 1
+               OR {depth_column} > 10
+            """
+        ).fetchone()
+        assert out_of_bounds["count"] == 0
+
+
+def test_live_high_influence_language_has_descendants(db_conn: sqlite3.Connection) -> None:
+    c_language = db_conn.execute(
+        "SELECT id FROM languages WHERE name = ?",
+        ("C",),
+    ).fetchone()
+    assert c_language is not None
+
+    descendant_count = db_conn.execute(
+        """
+        SELECT COUNT(*) AS count
+        FROM language_descendants
+        WHERE root_language_id = ?
+        """,
+        (c_language["id"],),
+    ).fetchone()
+
+    assert descendant_count["count"] > 1
+
+
+def test_live_keystone_language_has_multiple_descendants(db_conn: sqlite3.Connection) -> None:
+    keystone = db_conn.execute(
+        """
+        SELECT id
+        FROM languages
+        WHERE name IN ('LISP', 'C', 'ALGOL 60')
+        ORDER BY CASE name
+            WHEN 'LISP' THEN 1
+            WHEN 'C' THEN 2
+            WHEN 'ALGOL 60' THEN 3
+            ELSE 4
+        END
+        LIMIT 1
+        """
+    ).fetchone()
+    assert keystone is not None
+
+    descendant_count = db_conn.execute(
+        """
+        SELECT COUNT(*) AS count
+        FROM language_descendants
+        WHERE root_language_id = ?
+        """,
+        (keystone["id"],),
+    ).fetchone()
+
+    assert descendant_count["count"] >= 3
+
+
 def test_dataloader_uses_closure_tables(mock_loader: DataLoader) -> None:
     language = mock_loader.get_language("Python")
     assert language is not None
@@ -153,4 +238,4 @@ def test_reachability_populated_from_descendants(db_conn: sqlite3.Connection) ->
     ).fetchone()
 
     assert descendant_count["count"] > 0
-    assert reachability_count["count"] >= descendant_count["count"]
+    assert reachability_count["count"] == descendant_count["count"]
