@@ -21,6 +21,12 @@ static site build should bake the resulting journey cards directly into the
 generated HTML during `make site`; GitHub Pages does not need to copy or fetch
 `generated-data/` at runtime for this feature.
 
+Important schema note: as of PROMPT_94, this artifact may only contain a
+top-level list of source-language candidates with aggregate descendant counts.
+That is not enough to render the existing profile journey cards. This prompt
+therefore includes the small derived-data schema expansion needed to store the
+precomputed descendant steps for each source language.
+
 This prompt does **not** remove `DataLoader.get_auto_odyssey()` entirely. Keep
 it available for explicit dynamic use by CLI/TUI/future tooling unless a later
 prompt chooses to deprecate it.
@@ -48,6 +54,58 @@ prompt chooses to deprecate it.
 
 ## Product Requirements
 
+### 0. Expand the generated auto-Odyssey artifact
+
+Before changing the profile route, inspect the current artifact schema. Update
+`scripts/generate_derived_data.py` so `build_auto_odyssey_candidates()` emits
+per-source journey steps.
+
+The artifact must remain a single JSON file at:
+
+```text
+generated-data/odyssey/auto-odyssey-candidates.json
+```
+
+Required shape:
+
+```json
+{
+  "generated_at": "...",
+  "count": 20,
+  "candidates": [
+    {
+      "name": "Python",
+      "display_name": "Python",
+      "year": 1991,
+      "direct_descendant_count": 4,
+      "total_descendant_count": 12,
+      "steps": [
+        {
+          "language": "TypeScript",
+          "display_name": "TypeScript",
+          "milestone": "Generation 1 Impact"
+        }
+      ]
+    }
+  ]
+}
+```
+
+Implementation rules:
+
+- Keep the existing aggregate fields (`direct_descendant_count`,
+  `total_descendant_count`) for compatibility with existing tests and reports.
+- Add `steps` for each candidate source language.
+- Compute `steps` at derived-data generation time using closure tables or direct
+  influence tables. Do not leave the profile route to compute descendants.
+- Prefer the same ranking intent as `DataLoader.get_auto_odyssey()`: influential
+  descendant languages, limited to 4 steps, with deterministic ordering.
+- Include only `entity_type = 'language'` descendants in journey steps unless the
+  existing dynamic behavior explicitly includes mixed language-like entities.
+- If the current top-20 source-language query excludes common profile test
+  targets such as Python, do not force Python into production output just for a
+  test. Test fixtures can provide a minimal generated artifact for Python.
+
 ### 1. Stop profile pages from calling `DataLoader.get_auto_odyssey()`
 
 In `src/app/app.py`, the `/language/{name}` route must no longer call:
@@ -63,6 +121,18 @@ reads the generated Odyssey candidates artifact.
 
 The route should still pass an `auto_odyssey` object into `profile.html`, so
 the template contract remains stable.
+
+This prompt must implement the full generated-data flow in one pass:
+
+- Update `scripts/generate_derived_data.py` to produce journey `steps`.
+- Add or update tests for the generated artifact schema.
+- Add the generated-data route helper in `src/app/app.py`.
+- Replace the `/language/{name}` route's implicit dynamic call with that helper.
+- Update `src/app/templates/profile.html` to prefer `step.display_name` when
+  present while preserving `step.language` routes.
+- Add a static export assertion that generated journey cards are baked into
+  profile HTML.
+- Update the required docs.
 
 ### 2. Add a generated-data helper for profile auto-Odyssey
 
@@ -101,9 +171,9 @@ Behavior:
 }
 ```
 
-The exact candidate field names in the generated artifact should drive the
-implementation. Do not guess blindly; inspect `scripts/generate_derived_data.py`
-and a generated sample file before coding.
+The helper should read the `steps` emitted by the generated artifact. If the
+artifact exists but a matching candidate lacks `steps`, return `None` rather
+than running a fallback query.
 
 ### 3. Preserve graceful degradation
 
@@ -198,9 +268,9 @@ If the generated file is absent, run:
 make derived-data
 ```
 
-Do not change the derived-data generator unless the existing artifact cannot
-support this feature. If a generator change is truly necessary, keep it small
-and add tests for the schema.
+If the generated file does not contain per-language `steps`, update the
+derived-data generator as described in Requirement 0. Keep the generator change
+small and add tests for the expanded schema.
 
 ### Suggested helper shape
 
@@ -217,7 +287,7 @@ def _load_profile_auto_odyssey(language_name: str) -> Optional[Dict[str, Any]]:
         return None
 
     # Locate language record in the artifact by canonical name/display name.
-    # Extract up to 4 candidate descendants.
+    # Validate and copy up to 4 precomputed steps from the artifact.
     # Return the existing template contract with id/title/description/steps.
 ```
 
@@ -238,6 +308,33 @@ _auto_odyssey_candidates: Dict[str, Dict[str, Any]] = {}
 ```
 
 When `GENERATED_DATA_DIR` changes, reload from disk.
+
+### Generator query guidance
+
+The current dynamic `DataLoader.get_auto_odyssey()` ranks descendants with a
+recursive CTE over `influences`. For the precomputed artifact, prefer closure
+tables so generation is deterministic and request-time traversal is eliminated.
+A reasonable derived-data query for each source language is:
+
+```sql
+SELECT DISTINCT l.name, l.display_name, ld.depth, l.influence_score
+FROM language_descendants ld
+JOIN languages l ON l.id = ld.descendant_language_id
+WHERE ld.root_language_id = ?
+  AND COALESCE(l.entity_type, 'language') = 'language'
+ORDER BY l.influence_score DESC, ld.depth ASC, l.name ASC
+LIMIT 4
+```
+
+Map each row to:
+
+```python
+{
+    "language": row["name"],
+    "display_name": row["display_name"] or row["name"],
+    "milestone": f"Generation {index + 1} Impact",
+}
+```
 
 ### Profile route change
 
@@ -277,6 +374,8 @@ step.milestone
 
 Keep those keys present. If you add `display_name`, update the template to
 prefer `step.display_name or step.language` while preserving existing behavior.
+Links must still use `step.language` so route behavior remains stable even when
+display text changes.
 
 ---
 
@@ -287,7 +386,12 @@ Add or extend tests in the existing suite. Prefer focused tests in
 
 ### Required coverage
 
-1. `/language/{name}` does **not** call `DataLoader.get_auto_odyssey()` when
+1. `scripts/generate_derived_data.py` writes
+   `odyssey/auto-odyssey-candidates.json` with `steps` for candidates that have
+   usable descendants. Each step includes `language`, `display_name`, and
+   `milestone`.
+
+2. `/language/{name}` does **not** call `DataLoader.get_auto_odyssey()` when
    rendering a language profile.
 
    Suggested test:
@@ -299,16 +403,19 @@ Add or extend tests in the existing suite. Prefer focused tests in
    - Request `/language/Python`.
    - Assert HTTP 200.
 
-2. `/language/{name}` renders "Dynamic Heritage Journey" when the generated
+3. `/language/{name}` renders "Dynamic Heritage Journey" when the generated
    Odyssey artifact contains candidates for the language.
 
-3. `/language/{name}` omits "Dynamic Heritage Journey" and still returns 200
+4. `/language/{name}` omits "Dynamic Heritage Journey" and still returns 200
    when the generated Odyssey artifact is absent.
 
-4. The rendered journey uses linked language cards and preserves the expected
+5. `/language/{name}` omits "Dynamic Heritage Journey" and still returns 200
+   when a matching generated candidate has no usable `steps`.
+
+6. The rendered journey uses linked language cards and preserves the expected
    `step.language` route behavior.
 
-5. `SiteCrawler` bakes the generated journey section into static HTML when the
+7. `SiteCrawler` bakes the generated journey section into static HTML when the
    artifact exists.
 
    Suggested test:
@@ -318,29 +425,37 @@ Add or extend tests in the existing suite. Prefer focused tests in
      a targeted crawl assertion.
    - Assert the written `site/language/Python/index.html` contains
      "Dynamic Heritage Journey".
+   - Assert the written HTML contains the generated step display name and a
+     `/language/{step.language}` link.
 
-6. Existing auto-Odyssey tests or CLI/TUI behaviors still pass, confirming
+8. Existing auto-Odyssey tests or CLI/TUI behaviors still pass, confirming
    `DataLoader.get_auto_odyssey()` remains available where explicitly used.
 
 ### Test fixture guidance
 
 Use the actual generated artifact schema. Keep fixture JSON minimal but valid.
-If the schema looks like:
+After Requirement 0, the schema should look like:
 
 ```json
 {
-  "languages": [
+  "candidates": [
     {
       "name": "Python",
-      "candidates": [
-        {"name": "TypeScript", "display_name": "TypeScript"}
+      "display_name": "Python",
+      "steps": [
+        {
+          "language": "TypeScript",
+          "display_name": "TypeScript",
+          "milestone": "Generation 1 Impact"
+        }
       ]
     }
   ]
 }
 ```
 
-create only the fields the helper reads. If the schema differs, match it.
+Create only the fields the helper reads. A minimal fixture should include
+`candidates[0].steps`, not only aggregate counts.
 
 ---
 
@@ -358,7 +473,8 @@ Manual verification:
 
 ```bash
 make server
-# Open http://localhost:8084/language/Python
+# Open a language present in generated-data/odyssey/auto-odyssey-candidates.json,
+# such as http://localhost:8084/language/C or /language/Assembly.
 # Confirm "Dynamic Heritage Journey" appears when generated data exists.
 # Temporarily point GENERATED_DATA_DIR in a test or local shell to an empty
 # directory and confirm the profile renders without the journey section.
@@ -368,7 +484,7 @@ Static export verification:
 
 ```bash
 make site
-# Inspect site/language/Python/index.html
+# Inspect site/language/C/index.html or another generated Odyssey candidate.
 # Confirm "Dynamic Heritage Journey" is present in the generated HTML when
 # generated-data/odyssey/auto-odyssey-candidates.json exists.
 ```
@@ -387,8 +503,9 @@ git diff -- src/app/app.py \
             tests/
 ```
 
-Not every listed file must change. The diff command is intentionally broad so
-reviewers can confirm no unrelated areas were touched.
+The files listed above are expected to change except `src/app/core/data_loader.py`
+and `src/app/core/site_builder.py`, which are included so reviewers can confirm
+they were not unnecessarily rewritten.
 
 ---
 
@@ -399,6 +516,10 @@ This prompt is complete when:
 - `/language/{name}` no longer calls `DataLoader.get_auto_odyssey()`
 - Language profile auto-Odyssey cards render from
   `generated-data/odyssey/auto-odyssey-candidates.json`
+- The generated artifact includes precomputed journey `steps` for each usable
+  candidate source language
+- `profile.html` displays `step.display_name` when present and keeps
+  `step.language` as the link target
 - Profiles render gracefully with no journey section when the generated
   artifact is absent
 - Static site output bakes generated journey cards into profile HTML and does
