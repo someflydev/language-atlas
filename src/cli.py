@@ -15,6 +15,7 @@ from rich.live import Live
 from rich.text import Text
 from rich import print as rprint
 from app.core.data_loader import DataLoader
+from app.core.insights import InsightGenerator
 from app.core.terminal_ui import (
     build_downstream_lineage_entries,
     build_upstream_lineage_sections,
@@ -285,6 +286,90 @@ def report(subcommand: str = typer.Argument(..., help="Subcommand: summary"), js
         table.add_row(f"{decade}s", str(count), sparkline)
 
     console.print(table)
+
+@app.command()
+def leverage(
+    limit: int = typer.Option(20, help="Number of results to show"),
+    json_output: bool = typer.Option(False, "--json"),
+) -> None:
+    """Show languages ranked by pedagogical leverage score."""
+    loader = get_loader()
+    conn = None
+    try:
+        conn = loader._get_connection()
+        results = InsightGenerator(conn).calculate_leverage_scores(limit=limit)
+    except sqlite3.OperationalError:
+        results = []
+    finally:
+        if conn is not None:
+            conn.close()
+
+    if json_output:
+        console.print_json(data=results)
+        return
+
+    table = Table(title="Pedagogical Leverage Rankings", border_style="blue")
+    table.add_column("Rank", justify="right", style="cyan")
+    table.add_column("Language", style="bold")
+    table.add_column("Era", style="magenta")
+    table.add_column("Leverage", justify="right", style="green")
+    table.add_column("Descendants", justify="right")
+    table.add_column("Depth", justify="right")
+
+    for index, row in enumerate(results, start=1):
+        table.add_row(
+            str(index),
+            row.get("display_name") or row.get("name") or "",
+            str(row.get("year") or "Unknown"),
+            str(row.get("leverage_score") or 0),
+            str(row.get("descendant_count") or 0),
+            str(row.get("max_ancestor_depth") or 0),
+        )
+
+    console.print(table)
+
+@app.command()
+def anomalies() -> None:
+    """Report structural anomalies in the influence graph."""
+    loader = get_loader()
+    conn = None
+    empty = {"deep_chains": [], "outliers": [], "era_gaps": []}
+    try:
+        conn = loader._get_connection()
+        result = InsightGenerator(conn).detect_graph_anomalies()
+    except sqlite3.OperationalError:
+        result = empty
+    finally:
+        if conn is not None:
+            conn.close()
+
+    deep_chains = result.get("deep_chains") or []
+    outliers = result.get("outliers") or []
+    era_gaps = result.get("era_gaps") or []
+
+    if not deep_chains and not outliers and not era_gaps:
+        console.print("No anomalies detected.")
+        return
+
+    panels: List[Panel] = []
+    deep_text = "\n".join(
+        f"Depth {row['depth']}: {row['path_text']}" for row in deep_chains
+    ) or "None detected"
+    panels.append(Panel(deep_text, title="Deep Chains", border_style="yellow"))
+
+    outlier_text = "\n".join(
+        f"{row['name']} ({row['generation']}): z={row['z_score']}, reach={row['reachability_score']}"
+        for row in outliers
+    ) or "None detected"
+    panels.append(Panel(outlier_text, title="Outliers", border_style="red"))
+
+    gap_text = "\n".join(
+        f"{row['from_generation']} -> {row['to_generation']}: {row['connected_count']} connection(s)"
+        for row in era_gaps
+    ) or "None detected"
+    panels.append(Panel(gap_text, title="Era Gaps", border_style="cyan"))
+
+    console.print(Group(*panels))
 
 @app.command()
 def info(language: str, json_out: bool = typer.Option(False, "--json"), pretty: bool = typer.Option(True, "--pretty")) -> None:

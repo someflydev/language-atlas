@@ -136,6 +136,133 @@
         </div>
     </div>
     {% endif %}
+
+    <!-- Leverage Rankings -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50">
+            <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Leverage Rankings</h2>
+            <p class="text-sm text-slate-400 font-bold mt-1">Languages ranked by descendant reach per unit of ancestor depth</p>
+        </div>
+        <div class="p-8 bg-slate-50/50">
+            {% if leverage_rankings %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-200">
+                            <th class="text-left py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Language</th>
+                            <th class="text-right py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Leverage</th>
+                            <th class="text-right py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Descendants</th>
+                            <th class="text-right py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Ancestor Depth</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in leverage_rankings %}
+                        <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                            <td class="py-3 px-4">
+                                <a href="/language/{{ row.name }}" class="font-semibold text-slate-800 hover:text-blue-600 hover:underline">{{ row.display_name or row.name }}</a>
+                            </td>
+                            <td class="py-3 px-4 text-right font-bold text-blue-600">{{ row.leverage_score }}</td>
+                            <td class="py-3 px-4 text-right text-slate-500">{{ row.descendant_count }}</td>
+                            <td class="py-3 px-4 text-right text-slate-500">{{ row.max_ancestor_depth }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-sm text-slate-500">None detected</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Concept Diffusion -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50">
+            <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Concept Diffusion</h2>
+            <p class="text-sm text-slate-400 font-bold mt-1">Paradigms ranked by direct adoption plus transitive influence reach</p>
+        </div>
+        <div class="p-8 bg-slate-50/50">
+            {% if concept_diffusion %}
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b border-slate-200">
+                            <th class="text-left py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Paradigm</th>
+                            <th class="text-right py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Diffusion</th>
+                            <th class="text-left py-3 px-4 font-bold text-slate-500 uppercase tracking-wider text-xs">Primary Carrier</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in concept_diffusion %}
+                        <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                            <td class="py-3 px-4 font-semibold text-slate-800">{{ row.paradigm_name }}</td>
+                            <td class="py-3 px-4 text-right font-bold text-blue-600">{{ row.diffusion_score }}</td>
+                            <td class="py-3 px-4 text-slate-500">
+                                {% if row.primary_carrier_name %}
+                                <a href="/language/{{ row.primary_carrier_name }}" class="hover:text-blue-600 hover:underline">{{ row.primary_carrier_name }}</a>
+                                {% if row.primary_carrier_year %}<span class="text-slate-400">({{ row.primary_carrier_year }})</span>{% endif %}
+                                {% else %}
+                                None detected
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-sm text-slate-500">None detected</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Graph Anomalies -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+        <div class="p-8 border-b border-slate-50">
+            <h2 class="text-xl font-black text-slate-900 uppercase tracking-wider">Graph Anomalies</h2>
+            <p class="text-sm text-slate-400 font-bold mt-1">Structural signals from deep paths, statistical outliers, and era connectivity</p>
+        </div>
+        <div class="p-8 bg-slate-50/50">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-2xl border border-slate-200 p-6">
+                    <h3 class="text-sm font-black text-slate-700 uppercase tracking-wider mb-4">Deep Influence Chains</h3>
+                    {% if graph_anomalies.deep_chains %}
+                    <ul class="space-y-3">
+                        {% for row in graph_anomalies.deep_chains %}
+                        <li class="text-sm text-slate-600"><span class="font-bold text-blue-600">Depth {{ row.depth }}:</span> {{ row.path_text }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-sm text-slate-500">None detected</p>
+                    {% endif %}
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 p-6">
+                    <h3 class="text-sm font-black text-slate-700 uppercase tracking-wider mb-4">High-Connectivity Outliers</h3>
+                    {% if graph_anomalies.outliers %}
+                    <ul class="space-y-3">
+                        {% for row in graph_anomalies.outliers %}
+                        <li class="text-sm text-slate-600"><span class="font-bold text-slate-800">{{ row.name }}</span> in {{ row.generation }}: z={{ row.z_score }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-sm text-slate-500">None detected</p>
+                    {% endif %}
+                </div>
+                <div class="bg-white rounded-2xl border border-slate-200 p-6">
+                    <h3 class="text-sm font-black text-slate-700 uppercase tracking-wider mb-4">Era Connectivity Gaps</h3>
+                    {% if graph_anomalies.era_gaps %}
+                    <ul class="space-y-3">
+                        {% for row in graph_anomalies.era_gaps %}
+                        <li class="text-sm text-slate-600"><span class="font-bold text-slate-800">{{ row.from_generation }}</span> to <span class="font-bold text-slate-800">{{ row.to_generation }}</span>: {{ row.connected_count }} connection(s)</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-sm text-slate-500">None detected</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <style>
