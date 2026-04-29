@@ -50,7 +50,8 @@ commands for contributors working in this directory.
 
 Derived JSON artifacts produced by `make derived-data`
 (`scripts/generate_derived_data.py`). Gitignored; rebuilt on demand.
-Read by Phase 3 API endpoints.
+Read by Phase 3 API endpoints and by language profile pages for
+precomputed graph enrichments such as auto-Odyssey journey cards.
 
 ### Web server (`src/app/app.py`)
 
@@ -65,7 +66,10 @@ influences for language-like entities, separating conceptual
 foundations from direct language lineage. It also injects closure-table
 lineage data into profile pages so they can show transitive ancestry,
 notable descendants, and graph role indicators without running recursive
-queries during request handling.
+queries during request handling. Language profiles also read
+`generated-data/odyssey/auto-odyssey-candidates.json` for the Dynamic
+Heritage Journey cards, so normal profile rendering does not call the
+dynamic recursive auto-Odyssey query.
 The web app also exposes `/path` for bookmarkable influence path
 finding and surfaces cousin languages on profiles when two branches
 share multiple common ancestors.
@@ -103,8 +107,10 @@ Two kinds of learning paths exist:
   Renaissance").
 - **Auto-Odyssey**: generated at request time via a recursive CTE that
   walks the influence graph to find influential descendants of a
-  starting language. Available at `/odyssey/auto` and via
-  `atlas auto-odyssey`.
+  starting language. Available for explicit terminal/tooling use via
+  `atlas auto-odyssey`. Language profile pages use precomputed
+  auto-Odyssey candidates from `generated-data/odyssey/auto-odyssey-candidates.json`
+  instead of running the recursive traversal during profile requests.
 
 ## JSON API
 
@@ -159,6 +165,12 @@ language_atlas.sqlite
     -> scripts/generate_derived_data.py
     -> generated-data/
 ```
+
+Run `make derived-data` after `make build` and before `make site` when
+static profile pages should include graph-derived enrichments. During
+`make site`, the FastAPI app reads generated Odyssey data and bakes the
+Dynamic Heritage Journey cards into the exported profile HTML. GitHub
+Pages does not need to serve `generated-data/` for this feature.
 
 ## Language Schema Notes
 
@@ -219,6 +231,9 @@ uv run atlas influences Scala
 # Rebuild the database after editing JSON source files
 make build
 
+# Generate graph-derived profile enrichments
+make derived-data
+
 # Regenerate Markdown documentation
 make docs
 ```
@@ -255,5 +270,8 @@ A static export with a client-side SQLite database can be published to
 GitHub Pages from the `gh-pages` branch. `make pages` rebuilds the
 database, runs `SiteCrawler` to write `site/`, and copies the database
 into `site/db/atlas/` for sql.js-httpvfs range-request access.
+For graph-derived profile enrichments, the dependency order is
+`make build`, `make derived-data`, then `make site`; generated Odyssey
+journeys are embedded in the profile HTML during the crawl.
 
 See [`GH_PAGES.md`](../GH_PAGES.md) for the full workflow.

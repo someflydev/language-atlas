@@ -42,6 +42,19 @@ make build   # runs: uv run python -m app.core.build_sqlite
 - Builds FTS5 `search_index` virtual table (porter tokenizer)
 - Creates analytical views: `v_language_era_rankings`, `v_paradigm_momentum`
 
+## Derived Data
+```bash
+make derived-data   # runs: scripts/generate_derived_data.py
+```
+- Writes graph-derived JSON artifacts under `generated-data/`
+- `generated-data/odyssey/auto-odyssey-candidates.json` stores top
+  source-language candidates with aggregate descendant counts and
+  precomputed journey `steps` for profile auto-Odyssey cards
+- For static exports with profile enrichments, run `make build`, then
+  `make derived-data`, then `make site`. The FastAPI app reads the
+  generated Odyssey artifact during the crawl, and `SiteCrawler` bakes
+  those cards into static profile HTML.
+
 ## DataLoader Modes
 - **SQLite mode** (`USE_SQLITE=1`, default in app): reads from `language_atlas.sqlite`
   - `_get_connection()` returns read-only connection (`file:...?mode=ro`)

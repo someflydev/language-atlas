@@ -35,7 +35,7 @@ Routes marked **skipped** are not exported at all.
 | `GET /compare/clear` | `partials/comparison_tray_content.html` | Deletes cookie | skipped |
 | `GET /compare/tray` | `partials/comparison_tray_content.html` | Reads cookie | skipped |
 | `GET /search` | `search_results.html` | FTS5 search, q param (min 2 chars) | skipped (needs query) |
-| `GET /language/{name}` | `profile.html` | shared language-like profile route; preserves stored `entity_type` for `language`, `foundation`, and `artifact` records; auto-link Markdown; groups upstream influences into foundational precursors, language ancestors, and optional artifact/runtime influences using upstream `entity_type` data; profile now includes deep ancestry (depth >= 2), notable descendants, and graph role section using closure table data injected at route handler time | crawled |
+| `GET /language/{name}` | `profile.html` | shared language-like profile route; preserves stored `entity_type` for `language`, `foundation`, and `artifact` records; auto-link Markdown; groups upstream influences into foundational precursors, language ancestors, and optional artifact/runtime influences using upstream `entity_type` data; profile now includes deep ancestry (depth >= 2), notable descendants, and graph role section using closure table data injected at route handler time; Dynamic Heritage Journey cards are sourced from `generated-data/odyssey/auto-odyssey-candidates.json` rather than a request-time recursive CTE | crawled |
 | `GET /person/{name}` | `profile.html` | entity_type=person | crawled |
 | `GET /event/{slug}` | `profile.html` | entity_type=event | crawled |
 | `GET /org/{name}` | `profile.html` | entity_type=org | crawled |
