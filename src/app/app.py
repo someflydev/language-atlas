@@ -63,6 +63,102 @@ def _load_generated_data(filename: str) -> Optional[Any]:
     with open(path, 'r', encoding='utf-8') as f:
         return json.load(f)
 
+_auto_odyssey_dir: Optional[str] = None
+_auto_odyssey_candidates: Dict[str, Dict[str, Any]] = {}
+
+def _normalize_generated_name(name: Any) -> str:
+    if not isinstance(name, str):
+        return ""
+    return " ".join(name.replace("_", " ").split()).lower()
+
+def _load_auto_odyssey_candidates() -> Dict[str, Dict[str, Any]]:
+    global _auto_odyssey_dir, _auto_odyssey_candidates
+    if _auto_odyssey_dir == GENERATED_DATA_DIR:
+        return _auto_odyssey_candidates
+
+    path = os.path.join(
+        GENERATED_DATA_DIR,
+        "odyssey",
+        "auto-odyssey-candidates.json",
+    )
+    candidates: Dict[str, Dict[str, Any]] = {}
+    if os.path.exists(path):
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+        except (OSError, json.JSONDecodeError):
+            data = None
+
+        candidate_items = data.get("candidates", []) if isinstance(data, dict) else []
+        for item in candidate_items:
+            if not isinstance(item, dict):
+                continue
+            for key in (
+                _normalize_generated_name(item.get("name")),
+                _normalize_generated_name(item.get("display_name")),
+            ):
+                if key:
+                    candidates[key] = item
+
+    _auto_odyssey_candidates = candidates
+    _auto_odyssey_dir = GENERATED_DATA_DIR
+    return _auto_odyssey_candidates
+
+def _load_profile_auto_odyssey(language_name: str) -> Optional[Dict[str, Any]]:
+    candidates = _load_auto_odyssey_candidates()
+    candidate = candidates.get(_normalize_generated_name(language_name))
+    if not candidate:
+        return None
+
+    raw_steps = candidate.get("steps")
+    if not isinstance(raw_steps, list):
+        return None
+
+    steps: List[Dict[str, str]] = []
+    for raw_step in raw_steps[:4]:
+        if not isinstance(raw_step, dict):
+            continue
+        step_language = raw_step.get("language")
+        if not isinstance(step_language, str) or not step_language.strip():
+            continue
+        display_name = raw_step.get("display_name")
+        milestone = raw_step.get("milestone")
+        steps.append(
+            {
+                "language": step_language,
+                "display_name": (
+                    display_name if isinstance(display_name, str) else step_language
+                ),
+                "milestone": (
+                    milestone if isinstance(milestone, str) else "Influential Descendant"
+                ),
+            }
+        )
+
+    if not steps:
+        return None
+
+    source_name = (
+        candidate.get("name")
+        if isinstance(candidate.get("name"), str)
+        else language_name
+    )
+    display_name = (
+        candidate.get("display_name")
+        if isinstance(candidate.get("display_name"), str)
+        else source_name
+    )
+    journey_id = _normalize_generated_name(source_name).replace(" ", "_")
+    return {
+        "id": f"auto_{journey_id}",
+        "title": f"The Legacy of {display_name}",
+        "description": (
+            "A precomputed journey through influential descendants "
+            f"in the {display_name} lineage."
+        ),
+        "steps": steps,
+    }
+
 def _generated_data_response(filename: str, label: str) -> Response:
     data = _load_generated_data(filename)
     if data is None:
@@ -710,9 +806,9 @@ async def get_language_profile(request: Request, name: str) -> Response:
     html_content = markdown.markdown(content, extensions=['extra', 'codehilite'])
     html_content = auto_link_content(html_content)
     
-    # Generate Dynamic Heritage Journey
+    # Load precomputed Dynamic Heritage Journey from generated data.
     auto_odyssey = (
-        data_loader.get_auto_odyssey(lang['name'])
+        _load_profile_auto_odyssey(lang['name'])
         if entity_type == "language"
         else None
     )

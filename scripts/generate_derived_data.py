@@ -293,9 +293,31 @@ def build_influence_expanded(
 
 
 def build_auto_odyssey_candidates(conn: sqlite3.Connection) -> dict[str, Any]:
+    def build_steps(language_id: int) -> list[dict[str, Any]]:
+        rows = conn.execute(
+            """
+            SELECT DISTINCT l.name, l.display_name, ld.depth, l.influence_score
+            FROM language_descendants ld
+            JOIN languages l ON l.id = ld.descendant_language_id
+            WHERE ld.root_language_id = ?
+              AND COALESCE(l.entity_type, 'language') = 'language'
+            ORDER BY l.influence_score DESC, ld.depth ASC, l.name ASC
+            LIMIT 4
+            """,
+            (language_id,),
+        ).fetchall()
+        return [
+            {
+                "language": row["name"],
+                "display_name": row["display_name"] or row["name"],
+                "milestone": f"Generation {index + 1} Impact",
+            }
+            for index, row in enumerate(rows)
+        ]
+
     rows = conn.execute(
         """
-        SELECT l.name, l.display_name, l.year,
+        SELECT l.id, l.name, l.display_name, l.year,
                COUNT(ld.descendant_language_id) AS direct_descendant_count,
                (SELECT COUNT(*) FROM language_descendants ld2
                 WHERE ld2.root_language_id = l.id) AS total_descendant_count
@@ -316,6 +338,7 @@ def build_auto_odyssey_candidates(conn: sqlite3.Connection) -> dict[str, Any]:
             "year": row["year"],
             "direct_descendant_count": row["direct_descendant_count"],
             "total_descendant_count": row["total_descendant_count"],
+            "steps": build_steps(row["id"]),
         }
         for row in rows
     ]
