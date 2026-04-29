@@ -114,3 +114,14 @@ def test_odyssey_candidates(derived_output: Path) -> None:
     assert all(
         item["direct_descendant_count"] >= 3 for item in data["candidates"]
     )
+    candidates_with_steps = [
+        item for item in data["candidates"] if item.get("steps")
+    ]
+    assert candidates_with_steps
+    for candidate in candidates_with_steps:
+        assert len(candidate["steps"]) <= 4
+        for step in candidate["steps"]:
+            assert {"language", "display_name", "milestone"} <= set(step)
+            assert step["language"]
+            assert step["display_name"]
+            assert step["milestone"]
