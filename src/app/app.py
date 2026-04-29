@@ -16,6 +16,7 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.core.data_loader import DataLoader
+from app.core.insights import InsightGenerator
 import uvicorn
 
 # Ensure SQLite mode is enabled for DataLoader
@@ -70,6 +71,9 @@ def _generated_data_response(filename: str, label: str) -> Response:
             status_code=503,
         )
     return JSONResponse(content=data)
+
+def _empty_anomaly_data() -> Dict[str, List[Dict[str, Any]]]:
+    return {"deep_chains": [], "outliers": [], "era_gaps": []}
 
 # Initialize data loader
 data_loader = DataLoader()
@@ -1227,6 +1231,24 @@ async def get_insights(request: Request) -> Response:
     creator_impact = data_loader.get_creator_impact()
     safety_trends = data_loader.get_safety_complexity_trends()
     cluster_genealogy = data_loader.get_cluster_genealogy()
+    leverage_data: List[Dict[str, Any]] = []
+    diffusion_data: List[Dict[str, Any]] = []
+    anomaly_data: Dict[str, Any] = _empty_anomaly_data()
+
+    insight_conn: Optional[sqlite3.Connection] = None
+    try:
+        insight_conn = data_loader._get_connection()
+        insight_generator = InsightGenerator(insight_conn)
+        leverage_data = insight_generator.calculate_leverage_scores(limit=10)
+        diffusion_data = insight_generator.calculate_concept_diffusion()[:10]
+        anomaly_data = insight_generator.detect_graph_anomalies()
+    except sqlite3.OperationalError:
+        leverage_data = []
+        diffusion_data = []
+        anomaly_data = _empty_anomaly_data()
+    finally:
+        if insight_conn is not None:
+            insight_conn.close()
 
     if momentum:
         df_momentum = pd.DataFrame(momentum)
@@ -1296,12 +1318,51 @@ async def get_insights(request: Request) -> Response:
             "safety_chart": safety_chart_html,
             "creator_impact": creator_impact[:15],
             "cluster_genealogy": cluster_genealogy,
+            "leverage_rankings": leverage_data,
+            "concept_diffusion": diffusion_data,
+            "graph_anomalies": anomaly_data,
         }
     )
 
 @app.get("/api/insights/momentum")
 async def api_insights_momentum() -> Any:
     return data_loader.get_paradigm_momentum_timeline()
+
+@app.get("/api/insights/leverage")
+async def api_insights_leverage() -> List[Dict[str, Any]]:
+    conn = None
+    try:
+        conn = data_loader._get_connection()
+        return InsightGenerator(conn).calculate_leverage_scores(limit=30)
+    except sqlite3.OperationalError:
+        return []
+    finally:
+        if conn is not None:
+            conn.close()
+
+@app.get("/api/insights/concept-diffusion")
+async def api_insights_concept_diffusion() -> List[Dict[str, Any]]:
+    conn = None
+    try:
+        conn = data_loader._get_connection()
+        return InsightGenerator(conn).calculate_concept_diffusion()
+    except sqlite3.OperationalError:
+        return []
+    finally:
+        if conn is not None:
+            conn.close()
+
+@app.get("/api/insights/anomalies")
+async def api_insights_anomalies() -> Dict[str, Any]:
+    conn = None
+    try:
+        conn = data_loader._get_connection()
+        return InsightGenerator(conn).detect_graph_anomalies()
+    except sqlite3.OperationalError:
+        return _empty_anomaly_data()
+    finally:
+        if conn is not None:
+            conn.close()
 
 # --- SEMANTIC SEARCH API ---
 
@@ -1336,6 +1397,9 @@ async def api_index() -> Dict[str, Any]:
             "/api/reports/keystones": "Keystone entities report",
             "/api/reports/bridges": "Bridge entities report",
             "/api/reports/orphans": "Orphan subgraph report",
+            "/api/insights/leverage": "Languages ranked by pedagogical leverage score",
+            "/api/insights/concept-diffusion": "Paradigms ranked by transitive diffusion",
+            "/api/insights/anomalies": "Structural graph anomaly report",
             "/api/viz/influence-expanded": "Expanded influence graph with closure context"
         }
     }

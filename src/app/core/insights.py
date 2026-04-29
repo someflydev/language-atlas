@@ -1,6 +1,7 @@
 import sqlite3
 import json
 import os
+import statistics
 from pathlib import Path
 from typing import List, Dict, Any, Protocol
 
@@ -73,6 +74,234 @@ class InsightGenerator:
         cursor = self.conn.cursor()
         cursor.execute(query)
         return [dict(row) for row in cursor.fetchall()]
+
+    def calculate_leverage_scores(self, limit: int = 30) -> List[Dict[str, Any]]:
+        """
+        Rank languages by descendant reach per unit of ancestor depth.
+        """
+        query = """
+        WITH descendant_stats AS (
+            SELECT
+                root_language_id,
+                COUNT(descendant_language_id) AS descendant_count,
+                MAX(depth) AS max_descendant_depth
+            FROM language_descendants
+            GROUP BY root_language_id
+        ),
+        ancestor_stats AS (
+            SELECT
+                root_language_id,
+                MAX(depth) AS max_ancestor_depth
+            FROM language_ancestry
+            GROUP BY root_language_id
+        )
+        SELECT
+            l.name,
+            l.display_name,
+            COALESCE(l.entity_type, 'language') AS entity_type,
+            l.year,
+            COALESCE(ds.descendant_count, 0) AS descendant_count,
+            COALESCE(ds.max_descendant_depth, 0) AS max_descendant_depth,
+            COALESCE(ast.max_ancestor_depth, 0) AS max_ancestor_depth
+        FROM languages l
+        JOIN descendant_stats ds ON ds.root_language_id = l.id
+        LEFT JOIN ancestor_stats ast ON ast.root_language_id = l.id
+        """
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(query)
+            rows = [dict(row) for row in cursor.fetchall()]
+        except sqlite3.OperationalError:
+            return []
+
+        results = []
+        for row in rows:
+            descendant_count = int(row["descendant_count"] or 0)
+            ancestor_depth = int(row["max_ancestor_depth"] or 0)
+            leverage = descendant_count / max(ancestor_depth, 1)
+            results.append(
+                {
+                    "name": row["name"],
+                    "display_name": row["display_name"] or row["name"],
+                    "entity_type": row["entity_type"] or "language",
+                    "year": row["year"],
+                    "leverage_score": round(leverage, 2),
+                    "descendant_count": descendant_count,
+                    "max_ancestor_depth": ancestor_depth,
+                }
+            )
+
+        results.sort(
+            key=lambda item: (
+                -float(item["leverage_score"]),
+                -int(item["descendant_count"]),
+                str(item["name"]).lower(),
+            )
+        )
+        return results[:limit]
+
+    def calculate_concept_diffusion(self) -> List[Dict[str, Any]]:
+        """
+        Rank paradigms by direct adoption plus transitive downstream reach.
+        """
+        diffusion_query = """
+        SELECT
+            p.id AS paradigm_id,
+            p.name AS paradigm_name,
+            COUNT(DISTINCT lp.language_id) AS direct_languages,
+            COUNT(DISTINCT la.root_language_id) AS carrier_descendants
+        FROM paradigms p
+        JOIN language_paradigms lp ON lp.paradigm_id = p.id
+        LEFT JOIN language_ancestry la ON la.ancestor_language_id = lp.language_id
+        GROUP BY p.id, p.name
+        """
+        carrier_query = """
+        SELECT
+            l.name,
+            l.year,
+            COUNT(DISTINCT ld.descendant_language_id) AS reachability_score
+        FROM language_paradigms lp
+        JOIN languages l ON l.id = lp.language_id
+        LEFT JOIN language_descendants ld ON ld.root_language_id = l.id
+        WHERE lp.paradigm_id = ?
+        GROUP BY l.id, l.name, l.year
+        ORDER BY reachability_score DESC, l.year ASC, l.name ASC
+        LIMIT 1
+        """
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(diffusion_query)
+            rows = [dict(row) for row in cursor.fetchall()]
+        except sqlite3.OperationalError:
+            return []
+
+        results = []
+        for row in rows:
+            direct_languages = int(row["direct_languages"] or 0)
+            carrier_descendants = int(row["carrier_descendants"] or 0)
+            cursor.execute(carrier_query, (row["paradigm_id"],))
+            carrier = cursor.fetchone()
+            results.append(
+                {
+                    "paradigm_name": row["paradigm_name"],
+                    "direct_languages": direct_languages,
+                    "diffusion_score": direct_languages + carrier_descendants,
+                    "primary_carrier_name": carrier["name"] if carrier else None,
+                    "primary_carrier_year": carrier["year"] if carrier else None,
+                }
+            )
+
+        results.sort(
+            key=lambda item: (
+                -int(item["diffusion_score"]),
+                str(item["paradigm_name"]).lower(),
+            )
+        )
+        return results
+
+    def detect_graph_anomalies(self) -> Dict[str, Any]:
+        """
+        Detect deep chains, generation-local reachability outliers, and era gaps.
+        """
+        empty = {"deep_chains": [], "outliers": [], "era_gaps": []}
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(
+                """
+                SELECT path_text, depth
+                FROM language_lineage_paths_bounded
+                WHERE depth >= 7
+                ORDER BY depth DESC, path_text ASC
+                LIMIT 5
+                """
+            )
+            deep_chains = [dict(row) for row in cursor.fetchall()]
+
+            cursor.execute(
+                """
+                WITH reachability AS (
+                    SELECT
+                        root_language_id,
+                        COUNT(descendant_language_id) AS reachability_score
+                    FROM language_descendants
+                    GROUP BY root_language_id
+                )
+                SELECT
+                    l.name,
+                    l.generation,
+                    COALESCE(r.reachability_score, 0) AS reachability_score
+                FROM languages l
+                LEFT JOIN reachability r ON r.root_language_id = l.id
+                WHERE l.generation IS NOT NULL
+                """
+            )
+            reachability_rows = [dict(row) for row in cursor.fetchall()]
+
+        except sqlite3.OperationalError:
+            return empty
+
+        by_generation: Dict[str, List[Dict[str, Any]]] = {}
+        for row in reachability_rows:
+            generation = row.get("generation")
+            if generation:
+                by_generation.setdefault(generation, []).append(row)
+
+        outliers = []
+        for generation, rows in by_generation.items():
+            if len(rows) < 3:
+                continue
+            scores = [int(row["reachability_score"] or 0) for row in rows]
+            stdev = statistics.stdev(scores)
+            if stdev == 0:
+                continue
+            avg = statistics.mean(scores)
+            for row in rows:
+                score = int(row["reachability_score"] or 0)
+                z_score = (score - avg) / stdev
+                if z_score > 2:
+                    outliers.append(
+                        {
+                            "name": row["name"],
+                            "generation": generation,
+                            "reachability_score": score,
+                            "generation_mean": round(avg, 2),
+                            "z_score": round(z_score, 2),
+                        }
+                    )
+        outliers.sort(key=lambda item: (-float(item["z_score"]), item["name"]))
+
+        generation_order = ["dawn", "early", "web1", "cloud", "renaissance", "autonomic"]
+        era_gaps = []
+        for from_generation, to_generation in zip(generation_order, generation_order[1:]):
+            try:
+                cursor.execute(
+                    """
+                    SELECT COUNT(DISTINCT later.id) AS connected_count
+                    FROM languages later
+                    JOIN language_ancestry la ON la.root_language_id = later.id
+                    JOIN languages earlier ON earlier.id = la.ancestor_language_id
+                    WHERE earlier.generation = ?
+                      AND later.generation = ?
+                    """,
+                    (from_generation, to_generation),
+                )
+                connected_count = int(cursor.fetchone()["connected_count"] or 0)
+            except sqlite3.OperationalError:
+                return empty
+            if connected_count < 3:
+                era_gaps.append(
+                    {
+                        "from_generation": from_generation,
+                        "to_generation": to_generation,
+                        "connected_count": connected_count,
+                    }
+                )
+
+        return {
+            "deep_chains": deep_chains,
+            "outliers": outliers,
+            "era_gaps": era_gaps,
+        }
 
     def generate_all_insights(self) -> Dict[str, Any]:
         """
