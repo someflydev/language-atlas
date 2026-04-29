@@ -406,6 +406,18 @@ Retrieve paradigm momentum data for the insights dashboard.
 - **Method:** `GET`
 - **Response:** Array of objects with paradigm momentum analytics.
 
+- **URL:** `/api/insights/leverage`
+- **Method:** `GET`
+- **Response:** Languages ranked by pedagogical leverage score.
+
+- **URL:** `/api/insights/concept-diffusion`
+- **Method:** `GET`
+- **Response:** Paradigms ranked by transitive diffusion through the influence graph.
+
+- **URL:** `/api/insights/anomalies`
+- **Method:** `GET`
+- **Response:** Structural anomalies: deep chains, statistical outliers, era connectivity gaps.
+
 ### 25. Visualization Data
 Retrieve processed data for timeline and influence visualizations.
 

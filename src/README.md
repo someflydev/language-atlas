@@ -28,7 +28,10 @@ commands for contributors working in this directory.
 - **`auditor.py`** — `AtlasAuditor`: validates JSON schema and
   referential integrity across all data files. Run via `make audit`.
 - **`insights.py`** — `InsightGenerator`: window-function and
-  recursive CTE queries used by the insights dashboard.
+  recursive CTE queries used by the insights dashboard. Advanced graph
+  analytics include pedagogical leverage rankings, concept diffusion
+  through transitive influence, and structural anomaly detection for
+  deep chains, high-connectivity outliers, and era connectivity gaps.
 - **`site_builder.py`** — Two output modes:
   - `SiteBuilder`: generates the `generated-docs/` Markdown tree
     from DataLoader data. Run via `make docs`.
@@ -74,6 +77,8 @@ language/foundation/artifact corpus as the web app. Notable commands:
 
 - `atlas paradigm <name>` for the foundation-aware paradigm ecosystem
 - `atlas influences <name>` for grouped upstream lineage plus downstream impact
+- `atlas leverage --limit 10` for pedagogical leverage rankings
+- `atlas anomalies` for structural graph anomaly reports
 - `atlas dashboard <name>` for the control-room view with typed lineage groups
 - `atlas odyssey <id>` and `atlas auto-odyssey <language>` for guided paths
 

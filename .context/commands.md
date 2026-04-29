@@ -34,6 +34,8 @@ make server
 uv run atlas dashboard Python        # Control Room view for a language
 uv run atlas paradigm Functional     # Paradigm ecosystem with ranked foundations
 uv run atlas influences Scala        # Grouped upstream lineage + downstream influence
+uv run atlas leverage --limit 10     # Languages ranked by pedagogical leverage
+uv run atlas anomalies               # Structural anomaly report for the influence graph
 uv run atlas odyssey systems_renaissance  # Run a guided learning path
 uv run atlas auto-odyssey "C"        # Dynamic lineage-based odyssey
 # atlas --help for full command list
@@ -42,6 +44,7 @@ uv run atlas auto-odyssey "C"        # Dynamic lineage-based odyssey
 Notes:
 - `atlas dashboard` and `atlas influences` now distinguish foundational precursors from direct language ancestors when grouped lineage data is available.
 - `atlas paradigm` is the terminal entry point for the foundation-aware paradigm ecosystem introduced in the shared data layer.
+- `atlas leverage` and `atlas anomalies` expose the advanced graph analytics tier from the terminal.
 
 ## TUI (`src/tui.py`)
 ```bash

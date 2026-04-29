@@ -86,6 +86,9 @@ Routes marked **skipped** are not exported at all.
 | `GET /api/viz/influence` | Raw influence edges |
 | `GET /api/viz/influence-expanded` | Expanded influence graph with closure context; same 503 behavior |
 | `GET /api/insights/momentum` | Paradigm momentum data |
+| `GET /api/insights/leverage` | Languages ranked by pedagogical leverage score |
+| `GET /api/insights/concept-diffusion` | Paradigms ranked by transitive diffusion through the influence graph |
+| `GET /api/insights/anomalies` | Structural anomalies: deep chains, statistical outliers, era connectivity gaps |
 
 ## Templates Directory
 ```
